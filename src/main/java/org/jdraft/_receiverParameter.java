@@ -30,7 +30,7 @@ import org.jdraft.text.Text;
  */
 public final class _receiverParameter
         implements _java._multiPart<ReceiverParameter, _receiverParameter>,
-        _java._withNameTypeRef<ReceiverParameter, _receiverParameter>, _annoRefs._withAnnoRefs<_receiverParameter> {
+        _java._withNameTypeRef<ReceiverParameter, _receiverParameter>, _annoExprs._withAnnoExprs<_receiverParameter> {
 
     public static _receiverParameter of(){
         return of( new ReceiverParameter());
@@ -102,8 +102,8 @@ public final class _receiverParameter
     }
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of( this.astReceiverParam );
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of( this.astReceiverParam );
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class _receiverParameter
         if( this.astReceiverParam == other.astReceiverParam ) {
             return true; //two _receiverParameter s pointing to the same ReceiverParameter
         }
-        if( ! Expressions.equalAnnos(this.astReceiverParam, other.astReceiverParam)){
+        if( ! Exprs.equalAnnos(this.astReceiverParam, other.astReceiverParam)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {
@@ -151,7 +151,7 @@ public final class _receiverParameter
     public int hashCode() {
         int hash = 7;
         //hash = 97 * hash + Ast.annotationsHash( astReceiverParam ); //Objects.hashCode( this.getAnnos() );
-        hash = 97 * hash + Expressions.hashAnnos(astReceiverParam);
+        hash = 97 * hash + Exprs.hashAnnos(astReceiverParam);
         hash = 97 * hash + Objects.hashCode( this.getName() );
         hash = 97 * hash + Types.hash( astReceiverParam.getType()); //Objects.hashCode( this.getType() );
         return hash;

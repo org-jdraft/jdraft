@@ -57,11 +57,11 @@ public class $returnStmtTest extends TestCase {
 
         }
         _class _c = _class.of(C.class);
-        $int.of().forEachIn(C.class, i-> System.out.println( i.ile.getParentNode().get().getClass()));
+        $intExpr.of().forEachIn(C.class, i-> System.out.println( i.ile.getParentNode().get().getClass()));
 
 
-        assertEquals(1, $int.of().$isParent(VariableDeclarator.class).countIn(C.class));
-        assertEquals(1, $int.of().$isParent(_variable.class).countIn(C.class));
+        assertEquals(1, $intExpr.of().$isParent(VariableDeclarator.class).countIn(C.class));
+        assertEquals(1, $intExpr.of().$isParent(_variable.class).countIn(C.class));
     }
     public void testCopy(){
         //r-> r.isExpression(e-> e instanceof LiteralExpr)
@@ -74,7 +74,7 @@ public class $returnStmtTest extends TestCase {
         assertFalse( $copy.matches("return call();"));
         assertTrue( $rs.matches("return call();"));
 
-        $copy.$and(r-> r.isExpression(e -> e instanceof _expression._literal));
+        $copy.$and(r-> r.isExpression(e -> e instanceof _expr._literal));
         assertTrue( $copy.matches("return 1;"));
         assertFalse( $copy.matches("return call();"));
         assertTrue( $rs.matches("return call();"));
@@ -134,9 +134,9 @@ public class $returnStmtTest extends TestCase {
                 return 3; //6
             }
         }
-        assertEquals( 6, $statement.of().countIn(C.class));
-        assertEquals( 2, $statement.of(_blockStmt.class).countIn(C.class));
-        assertEquals( 2, $statement.of(_expressionStmt.class).countIn(C.class));
+        assertEquals( 6, $stmt.of().countIn(C.class));
+        assertEquals( 2, $stmt.of(_blockStmt.class).countIn(C.class));
+        assertEquals( 2, $stmt.of(_exprStmt.class).countIn(C.class));
         assertEquals(2, $returnStmt.of().countIn(C.class));
     }
 

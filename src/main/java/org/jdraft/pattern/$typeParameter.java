@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoRefs;
+import org.jdraft._annoExprs;
 import org.jdraft.text.*;
 
 /**
@@ -211,7 +211,7 @@ public class $typeParameter
         return this;
     }
     
-    public $typeParameter $annos( Predicate<_annoRefs> constraint ){
+    public $typeParameter $annos( Predicate<_annoExprs> constraint ){
         this.anns.$and(constraint);
         return this;
     }
@@ -634,7 +634,7 @@ public class $typeParameter
             return _tp.getName();
         }
         
-        public _annoRefs annos(){
+        public _annoExprs annos(){
             return _tp.getAnnoRefs();
         }
 

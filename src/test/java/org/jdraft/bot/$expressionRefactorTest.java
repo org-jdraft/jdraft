@@ -2,8 +2,8 @@ package org.jdraft.bot;
 
 import junit.framework.TestCase;
 import org.jdraft.Print;
-import org.jdraft._binaryExpression;
-import org.jdraft._string;
+import org.jdraft._binaryExpr;
+import org.jdraft._stringExpr;
 import org.jdraft._type;
 import org.jdraft.pattern.$;
 
@@ -19,10 +19,10 @@ public class $expressionRefactorTest extends TestCase {
     }
 
     public void testIndRef(){
-        $methodCall $print = $methodCall.of( (Object $any$)-> System.out.println($any$) );
-        $expression.$refactor $toLogDebug = $print.refactorTo("Log.debug($any$);");
+        $methodCallExpr $print = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) );
+        $expr.$refactor $toLogDebug = $print.refactorTo("Log.debug($any$);");
 
-        $refactorBot $r = $methodCall.of( (Object $any$)-> System.out.println($any$) ).$and(mc-> mc.isArgument(0, _string.class))
+        $refactorBot $r = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) ).$and(mc-> mc.isArgument(0, _stringExpr.class))
                 .refactorTo("Log.debug($any$)");
 
         class FF{
@@ -45,19 +45,19 @@ public class $expressionRefactorTest extends TestCase {
             }
         }
 
-        $expression.$refactor $r = $expression.refactor("$a$==$b$", "$a$.equals($b$)");
+        $expr.$refactor $r = $expr.refactor("$a$==$b$", "$a$.equals($b$)");
         _type _t = $r.in(C.class);
         Print.tree(_t);
 
         //verify there are NO (0) binaryExpressions that are == left in the class
-        assertFalse( $e.of(_binaryExpression.class).$and(_e -> ((_binaryExpression)_e).isEqual()).isIn(_t) );
+        assertFalse( $e.of(_binaryExpr.class).$and(_e -> ((_binaryExpr)_e).isEqual()).isIn(_t) );
 
         // here I wanted to verify/add a constraint that $a$ is NOT a $literal, but i'd need to
         // have a fleshed out $binaryExpr bot to do this effectively
         //$r = $expression.refactor($e.of("$a$==$b$"), $e.of("$a$.equals($b$)"));
         //lets use Objects.equals( $a$, $b$) instead
 
-        $r = $expression.refactor("$a$==$b$", "java.util.Object.equals($a$,$b$)");
+        $r = $expr.refactor("$a$==$b$", "java.util.Object.equals($a$,$b$)");
         _t = $r.in(C.class);
         Print.tree(_t);
     }

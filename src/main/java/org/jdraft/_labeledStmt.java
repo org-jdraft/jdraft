@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
 
-public final class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>,
+public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         _java._multiPart<LabeledStmt, _labeledStmt> {
 
     public static _labeledStmt of(){
@@ -21,41 +21,41 @@ public final class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>
         return new _labeledStmt(ls);
     }
     public static _labeledStmt of(String...code){
-        return new _labeledStmt(Statements.labeledStmt( code));
+        return new _labeledStmt(Stmts.labeledStmt( code));
     }
 
-    public static <A extends Object> _labeledStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _labeledStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _labeledStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _labeledStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _labeledStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _labeledStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _labeledStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _labeledStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _labeledStmt from( LambdaExpr le){
@@ -81,7 +81,7 @@ public final class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.labeledStmt(stringRep));
+            return is( Stmts.labeledStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -103,16 +103,16 @@ public final class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>
         return this;
     }
 
-    public _statement getStatement(){
-        return _statement.of(astStmt.getStatement());
+    public _stmt getStatement(){
+        return _stmt.of(astStmt.getStatement());
     }
 
 
     public _labeledStmt setStatement(String...st){
-        return setStatement( Statements.of(st) );
+        return setStatement( Stmts.of(st) );
     }
 
-    public _labeledStmt setStatement(_statement _st){
+    public _labeledStmt setStatement(_stmt _st){
         this.astStmt.setStatement(_st.ast());
         return this;
     }
@@ -130,7 +130,7 @@ public final class _labeledStmt implements _statement<LabeledStmt, _labeledStmt>
         return Objects.equals( this.astStmt.getStatement(), st);
     }
 
-    public boolean isStatement( _statement st){
+    public boolean isStatement( _stmt st){
         return Objects.equals( this.astStmt.getStatement(), st.ast());
     }
 

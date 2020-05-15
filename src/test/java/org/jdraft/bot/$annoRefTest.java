@@ -6,7 +6,7 @@ public class $annoRefTest extends TestCase {
 
 
     public void testHardCode(){
-        $annoRef $ar = $annoRef.of("@A($value$)");
+        $annoExpr $ar = $annoExpr.of("@A($value$)");
         assertTrue( $ar.matches( "@A(1)"));
         assertTrue( $ar.matches( "@A(2)"));
         $ar.$hardcode("value", 1);
@@ -16,7 +16,7 @@ public class $annoRefTest extends TestCase {
     }
 
     public void testHardCodeOr(){
-        $annoRef $aror = $annoRef.or( $annoRef.of("@A($value$)"), $annoRef.of("@my$name$($key$=2)") );
+        $annoExpr $aror = $annoExpr.or( $annoExpr.of("@A($value$)"), $annoExpr.of("@my$name$($key$=2)") );
         assertTrue( $aror.matches("@A(1)"));
         assertTrue( $aror.matches("@A(2)"));
         $aror = $aror.$hardcode("value", "1"); //verify only @A(1) matches
@@ -25,7 +25,7 @@ public class $annoRefTest extends TestCase {
     }
 
     public void testMatchAny() {
-        $annoRef $ar = $annoRef.of();
+        $annoExpr $ar = $annoExpr.of();
         assertTrue( $ar.matches("@A") );
         assertTrue( $ar.matches("@A(1)") );
         assertTrue( $ar.matches("@A(key=1)") );
@@ -33,7 +33,7 @@ public class $annoRefTest extends TestCase {
     }
 
     public void testSimple(){
-        $annoRef $ar = $annoRef.of("A");
+        $annoExpr $ar = $annoExpr.of("A");
         assertTrue( $ar.matches("@A") );
         assertTrue( $ar.matches("@A(1)") );
         assertTrue( $ar.matches("@A(key=1)") );
@@ -41,25 +41,25 @@ public class $annoRefTest extends TestCase {
     }
 
     public void testInteresting(){
-        $annoRef $ar = $annoRef.of("@A($keyValue$)");
+        $annoExpr $ar = $annoExpr.of("@A($keyValue$)");
         assertTrue( $ar.matches("@A(key=1)") );
         assertTrue( $ar.matches("@A(key=1,value=2)") );
     }
 
     public void testParameterized(){
-        $annoRef $ar = $annoRef.of("@$name$");
+        $annoExpr $ar = $annoExpr.of("@$name$");
         assertTrue( $ar.matches("@A") );
         assertTrue( $ar.matches("@A(1)") );
         assertTrue( $ar.matches("@A(key=1)") );
         assertTrue( $ar.matches("@A(key=1,value=2)") );
 
-        $ar = $annoRef.of("@A($keyValue$)");
+        $ar = $annoExpr.of("@A($keyValue$)");
         assertTrue( $ar.matches("@A") );
         assertTrue( $ar.matches("@A(1)") );
         assertTrue( $ar.matches("@A(key=1)") );
         assertTrue( $ar.matches("@A(key=1,value=2)") );
 
-        $ar = $annoRef.of("@A(key=$value$)");
+        $ar = $annoExpr.of("@A(key=$value$)");
         assertFalse( $ar.matches("@A") );
         assertFalse( $ar.matches("@A(1)") );
         assertTrue( $ar.matches("@A(key=1)") );
@@ -67,31 +67,31 @@ public class $annoRefTest extends TestCase {
     }
 
     public void testMV(){
-        $annoRef $ar = $annoRef.of("@A(key=$value$)");
+        $annoExpr $ar = $annoExpr.of("@A(key=$value$)");
         assertFalse( $ar.matches("@A(1)") );
 
     }
     public void testValueSingle(){
-        $annoRef $ar = $annoRef.as("A(1)");
+        $annoExpr $ar = $annoExpr.as("A(1)");
        // assertTrue($ar.$mvs.get(0).matches("1"));
         //assertTrue($ar.$mvs.get(0).matches("value=1"));
         assertFalse($ar.$mvs.get(0).matches("key=1"));
 
     }
     public void testAs(){
-        $annoRef $ar = $annoRef.as("A");
+        $annoExpr $ar = $annoExpr.as("A");
         assertTrue( $ar.matches("@A") );
         assertFalse( $ar.matches("@A(1)") );
         assertFalse( $ar.matches("@A(key=1)") );
         assertFalse( $ar.matches("@A(key=1,value=2)") );
 
-        $ar = $annoRef.as("A(key=1)");
+        $ar = $annoExpr.as("A(key=1)");
         assertTrue($ar.$mvs.get(0).matches("key=1"));
         assertFalse($ar.$mvs.get(0).matches("key=2"));
         assertFalse($ar.$mvs.get(0).matches("value=1"));
 
 
-        $ar = $annoRef.as("A(1)");
+        $ar = $annoExpr.as("A(1)");
         assertFalse( $ar.matches("@A") );
         assertTrue( $ar.matches("@A(1)") );
         assertFalse( $ar.matches("@A(2)") );

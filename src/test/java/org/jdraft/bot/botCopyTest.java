@@ -1,8 +1,8 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
-import org.jdraft._binaryExpression;
-import org.jdraft._expression;
+import org.jdraft._binaryExpr;
+import org.jdraft._expr;
 import org.jdraft._method;
 import org.jdraft._arguments;
 import java.util.HashMap;
@@ -32,26 +32,26 @@ public class botCopyTest extends TestCase {
         //arguments were all of the arguments are literals
 
         assertEquals( 2, $arguments.empty().countIn(C.class));
-        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() > 0).$all(e-> ((_expression)e).isLiteral()).countIn(C.class));
-        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() > 0).$all(_expression._literal.class).countIn(C.class));
+        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() > 0).$all(e-> ((_expr)e).isLiteral()).countIn(C.class));
+        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() > 0).$all(_expr._literal.class).countIn(C.class));
 
-        assertEquals( 1, $arguments.notEmpty().$all(e-> ((_expression)e).isLiteral()) .countIn(C.class));
-        assertEquals( 1, $arguments.notEmpty().$all(_expression._literal.class) .countIn(C.class));
+        assertEquals( 1, $arguments.notEmpty().$all(e-> ((_expr)e).isLiteral()) .countIn(C.class));
+        assertEquals( 1, $arguments.notEmpty().$all(_expr._literal.class) .countIn(C.class));
         //arguments lists where ANY ONE of the arguments are literals
-        assertEquals( 2, $arguments.of().$any( e-> ((_expression)e).isLiteral() ).countIn(C.class) );
-        assertEquals( 2, $arguments.of().$any( _expression._literal.class ).countIn(C.class) );
+        assertEquals( 2, $arguments.of().$any( e-> ((_expr)e).isLiteral() ).countIn(C.class) );
+        assertEquals( 2, $arguments.of().$any( _expr._literal.class ).countIn(C.class) );
 
 
         assertEquals( 5, $args.countIn(C.class));
         assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() ==3).countIn(C.class));
-        assertEquals( 2, $arguments.of().$any(_binaryExpression.class).countIn(C.class));
-        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() ==3).$any(_binaryExpression.class).countIn(C.class));
+        assertEquals( 2, $arguments.of().$any(_binaryExpr.class).countIn(C.class));
+        assertEquals( 1, $arguments.of().$and(a-> ((_arguments)a).size() ==3).$any(_binaryExpr.class).countIn(C.class));
 
     }
 
     public void test$annoClone(){
-        $annoRef $a = $annoRef.of();
-        $annoRef $b = $a.copy();
+        $annoExpr $a = $annoExpr.of();
+        $annoExpr $b = $a.copy();
         $b.$name("A");
 
         assertTrue($a.matches("@A"));

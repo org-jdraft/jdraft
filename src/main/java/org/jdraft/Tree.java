@@ -5,7 +5,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.*;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
 import com.github.javaparser.ast.stmt.BlockStmt;
@@ -47,13 +46,13 @@ import java.util.stream.Stream;
  * //... we can traverse the node graph looking for entities that are Node implementations
  *
  * // to find all Integer literals within the code:
- * Walk.in(_c, {@link Expressions#INT_LITERAL}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Exprs#INT_LITERAL}, i-> System.out.println(i));
  * // prints:
  * //    1
  * //    2
  *
  * // to find all types within the code:
- * Walk.in(_c, {@link Expressions#TYPE}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Exprs#TYPE}, i-> System.out.println(i));
  *  // prints:
  *  //    "int"
  *  //    "int"
@@ -1478,7 +1477,7 @@ public enum Tree {
      * ({@link _field}, {@link _method}, {@link _constant}...)
      *
      * <LI>Logical interfaces
-     * ({@link _javadocComment._withJavadoc}, {@link _method._withMethods}, {@link _annoRefs._withAnnoRefs}, ...)
+     * ({@link _javadocComment._withJavadoc}, {@link _method._withMethods}, {@link _annoExprs._withAnnoExprs}, ...)
      * </UL>
      *
      * @param <T> the target Class TYPE ..we need this BECAUSE Node classes/interfaces dont have a common ancestor

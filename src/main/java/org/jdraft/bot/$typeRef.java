@@ -132,7 +132,7 @@ public class $typeRef
         $typeRef $t = of(_exact);
 
         $t.$and(_t->
-            _annoRefs.of(_t.ast()).equals(_annoRefs.of(_exact.ast())) && /* Type Annotations */
+            _annoExprs.of(_t.ast()).equals(_annoExprs.of(_exact.ast())) && /* Type Annotations */
             _t.getArrayDimensions() == _exact.getArrayDimensions() && /* Array Dimensions */
             Types.equal( _t.getTypeArguments(), _exact.getTypeArguments() ) && /* Type Arguments */
             Types.equal(_t.getBaseType().ast(), _exact.getBaseType().ast() )
@@ -437,10 +437,10 @@ public class $typeRef
                 }
             }
             Tokens ats = new Tokens();
-            _annoRefs _as = _typeRef.of(this.type).getAnnoRefs();
+            _annoExprs _as = _typeRef.of(this.type).getAnnoRefs();
             if( _tr.hasAnnoRefs() && !_as.isEmpty() ){
                 //System.out.println ("BOTH HAVE ANNOS");
-                ats = $annoRefs.of(_as).apply(_tr.getAnnoRefs());
+                ats = $annoExprs.of(_as).apply(_tr.getAnnoRefs());
                 if( ats == null ){
                     //System.out.println( "Tokens not equal");
                     return null;

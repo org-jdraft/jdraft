@@ -4,7 +4,7 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import junit.framework.TestCase;
 
 import org.jdraft.Ast;
-import org.jdraft.Expressions;
+import org.jdraft.Exprs;
 import org.jdraft._field;
 import org.jdraft._method;
 import org.jdraft.pattern.*;
@@ -98,7 +98,7 @@ public class _1_WhatIs$PatternTest extends TestCase {
         $node $anyNode = $node.of();
 
         //...from a simple atomic IntLiteral ("1")
-        assertTrue($anyNode.match( Expressions.of(1) ));
+        assertTrue($anyNode.match( Exprs.of(1) ));
 
         //...to a 100+ line composite CompilationUnit made of other nodes
         assertTrue($anyNode.match( Ast.of(_1_WhatIs$PatternTest.class) ));

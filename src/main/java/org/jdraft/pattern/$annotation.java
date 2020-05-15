@@ -18,9 +18,9 @@ import org.jdraft.text.Translator;
  * Note... at the moment this is NOT a template... should it be??
  */
 public class $annotation
-        implements //$pattern<_annotation, $annotation>,
+        implements
         $pattern.$java<_annotation, $annotation>, $member.$named<$annotation>,
-        $declared<_annotation,$annotation>, has$AnnoRefs {
+        $declared<_annotation,$annotation>, $withAnnoRefs {
 
     public Predicate<_annotation> constraint = t->true;
 
@@ -545,7 +545,7 @@ public class $annotation
         return this.annos;
     }
 
-    public $annotation $annos(Predicate<_annoRefs> annosMatchFn){
+    public $annotation $annos(Predicate<_annoExprs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

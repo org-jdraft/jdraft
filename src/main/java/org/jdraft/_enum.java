@@ -167,7 +167,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
      */
     public static _enum of( String signature, Object anonymousBody, StackTraceElement ste){
         _enum _e = _enum.of(signature);
-        ObjectCreationExpr oce = Expressions.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newEx( ste );
         if( oce.getAnonymousClassBody().isPresent()) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
             for(int i=0; i<bds.size(); i++) {
@@ -312,8 +312,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of(this.astEnum );
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of(this.astEnum );
     }
    
     @Override
@@ -460,7 +460,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
      */
     public _enum addConstant(String signature, Object anonymousBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expressions.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newEx(ste);
         _constant _ct = _constant.of( Ast.constantDecl(signature));
         if( oce.getAnonymousClassBody().isPresent()){
             // here, I'm putting the BODY into a temp _class, so that I can apply
@@ -510,7 +510,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         if( !Objects.equals( this.getPackage(), other.getPackage() ) ) {
             return false;
         }
-        if( ! Expressions.equalAnnos(this.astEnum, other.astEnum)){
+        if( ! Exprs.equalAnnos(this.astEnum, other.astEnum)){
             return false;
         }     
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -679,7 +679,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         sbs.addAll( this.listInitBlocks() );
 
         hash = 53 * hash + Objects.hash( this.getPackage(),
-                Expressions.hashAnnos(astEnum),
+                Exprs.hashAnnos(astEnum),
                 this.getJavadoc(), 
                 this.getEffectiveModifiers(),
                 this.getName(), 

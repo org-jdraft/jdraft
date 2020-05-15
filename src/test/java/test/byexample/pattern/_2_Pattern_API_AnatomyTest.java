@@ -1,7 +1,9 @@
 package test.byexample.pattern;
 
 import junit.framework.TestCase;
-import org.jdraft.Expressions;
+import org.jdraft.Exprs;
+import org.jdraft._ifStmt;
+import org.jdraft._java;
 import org.jdraft._method;
 import org.jdraft.pattern.*;
 import org.jdraft.pattern.$node.Select;
@@ -115,8 +117,8 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         $stmt $ifBracesPattern = $.ifStmt("if($cond$){ thenDo(); }");
 
         $stmt $ifConstraint = $.ifStmt().$and(i ->
-                $stmt.of("thenDo();").matches( i.ast().getThenStmt())
-                        || $stmt.blockStmt("{ thenDo(); }").matches(i.ast().getThenStmt()) );
+                $stmt.of("thenDo();").matches( ((_ifStmt)i).ast().getThenStmt())
+                        || $stmt.blockStmt("{ thenDo(); }").matches(((_ifStmt)i).ast().getThenStmt()) );
         //$stmt $ifConstraint = $.ifStmt().$hasDescendant( 2, $stmt.of("thenDo();") );
 
         class exampleClass{
@@ -142,7 +144,7 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         List<Select> sel = $.of( $stmt.of("if($cond$){ thenDo(); }"), $stmt.of("if($cond$) thenDo();") ).listSelectedIn(exampleClass.class);
 
         assertEquals( 2, sel.size());
-        sel.get(0).is("cond", Expressions.of("a==0"));
-        sel.get(1).is("cond", Expressions.of("a>1"));
+        sel.get(0).is("cond", Exprs.of("a==0"));
+        sel.get(1).is("cond", Exprs.of("a>1"));
     }
 }

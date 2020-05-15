@@ -16,7 +16,7 @@ import org.jdraft.text.Text;
  */
 public final class _typeParameter
         implements _java._multiPart<TypeParameter, _typeParameter>,
-        _java._withName<_typeParameter>, _annoRefs._withAnnoRefs<_typeParameter> {
+        _java._withName<_typeParameter>, _annoExprs._withAnnoExprs<_typeParameter> {
 
     public static _typeParameter of() {
         return of( new TypeParameter());
@@ -221,8 +221,8 @@ public final class _typeParameter
     }
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of( this.typeParameter);
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of( this.typeParameter);
     }
 
 }

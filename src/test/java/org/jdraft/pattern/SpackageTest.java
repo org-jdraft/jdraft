@@ -4,8 +4,8 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.PackageDeclaration;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
-import org.jdraft._annoRef;
-import org.jdraft._annoRefs;
+import org.jdraft._annoExpr;
+import org.jdraft._annoExprs;
 
 public class SpackageTest extends TestCase {
 
@@ -13,17 +13,17 @@ public class SpackageTest extends TestCase {
         assertEquals( Ast.packageDeclaration("a"), $package.of("a").draft());
         assertEquals( Ast.packageDeclaration("a"), $package.of().draft("$packageName", "a")); //override parameter
 
-        _annoRefs _as = $annoRefs.of("@ANN").draft();
+        _annoExprs _as = $annoRefs.of("@ANN").draft();
 
         PackageDeclaration pd = $package.of("b", $annoRefs.of("@ANN"), t->true ).draft();
 
         PackageDeclaration pppd = Ast.packageDeclaration("package b;");
         pppd.addAnnotation("ANN");
 
-        assertTrue( _annoRef.of("A").equals(_annoRef.of("A()")) );
+        assertTrue( _annoExpr.of("A").equals(_annoExpr.of("A()")) );
 
         assertTrue( pd.getNameAsString().equals("b"));
-        assertEquals( _annoRefs.of(pd), _annoRefs.of("@ANN"));
+        assertEquals( _annoExprs.of(pd), _annoExprs.of("@ANN"));
     }
 
 

@@ -1,12 +1,13 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
-import org.jdraft._expression;
+import org.jdraft._expr;
+import org.jdraft._unaryExpr;
 
 public class $unaryTest extends TestCase {
 
     public void testMatchAny() {
-        $unary $u = $unary.of();
+        $unaryExpr $u = $unaryExpr.of();
         assertTrue($u.matches("-a"));
         assertTrue($u.matches("+a"));
         assertTrue($u.matches("!true"));
@@ -17,35 +18,55 @@ public class $unaryTest extends TestCase {
         assertTrue($u.matches("~a"));
     }
 
+    public void testCopy(){
+
+        assertTrue( $unaryExpr.of(_unaryExpr.MINUS).matches("-e") );
+        assertFalse( $unaryExpr.of(_unaryExpr.MINUS).matches("~e") );
+        assertTrue( $unaryExpr.of(_unaryExpr.MINUS).copy().matches("-e") );
+        assertFalse( $unaryExpr.of(_unaryExpr.MINUS).copy().matches("~e") );
+
+        //predicate
+        assertFalse( $unaryExpr.of().$not(_unaryExpr.MINUS).matches("-e") );
+        assertFalse( $unaryExpr.of().$not(_unaryExpr.MINUS).copy().matches("-e") );
+        assertTrue( $unaryExpr.of().$not(_unaryExpr.MINUS).matches("!e") );
+        assertTrue( $unaryExpr.of().$not(_unaryExpr.MINUS).copy().matches("!e") );
+
+        assertTrue($unaryExpr.minus().matches("-t"));
+
+        //expression
+        assertTrue( $unaryExpr.of(_expr.of("e")).$not(_unaryExpr.MINUS).copy().matches("!e") );
+        assertFalse( $unaryExpr.of(_expr.of("e")).$not(_unaryExpr.MINUS).copy().matches("-e") );
+    }
+
     public void testByOperator(){
-        assertTrue( $unary.bitwiseComplement().matches("~a"));
-        assertFalse( $unary.bitwiseComplement().matches("a++"));
+        assertTrue( $unaryExpr.bitwiseComplement().matches("~a"));
+        assertFalse( $unaryExpr.bitwiseComplement().matches("a++"));
 
-        assertTrue( $unary.preIncrement().matches("++a"));
-        assertFalse( $unary.preIncrement().matches("a++"));
+        assertTrue( $unaryExpr.preIncrement().matches("++a"));
+        assertFalse( $unaryExpr.preIncrement().matches("a++"));
 
-        assertTrue( $unary.preDecrement().matches("--a"));
-        assertFalse( $unary.preDecrement().matches("a--"));
+        assertTrue( $unaryExpr.preDecrement().matches("--a"));
+        assertFalse( $unaryExpr.preDecrement().matches("a--"));
 
-        assertFalse( $unary.postIncrement().matches("++a"));
-        assertTrue( $unary.postIncrement().matches("a++"));
+        assertFalse( $unaryExpr.postIncrement().matches("++a"));
+        assertTrue( $unaryExpr.postIncrement().matches("a++"));
 
-        assertFalse( $unary.postDecrement().matches("--a"));
-        assertTrue( $unary.postDecrement().matches("a--"));
+        assertFalse( $unaryExpr.postDecrement().matches("--a"));
+        assertTrue( $unaryExpr.postDecrement().matches("a--"));
 
-        assertTrue( $unary.minus().matches("-a"));
-        assertFalse( $unary.minus().matches("+a"));
+        assertTrue( $unaryExpr.minus().matches("-a"));
+        assertFalse( $unaryExpr.minus().matches("+a"));
 
-        assertFalse( $unary.plus().matches("-a"));
-        assertTrue( $unary.plus().matches("+a"));
+        assertFalse( $unaryExpr.plus().matches("-a"));
+        assertTrue( $unaryExpr.plus().matches("+a"));
 
-        assertTrue( $unary.logicalComplement().matches("!a"));
-        assertFalse( $unary.logicalComplement().matches("+a"));
+        assertTrue( $unaryExpr.logicalComplement().matches("!a"));
+        assertFalse( $unaryExpr.logicalComplement().matches("+a"));
     }
 
     public void testOrPostIT(){
-        $unary $plusMinusLiteral =
-                $unary.or( $unary.plus(), $unary.minus() ).$expression(_expression._literal.class);
+        $unaryExpr $plusMinusLiteral =
+                $unaryExpr.or( $unaryExpr.plus(), $unaryExpr.minus() ).$expression(_expr._literal.class);
 
         assertTrue( $plusMinusLiteral.matches("+1") );
         assertTrue( $plusMinusLiteral.matches("-1") );

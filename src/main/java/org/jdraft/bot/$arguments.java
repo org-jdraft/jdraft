@@ -14,16 +14,16 @@ import java.util.stream.Collectors;
 
 /**
  * bot for argument Lists used in:
- * {@link _methodCall}
+ * {@link _methodCallExpr}
  * {@link _constant}
  * {@link _constructorCallStmt}
- * {@link _new}
+ * {@link _newExpr}
  * NOTE: order matters
  *
  * @param <N>
  */
 public class $arguments<N extends Node & NodeWithArguments>
-        implements $bot<N, _arguments, $arguments>, $methodCall.$part {
+        implements $bot<N, _arguments, $arguments>, $methodCallExpr.$part {
 
     public static $arguments of(){
         return new $arguments();
@@ -49,7 +49,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return new $arguments(args);
     }
 
-    public static $arguments of (_expression... args){
+    public static $arguments of (_expr... args){
         return new $arguments(args);
     }
 
@@ -57,7 +57,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return of( _arguments.of(args));
     }
 
-    public static $arguments of( $expression...$es){
+    public static $arguments of( $expr...$es){
         return new $arguments($es);
     }
 
@@ -65,7 +65,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return new $arguments.Or($as);
     }
 
-    public List<$expression> argumentList = new ArrayList<>();
+    public List<$expr> argumentList = new ArrayList<>();
     public Predicate<_arguments> predicate = p->true;
 
     /**
@@ -88,17 +88,17 @@ public class $arguments<N extends Node & NodeWithArguments>
 
     public $arguments(_arguments args){
         for(int i=0;i<args.size(); i++){
-            argumentList.add( $expression.of(args.getAt(i)));
+            argumentList.add( $expr.of(args.getAt(i)));
         }
     }
 
-    public $arguments(_expression..._exs){
+    public $arguments(_expr..._exs){
         for(int i=0;i<_exs.length; i++){
-            argumentList.add( $expression.of(_exs[i]));
+            argumentList.add( $expr.of(_exs[i]));
         }
     }
 
-    public $arguments($expression...$exs){
+    public $arguments($expr...$exs){
         for(int i=0;i<$exs.length; i++){
             argumentList.add( $exs[i]);
         }
@@ -109,7 +109,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return this;
     }
 
-    public $arguments $any(Class<? extends _expression>...expressionClasses ){
+    public $arguments $any(Class<? extends _expr>...expressionClasses ){
         Predicate<_arguments> ps =
                 (args) -> Arrays.stream(expressionClasses).anyMatch( ec-> args.get(a -> ec.isAssignableFrom(a.getClass())) != null );
         return $and( ps );
@@ -121,7 +121,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @param _exMatchFn
      * @return
      */
-    public $arguments $any( Predicate<_expression> _exMatchFn){
+    public $arguments $any( Predicate<_expr> _exMatchFn){
         return $and( a-> a.anyMatch(_exMatchFn));
     }
 
@@ -130,7 +130,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @param _ex
      * @return
      */
-    public $arguments $all( Predicate<_expression> _ex ){
+    public $arguments $all( Predicate<_expr> _ex ){
         return $and( p-> p.allMatch(_ex) );
     }
 
@@ -139,7 +139,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @param ecs
      * @return
      */
-    public $arguments $all( Class<? extends _expression>...ecs){
+    public $arguments $all( Class<? extends _expr>...ecs){
         return $and( es->es.allMatch(e-> Arrays.stream(ecs).anyMatch( ec-> ec.isAssignableFrom(e.getClass()))));
     }
 
@@ -159,7 +159,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return select(exs) != null;
     }
 
-    public boolean matches(_expression..._exs){
+    public boolean matches(_expr..._exs){
         return select(_exs) != null;
     }
 
@@ -167,7 +167,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         return select(_arguments.of(exs));
     }
 
-    public Select<_arguments> select(_expression...exs){
+    public Select<_arguments> select(_expr...exs){
         return select(_arguments.of(exs));
     }
 
@@ -307,7 +307,7 @@ public class $arguments<N extends Node & NodeWithArguments>
     public _arguments draft(Translator translator, Map<String, Object> keyValues) {
         _arguments _as = _arguments.of();
         for(int i=0;i<this.argumentList.size(); i++){
-            _as.add( (_expression)this.argumentList.get(i).draft(translator, keyValues) );
+            _as.add( (_expr)this.argumentList.get(i).draft(translator, keyValues) );
         }
         if( this.predicate.test(_as) ){
             return _as;
@@ -392,7 +392,7 @@ public class $arguments<N extends Node & NodeWithArguments>
         public $arguments.Or copy(){
             $arguments.Or $copy = $arguments.or();
             $copy.$and(this.predicate);
-            this.argumentList.forEach( ($a)-> $copy.argumentList.add( (($expression)$a).copy()));
+            this.argumentList.forEach( ($a)-> $copy.argumentList.add( (($expr)$a).copy()));
             this.$argumentsBots.forEach( ($a) -> $copy.$argumentsBots.add($a.copy()));
             return $copy;
         }

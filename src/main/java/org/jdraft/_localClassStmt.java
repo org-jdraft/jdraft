@@ -11,7 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class _localClassStmt implements _statement<LocalClassDeclarationStmt, _localClassStmt>,
+public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _localClassStmt>,
         _java._uniPart<LocalClassDeclarationStmt, _localClassStmt> {
 
     public static _localClassStmt of(){
@@ -21,41 +21,41 @@ public final class _localClassStmt implements _statement<LocalClassDeclarationSt
         return new _localClassStmt( lc);
     }
     public static _localClassStmt of(String...code){
-        return new _localClassStmt(Statements.localClassStmt( code));
+        return new _localClassStmt(Stmts.localClassStmt( code));
     }
 
-    public static <A extends Object> _localClassStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _localClassStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _localClassStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _localClassStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _localClassStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _localClassStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _localClassStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _localClassStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _localClassStmt from( LambdaExpr le){
@@ -80,7 +80,7 @@ public final class _localClassStmt implements _statement<LocalClassDeclarationSt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.localClassStmt(stringRep));
+            return is( Stmts.localClassStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

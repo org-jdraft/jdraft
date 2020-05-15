@@ -99,7 +99,7 @@ public final class _moduleInfo
         m.put(_java.Component.HEADER_COMMENT, getHeaderComment());
         m.put(_java.Component.NAME, getModuleAst().getNameAsString());
         m.put(_java.Component.MODULE_DECLARATION, getModuleAst());
-        m.put(_java.Component.ANNOS, _annoRefs.of(getModuleAst()));
+        m.put(_java.Component.ANNOS, _annoExprs.of(getModuleAst()));
         m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));
         //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
 

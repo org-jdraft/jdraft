@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
 import junit.framework.TestCase;
 
 
@@ -19,27 +18,27 @@ public class _walkTest extends TestCase {
         }
         _java._walk _w = _class.of(C.class).walk();
 
-        assertNotNull(_w.first(n-> n instanceof _binaryExpression));
-        assertNotNull(_w.first(_lambda.class));
-        assertNotNull(_w.first(_lambda.class, _l->_l.getParameter("s").getTypeRef().isUnknownType()));
+        assertNotNull(_w.first(n-> n instanceof _binaryExpr));
+        assertNotNull(_w.first(_lambdaExpr.class));
+        assertNotNull(_w.first(_lambdaExpr.class, _l->_l.getParameter("s").getTypeRef().isUnknownType()));
 
-        assertEquals( 1, _w.list(n -> n instanceof _lambda).size());
-        _w.print(_lambda.class);
-        _w.print(_lambda.class, _l->_l.hasParameters());
-        assertEquals( 1, _w.list(_lambda.class).size());
-        assertEquals( 1, _w.list(_lambda.class, _l->_l.hasParameters()).size());
+        assertEquals( 1, _w.list(n -> n instanceof _lambdaExpr).size());
+        _w.print(_lambdaExpr.class);
+        _w.print(_lambdaExpr.class, _l->_l.hasParameters());
+        assertEquals( 1, _w.list(_lambdaExpr.class).size());
+        assertEquals( 1, _w.list(_lambdaExpr.class, _l->_l.hasParameters()).size());
 
-        assertEquals(1, _w.stream(n-> n instanceof _lambda).count());
-        assertEquals(1, _w.stream(_lambda.class).count());
-        assertEquals(5, _w.stream(_int.class).count());
-        assertEquals(5, _w.stream(_expression._literal.class).count());
-        assertEquals(2, _w.stream(_enclosedExpression.class).count());
-        assertEquals(4, _w.stream(_binaryExpression.class).count());
+        assertEquals(1, _w.stream(n-> n instanceof _lambdaExpr).count());
+        assertEquals(1, _w.stream(_lambdaExpr.class).count());
+        assertEquals(5, _w.stream(_intExpr.class).count());
+        assertEquals(5, _w.stream(_expr._literal.class).count());
+        assertEquals(2, _w.stream(_enclosedEx.class).count());
+        assertEquals(4, _w.stream(_binaryExpr.class).count());
 
         assertEquals( 3, _w.stream(_field.class).count());
 
-        _w.print(_lambda.class);
-        _w.printTree(_binaryExpression.class);
+        _w.print(_lambdaExpr.class);
+        _w.printTree(_binaryExpr.class);
     }
 
     public void testWalkTraversal(){

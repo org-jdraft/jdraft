@@ -6,7 +6,7 @@ import com.github.javaparser.ast.stmt.BreakStmt;
 import java.util.Objects;
 
 
-public final class _breakStmt implements _statement._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniPart<BreakStmt, _breakStmt> {
+public final class _breakStmt implements _stmt._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniPart<BreakStmt, _breakStmt> {
 
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ).removeLabel());
@@ -15,7 +15,7 @@ public final class _breakStmt implements _statement._controlFlow._signal<BreakSt
         return new _breakStmt(bs);
     }
     public static _breakStmt of(String...code){
-        return new _breakStmt(Statements.breakStmt( code));
+        return new _breakStmt(Stmts.breakStmt( code));
     }
 
     private BreakStmt astStmt;
@@ -32,7 +32,7 @@ public final class _breakStmt implements _statement._controlFlow._signal<BreakSt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.breakStmt(stringRep));
+            return is( Stmts.breakStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

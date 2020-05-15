@@ -16,67 +16,43 @@ import java.util.stream.Collectors;
 
 /**
  * Argument Lists used in:
- * {@link _methodCall}
+ * {@link _methodCallExpr}
  * {@link _constant}
  * {@link _constructorCallStmt}
- * {@link _new}
+ * {@link _newExpr}
  * order matters
  *
  * @see org.jdraft.bot.$arguments for a prototype version
  */
 public final class _arguments
-        implements _java._list<Expression, _expression, _arguments> {
+        implements _java._list<Expression, _expr, _arguments> {
 
     public static _arguments of(){
-        return of( Expressions.methodCallEx("empty()"));
+        return of( Exprs.methodCallEx("empty()"));
     }
 
     public static _arguments of(Expression... exs){
         return of().add(exs);
     }
 
-    public static _arguments of(_expression... _exs){
+    public static _arguments of(_expr... _exs){
         return of().add(_exs);
     }
 
-    /*
-    public static <A extends Object> _arguments of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
-        return from(le);
-    }
-
-    public static <A extends Object> _arguments of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
-        return from(le);
-    }
-
-    public static <A extends Object, B extends Object> _arguments of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
-    }
-
-    public static <A extends Object, B extends Object, C extends Object> _arguments of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
-    }
-
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arguments of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
-    }
-
-     */
     public static <A extends Object> _arguments of( Supplier<A> supplier ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _arguments of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _arguments of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arguments of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arguments of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _arguments from( LambdaExpr le){
@@ -95,7 +71,7 @@ public final class _arguments
                 if( code.length() ==0 ){
                     return of();
                 }
-                return of( Expressions.methodCallEx("empty("+ code+")"));
+                return of( Exprs.methodCallEx("empty("+ code+")"));
             }
         }
         StringBuilder sb = new StringBuilder();
@@ -109,7 +85,7 @@ public final class _arguments
             sb.append(args[i]);
         }
         sb.append(")");
-        return of( Expressions.methodCallEx("empty"+ sb.toString()));
+        return of( Exprs.methodCallEx("empty"+ sb.toString()));
     }
 
 
@@ -125,111 +101,111 @@ public final class _arguments
     }
 
     public _arguments add(int i){
-        return add( _int.of(i) );
+        return add( _intExpr.of(i) );
     }
 
     public _arguments add(char c){
-        return add( _char.of(c) );
+        return add( _charExpr.of(c) );
     }
 
     public _arguments add(boolean b){
-        return add( _boolean.of(b) );
+        return add( _booleanExpr.of(b) );
     }
 
     public _arguments add(long l){
-        return add( _long.of(l) );
+        return add( _longExpr.of(l) );
     }
 
     public _arguments add(float f){
-        return add( _double.of(f) );
+        return add( _doubleExpr.of(f) );
     }
 
     public _arguments add(double d){
-        return add( _double.of(d) );
+        return add( _doubleExpr.of(d) );
     }
 
     public _arguments add(String...args){
-        return add(Arrays.stream(args).map(a -> _expression.of(a) ).collect(Collectors.toList()).toArray(new _expression[0]));
+        return add(Arrays.stream(args).map(a -> _expr.of(a) ).collect(Collectors.toList()).toArray(new _expr[0]));
     }
 
     public boolean isAt(int index, int i){
         if( index >= this.size()){
             return false;
         }
-        return isAt(index, _int.of(i) );
+        return isAt(index, _intExpr.of(i) );
     }
 
     public boolean isAt(int index, char c){
         if( index >= this.size()){
             return false;
         }
-        return isAt(index, _char.of(c) );
+        return isAt(index, _charExpr.of(c) );
     }
 
     public boolean isAt(int index, boolean b){
         if( index >= this.size()){
             return false;
         }
-        return isAt(index,_boolean.of(b) );
+        return isAt(index, _booleanExpr.of(b) );
     }
 
     public boolean isAt(int index, long l){
         if( index >= this.size()){
             return false;
         }
-        return isAt(index,_long.of(l) );
+        return isAt(index, _longExpr.of(l) );
     }
 
     public boolean isAt(int index, float f){
         if( index >= this.size()){
             return false;
         }
-        return isAt(index,_double.of(f) );
+        return isAt(index, _doubleExpr.of(f) );
     }
 
     public boolean isAt(int index, double d){
         if( index >= this.size()){
             return false;
         }
-        return isAt(index,_double.of(d) );
+        return isAt(index, _doubleExpr.of(d) );
     }
 
     public boolean isAt(int index, String expression){
         if( index >= this.size()){
             return false;
         }
-        return isAt(index, Expressions.of(expression));
+        return isAt(index, Exprs.of(expression));
     }
 
     public boolean isAt(int index, Expression e){
         if( index >= this.size()){
             return false;
         }
-        return Expressions.equal( getAt(index).ast(), e);
+        return Exprs.equal( getAt(index).ast(), e);
     }
 
     public _arguments setAt(int index, int i){
-        return setAt(index, _int.of(i) );
+        return setAt(index, _intExpr.of(i) );
     }
 
     public _arguments setAt(int index, char c){
-        return setAt(index, _char.of(c) );
+        return setAt(index, _charExpr.of(c) );
     }
 
     public _arguments setAt(int index, boolean b){
-        return setAt(index,_boolean.of(b) );
+        return setAt(index, _booleanExpr.of(b) );
     }
 
     public _arguments setAt(int index, long l){
-        return setAt(index,_long.of(l) );
+        return setAt(index, _longExpr.of(l) );
     }
 
     public _arguments setAt(int index, float f){
-        return setAt(index,_double.of(f) );
+        return setAt(index, _doubleExpr.of(f) );
     }
 
     public _arguments setAt(int index, double d){
-        return setAt(index,_double.of(d) );
+        return setAt(index, _doubleExpr.of(d) );
     }
 
     @Override
@@ -239,8 +215,8 @@ public final class _arguments
     }
 
     @Override
-    public List<_expression> list() {
-        return listAstElements().stream().map(e-> _expression.of(e) ).collect(Collectors.toList());
+    public List<_expr> list() {
+        return listAstElements().stream().map(e-> _expr.of(e) ).collect(Collectors.toList());
     }
 
     @Override
@@ -258,7 +234,7 @@ public final class _arguments
             if( this.nwa.getArguments().size() == _as.size()){
                 for(int i=0;i<this.nwa.getArguments().size(); i++){
                     Expression e = this.nwa.getArgument(i);
-                    if( !Expressions.equal(e, _as.nwa.getArgument(i))){
+                    if( !Exprs.equal(e, _as.nwa.getArgument(i))){
                         return false;
                     }
                 }
@@ -285,11 +261,11 @@ public final class _arguments
 
     /**
      * Argument Lists used in:
-     * {@link _methodCall}
+     * {@link _methodCallExpr}
      * {@link _constant}
      * {@link _constructorCallStmt}
-     * {@link _new}
-     * (order matters list of {@link _expression} )
+     * {@link _newExpr}
+     * (order matters list of {@link _expr} )
      *
      */
     public interface _withArguments<N extends Node, _WA extends _java._node> extends _java._node<N, _WA> {
@@ -303,16 +279,16 @@ public final class _arguments
         }
 
         /**
-         * Check if all individual arg ({@link _expression}s) match the function
+         * Check if all individual arg ({@link _expr}s) match the function
          * @param matchFn
          * @return
          */
-        default boolean allArguments( Predicate<_expression> matchFn){
+        default boolean allArguments( Predicate<_expr> matchFn){
             return listArguments().stream().allMatch(matchFn);
         }
 
-        default _expression getArgument(int index){
-            return _expression.of( ((NodeWithArguments)ast()).getArgument(index) );
+        default _expr getArgument(int index){
+            return _expr.of( ((NodeWithArguments)ast()).getArgument(index) );
         }
 
         default _WA removeArgument(int index){
@@ -320,7 +296,7 @@ public final class _arguments
             return (_WA)this;
         }
 
-        default _WA setArgument(int index, _expression _e){
+        default _WA setArgument(int index, _expr _e){
             ((NodeWithArguments)ast()).getArguments().set(index, _e.ast());
             return (_WA)this;
         }
@@ -331,27 +307,27 @@ public final class _arguments
         }
 
         default _WA setArgument(int index, boolean b){
-            return setArgument(index, Expressions.of(b));
+            return setArgument(index, Exprs.of(b));
         }
 
         default _WA setArgument(int index, int i){
-            return setArgument(index, Expressions.of(i));
+            return setArgument(index, Exprs.of(i));
         }
 
         default _WA setArgument(int index, char c){
-            return setArgument(index, Expressions.of(c));
+            return setArgument(index, Exprs.of(c));
         }
 
         default _WA setArgument(int index, float f){
-            return setArgument(index, Expressions.of(f));
+            return setArgument(index, Exprs.of(f));
         }
 
         default _WA setArgument(int index, long l){
-            return setArgument(index, Expressions.of(l));
+            return setArgument(index, Exprs.of(l));
         }
 
         default _WA setArgument(int index, double d){
-            return setArgument(index, Expressions.of(d));
+            return setArgument(index, Exprs.of(d));
         }
 
         default _WA setArguments(_arguments _as){
@@ -359,7 +335,7 @@ public final class _arguments
             return (_WA)this;
         }
 
-        default _WA setArguments(_expression... _es){
+        default _WA setArguments(_expr... _es){
             NodeList<Expression> nle = new NodeList<>();
             Arrays.stream(_es).forEach(n -> nle.add(n.ast()));
             ((NodeWithArguments)ast()).setArguments(nle);
@@ -381,41 +357,41 @@ public final class _arguments
             return ((NodeWithArguments)ast()).getArguments().size();
         }
 
-        default int countArguments(Predicate<_expression> matchFn){
+        default int countArguments(Predicate<_expr> matchFn){
             return listArguments(matchFn).size();
         }
 
-        default List<_expression> listArguments(){
-            List<_expression> args = new ArrayList<>();
-            ((NodeWithArguments)ast()).getArguments().forEach(a -> args.add(_expression.of( (Expression)a)));
+        default List<_expr> listArguments(){
+            List<_expr> args = new ArrayList<>();
+            ((NodeWithArguments)ast()).getArguments().forEach(a -> args.add(_expr.of( (Expression)a)));
             return args;
         }
 
-        default List<_expression> listArguments(Predicate<_expression> matchFn){
+        default List<_expr> listArguments(Predicate<_expr> matchFn){
             return listArguments().stream().filter(matchFn).collect(Collectors.toList());
         }
 
         default boolean isArguments(String... es){
-            _expression[] _es = new _expression[es.length];
+            _expr[] _es = new _expr[es.length];
             for(int i=0;i<es.length;i++){
-                _es[i] = _expression.of(es[i]);
+                _es[i] = _expr.of(es[i]);
             }
             return isArguments(_es);
         }
 
         default boolean isArguments(Expression... es){
-            _expression[] _es = new _expression[es.length];
+            _expr[] _es = new _expr[es.length];
             for(int i=0;i<es.length;i++){
-                _es[i] = _expression.of(es[i]);
+                _es[i] = _expr.of(es[i]);
             }
             return isArguments(_es);
         }
 
-        default boolean isArguments(_expression... _es){
-            List<_expression> _tes = listArguments();
+        default boolean isArguments(_expr... _es){
+            List<_expr> _tes = listArguments();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
-                    if( ! Expressions.equal(  _es[i].ast(), _tes.get(i).ast() ) ){
+                    if( ! Exprs.equal(  _es[i].ast(), _tes.get(i).ast() ) ){
                         return false;
                     }
                 }
@@ -424,40 +400,40 @@ public final class _arguments
             return false;
         }
 
-        default boolean isArguments(Predicate<List<_expression>> matchFn){
+        default boolean isArguments(Predicate<List<_expr>> matchFn){
             return matchFn.test( listArguments() );
         }
 
 
         default boolean isArgument(int index, boolean b){
-            return isArgument(index, Expressions.of(b));
+            return isArgument(index, Exprs.of(b));
         }
 
 
 
         default boolean isArgument(int index, int i){
-            return isArgument(index, Expressions.of(i));
+            return isArgument(index, Exprs.of(i));
         }
 
         default boolean isArgument(int index, char c){
-            return isArgument(index, Expressions.of(c));
+            return isArgument(index, Exprs.of(c));
         }
 
         default boolean isArgument(int index, float f){
-            return isArgument(index, Expressions.of(f));
+            return isArgument(index, Exprs.of(f));
         }
 
         default boolean isArgument(int index, long l){
-            return isArgument(index, Expressions.of(l));
+            return isArgument(index, Exprs.of(l));
         }
 
         default boolean isArgument(int index, double d){
-            return isArgument(index, Expressions.of(d));
+            return isArgument(index, Exprs.of(d));
         }
 
         default boolean isArgument(int index, String exprString){
             try {
-                return Expressions.equal( getArgument(index).ast(), Expressions.of(exprString));
+                return Exprs.equal( getArgument(index).ast(), Exprs.of(exprString));
             }catch(Exception e){
                 return false;
             }
@@ -465,7 +441,7 @@ public final class _arguments
 
         default boolean isArgument(int index, Expression e){
             try {
-                return Expressions.equal( getArgument(index).ast(), e);
+                return Exprs.equal( getArgument(index).ast(), e);
             }catch(Exception ex){
                 return false;
             }
@@ -477,7 +453,7 @@ public final class _arguments
          * @param expressionClasses
          * @return
          */
-        default boolean isArgument(int index, Class<? extends _expression>...expressionClasses ){
+        default boolean isArgument(int index, Class<? extends _expr>...expressionClasses ){
             try{
                 return Arrays.stream(expressionClasses).anyMatch(ec-> ec.isAssignableFrom(getArgument(index).getClass()));
             }catch(Exception e){
@@ -485,40 +461,40 @@ public final class _arguments
             }
         }
 
-        default boolean isArgument(int index, _expression _e){
+        default boolean isArgument(int index, _expr _e){
             try {
-                return Expressions.equal( getArgument(index).ast(), _e.ast());
+                return Exprs.equal( getArgument(index).ast(), _e.ast());
             }catch(Exception e){
                 return false;
             }
         }
 
-        default boolean isArgument(int index, Predicate<_expression> pe){
+        default boolean isArgument(int index, Predicate<_expr> pe){
             return pe.test( getArgument(index) );
         }
 
         default _WA addArgument(int i){
-            return addArgument( Expressions.of(i) );
+            return addArgument( Exprs.of(i) );
         }
 
         default _WA addArgument(boolean b){
-            return addArgument( Expressions.of(b) );
+            return addArgument( Exprs.of(b) );
         }
 
         default _WA addArgument(float f){
-            return addArgument( Expressions.of(f) );
+            return addArgument( Exprs.of(f) );
         }
 
         default _WA addArgument(long l){
-            return addArgument( Expressions.of(l) );
+            return addArgument( Exprs.of(l) );
         }
 
         default _WA addArgument(double d){
-            return addArgument( Expressions.of(d) );
+            return addArgument( Exprs.of(d) );
         }
 
         default _WA addArgument(char c){
-            return addArgument( Expressions.of(c) );
+            return addArgument( Exprs.of(c) );
         }
 
         default _WA addArgument(Expression e){
@@ -535,7 +511,7 @@ public final class _arguments
             return (_WA)this;
         }
 
-        default _WA addArguments(_expression... _es){
+        default _WA addArguments(_expr... _es){
             Arrays.stream(_es).forEach(_e -> ((NodeWithArguments)ast()).addArgument(_e.ast()));
             return (_WA)this;
         }
@@ -549,12 +525,12 @@ public final class _arguments
             ((NodeWithArguments)ast()).getArguments().remove(index);
             return (_WA)this;
         }
-        default _WA removeArguments(Predicate<_expression> matchFn){
+        default _WA removeArguments(Predicate<_expr> matchFn){
             ((NodeWithArguments)ast()).getArguments().removeIf(matchFn);
             return (_WA)this;
         }
 
-        default _WA removeArguments(_expression... es){
+        default _WA removeArguments(_expr... es){
             for(int i=0;i<es.length;i++){
                 ((NodeWithArguments)ast()).getArguments().remove(es[i].ast());
             }
@@ -568,16 +544,16 @@ public final class _arguments
             return (_WA)this;
         }
 
-        default _WA forArguments(Consumer<_expression> argFn){
-            ((NodeWithArguments)ast()).getArguments().stream().map( a-> _expression.of( (Expression)a))
-                    .forEach(e->  argFn.accept( (_expression)e) );
+        default _WA forArguments(Consumer<_expr> argFn){
+            ((NodeWithArguments)ast()).getArguments().stream().map( a-> _expr.of( (Expression)a))
+                    .forEach(e->  argFn.accept( (_expr)e) );
             return (_WA)this;
         }
 
-        default _WA forArguments(Predicate<_expression> expressionMatchFn, Consumer<_expression> argFn){
+        default _WA forArguments(Predicate<_expr> expressionMatchFn, Consumer<_expr> argFn){
             ((NodeWithArguments)ast()).getArguments().stream()
-                    .map( a-> _expression.of( (Expression)a))
-                    .filter(expressionMatchFn).forEach(e->  argFn.accept( (_expression)e) );
+                    .map( a-> _expr.of( (Expression)a))
+                    .filter(expressionMatchFn).forEach(e->  argFn.accept( (_expr)e) );
             return (_WA)this;
         }
     }

@@ -8,14 +8,11 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.PrimitiveType;
-import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
 import java.io.IOException;
-import java.util.function.Predicate;
 
 public class AutoCompleteTest extends TestCase {
 
@@ -40,7 +37,7 @@ public class AutoCompleteTest extends TestCase {
 
         //target
         // (Integer a)-> System.out.println(a);
-        _lambda _l = _lambda.of( (Integer a)-> { System.out.println(a); });
+        _lambdaExpr _l = _lambdaExpr.of( (Integer a)-> { System.out.println(a); });
 
 
         assertEquals( l, _l.ast() );
@@ -230,7 +227,7 @@ public class AutoCompleteTest extends TestCase {
     }
     public void testT(){
         assertTrue(_class.of("C").listAllJavadocComments().isEmpty());
-        assertFalse(_char.of('c').is( c->Character.isUpperCase(c.getValue()) ));
+        assertFalse(_charExpr.of('c').is(c->Character.isUpperCase(c.getValue()) ));
 
         assertTrue(_catch.of("catch(IOException ioe){}").isParameter(p-> p.isTypeRef(IOException.class)));
 
@@ -246,10 +243,10 @@ public class AutoCompleteTest extends TestCase {
             for(int i=0;i<100; i++){
                 System.out.println("For Statement");
             }
-        }).isCompare(c-> c instanceof _binaryExpression )); //isCompare
+        }).isCompare(c-> c instanceof _binaryExpr)); //isCompare
 
         assertEquals(1, _forStmt.of(()-> { for(int i=0;i<100; i++){} })
-                .listUpdates(_unary.class)
+                .listUpdates(_unaryExpr.class)
                 .size());
     }
 }

@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 
-public final class _synchronizedStmt implements _statement<SynchronizedStmt, _synchronizedStmt>,
+public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchronizedStmt>,
         _body._hasBody<_synchronizedStmt>,
         _java._multiPart<SynchronizedStmt, _synchronizedStmt>,
         _java._withExpression<SynchronizedStmt, _synchronizedStmt> {
@@ -24,7 +24,7 @@ public final class _synchronizedStmt implements _statement<SynchronizedStmt, _sy
         return new _synchronizedStmt( ss);
     }
     public static _synchronizedStmt of(String...code){
-        return new _synchronizedStmt(Statements.synchronizedStmt(code));
+        return new _synchronizedStmt(Stmts.synchronizedStmt(code));
     }
 
     private SynchronizedStmt astStmt;
@@ -47,7 +47,7 @@ public final class _synchronizedStmt implements _statement<SynchronizedStmt, _sy
             }
         };
         try{
-            return is( Statements.synchronizedStmt(stringRep));
+            return is( Stmts.synchronizedStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

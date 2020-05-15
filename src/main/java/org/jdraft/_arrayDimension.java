@@ -15,7 +15,7 @@ import java.util.Objects;
  *  [arrs.length] a fieldAccessExpression denoted dimension
  *  [getY()] a methodCallExpr denoted dimension
  *
- * @see _arrayCreate where we use these _arrayDimensions to declare arrays
+ * @see _arrayCreateExpr where we use these _arrayDimensions to declare arrays
  */
 public final class _arrayDimension implements _java._uniPart<ArrayCreationLevel, _arrayDimension>,
         _java._withExpression<ArrayCreationLevel, _arrayDimension> {
@@ -25,7 +25,7 @@ public final class _arrayDimension implements _java._uniPart<ArrayCreationLevel,
     }
 
     public static _arrayDimension of(int index){
-        return new _arrayDimension(new ArrayCreationLevel().setDimension( Expressions.of(index) ));
+        return new _arrayDimension(new ArrayCreationLevel().setDimension( Exprs.of(index) ));
     }
 
     public static _arrayDimension of(){
@@ -41,14 +41,14 @@ public final class _arrayDimension implements _java._uniPart<ArrayCreationLevel,
         if( s.startsWith("[") ){
             s = s.substring(1, s.length() - 1);
         }
-        return of( Expressions.of(s));
+        return of( Exprs.of(s));
     }
 
     public static _arrayDimension of(Expression e){
         return new _arrayDimension(new ArrayCreationLevel().setDimension( e ));
     }
 
-    public static _arrayDimension of(_expression _e){
+    public static _arrayDimension of(_expr _e){
         return new _arrayDimension(new ArrayCreationLevel().setDimension( _e.ast() ));
     }
 
@@ -66,20 +66,20 @@ public final class _arrayDimension implements _java._uniPart<ArrayCreationLevel,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Expressions.arrayCreationLevel(stringRep));
+            return is( Exprs.arrayCreationLevel(stringRep));
         } catch(Exception e){
             return false;
         }
     }
 
-    public _expression getExpression(){
+    public _expr getExpression(){
         if( this.astNode.getDimension() != null ) {
-            return _expression.of(this.astNode.getDimension().get());
+            return _expr.of(this.astNode.getDimension().get());
         }
         return null;
     }
     public _arrayDimension setExpression(String... dimension){
-        this.astNode.setDimension(Expressions.of(dimension));
+        this.astNode.setDimension(Exprs.of(dimension));
         return this;
     }
 
@@ -88,7 +88,7 @@ public final class _arrayDimension implements _java._uniPart<ArrayCreationLevel,
         return this;
     }
 
-    public _arrayDimension setExpression(_expression dimension){
+    public _arrayDimension setExpression(_expr dimension){
         this.astNode.setDimension(dimension.ast());
         return this;
     }

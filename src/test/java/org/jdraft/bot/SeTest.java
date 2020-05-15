@@ -14,34 +14,34 @@ public class SeTest extends TestCase {
 	
 	public void testConstruct() {
 		//any match
-		assertTrue( $expression.of().matches("1"));
+		assertTrue( $expr.of().matches("1"));
 		
 		//with String
-		assertTrue( $expression.of("1").matches("1"));
+		assertTrue( $expr.of("1").matches("1"));
 		
 		//with _expression
-		assertTrue( $expression.of(_expression.of("1")).matches("1"));
+		assertTrue( $expr.of(_expr.of("1")).matches("1"));
 		
 		//with Expression
-		assertTrue( $expression.of(Expressions.of("1")).matches("1"));
+		assertTrue( $expr.of(Exprs.of("1")).matches("1"));
 		
 		//with Lambda
-		assertTrue( $e.of().$and(e-> e instanceof _int).matches("1"));
+		assertTrue( $e.of().$and(e-> e instanceof _intExpr).matches("1"));
 		
 		//with Stencil
 		assertTrue( $e.of(Stencil.of("1")).matches("1"));		
 		
 		//with expression classes
-		assertFalse( $e.of( _int.class, _long.class).matches("null") );
+		assertFalse( $e.of( _intExpr.class, _longExpr.class).matches("null") );
 		
-		assertTrue( $e.of( _int.class, _long.class).matches("1") );
-		assertTrue( $e.of( _int.class, _long.class).matches(Long.MAX_VALUE+"L") );
-		assertTrue( $e.of( _int.class, _long.class).matches(new LongLiteralExpr(Long.MIN_VALUE)) );
+		assertTrue( $e.of( _intExpr.class, _longExpr.class).matches("1") );
+		assertTrue( $e.of( _intExpr.class, _longExpr.class).matches(Long.MAX_VALUE+"L") );
+		assertTrue( $e.of( _intExpr.class, _longExpr.class).matches(new LongLiteralExpr(Long.MIN_VALUE)) );
 		
 		//with interface
-		assertTrue( $e.of( _expression._literal.class).matches("1") );
-		assertTrue( $e.of( _expression._literal.class).matches(Long.MAX_VALUE+"L") );
-		assertTrue( $e.of( _expression._literal.class).matches(new LongLiteralExpr(Long.MIN_VALUE)) );		
+		assertTrue( $e.of( _expr._literal.class).matches("1") );
+		assertTrue( $e.of( _expr._literal.class).matches(Long.MAX_VALUE+"L") );
+		assertTrue( $e.of( _expr._literal.class).matches(new LongLiteralExpr(Long.MIN_VALUE)) );
 	}
 	
 	public void test$and() {
@@ -65,30 +65,30 @@ public class SeTest extends TestCase {
 	
 	public void testAnyMatch() {
 		//make sure it matches all different types of expressions
-		Expression e = Expressions.of("@Ann('c')");
+		Expression e = Exprs.of("@Ann('c')");
 		System.out.println( e );
-		assertTrue( $expression.of().matches("@Ann('c')") );
-		assertTrue( $expression.of().matches("100"));
-		assertTrue( $expression.of().matches("null"));
-		assertTrue( $expression.of().matches("100 + 2"));
-		assertTrue( $expression.of().matches("true"));
-		assertTrue( $expression.of().matches("!true"));
-		assertTrue( $expression.of().matches("(12 - a)"));
-		assertTrue( $expression.of().matches("call()"));
-		assertTrue( $expression.of().matches("(a)-> print(3);"));
+		assertTrue( $expr.of().matches("@Ann('c')") );
+		assertTrue( $expr.of().matches("100"));
+		assertTrue( $expr.of().matches("null"));
+		assertTrue( $expr.of().matches("100 + 2"));
+		assertTrue( $expr.of().matches("true"));
+		assertTrue( $expr.of().matches("!true"));
+		assertTrue( $expr.of().matches("(12 - a)"));
+		assertTrue( $expr.of().matches("call()"));
+		assertTrue( $expr.of().matches("(a)-> print(3);"));
 		
-		assertTrue( $expression.of().matches((_expression)null)); //"(a)-> print(3);"));
+		assertTrue( $expr.of().matches((_expr)null)); //"(a)-> print(3);"));
 		
-		assertFalse( $expression.of().matches("private class F{}")); //this is not ANY expression
+		assertFalse( $expr.of().matches("private class F{}")); //this is not ANY expression
 	}
 	
 	public void testConstructMatch() {
-		assertTrue($expression.of("100").matches("100"));
-		assertFalse($expression.of("100").matches("200"));
-		assertFalse($expression.of("100").matches("null"));
-		assertTrue($expression.of(_int.of(1)).matches("1"));
-		assertTrue($e.of().$and(e-> e instanceof _int).matches("123"));
-		assertFalse($expression.of(_int.of(1)).matches("null"));
+		assertTrue($expr.of("100").matches("100"));
+		assertFalse($expr.of("100").matches("200"));
+		assertFalse($expr.of("100").matches("null"));
+		assertTrue($expr.of(_intExpr.of(1)).matches("1"));
+		assertTrue($e.of().$and(e-> e instanceof _intExpr).matches("123"));
+		assertFalse($expr.of(_intExpr.of(1)).matches("null"));
 	}
 
 }

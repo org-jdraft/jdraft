@@ -120,7 +120,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoRef)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoExpr)a) ) != null;
                 $and( pf  );
             }
             else if( parts[i] instanceof $annoRefs){
@@ -216,7 +216,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoRef)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoExpr)a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
@@ -377,7 +377,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return this.annos;
     }
 
-    public $type $annos(Predicate<_annoRefs> annosMatchFn){
+    public $type $annos(Predicate<_annoExprs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

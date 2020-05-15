@@ -248,9 +248,9 @@ public class TreeTest extends TestCase {
 
 
         //PRE ORDER processes ROOT NODES FIRST (then leaves)
-        List<_annoRefs._withAnnoRefs> a = new ArrayList<>();
+        List<_annoExprs._withAnnoExprs> a = new ArrayList<>();
         //_java.walk(Node.TreeTraversal.PREORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
-        Tree.preOrder(ast, _annoRefs._withAnnoRefs.class, n-> n.hasAnnoRef(ann.class), n-> a.add(n));
+        Tree.preOrder(ast, _annoExprs._withAnnoExprs.class, n-> n.hasAnnoRef(ann.class), n-> a.add(n));
         assertEquals( 5, a.size());
         assertTrue( a.get(0).getAnnoRefs().is("@ann(\"class\")") );
         assertTrue( a.get(1).getAnnoRefs().is("@ann(\"field\")") );
@@ -260,7 +260,7 @@ public class TreeTest extends TestCase {
         a.clear();
 
         //for POST ORDER THE LEAF NODES ARE PROCESSED FIRST
-        Tree.postOrder(ast, _annoRefs._withAnnoRefs.class, n-> n.hasAnnoRef(ann.class), n-> a.add(n));
+        Tree.postOrder(ast, _annoExprs._withAnnoExprs.class, n-> n.hasAnnoRef(ann.class), n-> a.add(n));
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
 
         assertEquals( 5, a.size());

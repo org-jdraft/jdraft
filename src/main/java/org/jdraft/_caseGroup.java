@@ -8,7 +8,6 @@ import com.github.javaparser.ast.type.Type;
 import org.jdraft.text.Text;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
@@ -65,38 +64,38 @@ public final class _caseGroup implements _java._domain{
          return _ss.listCaseGroups().get(0);
     }
 
-    public static <A extends Object> _caseGroup of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _caseGroup of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _caseGroup of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _caseGroup of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _caseGroup of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _caseGroup of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _caseGroup of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _caseGroup of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _caseGroup from( LambdaExpr le){
@@ -109,7 +108,7 @@ public final class _caseGroup implements _java._domain{
         Optional<SwitchExpr> ses = le.getBody().findFirst(SwitchExpr.class);
         if( ses.isPresent() ){
             SwitchExpr se = ses.get();
-            _switchExpression _se = _switchExpression.of(se);
+            _switchExpr _se = _switchExpr.of(se);
             return _se.listCaseGroups().get(0);
         }
         throw new _jdraftException("No switch/case found in lambda");
@@ -131,13 +130,13 @@ public final class _caseGroup implements _java._domain{
     }
 
     //note this
-    public List<_statement> getStatements(){
+    public List<_stmt> getStatements(){
         Optional<SwitchEntry> ose =
                 switchEntries.stream().filter( se -> !se.getStatements().isEmpty()).findFirst();
         if( !ose.isPresent()){
             throw new RuntimeException("Invalid _caseGroup in switch... no active entry (witch statement(s)/expression) ");
         }
-        return ose.get().getStatements().stream().map(s -> _statement.of(s)).collect(Collectors.toList());
+        return ose.get().getStatements().stream().map(s -> _stmt.of(s)).collect(Collectors.toList());
     }
 
     /**
@@ -203,48 +202,48 @@ public final class _caseGroup implements _java._domain{
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _caseGroup setStatements(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+    public _caseGroup setStatements(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2] );
         return setStatements(le);
     }
 
     public <A extends Object> _caseGroup setStatements (Consumer<A> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _caseGroup setStatements (Function<A,B> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _caseGroup setStatements(BiFunction<A,B,C> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup setStatements (Expressions.TriFunction<A,B,C, D> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup setStatements (Exprs.TriFunction<A,B,C, D> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup setStatements (Expressions.QuadFunction<A,B,C, D,E> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup setStatements (Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _caseGroup setStatements(BiConsumer<A,B> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _caseGroup setStatements(Expressions.TriConsumer<A,B,C> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object> _caseGroup setStatements(Exprs.TriConsumer<A,B,C> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup setStatements(Expressions.QuadConsumer<A,B,C,D> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup setStatements(Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
@@ -280,7 +279,7 @@ public final class _caseGroup implements _java._domain{
         return this;
     }
 
-    public _caseGroup setStatements(_statement...st){
+    public _caseGroup setStatements(_stmt...st){
         NodeList<Statement>stmts = new NodeList<>();
         Arrays.stream(st).forEach(s -> stmts.add(s.ast()));
         this.getOrCreateActiveEntry().setStatements(stmts);
@@ -292,48 +291,48 @@ public final class _caseGroup implements _java._domain{
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _caseGroup addStatements(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+    public _caseGroup addStatements(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2] );
         return addStatements(le);
     }
 
     public <A extends Object> _caseGroup addStatements (Consumer<A> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _caseGroup addStatements (Function<A,B> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _caseGroup addStatements(BiFunction<A,B,C> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup addStatements (Expressions.TriFunction<A,B,C, D> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _caseGroup addStatements (Exprs.TriFunction<A,B,C, D> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup addStatements (Expressions.QuadFunction<A,B,C, D,E> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _caseGroup addStatements (Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _caseGroup addStatements(BiConsumer<A,B> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _caseGroup addStatements(Expressions.TriConsumer<A,B,C> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object> _caseGroup addStatements(Exprs.TriConsumer<A,B,C> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup addStatements(Expressions.QuadConsumer<A,B,C,D> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _caseGroup addStatements(Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
@@ -390,7 +389,7 @@ public final class _caseGroup implements _java._domain{
         return this;
     }
 
-    public _caseGroup addStatements(_statement...st){
+    public _caseGroup addStatements(_stmt...st){
         for(int i=0; i<st.length;i++) {
             this.getOrCreateActiveEntry().addStatement(st[i].ast());
         }
@@ -416,7 +415,7 @@ public final class _caseGroup implements _java._domain{
      * @param st
      * @return
      */
-    public _caseGroup addStatements(int index, _statement...st){
+    public _caseGroup addStatements(int index, _stmt...st){
         for(int i=0;i<st.length;i++){
             this.getOrCreateActiveEntry().addStatement(index + i, st[i].ast() );
         }
@@ -454,38 +453,38 @@ public final class _caseGroup implements _java._domain{
     }
 
     public boolean isReturn(double d){
-        return isReturn( Expressions.of(d));
+        return isReturn( Exprs.of(d));
     }
 
     public boolean isReturn(float f){
-        return isReturn( Expressions.of(f));
+        return isReturn( Exprs.of(f));
     }
 
     public boolean isReturn(boolean b){
-        return isReturn( Expressions.of(b));
+        return isReturn( Exprs.of(b));
     }
 
     public boolean isReturn(char c){
-        return isReturn( Expressions.of(c));
+        return isReturn( Exprs.of(c));
     }
 
     public boolean isReturn(long l){
-        return isReturn( Expressions.of(l));
+        return isReturn( Exprs.of(l));
     }
 
     public boolean isReturn(int i){
-        return isReturn( Expressions.of(i));
+        return isReturn( Exprs.of(i));
     }
 
     public boolean isReturn(String str){
         try{
-            return isReturn( Expressions.of(str));
+            return isReturn( Exprs.of(str));
         } catch(Exception e){
             return false;
         }
     }
 
-    public boolean isReturn(_expression e){
+    public boolean isReturn(_expr e){
         return isReturn( e.ast());
     }
 
@@ -495,7 +494,7 @@ public final class _caseGroup implements _java._domain{
             if( se.getStatement(se.getStatements().size() - 1) instanceof ReturnStmt){
                 ReturnStmt rs = (ReturnStmt)se.getStatement(se.getStatements().size() - 1);
                 if( rs.getExpression().isPresent() ){
-                    return Expressions.equal(rs.getExpression().get(), e);
+                    return Exprs.equal(rs.getExpression().get(), e);
                 }
                 return e == null;
             }
@@ -504,7 +503,7 @@ public final class _caseGroup implements _java._domain{
                 if( (bs.getStatements().size() > 0) && (bs.getStatement(bs.getStatements().size()) instanceof ReturnStmt ) ){
                     ReturnStmt rs = (ReturnStmt)bs.getStatement(se.getStatements().size() - 1);
                     if( rs.getExpression().isPresent() ){
-                        return Expressions.equal(rs.getExpression().get(), e);
+                        return Exprs.equal(rs.getExpression().get(), e);
                     }
                     return e == null;
                 }
@@ -617,7 +616,7 @@ public final class _caseGroup implements _java._domain{
         return addCase( new NameExpr(e.name()));
     }
 
-    public _caseGroup addCase(_expression _e){
+    public _caseGroup addCase(_expr _e){
         return addCase(_e.ast());
     }
 
@@ -673,7 +672,7 @@ public final class _caseGroup implements _java._domain{
         return hasCase( new NameExpr( e.name() ) );
     }
 
-    public boolean hasCase(_expression _e){
+    public boolean hasCase(_expr _e){
         return hasCase(_e.ast());
     }
 
@@ -705,33 +704,33 @@ public final class _caseGroup implements _java._domain{
      *
      * @return
      */
-    public List<_expression> listCases(){
+    public List<_expr> listCases(){
         //return this.switchEntries.stream().flatMap(se -> se.getLabels().stream()).map(e -> _expression.of(e)).collect(Collectors.toList());
         return listCases( t->true);
     }
 
-    public List<_expression> listCases( Predicate<_expression> matchFn){
-        return this.switchEntries.stream().flatMap(se -> se.getLabels().stream()).map(e -> _expression.of(e)).filter(matchFn).collect(Collectors.toList());
+    public List<_expr> listCases(Predicate<_expr> matchFn){
+        return this.switchEntries.stream().flatMap(se -> se.getLabels().stream()).map(e -> _expr.of(e)).filter(matchFn).collect(Collectors.toList());
     }
 
-    public List<_statement> listStatements(){
+    public List<_stmt> listStatements(){
         return listStatements(t->true);
     }
 
-    public List<_statement> listStatements(Predicate<_statement> _matchFn){
+    public List<_stmt> listStatements(Predicate<_stmt> _matchFn){
         SwitchEntry se = this.getActiveEntry();
         if( se == null ){
             return new ArrayList<>();
         }
-        return se.getStatements().stream().map(s -> _statement.of(s)).filter(_matchFn).collect(Collectors.toList());
+        return se.getStatements().stream().map(s -> _stmt.of(s)).filter(_matchFn).collect(Collectors.toList());
     }
 
-    public _statement getStatement(int index){
+    public _stmt getStatement(int index){
         SwitchEntry se = this.getActiveEntry();
         if( se == null ){
             return null;
         }
-        return _statement.of(se.getStatement(index));
+        return _stmt.of(se.getStatement(index));
     }
 
     public _caseGroup sort(Comparator<? super SwitchEntry> cse){
@@ -740,7 +739,7 @@ public final class _caseGroup implements _java._domain{
         NodeList<SwitchEntry> ses = parentSwitch.getEntries();
         int firstIndex = this.switchEntries.stream().map(se -> ses.indexOf(se) ).min(Integer::compareTo).get();
 
-        List<_statement> sts = getStatements();
+        List<_stmt> sts = getStatements();
         //System.out.println("THE FIRST INDEX IS "+firstIndex);
 
         this.switchEntries.sort(cse);
@@ -753,7 +752,7 @@ public final class _caseGroup implements _java._domain{
             SwitchEntry stripped =  switchEntries.get(i).setStatements(new NodeList<>());
             ses.add(firstIndex+i,stripped);
             if( i == switchEntries.size() -1 ){
-                _switchEntry.of(stripped).setStatements(sts.toArray(new _statement[0]));
+                _switchEntry.of(stripped).setStatements(sts.toArray(new _stmt[0]));
             }
         }
         return this;
@@ -764,8 +763,8 @@ public final class _caseGroup implements _java._domain{
             return false;
         }
         _caseGroup cg = (_caseGroup)o;
-        Set<_expression> cct = new HashSet<>();
-        Set<_expression> cco = new HashSet<>();
+        Set<_expr> cct = new HashSet<>();
+        Set<_expr> cco = new HashSet<>();
         cct.addAll(this.listCases());
         cco.addAll(cg.listCases());
 
@@ -778,7 +777,7 @@ public final class _caseGroup implements _java._domain{
         //i.e. these are the same logically
         // case 1: case 2: case 3:
         // case 3: case 2: case 1:
-        Set<_expression> caseConstants = new HashSet<>();
+        Set<_expr> caseConstants = new HashSet<>();
         caseConstants.addAll(listCases());
         return Objects.hash( caseConstants, listStatements());
     }

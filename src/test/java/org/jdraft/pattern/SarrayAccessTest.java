@@ -1,7 +1,6 @@
 package org.jdraft.pattern;
 
 import junit.framework.TestCase;
-import org.jdraft._nameExpression;
 
 public class SarrayAccessTest extends TestCase {
 

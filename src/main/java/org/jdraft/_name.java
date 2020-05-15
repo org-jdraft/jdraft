@@ -79,7 +79,7 @@ public final class _name implements _java._uniPart<Node, _name> {
             return of( new SimpleName(str) );
         }
         if( str.contains("::")){
-            return of( Expressions.methodReferenceEx(str));
+            return of( Exprs.methodReferenceEx(str));
         }
         return of( new Name(str) );
 

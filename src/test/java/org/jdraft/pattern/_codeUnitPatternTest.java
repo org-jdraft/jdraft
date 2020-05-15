@@ -97,7 +97,7 @@ public class _codeUnitPatternTest extends TestCase {
                 //.$hasAncestor($.of(VariableDeclarator.class));
 
         //3) find
-        $ex<MethodCallExpr, _methodCall, $ex> $mce = $.methodCall("$prefix$foo($any$)");
+        $ex<MethodCallExpr, _methodCallExpr, $ex> $mce = $.methodCall("$prefix$foo($any$)");
 
         //$varAssignment.hardcode$($args);
 

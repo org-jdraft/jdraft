@@ -14,8 +14,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class _doStmt implements _statement._controlFlow._loop<DoStmt, _doStmt>,
-        _statement._controlFlow._branching<DoStmt, _doStmt>,
+public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
+        _stmt._controlFlow._branching<DoStmt, _doStmt>,
         _java._multiPart<DoStmt, _doStmt>,
         _java._withCondition<DoStmt,_doStmt>,
         _body._hasBody<_doStmt> {
@@ -27,41 +27,41 @@ public final class _doStmt implements _statement._controlFlow._loop<DoStmt, _doS
         return new _doStmt(ds);
     }
     public static _doStmt of(String...code){
-        return new _doStmt(Statements.doStmt( code));
+        return new _doStmt(Stmts.doStmt( code));
     }
 
-    public static <A extends Object> _doStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _doStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _doStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _doStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _doStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _doStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _doStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _doStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _doStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _doStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _doStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _doStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _doStmt from( LambdaExpr le){
@@ -86,7 +86,7 @@ public final class _doStmt implements _statement._controlFlow._loop<DoStmt, _doS
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.doStmt(stringRep));
+            return is( Stmts.doStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -134,7 +134,7 @@ public final class _doStmt implements _statement._controlFlow._loop<DoStmt, _doS
         return this;
     }
 
-    public _doStmt setBody(_statement _st){
+    public _doStmt setBody(_stmt _st){
         this.astStmt.setBody(_st.ast());
         return this;
     }

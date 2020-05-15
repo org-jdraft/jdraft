@@ -19,7 +19,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
 
     interface $part{}
 
-    public static $parameter of(Expressions.Command lambdaWithParameter ){
+    public static $parameter of(Exprs.Command lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -35,11 +35,11 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Expressions.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $parameter of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Expressions.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $parameter of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -51,11 +51,11 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Expressions.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $parameter of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Expressions.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $parameter of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -104,7 +104,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return of()
                 .$name(_p.getName())
                 .$typeRef(_p.getTypeRef())
-                .$annoRefs($annoRefs.as(_p.ast()))
+                .$annoRefs($annoExprs.as(_p.ast()))
                 .$isVarArg(_p.isVarArg())
                 .$isFinal(_p.isFinal());
     }
@@ -245,8 +245,8 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
             Select.$feature.of( _parameter.class, _annoRefs.class, "annoRefs", p->p.getAnnoRefs());
 
      */
-    public Select.$botFeature<$annoRefs, _parameter, _annoRefs> annoRefs =
-            Select.$botFeature.of(_parameter.class, _annoRefs.class, "annoRefs", p-> p.getAnnoRefs() );
+    public Select.$botFeature<$annoExprs, _parameter, _annoExprs> annoRefs =
+            Select.$botFeature.of(_parameter.class, _annoExprs.class, "annoRefs", p-> p.getAnnoRefs() );
 
     public Select.$botFeature<$typeRef, _parameter, _typeRef> type =
             Select.$botFeature.of(_parameter.class, _typeRef.class, "type", p-> p.getTypeRef() );
@@ -264,7 +264,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
 
     public $parameter(_parameter _p){
         if( _p.hasAnnoRefs() ) {
-            annoRefs.setBot( $annoRefs.of(_p.ast()) );
+            annoRefs.setBot( $annoExprs.of(_p.ast()) );
             //annoRefs.setSelector($annoRefs.of(_p.ast()));
         }
         name.setBot( $name.of(_p.getName()) );
@@ -453,13 +453,13 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return this;
     }
 
-    public $parameter $annoRefs($annoRefs $arfs){
+    public $parameter $annoRefs($annoExprs $arfs){
         this.annoRefs.setBot($arfs);
         return this;
     }
 
-    public $parameter $annoRefs( $annoRef...$ars){
-        this.annoRefs.setBot( $annoRefs.of($ars));
+    public $parameter $annoRefs( $annoExpr...$ars){
+        this.annoRefs.setBot( $annoExprs.of($ars));
         return this;
     }
 

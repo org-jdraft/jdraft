@@ -173,7 +173,7 @@ public class IntelliJStructuralSearchTest{
         //Expressions
 
         //all expressions of some type
-        __( $ex.of(_lambda.class) );
+        __( $ex.of(_lambdaExpr.class) );
 
         //all lambdas
         __( $.lambda() );
@@ -220,7 +220,7 @@ public class IntelliJStructuralSearchTest{
 
         //String concatenation with many operands
         __( $.binaryExpr(b-> b.isPlus() &&
-                b.isLeft( _string.class ) || b.isRight( _string.class )) );
+                b.isLeft( _stringExpr.class ) || b.isRight( _stringExpr.class )) );
 
         //String literals
         __( $.stringLiteral() );
@@ -292,7 +292,7 @@ public class IntelliJStructuralSearchTest{
 
 
         //literals (accept null, string)
-        __( $.literal().$not(_string.class, _null.class) );
+        __( $.literal().$not(_stringExpr.class, _nullExpr.class) );
 
 
         //$.variable( v-> v. ).$typeRef($primitive).$init($LITERALS)

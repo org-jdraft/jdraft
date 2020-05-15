@@ -98,7 +98,7 @@ public class $nameTest extends TestCase {
         assertEquals( 0, $name.of("varName").$matchVariableNames(false)
                 .countIn(_field.of(JavaParser.class, "varName") ));
 
-        Print.tree(_methodRef.of("System.out::println").ast());
+        Print.tree(_methodRefExpr.of("System.out::println").ast());
         /*
         //method referenced
         assertEquals( 1, $name.of("System.out")

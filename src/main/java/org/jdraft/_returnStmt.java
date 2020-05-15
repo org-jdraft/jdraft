@@ -6,7 +6,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public final class _returnStmt implements _statement._controlFlow._signal<ReturnStmt, _returnStmt>,
+public final class _returnStmt implements _stmt._controlFlow._signal<ReturnStmt, _returnStmt>,
         _java._withExpression<ReturnStmt, _returnStmt>,
         _java._uniPart<ReturnStmt, _returnStmt> {
 
@@ -18,7 +18,7 @@ public final class _returnStmt implements _statement._controlFlow._signal<Return
         return new _returnStmt( rs);
     }
 
-    public static _returnStmt of(_expression _e){
+    public static _returnStmt of(_expr _e){
         return of().setExpression(_e.ast());
     }
 
@@ -27,14 +27,14 @@ public final class _returnStmt implements _statement._controlFlow._signal<Return
     }
 
     public static _returnStmt of(Enum e ){
-        return of().setExpression(_fieldAccess.of(e.getClass().getCanonicalName()+"."+e.name()).ast());
+        return of().setExpression(_fieldAccessExpr.of(e.getClass().getCanonicalName()+"."+e.name()).ast());
     }
     public static _returnStmt of(int literal){
         return new _returnStmt( new ReturnStmt( new IntegerLiteralExpr(literal)));
     }
 
     public static _returnStmt of(long literal){
-        return new _returnStmt( new ReturnStmt( _long.of(literal).ast()));
+        return new _returnStmt( new ReturnStmt( _longExpr.of(literal).ast()));
     }
 
     public static _returnStmt of(char literal){
@@ -62,7 +62,7 @@ public final class _returnStmt implements _statement._controlFlow._signal<Return
     }
 
     public static _returnStmt of( String...code){
-        return new _returnStmt(Statements.returnStmt( code));
+        return new _returnStmt(Stmts.returnStmt( code));
     }
 
     private ReturnStmt rs;
@@ -79,7 +79,7 @@ public final class _returnStmt implements _statement._controlFlow._signal<Return
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.returnStmt(stringRep));
+            return is( Stmts.returnStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -105,53 +105,53 @@ public final class _returnStmt implements _statement._controlFlow._signal<Return
             return false;
         }
         try{
-            return isExpression(Expressions.of(expression));
+            return isExpression(Exprs.of(expression));
         }catch(Exception e){
             return false;
         }
     }
 
-    public boolean isExpression(_expression _ex){
-        return Expressions.equal( this.getExpression().ast(), _ex.ast());
+    public boolean isExpression(_expr _ex){
+        return Exprs.equal( this.getExpression().ast(), _ex.ast());
     }
 
     public boolean isExpression(Expression ex){
-        return Expressions.equal( this.getExpression().ast(), ex);
+        return Exprs.equal( this.getExpression().ast(), ex);
     }
 
-    public boolean isExpression(Predicate<_expression> matchFn){
+    public boolean isExpression(Predicate<_expr> matchFn){
         return matchFn.test(getExpression());
     }
 
     public boolean isExpression( int i){
-        return isExpression( Expressions.of(i) );
+        return isExpression( Exprs.of(i) );
     }
 
     public boolean isExpression( boolean b){
-        return isExpression( Expressions.of(b) );
+        return isExpression( Exprs.of(b) );
     }
 
     public boolean isExpression( float f){
-        return isExpression( Expressions.of(f) );
+        return isExpression( Exprs.of(f) );
     }
 
     public boolean isExpression( long l){
-        return isExpression( Expressions.of(l) );
+        return isExpression( Exprs.of(l) );
     }
 
     public boolean isExpression( double d){
-        return isExpression( Expressions.of(d) );
+        return isExpression( Exprs.of(d) );
     }
 
     public boolean isExpression( char c){
-        return isExpression( Expressions.of(c) );
+        return isExpression( Exprs.of(c) );
     }
 
     public _returnStmt setExpression(String...expression){
-        return setExpression(Expressions.of(expression));
+        return setExpression(Exprs.of(expression));
     }
 
-    public _returnStmt setExpression(_expression e){
+    public _returnStmt setExpression(_expr e){
         return setExpression(e.ast());
     }
 
@@ -160,9 +160,9 @@ public final class _returnStmt implements _statement._controlFlow._signal<Return
         return this;
     }
 
-    public _expression getExpression(){
+    public _expr getExpression(){
         if( this.hasExpression() ){
-            return _expression.of(this.rs.getExpression().get());
+            return _expr.of(this.rs.getExpression().get());
         }
         return null;
     }

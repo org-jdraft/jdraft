@@ -1,7 +1,7 @@
 package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
-import org.jdraft.Statements;
+import org.jdraft.Stmts;
 import org.jdraft._method;
 import org.jdraft._field;
 import org.jdraft._type;
@@ -81,12 +81,12 @@ public @interface _toString {
             _fs.stream().filter(TO_STRING_FIELDS).forEach( _f  -> {
                 if( _f.isArray() ){
                     if( _f.getElementType().isPrimitive() ){
-                        body.addStatement( Statements.of($arrayOfPrimitives.fill(_f.getName()) ) );
+                        body.addStatement( Stmts.of($arrayOfPrimitives.fill(_f.getName()) ) );
                     }else{
-                        body.addStatement( Statements.of($arrayOfObjects.fill(_f.getName())) );
+                        body.addStatement( Stmts.of($arrayOfObjects.fill(_f.getName())) );
                     }
                 } else{
-                    body.addStatement( Statements.of($simple.fill(_f.getName())) );
+                    body.addStatement( Stmts.of($simple.fill(_f.getName())) );
                 }
             });
             _method _m = _method.of($TO_STRING.draft("className", typeDeclaration.getName(), "body", body ));

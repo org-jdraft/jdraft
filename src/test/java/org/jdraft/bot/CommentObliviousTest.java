@@ -2,8 +2,6 @@ package org.jdraft.bot;
 
 import junit.framework.TestCase;
 
-import java.util.function.Predicate;
-
 /**
  * make sure I can match things with patterns that is comment oblivious
  * i.e. I can match against
@@ -33,9 +31,9 @@ public class CommentObliviousTest extends TestCase {
             }
         }
         //$int.of().printIn(FF.class);
-        assertEquals( 1, $int.of("11").countIn(FF.class));
+        assertEquals( 1, $intExpr.of("11").countIn(FF.class));
 
-        $methodCall.of().printIn(FF.class);
+        $methodCallExpr.of().printIn(FF.class);
         $returnStmt.of("return;").printIn(FF.class);
         assertEquals(2, $returnStmt.of("return;").countIn(FF.class));
 

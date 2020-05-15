@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 public class _constant implements _java._declared<EnumConstantDeclaration, _constant>,
         _javadocComment._withJavadoc<_constant>,
-        _annoRefs._withAnnoRefs<_constant>,
+        _annoExprs._withAnnoExprs<_constant>,
         _method._withMethods<_constant>,
         _field._withFields<_constant>,
         _arguments._withArguments<EnumConstantDeclaration, _constant> {
@@ -276,8 +276,8 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     */
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of(this.astConstant );
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of(this.astConstant );
     }
 
 
@@ -372,7 +372,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         if( this.astConstant == other.astConstant){
             return true; //two _constant pointing to the same AstEnumDeclaration
         }
-        if( !Expressions.equalAnnos(this.astConstant, other.astConstant ) ){
+        if( !Exprs.equalAnnos(this.astConstant, other.astConstant ) ){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -429,7 +429,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         tfs.addAll( this.listFields());
 
         hash = 13 * hash + Objects.hash( tms, tfs,
-                Expressions.hashAnnos(astConstant),
+                Exprs.hashAnnos(astConstant),
                 getJavadoc(),
                 getName(), listArguments() );
         return hash;

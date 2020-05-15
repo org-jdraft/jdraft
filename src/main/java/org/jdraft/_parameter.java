@@ -14,11 +14,11 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _parameter
-    implements _java._withNameTypeRef<Parameter, _parameter>, _annoRefs._withAnnoRefs<_parameter>,
+    implements _java._withNameTypeRef<Parameter, _parameter>, _annoExprs._withAnnoExprs<_parameter>,
         _modifiers._withFinal<_parameter>, _java._multiPart<Parameter, _parameter> {
 
     public static _parameter from (StackTraceElement ste ){
-        _parameter _p = _lambda.from(ste).getParameter(0);
+        _parameter _p = _lambdaExpr.from(ste).getParameter(0);
         _p.ast().remove();
         return of( _p.ast() );
     }
@@ -104,8 +104,8 @@ public final class _parameter
     }
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of( this.astParameter );
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of( this.astParameter );
     }
 
     public _parameter setVarArg(boolean b ){
@@ -162,7 +162,7 @@ public final class _parameter
         int hash = 7;
         hash = 71 * hash +
                 Objects.hash( 
-                        Expressions.hashAnnos(astParameter),
+                        Exprs.hashAnnos(astParameter),
                         this.getName(),
                         Types.hash(astParameter.getType()),
                         this.isVarArg(),
@@ -195,7 +195,7 @@ public final class _parameter
         if( left.isFinal() != right.isFinal()){
             return false;
         }
-        if( ! Expressions.equalAnnos(left, right)){
+        if( ! Exprs.equalAnnos(left, right)){
             return false;
         }
         if( ! Types.equal(left.getType(), right.getType())){
@@ -228,7 +228,7 @@ public final class _parameter
         if( !Types.equal(astParameter.getType(), other.astParameter.getType())){
             return false;
         }
-        if( !Expressions.equalAnnos(astParameter, other.astParameter)){
+        if( !Exprs.equalAnnos(astParameter, other.astParameter)){
             return false;
         }
         return true;

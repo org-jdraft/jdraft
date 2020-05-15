@@ -19,8 +19,8 @@ import java.util.function.Function;
 /**
  * for(Object o: objects) { ... }
  */
-public final class _forEachStmt implements _statement._controlFlow._branching<ForEachStmt, _forEachStmt>,
-        _statement._controlFlow._loop<ForEachStmt, _forEachStmt>,
+public final class _forEachStmt implements _stmt._controlFlow._branching<ForEachStmt, _forEachStmt>,
+        _stmt._controlFlow._loop<ForEachStmt, _forEachStmt>,
         _java._multiPart<ForEachStmt, _forEachStmt>,
         _body._hasBody<_forEachStmt>{
 
@@ -31,41 +31,41 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
         return new _forEachStmt(fe);
     }
     public static _forEachStmt of(String...code){
-        return new _forEachStmt(Statements.forEachStmt( code));
+        return new _forEachStmt(Stmts.forEachStmt( code));
     }
 
-    public static <A extends Object> _forEachStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _forEachStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _forEachStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _forEachStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _forEachStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _forEachStmt from( LambdaExpr le){
@@ -90,14 +90,14 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.forEachStmt(stringRep));
+            return is( Stmts.forEachStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
 
     public boolean isIterable(String...expression){
         try {
-            return Objects.equals(this.astStmt.getIterable(), Expressions.of(expression));
+            return Objects.equals(this.astStmt.getIterable(), Exprs.of(expression));
         }
         catch(Exception e){
             return false;
@@ -108,12 +108,12 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
         return Objects.equals( this.astStmt.getIterable(), e);
     }
 
-    public boolean isIterable(_expression _e){
+    public boolean isIterable(_expr _e){
         return Objects.equals( this.astStmt.getIterable(), _e.ast());
     }
 
-    public _expression getIterable(){
-        return _expression.of(this.astStmt.getIterable());
+    public _expr getIterable(){
+        return _expr.of(this.astStmt.getIterable());
     }
 
 
@@ -130,12 +130,12 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
         return Objects.equals( this.astStmt.getVariable(), ve);
     }
 
-    public boolean isVariable(_localVariables _v){
+    public boolean isVariable(_variablesExpr _v){
         return Objects.equals( this.astStmt.getVariable(), _v.ast());
     }
 
-    public _localVariables getVariable(){
-        return new _localVariables(this.astStmt.getVariable());
+    public _variablesExpr getVariable(){
+        return new _variablesExpr(this.astStmt.getVariable());
     }
 
     public _body getBody(){
@@ -149,7 +149,7 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
     }
 
     public _forEachStmt setIterable(String...str){
-        this.astStmt.setIterable(Expressions.of(str));
+        this.astStmt.setIterable(Exprs.of(str));
         return this;
     }
 
@@ -158,7 +158,7 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
         return this;
     }
 
-    public _forEachStmt setIterable(_expression e){
+    public _forEachStmt setIterable(_expr e){
         this.astStmt.setIterable(e.ast());
         return this;
     }
@@ -168,7 +168,7 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
         return this;
     }
 
-    public _forEachStmt setVariable( _localVariables _v){
+    public _forEachStmt setVariable( _variablesExpr _v){
         this.astStmt.setVariable(_v.varDeclEx);
         return this;
     }
@@ -178,7 +178,7 @@ public final class _forEachStmt implements _statement._controlFlow._branching<Fo
         return this;
     }
 
-    public _forEachStmt setBody(_statement _st){
+    public _forEachStmt setBody(_stmt _st){
         this.astStmt.setBody(_st.ast());
         return this;
     }

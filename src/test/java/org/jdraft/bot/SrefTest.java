@@ -59,7 +59,7 @@ public class SrefTest extends TestCase {
         //Print.tree(Types.of("HashMap<>"));
         //assertEquals(2, $ref.of($ref.TYPE_REF_NAME).countIn(_typeRef.of("HashMap<>").ast()));
         //Print.tree(_new.of("new HashMap<>()").ast());
-        assertEquals(2, $ref.of($ref.TYPE_REF_NAME).countIn(_new.of("new HashMap<>()").ast()));
+        assertEquals(2, $ref.of($ref.TYPE_REF_NAME).countIn(_newExpr.of("new HashMap<>()").ast()));
 
 
     }
@@ -342,12 +342,12 @@ public class SrefTest extends TestCase {
 
         //method referenced
         assertEquals( 1, $ref.of("System.out")
-                .countIn(_methodRef.of("System.out::println")));
+                .countIn(_methodRefExpr.of("System.out::println")));
 
-        Print.tree(_methodRef.of("System.out::println").ast() );
+        Print.tree(_methodRefExpr.of("System.out::println").ast() );
         // explicitly not method reference
         assertEquals( 0, $ref.of("System.out").$matchMethodReferences(false)
-                .countIn(_methodRef.of("System.out::println")));
+                .countIn(_methodRefExpr.of("System.out::println")));
 
         //parameter name
         assertEquals( 1, $ref.of("pName")
@@ -418,14 +418,14 @@ public class SrefTest extends TestCase {
 
     public void testAnnotationName(){
         //simple reference
-        assertEquals(1, $ref.of("annName").countIn(_annoRef.of("annName")));
-        assertEquals(1, $ref.of("annName").countIn(_annoRef.of("annName(1)")));
-        assertEquals(1, $ref.of("annName").countIn(_annoRef.of("annName(key=2)")));
+        assertEquals(1, $ref.of("annName").countIn(_annoExpr.of("annName")));
+        assertEquals(1, $ref.of("annName").countIn(_annoExpr.of("annName(1)")));
+        assertEquals(1, $ref.of("annName").countIn(_annoExpr.of("annName(key=2)")));
 
         //qualified reference
-        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoRef.of("fully.qualified.AnnName")));
-        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoRef.of("fully.qualified.AnnName(1)")));
-        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoRef.of("fully.qualified.AnnName(key=2)")));
+        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoExpr.of("fully.qualified.AnnName")));
+        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoExpr.of("fully.qualified.AnnName(1)")));
+        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoExpr.of("fully.qualified.AnnName(key=2)")));
     }
 
     public void testMethodReference(){

@@ -88,28 +88,28 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
         }
     }
 
-    public static $initBlock of(Expressions.Command lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public static $initBlock of(Exprs.Command lambdaWithBody){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
     public static <A extends Object> $initBlock of (Consumer<A> lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
     public static <A extends Object, B extends Object> $initBlock of(BiConsumer<A,B> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object> $initBlock of(Expressions.TriConsumer<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public static <A extends Object, B extends Object,C extends Object> $initBlock of(Exprs.TriConsumer<A,B,C> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock of(Expressions.QuadConsumer<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock of(Exprs.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return of(bdy);
     }
 
@@ -140,28 +140,28 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
         return as(id);
     }
 
-    public static $initBlock as(Expressions.Command lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public static $initBlock as(Exprs.Command lambdaWithBody){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return as(bdy);
     }
 
     public static <A extends Object> $initBlock as (Consumer<A> lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return as(bdy);
     }
 
     public static <A extends Object, B extends Object> $initBlock as(BiConsumer<A,B> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return as(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object> $initBlock as(Expressions.TriConsumer<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public static <A extends Object, B extends Object,C extends Object> $initBlock as(Exprs.TriConsumer<A,B,C> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return as(bdy);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock as(Expressions.QuadConsumer<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> $initBlock as(Exprs.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return as(bdy);
     }
 
@@ -412,7 +412,7 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
         if( staticBlock != null ){ //check for an override parameter
             keyValues.remove("$initBlock");
             //body = $body.of( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
-            body = Statements.blockStmt( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
+            body = Stmts.blockStmt( Stencil.of(staticBlock.toString()).draft(translator, keyValues) );
         } else{
             body = this.body.draft(translator, keyValues).ast();
         }

@@ -7,7 +7,7 @@ import org.jdraft.text.Text;
 import java.util.Objects;
 
 
-public final class _yieldStmt implements _statement._controlFlow._signal<YieldStmt, _yieldStmt>,
+public final class _yieldStmt implements _stmt._controlFlow._signal<YieldStmt, _yieldStmt>,
         _java._uniPart<YieldStmt, _yieldStmt>,
         _java._withExpression<YieldStmt, _yieldStmt>{
 
@@ -21,7 +21,7 @@ public final class _yieldStmt implements _statement._controlFlow._signal<YieldSt
     public static _yieldStmt of(String...code){
         String str = "switch(e){ case 1: "+Text.combine(code)+" }";
         //System.out.println( str );
-        _switchExpression _se = _switchExpression.of(str);
+        _switchExpr _se = _switchExpr.of(str);
         return of( (YieldStmt)_se.getSwitchEntry(0).getStatement(0));
         //String t = Text.combine(code);
         //if( t.startsWith("yield ") ){ //they could pass in the whole yield statement string
@@ -49,7 +49,7 @@ public final class _yieldStmt implements _statement._controlFlow._signal<YieldSt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.yieldStmt(stringRep));
+            return is( Stmts.yieldStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

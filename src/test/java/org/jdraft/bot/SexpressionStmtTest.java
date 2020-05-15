@@ -15,8 +15,8 @@ public class SexpressionStmtTest extends TestCase {
             }
         }
         //here using $statement
-        assertEquals(3, $statement.of( (Object $any$)-> System.out.println($any$) ).countIn(GHJ.class));
-        assertEquals(2, $statement.of( ()-> System.out.println(1) ).countIn(GHJ.class));
+        assertEquals(3, $stmt.of( (Object $any$)-> System.out.println($any$) ).countIn(GHJ.class));
+        assertEquals(2, $stmt.of( ()-> System.out.println(1) ).countIn(GHJ.class));
 
         //using explicit $expressionStmt
         assertEquals(3, $expressionStmt.of( (Object $any$)-> System.out.println($any$) ).countIn(GHJ.class));

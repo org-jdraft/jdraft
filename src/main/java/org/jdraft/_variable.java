@@ -86,16 +86,16 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
         return false;
     }
 
-    public _expression getInit(){
+    public _expr getInit(){
         if( this.vd.getInitializer().isPresent()){
-            return _expression.of( vd.getInitializer().get());
+            return _expr.of( vd.getInitializer().get());
         }
         return null;
     }
 
 
     public _variable setInit(String...e){
-        this.vd.setInitializer(Expressions.of(e));
+        this.vd.setInitializer(Exprs.of(e));
         return this;
     }
 
@@ -104,7 +104,7 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
         return this;
     }
 
-    public _variable setInit(_expression _e){
+    public _variable setInit(_expr _e){
         this.vd.setInitializer(_e.ast());
         return this;
     }
@@ -115,27 +115,27 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
     }
 
     public _variable setInit(boolean b){
-        return setInit(Expressions.of(b));
+        return setInit(Exprs.of(b));
     }
 
     public _variable setInit(int i){
-        return setInit(Expressions.of(i));
+        return setInit(Exprs.of(i));
     }
 
     public _variable setInit(char c){
-        return setInit(Expressions.of(c));
+        return setInit(Exprs.of(c));
     }
 
     public _variable setInit(float f){
-        return setInit(Expressions.of(f));
+        return setInit(Exprs.of(f));
     }
 
     public _variable setInit(long l){
-        return setInit(Expressions.of(l));
+        return setInit(Exprs.of(l));
     }
 
     public _variable setInit(double d){
-        return setInit(Expressions.of(d));
+        return setInit(Exprs.of(d));
     }
 
 
@@ -144,43 +144,43 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
     }
 
     public boolean isInit(boolean b){
-        return isInit(Expressions.of(b));
+        return isInit(Exprs.of(b));
     }
 
     public boolean isInit(int i){
-        return isInit(Expressions.of(i));
+        return isInit(Exprs.of(i));
     }
 
     public boolean isInit(char c){
-        return isInit(Expressions.of(c));
+        return isInit(Exprs.of(c));
     }
 
     public boolean isInit(float f){
-        return isInit(Expressions.of(f));
+        return isInit(Exprs.of(f));
     }
 
     public boolean isInit(long l){
-        return isInit(Expressions.of(l));
+        return isInit(Exprs.of(l));
     }
 
     public boolean isInit(double d){
-        return isInit(Expressions.of(d));
+        return isInit(Exprs.of(d));
     }
 
     public boolean isInit(String...ex){
         try{
-            return isInit(Expressions.of(ex));
+            return isInit(Exprs.of(ex));
         }catch(Exception e){
             return false;
         }
     }
-    public boolean isInit(_expression _e){
+    public boolean isInit(_expr _e){
         return isInit(_e.ast());
     }
 
     public boolean isInit(Expression e){
         return this.vd.getInitializer().isPresent() &&
-                Expressions.equal( this.vd.getInitializer().get(), e);
+                Exprs.equal( this.vd.getInitializer().get(), e);
     }
 
     public int hashCode( ){

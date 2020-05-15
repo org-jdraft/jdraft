@@ -10,7 +10,7 @@ public class _variableTest extends TestCase {
         assertFalse(_v.isLocal() );
         assertFalse(_v.isField() );
 
-        _localVariables _lvs = _localVariables.of("int i, j");
+        _variablesExpr _lvs = _variablesExpr.of("int i, j");
         assertTrue( _lvs.getAt(0).isLocal());
         assertTrue( _lvs.getAt(1).isLocal());
 

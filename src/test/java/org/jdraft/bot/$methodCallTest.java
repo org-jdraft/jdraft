@@ -26,14 +26,14 @@ public class $methodCallTest extends TestCase {
                 System.out.println( 123);
             }
         }
-        assertEquals(2, $methodCall.of( (Object $any$)-> System.out.println($any$) ).countIn(GG.class));
+        assertEquals(2, $methodCallExpr.of( (Object $any$)-> System.out.println($any$) ).countIn(GG.class));
 
         _class _c = _class.of(GG.class);
         ASCIITreePrinter.print(_c);
 
-        $methodCall.of().printEachTreeIn(_c);
+        $methodCallExpr.of().printEachTreeIn(_c);
 
-        $methodCall.of().printEachTreeIn(GG.class);
+        $methodCallExpr.of().printEachTreeIn(GG.class);
 
     }
 
@@ -48,19 +48,19 @@ public class $methodCallTest extends TestCase {
         }
 
         //predicate
-        assertEquals(2, $methodCall.of().$hasDescendant(n-> n instanceof _expression._literal).countIn(GHJ.class));
-        assertEquals(0, $methodCall.of().$hasDescendant(n-> n instanceof _double).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$hasDescendant(n-> n instanceof _expr._literal).countIn(GHJ.class));
+        assertEquals(0, $methodCallExpr.of().$hasDescendant(n-> n instanceof _doubleExpr).countIn(GHJ.class));
 
         //selector
-        assertEquals(2, $methodCall.of().$hasDescendant($int.of()).countIn(GHJ.class));
-        assertEquals(0, $methodCall.of().$hasDescendant($double.of()).countIn(GHJ.class));
-        assertEquals(2, $methodCall.of().$hasDescendant($double.of(), $int.of()).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$hasDescendant($intExpr.of()).countIn(GHJ.class));
+        assertEquals(0, $methodCallExpr.of().$hasDescendant($doubleExpr.of()).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$hasDescendant($doubleExpr.of(), $intExpr.of()).countIn(GHJ.class));
 
         //class
-        assertEquals(2, $methodCall.of().$hasDescendant(_expression._literal.class).countIn(GHJ.class));
-        assertEquals(2, $methodCall.of().$hasDescendant(_int.class).countIn(GHJ.class));
-        assertEquals(2, $methodCall.of().$hasDescendant(_double.class, _int.class).countIn(GHJ.class));
-        assertEquals(0, $methodCall.of().$hasDescendant(_double.class).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$hasDescendant(_expr._literal.class).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$hasDescendant(_intExpr.class).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$hasDescendant(_doubleExpr.class, _intExpr.class).countIn(GHJ.class));
+        assertEquals(0, $methodCallExpr.of().$hasDescendant(_doubleExpr.class).countIn(GHJ.class));
     }
 
     public void test$isParent(){
@@ -73,11 +73,11 @@ public class $methodCallTest extends TestCase {
             }
         }
         Print.tree(GHJ.class);
-        assertEquals(2, $methodCall.of().$isParent(m-> m instanceof _expressionStmt).countIn(GHJ.class));
-        assertEquals(2, $methodCall.of().$isParent(_expressionStmt.class).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$isParent(m-> m instanceof _exprStmt).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$isParent(_exprStmt.class).countIn(GHJ.class));
 
-        assertEquals(0, $methodCall.of().$isParent(_constructor.class).countIn(GHJ.class));
-        assertEquals(0, $methodCall.of().$isParent(_class.class).countIn(GHJ.class));
+        assertEquals(0, $methodCallExpr.of().$isParent(_constructor.class).countIn(GHJ.class));
+        assertEquals(0, $methodCallExpr.of().$isParent(_class.class).countIn(GHJ.class));
     }
 
     public void test$hasAncestor(){
@@ -89,10 +89,10 @@ public class $methodCallTest extends TestCase {
                 System.out.println(3);
             }
         }
-        assertEquals(1, $methodCall.of().$hasAncestor(m-> m instanceof _method).countIn(GHJ.class));
-        assertEquals(1, $methodCall.of().$hasAncestor(_method.class).countIn(GHJ.class));
-        assertEquals(1, $methodCall.of().$hasAncestor(_constructor.class).countIn(GHJ.class));
-        assertEquals(2, $methodCall.of().$hasAncestor(_class.class).countIn(GHJ.class));
+        assertEquals(1, $methodCallExpr.of().$hasAncestor(m-> m instanceof _method).countIn(GHJ.class));
+        assertEquals(1, $methodCallExpr.of().$hasAncestor(_method.class).countIn(GHJ.class));
+        assertEquals(1, $methodCallExpr.of().$hasAncestor(_constructor.class).countIn(GHJ.class));
+        assertEquals(2, $methodCallExpr.of().$hasAncestor(_class.class).countIn(GHJ.class));
     }
 
     public void test$isInMember(){
@@ -104,14 +104,14 @@ public class $methodCallTest extends TestCase {
                 System.out.println(3);
             }
         }
-        assertEquals(1, $methodCall.of().$isInMember(m-> m instanceof _method).countIn(HH.class));
-        assertEquals(1, $methodCall.of().$isInMember(_method.class).countIn(HH.class));
-        assertEquals(1, $methodCall.of().$isInMember(_constructor.class).countIn(HH.class));
-        assertEquals(0, $methodCall.of().$isInMember(_field.class).countIn(HH.class));
+        assertEquals(1, $methodCallExpr.of().$isInMember(m-> m instanceof _method).countIn(HH.class));
+        assertEquals(1, $methodCallExpr.of().$isInMember(_method.class).countIn(HH.class));
+        assertEquals(1, $methodCallExpr.of().$isInMember(_constructor.class).countIn(HH.class));
+        assertEquals(0, $methodCallExpr.of().$isInMember(_field.class).countIn(HH.class));
 
         _class _am = _class.of(HH.class);
         _am.addInitBlock( ()-> {System.out.println(1);}); //add an init block member
-        assertEquals(1, $methodCall.of().$isInMember(_initBlock.class).countIn(_am));
+        assertEquals(1, $methodCallExpr.of().$isInMember(_initBlock.class).countIn(_am));
     }
 
     public void test$IsInType(){
@@ -121,14 +121,14 @@ public class $methodCallTest extends TestCase {
             }
         }
 
-        assertEquals(0, $methodCall.of().$isInType(t-> t instanceof _class).countIn(_methodCall.of("print(1);")));
+        assertEquals(0, $methodCallExpr.of().$isInType(t-> t instanceof _class).countIn(_methodCallExpr.of("print(1);")));
 
-        assertEquals(1, $methodCall.of().$isInType(t-> t instanceof _class).countIn(G.class));
-        assertEquals(1, $methodCall.of().$isInType(_class.class).countIn(G.class));
-        assertEquals(0, $methodCall.of().$isInType(t-> t instanceof _interface).countIn(G.class));
-        assertEquals(0, $methodCall.of().$isInType(_interface.class).countIn(G.class));
+        assertEquals(1, $methodCallExpr.of().$isInType(t-> t instanceof _class).countIn(G.class));
+        assertEquals(1, $methodCallExpr.of().$isInType(_class.class).countIn(G.class));
+        assertEquals(0, $methodCallExpr.of().$isInType(t-> t instanceof _interface).countIn(G.class));
+        assertEquals(0, $methodCallExpr.of().$isInType(_interface.class).countIn(G.class));
 
-        assertEquals(1, $methodCall.of().$isInType(_class.class, _enum.class).countIn(G.class));
+        assertEquals(1, $methodCallExpr.of().$isInType(_class.class, _enum.class).countIn(G.class));
     }
 
 
@@ -146,8 +146,8 @@ public class $methodCallTest extends TestCase {
         assertEquals("blah", _c.getPackageName());
         //System.out.println( _class.of(XDE.class));
 
-        assertEquals(1, $methodCall.of().$isInPackage(p-> p.is("blah")).countIn(XDE.class));
-        assertEquals(1, $methodCall.of().$isImports(_is-> _is.hasImport(Map.class)).countIn(XDE.class));
+        assertEquals(1, $methodCallExpr.of().$isInPackage(p-> p.is("blah")).countIn(XDE.class));
+        assertEquals(1, $methodCallExpr.of().$isImports(_is-> _is.hasImport(Map.class)).countIn(XDE.class));
 
         @_packageName("aaaa.bbbb.cccc")
         class GG{
@@ -155,30 +155,30 @@ public class $methodCallTest extends TestCase {
                 m();
             }
         }
-        assertEquals(1, $methodCall.of().$isInPackage("aaaa.bbbb.cccc").countIn(GG.class));
-        assertEquals(1, $methodCall.of().$isInPackage("$any$.cccc").countIn(GG.class));
-        assertEquals(1, $methodCall.of().$isInPackage("aaaa.$any$").countIn(GG.class));
+        assertEquals(1, $methodCallExpr.of().$isInPackage("aaaa.bbbb.cccc").countIn(GG.class));
+        assertEquals(1, $methodCallExpr.of().$isInPackage("$any$.cccc").countIn(GG.class));
+        assertEquals(1, $methodCallExpr.of().$isInPackage("aaaa.$any$").countIn(GG.class));
     }
     public void testMatchAny(){
-        assertTrue($methodCall.of().isMatchAny());
-        assertNotNull($methodCall.of().get$name());
-        assertNotNull($methodCall.of().get$scope());
-        assertNotNull($methodCall.of().get$arguments());
-        assertNotNull($methodCall.of().get$typeArguments());
+        assertTrue($methodCallExpr.of().isMatchAny());
+        assertNotNull($methodCallExpr.of().get$name());
+        assertNotNull($methodCallExpr.of().get$scope());
+        assertNotNull($methodCallExpr.of().get$arguments());
+        assertNotNull($methodCallExpr.of().get$typeArguments());
     }
 
 
     public void testMethodCallOr() {
         //define (2) instances of $methodCall bots
-        $methodCall $a = $methodCall.of().$isInCodeUnit(c -> c instanceof _class);
-        $methodCall $b = $methodCall.of().$isInCodeUnit(c -> c instanceof _interface);
+        $methodCallExpr $a = $methodCallExpr.of().$isInCodeUnit(c -> c instanceof _class);
+        $methodCallExpr $b = $methodCallExpr.of().$isInCodeUnit(c -> c instanceof _interface);
 
         // build an $methodCall.Or instance with the (2) $methodCall bots {$a,$b}
-        $methodCall.Or $or = $methodCall.or($a, $b);
+        $methodCallExpr.Or $or = $methodCallExpr.or($a, $b);
 
         //NOTE: the $or instance IS A $methodCall itself, this is done because there may be
         // some instance that expects a $methodCall, and this will satisfy the requirement
-        $methodCall $mc = $or;
+        $methodCallExpr $mc = $or;
 
         //here we modify the "base instance", of the $or, we add a constraint that applies physically to
         //the underlying $or instance (which again IS a $methodCall), so we update it's
@@ -207,9 +207,9 @@ public class $methodCallTest extends TestCase {
     public void testOrCommonPredicates(){
 
         //NOTE:
-        $methodCall $or = $methodCall.or($methodCall.of("println"), $methodCall.of("print"))
+        $methodCallExpr $or = $methodCallExpr.or($methodCallExpr.of("println"), $methodCallExpr.of("print"))
                 .$and( _mc-> _mc.isScope("System.out") || _mc.isScope("out") )
-                .$and( _mc -> _mc.isArgument(0, e-> e instanceof _int) );
+                .$and( _mc -> _mc.isArgument(0, e-> e instanceof _intExpr) );
         class c{
             void m(){
                 System.out.print(1);
@@ -220,16 +220,16 @@ public class $methodCallTest extends TestCase {
         }
         assertEquals(4, $or.countIn(c.class));
 
-        $methodCall $orCopy = $or.copy();
+        $methodCallExpr $orCopy = $or.copy();
 
         assertEquals(4, $orCopy.countIn(c.class));
     }
 
     public void testOr(){
         //this matches
-        $methodCall $print   = $methodCall.of( (Object $any$)-> System.out.print($any$));
-        $methodCall $println = $methodCall.of( (Object $any$)-> System.out.println($any$));
-        $methodCall $printOrPrintln = $methodCall.or($print, $println); //we want to match either of these
+        $methodCallExpr $print   = $methodCallExpr.of( (Object $any$)-> System.out.print($any$));
+        $methodCallExpr $println = $methodCallExpr.of( (Object $any$)-> System.out.println($any$));
+        $methodCallExpr $printOrPrintln = $methodCallExpr.or($print, $println); //we want to match either of these
         class FF{
             void m(){
                 System.out.println(1);
@@ -243,10 +243,10 @@ public class $methodCallTest extends TestCase {
 
         //what about static imported System or System.out
         //                      here just match the name "print" (not the fully qualified Scope "System.out.println")
-        $print = $methodCall.of("print", $arguments.of("$any$").$and(a-> ((_arguments)a).size() == 1));
-        $println = $methodCall.of("println", $arguments.of("$any$").$and(a-> ((_arguments)a).size() == 1));
+        $print = $methodCallExpr.of("print", $arguments.of("$any$").$and(a-> ((_arguments)a).size() == 1));
+        $println = $methodCallExpr.of("println", $arguments.of("$any$").$and(a-> ((_arguments)a).size() == 1));
 
-        $printOrPrintln = $methodCall.or($print, $println);
+        $printOrPrintln = $methodCallExpr.or($print, $println);
         class FFG{
             void m(){
                 System.out.println(1); //regular System. "scope" match
@@ -264,7 +264,7 @@ public class $methodCallTest extends TestCase {
     public static class PrintablePredicate<P extends Object> implements Predicate<P>{
 
         public static PrintablePredicate of(Predicate pp){
-            _lambda _l = _lambda.from(Thread.currentThread().getStackTrace()[2]);
+            _lambdaExpr _l = _lambdaExpr.from(Thread.currentThread().getStackTrace()[2]);
             return new PrintablePredicate(_l.toString(), pp);
         }
 
@@ -287,11 +287,11 @@ public class $methodCallTest extends TestCase {
     }
 
     public void testOr$(){
-        $methodCall $print = $methodCall.of("print");
-        $methodCall $println = $methodCall.of("println");
+        $methodCallExpr $print = $methodCallExpr.of("print");
+        $methodCallExpr $println = $methodCallExpr.of("println");
 
         //build the $or match function (matches prints or printlns)
-        $methodCall $or = $methodCall.or($print, $println);
+        $methodCallExpr $or = $methodCallExpr.or($print, $println);
 
         // add a predicate to the $or (which applies the constraint to ALL of
         // effectively applies this "constraint" to BOTH $print or $println
@@ -309,39 +309,39 @@ public class $methodCallTest extends TestCase {
     }
 
     public void testPredicate(){
-        assertTrue( $methodCall.of().$and(m-> !m.hasArguments()).matches("m()") );
-        assertFalse( $methodCall.of().$and(m-> !m.hasArguments()).matches("m(1)") );
+        assertTrue( $methodCallExpr.of().$and(m-> !m.hasArguments()).matches("m()") );
+        assertFalse( $methodCallExpr.of().$and(m-> !m.hasArguments()).matches("m(1)") );
 
-        assertTrue( $methodCall.of().$and(m-> !m.hasTypeArguments()).matches("m()") );
-        assertFalse( $methodCall.of().$and(m-> !m.hasTypeArguments()).matches("<T> m(1)") );
+        assertTrue( $methodCallExpr.of().$and(m-> !m.hasTypeArguments()).matches("m()") );
+        assertFalse( $methodCallExpr.of().$and(m-> !m.hasTypeArguments()).matches("<T> m(1)") );
     }
 
     public void testStencilAny(){
-        assertTrue($methodCall.of("System.out.println($any$)").matches( "System.out.println()"));
-        assertTrue($methodCall.of("System.out.println($any$)").matches( "System.out.println(1)"));
-        assertTrue($methodCall.of("System.out.println($any$)").matches( "System.out.println(1,2)"));
+        assertTrue($methodCallExpr.of("System.out.println($any$)").matches( "System.out.println()"));
+        assertTrue($methodCallExpr.of("System.out.println($any$)").matches( "System.out.println(1)"));
+        assertTrue($methodCallExpr.of("System.out.println($any$)").matches( "System.out.println(1,2)"));
     }
 
     public void testName(){
 
         //IF there is only a single token, and there is no ('s we assume you are presenting the name
-        $methodCall $mc = $methodCall.of("split");
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Expressions.methodCallEx(()-> System.out.println("a"))) );
+        $methodCallExpr $mc = $methodCallExpr.of("split");
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
 
-        $mc = $methodCall.of("split").$scope($expression.of("\"eric\""));
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Expressions.methodCallEx(()-> System.out.println("a"))) );
+        $mc = $methodCallExpr.of("split").$scope($expr.of("\"eric\""));
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
     }
 
     public void testArguments(){
-        $methodCall $mc = $methodCall.of( $arguments.of().$and(a->((_arguments)a).isEmpty()));
+        $methodCallExpr $mc = $methodCallExpr.of( $arguments.of().$and(a->((_arguments)a).isEmpty()));
         assertTrue($mc.matches("System.out.println();"));
         assertFalse($mc.matches("System.out.println(1);"));
     }
 
     public void testTypeArguments(){
-        $methodCall $mc = $methodCall.of( $typeArguments.of().$and(a->!((_typeArguments)a).isEmpty()));
+        $methodCallExpr $mc = $methodCallExpr.of( $typeArguments.of().$and(a->!((_typeArguments)a).isEmpty()));
         assertTrue( $mc.matches(" Collection.<T>call()") );
         assertFalse( $mc.matches("Collection.call()") );
         assertFalse( $mc.matches("call()") );
@@ -351,42 +351,42 @@ public class $methodCallTest extends TestCase {
         return "text";
     }
     public void testScope(){
-        $methodCall $mc = $methodCall.of();
+        $methodCallExpr $mc = $methodCallExpr.of();
         assertTrue($mc.isMatchAny());
 
         //make sure it matches ANY method call
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> System.out.println("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
 
         //scope that is a specific string
         $mc.$scope("\"eric\"");
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Expressions.methodCallEx(()-> "deric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallEx(()-> "deric".split("a"))) );
 
         //specific scope
-        $mc.$scope( _string.of("eric"));
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Expressions.methodCallEx(()-> "deric".split("a"))) );
+        $mc.$scope( _stringExpr.of("eric"));
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallEx(()-> "deric".split("a"))) );
 
         //by class type
-        $mc = new $methodCall().$scope(_string.class);
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Expressions.methodCallEx(()-> System.out.println("a"))) );
+        $mc = new $methodCallExpr().$scope(_stringExpr.class);
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
 
         //by more than one class type
-        $mc = new $methodCall().$scope(_string.class, _methodCall.class);
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> mc().split("a"))) );
-        assertFalse( $mc.matches(Expressions.methodCallEx(()-> System.out.println("a"))) );
+        $mc = new $methodCallExpr().$scope(_stringExpr.class, _methodCallExpr.class);
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> mc().split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
 
-        $mc = new $methodCall().$scope(e-> e instanceof _string);
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Expressions.methodCallEx(()-> System.out.println("a"))) );
+        $mc = new $methodCallExpr().$scope(e-> e instanceof _stringExpr);
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
 
-        $mc = new $methodCall().$scope(e-> e != null);
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> "eric".split("a"))) );
-        assertTrue( $mc.matches(Expressions.methodCallEx(()-> System.out.println("a"))) );
-        assertFalse( $mc.matches( Expressions.methodCallEx( ()-> mc())));
+        $mc = new $methodCallExpr().$scope(e-> e != null);
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
+        assertFalse( $mc.matches( Exprs.methodCallEx( ()-> mc())));
 
     }
 }

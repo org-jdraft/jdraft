@@ -8,12 +8,12 @@ public class _argumentsTest extends TestCase {
         _arguments _as = _arguments.of(); //no args
         assertEquals(0, _as.size());
         assertTrue(_as.isEmpty());
-        assertTrue(_as.allMatch( e-> e.is(Expressions.of(1))));
-        assertFalse(_as.anyMatch( e-> e.is(Expressions.of(1))));
-        assertEquals( -1, _as.indexOf(_int.of(1)));
-        assertNull( _as.get(_e -> _e instanceof _expression._literal ));
+        assertTrue(_as.allMatch( e-> e.is(Exprs.of(1))));
+        assertFalse(_as.anyMatch( e-> e.is(Exprs.of(1))));
+        assertEquals( -1, _as.indexOf(_intExpr.of(1)));
+        assertNull( _as.get(_e -> _e instanceof _expr._literal ));
         _as.forEach(e-> fail() ); //there are none so we shouldnt fail
-        assertFalse(_as.has(_int.of(2)));
+        assertFalse(_as.has(_intExpr.of(2)));
 
         try{
             _as.getAt(1); //fails?
@@ -24,25 +24,25 @@ public class _argumentsTest extends TestCase {
 
         _as.add("1");
         assertFalse(_as.isEmpty());
-        assertTrue(_as.is(_int.of(1)));
+        assertTrue(_as.is(_intExpr.of(1)));
 
-        assertTrue(_as.isAt(0, _int.of(1)));
+        assertTrue(_as.isAt(0, _intExpr.of(1)));
         assertTrue(_as.isAt(0, "1"));
-        assertTrue(_as.isAt(0, Expressions.of("1")));
+        assertTrue(_as.isAt(0, Exprs.of("1")));
 
-        assertEquals(_int.of(1), _as.getAt(0));
-        assertEquals(-1, _as.indexOf( _int.of(2)));
-        assertTrue(_as.allMatch(e-> e instanceof _expression._literal));
-        assertTrue(_as.anyMatch(e-> e instanceof _expression._literal));
+        assertEquals(_intExpr.of(1), _as.getAt(0));
+        assertEquals(-1, _as.indexOf( _intExpr.of(2)));
+        assertTrue(_as.allMatch(e-> e instanceof _expr._literal));
+        assertTrue(_as.anyMatch(e-> e instanceof _expr._literal));
 
         _as.removeAt(0);
-        assertTrue(_as.allMatch(e-> e instanceof _expression._literal));
-        assertFalse(_as.anyMatch(e-> e instanceof _expression._literal));
+        assertTrue(_as.allMatch(e-> e instanceof _expr._literal));
+        assertFalse(_as.anyMatch(e-> e instanceof _expr._literal));
 
         _as.add(1);
-        assertEquals(0, _as.indexOf(_int.of(1)));
+        assertEquals(0, _as.indexOf(_intExpr.of(1)));
         _as.setAt(0, 2); //change 1 to 2
-        assertEquals(0, _as.indexOf(_int.of(2)));
+        assertEquals(0, _as.indexOf(_intExpr.of(2)));
     }
 
     public void testConstImpl(){

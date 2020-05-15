@@ -27,7 +27,7 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _constructor implements _annoRefs._withAnnoRefs<_constructor>,
+public final class _constructor implements _annoExprs._withAnnoExprs<_constructor>,
         _javadocComment._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
     _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
         _parameters._withParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
@@ -45,7 +45,7 @@ public final class _constructor implements _annoRefs._withAnnoRefs<_constructor>
      */
     public static _constructor of(Object anonymousObjectBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expressions.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newEx( ste );
         
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -151,7 +151,7 @@ public final class _constructor implements _annoRefs._withAnnoRefs<_constructor>
         if( this.astCtor == other.astCtor ) {
             return true; //two _constructor instances pointing to same ConstructorDeclaration instance
         }        
-        if( ! Expressions.equalAnnos(this.astCtor, other.astCtor)){
+        if( ! Exprs.equalAnnos(this.astCtor, other.astCtor)){
             return false;
         }
         if( !Objects.equals( this.getBody(), other.getBody() ) ) {
@@ -206,7 +206,7 @@ public final class _constructor implements _annoRefs._withAnnoRefs<_constructor>
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hash(
-            Expressions.hashAnnos(astCtor),
+            Exprs.hashAnnos(astCtor),
             this.getBody(), 
             this.getJavadoc(),
             this.getEffectiveModifiers(),
@@ -327,8 +327,8 @@ public final class _constructor implements _annoRefs._withAnnoRefs<_constructor>
     }
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of( astCtor );
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of( astCtor );
     }
 
     public SimpleName getNameNode() { return this.astCtor.getName(); }
@@ -552,7 +552,7 @@ public final class _constructor implements _annoRefs._withAnnoRefs<_constructor>
          */
         default _WC addConstructor(Object anonymousObjectContainingConstructor ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Expressions.newEx(ste);
+            ObjectCreationExpr oce = Exprs.newEx(ste);
             MethodDeclaration theMethod = (MethodDeclaration)
                     oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                             !m.isAnnotationPresent(_remove.class) ).findFirst().get();

@@ -86,26 +86,26 @@ public @interface _hashCode {
          public static Statement constructStmt(_field _f){
              if( _f.getTypeRef().isArrayType() ){
                  if( _f.getTypeRef().getElementType().isPrimitiveType()){
-                     return Statements.of($arrayOfPrimitives.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                     return Stmts.of($arrayOfPrimitives.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
-                 return Statements.of($arrayOfObject.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                 return Stmts.of($arrayOfObject.draft("name", _f.getName(), "type", _f.getTypeRef()));
              }
              if( _f.getTypeRef().isPrimitive()){
                  if( _f.isTypeRef(boolean.class)){
-                     return Statements.of($boolean.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                     return Stmts.of($boolean.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
                  if( _f.isTypeRef(double.class)){
-                     return Statements.of($double.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                     return Stmts.of($double.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
                  if( _f.isTypeRef(float.class)){
-                     return Statements.of($float.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                     return Stmts.of($float.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
                  if( _f.isTypeRef(long.class)){
-                     return Statements.of($long.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                     return Stmts.of($long.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }
-                 return Statements.of($simplePrimitive.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                 return Stmts.of($simplePrimitive.draft("name", _f.getName(), "type", _f.getTypeRef()));
              }
-             return Statements.of($default.draft("name", _f.getName(), "type", _f.getTypeRef()));
+             return Stmts.of($default.draft("name", _f.getName(), "type", _f.getTypeRef()));
          }
      }
 

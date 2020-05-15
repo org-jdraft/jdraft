@@ -32,18 +32,18 @@ public final class _parameters
         return from( ste );
     }
 
-    public static <T extends Object, U extends Object, V extends Object>_parameters of(Expressions.TriConsumer<T,U, V> bc){
+    public static <T extends Object, U extends Object, V extends Object>_parameters of(Exprs.TriConsumer<T,U, V> bc){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
 
-    public static <T extends Object, U extends Object, V extends Object, W extends Object>_parameters of(Expressions.QuadConsumer<T,U, V,W> bc){
+    public static <T extends Object, U extends Object, V extends Object, W extends Object>_parameters of(Exprs.QuadConsumer<T,U, V,W> bc){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
 
     private static _parameters from(StackTraceElement lambdaStackTrace ){
-        LambdaExpr le = Expressions.lambdaEx( lambdaStackTrace );
+        LambdaExpr le = Exprs.lambdaEx( lambdaStackTrace );
         _parameters _ps = of( le.getParameters() );
         le.remove(); //dont connect the lambda with the caller
         return _ps;
@@ -56,7 +56,7 @@ public final class _parameters
     }
 
     public static _parameters of(){
-        return of(  Expressions.lambdaEx("()->true") ); //Ast.method( "void $$();" ));
+        return of(  Exprs.lambdaEx("()->true") ); //Ast.method( "void $$();" ));
     }
 
     /**
@@ -80,7 +80,7 @@ public final class _parameters
         if( ps.endsWith(")")){
             ps = ps.substring(0, ps.length() -1);
         }
-        return of( Expressions.lambdaEx( "(" + ps + ") -> true" ) );
+        return of( Exprs.lambdaEx( "(" + ps + ") -> true" ) );
     }
 
     /**
@@ -181,7 +181,7 @@ public final class _parameters
      */
     public _parameters copy(){
         NodeList<Parameter> ps = new NodeList<>();
-        LambdaExpr le = Expressions.lambdaEx("()->true");
+        LambdaExpr le = Exprs.lambdaEx("()->true");
         ast().forEach( p-> le.addParameter(p) );
         return _parameters.of( le );
     }

@@ -1,8 +1,8 @@
 package lut;
 
 import junit.framework.TestCase;
-import org.jdraft.Expressions;
-import org.jdraft.Statements;
+import org.jdraft.Exprs;
+import org.jdraft.Stmts;
 import org.jdraft._returnStmt;
 import org.jdraft._switchStmt;
 
@@ -45,15 +45,15 @@ public class SwitchBuilderTest extends TestCase {
         assertEquals( _returnStmt.of(3), _ss.getCaseGroup("C").getStatement(0) );
         assertEquals( _returnStmt.of(2), _ss.getCaseGroup("D").getStatement(0) );
 
-        assertTrue( _ss.getCaseGroup("A").getStatement(0).is( Statements.of(()->{return 1;} )) );
-        assertTrue( _ss.getCaseGroup("B").getStatement(0).is( Statements.of(()->{return 2;} )) );
-        assertTrue( _ss.getCaseGroup("C").getStatement(0).is( Statements.of(()->{return 3;} )) );
-        assertTrue( _ss.getCaseGroup("D").getStatement(0).is( Statements.of(()->{return 2;} )) );
+        assertTrue( _ss.getCaseGroup("A").getStatement(0).is( Stmts.of(()->{return 1;} )) );
+        assertTrue( _ss.getCaseGroup("B").getStatement(0).is( Stmts.of(()->{return 2;} )) );
+        assertTrue( _ss.getCaseGroup("C").getStatement(0).is( Stmts.of(()->{return 3;} )) );
+        assertTrue( _ss.getCaseGroup("D").getStatement(0).is( Stmts.of(()->{return 2;} )) );
 
-        assertTrue( _ss.getCaseGroup("A").isReturn(Expressions.of(1)));
-        assertTrue( _ss.getCaseGroup("B").isReturn(Expressions.of(2)));
-        assertTrue( _ss.getCaseGroup("C").isReturn(Expressions.of(3)));
-        assertTrue( _ss.getCaseGroup("D").isReturn(Expressions.of(2)));
+        assertTrue( _ss.getCaseGroup("A").isReturn(Exprs.of(1)));
+        assertTrue( _ss.getCaseGroup("B").isReturn(Exprs.of(2)));
+        assertTrue( _ss.getCaseGroup("C").isReturn(Exprs.of(3)));
+        assertTrue( _ss.getCaseGroup("D").isReturn(Exprs.of(2)));
 
         //heres the simplified version
         assertTrue( _ss.getCaseGroup("A").isReturn(1));

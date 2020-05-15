@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
-import org.jdraft._boolean;
+import org.jdraft._booleanExpr;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 /**
  * boolean literal pattern within code
  */
-public class $boolean extends $ex<BooleanLiteralExpr, _boolean, $boolean> {
+public class $boolean extends $ex<BooleanLiteralExpr, _booleanExpr, $boolean> {
 
     //match ANY boolean literal (any literal true or false)
     public static $boolean of(){
@@ -19,27 +19,27 @@ public class $boolean extends $ex<BooleanLiteralExpr, _boolean, $boolean> {
     }
 
     public static $boolean of(String...code){
-        return of( _boolean.of(code));
+        return of( _booleanExpr.of(code));
     }
 
     public static $boolean of( BooleanLiteralExpr b){
-        return of( _boolean.of(b));
+        return of( _booleanExpr.of(b));
     }
 
     public static $boolean of(boolean b){
         return new $boolean(b);
     }
 
-    public static $ex<BooleanLiteralExpr, _boolean, $ex> or( $boolean... $bs){
+    public static $ex<BooleanLiteralExpr, _booleanExpr, $ex> or($boolean... $bs){
         return $ex.or($bs);
     }
 
-    public static $boolean of(_boolean _b){
+    public static $boolean of(_booleanExpr _b){
         $boolean $ds = of(_b.getValue());
         return $ds;
     }
 
-    public static $boolean off(Predicate<_boolean> booleanMatchFn){
+    public static $boolean off(Predicate<_booleanExpr> booleanMatchFn){
         return of().$and(booleanMatchFn);
     }
 
@@ -52,10 +52,10 @@ public class $boolean extends $ex<BooleanLiteralExpr, _boolean, $boolean> {
     }
 
     public boolean matches( boolean b){
-        return select(_boolean.of(b)) != null;
+        return select(_booleanExpr.of(b)) != null;
     }
 
-    public boolean matches(_boolean _b){
+    public boolean matches(_booleanExpr _b){
         return select(_b) != null;
     }
 
@@ -65,7 +65,7 @@ public class $boolean extends $ex<BooleanLiteralExpr, _boolean, $boolean> {
      * @param keyValues alternating key, and values
      * @return
      */
-    public _boolean draft(Translator translator, Map<String,Object> keyValues ){
+    public _booleanExpr draft(Translator translator, Map<String,Object> keyValues ){
         return super.draft(Translator.DEFAULT_TRANSLATOR, Tokens.of(keyValues));
     }
 

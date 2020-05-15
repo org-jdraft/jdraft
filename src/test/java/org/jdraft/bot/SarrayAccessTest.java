@@ -17,9 +17,9 @@ import junit.framework.TestCase;
 public class SarrayAccessTest extends TestCase {
 
 	public void testOr(){
-		$arrayAccess $aaor = $arrayAccess.or(
-				$arrayAccess.of().$index(_int.class),
-				$arrayAccess.of().$index(_methodCall.class)
+		$arrayAccessExpr $aaor = $arrayAccessExpr.or(
+				$arrayAccessExpr.of().$index(_intExpr.class),
+				$arrayAccessExpr.of().$index(_methodCallExpr.class)
 		);
 
 		class FF{
@@ -36,11 +36,11 @@ public class SarrayAccessTest extends TestCase {
 		}
 		assertEquals( 2, $aaor.countIn(FF.class));
 		//test predicate applied to or
-		assertEquals( 1, $aaor.$and(a->a.getIndex() instanceof _int).countIn(FF.class) );
+		assertEquals( 1, $aaor.$and(a->a.getIndex() instanceof _intExpr).countIn(FF.class) );
 	}
 
 	public void testAny(){
-		$arrayAccess $aa = $arrayAccess.of();
+		$arrayAccessExpr $aa = $arrayAccessExpr.of();
 		assertTrue( $aa.isMatchAny());
 
 		assertEquals( 2, $aa.$listBots().size() );
@@ -51,7 +51,7 @@ public class SarrayAccessTest extends TestCase {
 	}
 
 	public void testSelect() {
-		$arrayAccess $aa = $arrayAccess.of();
+		$arrayAccessExpr $aa = $arrayAccessExpr.of();
 		assertTrue($aa.select("a[1]") != null);
 		assertTrue($aa.select("b[m()]") != null);
 		System.out.println( $aa.name );
@@ -61,7 +61,7 @@ public class SarrayAccessTest extends TestCase {
 
 	public void testPredicateAPI() {
 		//only accept int literal predicates
-		$arrayAccess $aa = $arrayAccess.of(). $and(a -> a.isIndex(i -> i instanceof _int));
+		$arrayAccessExpr $aa = $arrayAccessExpr.of(). $and(a -> a.isIndex(i -> i instanceof _intExpr));
 		assertTrue( $aa.matches("x[1]") );
 		assertTrue( $aa.matches("y[1123]") );
 		assertFalse( $aa.matches("x[m()]") );
@@ -71,7 +71,7 @@ public class SarrayAccessTest extends TestCase {
 	}
 
 	public void testRecursive(){
-		_arrayAccess _aa = _arrayAccess.of("i[1][3]");
+		_arrayAccessExpr _aa = _arrayAccessExpr.of("i[1][3]");
 		Print.tree(_aa.ast());
 		assertTrue(_aa.isNamed("i[1]"));
 		assertTrue(_aa.isIndex("3"));
@@ -79,9 +79,9 @@ public class SarrayAccessTest extends TestCase {
 
 	//the base API for creating $and, $not, $, and draft
 	public void testBaseAPI() {
-		$arrayAccess $aa = $arrayAccess.of();
-		_arrayAccess _aa = _arrayAccess.of("X[i]");
-		_aa = $aa.instance( Expressions.arrayAccessEx("Y[m()]"));
+		$arrayAccessExpr $aa = $arrayAccessExpr.of();
+		_arrayAccessExpr _aa = _arrayAccessExpr.of("X[i]");
+		_aa = $aa.instance( Exprs.arrayAccessEx("Y[m()]"));
 		
 		//$and
 		$aa.$and(a-> a.getName().is("x"));		
@@ -96,14 +96,14 @@ public class SarrayAccessTest extends TestCase {
 		
 
 		//$
-		$aa = $arrayAccess.of("x[1]");
+		$aa = $arrayAccessExpr.of("x[1]");
 		System.out.println( $aa );
 		assertTrue( $aa.name.matches("x") );
 		assertTrue( $aa.index.matches("1") );
 
 		assertTrue( $aa.matches("x[1]") );
 		//assertEquals("x", $aa.name.draft() );
-		assertEquals(_int.of("1"), $aa.index.draft() );
+		assertEquals(_intExpr.of("1"), $aa.index.draft() );
 
 
 		//$aa.$("1", "idx");
@@ -124,20 +124,20 @@ public class SarrayAccessTest extends TestCase {
 		System.out.println("NAME"+ $aa.name);
 		System.out.println("INDEX"+ $aa.index);
 		
-		assertEquals( _arrayAccess.of("x[4]"), $aa.draft("idx", "4"));
+		assertEquals( _arrayAccessExpr.of("x[4]"), $aa.draft("idx", "4"));
 	}
 
 	/**
 	 * These features are 
 	 */
 	public void testUniqueAPI() {
-		$arrayAccess $aa = $arrayAccess.of();
-		$aa.$name("x").$index(_int.of(1));
+		$arrayAccessExpr $aa = $arrayAccessExpr.of();
+		$aa.$name("x").$index(_intExpr.of(1));
 
 		assertTrue($aa.name.matches("x"));
 		assertTrue($aa.index.matches("1"));
 
-		ArrayAccessExpr aae = Expressions.arrayAccessEx("x[1]");
+		ArrayAccessExpr aae = Exprs.arrayAccessEx("x[1]");
 		assertTrue( $aa.matches(aae));
 		assertTrue( $aa.matches("x[1]"));
 		assertFalse( $aa.matches("y[1]"));
@@ -147,7 +147,7 @@ public class SarrayAccessTest extends TestCase {
 	}
 	
     public void testA(){
-        $arrayAccess $aa = $arrayAccess.of();
+        $arrayAccessExpr $aa = $arrayAccessExpr.of();
         assertTrue( $aa.matches("v[0]") );
         assertTrue( $aa.matches("v[0][1]") );
         assertTrue( $aa.matches("v[0][3>>>4]") );
@@ -155,7 +155,7 @@ public class SarrayAccessTest extends TestCase {
         assertTrue( $aa.matches("m()[4]") );
         assertTrue( $aa.matches("m()[y>>3]") );
         
-        $aa = $arrayAccess.of("x[1]");
+        $aa = $arrayAccessExpr.of("x[1]");
         assertTrue( $aa.matches("x[1]"));
 		assertFalse( $aa.matches("x[1][0]"));
         assertFalse( $aa.matches("x[2]"));

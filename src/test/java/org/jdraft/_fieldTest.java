@@ -158,14 +158,14 @@ public class _fieldTest extends TestCase {
         _field _f = _field.of("/** JAVADOC */", "@ann(1)", "@ann2(3)", "public static final int W = 103 + 45;");
         assertNotNull( _f.getJavadoc() );
         assertTrue( _f.getJavadoc().getText().contains( "JAVADOC"));
-        _annoRefs _as = _f.getAnnoRefs();
+        _annoExprs _as = _f.getAnnoRefs();
         assertEquals( 2, _as.size() );
         assertTrue( _as.is("@ann(1)", "@ann2(3)") );
         
         assertEquals( _modifiers.of( "public", "static", "final"), _f.getModifiers() );
         assertTrue( _f.isTypeRef( "int"));
         assertEquals("W", _f.getName() );
-        assertEquals( Expressions.of("103 + 45"), _f.getInit() );
+        assertEquals( Exprs.of("103 + 45"), _f.getInit() );
     }
     
 }

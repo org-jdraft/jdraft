@@ -37,7 +37,7 @@ public class _nameTest extends TestCase {
         _method _m = _method.of("void m(){}");
         assertTrue( _name.of(_m.getNameNode()).isMethodName() );
 
-        _methodCall _mc = _methodCall.of("m()");
+        _methodCallExpr _mc = _methodCallExpr.of("m()");
         assertTrue( _name.of(_mc.getNameNode()).isMethodName() );
     }
 
@@ -75,7 +75,7 @@ public class _nameTest extends TestCase {
 
         assertTrue( _name.of( _import.of("aaaa.bbbb.C").ast().getName().getQualifier().get() ).isImportName());
 
-        assertTrue( _name.of( _methodRef.of("A::B").ast() ).isMethodReference());
+        assertTrue( _name.of( _methodRefExpr.of("A::B").ast() ).isMethodReference());
         assertTrue( _name.of( Ast.packageDeclaration("package aaaa.bbbb").getName() ).isPackageName() );
         assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeName() );
         //assertTrue( _name.of( Types.of("C").asClassOrInterfaceType().getName() ).isTypeRefName() );

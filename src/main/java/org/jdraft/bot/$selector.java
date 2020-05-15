@@ -23,7 +23,7 @@ import java.util.function.Predicate;
  *     <LI>determining if a "node" meets a criteria (usually via a {@link Predicate})</LI>
  *     <LI>extracting parameters within the text of the {@link _java._node} via a {@link Stencil}</LI>
  * </UL>
- * @param <_S> the candidate type being selected (i.e. a {@link $methodCall} -> {@link _methodCall}
+ * @param <_S> the candidate type being selected (i.e. a {@link $methodCall} -> {@link _methodCallExpr}
  * @param <$S> the underlying selector type  to "return itself modified" (i.e. {@link $methodCall} returns {@link $methodCall}
  */
 public interface $selector<_S, $S> extends Function<_S, Tokens> {
@@ -454,7 +454,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
 
     /**
      * Does the candidate have an ancestor (UP the AST tree) that is any one of these _classes
-     * (includes interfaces, like {@link _statement._controlFlow})
+     * (includes interfaces, like {@link _stmt._controlFlow})
      *
      * @param _nodeClasses
      * @return
@@ -465,7 +465,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
 
     /**
      * Does this class have an ancestor that is any one of these _classes (includes _interfaces, like
-     * {@link _statement._controlFlow})
+     * {@link _stmt._controlFlow})
      *
      * @param _nodeClasses
      * @return

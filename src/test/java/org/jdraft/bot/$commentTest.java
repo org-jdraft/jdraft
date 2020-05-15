@@ -211,7 +211,7 @@ public class $commentTest extends TestCase {
         //verify we can match the
         assertEquals(6, $comment.of().$and(c-> c.getText().startsWith("TODO")).countIn(C.class));
 
-        System.out.println( _statement.of( () -> System.out.println(1)) );
+        System.out.println( _stmt.of( () -> System.out.println(1)) );
 
         class replaceInBody{
             void v(){

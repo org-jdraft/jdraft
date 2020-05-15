@@ -33,8 +33,8 @@ public class $withTextTest extends TestCase {
         class C{
             String s = "this is a String containing text";
         }
-        assertEquals(0, $string.of("containing").countIn(C.class));
-        assertEquals(1, $string.contains("containing").countIn(C.class));
+        assertEquals(0, $stringExpr.of("containing").countIn(C.class));
+        assertEquals(1, $stringExpr.contains("containing").countIn(C.class));
 
         _class _c = $withText.of("containing").replaceIn(C.class, "replaced");
 

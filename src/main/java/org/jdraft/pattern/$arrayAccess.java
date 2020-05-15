@@ -1,8 +1,8 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
-import org.jdraft._arrayAccess;
-import org.jdraft._expression;
+import org.jdraft._arrayAccessExpr;
+import org.jdraft._expr;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 /**
  * boolean literal pattern within code
  */
-public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccess, $arrayAccess> {
+public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccessExpr, $arrayAccess> {
 
     //match ANY boolean literal (any literal true or false)
     public static $arrayAccess of(){
@@ -20,19 +20,19 @@ public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccess, $arrayAcces
     }
 
     public static $arrayAccess of(String...code){
-        return of( _arrayAccess.of(code));
+        return of( _arrayAccessExpr.of(code));
     }
 
     public static $arrayAccess of(ArrayAccessExpr b){
-        return of( _arrayAccess.of(b));
+        return of( _arrayAccessExpr.of(b));
     }
 
-    public static $arrayAccess of(_arrayAccess _a){
+    public static $arrayAccess of(_arrayAccessExpr _a){
         $arrayAccess $ds = of(_a);
         return $ds;
     }
 
-    public static $arrayAccess off(Predicate<_arrayAccess> matchFn){
+    public static $arrayAccess off(Predicate<_arrayAccessExpr> matchFn){
         return of().$and(matchFn);
     }
 
@@ -40,7 +40,7 @@ public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccess, $arrayAcces
         super(ArrayAccessExpr.class, null);
     }
 
-    public boolean matches(_arrayAccess _b){
+    public boolean matches(_arrayAccessExpr _b){
         return select(_b) != null;
     }
 
@@ -57,10 +57,10 @@ public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccess, $arrayAcces
         return this;
     }
 
-    public Select<ArrayAccessExpr, _arrayAccess> select( _expression _e){
-        if( _e instanceof _arrayAccess){
+    public Select<ArrayAccessExpr, _arrayAccessExpr> select(_expr _e){
+        if( _e instanceof _arrayAccessExpr){
 
-            _arrayAccess _aa = (_arrayAccess)_e;
+            _arrayAccessExpr _aa = (_arrayAccessExpr)_e;
 
             if( this.constraint.test(_aa)){
                 //this seems wrong
@@ -83,7 +83,7 @@ public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccess, $arrayAcces
                     return null;
                 }
                 all.putAll(s.tokens);
-                return new $ex.Select<ArrayAccessExpr, _arrayAccess>(_aa, all);
+                return new $ex.Select<ArrayAccessExpr, _arrayAccessExpr>(_aa, all);
             }
         }
         return null;
@@ -95,11 +95,11 @@ public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccess, $arrayAcces
      * @param keyValues alternating key, and values
      * @return
      */
-    public _arrayAccess draft(Translator translator, Map<String,Object> keyValues ){
+    public _arrayAccessExpr draft(Translator translator, Map<String,Object> keyValues ){
         ArrayAccessExpr aae =  new ArrayAccessExpr();
         aae.setName( name.draft(translator, keyValues).ast() );
         aae.setIndex( index.draft(translator, keyValues).ast());
-        return _arrayAccess.of(aae );
+        return _arrayAccessExpr.of(aae );
         //return super.draft(translator, Tokens.of(keyValues));
     }
 

@@ -1,13 +1,12 @@
 package com.github.javaparser;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.printer.ASCIITreePrinter;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.bot.$double;
-import org.jdraft.bot.$int;
+import org.jdraft.bot.$doubleExpr;
+import org.jdraft.bot.$intExpr;
 
 public class NegativeLiteralNumberPostProcessorTest extends TestCase {
 
@@ -19,11 +18,11 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         ASCIITreePrinter.print(cu);
 
         //verify that I cant find a -1 int literal in the (default) JavaParser
-        assertFalse( $int.of(-1).isIn(cu));
+        assertFalse( $intExpr.of(-1).isIn(cu));
         nnp.doProcess(pr);
 
         //verify that after condensing the unaryExpr and int literal I CAN find a -1
-        assertTrue( $int.of(-1).isIn(cu));
+        assertTrue( $intExpr.of(-1).isIn(cu));
         ASCIITreePrinter.print(pr.getResult().get());
     }
 
@@ -36,11 +35,11 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         ASCIITreePrinter.print(cu);
 
         //verify that I cant find a -1.0 double literal in the (default) JavaParser
-        assertFalse( $double.of(-1.0).isIn(cu));
+        assertFalse( $doubleExpr.of(-1.0).isIn(cu));
         NegativeLiteralNumberPostProcessor.doProcess(pr);
 
         //verify that after condensing the unaryExpr and int literal I CAN find a -1.0 double
-        assertTrue( $double.of(-1.0).isIn(cu));
+        assertTrue( $doubleExpr.of(-1.0).isIn(cu));
         ASCIITreePrinter.print(pr.getResult().get());
     }
 
@@ -52,11 +51,11 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         ASCIITreePrinter.print(cu);
 
         //verify that I cant find a -1.0 double literal in the (default) JavaParser
-        assertFalse( $double.of(-3.141589).isIn(cu));
+        assertFalse( $doubleExpr.of(-3.141589).isIn(cu));
         nnp.doProcess(pr);
 
         //verify that after condensing the unaryExpr and int literal I CAN find a -1.0 double
-        assertTrue( $double.of(-3.141589).isIn(cu));
+        assertTrue( $doubleExpr.of(-3.141589).isIn(cu));
         ASCIITreePrinter.print(pr.getResult().get());
     }
 
@@ -68,11 +67,11 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         ASCIITreePrinter.print(cu);
 
         //verify that I cant find a -1.0 double literal in the (default) JavaParser
-        assertFalse( $int.of(-  10000).isIn(cu));
+        assertFalse( $intExpr.of(-  10000).isIn(cu));
         nnp.doProcess(pr);
 
         //verify that after condensing the unaryExpr and int literal I CAN find a -1.0 double
-        assertTrue( $int.of(-   10000).isIn(cu));
+        assertTrue( $intExpr.of(-   10000).isIn(cu));
         ASCIITreePrinter.print(pr.getResult().get());
     }
 
@@ -121,7 +120,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
      *     └─"1" IntegerLiteralExpr : (1,22)-(1,22)
      */
     public void testNumNegativeUnaryNegative() {
-        IntegerLiteralExpr ile = Expressions.intLiteralEx(-12);
+        IntegerLiteralExpr ile = Exprs.intLiteralEx(-12);
         Print.tree(ile);
         UnaryExpr ue = new UnaryExpr(ile, UnaryExpr.Operator.MINUS);
         Expression res = NegativeLiteralNumberPostProcessor.replaceUnaryWithNegativeLiteral(ue);
@@ -129,7 +128,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
     }
 
     public void testLongNumNegativeUnaryNegative() {
-        LongLiteralExpr ile = Expressions.longLiteralEx(-12L);
+        LongLiteralExpr ile = Exprs.longLiteralEx(-12L);
         Print.tree(ile);
         UnaryExpr ue = new UnaryExpr(ile, UnaryExpr.Operator.MINUS);
         Expression res = NegativeLiteralNumberPostProcessor.replaceUnaryWithNegativeLiteral(ue);
@@ -148,7 +147,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         //verify that we should NOT have UnaryExprs, only Int, Long, & Double literals
         assertFalse(_c.ast().findFirst(UnaryExpr.class).isPresent());
 
-        assertEquals(1, Tree.list(_c, _int.class, _i-> _i.getValue()==-1).size());
+        assertEquals(1, Tree.list(_c, _intExpr.class, _i-> _i.getValue()==-1).size());
 
         //verify that we can find each
         assertTrue( _c.ast().findFirst(IntegerLiteralExpr.class, ile-> ile.getValue().startsWith("-")).isPresent());
@@ -158,7 +157,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
     }
 
     public void testDoubleNegNum(){
-        DoubleLiteralExpr dle = Expressions.doubleLiteralEx(-1.1);
+        DoubleLiteralExpr dle = Exprs.doubleLiteralEx(-1.1);
         Print.tree(dle);
         UnaryExpr ue = new UnaryExpr(dle,UnaryExpr.Operator.MINUS);
         Expression res = NegativeLiteralNumberPostProcessor.replaceUnaryWithNegativeLiteral(ue);

@@ -26,23 +26,23 @@ public class APIIntegrationTest extends TestCase {
     //can I do something on (the tool side of things) to make it easier to use?
     public void testApi(){
         //I don't need to know the exact name/type of expression, just build it and return it to me
-        _expression _e = _expression.of("3 + 4"); //its really a _binaryExpression in case youre wondering
+        _expr _e = _expr.of("3 + 4"); //its really a _binaryExpression in case youre wondering
 
         //you can create an exact type if you wish
-        _binaryExpression _be = _binaryExpression.of("3 + 4");
+        _binaryExpr _be = _binaryExpr.of("3 + 4");
 
         assertEquals( _e, _be);
 
         //ditto with statements, just create me one that "does" this
-        _statement _st = _statement.of("System.out.println(1);");
+        _stmt _st = _stmt.of("System.out.println(1);");
 
         //...or you can build one for its explicit type
-        _expressionStmt _es = _expressionStmt.of( "System.out.println(1);");
+        _exprStmt _es = _exprStmt.of( "System.out.println(1);");
         assertEquals(_st, _es);
 
         //Statements can also be built from the Java source within a lambda body:
-        _st = _statement.of( ()-> System.out.println(1));
-        _es = _expressionStmt.of( ()-> System.out.println(1));
+        _st = _stmt.of( ()-> System.out.println(1));
+        _es = _exprStmt.of( ()-> System.out.println(1));
         assertEquals( _st, _es);
 
         //methods work like this:
@@ -155,7 +155,7 @@ public class APIIntegrationTest extends TestCase {
         _d = _diff.of(_a, _b);
         assertEquals( 1, _d.size());
         assertTrue( _d.hasRightOnly());
-        assertTrue( _d.hasRightOnlyAt(_annoRef.class));
+        assertTrue( _d.hasRightOnlyAt(_annoExpr.class));
         
         _d.patchRightToLeft(); //apply right changes to left
         

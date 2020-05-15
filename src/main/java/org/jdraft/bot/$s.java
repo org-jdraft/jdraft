@@ -16,9 +16,9 @@ import java.util.function.Predicate;
  * but you dont know the exact Node type
  */
 public class $s
-	implements $bot.$node<Statement, _statement, $s>,
-		$selector.$node<_statement, $s>,
-		$statement<Statement, _statement, $s> {
+	implements $bot.$node<Statement, _stmt, $s>,
+		$selector.$node<_stmt, $s>,
+        $stmt<Statement, _stmt, $s> {
 
 	public static $s of(Stencil stencil ) {
 		return new $s(stencil);
@@ -32,7 +32,7 @@ public class $s
 		return new $s( code);
 	}
 
-	public static $s of(String stencil, Class<? extends _statement> sClasses) {
+	public static $s of(String stencil, Class<? extends _stmt> sClasses) {
 		return of(stencil, new Class[]{ sClasses} );
 	}
 
@@ -43,7 +43,7 @@ public class $s
      * @param sClasses
      * @return
      */
-	public static $s of(String stencil, Class<? extends _statement>...sClasses) {
+	public static $s of(String stencil, Class<? extends _stmt>...sClasses) {
 		$s ee = new $s();
 		ee.stencil = Stencil.of(stencil);
 		ee.$and(sClasses);
@@ -70,10 +70,10 @@ public class $s
 		return this;
 	}
 
-	public $s $and(Class<? extends _statement>...sClasses) {
-		Set<Class<? extends _statement>> _stmtClasses = new HashSet<>();
+	public $s $and(Class<? extends _stmt>...sClasses) {
+		Set<Class<? extends _stmt>> _stmtClasses = new HashSet<>();
 		Arrays.stream(sClasses).forEach(c -> _stmtClasses.add(c));
-		Predicate<_statement> pe = (_e)->
+		Predicate<_stmt> pe = (_e)->
 				_stmtClasses.stream().anyMatch(c -> c.isAssignableFrom( _e.getClass() ));
 		return $and( pe );
 	}
@@ -81,26 +81,26 @@ public class $s
 	/**
 	 * Matches ANY expression that is an instance of any of the statement classes
 	 */
-	public static $s of(Class<? extends _statement>...sClasses) {
+	public static $s of(Class<? extends _stmt>...sClasses) {
 		return new $s().$and(sClasses);
 	}
 
-	public static $s not(Predicate<_statement> _matchFn) {
+	public static $s not(Predicate<_stmt> _matchFn) {
 		return new $s().$not(_matchFn);
 	}
 
-	public Predicate<_statement> getPredicate(){
+	public Predicate<_stmt> getPredicate(){
 		return this.predicate;
 	}
 
-	public $s setPredicate(Predicate<_statement> predicate){
+	public $s setPredicate(Predicate<_stmt> predicate){
 		this.predicate = predicate;
 		return this;
 	}
 
 	public Stencil stencil = null;
 
-	public Predicate<_statement> predicate = p->true;
+	public Predicate<_stmt> predicate = p->true;
 
 	public $s() {
 	}
@@ -126,7 +126,7 @@ public class $s
 	}
 
 	@Override
-	public Select<_statement> select(Node n) {
+	public Select<_stmt> select(Node n) {
 		if( n == null ) {
 			if( isMatchAny()) {
 				return new Select<>(null, new Tokens());
@@ -134,7 +134,7 @@ public class $s
 			return null;
 		}
 		if( n instanceof Statement ) {
-			_statement _e = _statement.of( (Statement)n);
+			_stmt _e = _stmt.of( (Statement)n);
 			if( this.predicate.test(_e )) {
 				if(this.stencil == null ) {
 					return new Select<>( _e, new Tokens());
@@ -158,9 +158,9 @@ public class $s
 	}
 
 	@Override
-	public Select<_statement> select(String code) {
+	public Select<_stmt> select(String code) {
 		try {
-			Statement e = Statements.of(code);
+			Statement e = Stmts.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -168,9 +168,9 @@ public class $s
 	}
 
 	@Override
-	public Select<_statement> select(String... code) {
+	public Select<_stmt> select(String... code) {
 		try {
-			Statement e = Statements.of(code);
+			Statement e = Stmts.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -179,7 +179,7 @@ public class $s
 	}
 
 	@Override
-	public Select<_statement> select(_statement candidate) {
+	public Select<_stmt> select(_stmt candidate) {
 		if( candidate == null) {
 			if( isMatchAny() ) {
 				return new Select<>( null, new Tokens());
@@ -198,19 +198,19 @@ public class $s
 		return false;
 	}
 	
-	public $s $and(Predicate<_statement> matchFn) {
+	public $s $and(Predicate<_stmt> matchFn) {
 		this.predicate = this.predicate.and(matchFn);
 		return this;
 	}
 
 	@Override
-	public $s $not(Predicate<_statement> matchFn) {
+	public $s $not(Predicate<_stmt> matchFn) {
 		this.predicate = this.predicate.and(matchFn.negate());
 		return this;
 	}
 
 	@Override
-	public _statement draft(Translator translator, Map<String, Object> keyValues) {
+	public _stmt draft(Translator translator, Map<String, Object> keyValues) {
 		 if (this.stencil == null) {
              // I might NOT set the
              String overrideName = this.getClass().getSimpleName();
@@ -228,7 +228,7 @@ public class $s
              }
              String drafted = stencil.draft(translator, keyValues);
 
-			 _statement _e = _statement.of(drafted);
+			 _stmt _e = _stmt.of(drafted);
              if( predicate.test(_e)) {
             	 return _e;
              }
@@ -240,7 +240,7 @@ public class $s
          if (draftedCode != null) {
              // if the drafted code is built
              // create an instance of the object based on the drafted code
-			 _statement _e = _statement.of(draftedCode);
+			 _stmt _e = _stmt.of(draftedCode);
              if (predicate.test(_e)) {
                  // run all the
                  return _e;

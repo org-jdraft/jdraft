@@ -490,7 +490,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
 
     /**
      *
-     * @see _localVariables
+     * @see _variablesExpr
      *
      * @see _type
      *     @see _class

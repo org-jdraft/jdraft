@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-public final class _tryStmt implements _statement._controlFlow._branching<TryStmt, _tryStmt>,
+public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _tryStmt>,
         _java._multiPart<TryStmt, _tryStmt>{
 
     public static _tryStmt of(){
@@ -20,41 +20,41 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
         return new _tryStmt(ts);
     }
     public static _tryStmt of(String...code){
-        return new _tryStmt(Statements.tryStmt(code));
+        return new _tryStmt(Stmts.tryStmt(code));
     }
 
-    public static <A extends Object> _tryStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _tryStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _tryStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _tryStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _tryStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _tryStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _tryStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _tryStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
 
@@ -118,52 +118,52 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
         return this;
     }
 
-    public  <A extends Object> _tryStmt setTryBody(Expressions.Command lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public  <A extends Object> _tryStmt setTryBody(Exprs.Command lambdaWithBody){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
     public <A extends Object> _tryStmt setTryBody(Consumer<A> lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
     public <A extends Object, B extends Object> _tryStmt setTryBody(Function<A,B> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
     public <A extends Object, B extends Object,C extends Object>  _tryStmt setTryBody(BiFunction<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Expressions.TriFunction<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Exprs.TriFunction<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt setTryBody(Expressions.QuadFunction<A,B,C,D,E> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt setTryBody(Exprs.QuadFunction<A,B,C,D,E> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
     public <A extends Object, B extends Object>  _tryStmt setTryBody(BiConsumer<A,B> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object>  _tryStmt setTryBody(Expressions.TriConsumer<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object>  _tryStmt setTryBody(Exprs.TriConsumer<A,B,C> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Expressions.QuadConsumer<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Exprs.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return setTryBody(bdy);
     }
 
-    public _tryStmt addTry(_statement... _sts){
+    public _tryStmt addTry(_stmt... _sts){
         BlockStmt bs = this.tryStmt.getTryBlock();
         for(int i=0;i<_sts.length; i++){
             bs.addStatement(_sts[i].ast());
@@ -184,51 +184,51 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
         return this;
     }
 
-    public  <A extends Object> _tryStmt addTry(Expressions.Command lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public  <A extends Object> _tryStmt addTry(Exprs.Command lambdaWithBody){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
     public <A extends Object> _tryStmt addTry(Consumer<A> lambdaWithBody){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
     public <A extends Object, B extends Object> _tryStmt addTry(Function<A,B> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
     public <A extends Object, B extends Object,C extends Object>  _tryStmt addTry(BiFunction<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Expressions.TriFunction<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Exprs.TriFunction<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt addTry(Expressions.QuadFunction<A,B,C,D,E> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt addTry(Exprs.QuadFunction<A,B,C,D,E> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
     public <A extends Object, B extends Object>  _tryStmt addTry(BiConsumer<A,B> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object>  _tryStmt addTry(Expressions.TriConsumer<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object>  _tryStmt addTry(Exprs.TriConsumer<A,B,C> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Expressions.QuadConsumer<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambda.from( Thread.currentThread().getStackTrace()[2]).getBody();
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Exprs.QuadConsumer<A,B,C,D> lambdaWithBody ){
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
         return addTry(bdy);
     }
-    public _tryStmt addTry(int startStatementIndex, _statement... _sts) {
+    public _tryStmt addTry(int startStatementIndex, _stmt... _sts) {
         return addTry( startStatementIndex, Arrays.stream(_sts).map(_s -> _s.ast()).collect(Collectors.toList()).toArray(new Statement[0]));
     }
 
@@ -254,11 +254,11 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
     }
 
     public boolean hasWithResourceType( Class clazz ){
-        return hasWithResources(_new.class, _n-> _n.isTypeRef(clazz))
-                || hasWithResources(_localVariables.class, _v->_v.listVariables(v-> v.isTypeRef(clazz)).size() > 0 );
+        return hasWithResources(_newExpr.class, _n-> _n.isTypeRef(clazz))
+                || hasWithResources(_variablesExpr.class, _v->_v.listVariables(v-> v.isTypeRef(clazz)).size() > 0 );
     }
 
-    public <_E extends _expression> boolean hasWithResources(Class<_E> exprClass, Predicate<_E> matchFn){
+    public <_E extends _expr> boolean hasWithResources(Class<_E> exprClass, Predicate<_E> matchFn){
         return listWithResources( e-> {
             if( exprClass.isAssignableFrom(e.getClass())){
                 return matchFn.test((_E)e);
@@ -267,11 +267,11 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
         }).size() > 0;
     }
 
-    public boolean hasWithResources(Predicate<_expression> matchFn){
+    public boolean hasWithResources(Predicate<_expr> matchFn){
         return listWithResources(matchFn) != null;
     }
 
-    public _tryStmt setWithResources(_expression... _exs){
+    public _tryStmt setWithResources(_expr... _exs){
         NodeList<Expression> nle = new NodeList<>();
         Arrays.stream(_exs).forEach( _e -> nle.add(_e.ast()));
         this.ast().setResources(nle);
@@ -279,7 +279,7 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
     }
 
     public _tryStmt addWithResources(String...exs){
-        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(Expressions.of(e)));
+        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(Exprs.of(e)));
         return this;
     }
 
@@ -289,30 +289,30 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
     }
 
 
-    public _tryStmt addWithResources(_expression..._exs){
+    public _tryStmt addWithResources(_expr..._exs){
         Arrays.stream(_exs).forEach( _e -> this.ast().getResources().add(_e.ast()));
         return this;
     }
 
-    public _tryStmt removeWithResource(_expression..._exs){
+    public _tryStmt removeWithResource(_expr..._exs){
         Arrays.stream(_exs).forEach( _e -> this.ast().getResources().remove(_e.ast()));
         return this;
     }
 
-    public _tryStmt removeWithResource(Predicate<_expression> matchFn){
-        List<_expression> toRemove = listWithResources(matchFn);
+    public _tryStmt removeWithResource(Predicate<_expr> matchFn){
+        List<_expr> toRemove = listWithResources(matchFn);
         toRemove.forEach( _e -> this.ast().getResources().remove(_e.ast()));
         return this;
     }
 
-    public List<_expression> listWithResources(){
-        List<_expression> exs = new ArrayList<>();
-        this.tryStmt.getResources().forEach( e -> exs.add(_expression.of(e)));
+    public List<_expr> listWithResources(){
+        List<_expr> exs = new ArrayList<>();
+        this.tryStmt.getResources().forEach( e -> exs.add(_expr.of(e)));
         return exs;
     }
 
-    public List<_expression> listWithResources(Predicate<_expression> matchFn){
-        List<_expression> exs = listWithResources();
+    public List<_expr> listWithResources(Predicate<_expr> matchFn){
+        List<_expr> exs = listWithResources();
         return exs.stream().filter(matchFn).collect(Collectors.toList());
     }
 
@@ -454,7 +454,7 @@ public final class _tryStmt implements _statement._controlFlow._branching<TryStm
         return addFinally( bs.getStatements().toArray(new Statement[0]));
     }
 
-    public _tryStmt addFinally(_statement... _sts){
+    public _tryStmt addFinally(_stmt... _sts){
         Optional<BlockStmt> bd = this.tryStmt.getFinallyBlock();
         BlockStmt bs = null;
         if( !bd.isPresent() ){

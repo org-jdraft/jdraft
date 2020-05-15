@@ -98,7 +98,7 @@ public final class _annotation
      */
     public static _annotation of( String signature, Object anonymousClassBody, StackTraceElement ste) {
         _annotation _a = of( signature );
-        ObjectCreationExpr oce = Expressions.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newEx(ste);
 
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 
@@ -367,8 +367,8 @@ public final class _annotation
     }
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of(this.astAnnotation );
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of(this.astAnnotation );
     }
 
     @Override
@@ -452,7 +452,7 @@ public final class _annotation
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc()) ){
             return false;
         }
-        if( !Expressions.equalAnnos(astAnnotation, astAnnotation)){
+        if( !Exprs.equalAnnos(astAnnotation, astAnnotation)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName()) ){
@@ -554,7 +554,7 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( this.getEffectiveModifiers() );
 
         hash = 13 * hash + Objects.hashCode( this.getJavadoc() );
-        hash = 13 * hash + Expressions.hashAnnos(astAnnotation);
+        hash = 13 * hash + Exprs.hashAnnos(astAnnotation);
 
         hash = 13 * hash + Objects.hashCode( this.getName() );
 
@@ -639,7 +639,7 @@ public final class _annotation
      * (it is also a _member) and maps to an AnnotationMemberDeclaration
      */
     public static class _entry implements _javadocComment._withJavadoc<_entry>,
-            _annoRefs._withAnnoRefs<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration,_entry>,
+            _annoExprs._withAnnoExprs<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration,_entry>,
             _java._declared<AnnotationMemberDeclaration, _entry> {
 
         public static _entry of(AnnotationMemberDeclaration astEntry){
@@ -737,37 +737,37 @@ public final class _annotation
         }
         
         public _entry setDefaultValue(int intValue ){
-            this.astAnnMember.setDefaultValue( Expressions.of( intValue ) );
+            this.astAnnMember.setDefaultValue( Exprs.of( intValue ) );
             return this;
         }
         
         public _entry setDefaultValue(long longValue ){
-            this.astAnnMember.setDefaultValue( Expressions.of( longValue ) );
+            this.astAnnMember.setDefaultValue( Exprs.of( longValue ) );
             return this;
         }
         
         public _entry setDefaultValue(char charValue ){
-            this.astAnnMember.setDefaultValue( Expressions.of( charValue ) );
+            this.astAnnMember.setDefaultValue( Exprs.of( charValue ) );
             return this;
         }
         
         public _entry setDefaultValue(boolean booleanValue ){
-            this.astAnnMember.setDefaultValue( Expressions.of( booleanValue ) );
+            this.astAnnMember.setDefaultValue( Exprs.of( booleanValue ) );
             return this;
         }
         
         public _entry setDefaultValueNull(){
-            this.astAnnMember.setDefaultValue( Expressions.nullEx() );
+            this.astAnnMember.setDefaultValue( Exprs.nullEx() );
             return this;
         }
         
         public _entry setDefaultValue(float floatValue ){
-            this.astAnnMember.setDefaultValue( Expressions.of( floatValue ) );
+            this.astAnnMember.setDefaultValue( Exprs.of( floatValue ) );
             return this;
         }
         
         public _entry setDefaultValue(double doubleValue ){
-            this.astAnnMember.setDefaultValue( Expressions.of( doubleValue ) );
+            this.astAnnMember.setDefaultValue( Exprs.of( doubleValue ) );
             return this;
         }
         
@@ -789,8 +789,8 @@ public final class _annotation
         }
 
         @Override
-        public _annoRefs getAnnoRefs() {
-            return _annoRefs.of(this.astAnnMember );
+        public _annoExprs getAnnoRefs() {
+            return _annoExprs.of(this.astAnnMember );
         }
 
         @Override
@@ -808,7 +808,7 @@ public final class _annotation
             if( this.astAnnMember == other.astAnnMember){
                 return true; //two _element instances pointing to same AstMemberDeclaration
             }
-            if( ! Expressions.equalAnnos(this.astAnnMember, other.astAnnMember)){
+            if( ! Exprs.equalAnnos(this.astAnnMember, other.astAnnMember)){
                 return false;
             }
             if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -845,7 +845,7 @@ public final class _annotation
         public int hashCode() {
             int hash = 7;
             hash = 97 * hash + Objects.hash(
-                    Expressions.hashAnnos(this.astAnnMember),
+                    Exprs.hashAnnos(this.astAnnMember),
                     this.getJavadoc(),
                     this.getName(),
                     Types.hash(this.astAnnMember.getType()),

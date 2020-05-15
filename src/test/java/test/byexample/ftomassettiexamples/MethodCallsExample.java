@@ -1,7 +1,7 @@
 package test.byexample.ftomassettiexamples;
 
 import com.github.javaparser.ast.expr.MethodCallExpr;
-import org.jdraft._methodCall;
+import org.jdraft._methodCallExpr;
 import org.jdraft._type;
 import org.jdraft.io._archive;
 import org.jdraft.io._path;
@@ -10,7 +10,7 @@ import org.jdraft.pattern.$ex;
 public class MethodCallsExample {
 
     public static void main(String[] args){
-        $ex<MethodCallExpr,_methodCall, $ex> $mc = $ex.methodCallEx();
+        $ex<MethodCallExpr, _methodCallExpr, $ex> $mc = $ex.methodCallEx();
         //for a sources-archive
         _archive.of("C:\\users\\Eric\\downloads\\commons-lang3-3.9-sources.jar").load()
                 .forEach(_type.class, t-> {

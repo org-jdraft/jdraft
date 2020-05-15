@@ -13,8 +13,8 @@ import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
-import org.jdraft.Expressions;
-import org.jdraft._expression;
+import org.jdraft.Exprs;
+import org.jdraft._expr;
 
 import com.github.javaparser.ast.Node;
 
@@ -24,9 +24,9 @@ import com.github.javaparser.ast.Node;
  * but you dont know the exact Node type
  */
 public class $e 
-	implements $bot.$node<Expression,_expression, $e>,
-		$selector.$node<_expression, $e>,
-		$expression<Expression, _expression, $e> {
+	implements $bot.$node<Expression, _expr, $e>,
+		$selector.$node<_expr, $e>,
+		$expr<Expression, _expr, $e> {
 
 	public static $e of(){
 		return new $e();
@@ -44,7 +44,7 @@ public class $e
 		return new $e( code);
 	}
 
-	public static $e of(String stencil, Class<? extends _expression> expressionClasses) {
+	public static $e of(String stencil, Class<? extends _expr> expressionClasses) {
 		return of(stencil, new Class[]{ expressionClasses} );
 	}
 
@@ -55,17 +55,17 @@ public class $e
 	 * @param expressionClasses
 	 * @return
 	 */
-	public static $e of(String stencil, Class<? extends _expression>...expressionClasses) {
+	public static $e of(String stencil, Class<? extends _expr>...expressionClasses) {
 		$e ee = new $e();
 		ee.stencil = Stencil.of(stencil);
 		ee.$and(expressionClasses);
 		return ee;
 	}
 
-	public $e $and( Class<? extends _expression>...expressionClasses) {
-		Set<Class<? extends _expression>> exprClasses = new HashSet<>();
+	public $e $and( Class<? extends _expr>...expressionClasses) {
+		Set<Class<? extends _expr>> exprClasses = new HashSet<>();
 		Arrays.stream(expressionClasses).forEach(c -> exprClasses.add(c));
-		Predicate<_expression> pe = (_e)->
+		Predicate<_expr> pe = (_e)->
 				exprClasses.stream().anyMatch(c -> c.isAssignableFrom( _e.getClass() ));
 		return $and( pe );
 	}
@@ -73,26 +73,26 @@ public class $e
 	/**
 	 * Matches ANY expression that is an instance of any of the expression classes
 	 */
-	public static $e of(Class<? extends _expression>...expressionClasses) {
+	public static $e of(Class<? extends _expr>...expressionClasses) {
 		return new $e().$and(expressionClasses);
 	}
 
-	public static $e not(Predicate<_expression> _matchFn) {
+	public static $e not(Predicate<_expr> _matchFn) {
 		return new $e().$not(_matchFn);
 	}
 
-	public Predicate<_expression> getPredicate(){
+	public Predicate<_expr> getPredicate(){
 		return this.predicate;
 	}
 
-	public $e setPredicate( Predicate<_expression> predicate){
+	public $e setPredicate( Predicate<_expr> predicate){
 		this.predicate = predicate;
 		return this;
 	}
 
 	public Stencil stencil = null;
 	
-	public Predicate<_expression> predicate = p->true;
+	public Predicate<_expr> predicate = p->true;
 	
 	public $e() {
 	}
@@ -126,7 +126,7 @@ public class $e
 	}
 
 	@Override
-	public Select<_expression> select(Node n) {
+	public Select<_expr> select(Node n) {
 		if( n == null ) {
 			if( isMatchAny()) {
 				return new Select<>(null, new Tokens());
@@ -134,7 +134,7 @@ public class $e
 			return null;
 		}
 		if( n instanceof Expression ) {
-			_expression _e = _expression.of( (Expression)n);
+			_expr _e = _expr.of( (Expression)n);
 			if( this.predicate.test(_e )) {
 				//if( this.expressionClassSet.con)
 				if(this.stencil == null ) {
@@ -159,9 +159,9 @@ public class $e
 	}
 
 	@Override
-	public Select<_expression> select(String code) {
+	public Select<_expr> select(String code) {
 		try {
-			Expression e = Expressions.of(code);
+			Expression e = Exprs.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -169,9 +169,9 @@ public class $e
 	}
 
 	@Override
-	public Select<_expression> select(String... code) {
+	public Select<_expr> select(String... code) {
 		try {
-			Expression e = Expressions.of(code);
+			Expression e = Exprs.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -180,7 +180,7 @@ public class $e
 	}
 
 	@Override
-	public Select<_expression> select(_expression candidate) {
+	public Select<_expr> select(_expr candidate) {
 		if( candidate == null) {
 			if( isMatchAny() ) {
 				return new Select<>( null, new Tokens());
@@ -199,7 +199,7 @@ public class $e
 		return false;
 	}
 	
-	public $e $and(Predicate<_expression> matchFn) {
+	public $e $and(Predicate<_expr> matchFn) {
 		this.predicate = this.predicate.and(matchFn);
 		return this;
 	}
@@ -212,13 +212,13 @@ public class $e
 	}
 
 	@Override
-	public $e $not(Predicate<_expression> matchFn) {
+	public $e $not(Predicate<_expr> matchFn) {
 		this.predicate = this.predicate.and(matchFn.negate());
 		return this;
 	}
 
 	@Override
-	public _expression draft(Translator translator, Map<String, Object> keyValues) {
+	public _expr draft(Translator translator, Map<String, Object> keyValues) {
 		 if (this.stencil == null) {
              // I might NOT set the
              String overrideName = this.getClass().getSimpleName();
@@ -236,7 +236,7 @@ public class $e
              }
              String drafted = stencil.draft(translator, keyValues);
              
-             _expression _e = _expression.of(drafted);
+             _expr _e = _expr.of(drafted);
              if( predicate.test(_e)) {
             	 return _e;
              }
@@ -248,7 +248,7 @@ public class $e
          if (draftedCode != null) {
              // if the drafted code is built
              // create an instance of the object based on the drafted code
-             _expression _e = _expression.of(draftedCode);
+             _expr _e = _expr.of(draftedCode);
              if (predicate.test(_e)) {
                  // run all the
                  return _e;

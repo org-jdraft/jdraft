@@ -2,16 +2,35 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.expr.BinaryExpr;
 import junit.framework.TestCase;
-import org.jdraft._binaryExpression;
-import org.jdraft._expression;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.jdraft._binaryExpr;
+import org.jdraft._expr;
 
 public class $binaryExpressionTest extends TestCase {
 
+    public void testSpecificOperator(){
+        assertTrue( $binaryExpr.and().matches("a && b") );
+        assertTrue( $binaryExpr.binaryAnd().matches("a & b") );
+        assertTrue( $binaryExpr.binaryOr().matches("a | b") );
+        assertTrue( $binaryExpr.divide().matches("a / b") );
+        assertTrue( $binaryExpr.equals().matches("a == b") );
+        assertTrue( $binaryExpr.greater().matches("a > b") );
+        assertTrue( $binaryExpr.greaterEquals().matches("a >= b") );
+        assertTrue( $binaryExpr.leftShift().matches("a << b") );
+        assertTrue( $binaryExpr.less().matches("a < b") );
+        assertTrue( $binaryExpr.lessEquals().matches("a <= b") );
+        assertTrue( $binaryExpr.minus().matches("a - b") );
+        assertTrue( $binaryExpr.multiply().matches("a * b") );
+        assertTrue( $binaryExpr.notEquals().matches("a != b") );
+        assertTrue( $binaryExpr.or().matches("a || b") );
+        assertTrue( $binaryExpr.plus().matches("a + b") );
+        assertTrue( $binaryExpr.rem().matches("a % b") );
+        assertTrue( $binaryExpr.signedRightShift().matches("a >> b") );
+        assertTrue( $binaryExpr.unsignedRightShift().matches("a >>> b") );
+        assertTrue( $binaryExpr.xor().matches("a ^ b") );
+    }
+
     public void testAny(){
-        $binaryExpression $be = $binaryExpression.of();
+        $binaryExpr $be = $binaryExpr.of();
         assertTrue( $be.isMatchAny());
         assertTrue( $be.matches("1==2"));
         assertTrue( $be.matches("a>b"));
@@ -21,27 +40,27 @@ public class $binaryExpressionTest extends TestCase {
     public void testOperatorOnly(){
         //assertTrue($binaryExpression.of(_binaryExpression.PLUS).matches("a+b"));
         //assertTrue($binaryExpression.of().$and(_binaryExpression.PLUS).matches("a+b"));
-        assertTrue( $binaryExpression.of().$not(_binaryExpression.REMAINDER).matches("a + b"));
-        assertFalse( $binaryExpression.of().$not(_binaryExpression.REMAINDER).matches("a % b"));
+        assertTrue( $binaryExpr.of().$not(_binaryExpr.REMAINDER).matches("a + b"));
+        assertFalse( $binaryExpr.of().$not(_binaryExpr.REMAINDER).matches("a % b"));
 
-        $binaryExpression $be = $binaryExpression.of(_binaryExpression.PLUS);
+        $binaryExpr $be = $binaryExpr.of(_binaryExpr.PLUS);
         System.out.println( $be.operator.excludedValues );
-        assertTrue( $binaryExpression.of(_binaryExpression.PLUS).matches("a + b"));
-        assertFalse( $binaryExpression.of(_binaryExpression.PLUS).matches("a / b"));
+        assertTrue( $binaryExpr.of(_binaryExpr.PLUS).matches("a + b"));
+        assertFalse( $binaryExpr.of(_binaryExpr.PLUS).matches("a / b"));
 
-        assertTrue( $binaryExpression.of(_binaryExpression.PLUS, _binaryExpression.DIVIDE).matches("a / b"));
-        assertFalse( $binaryExpression.of(_binaryExpression.PLUS, _binaryExpression.DIVIDE).matches("a % b"));
-        assertTrue( $binaryExpression.plus().matches("a + b"));
-        assertFalse( $binaryExpression.plus().matches("a / b"));
+        assertTrue( $binaryExpr.of(_binaryExpr.PLUS, _binaryExpr.DIVIDE).matches("a / b"));
+        assertFalse( $binaryExpr.of(_binaryExpr.PLUS, _binaryExpr.DIVIDE).matches("a % b"));
+        assertTrue( $binaryExpr.plus().matches("a + b"));
+        assertFalse( $binaryExpr.plus().matches("a / b"));
 
-        assertTrue($binaryExpression.of().$operators(_binaryExpression.PLUS, _binaryExpression.MINUS).matches("a + b"));
-        assertTrue($binaryExpression.of().$operators(_binaryExpression.PLUS, _binaryExpression.MINUS).matches("a - b"));
-        assertFalse($binaryExpression.of().$operators(_binaryExpression.PLUS, _binaryExpression.MINUS).matches("a / b"));
+        assertTrue($binaryExpr.of().$operators(_binaryExpr.PLUS, _binaryExpr.MINUS).matches("a + b"));
+        assertTrue($binaryExpr.of().$operators(_binaryExpr.PLUS, _binaryExpr.MINUS).matches("a - b"));
+        assertFalse($binaryExpr.of().$operators(_binaryExpr.PLUS, _binaryExpr.MINUS).matches("a / b"));
 
     }
 
     public void testSpecific(){
-        $binaryExpression $be = $binaryExpression.of("1==2");
+        $binaryExpr $be = $binaryExpr.of("1==2");
         //System.out.println("ALL"+$be.operator.allPossibleValues);
         //System.out.println("EX"+ $be.operator.excludedValues);
         //Set s = new HashSet<>();
@@ -52,12 +71,12 @@ public class $binaryExpressionTest extends TestCase {
         assertFalse( $be.matches("1 == a"));
         assertFalse( $be.matches("1 > 2"));
 
-        _binaryExpression _r = $be.draft();
+        _binaryExpr _r = $be.draft();
         assertTrue( _r.is("1==2"));
     }
 
     public void testVariables(){
-        $binaryExpression $be = $binaryExpression.of("$a$==$b$");
+        $binaryExpr $be = $binaryExpr.of("$a$==$b$");
         assertTrue( $be.matches("1 == 2"));
         assertTrue( $be.matches("a() == b()"));
         assertTrue( $be.matches("a() == b() + c"));
@@ -75,19 +94,19 @@ public class $binaryExpressionTest extends TestCase {
 
     public void testPredicate(){
         //not the easiest way to do this, but supported
-        $binaryExpression $be = $binaryExpression.of().$and( b-> b.getOperator() == BinaryExpr.Operator.GREATER);
+        $binaryExpr $be = $binaryExpr.of().$and(b-> b.getOperator() == BinaryExpr.Operator.GREATER);
         assertTrue($be.matches("a > b"));
         assertFalse($be.matches("a < b"));
     }
 
     public void testLeft(){
-        $binaryExpression $be = $binaryExpression.of().$left(_expression._literal.class);
+        $binaryExpr $be = $binaryExpr.of().$left(_expr._literal.class);
         assertTrue($be.matches( "1==2"));
         assertFalse($be.matches( "a==2"));
         assertTrue($be.matches( "2 > a()"));
         assertTrue($be.matches( "2 >= a() + 12"));
 
-        $be = $binaryExpression.of().$left($int.of(1));
+        $be = $binaryExpr.of().$left($intExpr.of(1));
         assertTrue($be.matches( "1==2"));
         assertFalse($be.matches( "a==2"));
         assertTrue($be.matches( "1 > a()"));
@@ -95,13 +114,13 @@ public class $binaryExpressionTest extends TestCase {
     }
 
     public void testRight(){
-        $binaryExpression $be = $binaryExpression.of().$right(_expression._literal.class);
+        $binaryExpr $be = $binaryExpr.of().$right(_expr._literal.class);
         assertTrue($be.matches( "1==2"));
         assertFalse($be.matches( "2==a"));
         assertTrue($be.matches( "a > 3"));
         assertTrue($be.matches( "a() + 12"));
 
-        $be = $binaryExpression.of().$right($int.of(1));
+        $be = $binaryExpr.of().$right($intExpr.of(1));
         assertTrue($be.matches( "2==1"));
         assertFalse($be.matches( "2==a"));
         assertTrue($be.matches( "a() > 1"));
@@ -110,9 +129,9 @@ public class $binaryExpressionTest extends TestCase {
 
     public void testOr(){
 
-        $binaryExpression $oneLiteral =
-                $binaryExpression.or( $binaryExpression.of().$left(_expression._literal.class),
-                        $binaryExpression.of().$right(_expression._literal.class));
+        $binaryExpr $oneLiteral =
+                $binaryExpr.or( $binaryExpr.of().$left(_expr._literal.class),
+                        $binaryExpr.of().$right(_expr._literal.class));
 
         assertTrue($oneLiteral.matches("1<2"));
         assertTrue($oneLiteral.matches("a>2"));
@@ -124,7 +143,7 @@ public class $binaryExpressionTest extends TestCase {
         assertTrue($oneLiteral.select("1>2").is("a", "1"));
 
         //copy and change
-        $binaryExpression $anotherLiteral = $oneLiteral.copy().$right("2");
+        $binaryExpr $anotherLiteral = $oneLiteral.copy().$right("2");
         assertTrue($anotherLiteral.matches("1 >> 2"));
         assertFalse($anotherLiteral.matches("1 >> 3"));
 

@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class $typeArguments<N extends Node & NodeWithTypeArguments>
-        implements $bot<N, _typeArguments, $typeArguments>, $methodCall.$part {
+        implements $bot<N, _typeArguments, $typeArguments>, $methodCallExpr.$part {
 
     public static $typeArguments of(){
         return new $typeArguments();
@@ -280,7 +280,7 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
             Or or = new Or();
             or.predicate = this.predicate.and(t->true);
             this.$typeArgumentsList.forEach( e-> or.$typeArgumentsList.add(e.copy()));
-            this.list.forEach( e-> or.list.add( (($expression)e).copy()));
+            this.list.forEach( e-> or.list.add( (($expr)e).copy()));
             return or;
         }
 

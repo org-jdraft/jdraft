@@ -28,7 +28,7 @@ import org.jdraft.text.*;
 public class $field implements Template<_field>, //$pattern<_field, $field>,
         $pattern.$java<_field, $field>,
         $class.$part, $interface.$part, $enum.$part, $annotation.$part, $enumConstant.$part, $member.$named<$field>,
-        $declared<_field,$field>, has$AnnoRefs, $type.$part  {
+        $declared<_field,$field>, $withAnnoRefs, $type.$part  {
 
     public Class<_field> _modelType(){
         return _field.class;
@@ -92,7 +92,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     }
 
     public static _field from( StackTraceElement ste, Object anonymousObjectWithField ){
-        ObjectCreationExpr oce = Expressions.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newEx(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 
@@ -367,7 +367,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param as
      * @return
      */
-    public $field $annos( Predicate<_annoRefs> as ){
+    public $field $annos( Predicate<_annoExprs> as ){
         this.annos.$and(as);
         return this;
     }
@@ -407,7 +407,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param _an
      * @return
      */
-    public $field $anno( _annoRef _an){
+    public $field $anno( _annoExpr _an){
         this.annos.$annosList.add($annoRef.of(_an) );
         return this;
     }
@@ -542,7 +542,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return
      */
     public $field $init( String initPattern ){
-        this.init.exprStencil = Stencil.of(Expressions.of(initPattern).toString() );
+        this.init.exprStencil = Stencil.of(Exprs.of(initPattern).toString() );
         return this;
     }
 

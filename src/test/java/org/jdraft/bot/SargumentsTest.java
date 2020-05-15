@@ -65,19 +65,19 @@ public class SargumentsTest extends TestCase {
     }
 
     public void testIndv(){
-        assertEquals(1, $arguments.of( $int.of() ).countIn(E.class));
+        assertEquals(1, $arguments.of( $intExpr.of() ).countIn(E.class));
     }
 
     public void testIndividualArgs(){
 
-        assertEquals(1, $arguments.of( $e.of(_int.class) ).countIn(E.class));
-        assertEquals(1, $arguments.of( $e.of(_binaryExpression.class) ).countIn(E.class));
+        assertEquals(1, $arguments.of( $e.of(_intExpr.class) ).countIn(E.class));
+        assertEquals(1, $arguments.of( $e.of(_binaryExpr.class) ).countIn(E.class));
 
         $arguments $oneExpr = $arguments.of().$and( a->((_arguments)a).size() ==1 );
         assertEquals(1, $oneExpr.countIn(C.class));
-        $arguments $twoExprs = $arguments.of( $expression.of(), $expression.of() );
+        $arguments $twoExprs = $arguments.of( $expr.of(), $expr.of() );
         assertEquals(1, $twoExprs.countIn(C.class));
-        $arguments $strAny = $arguments.of( $string.of(), $expression.of() );
+        $arguments $strAny = $arguments.of( $stringExpr.of(), $expr.of() );
         assertEquals(1, $strAny.countIn(C.class));
 
     }
@@ -95,8 +95,8 @@ public class SargumentsTest extends TestCase {
 
     public void testPredicate(){
         assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isEmpty()).countIn(E.class) );
-        assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isAt(0, e-> e instanceof _binaryExpression)).countIn(E.class) );
-        assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isAt(0, _binaryExpression.class)).countIn(E.class) );
+        assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isAt(0, e-> e instanceof _binaryExpr)).countIn(E.class) );
+        assertEquals( 1, $arguments.of().$and( a-> ((_arguments)a).isAt(0, _binaryExpr.class)).countIn(E.class) );
     }
 
     public void testToString(){
@@ -105,14 +105,14 @@ public class SargumentsTest extends TestCase {
     }
 
     public void testOr(){
-        $arguments $anyInt = $arguments.of($int.of()); //.$and( a-> ((_arguments)a).isEmpty());
+        $arguments $anyInt = $arguments.of($intExpr.of()); //.$and( a-> ((_arguments)a).isEmpty());
         $arguments $i = $arguments.of("i");
 
         assertNull($i.select("3.12f"));
         assertNull($anyInt.select("3.12f"));
 
         //match single arguments that are the variable i or (any int literal)
-        $arguments aor = $arguments.or( $arguments.of("i"), $arguments.of($int.of()) );
+        $arguments aor = $arguments.or( $arguments.of("i"), $arguments.of($intExpr.of()) );
 
 
         assertNull(aor.select( _arguments.of("3.12f") ));
@@ -125,11 +125,11 @@ public class SargumentsTest extends TestCase {
         assertFalse( aor.matches(_arguments.of("i,1")));
 
         $arguments $allLiterals =
-                $arguments.of().$and( a-> !((_arguments)a).isEmpty()).$all( _expression._literal.class); //of( a-> a.allMatch(e->e instanceof _expression._literal));
+                $arguments.of().$and( a-> !((_arguments)a).isEmpty()).$all( _expr._literal.class); //of( a-> a.allMatch(e->e instanceof _expression._literal));
         assertTrue( $allLiterals.matches("(1, 'c', \"String\", true, 1.23f, 3.45d, null)"));
 
         $arguments $allMethodCalls =
-                $arguments.of().$and( a-> !((_arguments)a).isEmpty()).$all( _methodCall.class );
+                $arguments.of().$and( a-> !((_arguments)a).isEmpty()).$all( _methodCallExpr.class );
 
         //matches all one or more argument argument lists that are either ALL literals or ALL methodCalls
         $arguments $or = $arguments.or($allLiterals, $allMethodCalls);

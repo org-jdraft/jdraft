@@ -9,21 +9,21 @@ public class OfLiteralTest extends TestCase {
      * the model for Literals can be built using values
      */
     public void testBuildOfLiteral(){
-        _expression._literal[] _literals = {
-                _expression.of(1),
-                _expression.of(1.2f),
-                _expression.of(1.2d),
-                _expression.of(true),
-                _expression.of('c'),
+        _expr._literal[] _literals = {
+                _expr.of(1),
+                _expr.of(1.2f),
+                _expr.of(1.2d),
+                _expr.of(true),
+                _expr.of('c'),
 
-                _int.of(1),
-                _double.of(1.2d),
-                _double.of(1.5f),
-                _boolean.of(true),
-                _char.of('c'),
-                _null.of(),
-                _string.of("String"),
-                _textBlock.of("multi", "line", "Text", "Block")
+                _intExpr.of(1),
+                _doubleExpr.of(1.2d),
+                _doubleExpr.of(1.5f),
+                _booleanExpr.of(true),
+                _charExpr.of('c'),
+                _nullExpr.of(),
+                _stringExpr.of("String"),
+                _textBlockExpr.of("multi", "line", "Text", "Block")
         };
     }
 }

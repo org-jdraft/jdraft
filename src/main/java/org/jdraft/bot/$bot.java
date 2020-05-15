@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -1187,8 +1186,8 @@ public interface $bot<B, _B, $B>
      *     <LI>{@link $methodCall#name}</LI>
      *     <LI>{@link $methodCall#arguments}</LI>
      * </UL>
-     *  when we test to see if any given {@link _methodCall} is a match, we ask each part-Bot to inspect each part
-     *  and see if they match, if they DO, then we know the {@link _methodCall} matches
+     *  when we test to see if any given {@link _methodCallExpr} is a match, we ask each part-Bot to inspect each part
+     *  and see if they match, if they DO, then we know the {@link _methodCallExpr} matches
      * (NanoMachines Son) sorry had to
 
     interface $multiBot<MB, _MB, $MB extends Template<_MB>> extends $bot<MB, _MB, $MB>, $selector<_MB, $MB>, Template<_MB>{

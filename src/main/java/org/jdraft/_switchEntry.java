@@ -44,7 +44,7 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
     }
 
 
-    public boolean isCaseConstant(_expression _e){
+    public boolean isCaseConstant(_expr _e){
         return isCaseConstant(_e.ast());
     }
 
@@ -249,48 +249,48 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _switchEntry setStatements(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+    public _switchEntry setStatements(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2] );
         return setStatements(le);
     }
 
     public <A extends Object> _switchEntry setStatements (Consumer<A> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _switchEntry setStatements (Function<A,B> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _switchEntry setStatements(BiFunction<A,B,C> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchEntry setStatements (Expressions.TriFunction<A,B,C, D> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchEntry setStatements (Exprs.TriFunction<A,B,C, D> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchEntry setStatements (Expressions.QuadFunction<A,B,C, D,E> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchEntry setStatements (Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _switchEntry setStatements(BiConsumer<A,B> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _switchEntry setStatements(Expressions.TriConsumer<A,B,C> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object> _switchEntry setStatements(Exprs.TriConsumer<A,B,C> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchEntry setStatements(Expressions.QuadConsumer<A,B,C,D> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchEntry setStatements(Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
@@ -305,7 +305,7 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
         return this;
     }
 
-    public _switchEntry setStatements(_statement...st){
+    public _switchEntry setStatements(_stmt...st){
         NodeList<Statement>stmts = new NodeList<>();
         Arrays.stream(st).forEach(s -> stmts.add(s.ast()));
         this.switchEntry.setStatements(stmts);
@@ -329,48 +329,48 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _switchEntry addStatements(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+    public _switchEntry addStatements(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2] );
         return addStatements(le);
     }
 
     public <A extends Object> _switchEntry addStatements (Consumer<A> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _switchEntry addStatements (Function<A,B> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _switchEntry addStatements(BiFunction<A,B,C> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchEntry addStatements (Expressions.TriFunction<A,B,C, D> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchEntry addStatements (Exprs.TriFunction<A,B,C, D> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchEntry addStatements (Expressions.QuadFunction<A,B,C, D,E> lambdaContainer){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchEntry addStatements (Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
     public <A extends Object, B extends Object> _switchEntry addStatements(BiConsumer<A,B> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _switchEntry addStatements(Expressions.TriConsumer<A,B,C> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object> _switchEntry addStatements(Exprs.TriConsumer<A,B,C> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchEntry addStatements(Expressions.QuadConsumer<A,B,C,D> lambdaContainer ){
-        _lambda _l = _lambda.from( Thread.currentThread().getStackTrace()[2]);
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchEntry addStatements(Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+        _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 

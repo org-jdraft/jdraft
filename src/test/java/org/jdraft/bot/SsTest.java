@@ -10,16 +10,16 @@ public class SsTest extends TestCase {
 	
 	public void testConstruct() {
 		//any match
-		assertTrue( $statement.of().matches("1"));
+		assertTrue( $stmt.of().matches("1"));
 		
 		//with String
-		assertTrue( $statement.of("1").matches("1"));
+		assertTrue( $stmt.of("1").matches("1"));
 		
 		//with _statement
-		assertTrue( $statement.of(_statement.of("return;")).matches("return;"));
+		assertTrue( $stmt.of(_stmt.of("return;")).matches("return;"));
 		
 		//with Statement
-		assertTrue( $statement.of(Statements.of("return;")).matches("return;"));
+		assertTrue( $stmt.of(Stmts.of("return;")).matches("return;"));
 		
 		//with Lambda
 		assertTrue( $s.of(). $and(e-> e instanceof _returnStmt).matches("return null;"));
@@ -35,9 +35,9 @@ public class SsTest extends TestCase {
 		//assertTrue( $s.of(  _returnStmt.class, _assertStmt.class).matches() );
 		
 		//with interface
-		assertTrue( $s.of( _statement._controlFlow.class).matches("while(true){}") );
-		assertTrue( $s.of( _statement._controlFlow._loop.class).matches(Statements.of("for(int i=0;i<100;i++){}")) );
-		assertTrue( $s.of( _statement._controlFlow._branching.class).matches(_statement.of("if(true){}")) );
+		assertTrue( $s.of( _stmt._controlFlow.class).matches("while(true){}") );
+		assertTrue( $s.of( _stmt._controlFlow._loop.class).matches(Stmts.of("for(int i=0;i<100;i++){}")) );
+		assertTrue( $s.of( _stmt._controlFlow._branching.class).matches(_stmt.of("if(true){}")) );
 	}
 	
 	public void test$and() {
@@ -47,7 +47,7 @@ public class SsTest extends TestCase {
 		//assertTrue( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100"));
 		//IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		//ile.setComment(new BlockComment("Hello"));
-		WhileStmt ws = Statements.whileStmt("while(true){}");
+		WhileStmt ws = Stmts.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
 		assertFalse( $s.of().$and(e -> !e.ast().getComment().isPresent()).matches(ws));
 		//assertFalse( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches(ile));
@@ -58,7 +58,7 @@ public class SsTest extends TestCase {
 		//assertFalse( $e.of().$not( e -> !e.ast().getComment().isPresent()).matches("100"));
 		//IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		//ile.setComment(new BlockComment("Hello"));
-		WhileStmt ws = Statements.whileStmt("while(true){}");
+		WhileStmt ws = Stmts.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
 		assertTrue( $s.not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ws));
 		//assertTrue( $e.of().$not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ile));
@@ -68,25 +68,25 @@ public class SsTest extends TestCase {
 		//make sure it matches all different types of expressions
 		//Expression e = Ex.of("@Ann('c')");
 		//System.out.println( e );
-		assertTrue( $statement.of().matches("return;") );
-		assertTrue( $statement.of().matches("assert(true);"));
-		assertTrue( $statement.of().matches("for(int i=0;i<100;i++){}"));
-		assertTrue( $statement.of().matches("a = 1;"));
-		assertTrue( $statement.of().matches("(12 - a);"));
-		assertTrue( $statement.of().matches("call();"));
+		assertTrue( $stmt.of().matches("return;") );
+		assertTrue( $stmt.of().matches("assert(true);"));
+		assertTrue( $stmt.of().matches("for(int i=0;i<100;i++){}"));
+		assertTrue( $stmt.of().matches("a = 1;"));
+		assertTrue( $stmt.of().matches("(12 - a);"));
+		assertTrue( $stmt.of().matches("call();"));
 		
 		//assertTrue( $statement.of().matches((_expression)null)); //"(a)-> print(3);"));
 		
-		assertFalse( $statement.of().matches("private class F{}")); //this is not ANY statement
+		assertFalse( $stmt.of().matches("private class F{}")); //this is not ANY statement
 	}
 	
 	public void testConstructMatch() {
-		assertTrue($statement.of("100").matches("100"));
-		assertFalse($statement.of("100").matches("200"));
-		assertFalse($statement.of("100").matches("null"));
-		assertTrue($statement.of(_returnStmt.of("return;")).matches("return;"));
+		assertTrue($stmt.of("100").matches("100"));
+		assertFalse($stmt.of("100").matches("200"));
+		assertFalse($stmt.of("100").matches("null"));
+		assertTrue($stmt.of(_returnStmt.of("return;")).matches("return;"));
 		assertTrue($s.of().$and(e-> e instanceof _returnStmt).matches("return;"));
-		assertFalse($statement.of(_returnStmt.of(1)).matches("return null;"));
+		assertFalse($stmt.of(_returnStmt.of(1)).matches("return null;"));
 		
 		
 	}

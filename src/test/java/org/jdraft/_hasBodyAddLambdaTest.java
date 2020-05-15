@@ -14,34 +14,34 @@ public class _hasBodyAddLambdaTest extends TestCase {
         
         //set the body as a simple statemenet
         _m.setBody(()->System.out.println(1));        
-        assertEquals( Statements.of(()->System.out.println(1)), _m.getStatement(0));
+        assertEquals( Stmts.of(()->System.out.println(1)), _m.getStatement(0));
         
         //set the body as a block statement
         _m = _method.of(mm);
         _m.setBody( ()-> {System.out.println(1); System.out.println(2);});
         
         //the block statement will set the entire body
-        assertEquals( Statements.of(()->System.out.println(1)), _m.getStatement(0));
-        assertEquals( Statements.of(()->System.out.println(2)), _m.getStatement(1));
+        assertEquals( Stmts.of(()->System.out.println(1)), _m.getStatement(0));
+        assertEquals( Stmts.of(()->System.out.println(2)), _m.getStatement(1));
         
         //ensure override existing body
         _m = _method.of(mm);
         _m.add(()->System.out.println("old"));
         
-        assertEquals( Statements.of(()->System.out.println("old")), _m.getStatement(0));
+        assertEquals( Stmts.of(()->System.out.println("old")), _m.getStatement(0));
         
         //now setBody to override old
         _m.setBody( ()-> {System.out.println(1); System.out.println(2);});
-        assertEquals( Statements.of(()->System.out.println(1)), _m.getStatement(0));
-        assertEquals( Statements.of(()->System.out.println(2)), _m.getStatement(1));
+        assertEquals( Stmts.of(()->System.out.println(1)), _m.getStatement(0));
+        assertEquals( Stmts.of(()->System.out.println(2)), _m.getStatement(1));
         
         //testSetBodyWithReturn Statement
         _m = _method.of(mm);
         
         _m.setBody( (a)-> {System.out.println(a); return a;} );
         
-        assertEquals( Statements.of((a)->System.out.println(a)), _m.getStatement(0));
-        assertEquals( Statements.of("return a;"), _m.getStatement(1));
+        assertEquals( Stmts.of((a)->System.out.println(a)), _m.getStatement(0));
+        assertEquals( Stmts.of("return a;"), _m.getStatement(1));
     }
     
     public void testAddSingleStatementLambdaBody(){
@@ -80,11 +80,11 @@ public class _hasBodyAddLambdaTest extends TestCase {
         
         
         assertEquals(5, _m.getBody().getStatements().size());
-        assertEquals(Statements.of(()->System.out.println("A")), _m.getStatement(4));
-        assertEquals(Statements.of(()->System.out.println("B")), _m.getStatement(3));
-        assertEquals(Statements.of(()->System.out.println("C")), _m.getStatement(2));
-        assertEquals(Statements.of(()->System.out.println("D")), _m.getStatement(1));
-        assertEquals(Statements.of(()->System.out.println("E")), _m.getStatement(0));
+        assertEquals(Stmts.of(()->System.out.println("A")), _m.getStatement(4));
+        assertEquals(Stmts.of(()->System.out.println("B")), _m.getStatement(3));
+        assertEquals(Stmts.of(()->System.out.println("C")), _m.getStatement(2));
+        assertEquals(Stmts.of(()->System.out.println("D")), _m.getStatement(1));
+        assertEquals(Stmts.of(()->System.out.println("E")), _m.getStatement(0));
         
         assertTrue( _m.getBody().is(()-> {
            System.out.println("E");
@@ -137,9 +137,9 @@ public class _hasBodyAddLambdaTest extends TestCase {
         Tree.flattenLabel( _m.ast(), "$label2");
         assertEquals(3, _m.statementCount() );
         
-        assertEquals( Statements.of(()->System.out.println("A")), _m.getStatement(0));
-        assertEquals( Statements.of(()->System.out.println(1)), _m.getStatement(1));
-        assertEquals( Statements.of(()->System.out.println("B")), _m.getStatement(2));
+        assertEquals( Stmts.of(()->System.out.println("A")), _m.getStatement(0));
+        assertEquals( Stmts.of(()->System.out.println(1)), _m.getStatement(1));
+        assertEquals( Stmts.of(()->System.out.println("B")), _m.getStatement(2));
         System.out.println( _m );        
     }
     

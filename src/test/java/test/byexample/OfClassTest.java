@@ -32,7 +32,7 @@ public class OfClassTest extends TestCase {
                 //note the class can be a top level class
                 _class.of(LocalClass.class), //Local (to this method) classes
 
-                _annoRef.of(Deprecated.class), //the @Deprecated annotation
+                _annoExpr.of(Deprecated.class), //the @Deprecated annotation
                 _throws.of(RuntimeException.class),
                 _import.of(Map.class),
                 _imports.of(File.class, IOException.class),
@@ -40,7 +40,7 @@ public class OfClassTest extends TestCase {
 
                 _catch.of(IOException.class, URISyntaxException.class)
                         .setBody(()-> {System.out.println("Ohh man, ohh geez");}),
-                _new.of( URL.class ),
+                _newExpr.of( URL.class ),
                 _parameter.of(String.class, "name"),
         };
     }

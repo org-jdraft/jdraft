@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class $name implements $bot<Node, _name, $name>,
-        $selector<_name, $name>, Template<_name>, $methodCall.$part {
+        $selector<_name, $name>, Template<_name>, $methodCallExpr.$part {
 
     public static $name of() {
         return new $name();

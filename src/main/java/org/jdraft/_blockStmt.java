@@ -11,8 +11,8 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class _blockStmt implements _statement<BlockStmt, _blockStmt>,
-        _java._list<Statement, _statement, _blockStmt> {
+public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
+        _java._list<Statement, _stmt, _blockStmt> {
 
     public static _blockStmt of(){
         return new _blockStmt( new BlockStmt( ));
@@ -21,42 +21,42 @@ public final class _blockStmt implements _statement<BlockStmt, _blockStmt>,
         return new _blockStmt(bs);
     }
     public static _blockStmt of(String...code){
-        return new _blockStmt(Statements.blockStmt( code));
+        return new _blockStmt(Stmts.blockStmt( code));
     }
 
 
-    public static <A extends Object> _blockStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _blockStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _blockStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _blockStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _blockStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _blockStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _blockStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _blockStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _blockStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _blockStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _blockStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _blockStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _blockStmt from( LambdaExpr le){
@@ -79,9 +79,9 @@ public final class _blockStmt implements _statement<BlockStmt, _blockStmt>,
     }
 
     @Override
-    public List<_statement> list() {
-        List<_statement> _sts  = new ArrayList<>();
-        this.bs.getStatements().forEach(s -> _sts.add( _statement.of(s)));
+    public List<_stmt> list() {
+        List<_stmt> _sts  = new ArrayList<>();
+        this.bs.getStatements().forEach(s -> _sts.add( _stmt.of(s)));
         return _sts;
     }
 
@@ -93,7 +93,7 @@ public final class _blockStmt implements _statement<BlockStmt, _blockStmt>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.blockStmt(stringRep));
+            return is( Stmts.blockStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

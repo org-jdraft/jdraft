@@ -1,8 +1,7 @@
 package test.othertools;
 
 import junit.framework.TestCase;
-import org.jdraft.bot.$methodCall;
-import org.jdraft.pattern.$body;
+import org.jdraft.bot.$methodCallExpr;
 
 import java.io.InputStream;
 
@@ -26,7 +25,7 @@ public class SemmleFindUnsafeDeSerializationTest extends TestCase {
             }
         }
         //here Im just illustrating that I can find
-        assertEquals(2, $methodCall.of("fromXML").countIn(C.class));
+        assertEquals(2, $methodCallExpr.of("fromXML").countIn(C.class));
 
         //this is how I might find methods that have a call to fromXML in their body
         //$method.of( $body.of($methodCall.of("fromXML")) );

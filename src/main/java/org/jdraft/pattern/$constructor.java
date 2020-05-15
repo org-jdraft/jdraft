@@ -18,7 +18,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoRefs;
+import org.jdraft._annoExprs;
 import org.jdraft._parameters;
 import org.jdraft._typeParameters;
 import org.jdraft.macro._remove;
@@ -33,7 +33,7 @@ public class $constructor
     implements Template<_constructor>,
         //$pattern<_constructor, $constructor>,
         $pattern.$java<_constructor, $constructor>, $class.$part, $enum.$part, $member.$named<$constructor>,
-        $declared<_constructor,$constructor>, has$AnnoRefs, $type.$part {
+        $declared<_constructor,$constructor>, $withAnnoRefs, $type.$part {
 
     public Class<_constructor> _modelType(){
         return _constructor.class;
@@ -224,7 +224,7 @@ public class $constructor
     }
 
     private static _constructor from( StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Expressions.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newEx( ste );
 
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -616,7 +616,7 @@ public class $constructor
         return this;
     }
     
-    public $constructor $annos( Predicate<_annoRefs> constraint ){
+    public $constructor $annos( Predicate<_annoExprs> constraint ){
         this.annos.$and(constraint);
         return this;
     }
@@ -844,7 +844,7 @@ public class $constructor
         return draft(_n.tokenize() );
     }
 
-    public static final BlockStmt EMPTY = Statements.blockStmt("{}");
+    public static final BlockStmt EMPTY = Stmts.blockStmt("{}");
 
     /**
      * 

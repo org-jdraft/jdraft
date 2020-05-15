@@ -2,9 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
-import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft.text.Tokens;
@@ -17,11 +15,11 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
- * $bot for inspecting and mutating {@link _expressionStmt}s / {@link com.github.javaparser.ast.stmt.ExpressionStmt}s
+ * $bot for inspecting and mutating {@link _exprStmt}s / {@link com.github.javaparser.ast.stmt.ExpressionStmt}s
  */
-public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionStmt, $expressionStmt>,
-        $selector.$node<_expressionStmt, $expressionStmt>,
-        $statement<ExpressionStmt, _expressionStmt, $expressionStmt>, $bot.$withComment<$expressionStmt> {
+public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $expressionStmt>,
+        $selector.$node<_exprStmt, $expressionStmt>,
+        $stmt<ExpressionStmt, _exprStmt, $expressionStmt>, $bot.$withComment<$expressionStmt> {
 
     public interface $part{}
 
@@ -33,19 +31,19 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return new $expressionStmt();
     }
 
-    public static $expressionStmt of(_expressionStmt _i) {
+    public static $expressionStmt of(_exprStmt _i) {
         return new $expressionStmt(_i);
     }
 
     public static $expressionStmt of(ExpressionStmt ile) {
-        return new $expressionStmt(_expressionStmt.of(ile));
+        return new $expressionStmt(_exprStmt.of(ile));
     }
 
     public static $expressionStmt of(String... code) {
-        return of(_expressionStmt.of(code));
+        return of(_exprStmt.of(code));
     }
 
-    public static $expressionStmt of( Expressions.Command lambdaWithMethodCall ){
+    public static $expressionStmt of( Exprs.Command lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -61,11 +59,11 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Expressions.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $expressionStmt of( Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Expressions.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $expressionStmt of( Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -77,21 +75,21 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Expressions.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $expressionStmt of( Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Expressions.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $expressionStmt of( Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
     private static $expressionStmt from( StackTraceElement ste ){
-        return of( _expressionStmt.from( ste) );
+        return of( _exprStmt.from( ste) );
     }
 
-    public Predicate<_expressionStmt> predicate = d -> true;
+    public Predicate<_exprStmt> predicate = d -> true;
 
-    public $expression expression = $expression.of();
+    public $expr expression = $expr.of();
 
     public $comment comment = null;
 
@@ -117,8 +115,8 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return this;
     }
 
-    public $expressionStmt(_expressionStmt _r){
-        this.expression = $expression.of(_r.getExpression());
+    public $expressionStmt(_exprStmt _r){
+        this.expression = $expr.of(_r.getExpression());
     }
 
     /**
@@ -127,15 +125,15 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
      */
     public $expressionStmt copy(){
         $expressionStmt $r = of( ).$and(this.predicate.and(t->true) );
-        $r.expression = ($expression)this.expression.copy();
+        $r.expression = ($expr)this.expression.copy();
         return $r;
     }
 
-    public Predicate<_expressionStmt> getPredicate(){
+    public Predicate<_exprStmt> getPredicate(){
         return this.predicate;
     }
 
-    public $expressionStmt setPredicate(Predicate<_expressionStmt> predicate){
+    public $expressionStmt setPredicate(Predicate<_exprStmt> predicate){
         this.predicate = predicate;
         return this;
     }
@@ -149,43 +147,43 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return false;
     }
 
-    public Select<_expressionStmt> select(String... code) {
+    public Select<_exprStmt> select(String... code) {
         try {
-            return select(_expressionStmt.of(code));
+            return select(_exprStmt.of(code));
         } catch (Exception e) {
             return null;
         }
     }
 
-    public Select<_expressionStmt> select(Node n) {
+    public Select<_exprStmt> select(Node n) {
         if (n instanceof ExpressionStmt) {
-            return select(_expressionStmt.of((ExpressionStmt) n));
+            return select(_exprStmt.of((ExpressionStmt) n));
         }
         return null;
     }
 
-    public Select<_expressionStmt> select(Statement e) {
+    public Select<_exprStmt> select(Statement e) {
         if (e instanceof ExpressionStmt) {
-            return select(_expressionStmt.of((ExpressionStmt) e));
+            return select(_exprStmt.of((ExpressionStmt) e));
         }
         return null;
     }
 
-    public Select<_expressionStmt> select(_java._domain _n) {
-        if (_n instanceof _expressionStmt) {
-            return select((_expressionStmt) _n);
+    public Select<_exprStmt> select(_java._domain _n) {
+        if (_n instanceof _exprStmt) {
+            return select((_exprStmt) _n);
         }
         return null;
     }
 
-    public Select<_expressionStmt> select(_statement<?, ?> _e) {
-        if (_e instanceof _expressionStmt) {
-            return select((_expressionStmt) _e);
+    public Select<_exprStmt> select(_stmt<?, ?> _e) {
+        if (_e instanceof _exprStmt) {
+            return select((_exprStmt) _e);
         }
         return null;
     }
 
-    public Select<_expressionStmt> select(_expressionStmt _r){
+    public Select<_exprStmt> select(_exprStmt _r){
 
         if( ! this.predicate.test(_r)){
             return null;
@@ -210,14 +208,14 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return new Select<>(_r, s.tokens);
     }
 
-    public _expressionStmt draft(Translator tr, Map<String,Object> keyValues){
+    public _exprStmt draft(Translator tr, Map<String,Object> keyValues){
 
-        _expressionStmt _es = _expressionStmt.of();
+        _exprStmt _es = _exprStmt.of();
         if( this.comment != null ){
             _es.setComment(this.comment.draft(tr, keyValues));
         }
         if( !this.expression.isMatchAny() ){
-            _es.setExpression( (_expression)this.expression.draft(tr, keyValues) );
+            _es.setExpression( (_expr)this.expression.draft(tr, keyValues) );
         }
         if( !this.predicate.test(_es) ){
             throw new _jdraftException("Drafted $expressionStmt failed predicate");
@@ -255,42 +253,42 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _expressionSt
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
-    public $expression get$expression(){
+    public $expr get$expression(){
         return this.expression;
     }
 
     public $expressionStmt $expression( ){
-        this.expression = $expression.of();
+        this.expression = $expr.of();
         return this;
     }
 
-    public $expressionStmt $expression($expression $e ){
+    public $expressionStmt $expression($expr $e ){
         this.expression = $e;
         return this;
     }
 
-    public $expressionStmt $expression(Predicate<_expression> matchFn){
+    public $expressionStmt $expression(Predicate<_expr> matchFn){
         this.expression.$and(matchFn);
         return this;
     }
 
-    public $expressionStmt $expression(Class<? extends _expression>...expressionClasses){
-        this.expression = $expression.of(expressionClasses);
+    public $expressionStmt $expression(Class<? extends _expr>...expressionClasses){
+        this.expression = $expr.of(expressionClasses);
         return this;
     }
 
     public $expressionStmt $expression(String expression){
-        this.expression = $expression.of(expression);
+        this.expression = $expr.of(expression);
         return this;
     }
 
     public $expressionStmt $expression(Expression e){
-        this.expression = $expression.of(e);
+        this.expression = $expr.of(e);
         return this;
     }
 
-    public $expressionStmt $expression(_expression _e) {
-        this.expression = $expression.of(_e);
+    public $expressionStmt $expression(_expr _e) {
+        this.expression = $expr.of(_e);
         return this;
     }
 }

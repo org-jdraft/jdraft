@@ -16,13 +16,13 @@ public interface _switch<_S extends _switch> extends _java._domain {
 
     boolean isSwitchSelector(String... selectorExpression);
 
-    boolean isSwitchSelector(_expression e);
+    boolean isSwitchSelector(_expr e);
 
     boolean isSwitchSelector(Expression e);
 
-    _expression getSwitchSelector();
+    _expr getSwitchSelector();
 
-    _S setSwitchSelector(_expression _selectorExpression);
+    _S setSwitchSelector(_expr _selectorExpression);
 
     _S setSwitchSelector(Expression switchSelector);
 

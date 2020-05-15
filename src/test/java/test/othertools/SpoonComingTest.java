@@ -12,7 +12,7 @@ import org.jdraft.pattern.$stmt;
 public class SpoonComingTest extends TestCase {
 
     public void testOffShootDepth(){
-        $stmt<IfStmt, _ifStmt> $ifReturn = $.ifStmt().$hasDescendant(1, $.returnStmt());
+        $stmt<IfStmt, _ifStmt> $ifReturn = ($stmt<IfStmt, _ifStmt>) $.ifStmt().$hasDescendant(1, $.returnStmt());
         class Ex{
             public int ex(int a){
                 if( a > 0 ){
@@ -54,8 +54,8 @@ public class SpoonComingTest extends TestCase {
      * </pattern>
      */
     public void testIfReturnConstraint(){
-        $stmt<IfStmt, _ifStmt> $ifReturn = $.ifStmt().$and( (_ifStmt is) ->
-                Tree.hasDescendant( is.ast().getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
+        $stmt<IfStmt, _ifStmt> $ifReturn = $.ifStmt().$and( (is) ->
+                Tree.hasDescendant( ((_ifStmt)is).ast().getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
         class Ex{
             public int ex(int a){
                 if( a > 0 ){
@@ -67,7 +67,7 @@ public class SpoonComingTest extends TestCase {
                 }
             }
         }
-        Print.tree( $.ifStmt().firstIn(Ex.class).ast() );
+        Print.tree( ((_ifStmt)$.ifStmt().firstIn(Ex.class)).ast() );
 
         assertEquals(1, $ifReturn.countIn(Ex.class));
     }

@@ -145,7 +145,7 @@ public class _tryStmtTest extends TestCase {
         //_ts.ast().setResources()
         //_ts.ast().setFinallyBlock( );
 
-        _ts.ast().setTryBlock( Statements.blockStmt(()->{
+        _ts.ast().setTryBlock( Stmts.blockStmt(()->{
             System.out.println(1);
         }));
     }
@@ -167,7 +167,7 @@ public class _tryStmtTest extends TestCase {
             }
         });
         assertTrue( _ts.hasWithResources());
-        assertTrue( _ts.hasWithResources(r-> r instanceof _new) ); //has withResources that is a new
+        assertTrue( _ts.hasWithResources(r-> r instanceof _newExpr) ); //has withResources that is a new
         //assertTrue( _ts.hasWithResource(r-> FileInputStream.class) ); //has withResources that is a new
 
         assertTrue( _ts.hasCatch() );

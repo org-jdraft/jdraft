@@ -64,7 +64,7 @@ public class _switchStmtTest extends TestCase {
     }
 
     public void testEE(){
-        Expression ee = Expressions.of("com.github.javaparser.ast.expr.LongLiteralExpr");
+        Expression ee = Exprs.of("com.github.javaparser.ast.expr.LongLiteralExpr");
         System.out.println( ee.getClass() );
         System.out.println( ee );
     }
@@ -150,7 +150,7 @@ public class _switchStmtTest extends TestCase {
         LongLiteralExpr lle = new LongLiteralExpr(1);
 
         System.out.println( lle.toString() );
-        _long l = _long.of(1);
+        _longExpr l = _longExpr.of(1);
         System.out.println( l );
     }
 
@@ -193,8 +193,8 @@ public class _switchStmtTest extends TestCase {
         _ss.mapReturn('e', 12.03f);
         _ss.mapReturn('f', "G");
 
-        _ss.mapReturn( _int.of("0xDEAD").ast(), 1 );
-        _ss.mapReturn( _int.of("0xBEEF").ast(), 2 );
+        _ss.mapReturn( _intExpr.of("0xDEAD").ast(), 1 );
+        _ss.mapReturn( _intExpr.of("0xBEEF").ast(), 2 );
         System.out.println( _ss);
     }
 
@@ -233,7 +233,7 @@ public class _switchStmtTest extends TestCase {
            throw new RuntimeException("Bad key "+a);
         });
 
-        assertEquals( _ss.getDefault().getStatement(0), Statements.of( (String a)->{ throw new RuntimeException("Bad key "+ a);}) );
+        assertEquals( _ss.getDefault().getStatement(0), Stmts.of( (String a)->{ throw new RuntimeException("Bad key "+ a);}) );
         System.out.println( _ss );
     }
 
@@ -269,11 +269,11 @@ public class _switchStmtTest extends TestCase {
 
         //System.out.println( _s);
 
-        assertEquals( _statement.of( ()-> System.out.println(4)), _cg.getStatement(0));
-        assertEquals( _statement.of( ()-> System.out.println(5)), _cg.getStatement(1));
-        assertEquals( _statement.of( ()-> System.out.println(6)), _cg.getStatement(2));
-        assertEquals( _statement.of( ()-> System.out.println(7)), _cg.getStatement(3));
-        assertEquals( _statement.of( ()-> System.out.println(8)), _cg.getStatement(4));
+        assertEquals( _stmt.of( ()-> System.out.println(4)), _cg.getStatement(0));
+        assertEquals( _stmt.of( ()-> System.out.println(5)), _cg.getStatement(1));
+        assertEquals( _stmt.of( ()-> System.out.println(6)), _cg.getStatement(2));
+        assertEquals( _stmt.of( ()-> System.out.println(7)), _cg.getStatement(3));
+        assertEquals( _stmt.of( ()-> System.out.println(8)), _cg.getStatement(4));
 
         assertTrue( _cg.hasCase(1));
         assertFalse( _cg.hasCase(2));

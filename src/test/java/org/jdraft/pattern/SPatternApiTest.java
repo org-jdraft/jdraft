@@ -2,9 +2,8 @@ package org.jdraft.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft.Print;
-import org.jdraft.Tree;
-import org.jdraft._char;
-import org.jdraft._int;
+import org.jdraft._charExpr;
+import org.jdraft._intExpr;
 
 import java.util.stream.Collectors;
 
@@ -75,11 +74,11 @@ public class SPatternApiTest extends TestCase {
 
         $.literal().streamIn(F.class).forEach( l-> System.out.println(l) ); //map((LiteralExpr l) -> l.asLiteralExpr())
 
-        _int _i = $.intLiteral(1).firstIn(F.class);
+        _intExpr _i = $.intLiteral(1).firstIn(F.class);
         System.out.println(_i);
         assertEquals(1, $.intLiteral(1).countIn(F.class));
         assertEquals(2, $.intLiteral(1, 100).countIn(F.class));
-        _char _c = $.charLiteral('g').firstIn(F.class);
+        _charExpr _c = $.charLiteral('g').firstIn(F.class);
 
         System.out.println( $.charLiteral().streamIn(F.class).map(c-> c.getValue()).collect(Collectors.toList()) );
 

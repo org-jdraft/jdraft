@@ -3,10 +3,8 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.pattern.$body;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -38,7 +36,7 @@ public class botByExampleTest extends TestCase {
      * (String, Node, _java._domain, Class, etc.) representing its specific type:
      *
      * $method bots work with {@link _method}, {@link MethodDeclaration} & Strings representing methods
-     * $int bots work with {@link _int}, {@link IntegerLiteralExpr}, int, & Strings representing ints
+     * $int bots work with {@link _intExpr}, {@link IntegerLiteralExpr}, int, & Strings representing ints
      * (individual bots are specific, and configured to ONLY work with a specific type or category of types
      * of $expression, $statement node or nodes)
      *
@@ -83,7 +81,7 @@ public class botByExampleTest extends TestCase {
 
         /* $bot matches any System.out.println(...) method call, where "any" is the name of the parameter*/
 
-        $statement $printAny = $statement.of("System.out.println($any$);");
+        $stmt $printAny = $stmt.of("System.out.println($any$);");
 
         assertTrue($printAny.matches("System.out.println();")); //$any$ matches empty token
         assertTrue($printAny.matches("System.out.println(1);")); //$any$ matches a single token
@@ -94,10 +92,10 @@ public class botByExampleTest extends TestCase {
         assertNull( $printAny.select("notMatched();") ); //select returns null if the pattern doesn't match
 
         //sel returns the selected entity (a _statement) and the extracted values for $tokens$
-        Select<_statement> sel = $printAny.select("System.out.println(1);");
+        Select<_stmt> sel = $printAny.select("System.out.println(1);");
 
         //sel contains the _statement that was selected
-        assertEquals( sel.get(), _statement.of("System.out.println(1);"));
+        assertEquals( sel.get(), _stmt.of("System.out.println(1);"));
 
         //sel has a Tokens (map) we can extract the "any" parameter value with .get(...)
         assertEquals("1", sel.get("any"));
@@ -106,9 +104,9 @@ public class botByExampleTest extends TestCase {
         assertTrue(sel.is("any", "1"));
 
         //the stencil/pattern can have multiple parameters(name, val) & reuse parameters (name)
-        $statement $s = $statement.of( (String $name$, String $val$)->System.out.println("$name$ "+$name$+" is "+$val$));
+        $stmt $s = $stmt.of( (String $name$, String $val$)->System.out.println("$name$ "+$name$+" is "+$val$));
 
-        _statement _s = _statement.of((String a, String v)->System.out.println("a "+a+" is "+v));
+        _stmt _s = _stmt.of((String a, String v)->System.out.println("a "+a+" is "+v));
 
         //we can match against this statement
         assertTrue( $s.matches(_s));
@@ -136,7 +134,7 @@ public class botByExampleTest extends TestCase {
         assertTrue( $noArgs.matches("()"));
 
         //the $mc matches method calls that have no arguments
-        $methodCall $mc = $methodCall.of( $noArgs );
+        $methodCallExpr $mc = $methodCallExpr.of( $noArgs );
         class C{
             void m(){
                 System.out.println(); //no arguments call
@@ -185,22 +183,22 @@ public class botByExampleTest extends TestCase {
      */
     public void testBotDraft(){
         //$bot representing a very specific method call
-        $methodCall $println = $methodCall.of("System.out.println(1)");
+        $methodCallExpr $println = $methodCallExpr.of("System.out.println(1)");
 
         //$bot will draft (build and return a new instance) of this methodCall
-        _methodCall _mc = $println.draft();
-        assertEquals( _methodCall.of( ()->System.out.println(1) ), _mc);
+        _methodCallExpr _mc = $println.draft();
+        assertEquals( _methodCallExpr.of( ()->System.out.println(1) ), _mc);
 
         //if the bot is parameterized (i.e. with parameters like "any")
         //these parameters are REQUIRED
-        $println = $methodCall.of( (Object $any$)-> System.out.println($any$) );
+        $println = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) );
 
         //draft a new println _methodCall to print 1
-        assertEquals( _methodCall.of( ()->System.out.println(1) ),
+        assertEquals( _methodCallExpr.of( ()->System.out.println(1) ),
                 $println.draft("any", 1));
 
         //draft a new println _methodCall to print "some static text"
-        assertEquals( _methodCall.of( ()->System.out.println("some static text") ),
+        assertEquals( _methodCallExpr.of( ()->System.out.println("some static text") ),
                 $println.draft("any", "\"some static text\""));
     }
 
@@ -213,8 +211,8 @@ public class botByExampleTest extends TestCase {
     }
 
     public void testOrBot(){
-        $methodCall $print = $methodCall.of((Object $any$)-> System.out.print($any$));
-        $methodCall $println = $methodCall.of((Object $any$)-> System.out.println($any$));
+        $methodCallExpr $print = $methodCallExpr.of((Object $any$)-> System.out.print($any$));
+        $methodCallExpr $println = $methodCallExpr.of((Object $any$)-> System.out.println($any$));
 
         class C{
             void m(){
@@ -231,17 +229,17 @@ public class botByExampleTest extends TestCase {
         System.out.println( "SFI "+ $print.selectFirstIn(C.class) );
         assertTrue($print.selectFirstIn(C.class).is("any", "\"Hey\""));
 
-        $methodCall $printOrPrintln = $methodCall.or($print, $println);
+        $methodCallExpr $printOrPrintln = $methodCallExpr.or($print, $println);
 
 
 
         assertEquals(2, $printOrPrintln.countIn(C.class));
 
-        Select<_methodCall> _mc = $printOrPrintln.selectFirstIn(C.class);
+        Select<_methodCallExpr> _mc = $printOrPrintln.selectFirstIn(C.class);
         System.out.println( _mc );
 
         //? TODO accept naked lambda for last parameter?
-        _class _c = $printOrPrintln.replaceIn(C.class, _methodCall.of( ()->System.out.println("replaced")));
+        _class _c = $printOrPrintln.replaceIn(C.class, _methodCallExpr.of( ()->System.out.println("replaced")));
         System.out.println(_c );
         //_c = $printOrPrintln.replaceIn(C.class, $methodCall.of( (Log L)->Log.trace("$any$")));
         //System.out.println(_c );
@@ -274,10 +272,10 @@ public class botByExampleTest extends TestCase {
         $typeRef $linkedHashSet = $typeRef.of(LinkedHashSet.class);
 
         /* $bot specifically for method calls to Collectors.toSet() */
-        $methodCall $collectToSet = $methodCall.of("Collectors.toSet()");
+        $methodCallExpr $collectToSet = $methodCallExpr.of("Collectors.toSet()");
 
         /* $bot specifically for method calls to Collectors.(...) creating a new LinkedHashSet */
-        $methodCall $collectToLHSet = $methodCall.of("Collectors.toCollection(LinkedHashSet::new)");
+        $methodCallExpr $collectToLHSet = $methodCallExpr.of("Collectors.toCollection(LinkedHashSet::new)");
 
 
         //modifying the search

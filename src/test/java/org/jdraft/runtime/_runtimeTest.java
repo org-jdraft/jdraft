@@ -20,6 +20,7 @@ import java.util.function.Function;
 
 import junit.framework.TestCase;
 import org.jdraft.pattern.$;
+import org.jdraft.pattern.$stmt;
 import org.junit.Assert;
 
 /**
@@ -117,17 +118,17 @@ public class _runtimeTest extends TestCase {
                  if( $.returnStmt().countIn(_m) > 0 ) {
                      $.returnStmt().forSelectedIn(_m, sel-> {
                            //replace it with a labeled statement... then flatten
-                           LabeledStmt ls = Statements.labeledStmt(
-                           "$add$ : { System.out.println(\" " + ((_java._withName) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + sel.ast().toString() + " }");
+                           LabeledStmt ls = Stmts.labeledStmt(
+                           "$add$ : { System.out.println(\" " + ((_java._withName) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + (($stmt.Select)sel).ast().toString() + " }");
 
-                            sel.ast().replace(ls);
+                           (($stmt.Select)sel).ast().replace(ls);
                             _labeledStmt.flattenLabel(_m, "$add$");
                             //Ast.flattenLabel(((_node) _m).ast(), "$add$");
                       });
                  } else{
                      //might be a (not return)
                      _m.add(_m.listStatements().size(),
-                             Statements.of((Integer start) -> System.out.println(" took " + (System.currentTimeMillis() - start))));
+                             Stmts.of((Integer start) -> System.out.println(" took " + (System.currentTimeMillis() - start))));
                  }
                  return _m;
              }

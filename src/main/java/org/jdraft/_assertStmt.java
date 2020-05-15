@@ -18,7 +18,7 @@ import java.util.function.Function;
  * assert( true ); //check only
  * assert i==3 : "unexpected Expected this"; //check with optional message
  */
-public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _java._multiPart<AssertStmt,_assertStmt> {
+public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java._multiPart<AssertStmt,_assertStmt> {
 
     public static _assertStmt of(){
         return new _assertStmt( new AssertStmt( ));
@@ -27,64 +27,64 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
         return new _assertStmt(as);
     }
     public static _assertStmt of(String...code){
-        return new _assertStmt(Statements.assertStmt( code));
+        return new _assertStmt(Stmts.assertStmt( code));
     }
 
     public static _assertStmt of(Expression check){
         return of( new AssertStmt().setCheck(check));
     }
-    public static _assertStmt of(_expression check){
+    public static _assertStmt of(_expr check){
         return of( new AssertStmt().setCheck(check.ast()));
     }
 
     public static _assertStmt of(Expression check, String message){
-        return of( new AssertStmt().setCheck(check).setMessage(Expressions.stringLiteralEx(message)));
+        return of( new AssertStmt().setCheck(check).setMessage(Exprs.stringLiteralEx(message)));
     }
 
-    public static _assertStmt of(_expression check, String message){
-        return of( new AssertStmt().setCheck(check.ast()).setMessage(Expressions.stringLiteralEx(message)));
+    public static _assertStmt of(_expr check, String message){
+        return of( new AssertStmt().setCheck(check.ast()).setMessage(Exprs.stringLiteralEx(message)));
     }
 
     public static _assertStmt of(Expression check, Expression message){
         return of( new AssertStmt().setCheck(check).setMessage(message));
     }
 
-    public static <A extends Object> _assertStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _assertStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _assertStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _assertStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _assertStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _assertStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static _assertStmt from(StackTraceElement ste ){
-        return from(_lambda.from(ste).astLambda);
+        return from(_lambdaExpr.from(ste).astLambda);
     }
 
     private static _assertStmt from( LambdaExpr le){
@@ -109,14 +109,14 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.assertStmt(stringRep));
+            return is( Stmts.assertStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
 
     public boolean isCheck(String...checkCode){
         try{
-            return isCheck(Expressions.of(checkCode));
+            return isCheck(Exprs.of(checkCode));
         }catch(Exception e){
             return false;
         }
@@ -126,7 +126,7 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
         return Objects.equals( this.astStmt.getCheck(), check);
     }
 
-    public boolean isCheck(_expression _e){
+    public boolean isCheck(_expr _e){
         return isCheck(_e.ast());
     }
 
@@ -136,7 +136,7 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
 
     public boolean isMessage(String message){
         try {
-            return isMessage(Expressions.of(message));
+            return isMessage(Exprs.of(message));
         }catch(Exception e){
             return false;
         }
@@ -149,7 +149,7 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
         return message == null;
     }
 
-    public boolean isMessage(_expression message){
+    public boolean isMessage(_expr message){
         if( this.hasMessage()){
             return Objects.equals(astStmt.getMessage().get(), message.ast());
         }
@@ -166,11 +166,11 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
     }
 
     public _assertStmt setMessage(String message){
-        this.astStmt.setMessage(Expressions.stringLiteralEx(message));
+        this.astStmt.setMessage(Exprs.stringLiteralEx(message));
         return this;
     }
 
-    public _assertStmt setMessage(_expression _e){
+    public _assertStmt setMessage(_expr _e){
         this.astStmt.setMessage(_e.ast());
         return this;
     }
@@ -180,9 +180,9 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
         return this;
     }
 
-    public _expression getMessage(){
+    public _expr getMessage(){
         if( astStmt.getMessage().isPresent()) {
-            return _expression.of(astStmt.getMessage().get());
+            return _expr.of(astStmt.getMessage().get());
         }
         return null;
     }
@@ -197,18 +197,18 @@ public final class _assertStmt implements _statement<AssertStmt, _assertStmt>, _
         return this;
     }
 
-    public _assertStmt setCheck(_expression _e){
+    public _assertStmt setCheck(_expr _e){
         this.astStmt.setCheck(_e.ast());
         return this;
     }
 
     public _assertStmt setCheck(String... str){
-        this.astStmt.setCheck( Expressions.of(str));
+        this.astStmt.setCheck( Exprs.of(str));
         return this;
     }
 
-    public _expression getCheck(){
-        return _expression.of(astStmt.getCheck());
+    public _expr getCheck(){
+        return _expr.of(astStmt.getCheck());
     }
 
     @Override

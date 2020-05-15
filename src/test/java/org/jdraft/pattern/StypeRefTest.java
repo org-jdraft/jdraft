@@ -77,7 +77,7 @@ public class StypeRefTest extends TestCase {
         //Ast.describe(_t.ast());
         assertTrue( _t.hasAnnoRefs());
         //System.out.println( _t.getAnnos() );
-        assertEquals( _annoRefs.of("@NotNull"), _t.getAnnoRefs() );
+        assertEquals( _annoExprs.of("@NotNull"), _t.getAnnoRefs() );
         //System.out.println( _t.getBaseType() );
 
         _t = _typeRef.of("@NotNull aaaaa.bbbb.A<? extends C, D>[][]");
@@ -204,20 +204,20 @@ public class StypeRefTest extends TestCase {
         Tree.in(_c, MethodCallExpr.class, mc -> {
             if(mc.getScope().isPresent()){
                 if( mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT")){
-                    mc.setScope(Expressions.of("draft.java.proto.$typeRefTest.NewT"));
+                    mc.setScope(Exprs.of("draft.java.proto.$typeRefTest.NewT"));
                 }
                 if( mc.getScope().get().toString().equals("OldT")){
-                    mc.setScope(Expressions.of("NewT"));
+                    mc.setScope(Exprs.of("NewT"));
                 }
             }
         });
         
         Tree.in(_c, Ast.FIELD_ACCESS_EXPR, mc -> {
             if(mc.getScope().toString().equals("draft.java.proto.$typeRefTest.OldT")){
-                mc.setScope(Expressions.of("draft.java.proto.$typeRefTest.NewT"));
+                mc.setScope(Exprs.of("draft.java.proto.$typeRefTest.NewT"));
             }
             if( mc.getScope().toString().equals("OldT")){
-                mc.setScope(Expressions.of("NewT"));
+                mc.setScope(Exprs.of("NewT"));
             }
         });
         
@@ -228,7 +228,7 @@ public class StypeRefTest extends TestCase {
         System.out.println("FOUND METHODS 1+ " + Tree.in(_c, Ast.METHOD_CALL_EXPR, m-> m.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
         
         Tree.in( _c, Ast.METHOD_CALL_EXPR, mc -> mc.getScope().isPresent() && mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT"),
-                mc -> mc.setScope(Expressions.of("draft.java.proto.$typeRefTest.OldT")));
+                mc -> mc.setScope(Exprs.of("draft.java.proto.$typeRefTest.OldT")));
         
         System.out.println( _c );
         

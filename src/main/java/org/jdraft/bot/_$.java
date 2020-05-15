@@ -26,18 +26,18 @@ public @interface _$ {
     class Parameterize {
 
 
-        public static <C extends _java._member & _annoRefs._withAnnoRefs> C update(C _c) {
-            List<_annoRef> _ps = _c.listAnnoRefs("_$");
+        public static <C extends _java._member & _annoExprs._withAnnoExprs> C update(C _c) {
+            List<_annoExpr> _ps = _c.listAnnoRefs("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoRefs((a) -> ((_annoRef) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnoRefs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();
 
                 for (int i = 0; i < _ps.size(); i++) {
-                    _annoRef _a = _ps.get(i);
-                    _arrayInitialize _ai = _arrayInitialize.of(_a.getValue("value").asArrayInitializerExpr());
+                    _annoExpr _a = _ps.get(i);
+                    _arrayInitializeExpr _ai = _arrayInitializeExpr.of(_a.getValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
                     _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
@@ -65,18 +65,18 @@ public @interface _$ {
             return _c;
         }
 
-        public static <C extends _java._member & _annoRefs._withAnnoRefs> String toString(C _c) {
-            List<_annoRef> _ps = _c.listAnnoRefs("_$");
+        public static <C extends _java._member & _annoExprs._withAnnoExprs> String toString(C _c) {
+            List<_annoExpr> _ps = _c.listAnnoRefs("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoRefs((a) -> ((_annoRef) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnoRefs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();
 
                 for (int i = 0; i < _ps.size(); i++) {
-                    _annoRef _a = _ps.get(i);
-                    _arrayInitialize _ai = _arrayInitialize.of(_a.getValue("value").asArrayInitializerExpr());
+                    _annoExpr _a = _ps.get(i);
+                    _arrayInitializeExpr _ai = _arrayInitializeExpr.of(_a.getValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
                     _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));

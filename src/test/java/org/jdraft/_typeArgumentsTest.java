@@ -49,7 +49,7 @@ public class _typeArgumentsTest extends TestCase {
     }
 
     public void testNew(){
-        _new _n = _new.of("A()");
+        _newExpr _n = _newExpr.of("A()");
         assertFalse(_n.hasTypeArguments());
         assertFalse(_n.isUsingDiamondOperator());
         _n.setUseDiamondOperator();

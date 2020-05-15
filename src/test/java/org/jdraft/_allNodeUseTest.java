@@ -26,45 +26,45 @@ public class _allNodeUseTest extends TestCase {
     public void testNodesAlphabetical(){
         //_java._domain is the top-level interface for all instance AND interface abstractions
         _java._domain[] _instances = {
-                _annoRef.of("@A"),
-                _annoRefs.of("@A @B"),
+                _annoExpr.of("@A"),
+                _annoExprs.of("@A @B"),
                 _annotation.of("@interface AI{}"),
                 _arguments.of("(1, 'c')"),
-                _arrayAccess.of("a[1][call()]"),
-                _arrayCreate.of("new a[1][2]"),
+                _arrayAccessExpr.of("a[1][call()]"),
+                _arrayCreateExpr.of("new a[1][2]"),
                 _arrayDimension.of("[0]"),
-                _arrayInitialize.of("{1,2,3}"),
+                _arrayInitializeExpr.of("{1,2,3}"),
                 _assertStmt.of("assert true;"),
-                _assign.of("x = 1"),
-                _binaryExpression.of("a && b"),
+                _assignExpr.of("x = 1"),
+                _binaryExpr.of("a && b"),
                 _blockStmt.of("{ print(120); }"),
                 _blockComment.of("first line", "second line"),
                 _body.of("print(3);"),
-                _boolean.of("true"),
+                _booleanExpr.of("true"),
                 _breakStmt.of("break outer;"),
                 _caseGroup.of("case 1: case 3: case 5: return ODD;"),
-                _cast.of("(String)s"),
+                _castExpr.of("(String)s"),
                 _catch.of("catch(IOException ioe){ throw new RuntimeException(ioe); }"),
-                _char.of('a'), // or "'c'"
+                _charExpr.of('a'), // or "'c'"
                 _class.of("class C{}"),
-                _classExpression.of("String.class"),
-                _conditionalExpression.of("b==0?x:y"), //also called "ternary"
+                _classExpr.of("String.class"),
+                _conditionalExpr.of("b==0?x:y"), //also called "ternary"
                 _constant.of("A(100)"), //enum constant declaration
                 _constructor.of("C(int a){ this.a = a; }"),
                 _constructorCallStmt.of("this(100);"),
                 _constructorCallStmt.of("super(100);"),
                 _continueStmt.of("continue inner;"),
                 _doStmt.of("do{ i++; }while(i < 100);"),
-                _double.of(1.2d), //this is for double precision doubles
-                _double.of(1.2f), //this is for double precision floats too
+                _doubleExpr.of(1.2d), //this is for double precision doubles
+                _doubleExpr.of(1.2f), //this is for double precision floats too
                 _emptyStmt.of(), // empty statement placeholders i.e. for(;;){}
-                _expression.of( "1+2" ), //_expression will create any expression type
-                _enclosedExpression.of("(1 + 2)"),
+                _expr.of( "1+2" ), //_expression will create any expression type
+                _enclosedEx.of("(1 + 2)"),
                 _enum.of("enum E{}"),
-                _expressionStmt.of("System.out.println(1);"),
-                _expressionStmt.of(_methodCall.of("print(1)")),
+                _exprStmt.of("System.out.println(1);"),
+                _exprStmt.of(_methodCallExpr.of("print(1)")),
                 _field.of("public int i;"),
-                _fieldAccess.of("System.out"),
+                _fieldAccessExpr.of("System.out"),
                 _forEachStmt.of("for(Object o: objects) { print(o); }"),
                 _forStmt.of("for(int i=0;i<100;i++){ print(i); }"),
                 _ifStmt.of("if(a==b){ print(1); }"),
@@ -73,20 +73,20 @@ public class _allNodeUseTest extends TestCase {
                 _imports.of("import java.util.*;", "import java.net.*;"),
                 _initBlock.of("static{ a = 1000; }"),
                 _initBlock.of("{ print(state); }"),
-                _instanceOf.of("A instanceof Map"),
-                _int.of("37"),
-                _int.of(37),
+                _instanceOfExpr.of("A instanceof Map"),
+                _intExpr.of("37"),
+                _intExpr.of(37),
                 _interface.of("interface I{}"),
                 _javadocComment.of("/** a javadoc */"),
                 _labeledStmt.of("outer: print(state);"),
-                _lambda.of("o-> System.out.println(1)"),
+                _lambdaExpr.of("o-> System.out.println(1)"),
                 _lineComment.of("// TODO remove this"),
                 _localClassStmt.of("class Local{ int i=100; }"),
-                _localVariables.of("int i, j = 100"),
-                _long.of("-1L"),
+                _variablesExpr.of("int i, j = 100"),
+                _longExpr.of("-1L"),
                 _method.of("int m(){ return 56; }"),
-                _methodCall.of("call(120);"),
-                _methodRef.of("Context::getState"),
+                _methodCallExpr.of("call(120);"),
+                _methodRefExpr.of("Context::getState"),
                 _modifier.of("public"),
                 _modifiers.of("public static final"),
 
@@ -99,9 +99,9 @@ public class _allNodeUseTest extends TestCase {
                 _moduleProvides.of("provides monitor.AClass with monitor.AFactoryClass"),
 
                 _name.of("x"),
-                _nameExpression.of("x"),
-                _new.of("new RuntimeException()"),
-                _null.of(), //the null literal
+                _nameExpr.of("x"),
+                _newExpr.of("new RuntimeException()"),
+                _nullExpr.of(), //the null literal
                 _package.of("package org.jdraft;"),
                 _packageInfo.of("/** information about jdraft */package org.jdraft;"),
                 _parameter.of("final int i"),
@@ -109,25 +109,25 @@ public class _allNodeUseTest extends TestCase {
                 _qualifiedName.of("org.jdraft._class"),
                 _receiverParameter.of("@AnnotatedUsage Currency this"),
                 _returnStmt.of("return 12;"),
-                _statement.of("System.out.println(1);"), //_statement creates any statement type
-                _string.of("A String literal"),
-                _super.of("super"),
+                _stmt.of("System.out.println(1);"), //_statement creates any statement type
+                _stringExpr.of("A String literal"),
+                _superExpr.of("super"),
                 _switchEntry.of("case 1: return 3;"),
-                _switchExpression.of("switch(val){ case 1: yield 'a'; }"),
+                _switchExpr.of("switch(val){ case 1: yield 'a'; }"),
                 _switchStmt.of("switch(e){ case 1: return 'a'; default: return 'c';}"),
                 _synchronizedStmt.of("synchronized(a){ }"),
-                _textBlock.of("first line", "second line", "third line"),
-                _this.of("World.this"),
+                _textBlockExpr.of("first line", "second line", "third line"),
+                _thisExpr.of("World.this"),
                 _throws.of("MyException"),
                 _throws.of(RuntimeException.class),
                 _throwStmt.of("throw new RuntimeException();"),
                 _tryStmt.of("try{ Files.read(fileName); } catch(IOException ioe){ }"),
                 _typeArguments.of("<T,R>"),
-                _typeExpression.of("World"), //In <code>World::greet</code> the "World" is a TypeExpr
+                _typeExpr.of("World"), //In <code>World::greet</code> the "World" is a TypeExpr
                 _typeParameter.of("K"),
                 _typeParameters.of("<String,Integer>"),
                 _typeRef.of("List<String>"),
-                _unary.of("!true"),
+                _unaryExpr.of("!true"),
                 _variable.of("int i;"),
                 _whileStmt.of("while(a<100){ i+=a; a++; }"),
                 _yieldStmt.of("yield 3;")
@@ -135,12 +135,12 @@ public class _allNodeUseTest extends TestCase {
 
         //the interfaces also extend _java._domain
         _java._domain[] _interfaces ={
-                _expression.of("1 + 3"),
-                (_expression._literal) _int.of(23),
-                _statement.of("assert true;"),
+                _expr.of("1 + 3"),
+                (_expr._literal) _intExpr.of(23),
+                _stmt.of("assert true;"),
                 _type.of("class C{}"),
                 (_codeUnit) _moduleInfo.of(),
-                (_expression._literal) _int.of(1)
+                (_expr._literal) _intExpr.of(1)
         };
         Arrays.stream(_instances).forEach(i-> {
             if( i instanceof _java._node) {
@@ -154,7 +154,7 @@ public class _allNodeUseTest extends TestCase {
     }
 
     public void testStatementInstances(){
-        _statement[] _stmts = {
+        _stmt[] _stmts = {
                 _assertStmt.of("assert true;"),
                 _blockStmt.of("{ print(120); }"),
                 _breakStmt.of("break outer;"),
@@ -163,8 +163,8 @@ public class _allNodeUseTest extends TestCase {
                 _continueStmt.of("continue inner;"),
                 _doStmt.of("do{ i++; }while(i < 100);"),
                 _emptyStmt.of(),
-                _expressionStmt.of("System.out.println(1);"),
-                _expressionStmt.of(_methodCall.of("print(1)")),
+                _exprStmt.of("System.out.println(1);"),
+                _exprStmt.of(_methodCallExpr.of("print(1)")),
                 _forEachStmt.of("for(Object o: objects) { print(o); }"),
                 _forStmt.of("for(int i=0;i<100;i++){ print(i); }"),
                 _ifStmt.of("if(a==b){ print(1); }"),
@@ -178,15 +178,15 @@ public class _allNodeUseTest extends TestCase {
                 _whileStmt.of("while(a<100){ i+=a; a++; }"),
                 _yieldStmt.of("yield 3;")};
 
-        _statement _stmt = _statement.of( "assert(true);"); //returns an AssertStmt instance
+        _stmt _stmt = org.jdraft._stmt.of( "assert(true);"); //returns an AssertStmt instance
     }
 
     public void testSetBasedInstances(){
         //semantically, order doesnt matter
         _java._set[] setBased = {
-                _annoRefs.of("@A @B"),
+                _annoExprs.of("@A @B"),
                 _imports.of( "import java.util.*;", "import java.net.*;"),
-                _localVariables.of("int i, j = 100"),
+                _variablesExpr.of("int i, j = 100"),
                 _modifiers.of("public static final"),
                 _throws.of(IOException.class, URISyntaxException.class),
                 _typeArguments.of("<T,R>"),
@@ -224,41 +224,41 @@ public class _allNodeUseTest extends TestCase {
 
     public void testExpressionTypes(){
         //if you want to construct any _expression type, you can pass in a String
-        _expression _ex = _expression.of("1"); //will return _int instance
+        _expr _ex = _expr.of("1"); //will return _int instance
 
         //each precise _expression type, has an "of()..." static method for building the _expression
-        _expression[] _es = {
-                _annoRef.of("@A"),
-                _arrayAccess.of("a[1][call()]"),
-                _arrayCreate.of("new a[1][2]"),
-                _arrayInitialize.of("{1,2,3}"),
-                _assign.of("x = 1"),
-                _binaryExpression.of("a && b"),
-                _boolean.of("true"),
-                _cast.of("(String)s"),
-                _char.of('a'),
-                _classExpression.of("String.class"),
-                _conditionalExpression.of("b==0?x:y"), //also called "ternary"
-                _double.of(1.2d), //this is for double precision doubles
-                _double.of(1.2f), //this is for double precision floats too
-                _enclosedExpression.of("(1 + 2)"),
-                _fieldAccess.of("System.out"),
-                _instanceOf.of("A instanceof Map"),
-                _int.of("37"),
-                _lambda.of( "o-> System.out.println(1)"),
-                _long.of("-1L"),
-                _methodCall.of("call(120);"),
-                _methodRef.of("Context::getState"),
-                _nameExpression.of("x"),
-                _new.of("new RuntimeException()"),
-                _null.of("null"),
-                _string.of("A String literal"),
-                _super.of("super"),
-                _switchExpression.of("switch(val){ case 1: yield 'a'; }"),
-                _textBlock.of("first line", "second line", "third line"),
-                _this.of("World.this"),
-                _typeExpression.of("World"),
-                _unary.of("!true")
+        _expr[] _es = {
+                _annoExpr.of("@A"),
+                _arrayAccessExpr.of("a[1][call()]"),
+                _arrayCreateExpr.of("new a[1][2]"),
+                _arrayInitializeExpr.of("{1,2,3}"),
+                _assignExpr.of("x = 1"),
+                _binaryExpr.of("a && b"),
+                _booleanExpr.of("true"),
+                _castExpr.of("(String)s"),
+                _charExpr.of('a'),
+                _classExpr.of("String.class"),
+                _conditionalExpr.of("b==0?x:y"), //also called "ternary"
+                _doubleExpr.of(1.2d), //this is for double precision doubles
+                _doubleExpr.of(1.2f), //this is for double precision floats too
+                _enclosedEx.of("(1 + 2)"),
+                _fieldAccessExpr.of("System.out"),
+                _instanceOfExpr.of("A instanceof Map"),
+                _intExpr.of("37"),
+                _lambdaExpr.of( "o-> System.out.println(1)"),
+                _longExpr.of("-1L"),
+                _methodCallExpr.of("call(120);"),
+                _methodRefExpr.of("Context::getState"),
+                _nameExpr.of("x"),
+                _newExpr.of("new RuntimeException()"),
+                _nullExpr.of("null"),
+                _stringExpr.of("A String literal"),
+                _superExpr.of("super"),
+                _switchExpr.of("switch(val){ case 1: yield 'a'; }"),
+                _textBlockExpr.of("first line", "second line", "third line"),
+                _thisExpr.of("World.this"),
+                _typeExpr.of("World"),
+                _unaryExpr.of("!true")
         };
     }
 }

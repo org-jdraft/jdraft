@@ -79,7 +79,7 @@ import org.jdraft.macro.macro;
  * AST & NodeWithAnnotations
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
-    extends _javadocComment._withJavadoc<_T>, _annoRefs._withAnnoRefs<_T>, _modifiers._withModifiers<_T>,
+    extends _javadocComment._withJavadoc<_T>, _annoExprs._withAnnoExprs<_T>, _modifiers._withModifiers<_T>,
         _field._withFields<_T>, _java._declared<AST, _T>, _codeUnit<_T>, _java._multiPart<AST, _T> {
 
     /**

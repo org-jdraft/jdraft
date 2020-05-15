@@ -47,7 +47,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      */
     public static $stmts of(Object anonymousObjectWithBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expressions.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newEx(ste);
         //find the first method that doesnt have removeIn on it and has a BODY
         // to get it's contents
         MethodDeclaration theMethod = (MethodDeclaration)
@@ -61,43 +61,43 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
         return $stmts.of(new String[] {proto});
     }
 
-    public static $stmts of(Expressions.Command c ){
+    public static $stmts of(Exprs.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Expressions.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaEx(ste));
     }
 
     public static <T extends Object> $stmts of(Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Expressions.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaEx(ste));
     }
 
     public static <T extends Object, U extends Object> $stmts of(Function<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Expressions.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaEx(ste));
     }
 
     public static <T extends Object, U extends Object, V extends Object> $stmts of(BiFunction<T,U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Expressions.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaEx(ste));
     }
 
     public static <T extends Object, U extends Object> $stmts of(BiConsumer<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Expressions.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object> $stmts of(Expressions.TriConsumer<T,U,V> c ){
+    public static <T extends Object, U extends Object, V extends Object> $stmts of(Exprs.TriConsumer<T,U,V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Expressions.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaEx(ste));
     }
 
-    public static <T extends Object, U extends Object, V extends Object, Z extends Object> $stmts of(Expressions.QuadConsumer<T,U,V,Z> c ){
+    public static <T extends Object, U extends Object, V extends Object, Z extends Object> $stmts of(Exprs.QuadConsumer<T,U,V,Z> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Expressions.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaEx(ste));
     }
 
     public static $stmts of(LambdaExpr astLambda ){
-        Statement st = Statements.from(astLambda);
+        Statement st = Stmts.from(astLambda);
         return new $stmts(st);
     }
 
@@ -289,7 +289,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                     sts.add( (Statement)val);
                 }
                 else if( val instanceof String){
-                    sts.add( Statements.of((String)val));
+                    sts.add( Stmts.of((String)val));
                 }
                 else if( val != null && val != Boolean.FALSE ){
                     //construct the statement (it
@@ -564,7 +564,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;
                 int addIndex = par.getChildNodes().indexOf( firstStmt );
-                LabeledStmt ls = Statements.labeledStmt("$replacement$:{}");
+                LabeledStmt ls = Stmts.labeledStmt("$replacement$:{}");
                 // we want to add the contents of the replacement to a labeled statement,
                 // because, (if we did it INLINE, we could  end up in an infinite loop, searching the
                 // tree up to a cursor, then adding some code AT the cursor, then finding a match within the added
@@ -626,7 +626,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                 Node par = firstStmt.getParentNode().get();
                 NodeWithStatements parentNode = (NodeWithStatements)par;
                 int addIndex = par.getChildNodes().indexOf( firstStmt );
-                LabeledStmt ls = Statements.labeledStmt("$replacement$:{}");
+                LabeledStmt ls = Stmts.labeledStmt("$replacement$:{}");
                 // we want to add the contents of the replacement to a labeled statement,
                 // because, (if we did it INLINE, we could  end up in an infinite loop, searching the
                 // tree up to a cursor, then adding some code AT the cursor, then finding a match within the added

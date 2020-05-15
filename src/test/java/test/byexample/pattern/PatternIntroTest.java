@@ -3,9 +3,9 @@ package test.byexample.pattern;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
-import org.jdraft.Statements;
+import org.jdraft.Stmts;
 import org.jdraft._blockStmt;
-import org.jdraft._statement;
+import org.jdraft._stmt;
 import org.jdraft.text.Tokens;
 import org.jdraft.pattern.$pattern;
 import org.jdraft.pattern.$stmt;
@@ -59,7 +59,7 @@ public class PatternIntroTest extends TestCase {
     public void testProtoConstant(){
 
         //Statements are the backbone of code, here we build a statement from a String
-        Statement st = Statements.of("System.out.println(1);");
+        Statement st = Stmts.of("System.out.println(1);");
 
         // a $stmt is a prototype representing the criteria for some set of statement(s).
         // this $stmt $print represents a specific/ constant statement
@@ -134,7 +134,7 @@ public class PatternIntroTest extends TestCase {
         assertEquals(4, $anyStmt.countIn(With4Statements.class));
 
         //we can also collect and list the statements within some code:
-        List<_statement> sts = $anyStmt.listIn(With4Statements.class);
+        List<_stmt> sts = $anyStmt.listIn(With4Statements.class);
         assertTrue( sts.get(0).ast() instanceof BlockStmt);
 
         //If we want to match/extract/count
@@ -179,7 +179,7 @@ public class PatternIntroTest extends TestCase {
     //to return the
     public void testSelect_List_First(){
         //
-        $stmt<Statement, _statement> $anyPrint = $stmt.of("System.out.print($a$);");
+        $stmt<Statement, _stmt> $anyPrint = $stmt.of("System.out.print($a$);");
 
         //select is like match, but it returns a $stmt.Select
         // containing
@@ -213,7 +213,7 @@ public class PatternIntroTest extends TestCase {
             }
         }
         //here we can
-        List<$stmt.Select<Statement, _statement>> sels = $anyPrint.listSelectedIn(WithPrint.class);
+        List<$stmt.Select<Statement, _stmt>> sels = $anyPrint.listSelectedIn(WithPrint.class);
         assertEquals( 4, sels.size());
         assertTrue( sels.get(0).is("a", 1));
         assertTrue( sels.get(1).is("a", 'c'));

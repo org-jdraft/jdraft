@@ -24,7 +24,7 @@ import org.jdraft.text.Translator;
 public class $enum
         implements //$pattern<_enum, $enum>,
         $pattern.$java<_enum, $enum>, $member.$named<$enum>, $declared<_enum,$enum>,
-        has$AnnoRefs {
+        $withAnnoRefs {
 
     public Predicate<_enum> constraint = t->true;
 
@@ -654,7 +654,7 @@ public class $enum
         return this.annos;
     }
 
-    public $enum $annos(Predicate<_annoRefs> annosMatchFn){
+    public $enum $annos(Predicate<_annoExprs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

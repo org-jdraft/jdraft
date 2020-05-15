@@ -374,7 +374,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         assertTrue( _m.hasAnnoRef(Override.class));
 
         //we can create annotations individually:
-        _annoRef _a = _annoRef.of(Override.class);
+        _annoExpr _a = _annoExpr.of(Override.class);
 
         //we can add annotations to existing _draft entities (_field, _class, _method, etc.)
         _m = _method.of( new Object(){
@@ -401,7 +401,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
     public void testAnnotations2(){
         //for "complicated" annotations, pass in an anonymous Object
         // with the correct instance annotated (here a Class)
-        _annoRef _a = _annoRef.of(new Object(){
+        _annoExpr _a = _annoExpr.of(new Object(){
                 @HeaderList({
                         @Header(name="Accept", value="application/json; charset=utf-8"),
                         @Header(name="User-Agent", value="Square Cash"),

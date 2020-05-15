@@ -9,19 +9,19 @@ public class OfLambdaTest extends TestCase {
 
     /** of( ()-> ) */
     public void testBuildOfLambda(){
-        System.out.println( _binaryExpression.of( ()-> 1 +7 + 11 ) );
+        System.out.println( _binaryExpr.of( ()-> 1 +7 + 11 ) );
 
         //create a lambda version of this
         //_expression.of()
 
         _java._domain[] ol = {
                 //expressions
-                _assign.of( (Object a, Object b) -> a = b ),
-                _arrayCreate.of( ()-> { String[][] s = new String[1][3];} ),
-                _arrayInitialize.of( ()-> { int[] o = {1,3,5,7,9}; } ),
-                _binaryExpression.of( ()-> 1 + 4 ),
+                _assignExpr.of( (Object a, Object b) -> a = b ),
+                _arrayCreateExpr.of( ()-> { String[][] s = new String[1][3];} ),
+                _arrayInitializeExpr.of( ()-> { int[] o = {1,3,5,7,9}; } ),
+                _binaryExpr.of( ()-> 1 + 4 ),
                 _body.of( (a)->{ System.out.println(a); }),
-                _cast.of( o-> (String)o ),
+                _castExpr.of(o-> (String)o ),
                 _caseGroup.of( (Integer o)-> {
                     switch(o){
                         case 1: case 3: case 5: return "Odd";
@@ -39,7 +39,7 @@ public class OfLambdaTest extends TestCase {
 
 
                 //generic statements
-                _statement.of( (a) -> System.out.println(a)),
+                _stmt.of( (a) -> System.out.println(a)),
 
                 _assertStmt.of( ()-> {assert (1==1);} ),
                 _parameters.of( (final Integer a, String... s)->{} ),

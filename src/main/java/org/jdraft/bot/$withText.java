@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
  *
  * you would replace the Strings in:
  * <UL>
- *     <LI>{@link org.jdraft._string} literals</LI>
- *     <LI>{@link org.jdraft._textBlock} literals</LI>
+ *     <LI>{@link _stringExpr} literals</LI>
+ *     <LI>{@link _textBlockExpr} literals</LI>
  *     <LI>{@link org.jdraft._comment} types:</LI>
  *     <LI>    {@link org.jdraft._lineComment} </LI>
  *     <LI>    {@link org.jdraft._blockComment} </LI>
@@ -31,17 +31,17 @@ import java.util.stream.Collectors;
 public class $withText implements $bot.$node<Node, _java._node, $withText> {
 
     public static $withText of(String contains){
-         return new $withText( contains, $string.contains(contains), $textBlock.contains(contains), $comment.contains(contains) );
+         return new $withText( contains, $stringExpr.contains(contains), $textBlockExpr.contains(contains), $comment.contains(contains) );
     }
 
     public Predicate<_java._node>predicate = t->true;
 
     public String contains;
-    public $string string;
-    public $textBlock textBlock;
+    public $stringExpr string;
+    public $textBlockExpr textBlock;
     public $comment comment;
 
-    private $withText(String contains, $string string, $textBlock textBlock, $comment comment){
+    private $withText(String contains, $stringExpr string, $textBlockExpr textBlock, $comment comment){
         this.contains = contains;
         this.string = string;
         this.textBlock = textBlock;
@@ -53,9 +53,9 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
         if( n instanceof Comment){
             return select( (_java._node)_comment.of( (Comment)n) );
         }else if( n instanceof StringLiteralExpr ){
-            return select( (_java._node)_string.of( (StringLiteralExpr) n) );
+            return select( (_java._node) _stringExpr.of( (StringLiteralExpr) n) );
         }else if( n instanceof TextBlockLiteralExpr){
-            return select( (_java._node)_textBlock.of( (TextBlockLiteralExpr) n) );
+            return select( (_java._node) _textBlockExpr.of( (TextBlockLiteralExpr) n) );
         }
         return null;
     }
@@ -72,15 +72,15 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
             }
             return null;
         }
-        if( candidate instanceof _string){
-            Select s = this.string.select((_string)candidate);
+        if( candidate instanceof _stringExpr){
+            Select s = this.string.select((_stringExpr)candidate);
             if( s != null ){
                 return new Select<>(candidate, s.tokens);
             }
             return null;
         }
-        if( candidate instanceof _textBlock){
-            Select s = this.textBlock.select((_textBlock) candidate);
+        if( candidate instanceof _textBlockExpr){
+            Select s = this.textBlock.select((_textBlockExpr) candidate);
             if( s != null ){
                 return new Select<>(candidate, s.tokens);
             }
@@ -131,9 +131,9 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
 
     @Override
     public boolean matches(String candidate) {
-        return select( _string.of(candidate) ) != null ||
+        return select( _stringExpr.of(candidate) ) != null ||
                select( (_comment)_comment.of(candidate) ) != null ||
-               select(_textBlock.of(candidate) ) != null;
+               select(_textBlockExpr.of(candidate) ) != null;
     }
 
     @Override

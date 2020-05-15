@@ -185,7 +185,7 @@ public class SenumTest extends TestCase {
         //verify I can find an instance of a CallableDeclaration that contains a descendant with the synchronized modifier
         assertEquals(1, $.of(CallableDeclaration.class).$hasDescendant($.SYNCHRONIZED).countIn(_c));
 
-        _int ile = $.of(102).firstIn(_c);
+        _intExpr ile = $.of(102).firstIn(_c);
         assertNotNull(ile);
 
         //verify that I can find a literal expression 102 that has a synchronized ancestor node

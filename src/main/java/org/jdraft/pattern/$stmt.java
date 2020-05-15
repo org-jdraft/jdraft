@@ -13,8 +13,8 @@ import java.util.*;
 import java.util.function.*;
 
 import org.jdraft.*;
-import org.jdraft.Expressions.QuadConsumer;
-import org.jdraft.Expressions.TriConsumer;
+import org.jdraft.Exprs.QuadConsumer;
+import org.jdraft.Exprs.TriConsumer;
 import org.jdraft.text.*;
 
 /**
@@ -55,11 +55,11 @@ import org.jdraft.text.*;
  * @param <S> AST Statement implementation type
  * @param <_S> _java._domain implementation type
  */
-public class $stmt<S extends Statement, _S extends _statement>
+public class $stmt<S extends Statement, _S extends _stmt>
     implements Template<_S>, $pattern.$java<_S, $stmt<S, _S>>, $body.$part, $method.$part, $constructor.$part {
 
     public Class<_S> _modelType(){
-        return (Class<_S>) _statement.class;
+        return (Class<_S>) _stmt.class;
     }
 
     /**
@@ -109,8 +109,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param ste
      * @return 
      */
-    private static <S extends Statement, _S extends _statement> $stmt<S, _S> from(StackTraceElement ste ){
-        Statement st = Statements.from( ste );
+    private static <S extends Statement, _S extends _stmt> $stmt<S, _S> from(StackTraceElement ste ){
+        Statement st = Stmts.from( ste );
         return new $stmt( (S)st );
     }
 
@@ -121,7 +121,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param <S>
      * @return
      */
-    public static <S extends Statement, _S extends _statement> $stmt<S, _S> of(Class<S> stmtClass, String...pattern){
+    public static <S extends Statement, _S extends _stmt> $stmt<S, _S> of(Class<S> stmtClass, String...pattern){
         return new $stmt<S, _S>(stmtClass, Text.combine(pattern));
     }
 
@@ -131,7 +131,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param proto
      * @return 
      */
-    public static <S extends Statement, _S extends _statement> $stmt<S, _S> of( Expressions.Command proto ){
+    public static <S extends Statement, _S extends _stmt> $stmt<S, _S> of(Exprs.Command proto ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -143,7 +143,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param proto
      * @return 
      */
-    public static <T extends Object, S extends Statement, _S extends _statement> $stmt<S, _S> of( Consumer<T> proto ){
+    public static <T extends Object, S extends Statement, _S extends _stmt> $stmt<S, _S> of(Consumer<T> proto ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     } 
@@ -156,7 +156,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param proto
      * @return 
      */
-    public static <T extends Object, U extends Object, S extends Statement, _S extends _statement> $stmt<S, _S> of( BiConsumer<T,U> proto ){
+    public static <T extends Object, U extends Object, S extends Statement, _S extends _stmt> $stmt<S, _S> of(BiConsumer<T,U> proto ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -170,7 +170,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param proto
      * @return 
      */
-    public static <T extends Object, U extends Object, V extends Object, S extends Statement, _S extends _statement> $stmt<S, _S> of(TriConsumer<T, U, V> proto ){
+    public static <T extends Object, U extends Object, V extends Object, S extends Statement, _S extends _stmt> $stmt<S, _S> of(TriConsumer<T, U, V> proto ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -185,7 +185,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param proto
      * @return 
      */
-    public static <T extends Object, U extends Object, V extends Object, X extends Object, S extends Statement, _S extends _statement> $stmt<S, _S> of(QuadConsumer<T, U, V, X> proto ){
+    public static <T extends Object, U extends Object, V extends Object, X extends Object, S extends Statement, _S extends _stmt> $stmt<S, _S> of(QuadConsumer<T, U, V, X> proto ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -195,11 +195,11 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param stmtClasses the classes accepted for the Statement
      * @return
      */
-    public static $stmt<Statement, _statement> not(Class<? extends Statement>... stmtClasses){
+    public static $stmt<Statement, _stmt> not(Class<? extends Statement>... stmtClasses){
         Set<Class<? extends Statement>> notClasses = new HashSet<>();
         Arrays.stream(stmtClasses).forEach( s -> notClasses.add(s));
         Predicate<Statement> ps = s-> notClasses.contains(s.getClass());
-        return ($stmt<Statement, _statement>) new $stmt( Statement.class, t-> true )
+        return ($stmt<Statement, _stmt>) new $stmt( Statement.class, t-> true )
                 .$not( ps );
     }
 
@@ -208,7 +208,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param $ex the expression contained within the Statement
      * @return the new Statement matching only Statements that contain this expression
      */
-    public static $stmt<Statement, _statement> of( $ex $ex ){
+    public static $stmt<Statement, _stmt> of($ex $ex ){
         return $stmt.of().$and( s-> $ex.isIn(s) );
     }
 
@@ -217,7 +217,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param $exprs
      * @return
      */
-    public static $stmt<Statement, _statement> hasAny( $ex...$exprs ){
+    public static $stmt<Statement, _stmt> hasAny($ex...$exprs ){
         return $stmt.of().$and( s-> Arrays.stream($exprs).anyMatch( e -> e.isIn(s) ));
     }
 
@@ -226,7 +226,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param $exprs
      * @return
      */
-    public static $stmt<Statement, _statement> hasAll( $ex...$exprs ){
+    public static $stmt<Statement, _stmt> hasAll($ex...$exprs ){
         return $stmt.of().$and( s-> Arrays.stream($exprs).allMatch( e -> e.isIn(s) ));
     }
 
@@ -235,11 +235,11 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param stmtClasses the classes accepted for the Statement
      * @return
      */
-    public static $stmt<Statement, _statement> of(Class<? extends Statement>... stmtClasses){
+    public static $stmt<Statement, _stmt> of(Class<? extends Statement>... stmtClasses){
         Set<Class<? extends Statement>> notClasses = new HashSet<>();
         Arrays.stream(stmtClasses).forEach( s -> notClasses.add(s));
         Predicate<Statement> ps = s-> notClasses.contains(s.getClass());
-        return ($stmt<Statement, _statement>) new $stmt( Statement.class, t-> true )
+        return ($stmt<Statement, _stmt>) new $stmt( Statement.class, t-> true )
                 .$and( ps );
     }
 
@@ -248,7 +248,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param <S>
      * @return 
      */
-    public static <S extends Statement, _S extends _statement> $stmt<S, _S> of(){
+    public static <S extends Statement, _S extends _stmt> $stmt<S, _S> of(){
         return new $stmt( Statement.class, t-> true );
     }
 
@@ -264,8 +264,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param <S>
      * @return
      */
-    public static <S extends Statement, _S extends _statement> $stmt<S,_S> of( Object anonymousObjectWithStatement ){
-        ObjectCreationExpr oce = Expressions.newEx( Thread.currentThread().getStackTrace()[2]);
+    public static <S extends Statement, _S extends _stmt> $stmt<S,_S> of(Object anonymousObjectWithStatement ){
+        ObjectCreationExpr oce = Exprs.newEx( Thread.currentThread().getStackTrace()[2]);
         BlockStmt bs = oce.findFirst(com.github.javaparser.ast.stmt.BlockStmt.class).get();
 
         //?? do I want to do anything with $label$:{} ?
@@ -273,7 +273,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return of( bs.getStatement(0) );
     }
 
-    public static <S extends Statement, _S extends _statement> $stmt<S, _S> of( String prototypePattern ){
+    public static <S extends Statement, _S extends _stmt> $stmt<S, _S> of(String prototypePattern ){
         return of( new String[] {prototypePattern});
     }
 
@@ -282,8 +282,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param pattern
      * @return 
      */
-    public static <S extends Statement, _S extends _statement> $stmt<S,_S> of(String...pattern ){
-        S st = (S) Statements.of(pattern);
+    public static <S extends Statement, _S extends _stmt> $stmt<S,_S> of(String...pattern ){
+        S st = (S) Stmts.of(pattern);
         return new $stmt<S, _S>(st);
     }
     
@@ -322,7 +322,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return and AssertStmt with the code
      */
     public static $stmt<AssertStmt, _assertStmt> assertStmt(String... pattern ) {
-        return new $stmt( Statements.assertStmt(pattern));
+        return new $stmt( Stmts.assertStmt(pattern));
     }
 
     /**
@@ -332,7 +332,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return and AssertStmt with the code
      */
     public static $stmt<AssertStmt, _assertStmt> assertStmt(String pattern, Predicate<AssertStmt> constraint) {
-        return new $stmt( Statements.assertStmt(pattern) ).$and(constraint);
+        return new $stmt( Stmts.assertStmt(pattern) ).$and(constraint);
     }
     
     /**
@@ -360,7 +360,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return the BlockStmt
      */
     public static $stmt<BlockStmt, _blockStmt> blockStmt(String... pattern ) {
-        return new $stmt( Statements.blockStmt(pattern));
+        return new $stmt( Stmts.blockStmt(pattern));
     }
     
     /**
@@ -372,7 +372,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return the BlockStmt
      */
     public static $stmt<BlockStmt, _blockStmt> blockStmt(String pattern, Predicate<BlockStmt> constraint) {
-        return new $stmt( Statements.blockStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.blockStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -389,7 +389,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return the breakStmt
      */
     public static $stmt<BreakStmt, _breakStmt> breakStmt(String... pattern ) {
-        return new $stmt( Statements.breakStmt(pattern));
+        return new $stmt( Stmts.breakStmt(pattern));
     }
 
     /**
@@ -408,7 +408,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return the breakStmt
      */
     public static $stmt<BreakStmt, _breakStmt> breakStmt(String pattern, Predicate<BreakStmt> constraint) {
-        return new $stmt( Statements.breakStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.breakStmt(pattern)).$and(constraint);
     }
         
     /**
@@ -425,7 +425,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ContinueStmt, _continueStmt> continueStmt(String... pattern ) {
-        return new $stmt( Statements.continueStmt(pattern));
+        return new $stmt( Stmts.continueStmt(pattern));
     }
 
     
@@ -436,7 +436,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ContinueStmt, _continueStmt> continueStmt(String pattern, Predicate<ContinueStmt> constraint) {
-        return new $stmt( Statements.continueStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.continueStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -463,7 +463,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<DoStmt, _doStmt> doStmt(String... pattern ) {
-        return new $stmt( Statements.doStmt(pattern));
+        return new $stmt( Stmts.doStmt(pattern));
     }
 
     /** 
@@ -473,7 +473,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<DoStmt, _doStmt> doStmt(String pattern, Predicate<DoStmt> constraint) {
-        return new $stmt( Statements.doStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.doStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -490,7 +490,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
 
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> constructorCallStmt(String... pattern ) {
-        return new $stmt( Statements.of(pattern));
+        return new $stmt( Stmts.of(pattern));
     }
 
     /**
@@ -517,7 +517,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> thisCallStmt(String... pattern ) {
-        return new $stmt( Statements.constructorCallStmt(pattern));
+        return new $stmt( Stmts.constructorCallStmt(pattern));
     }
 
     /**
@@ -536,7 +536,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> thisCallStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
-        return new $stmt( Statements.constructorCallStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.constructorCallStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -554,7 +554,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> superCallStmt(String... pattern ) {
-        return new $stmt( Statements.constructorCallStmt(pattern));
+        return new $stmt( Stmts.constructorCallStmt(pattern));
     }
 
     /**
@@ -573,14 +573,14 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public static $stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt> superCallStmt(String pattern, Predicate<ExplicitConstructorInvocationStmt> constraint) {
-        return new $stmt( Statements.constructorCallStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.constructorCallStmt(pattern)).$and(constraint);
     }
 
     /** 
      * i.e."s += t;" 
      * @return 
      */
-    public static $stmt<ExpressionStmt, _expressionStmt> expressionStmt() {
+    public static $stmt<ExpressionStmt, _exprStmt> expressionStmt() {
         return new $stmt( ExpressionStmt.class, "$expressionStmt$");
     }
 
@@ -589,7 +589,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param es
      * @return
      */
-    public static $stmt<ExpressionStmt, _expressionStmt> expressionStmt( ExpressionStmt es) {
+    public static $stmt<ExpressionStmt, _exprStmt> expressionStmt(ExpressionStmt es) {
         return new $stmt( es);
     }
 
@@ -598,8 +598,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param pattern
      * @return 
      */
-    public static $stmt<ExpressionStmt, _expressionStmt> expressionStmt( String... pattern ) {
-        return new $stmt( Statements.expressionStmt(pattern));
+    public static $stmt<ExpressionStmt, _exprStmt> expressionStmt(String... pattern ) {
+        return new $stmt( Stmts.expressionStmt(pattern));
     }
     
     /** 
@@ -608,8 +608,8 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @param constraint
      * @return 
      */
-    public static $stmt<ExpressionStmt, _expressionStmt> expressionStmt( String pattern, Predicate<ExpressionStmt> constraint) {
-        return new $stmt( Statements.expressionStmt(pattern)).$and(constraint);
+    public static $stmt<ExpressionStmt, _exprStmt> expressionStmt(String pattern, Predicate<ExpressionStmt> constraint) {
+        return new $stmt( Stmts.expressionStmt(pattern)).$and(constraint);
     }
 
     /** 
@@ -626,7 +626,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ForStmt, _forStmt> forStmt( String... pattern ) {
-        return new $stmt( Statements.forStmt(pattern));
+        return new $stmt( Stmts.forStmt(pattern));
     }
     
     /** 
@@ -636,7 +636,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ForStmt, _forStmt> forStmt( String pattern, Predicate<ForStmt> constraint ) {
-        return new $stmt( Statements.forStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.forStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -661,7 +661,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ForEachStmt, _forEachStmt> forEachStmt( String... pattern ) {
-        return new $stmt( Statements.forEachStmt(pattern));
+        return new $stmt( Stmts.forEachStmt(pattern));
     }
     
     /** 
@@ -671,7 +671,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ForEachStmt, _forEachStmt> forEachStmt( String pattern, Predicate<ForEachStmt> constraint) {
-        return new $stmt( Statements.forEachStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.forEachStmt(pattern)).$and(constraint);
     }
 
     /** 
@@ -696,7 +696,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<IfStmt, _ifStmt> ifStmt( String... pattern ) {
-        return new $stmt( Statements.ifStmt(pattern));
+        return new $stmt( Stmts.ifStmt(pattern));
     }
     
     /** 
@@ -706,7 +706,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<IfStmt, _ifStmt> ifStmt( String pattern, Predicate<IfStmt> constraint) {
-        return new $stmt( Statements.ifStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.ifStmt(pattern)).$and(constraint);
     }
 
     /** 
@@ -732,7 +732,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<LabeledStmt, _labeledStmt> labeledStmt( String... pattern ) {
-        return new $stmt( Statements.labeledStmt(pattern));
+        return new $stmt( Stmts.labeledStmt(pattern));
     }
 
     /** 
@@ -742,7 +742,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<LabeledStmt, _labeledStmt> labeledStmt( String pattern, Predicate<LabeledStmt> constraint) {
-        return new $stmt( Statements.labeledStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.labeledStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -769,7 +769,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return the AST implementation
      */
     public static $stmt<LocalClassDeclarationStmt, _localClassStmt> localClassStmt( String... pattern ) {
-        return new $stmt( Statements.localClassStmt(pattern));
+        return new $stmt( Stmts.localClassStmt(pattern));
     }
     
     /**
@@ -780,7 +780,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return the AST implementation
      */
     public static $stmt<LocalClassDeclarationStmt, _localClassStmt> localClassStmt( String pattern, Predicate<LocalClassDeclarationStmt> constraint) {
-        return new $stmt( Statements.localClassStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.localClassStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -806,7 +806,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ReturnStmt, _returnStmt> returnStmt( String... pattern ) {
-        return new $stmt( Statements.returnStmt(pattern));
+        return new $stmt( Stmts.returnStmt(pattern));
     }
     
     /** 
@@ -816,7 +816,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ReturnStmt, _returnStmt> returnStmt( String pattern, Predicate<ReturnStmt> constraint ) {
-        return new $stmt( Statements.returnStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.returnStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -842,7 +842,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<SwitchStmt, _switchStmt> switchStmt( String... pattern ) {
-        return new $stmt( Statements.switchStmt(pattern));
+        return new $stmt( Stmts.switchStmt(pattern));
     }
 
     /**
@@ -852,7 +852,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<SwitchStmt, _switchStmt> switchStmt( String pattern, Predicate<SwitchStmt> constraint) {
-        return new $stmt( Statements.switchStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.switchStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -869,7 +869,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt( String... pattern ) {
-        return new $stmt( Statements.synchronizedStmt(pattern));
+        return new $stmt( Stmts.synchronizedStmt(pattern));
     }
     
     /**
@@ -879,7 +879,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<SynchronizedStmt, _synchronizedStmt> synchronizedStmt( String pattern, Predicate<SynchronizedStmt> constraint ) {
-        return new $stmt( Statements.synchronizedStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.synchronizedStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -906,7 +906,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ThrowStmt, _throwStmt> throwStmt( String... pattern ) {
-        return new $stmt( Statements.throwStmt(pattern));
+        return new $stmt( Stmts.throwStmt(pattern));
     }
     
     /**
@@ -916,7 +916,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<ThrowStmt, _throwStmt> throwStmt( String pattern, Predicate<ThrowStmt> constraint) {
-        return new $stmt( Statements.throwStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.throwStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -942,7 +942,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<TryStmt, _tryStmt> tryStmt( String... pattern ) {
-        return new $stmt( Statements.tryStmt(pattern));
+        return new $stmt( Stmts.tryStmt(pattern));
     }
 
     /** 
@@ -952,7 +952,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<TryStmt, _tryStmt> tryStmt( String pattern, Predicate<TryStmt> constraint ) {
-        return new $stmt( Statements.tryStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.tryStmt(pattern)).$and(constraint);
     }
     
     /**
@@ -969,7 +969,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<WhileStmt, _whileStmt> whileStmt( String... pattern ) {
-        return new $stmt( Statements.whileStmt(pattern));
+        return new $stmt( Stmts.whileStmt(pattern));
     }
 
     /**
@@ -988,7 +988,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public static $stmt<WhileStmt, _whileStmt> whileStmt( String pattern, Predicate<WhileStmt> constraint ) {
-        return new $stmt( Statements.whileStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.whileStmt(pattern)).$and(constraint);
     }
 
     /**
@@ -997,7 +997,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     public Predicate<_S> astMatch = s -> true;
 
     /**
-     * Match predicate tested against the domain {@link _statement} implementation
+     * Match predicate tested against the domain {@link _stmt} implementation
 
     public Predicate<_S> domainMatch = _s -> true;
      */
@@ -1068,7 +1068,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return
      */
     public $stmt $expr( String expr, String $name){
-        return $(Expressions.of(expr).toString(), $name);
+        return $(Exprs.of(expr).toString(), $name);
     }
 
     /**
@@ -1144,7 +1144,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     @Override
     public _S fill(Object...values){
         String str = stmtStencil.fill(Translator.DEFAULT_TRANSLATOR, values);
-        return (_S)_statement.of((S) Statements.of( str));
+        return (_S) _stmt.of((S) Stmts.of( str));
     }
 
 
@@ -1165,18 +1165,18 @@ public class $stmt<S extends Statement, _S extends _statement>
     @Override
     public _S draft(Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (_S)_statement.of( parameterize$LabeledStmt( Statements.of(stmtStencil.draft( tokens )), tokens ));
+        return (_S) _stmt.of( parameterize$LabeledStmt( Stmts.of(stmtStencil.draft( tokens )), tokens ));
     }
     
     @Override
     public _S draft(Translator t, Object...keyValues ){
         Tokens tokens = Tokens.of(keyValues);
-        return (_S) _statement.of(parameterize$LabeledStmt( Statements.of(stmtStencil.draft( t, tokens )), tokens ));
+        return (_S) _stmt.of(parameterize$LabeledStmt( Stmts.of(stmtStencil.draft( t, tokens )), tokens ));
     }
 
     @Override
     public _S draft(Map<String,Object> tokens ){
-        return (_S)_statement.of((S) parameterize$LabeledStmt( Statements.of(stmtStencil.draft( tokens )), tokens ));
+        return (_S) _stmt.of((S) parameterize$LabeledStmt( Stmts.of(stmtStencil.draft( tokens )), tokens ));
     }
     
     /**
@@ -1191,7 +1191,7 @@ public class $stmt<S extends Statement, _S extends _statement>
 
     @Override
     public _S draft(Translator t, Map<String,Object> tokens ){
-        return (_S) _statement.of(parameterize$LabeledStmt( Statements.of(stmtStencil.draft( t, tokens )), tokens ));
+        return (_S) _stmt.of(parameterize$LabeledStmt( Stmts.of(stmtStencil.draft( t, tokens )), tokens ));
     }
 
     public boolean match( Node node ) {
@@ -1207,7 +1207,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      * @return 
      */
     public boolean matches( String...stmt ){
-        return matches( Statements.of(stmt));
+        return matches( Stmts.of(stmt));
     }
 
     /**
@@ -1252,7 +1252,7 @@ public class $stmt<S extends Statement, _S extends _statement>
      */
     public Select<S, _S> select(String...stmt){
         try{
-            return select(Statements.of(stmt));
+            return select(Stmts.of(stmt));
         }catch(Exception e){
             return null;
         }
@@ -1269,7 +1269,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
 
 
-    public Select<S, _S> select(_statement _s){
+    public Select<S, _S> select(_stmt _s){
         if( _s == null ){
             return null;
         }
@@ -1277,7 +1277,7 @@ public class $stmt<S extends Statement, _S extends _statement>
             return null;
         }
         S s = (S)_s.ast();
-        if( ! astMatch.test((_S)_statement.of(s))){
+        if( ! astMatch.test((_S) _stmt.of(s))){
             return null;
         }
         Tokens st = this.stmtStencil.parse(_s.ast().toString(NO_COMMENTS));
@@ -1300,7 +1300,7 @@ public class $stmt<S extends Statement, _S extends _statement>
             return null;
         }
         S s = (S)astStmt;
-        if( ! astMatch.test((_S)_statement.of(s))){
+        if( ! astMatch.test((_S) _stmt.of(s))){
             return null;
         }
         Tokens st = this.stmtStencil.parse(astStmt.toString(NO_COMMENTS));
@@ -1393,7 +1393,7 @@ public class $stmt<S extends Statement, _S extends _statement>
             return sel != null && statementMatchFn.test((_S)sel._s);
         });         
         if( f.isPresent()){
-            return (_S)_statement.of(f.get());
+            return (_S) _stmt.of(f.get());
         }
         return null;
     }    
@@ -1615,7 +1615,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return replaceIn(_j, $sn);
     }
 
-    public static final Consumer<_statement> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
+    public static final Consumer<_stmt> REPLACE_WITH_EMPTY_COMMENT_BLOCK = (st)->{
         BlockStmt bs = Ast.blockStmt("{/*<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>*" + "/}");
         /**
          * Check if you are in this situation (replacing System.out.println()) which is already in an empty block
@@ -1641,7 +1641,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         }
     };
 
-    public static final Consumer<_statement> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
+    public static final Consumer<_stmt> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>") );
         st.ast().replace( es );
@@ -1676,7 +1676,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         return commentOut(_codeProvider, REPLACE_WITH_EMPTY_STMT_COMMENT);
     }
 
-    public _project commentOut(_project _codeProvider, Consumer<_statement> commenter){
+    public _project commentOut(_project _codeProvider, Consumer<_stmt> commenter){
         forEachIn(_codeProvider, n-> commenter.accept(n));
         return _codeProvider;
     }
@@ -1687,17 +1687,17 @@ public class $stmt<S extends Statement, _S extends _statement>
     }
 
     //
-    public <N extends Node> N commentOut( N ast, Consumer<_statement> commenter){
+    public <N extends Node> N commentOut( N ast, Consumer<_stmt> commenter){
         return forEachIn(ast, n-> commenter.accept(n));
     }
 
     // comments out the matching code
-    public <_CT extends _type> _CT commentOut( Class clazz, Consumer<_statement> commenter){
+    public <_CT extends _type> _CT commentOut( Class clazz, Consumer<_stmt> commenter){
         return (_CT)commentOut( _class.of(clazz), commenter);
     }
 
     /** comments out the matching code */
-    public <_J extends _java._domain> _J commentOut(_J _j, Consumer<_statement>commenter){
+    public <_J extends _java._domain> _J commentOut(_J _j, Consumer<_stmt>commenter){
         return forEachIn(_j, s-> commenter.accept(s) );
     }
 
@@ -1712,7 +1712,7 @@ public class $stmt<S extends Statement, _S extends _statement>
     public <N extends Node> N unComment( N ast ){
         $COMMENTED_STATEMENT.forSelectedIn( ast, ($comment.Select sel)-> {
             try {
-                Statement st = Statements.of( sel.get("statement").toString() );
+                Statement st = Stmts.of( sel.get("statement").toString() );
                 Select ssel = this.select(st);
 
                 if( ssel != null ){
@@ -1775,7 +1775,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 //Node par = firstStmt.getParentNode().get();
                 //NodeWithStatements parentNode = (NodeWithStatements)par;
                 //int addIndex = par.getChildNodes().indexOf( firstStmt );
-                LabeledStmt ls = Statements.labeledStmt("$replacement$:{}");
+                LabeledStmt ls = Stmts.labeledStmt("$replacement$:{}");
                 // we want to add the contents of the replacement to a labeled statement,
                 // because, (if we did it INLINE, we could  end up in an infinite loop, searching the
                 // tree up to a cursor, then adding some code AT the cursor, then finding a match within the added
@@ -1814,7 +1814,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 //Node par = firstStmt.getParentNode().get();
                 //NodeWithStatements parentNode = (NodeWithStatements)par;
                 //int addIndex = par.getChildNodes().indexOf( firstStmt );
-                LabeledStmt ls = Statements.labeledStmt("$replacement$:{}");
+                LabeledStmt ls = Stmts.labeledStmt("$replacement$:{}");
                 // we want to add the contents of the replacement to a labeled statement,
                 // because, (if we did it INLINE, we could  end up in an infinite loop, searching the
                 // tree up to a cursor, then adding some code AT the cursor, then finding a match within the added
@@ -1946,7 +1946,7 @@ public class $stmt<S extends Statement, _S extends _statement>
                 //System.out.println( "  AFTERWARDS "+ node);
 
             } else{
-                LabeledStmt $TO_REPLACE = Statements.labeledStmt("$TO_REPLACE: {}");
+                LabeledStmt $TO_REPLACE = Stmts.labeledStmt("$TO_REPLACE: {}");
                 $TO_REPLACE.setStatement(st);
                 ls.replace( $TO_REPLACE );
                 Tree.flattenLabel(node, "$TO_REPLACE");
@@ -1970,7 +1970,7 @@ public class $stmt<S extends Statement, _S extends _statement>
         }
         //OVERRIDE: with a String Statement
         else if( value instanceof String ){
-            return Statements.of( (String)value);
+            return Stmts.of( (String)value);
         }
         //OVERRIDE: with a proto Statement
         else if( value instanceof $stmt ){ 
@@ -2085,14 +2085,14 @@ public class $stmt<S extends Statement, _S extends _statement>
      * 
      * @param <T> 
      */
-    public static class Select<T extends Statement, _S extends _statement> implements $pattern.selected,
+    public static class Select<T extends Statement, _S extends _stmt> implements $pattern.selected,
             selectAst<T>, select_java<_S> {
 
         public _S _s;
         public $tokens tokens;
         
         public Select( T astStatement, $tokens tokens){
-            this._s = (_S)_statement.of( astStatement); //this.astStatement = astStatement;
+            this._s = (_S) _stmt.of( astStatement); //this.astStatement = astStatement;
             this.tokens = tokens;
         }
         

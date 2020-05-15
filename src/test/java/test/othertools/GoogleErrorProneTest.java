@@ -7,10 +7,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.CallableDeclaration;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
-import org.jdraft.Ast;
-import org.jdraft._class;
-import org.jdraft._project;
-import org.jdraft._returnStmt;
+import org.jdraft.*;
 import org.jdraft.pattern.*;
 
 /**
@@ -54,7 +51,7 @@ public class GoogleErrorProneTest extends TestCase {
 
         //match any Return null where that is NOT within a Member of
         $stmt<ReturnStmt, _returnStmt> $returnNull = $.returnStmt("return null;")
-                .$and(r -> !$.hasAncestor(r, $memberAnnotatedWithNullable));
+                .$and(r -> !$.hasAncestor( (_java._node) r, $memberAnnotatedWithNullable));
 
 
         class FFF{

@@ -14,7 +14,7 @@ public final class _annotationDiff implements _differ<_annotation, _java._multiP
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annotation left, _annotation right) {
         _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackageName(), right.getPackageName());
         _importsDiff.INSTANCE.diff(path, ds, left, right, left, right);
-        _annoRefsDiff.INSTANCE.diff(path, ds, left, right, left.getAnnoRefs(), right.getAnnoRefs());
+        _annoExprsDiff.INSTANCE.diff(path, ds, left, right, left.getAnnoRefs(), right.getAnnoRefs());
         _javadocCommentDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
         _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
         _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
@@ -199,7 +199,7 @@ public final class _annotationDiff implements _differ<_annotation, _java._multiP
         @Override
         public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annotation._entry left, _annotation._entry right) {
             _javadocCommentDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
-            _annoRefsDiff.INSTANCE.diff(path, ds, left, right, left.getAnnoRefs(), right.getAnnoRefs());
+            _annoExprsDiff.INSTANCE.diff(path, ds, left, right, left.getAnnoRefs(), right.getAnnoRefs());
             _typeRefDiff.INSTANCE.diff(path, ds, left, right, left.getTypeRef(), right.getTypeRef());
             _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
             DEFAULT_VALUE_DIFF.diff(path, ds, left, right, left.getDefaultValue(), right.getDefaultValue());

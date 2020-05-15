@@ -9,11 +9,11 @@ import java.util.*;
  * <br/><code>class X { X() { super(15); } }</code>
  * <br/><code>class X { X() { this(1, 2); } }</code>
  *
- * @see _super
- * @see _this
+ * @see _superExpr
+ * @see _thisExpr
  */
 public final class _constructorCallStmt
-        implements _statement<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        implements _stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._multiPart<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _typeArguments._withTypeArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _arguments._withArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
@@ -27,7 +27,7 @@ public final class _constructorCallStmt
     }
 
     public static _constructorCallStmt of(String...code){
-        return new _constructorCallStmt(Statements.constructorCallStmt( code));
+        return new _constructorCallStmt(Stmts.constructorCallStmt( code));
     }
 
     private ExplicitConstructorInvocationStmt astStmt;
@@ -61,7 +61,7 @@ public final class _constructorCallStmt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.constructorCallStmt(stringRep));
+            return is( Stmts.constructorCallStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -118,21 +118,21 @@ public final class _constructorCallStmt
     }
     */
 
-    public boolean isExpression( _expression _e){
+    public boolean isExpression( _expr _e){
         if( this.astStmt.getExpression().isPresent() ){
             return Objects.equals( this.astStmt.getExpression().get(), _e.ast());
         }
         return _e == null;
     }
 
-    public _expression getExpression(){
+    public _expr getExpression(){
         if( this.astStmt.getExpression().isPresent()){
-            return _expression.of(this.astStmt.getExpression().get());
+            return _expr.of(this.astStmt.getExpression().get());
         }
         return null;
     }
 
-    public _constructorCallStmt setExpression(_expression _e){
+    public _constructorCallStmt setExpression(_expr _e){
         this.astStmt.setExpression(_e.ast());
         return this;
     }

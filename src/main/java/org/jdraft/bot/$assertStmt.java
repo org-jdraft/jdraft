@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertStmt>,
         $selector.$node<_assertStmt, $assertStmt>,
         $bot.$withComment<$assertStmt>,
-        $statement<AssertStmt, _assertStmt, $assertStmt> {
+        $stmt<AssertStmt, _assertStmt, $assertStmt> {
 
     public interface $part{}
 
@@ -43,7 +43,7 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         return of(_assertStmt.of(code));
     }
 
-    public static $assertStmt of(Expressions.Command lambdaWithMethodCall ){
+    public static $assertStmt of(Exprs.Command lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -59,11 +59,11 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Expressions.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Expressions.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -75,11 +75,11 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Expressions.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Expressions.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -136,8 +136,8 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         public $assertStmt.Or copy(){
             $assertStmt.Or $copy = $assertStmt.or();
             $copy.$and(this.predicate);
-            $copy.check = ($expression)this.check.copy();
-            $copy.message = ($expression)this.message.copy();
+            $copy.check = ($expr)this.check.copy();
+            $copy.message = ($expr)this.message.copy();
             this.$assertStmtBots.forEach( ($a) -> $copy.$assertStmtBots.add($a.copy()));
             return $copy;
         }
@@ -192,8 +192,8 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
 
     public Predicate<_assertStmt> predicate = d -> true;
 
-    public $expression check = $expression.of();
-    public $expression message = $expression.of();
+    public $expr check = $expr.of();
+    public $expr message = $expr.of();
     public $comment comment = null;
 
     public $assertStmt() { }
@@ -207,9 +207,9 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
 
     public $assertStmt(_assertStmt _r){
         if( _r.hasMessage() ){
-            this.message = $expression.of( _r.getMessage());
+            this.message = $expr.of( _r.getMessage());
         }
-        this.check = $expression.of(_r.getCheck());
+        this.check = $expr.of(_r.getCheck());
     }
 
     /**
@@ -218,8 +218,8 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
      */
     public $assertStmt copy(){
         $assertStmt $r = of( ).$and(this.predicate.and(t->true) );
-        $r.check = ($expression)this.check.copy();
-        $r.message = ($expression)this.message.copy();
+        $r.check = ($expr)this.check.copy();
+        $r.message = ($expr)this.message.copy();
         return $r;
     }
 
@@ -280,7 +280,7 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         return null;
     }
 
-    public Select<_assertStmt> select(_statement<?, ?> _e) {
+    public Select<_assertStmt> select(_stmt<?, ?> _e) {
         if (_e instanceof _assertStmt) {
             return select((_assertStmt) _e);
         }
@@ -323,10 +323,10 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
     public _assertStmt draft(Translator tr, Map<String,Object> keyValues){
         _assertStmt _es = _assertStmt.of();
         if( !this.check.isMatchAny() ){
-            _es.setCheck( (_expression)this.check.draft(tr, keyValues) );
+            _es.setCheck( (_expr)this.check.draft(tr, keyValues) );
         }
         if( !this.message.isMatchAny() ){
-            _es.setMessage( (_expression)this.message.draft(tr, keyValues) );
+            _es.setMessage( (_expr)this.message.draft(tr, keyValues) );
         }
         if( !this.predicate.test(_es) ){
             throw new _jdraftException("Drafted $assertStmt failed predicate");
@@ -358,83 +358,83 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
     }
 
     //$withExpression interface
-    public $expression get$check(){
+    public $expr get$check(){
         return this.check;
     }
 
     public $assertStmt $check( ){
-        this.check = $expression.of();
+        this.check = $expr.of();
         return this;
     }
 
-    public $assertStmt $check($expression $e ){
+    public $assertStmt $check($expr $e ){
         this.check = $e;
         return this;
     }
 
-    public $assertStmt $check(Predicate<_expression> matchFn){
+    public $assertStmt $check(Predicate<_expr> matchFn){
         this.check.$and(matchFn);
         return this;
     }
 
-    public $assertStmt $check(Class<? extends _expression>...expressionClasses){
-        this.check = $expression.of(expressionClasses);
+    public $assertStmt $check(Class<? extends _expr>...expressionClasses){
+        this.check = $expr.of(expressionClasses);
         return this;
     }
 
     public $assertStmt $check(String expression){
-        this.check = $expression.of(expression);
+        this.check = $expr.of(expression);
         return this;
     }
 
     public $assertStmt $check(Expression e){
-        this.check = $expression.of(e);
+        this.check = $expr.of(e);
         return this;
     }
 
-    public $assertStmt $check(_expression _e) {
-        this.check = $expression.of(_e);
+    public $assertStmt $check(_expr _e) {
+        this.check = $expr.of(_e);
         return this;
     }
 
 
     //$withExpression interface
-    public $expression get$message(){
+    public $expr get$message(){
         return this.message;
     }
 
     public $assertStmt $message( ){
-        this.message = $expression.of();
+        this.message = $expr.of();
         return this;
     }
 
-    public $assertStmt $message($expression $e ){
+    public $assertStmt $message($expr $e ){
         this.message = $e;
         return this;
     }
 
-    public $assertStmt $message(Predicate<_expression> matchFn){
+    public $assertStmt $message(Predicate<_expr> matchFn){
         this.message.$and(matchFn);
         return this;
     }
 
-    public $assertStmt $message(Class<? extends _expression>...expressionClasses){
-        this.message = $expression.of(expressionClasses);
+    public $assertStmt $message(Class<? extends _expr>...expressionClasses){
+        this.message = $expr.of(expressionClasses);
         return this;
     }
 
     public $assertStmt $message(String expression){
-        this.message = $expression.of(expression);
+        this.message = $expr.of(expression);
         return this;
     }
 
     public $assertStmt $message(Expression e){
-        this.message = $expression.of(e);
+        this.message = $expr.of(e);
         return this;
     }
 
-    public $assertStmt $message(_expression _e) {
-        this.message = $expression.of(_e);
+    public $assertStmt $message(_expr _e) {
+        this.message = $expr.of(_e);
         return this;
     }
 }

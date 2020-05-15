@@ -1,6 +1,5 @@
 package test.othertools;
 
-import com.github.javaparser.ast.body.InitializerDeclaration;
 import junit.framework.TestCase;
 import org.jdraft._class;
 import org.jdraft.bot.*;
@@ -42,7 +41,7 @@ public class SemmleCustomQueryTest extends TestCase {
         //1) replace the direct creation of HashSet to LinkedHashSet
         _c = $typeRef.of(HashSet.class).replaceIn(_c, LinkedHashSet.class);
         //2) replace calls of Collectors.toSet() with a custom toCollection( LinkedHashSet ) variant
-        _c = $methodCall.of("Collectors.toSet()").replaceIn(_c, "Collectors.toCollection(LinkedHashSet::new)");
+        _c = $methodCallExpr.of("Collectors.toSet()").replaceIn(_c, "Collectors.toCollection(LinkedHashSet::new)");
         System.out.println( _c );
     }
 
@@ -87,10 +86,10 @@ public class SemmleCustomQueryTest extends TestCase {
         assertEquals(2, $typeRef.of(LinkedHashSet.class).countIn(_c));
 
         // (2) verify I can find the Collectors.toSet
-        assertEquals( 1, $methodCall.of("Collectors.toSet()").countIn(_c));
+        assertEquals( 1, $methodCallExpr.of("Collectors.toSet()").countIn(_c));
 
         // (2) verify I can replace all instances of Collectors.toSet() to the custom LinkedHashSet replacement
-        _c = $methodCall.of("Collectors.toSet()").replaceIn(_c, $methodCall.of("Collectors.toCollection(LinkedHashSet::new)"));
+        _c = $methodCallExpr.of("Collectors.toSet()").replaceIn(_c, $methodCallExpr.of("Collectors.toCollection(LinkedHashSet::new)"));
 
         // (2) we should now have (3) instances of LinkedHashSet
         assertEquals(3, $typeRef.of(LinkedHashSet.class).countIn(_c));

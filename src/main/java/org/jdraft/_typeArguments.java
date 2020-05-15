@@ -14,18 +14,18 @@ import java.util.stream.Collectors;
 
 /**
  * TypeArgument Lists used in:
- * {@link _methodCall}
+ * {@link _methodCallExpr}
  * {@link _constructorCallStmt}
- * {@link _new}
- * {@link _fieldAccess}
- * {@link _methodRef}
+ * {@link _newExpr}
+ * {@link _fieldAccessExpr}
+ * {@link _methodRefExpr}
  * order doesnt matter
  */
 public final class _typeArguments
         implements _java._set<Type, _typeRef, _typeArguments> {
 
     public static _typeArguments of(){
-        return of( Expressions.newEx("new empty()"));
+        return of( Exprs.newEx("new empty()"));
     }
 
     public static _typeArguments of( _typeRef...rt){
@@ -42,16 +42,16 @@ public final class _typeArguments
             if( a.startsWith("<") && a.endsWith(">")){
                 a = a.substring(1, a.length()-1).trim();
                 if( a.length() == 0 ) {
-                    ObjectCreationExpr oce = Expressions.newEx("new <> empty()");
+                    ObjectCreationExpr oce = Exprs.newEx("new <> empty()");
                     return of(oce);
                 }
-                ObjectCreationExpr oce = Expressions.newEx("new <"+ a + "> empty()");
+                ObjectCreationExpr oce = Exprs.newEx("new <"+ a + "> empty()");
                 return of( oce);
             }
             if( a.startsWith("<") ){
                 a = a.substring(1, a.length()-1);
             }
-            ObjectCreationExpr oce = Expressions.newEx("new <"+ a + "> empty()");
+            ObjectCreationExpr oce = Exprs.newEx("new <"+ a + "> empty()");
             return of( oce);
         }
         StringBuilder sb = new StringBuilder();
@@ -62,7 +62,7 @@ public final class _typeArguments
             String a = args[i].trim();
             sb.append(a);
         }
-        return of( Expressions.newEx("new<"+ sb.toString() + "> empty()"));
+        return of( Exprs.newEx("new<"+ sb.toString() + "> empty()"));
     }
 
     public static _typeArguments of(NodeWithTypeArguments nwta){
@@ -213,9 +213,9 @@ public final class _typeArguments
 
     /**
      * TypeArgument set used in:
-     * {@link _methodCall}
+     * {@link _methodCallExpr}
      * {@link _constructorCallStmt}
-     * {@link _new}
+     * {@link _newExpr}
      * (order matters list of {@link _typeRef} )
      */
     public interface _withTypeArguments<N extends Node, _WTA extends _java._node> extends _java._node<N, _WTA> {

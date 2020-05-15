@@ -23,10 +23,10 @@ public class $statementRefactorTest extends TestCase {
         _type _t = $r.in(C.class);
         Print.tree(_t);
         //verify after refactoring I cant find those System.out.printlns
-        assertFalse($statement.of("System.out.println($any$);").isIn(_t));
+        assertFalse($stmt.of("System.out.println($any$);").isIn(_t));
     }
     public void testRefactor() {
-        $statement.$refactor $r = $statement.refactor("System.out.println($any$);", "Log.debug($any$);");
+        $stmt.$refactor $r = $stmt.refactor("System.out.println($any$);", "Log.debug($any$);");
         class C{
             int value = 100;
             void m(){

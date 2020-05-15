@@ -6,9 +6,9 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.expr.MemberValuePair;
-import org.jdraft.Expressions;
-import org.jdraft._annoRef;
-import org.jdraft._annoRefs;
+import org.jdraft.Exprs;
+import org.jdraft._annoExpr;
+import org.jdraft._annoExprs;
 import org.jdraft._class;
 import java.util.regex.Pattern;
 import junit.framework.TestCase;
@@ -27,7 +27,7 @@ public class SaTest extends TestCase {
         //
         $annoRefs $as = $annoRefs.as();
 
-        assertTrue($as.matches(_annoRefs.of()));
+        assertTrue($as.matches(_annoExprs.of()));
         assertTrue($as.matches(""));
         assertFalse($as.matches("@A"));
 
@@ -51,7 +51,7 @@ public class SaTest extends TestCase {
         $.anno("A").matches("@A(1)");
         
         
-        $annoRef $a = $annoRef.of( $id.of("A"), $annoRef.$memberValue.of(Expressions.of(1)));
+        $annoRef $a = $annoRef.of( $id.of("A"), $annoRef.$memberValue.of(Exprs.of(1)));
         assertTrue( $a.matches("@A(1)") );        
     }
     
@@ -59,8 +59,8 @@ public class SaTest extends TestCase {
         
         System.out.println( $annoRef.of("B").draftToString() + "" );
         
-        assertEquals(_annoRef.of("B"), $annoRef.of().draft("$anno", "@B"));
-        assertEquals(_annoRef.of("B").toString(), $annoRef.of()
+        assertEquals(_annoExpr.of("B"), $annoRef.of().draft("$anno", "@B"));
+        assertEquals(_annoExpr.of("B").toString(), $annoRef.of()
                 .draftToString("$anno", "@B"));
     }
     
@@ -72,7 +72,7 @@ public class SaTest extends TestCase {
             
         }        
         //override parameter
-        assertEquals(_annoRef.of("E"), $annoRef.of().draft("$anno", "@E"));
+        assertEquals(_annoExpr.of("E"), $annoRef.of().draft("$anno", "@E"));
         
     }
     
@@ -89,15 +89,15 @@ public class SaTest extends TestCase {
     
     public void testOutOfOrderKeyValues(){
         $annoRef a = $annoRef.of("@A(a=1,b=2)");
-        assertTrue( a.matches(_annoRef.of("@A(b=2,a=1)")) );
+        assertTrue( a.matches(_annoExpr.of("@A(b=2,a=1)")) );
     }
     
     public void testParensOrNoParens(){
         $annoRef a = $annoRef.of("@E");
         
-        assertTrue(a.matches(_annoRef.of("@E")));
+        assertTrue(a.matches(_annoExpr.of("@E")));
         //this doesnt work
-        assertTrue(a.matches(_annoRef.of("@E()")));
+        assertTrue(a.matches(_annoExpr.of("@E()")));
     }
     
     public void testFullyQualified(){
@@ -174,24 +174,24 @@ public class SaTest extends TestCase {
     
     public void testS(){
         $annoRef.$memberValue.of().matches(new MemberValuePair());
-        $annoRef.$memberValue.of().matches(new MemberValuePair("a", Expressions.of(1)));
+        $annoRef.$memberValue.of().matches(new MemberValuePair("a", Exprs.of(1)));
         
         //static  membervalues
-        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.stringLiteralEx("100")));
-        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expressions.of("100")));
+        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Exprs.stringLiteralEx("100")));
+        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Exprs.of("100")));
         
         //dynamic value
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("100")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of("1")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.stringLiteralEx("Blah")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expressions.of(new int[]{1,2,3,4})));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.of("100")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.of("1")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.stringLiteralEx("Blah")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.of(new int[]{1,2,3,4})));
         
         
     }
     
     public void testSingleValueAnno(){
-       MemberValuePair mvp = new MemberValuePair().setValue(Expressions.of(1));
-       assertTrue($annoRef.$memberValue.of(Expressions.of(1)).matches(mvp));
+       MemberValuePair mvp = new MemberValuePair().setValue(Exprs.of(1));
+       assertTrue($annoRef.$memberValue.of(Exprs.of(1)).matches(mvp));
     }
  
     
@@ -326,8 +326,8 @@ public class SaTest extends TestCase {
      
     public void testStatic$a(){
         $annoRef a = $annoRef.of("@name");
-        assertEquals( _annoRef.of("@name"), a.draft());
-        assertTrue( a.matches(_annoRef.of("@name")));
+        assertEquals( _annoExpr.of("@name"), a.draft());
+        assertTrue( a.matches(_annoExpr.of("@name")));
 
         @name
         class C{
@@ -345,14 +345,14 @@ public class SaTest extends TestCase {
         //any @NAME annotation with a prefix
         $annoRef a = $annoRef.of("@name(prefix=$any$)");
 
-        assertTrue( a.matches( _annoRef.of("@name(prefix=\"1\")") ));
+        assertTrue( a.matches( _annoExpr.of("@name(prefix=\"1\")") ));
         
-        assertNotNull( a.select( _annoRef.of("@name(prefix=\"1\")") ));
+        assertNotNull( a.select( _annoExpr.of("@name(prefix=\"1\")") ));
 
-        System.out.println( "GOTTEN " + a.select(_annoRef.of("@name(prefix=\"1\")") ).tokens);
-        assertTrue( a.select(_annoRef.of("@name(prefix=\"1\")") ).is("any", Expressions.stringLiteralEx("1")) );
+        System.out.println( "GOTTEN " + a.select(_annoExpr.of("@name(prefix=\"1\")") ).tokens);
+        assertTrue( a.select(_annoExpr.of("@name(prefix=\"1\")") ).is("any", Exprs.stringLiteralEx("1")) );
 
-        assertTrue( a.select(_annoRef.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
+        assertTrue( a.select(_annoExpr.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
         assertTrue( a.$list().contains("any"));
 
 
@@ -369,8 +369,8 @@ public class SaTest extends TestCase {
         a.replaceIn(_c, $annoRef.of("@name2(string=$any$)") );
         System.out.println(_c );
 
-        _annoRef _a = a.draft("any", "\"Some String\"");
-        assertEquals( _annoRef.of("@name(prefix=\"Some String\")"), _a );
+        _annoExpr _a = a.draft("any", "\"Some String\"");
+        assertEquals( _annoExpr.of("@name(prefix=\"Some String\")"), _a );
     }
 
 

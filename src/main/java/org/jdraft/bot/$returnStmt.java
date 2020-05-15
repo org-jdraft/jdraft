@@ -2,7 +2,6 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnStmt>,
         $selector.$node<_returnStmt, $returnStmt>,
-        $statement<ReturnStmt, _returnStmt, $returnStmt> {
+        $stmt<ReturnStmt, _returnStmt, $returnStmt> {
 
     public interface $part{}
 
@@ -47,7 +46,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
     public Predicate<_returnStmt> predicate = d -> true;
 
     /** optional expression to return (NOTE could be null)*/
-    public $expression expression = $expression.of();
+    public $expr expression = $expr.of();
 
     public $returnStmt() { }
 
@@ -59,7 +58,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
 
     public $returnStmt(_returnStmt _r){
         if( _r.hasExpression() ){
-            this.expression = $expression.of(_r.getExpression());
+            this.expression = $expr.of(_r.getExpression());
         }
     }
 
@@ -69,7 +68,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
      */
     public $returnStmt copy(){
         $returnStmt $r = of( ).$and(this.predicate.and(t->true) );
-        $r.expression = ($expression)this.expression.copy();
+        $r.expression = ($expr)this.expression.copy();
         return $r;
     }
 
@@ -120,7 +119,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         return null;
     }
 
-    public Select<_returnStmt> select(_statement<?, ?> _e) {
+    public Select<_returnStmt> select(_stmt<?, ?> _e) {
         if (_e instanceof _returnStmt) {
             return select((_returnStmt) _e);
         }
@@ -144,7 +143,7 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
     public _returnStmt draft(Translator tr, Map<String,Object> keyValues){
         _returnStmt _rs = _returnStmt.of();
         if( !this.expression.isMatchAny() ){
-            _rs.setExpression( (_expression)this.expression.draft(tr, keyValues) );
+            _rs.setExpression( (_expr)this.expression.draft(tr, keyValues) );
         }
         if( !this.predicate.test(_rs) ){
             throw new _jdraftException("Drafted _returnStmt failed bot predicate");
@@ -173,42 +172,42 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
     }
 
     //$withExpression interface
-    public $expression get$expression(){
+    public $expr get$expression(){
         return this.expression;
     }
 
     public $returnStmt $expression( ){
-        this.expression = $expression.of();
+        this.expression = $expr.of();
         return this;
     }
 
-    public $returnStmt $expression($expression $e ){
+    public $returnStmt $expression($expr $e ){
         this.expression = $e;
         return this;
     }
 
-    public $returnStmt $expression(Predicate<_expression> matchFn){
+    public $returnStmt $expression(Predicate<_expr> matchFn){
         this.expression.$and(matchFn);
         return this;
     }
 
-    public $returnStmt $expression(Class<? extends _expression>...expressionClasses){
-        this.expression = $expression.of(expressionClasses);
+    public $returnStmt $expression(Class<? extends _expr>...expressionClasses){
+        this.expression = $expr.of(expressionClasses);
         return this;
     }
 
     public $returnStmt $expression(String expression){
-        this.expression = $expression.of(expression);
+        this.expression = $expr.of(expression);
         return this;
     }
 
     public $returnStmt $expression(Expression e){
-        this.expression = $expression.of(e);
+        this.expression = $expr.of(e);
         return this;
     }
 
-    public $returnStmt $expression(_expression _e) {
-        this.expression = $expression.of(_e);
+    public $returnStmt $expression(_expr _e) {
+        this.expression = $expr.of(_e);
         return this;
     }
 }

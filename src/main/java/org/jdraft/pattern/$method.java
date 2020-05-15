@@ -14,7 +14,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoRefs;
+import org.jdraft._annoExprs;
 import org.jdraft._parameters;
 import org.jdraft._typeParameters;
 import org.jdraft.macro._remove;
@@ -28,7 +28,7 @@ import org.jdraft.text.*;
 public class $method
     implements Template<_method>, //$pattern<_method, $method>,
         $pattern.$java<_method,$method>, $class.$part,
-        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, has$AnnoRefs,
+        $interface.$part, $enum.$part,$enumConstant.$part, $member.$named<$method>, $declared<_method,$method>, $withAnnoRefs,
         $type.$part {
 
     /**
@@ -177,7 +177,7 @@ public class $method
 
 
     public static _method from (StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Expressions.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newEx( ste );
         if( anonymousObjectContainingMethod instanceof $pattern){
             throw new UnsupportedOperationException("We cant create an instance of $method from unsupported $pattern");
         }
@@ -726,7 +726,7 @@ public class $method
         return this;
     }
     
-    public $method $annos( Predicate<_annoRefs> as ){
+    public $method $annos( Predicate<_annoExprs> as ){
         this.annos.$and(as);
         return this;
     }
@@ -746,7 +746,7 @@ public class $method
         return this;
     }
     
-    public $method $anno( _annoRef _an){
+    public $method $anno( _annoExpr _an){
         this.annos.$annosList.add($annoRef.of(_an) );
         return this;
     }
@@ -902,7 +902,7 @@ public class $method
      */
     public $method $body( Object anonymousClassWithMethodContainingBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Expressions.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newEx(ste);
         Optional<BodyDeclaration<?>> on = oce.getAnonymousClassBody().get().stream().filter(m -> 
             m instanceof MethodDeclaration 
             && !((MethodDeclaration)m)
@@ -1007,7 +1007,7 @@ public class $method
         return draft(_n.tokenize() );
     }
 
-    public static final BlockStmt EMPTY = Statements.blockStmt("{}");
+    public static final BlockStmt EMPTY = Stmts.blockStmt("{}");
 
     /**
      * 

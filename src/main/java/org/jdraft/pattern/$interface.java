@@ -25,7 +25,7 @@ public class $interface
         implements
         //$pattern<_interface, $interface>,
         $pattern.$java<_interface, $interface>, $member.$named<$interface>,
-        $declared<_interface,$interface>, has$AnnoRefs {
+        $declared<_interface,$interface>, $withAnnoRefs {
 
     public Predicate<_interface> constraint = t->true;
 
@@ -608,7 +608,7 @@ public class $interface
         return this.annos;
     }
 
-    public $interface $annos(Predicate<_annoRefs> annosMatchFn){
+    public $interface $annos(Predicate<_annoExprs> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

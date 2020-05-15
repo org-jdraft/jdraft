@@ -4,7 +4,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.bot.$expression;
+import org.jdraft.bot.$expr;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$ex;
 
@@ -45,7 +45,7 @@ public class IntelliJPSIExample extends TestCase {
         }
 
         //this does the refactoring
-        _type _t = $expression.refactor("$x$ == $y$", "$x$.equals($y$)")
+        _type _t = $expr.refactor("$x$ == $y$", "$x$.equals($y$)")
                 .in(someEx.class);
 
         //Print.tree( $expression.refactor("$x$ == $y$", "$x$.equals($y$)").in(someEx.class) );

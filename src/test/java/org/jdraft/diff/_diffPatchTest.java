@@ -300,19 +300,19 @@ public class _diffPatchTest
         System.out.println("DIFFS"+ dl);
         
         //there are many ways to find/signify the same diff
-        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asLeftOnly().left(), _annoRef.of(Deprecated.class) );
-        assertEquals( dl.firstOn("aFieldIAdded").asLeftOnly().left(), _annoRef.of(Deprecated.class) );
-        assertEquals( dl.firstOn(FIELD).asLeftOnly().left(), _annoRef.of(Deprecated.class) );
-        assertEquals( dl.firstAt(ANNO).asLeftOnly().left(), _annoRef.of(Deprecated.class) );
-        assertEquals( dl.firstAt(ANNO, "Deprecated").asLeftOnly().left(), _annoRef.of(Deprecated.class) );
+        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
+        assertEquals( dl.firstOn("aFieldIAdded").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
+        assertEquals( dl.firstOn(FIELD).asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
+        assertEquals( dl.firstAt(ANNO).asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
+        assertEquals( dl.firstAt(ANNO, "Deprecated").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         _c.getField("aFieldIAdded").setInit(54321);
         dl = _diff.of(_c, _c2);
-        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().right(), Expressions.of(1023) );
-        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Expressions.of(54321) );
-        assertEquals( dl.firstAt(INIT).asChange().left(), Expressions.of(54321) );
+        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().right(), Exprs.of(1023) );
+        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Exprs.of(54321) );
+        assertEquals( dl.firstAt(INIT).asChange().left(), Exprs.of(54321) );
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());        
         

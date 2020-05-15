@@ -61,19 +61,19 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
      */
 
     public static <A extends Object, B extends Object> $doStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> $doStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $doStmt of( Expressions.QuadFunction<A,B,C,D,E> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> $doStmt of( Exprs.QuadFunction<A,B,C,D,E> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
 
@@ -97,7 +97,7 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
         }
     }
 
-    public Select<DoStmt, _doStmt> select(_statement _s){
+    public Select<DoStmt, _doStmt> select(_stmt _s){
         System.out.println( "IN SELECT "+ _s);
         if( _s == null ){
             return null;
@@ -106,7 +106,7 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
             return null;
         }
         DoStmt s = (DoStmt)_s.ast();
-        if( ! astMatch.test((_doStmt)_statement.of(s))){
+        if( ! astMatch.test((_doStmt) _stmt.of(s))){
             return null;
         }
         if( this.stmtStencil != null ) {
@@ -146,7 +146,7 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
             return null;
         }
         DoStmt s = (DoStmt)astStmt;
-        if( ! astMatch.test((_doStmt)_statement.of(s))){
+        if( ! astMatch.test((_doStmt) _stmt.of(s))){
             return null;
         }
         Tokens st = this.stmtStencil.parse(astStmt.toString(NO_COMMENTS));
@@ -177,7 +177,7 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
         $and(dsp);
     }
 
-    public $doStmt $condition(Predicate<_expression> $condition){
+    public $doStmt $condition(Predicate<_expr> $condition){
         this.condition.constraint = this.condition.constraint.and($condition);
         return this;
     }
@@ -187,7 +187,7 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
         return this;
     }
 
-    public $doStmt $condition(_expression _e){
+    public $doStmt $condition(_expr _e){
         this.condition = $ex.of(_e.ast());
         return this;
     }
@@ -197,7 +197,7 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
         return this;
     }
 
-    public $doStmt $body( Predicate<_statement> statementMatchFn ){
+    public $doStmt $body( Predicate<_stmt> statementMatchFn ){
         this.body.$and(statementMatchFn);
         return this;
     }

@@ -2,7 +2,6 @@ package org.jdraft.macro;
 
 import com.github.javaparser.ast.body.TypeDeclaration;
 import org.jdraft.Ast;
-import org.jdraft.Statements;
 import org.jdraft._field;
 import org.jdraft.text.Stencil;
 //import org.jdraft.pattern.$method;

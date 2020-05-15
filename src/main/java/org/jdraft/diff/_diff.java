@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoRefs._withAnnoRefs;
+import org.jdraft._annoExprs._withAnnoExprs;
 import org.jdraft._body._hasBody;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._field._withFields;
@@ -183,8 +183,8 @@ public interface _diff {
         return _methodsDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff annosOf(_withAnnoRefs left, _withAnnoRefs right) {
-        return _annoRefsDiff.INSTANCE.diff(left, right);
+    static _diff annosOf(_withAnnoExprs left, _withAnnoExprs right) {
+        return _annoExprsDiff.INSTANCE.diff(left, right);
     }
 
     static _diff javadocOf(_withJavadoc left, _withJavadoc right) {

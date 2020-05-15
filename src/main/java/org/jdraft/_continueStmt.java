@@ -5,7 +5,7 @@ import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.Objects;
 
-public final class _continueStmt implements _statement._controlFlow._signal<ContinueStmt, _continueStmt>,
+public final class _continueStmt implements _stmt._controlFlow._signal<ContinueStmt, _continueStmt>,
         _java._uniPart<ContinueStmt, _continueStmt> {
 
     public static _continueStmt of(){
@@ -15,7 +15,7 @@ public final class _continueStmt implements _statement._controlFlow._signal<Cont
         return new _continueStmt( cs);
     }
     public static _continueStmt of(String...code){
-        return new _continueStmt(Statements.continueStmt( code));
+        return new _continueStmt(Stmts.continueStmt( code));
     }
 
     public static _continueStmt to(String label){
@@ -36,7 +36,7 @@ public final class _continueStmt implements _statement._controlFlow._signal<Cont
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.continueStmt(stringRep));
+            return is( Stmts.continueStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

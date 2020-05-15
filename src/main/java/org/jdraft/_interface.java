@@ -183,7 +183,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //@_abstract
         //@_default
         //@_static
-        ObjectCreationExpr oce = Expressions.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newEx(ste);
         if( oce.getAnonymousClassBody().isPresent() ){
             oce.getAnonymousClassBody().get().forEach( e -> _i.astInterface.addMember(e) );
         }
@@ -366,8 +366,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _annoRefs getAnnoRefs() {
-        return _annoRefs.of(this.astInterface);
+    public _annoExprs getAnnoRefs() {
+        return _annoExprs.of(this.astInterface);
     }
     
     @Override
@@ -397,7 +397,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( !Objects.equals( this.getPackage(), other.getPackage())){
             return false;
         }
-        if( ! Expressions.equalAnnos(this.astInterface, other.astInterface)){
+        if( ! Exprs.equalAnnos(this.astInterface, other.astInterface)){
             return false;
         }
 
@@ -480,7 +480,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //companionTypes.addAll(listCompanionTypes());
 
         hash = 53 * Objects.hash( this.getPackage(), 
-            Expressions.hashAnnos(astInterface),
+            Exprs.hashAnnos(astInterface),
             this.getJavadoc(),this.getModifiers(), this.getTypeParameters(),
             tm, tf,
             _imports.Compare.importsHash(astInterface),

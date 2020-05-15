@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * just ";" (i.e. "for(int i=0;;;)")
  */
-public final class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _java._uniPart<EmptyStmt, _emptyStmt> {
+public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt>, _java._uniPart<EmptyStmt, _emptyStmt> {
 
     public static _emptyStmt of(){
         return new _emptyStmt( new EmptyStmt( ));
@@ -16,7 +16,7 @@ public final class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _jav
         return new _emptyStmt( es);
     }
     public static _emptyStmt of(String...code){
-        return new _emptyStmt(Statements.emptyStmt( code));
+        return new _emptyStmt(Stmts.emptyStmt( code));
     }
 
     private EmptyStmt astStmt;
@@ -33,7 +33,7 @@ public final class _emptyStmt implements _statement<EmptyStmt, _emptyStmt>, _jav
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.emptyStmt(stringRep));
+            return is( Stmts.emptyStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

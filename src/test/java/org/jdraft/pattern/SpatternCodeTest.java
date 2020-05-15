@@ -55,7 +55,7 @@ public class SpatternCodeTest extends TestCase {
 
 
         $member[] members = new $member[]{$field.of()};
-        _expression e = $.of(0).firstIn(_c);
+        _expr e = $.of(0).firstIn(_c);
 
         assertTrue( Tree.isParentMember(e.ast(), pm -> {
             System.out.println(pm+" "+ pm.getClass());

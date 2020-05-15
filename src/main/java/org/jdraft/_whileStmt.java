@@ -8,9 +8,9 @@ import com.github.javaparser.ast.stmt.WhileStmt;
 import java.util.*;
 import java.util.function.*;
 
-public final class _whileStmt implements _statement._controlFlow._branching<WhileStmt, _whileStmt>,
+public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt, _whileStmt>,
         _java._multiPart<WhileStmt, _whileStmt>,
-        _statement._controlFlow._loop<WhileStmt, _whileStmt>,
+        _stmt._controlFlow._loop<WhileStmt, _whileStmt>,
         _java._withCondition<WhileStmt, _whileStmt>,
         _body._hasBody<_whileStmt>{
 
@@ -21,41 +21,41 @@ public final class _whileStmt implements _statement._controlFlow._branching<Whil
         return new _whileStmt(ws);
     }
     public static _whileStmt of(String...code){
-        return new _whileStmt(Statements.whileStmt( code));
+        return new _whileStmt(Stmts.whileStmt( code));
     }
 
-    public static <A extends Object> _whileStmt of(Expressions.Command c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _whileStmt of(Exprs.Command c){
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _whileStmt of(Consumer<A> c){
-        LambdaExpr le = Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _whileStmt of(BiConsumer<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _whileStmt of( Expressions.TriConsumer<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _whileStmt of( Exprs.TriConsumer<A,B,C> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _whileStmt of( Expressions.QuadConsumer<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _whileStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _whileStmt of( Function<A,B> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _whileStmt of( BiFunction<A,B,C> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _whileStmt of( Expressions.TriFunction<A,B,C,D> command ){
-        return from(Expressions.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _whileStmt of( Exprs.TriFunction<A,B,C,D> command ){
+        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _whileStmt from( LambdaExpr le){
@@ -80,7 +80,7 @@ public final class _whileStmt implements _statement._controlFlow._branching<Whil
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Statements.whileStmt(stringRep));
+            return is( Stmts.whileStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -139,7 +139,7 @@ public final class _whileStmt implements _statement._controlFlow._branching<Whil
         return Objects.equals( _b, this.getBody());
     }
 
-    public _whileStmt setBody(_statement _st){
+    public _whileStmt setBody(_stmt _st){
         this.whileStmt.setBody(_st.ast());
         return this;
     }

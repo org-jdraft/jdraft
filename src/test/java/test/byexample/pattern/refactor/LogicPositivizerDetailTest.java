@@ -3,7 +3,7 @@ package test.byexample.pattern.refactor;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import junit.framework.TestCase;
-import org.jdraft.Statements;
+import org.jdraft.Stmts;
 import org.jdraft._type;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$stmt;
@@ -32,7 +32,7 @@ public class LogicPositivizerDetailTest extends TestCase {
             }
         });
 
-        IfStmt exampleIfStatement = Statements.ifStmt( ()-> {
+        IfStmt exampleIfStatement = Stmts.ifStmt( ()-> {
             if(true != false){
                 System.out.println("NOT EQUALS");
             } else{
@@ -53,7 +53,7 @@ public class LogicPositivizerDetailTest extends TestCase {
         //we can print out the pattern
         System.out.println( $sif );
 
-        Statement exampleIfStatement =  Statements.of( ()-> {
+        Statement exampleIfStatement =  Stmts.of( ()-> {
             if(true != false){
                 System.out.println("NOT EQUALS");
             } else{
@@ -72,8 +72,8 @@ public class LogicPositivizerDetailTest extends TestCase {
         //here we can manually deconstruct the pattern based on arguments
         assertTrue( ss.is("left", true));
         assertTrue( ss.is("right", false));
-        assertTrue( ss.is("then", Statements.of( ()-> System.out.println("NOT EQUALS"))));
-        assertTrue( ss.is("else", Statements.of( ()-> System.out.println("EQUALS"))));
+        assertTrue( ss.is("then", Stmts.of( ()-> System.out.println("NOT EQUALS"))));
+        assertTrue( ss.is("else", Stmts.of( ()-> System.out.println("EQUALS"))));
     }
 
 
@@ -135,7 +135,7 @@ public class LogicPositivizerDetailTest extends TestCase {
     }
 
     public void test$ProtoMatches(){
-        Statement st = Statements.of(
+        Statement st = Stmts.of(
                 (Integer a, Integer b)-> {
                     if(a != b){
                         System.out.println("DO THEN");

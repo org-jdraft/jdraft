@@ -18,7 +18,7 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._annoRefs._withAnnoRefs;
+import org.jdraft._annoExprs._withAnnoExprs;
 import org.jdraft._annotation._entry;
 import org.jdraft._body._hasBody;
 
@@ -102,7 +102,7 @@ public interface _java {
         if (_import.class == nodeClass) {
             return importDeclaration(Text.combine(code) );
         }
-        if (_annoRef.class == nodeClass) {
+        if (_annoExpr.class == nodeClass) {
             return anno(code);
         }
         if (_method.class == nodeClass) {
@@ -161,7 +161,7 @@ public interface _java {
      * handles:
      * all {@link _type}s:
      * {@link _annotation}, {@link _class}, {@link _enum}, {@link _interface}
-     * {@link _annoRef}
+     * {@link _annoExpr}
      * {@link _entry}
      * {@link _constructor}
      * {@link _constant}
@@ -180,10 +180,10 @@ public interface _java {
      */
     static _java._domain of(Node astNode) {
         if( astNode instanceof Expression ){
-            return _expression.of( (Expression)astNode);
+            return _expr.of( (Expression)astNode);
         }
         if( astNode instanceof Statement ){
-            return _statement.of( (Statement)astNode);
+            return _stmt.of( (Statement)astNode);
         }
         if( astNode instanceof Comment ){
             return _comment.of( (Comment)astNode);
@@ -195,7 +195,7 @@ public interface _java {
             return _import.of((ImportDeclaration) astNode);
         }
         if (astNode instanceof AnnotationExpr) {
-            return _annoRef.of((AnnotationExpr) astNode);
+            return _annoExpr.of((AnnotationExpr) astNode);
         }
         if( astNode instanceof PackageDeclaration ){
             return _package.of( (PackageDeclaration)astNode);
@@ -223,7 +223,7 @@ public interface _java {
             return _constant.of((EnumConstantDeclaration) astNode);
         }
         if (astNode instanceof LambdaExpr) {
-            return _lambda.of((LambdaExpr) astNode);
+            return _lambdaExpr.of((LambdaExpr) astNode);
         }
         if (astNode instanceof VariableDeclarator) {
 
@@ -327,7 +327,7 @@ public interface _java {
             return _moduleRequires.of( (ModuleRequiresDirective)astNode);
         }
         if( astNode instanceof MemberValuePair){
-            return _annoRef._memberValue.of( (MemberValuePair)astNode);
+            return _annoExpr._memberValue.of( (MemberValuePair)astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
@@ -344,9 +344,9 @@ public interface _java {
         MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
         PACKAGE("package", PackageDeclaration.class),
         /** i.e. @Deprecated @NotNull */
-        ANNOS("annos", _annoRefs.class),
+        ANNOS("annos", _annoExprs.class),
         /** i.e. @Deprecated */
-        ANNO("anno", _annoRef.class),
+        ANNO("anno", _annoExpr.class),
         CLASS("class", _class.class),
         ENUM("enum", _enum.class),
         INTERFACE("interface", _interface.class),
@@ -531,7 +531,7 @@ public interface _java {
 
     /**
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
-     * ...to jdraft _java models (i.e. {@link _annoRef})
+     * ...to jdraft _java models (i.e. {@link _annoExpr})
      */
     class Model {
 
@@ -573,9 +573,9 @@ public interface _java {
 
         Class<_body> BODY = _body.class;
         /** an annotation use i.e. @Deprecated */
-        Class<_annoRef> ANNO = _annoRef.class;
+        Class<_annoExpr> ANNO = _annoExpr.class;
         /** group of annotation usages  on a single entity */
-        Class<_annoRefs> ANNOS = _annoRefs.class;
+        Class<_annoExprs> ANNOS = _annoExprs.class;
         Class<_import> IMPORT = _import.class;
         Class<_imports> IMPORTS = _imports.class;
 
@@ -603,7 +603,7 @@ public interface _java {
 
         Class<_withThrows> HAS_THROWS = _withThrows.class;
         Class<_hasBody> HAS_BODY = _hasBody.class;
-        Class<_withAnnoRefs> HAS_ANNOS = _withAnnoRefs.class;
+        Class<_withAnnoExprs> HAS_ANNOS = _withAnnoExprs.class;
         Class<_withConstructors> HAS_CONSTRUCTORS = _withConstructors.class;
         Class<_withJavadoc> HAS_JAVADOC = _withJavadoc.class;
         Class<_withMethods> HAS_METHODS = _withMethods.class;
@@ -649,14 +649,14 @@ public interface _java {
      * <LI>{@link _initBlock} {@link InitializerDeclaration}
      * is a {@link _member} but is NOT {@link _declared} (primarily because it is not
      * callable/referenceable/accessible outside of the Class where it is defined and does
-     * not satisfy the {@link _withName} {@link _withAnnoRefs} or {@link _withJavadoc} interfaces
+     * not satisfy the {@link _withName} {@link _withAnnoExprs} or {@link _withJavadoc} interfaces
      * (Not available via reflection at runtime)
      *
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnoRefs & _withJavadoc & _withComments>
-            extends _member<N, _D>, _withName<_D>, _withAnnoRefs<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
+    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnoExprs & _withJavadoc & _withComments>
+            extends _member<N, _D>, _withName<_D>, _withAnnoExprs<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
 
         @Override
         default _javadocComment getJavadoc() {
@@ -1092,25 +1092,25 @@ public interface _java {
      *
      * In general it is some Ast component that has 0 or 1 parts associated with it
      *
-     * @see _nameExpression
-     * @see _typeExpression
+     * @see _nameExpr
+     * @see _typeExpr
      * @see _arrayDimension
      * @see _modifier
-     * @see _super
-     * @see _this
-     * @see _expression._literal
-     *     @see _null
-     *     @see _int
-     *     @see _double
-     *     @see _char
-     *     @see _boolean
-     *     @see _long
-     *     @see _string
-     *     @see _textBlock
+     * @see _superExpr
+     * @see _thisExpr
+     * @see _expr._literal
+     *     @see _nullExpr
+     *     @see _intExpr
+     *     @see _doubleExpr
+     *     @see _charExpr
+     *     @see _booleanExpr
+     *     @see _longExpr
+     *     @see _stringExpr
+     *     @see _textBlockExpr
      * @see _emptyStmt
      * @see _continueStmt
      * @see _breakStmt
-     * @see _classExpression
+     * @see _classExpr
      *
      * @param <N> the AST node type
      * @param <_UP> the _domain type
@@ -1140,7 +1140,7 @@ public interface _java {
      *         <LI>{@link _initBlock} {@link InitializerDeclaration}</LI>
      * </UL>
      * //adornment, property
-     * <LI>{@link _annoRef} {@link AnnotationExpr}
+     * <LI>{@link _annoExpr} {@link AnnotationExpr}
      * <LI>{@link _parameter} {@link Parameter}</LI>
      * <LI>{@link _receiverParameter} {@link ReceiverParameter}</LI>
      * <LI>{@link _typeParameter} {@link TypeParameter}</LI>
@@ -1186,7 +1186,7 @@ public interface _java {
      *  void m() throws B, A
      * </CODE>
      *
-     * @see _annoRefs < AnnotationExpr, _annoRef >
+     * @see _annoExprs < AnnotationExpr, _annoRef >
      * @see _imports< ImportDeclaration,_import>
      * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
      * @see _typeParameters< TypeParameter,_typeParameter>
@@ -1349,8 +1349,8 @@ public interface _java {
      * map to a specific Ast entity but a grouping of AST entities
      *
      * @see _parameters (parameters are ordered)
-     * @see _arrayCreate (the dimensions of the array are in an ordered list)
-     * @see _arrayInitialize (the elements located in the array are ordered)
+     * @see _arrayCreateExpr (the dimensions of the array are in an ordered list)
+     * @see _arrayInitializeExpr (the elements located in the array are ordered)
      */
     interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _domain {
 
@@ -1430,7 +1430,7 @@ public interface _java {
          * @param classes the _expression classes for matching the argument
          * @return true if the argument matches any of these classes, false otherwise
          */
-        default boolean isAt( int index, Class<? extends _expression>...classes) {
+        default boolean isAt( int index, Class<? extends _expr>...classes) {
             if( index >= this.size()){
                 return false;
             }
@@ -1457,8 +1457,8 @@ public interface _java {
      * this interface provides a common way to inspect, and manipulate the textual contents
      * of these nodes
      *
-     * @see _string
-     * @see _textBlock
+     * @see _stringExpr
+     * @see _textBlockExpr
      * @see _comment
      * @see _lineComment
      * @see _blockComment
@@ -1583,13 +1583,13 @@ public interface _java {
      * {@link _method}
      * {@link _field}
      * {@link _parameter}
-     * {@link _annoRef}
+     * {@link _annoExpr}
      * {@link _constant}
      * {@link _entry}
      * {@link _typeRef}
      * {@link _typeParameter}
      *
-     * {@link _methodCall}
+     * {@link _methodCallExpr}
      *
      * @author Eric
      * @param <_WN>
@@ -1658,21 +1658,21 @@ public interface _java {
 
         default boolean isScope(String...expr){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expressions.equal( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Expressions.of(expr));
+                return Exprs.equal( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Exprs.of(expr));
             }
             return false;
         }
 
         default boolean isScope(Expression e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expressions.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
+                return Exprs.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
             }
             return e == null;
         }
 
-        default boolean isScope(_expression _e){
+        default boolean isScope(_expr _e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expressions.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
+                return Exprs.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
             }
             return _e == null;
         }
@@ -1683,11 +1683,11 @@ public interface _java {
         }
 
         default _WS setScope(String scope ){
-            ((NodeWithOptionalScope)ast()).setScope(Expressions.of(scope));
+            ((NodeWithOptionalScope)ast()).setScope(Exprs.of(scope));
             return (_WS)this;
         }
 
-        default _WS setScope(_expression _e){
+        default _WS setScope(_expr _e){
             ((NodeWithOptionalScope)ast()).setScope(_e.ast());
             return (_WS)this;
         }
@@ -1698,12 +1698,12 @@ public interface _java {
         }
 
         default _WS setScope(String... scope){
-            return setScope( Expressions.of(scope));
+            return setScope( Exprs.of(scope));
         }
 
-        default _expression getScope(){
+        default _expr getScope(){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return _expression.of( (Expression)
+                return _expr.of( (Expression)
                         ((NodeWithOptionalScope)ast()).getScope().get());
             }
             return null;
@@ -1715,29 +1715,29 @@ public interface _java {
 
         default boolean isCondition(String...expression){
             try{
-                return isCondition(Expressions.of(expression));
+                return isCondition(Exprs.of(expression));
             }catch(Exception e){
                 return false;
             }
         }
 
-        default boolean isCondition(_expression _ex){
-            return Expressions.equal(  this.getCondition().ast(), _ex.ast());
+        default boolean isCondition(_expr _ex){
+            return Exprs.equal(  this.getCondition().ast(), _ex.ast());
         }
 
         default boolean isCondition(Expression ex){
-            return Expressions.equal( this.getCondition().ast(), ex);
+            return Exprs.equal( this.getCondition().ast(), ex);
         }
 
-        default boolean isCondition(Predicate<_expression> matchFn){
+        default boolean isCondition(Predicate<_expr> matchFn){
             return matchFn.test(getCondition());
         }
 
         default _WC setCondition(String...expression){
-            return setCondition(Expressions.of(expression));
+            return setCondition(Exprs.of(expression));
         }
 
-        default _WC setCondition(_expression e){
+        default _WC setCondition(_expr e){
             return setCondition(e.ast());
         }
 
@@ -1746,8 +1746,8 @@ public interface _java {
             return (_WC)this;
         }
 
-        default _expression getCondition(){
-            return _expression.of(((NodeWithExpression)ast()).getExpression());
+        default _expr getCondition(){
+            return _expr.of(((NodeWithExpression)ast()).getExpression());
         }
     }
 
@@ -1755,53 +1755,53 @@ public interface _java {
 
         default boolean isExpression(String...expression){
             try{
-                return isExpression(Expressions.of(expression));
+                return isExpression(Exprs.of(expression));
             }catch(Exception e){
                 return false;
             }
         }
 
-        default boolean isExpression(_expression _ex){
-            return Expressions.equal( this.getExpression().ast(), _ex.ast());
+        default boolean isExpression(_expr _ex){
+            return Exprs.equal( this.getExpression().ast(), _ex.ast());
         }
 
         default boolean isExpression(Expression ex){
-            return Expressions.equal( this.getExpression().ast(), ex);
+            return Exprs.equal( this.getExpression().ast(), ex);
         }
 
-        default boolean isExpression(Predicate<_expression> matchFn){
+        default boolean isExpression(Predicate<_expr> matchFn){
             return matchFn.test(getExpression());
         }
 
         default boolean isExpression( int i){
-            return isExpression( Expressions.of(i) );
+            return isExpression( Exprs.of(i) );
         }
 
         default boolean isExpression( boolean b){
-            return isExpression( Expressions.of(b) );
+            return isExpression( Exprs.of(b) );
         }
 
         default boolean isExpression( float f){
-            return isExpression( Expressions.of(f) );
+            return isExpression( Exprs.of(f) );
         }
 
         default boolean isExpression( long l){
-            return isExpression( Expressions.of(l) );
+            return isExpression( Exprs.of(l) );
         }
 
         default boolean isExpression( double d){
-            return isExpression( Expressions.of(d) );
+            return isExpression( Exprs.of(d) );
         }
 
         default boolean isExpression( char c){
-            return isExpression( Expressions.of(c) );
+            return isExpression( Exprs.of(c) );
         }
 
         default _WE setExpression(String...expression){
-            return setExpression(Expressions.of(expression));
+            return setExpression(Exprs.of(expression));
         }
 
-        default _WE setExpression(_expression e){
+        default _WE setExpression(_expr e){
             return setExpression(e.ast());
         }
 
@@ -1810,8 +1810,8 @@ public interface _java {
             return (_WE)this;
         }
 
-        default _expression getExpression(){
-            return _expression.of(((NodeWithExpression)ast()).getExpression());
+        default _expr getExpression(){
+            return _expr.of(((NodeWithExpression)ast()).getExpression());
         }
     }
 
