@@ -374,14 +374,14 @@ public class $binaryExpr implements $bot.$node<BinaryExpr, _binaryExpr, $binaryE
 
     public Predicate<_binaryExpr> predicate = d -> true;
 
-    public Select.$botFeature<$expr, _binaryExpr, _expr> left =
-            Select.$botFeature.of( _binaryExpr.class, _expr.class, "left", b-> b.getLeft());
+    public Select.$botRule<$expr, _binaryExpr, _expr> left =
+            Select.$botRule.of( _binaryExpr.class, _expr.class, "left", b-> b.getLeft());
 
-    public Select.$botFeature<$expr, _binaryExpr, _expr> right =
-            Select.$botFeature.of( _binaryExpr.class, _expr.class, "right", b-> b.getRight());
+    public Select.$botRule<$expr, _binaryExpr, _expr> right =
+            Select.$botRule.of( _binaryExpr.class, _expr.class, "right", b-> b.getRight());
 
-    public Select.$OneOfFeature<_binaryExpr> operator =
-            new Select.$OneOfFeature(_binaryExpr.class, "operator", b-> ((_binaryExpr)b).getOperator(), ALL_OPERATORS, new HashSet<>());
+    public Select.$OneOfRule<_binaryExpr> operator =
+            new Select.$OneOfRule(_binaryExpr.class, "operator", b-> ((_binaryExpr)b).getOperator(), ALL_OPERATORS, new HashSet<>());
 
     /*
     public Set<BinaryExpr.Operator> excludedOperators = new HashSet<>();

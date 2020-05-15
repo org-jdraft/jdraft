@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /**
- * syntax prototype for the model of the boolean types
+ * models the Ast code/use for boolean literals
  *
  * @author Eric
  */
@@ -33,21 +33,13 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
         return new $booleanExpr(_booleanExpr.of(ile));
     }
 
-    public static $booleanExpr of(Stencil stencil) {
-        return new $booleanExpr(stencil);
-    }
-
     public static $booleanExpr of(String... code) {
         return of(_booleanExpr.of(code));
     }
 
     public static $booleanExpr of(boolean i) {
-        return new $booleanExpr(_booleanExpr.of(i)).$and(_i -> _i.getValue() == i);
+        return new $booleanExpr(_booleanExpr.of(i));
     }
-
-    //public static $boolean of(Predicate<_boolean> _matchFn) {
-    //    return new $boolean().$and(_matchFn);
-    //}
 
     public static $booleanExpr.Or or($booleanExpr...$bs){
         return new $booleanExpr.Or($bs);
@@ -63,37 +55,18 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
      */
     public $booleanExpr copy(){
         $booleanExpr $b = of( ).$and(this.predicate.and(t->true) );
-        $b.stencil = this.stencil.copy();
+        $b.bool = this.bool.copy();
         return $b;
     }
 
     @Override
     public $booleanExpr $hardcode(Translator translator, Tokens kvs) {
-        this.stencil = this.stencil.$hardcode(translator, kvs);
         return this;
     }
 
     public $booleanExpr setPredicate(Predicate<_booleanExpr> predicate){
         this.predicate = predicate;
         return this;
-    }
-
-    public $booleanExpr $and(Predicate<_booleanExpr> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn);
-        return this;
-    }
-
-    public $booleanExpr $not(Predicate<_booleanExpr> _matchFn) {
-        this.predicate = this.predicate.and(_matchFn.negate());
-        return this;
-    }
-
-    public Select<_booleanExpr> select(String code) {
-        try {
-            return select(_booleanExpr.of(code));
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public Select<_booleanExpr> select(String... code) {
@@ -125,7 +98,7 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
         return null;
     }
 
-    public Select<_booleanExpr> select(_expr<?, ?> _e) {
+    public Select<_booleanExpr> select(_expr _e) {
         if (_e instanceof _booleanExpr) {
             return select((_booleanExpr) _e);
         }
@@ -134,10 +107,7 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
 
     public Select<_booleanExpr> select(_booleanExpr _i) {
         if (predicate.test(_i)) {
-            if (stencil == null) {
-                return new Select<>(_i, new Tokens());
-            }
-            Tokens ts = stencil.parse(_i.toString());
+            Tokens ts = bool.apply(_i);
             if (ts != null) {
                 return new Select<>(_i, ts);
             }
@@ -150,13 +120,9 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
         return select(_booleanExpr.of(i)) != null;
     }
 
-    public _booleanExpr instance(String... str) {
-        return _booleanExpr.of(str);
-    }
-
     @Override
     public _booleanExpr draft(Translator translator, Map<String, Object> keyValues) {
-        if (this.stencil == null) {
+        if (this.bool.isMatchAny() ) {
             String overrideName = this.getClass().getSimpleName();
             Object override = keyValues.get(overrideName);
             if (override == null) {
@@ -171,15 +137,15 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
                 stencil = Stencil.of(override.toString());
             }
             String drafted = stencil.draft(translator, keyValues);
-            _booleanExpr _i = instance(drafted);
+            _booleanExpr _i = _booleanExpr.of(drafted); //instance(drafted);
             if (this.predicate.test(_i)) {
                 return _i;
             }
             return null;
         }
-        String draftedCode = stencil.draft(translator, keyValues);
-        if (draftedCode != null) {
-            _booleanExpr instance = instance(draftedCode);
+        Boolean drafted = this.bool.draft(translator, keyValues);
+        if (drafted != null) {
+            _booleanExpr instance = _booleanExpr.of(drafted);
             if (predicate.test(instance)) {
                 return instance;
             }
@@ -189,30 +155,21 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
 
     @Override
     public $booleanExpr $(String target, String $Name) {
-        if (this.stencil != null) {
-            this.stencil = this.stencil.$(target, $Name);
-        }
         return this;
     }
 
     @Override
     public List<String> $list() {
-        if (this.stencil != null) {
-            return this.stencil.$list();
-        }
         return new ArrayList<>();
     }
 
     @Override
     public List<String> $listNormalized() {
-        if (this.stencil != null) {
-            return this.stencil.$listNormalized();
-        }
         return new ArrayList<>();
     }
 
     public boolean isMatchAny() {
-        if (this.stencil == null || this.stencil.isMatchAny()) {
+        if (this.bool.isMatchAny() ) {
             try {
                 return this.predicate.test(null);
             } catch (Exception e) {
@@ -223,25 +180,25 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
     }
 
     public String toString() {
-        if (this.stencil != null) {
-            return "$boolean{" + System.lineSeparator() + "    " + this.stencil.toString() + System.lineSeparator() + "}";
+        if( this.isMatchAny() ){
+            return "$booleanExpr{ ANY }";
         }
-        return "$boolean{" + this.predicate + "}";
+        if( this.bool.getExpected() == null ){
+            return "$booleanExpr{ "+this.predicate+" }";
+        }
+        return "$booleanExpr{ "+this.bool.getExpected()+" }";
     }
 
     public Predicate<_booleanExpr> predicate = d -> true;
 
-    public Stencil stencil = null;
+    public Select.$BooleanRule<_booleanExpr> bool = new Select.$BooleanRule<>
+            (_booleanExpr.class, "value", b-> b.getValue());
 
     public $booleanExpr() {
     }
 
     public $booleanExpr(_booleanExpr _i) {
-        this.stencil = Stencil.of(_i.toString());
-    }
-
-    private $booleanExpr(Stencil stencil) {
-        this.stencil = stencil;
+        this.bool.setExpected(_i.getValue());
     }
 
     /**
@@ -263,9 +220,7 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
         public $booleanExpr.Or copy(){
             $booleanExpr.Or $copy = $booleanExpr.or();
             $copy.$and(this.predicate);
-            if( stencil != null ) {
-                $copy.stencil = this.stencil.copy();
-            }
+            $copy.bool = this.bool.copy();
             this.$booleanExprBots.forEach( ($b) -> $copy.$booleanExprBots.add($b.copy()));
             return $copy;
         }

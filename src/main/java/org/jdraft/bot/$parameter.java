@@ -110,7 +110,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     /**
-     * Whether to match varArg parameters ... note null means I dont care one way or the other
+     * Whether to match varArg parameters ... note (null means I dont care one way or the other)
      * @param b whether to match varArg Parameters (null means dont care either way)
      * @return the $parameter bot
      */
@@ -120,7 +120,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     /**
-     * Whether to match final parameters ... note null means I dont care one way or the other
+     * Whether to match final parameters ... (note null means I dont care one way or the other)
      * @param b whether to match varArg Parameters (null means dont care either way)
      * @return the $parameter bot
      */
@@ -234,38 +234,26 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
 
     public Predicate<_parameter> predicate = d -> true;
 
-    /*
-    public Select.$feature<_parameter, _name> name =
-            Select.$feature.of( _parameter.class, _name.class, "name", p-> _name.of(p.getNameNode()));
+    public Select.$botRule<$annoExprs, _parameter, _annoExprs> annoRefs =
+            Select.$botRule.of(_parameter.class, _annoExprs.class, "annoRefs", p-> p.getAnnoRefs() );
 
-    public Select.$feature<_parameter, _typeRef> type =
-            Select.$feature.of( _parameter.class, _typeRef.class, "type", p->p.getTypeRef());
+    public Select.$botRule<$typeRef, _parameter, _typeRef> type =
+            Select.$botRule.of(_parameter.class, _typeRef.class, "type", p-> p.getTypeRef() );
 
-    public Select.$feature<_parameter, _annoRefs> annoRefs =
-            Select.$feature.of( _parameter.class, _annoRefs.class, "annoRefs", p->p.getAnnoRefs());
+    public Select.$botRule<$name, _parameter, _name> name =
+            Select.$botRule.of(_parameter.class, _name.class, "name", p-> _name.of(p.getName()));
 
-     */
-    public Select.$botFeature<$annoExprs, _parameter, _annoExprs> annoRefs =
-            Select.$botFeature.of(_parameter.class, _annoExprs.class, "annoRefs", p-> p.getAnnoRefs() );
+    public Select.$BooleanRule<_parameter> isFinal =
+            new Select.$BooleanRule( _parameter.class,"isFinal", p-> ((_parameter)p).isFinal());
 
-    public Select.$botFeature<$typeRef, _parameter, _typeRef> type =
-            Select.$botFeature.of(_parameter.class, _typeRef.class, "type", p-> p.getTypeRef() );
-
-    public Select.$botFeature<$name, _parameter, _name> name =
-            Select.$botFeature.of(_parameter.class, _name.class, "name", p-> _name.of(p.getName()));
-
-    public Select.$BooleanFeature<_parameter> isFinal =
-            new Select.$BooleanFeature( _parameter.class,"isFinal", p-> ((_parameter)p).isFinal());
-
-    public Select.$BooleanFeature<_parameter> isVarArg =
-            new Select.$BooleanFeature( _parameter.class,"isVarArg", p->((_parameter)p).isVarArg());
+    public Select.$BooleanRule<_parameter> isVarArg =
+            new Select.$BooleanRule( _parameter.class,"isVarArg", p->((_parameter)p).isVarArg());
 
     public $parameter() { }
 
     public $parameter(_parameter _p){
         if( _p.hasAnnoRefs() ) {
             annoRefs.setBot( $annoExprs.of(_p.ast()) );
-            //annoRefs.setSelector($annoRefs.of(_p.ast()));
         }
         name.setBot( $name.of(_p.getName()) );
         type.setBot( $typeRef.of(_p.getTypeRef()));
@@ -290,30 +278,12 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
 
         $p.isVarArg = this.isVarArg.copy();
         $p.isFinal = this.isFinal.copy();
-
-        /*
-        if( this.finalMod != null ) {
-            $p.finalMod = this.finalMod.booleanValue();
-        }
-        $p.isFinal = this.isFinal.copy().setSelector( new $featureSelector.$BooleanFeatureSelector($p.finalMod));
-
-        if( this.varArg != null ) {
-            $p.varArg = this.varArg.booleanValue();
-        }
-        $p.isVarArg = this.isVarArg.copy().setSelector( new $featureSelector.$BooleanFeatureSelector($p.varArg));
-        */
-
         return $p;
     }
 
     @Override
     public $parameter $hardcode(Translator translator, Tokens kvs) {
-        $forMemberSelectors($ms -> $ms.$hardcode(translator, kvs));
-        /*
-        this.annoRefs.$hardcode(translator, kvs);
-        this.name.$hardcode(translator, kvs);
-        this.type.$hardcode(translator, kvs);
-        */
+        $forFeatureSelectors($ms -> $ms.$hardcode(translator, kvs));
         return this;
     }
 
@@ -326,13 +296,13 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return this;
     }
 
-    public $parameter $forMemberSelectors( Consumer<Select.$feature<_parameter, ?>> memberSelectorAction){
-        $memberSelectors().stream().forEach($ms -> memberSelectorAction.accept($ms));
+    public $parameter $forFeatureSelectors(Consumer<Select.$featureRule<_parameter, ?>> featureSelectorAction){
+        $listFeatureSelectors().stream().forEach($ms -> featureSelectorAction.accept($ms));
         return this;
     }
 
-    public List<Select.$feature<_parameter, ?>> $memberSelectors(){
-        List<Select.$feature<_parameter, ?>> mss = new ArrayList<>();
+    public List<Select.$featureRule<_parameter, ?>> $listFeatureSelectors(){
+        List<Select.$featureRule<_parameter, ?>> mss = new ArrayList<>();
         mss.add(this.annoRefs);
         mss.add(this.isFinal);
         mss.add(this.type);
@@ -341,14 +311,8 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return mss;
     }
 
-    private Function<_parameter, Tokens>[] $memberFunctions(){
-        return (Function<_parameter, Tokens>[]) new Function[]{
-             this.annoRefs, this.isFinal, this.type, this.name, this.isVarArg
-        };
-    }
-
     public boolean isMatchAny(){
-        if( this.$memberSelectors().stream().allMatch($ms -> $ms.isMatchAny())){
+        if( this.$listFeatureSelectors().stream().allMatch($ms -> $ms.isMatchAny())){
             try {
                 return this.predicate.test(null);
             } catch(Exception e){
@@ -356,18 +320,6 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
             }
         }
         return false;
-        /*
-        if( this.name.isMatchAny() &&
-            this.annoRefs.isMatchAny() &&
-            this.type.isMatchAny() &&
-            this.isFinal.isMatchAny() &&
-            this.isVarArg.isMatchAny() ){
-            try {
-                return this.predicate.test(null);
-            } catch(Exception e){ }
-        }
-        return false;
-         */
     }
 
     public Select<_parameter> select(String... code) {
@@ -395,7 +347,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     public Select<_parameter> select(_parameter _p){
         try{
             if( this.predicate.test(_p)) {
-                Tokens ts = Tokens.selectTokens(_p, this.$memberFunctions());
+                Tokens ts = Tokens.selectTokens(_p, this.$listFeatureSelectors().toArray(new Function[0]));
                 if (ts == null) {
                     return null;
                 }
@@ -417,34 +369,26 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         if( this.isVarArg.getExpected()){
             _p.setVarArg(true);
         }
-        /*
-        if( this.finalMod != null){
-            _p.setFinal(finalMod);
-        }
-        if( this.varArg != null ){
-            _p.setVarArg( this.varArg);
-        }
-         */
         return _p;
     }
 
     @Override
     public $parameter $(String target, String $Name) {
-        $forMemberSelectors($ms -> $ms.$(target, $Name) );
+        $forFeatureSelectors($ms -> $ms.$(target, $Name) );
         return this;
     }
 
     @Override
     public List<String> $list() {
         List<String> ps = new ArrayList<>();
-        $forMemberSelectors($ms -> ps.addAll( $ms.$list()) );
+        $forFeatureSelectors($ms -> ps.addAll( $ms.$list()) );
         return ps;
     }
 
     @Override
     public List<String> $listNormalized() {
         List<String> ps = new ArrayList<>();
-        $forMemberSelectors($ms -> ps.addAll( $ms.$listNormalized()) );
+        $forFeatureSelectors($ms -> ps.addAll( $ms.$listNormalized()) );
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
@@ -469,10 +413,10 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     public $parameter $typeRef(Predicate<_typeRef> predicate){
-        if( this.type.featureSelector == null ){
+        if( this.type.getBot() == null ){
             this.type.setBot( $typeRef.of().$and(predicate));
         } else{
-            $typeRef $tr = ($typeRef)this.type.getFeatureSelector();
+            $typeRef $tr = this.type.getBot();
             $tr.$and(predicate);
         }
         return this;
@@ -505,7 +449,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     public $parameter $name(Predicate<String> matchFn){
-        $name $n = ($name)this.name.getFeatureSelector();
+        $name $n = ($name)this.name.getBot();
         if( $n == null ){
             $n = $name.of();
             this.name.setBot($n);

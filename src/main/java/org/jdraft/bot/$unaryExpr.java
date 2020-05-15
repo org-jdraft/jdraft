@@ -311,10 +311,10 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
 
     public Predicate<_unaryExpr> predicate = d -> true;
 
-    public Select.$botFeature<$expr, _unaryExpr, _expr> expression =
-            Select.$botFeature.of( _unaryExpr.class, _expr.class, "expression", u-> u.getExpression());
+    public Select.$botRule<$expr, _unaryExpr, _expr> expression =
+            Select.$botRule.of( _unaryExpr.class, _expr.class, "expression", u-> u.getExpression());
 
-    public Select.$OneOfFeature<_unaryExpr> operator = new Select.$OneOfFeature<>(_unaryExpr.class, "operator", u-> u.getOperator(), ALL_OPERATORS, new HashSet<>());
+    public Select.$OneOfRule<_unaryExpr> operator = new Select.$OneOfRule<>(_unaryExpr.class, "operator", u-> u.getOperator(), ALL_OPERATORS, new HashSet<>());
 
     /*
     public Set<UnaryExpr.Operator> excludedOperators = new HashSet<>();

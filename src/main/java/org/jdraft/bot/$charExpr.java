@@ -21,7 +21,7 @@ import java.util.function.Predicate;
  *
  * @author Eric
  */
-public class $charExpr implements $bot.$node<CharLiteralExpr, _charExpr, $charExpr>,
+public class $charExpr  implements $bot.$node<CharLiteralExpr, _charExpr, $charExpr>,
         $selector.$node<_charExpr, $charExpr>,
         $expr<CharLiteralExpr, _charExpr, $charExpr> {
 
@@ -48,7 +48,6 @@ public class $charExpr implements $bot.$node<CharLiteralExpr, _charExpr, $charEx
     public static $charExpr of(char i) {
         return new $charExpr(_charExpr.of(i)).$and(_i -> _i.getValue() == i);
     }
-
 
     public Predicate<_charExpr> getPredicate(){
         return this.predicate;

@@ -8,7 +8,7 @@ import org.jdraft.Stmts;
 import org.jdraft._booleanExpr;
 import org.jdraft._jdraftException;
 
-public class SbooleanTest extends TestCase {
+public class $booleanExprTest extends TestCase {
 
     //the simple prototypes
     public static $booleanExpr $ANY = $booleanExpr.of();

@@ -7,6 +7,7 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
     public static _booleanExpr of( ){
         return new _booleanExpr(new BooleanLiteralExpr());
     }
+
     public static _booleanExpr of(boolean b){
         return new _booleanExpr(new BooleanLiteralExpr(b));
     }
