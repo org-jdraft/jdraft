@@ -137,6 +137,7 @@ public class $binaryExprTest extends TestCase {
         assertTrue($oneLiteral.matches("a>2"));
         assertTrue($oneLiteral.matches("1!=a"));
 
+        assertFalse($oneLiteral.matches("a!=b"));
 
         //or base select
         $oneLiteral.$left("$a$");
@@ -149,5 +150,14 @@ public class $binaryExprTest extends TestCase {
 
         //verify the original isn't changed
         assertTrue($oneLiteral.matches("1 >> 3"));
+    }
+
+    public void test$and(){
+        assertTrue( $binaryExpr.of().$and(b-> b.hasComment(false)).matches("a + b"));
+        assertFalse( $binaryExpr.of().$and(b-> b.hasComment(false)).matches(_binaryExpr.of("a + b").setComment("/*Hello*/") ) );
+
+        //verify copies share the predicates
+        assertTrue( $binaryExpr.of().$and(b-> b.hasComment(false)).copy().matches("a + b"));
+        assertFalse( $binaryExpr.of().$and(b-> b.hasComment(false)).copy().matches(_binaryExpr.of("a + b").setComment("/*Hello*/") ) );
     }
 }
