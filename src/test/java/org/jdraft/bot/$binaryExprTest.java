@@ -7,6 +7,11 @@ import org.jdraft._expr;
 
 public class $binaryExprTest extends TestCase {
 
+    public void testToString(){
+        System.out.println( $binaryExpr.of().toString() );
+        System.out.println( $binaryExpr.plus().toString() );
+        System.out.println( $binaryExpr.of("a + b").toString() );
+    }
     public void testSpecificOperator(){
         assertTrue( $binaryExpr.and().matches("a && b") );
         assertTrue( $binaryExpr.binaryAnd().matches("a & b") );

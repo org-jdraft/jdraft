@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.Expression;
 import org.jdraft.*;
 import org.jdraft._java._domain;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -181,12 +182,11 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
 
     public String toString() {
         if( this.isMatchAny() ){
-            return "$booleanExpr{ ANY }";
+            return "$booleanExpr{ MATCH ANY }";
         }
-        if( this.bool.getExpected() == null ){
-            return "$booleanExpr{ "+this.predicate+" }";
-        }
-        return "$booleanExpr{ "+this.bool.getExpected()+" }";
+        return "$booleanExpr{ "+ System.lineSeparator()+
+                Text.indent( this.bool.toString() )+
+                "}";
     }
 
     public Predicate<_booleanExpr> predicate = d -> true;

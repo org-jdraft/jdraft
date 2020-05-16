@@ -5,18 +5,18 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
-import org.jdraft.text.Text;
-import org.jdraft.text.Tokens;
-import org.jdraft.text.Translator;
+import org.jdraft.text.*;
 
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * $bot for inspecting and mutating {@link _assertStmt}s / {@link AssertStmt}s
+ * $bot for inspecting & mutating {@link _assertStmt}s / {@link AssertStmt}s
  */
-public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertStmt>,
+public class $assertStmt extends $baseBot<_assertStmt, $assertStmt>
+        implements $bot.$node<AssertStmt, _assertStmt, $assertStmt>,
         $selector.$node<_assertStmt, $assertStmt>,
         $bot.$withComment<$assertStmt>,
         $stmt<AssertStmt, _assertStmt, $assertStmt> {
@@ -112,8 +112,6 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
      * $assertStmt $baseOr = $assertStmt.or(
      *     $assertStmt.of().$check("true").$and(a->a.hasComment()),
      *     $assertStmt.of().$check("false").$and(a->a.hasComment()) );
-     *
-     *
      */
     public static class Or extends $assertStmt{
 
@@ -134,8 +132,10 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         public $assertStmt.Or copy(){
             $assertStmt.Or $copy = $assertStmt.or();
             $copy.$and(this.predicate);
-            $copy.check = ($expr)this.check.copy();
-            $copy.message = ($expr)this.message.copy();
+
+            $copy.check = this.check.copy();
+            $copy.message = this.message.copy();
+            $copy.comment = this.comment.copy();
             this.$assertStmtBots.forEach( ($a) -> $copy.$assertStmtBots.add($a.copy()));
             return $copy;
         }
@@ -190,9 +190,19 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
 
     public Predicate<_assertStmt> predicate = d -> true;
 
-    public $expr check = $expr.of();
-    public $expr message = $expr.of();
-    public $comment comment = null;
+    public Select.$botSelect<$expr, _assertStmt, _expr> check =
+            Select.$botSelect.of( _assertStmt.class, _expr.class, "check", b-> b.getCheck());
+
+    public Select.$botSelect<$expr, _assertStmt, _expr> message =
+            Select.$botSelect.of( _assertStmt.class, _expr.class, "message", b-> b.getMessage());
+
+    public Select.$botSelect<$comment, _assertStmt, _comment> comment =
+            Select.$botSelect.of( _assertStmt.class, _comment.class, "comment", b-> b.getComment());
+
+
+    //public $expr check = $expr.of();
+    //public $expr message = $expr.of();
+    //public $comment comment = null;
 
     public $assertStmt() { }
 
@@ -200,14 +210,20 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
     public $assertStmt $hardcode(Translator translator, Tokens kvs) {
         this.check.$hardcode(translator, kvs);
         this.message.$hardcode(translator, kvs);
+        if( this.comment != null){
+            this.comment.$hardcode(translator, kvs);
+        }
         return this;
     }
 
     public $assertStmt(_assertStmt _r){
         if( _r.hasMessage() ){
-            this.message = $expr.of( _r.getMessage());
+            this.message.setBot( $expr.of( _r.getMessage()));
         }
-        this.check = $expr.of(_r.getCheck());
+        if( _r.hasComment() ){
+            this.comment.setBot( $comment.of( (_comment)_r.getComment()));
+        }
+        this.check.setBot($expr.of(_r.getCheck()));
     }
 
     /**
@@ -215,10 +231,11 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
      * @return
      */
     public $assertStmt copy(){
-        $assertStmt $r = of( ).$and(this.predicate.and(t->true) );
-        $r.check = ($expr)this.check.copy();
-        $r.message = ($expr)this.message.copy();
-        return $r;
+        $assertStmt $copy = of( ).$and(this.predicate.and(t->true) );
+        $copy.check = this.check.copy();
+        $copy.message = this.message.copy();
+        $copy.comment = this.comment.copy();
+        return $copy;
     }
 
     public Predicate<_assertStmt> getPredicate(){
@@ -226,11 +243,11 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
     }
 
     public $comment get$Comment(){
-        return this.comment;
+        return this.comment.getBot();
     }
 
     public $assertStmt $hasComment($comment $com){
-        this.comment = $com;
+        this.comment.setBot($com);
         return this;
     }
 
@@ -241,12 +258,17 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
 
     public boolean isMatchAny(){
         if( (this.comment == null || this.comment.isMatchAny())
-                && this.check.isMatchAny() &&  this.check instanceof $e && this.message.isMatchAny() && this.message instanceof $e){
+                && this.check.isMatchAny() &&  this.check.getBot() instanceof $e && this.message.isMatchAny() && this.message.getBot() instanceof $e){
             try {
                 return this.predicate.test(null);
             } catch(Exception e){ }
         }
         return false;
+    }
+
+    @Override
+    public List<Select.$feature<_assertStmt, ?>> $listSelectors() {
+        return Stream.of(this.comment, this.check, this.message).collect(Collectors.toList());
     }
 
     public Select<_assertStmt> select(String... code) {
@@ -285,6 +307,7 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         return null;
     }
 
+    /*
     public Select<_assertStmt> select(_assertStmt _r){
 
         if( ! this.predicate.test(_r)){
@@ -317,6 +340,7 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         ts.putAll(scs.tokens);
         return new Select<>(_r, ts);
     }
+     */
 
     public _assertStmt draft(Translator tr, Map<String,Object> keyValues){
         _assertStmt _es = _assertStmt.of();
@@ -325,6 +349,9 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         }
         if( !this.message.isMatchAny() ){
             _es.setMessage( (_expr)this.message.draft(tr, keyValues) );
+        }
+        if( !this.comment.isMatchAny()){
+            _es.setComment( this.comment.draft(tr, keyValues));
         }
         if( !this.predicate.test(_es) ){
             throw new _jdraftException("Drafted $assertStmt failed predicate");
@@ -336,6 +363,7 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
     public $assertStmt $(String target, String $Name) {
         this.check.$(target, $Name);
         this.message.$(target, $Name);
+        this.comment.$(target, $Name);
         return this;
     }
 
@@ -355,84 +383,87 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
-    //$withExpression interface
     public $expr get$check(){
-        return this.check;
+        return this.check.getBot();
     }
 
     public $assertStmt $check( ){
-        this.check = $expr.of();
+        this.check.setBot( null );
         return this;
     }
 
     public $assertStmt $check($expr $e ){
-        this.check = $e;
+        this.check.setBot($e);
         return this;
     }
 
     public $assertStmt $check(Predicate<_expr> matchFn){
-        this.check.$and(matchFn);
+        if( this.check.getBot() == null ){
+            this.check.setBot( $e.of() );
+        }
+        this.check.getBot().$and(matchFn);
         return this;
     }
 
     public $assertStmt $check(Class<? extends _expr>...expressionClasses){
-        this.check = $expr.of(expressionClasses);
+        this.check.setBot( $expr.of(expressionClasses) );
         return this;
     }
 
     public $assertStmt $check(String expression){
-        this.check = $expr.of(expression);
+        this.check.setBot($expr.of(expression));
         return this;
     }
 
     public $assertStmt $check(Expression e){
-        this.check = $expr.of(e);
+        this.check.setBot( $expr.of(e) );
         return this;
     }
 
     public $assertStmt $check(_expr _e) {
-        this.check = $expr.of(_e);
+        this.check.setBot($expr.of(_e));
         return this;
     }
 
-
-    //$withExpression interface
     public $expr get$message(){
-        return this.message;
+        return this.message.getBot();
     }
 
     public $assertStmt $message( ){
-        this.message = $expr.of();
+        this.message.setBot(null);
         return this;
     }
 
     public $assertStmt $message($expr $e ){
-        this.message = $e;
+        this.message.setBot($e);
         return this;
     }
 
     public $assertStmt $message(Predicate<_expr> matchFn){
-        this.message.$and(matchFn);
+        if( this.message.getBot() == null ){
+            this.message.setBot( $e.of() );
+        }
+        this.message.getBot().$and(matchFn);
         return this;
     }
 
     public $assertStmt $message(Class<? extends _expr>...expressionClasses){
-        this.message = $expr.of(expressionClasses);
+        this.message.setBot($expr.of(expressionClasses));
         return this;
     }
 
     public $assertStmt $message(String expression){
-        this.message = $expr.of(expression);
+        this.message.setBot($expr.of(expression));
         return this;
     }
 
     public $assertStmt $message(Expression e){
-        this.message = $expr.of(e);
+        this.message.setBot($expr.of(e));
         return this;
     }
 
     public $assertStmt $message(_expr _e) {
-        this.message = $expr.of(_e);
+        this.message.setBot($expr.of(_e));
         return this;
     }
 }

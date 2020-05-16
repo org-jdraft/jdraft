@@ -258,11 +258,14 @@ public class $binaryExpr extends $baseBot<_binaryExpr, $binaryExpr> implements $
     public static final Set<BinaryExpr.Operator> ALL_OPERATORS = Arrays.stream(BinaryExpr.Operator.values()).collect(Collectors.toSet());
 
     public String toString() {
+        if( this.isMatchAny() ){
+            return "$binaryExpr{ MATCH ANY }";
+        }
         return "$binaryExpr{" + System.lineSeparator() +
-                Text.indent( this.left.toString()) + System.lineSeparator() +
-                Text.indent( this.operator.getIncludedValues().toString() )+ System.lineSeparator()+
-                Text.indent( this.right.toString()) + System.lineSeparator()
-                +"}";
+                Text.indent( this.left.toString()) +
+                Text.indent( this.operator.toString()) +
+                Text.indent( this.right.toString()) +
+                "}";
     }
 
     public Select.$botSelect<$expr, _binaryExpr, _expr> left =

@@ -7,6 +7,7 @@ import org.jdraft.text.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * A Matched Selection result returned from matching
@@ -47,67 +48,6 @@ public class Select<S> {
         return null;
     }
 
-    public static <_T> Tokens tokensFrom(_T _t, List<$feature<_T, ?>> featureSelects ){
-
-        Tokens existingTokens = new Tokens();
-        for( int i=0; i< featureSelects.size(); i++){
-            try {
-                Tokens thisTokens = featureSelects.get(i).apply(_t);
-
-                if( thisTokens == null || !existingTokens.isConsistent(thisTokens)){
-                    //when the first token select returns null or succeeds & isn't consistent with existingTokens
-                    return null;
-                }
-                existingTokens.putAll(thisTokens);
-                    //System.out.println(" ExistingTokens "+ existingTokens);
-            }catch(Exception e){
-                    //throw?
-                throw new _jdraftException("Exception with featureSelector ["+ i+" ] "+ featureSelects.get(i)+System.lineSeparator()+"...with input "+_t, e);
-            }
-        }
-        return existingTokens;
-    }
-
-    /**
-     *
-     * @param _t
-     * @param selectorFunctions
-     * @param <_T>
-     * @return
-
-    public static <_T> Tokens tokensFrom(_T _t, List<Function<_T,Tokens>> selectorFunctions ){
-        return tokensFrom(_t, selectorFunctions.toArray( new Function[0] ));
-    }
-    */
-
-    /**
-     *
-     * @param _t
-     * @param selectorFunctions
-     * @param <_T>
-     * @return
-
-    public static<_T> Tokens tokensFrom(_T _t, Function<_T,Tokens>... selectorFunctions ){
-        Tokens existingTokens = new Tokens();
-        for( int i=0; i< selectorFunctions.length; i++){
-            try {
-                Tokens thisTokens = selectorFunctions[i].apply(_t);
-                //System.out.println(" MEMBER SELECTOR RETURNED "+ thisTokens);
-                if( thisTokens == null || !existingTokens.isConsistent(thisTokens)){
-                    //when the first token select returns null or succeeds & isn't consistent with existingTokens
-                    return null;
-                }
-                existingTokens.putAll(thisTokens);
-                //System.out.println(" ExistingTokens "+ existingTokens);
-            }catch(Exception e){
-                //throw?
-                throw new _jdraftException("Exception with memberSelector ["+ i+" ] "+ selectorFunctions[i]+System.lineSeparator()+"...with input "+_t, e);
-            }
-        }
-        return existingTokens;
-    }
-    */
-
     /**
      * Verify that the value associated with this key is equal to
      * (Just saves a getTokens() step for the caller)
@@ -126,6 +66,34 @@ public class Select<S> {
      */
     public boolean is(Object...expectedKeyValues){
         return tokens.is(expectedKeyValues);
+    }
+
+    /**
+     *
+     * @param _t
+     * @param featureSelects
+     * @param <_T>
+     * @return
+     */
+    public static <_T> Tokens tokensFrom(_T _t, List<$feature<_T, ?>> featureSelects ){
+
+        Tokens allTokens = new Tokens();
+        for( int i=0; i< featureSelects.size(); i++){
+            try {
+                Tokens featureTokens = featureSelects.get(i).apply(_t);
+
+                if( featureTokens == null || !allTokens.isConsistent(featureTokens)){
+                    //when the first token select returns null or succeeds & isn't consistent with existingTokens
+                    return null;
+                }
+                allTokens.putAll(featureTokens);
+                //System.out.println(" ExistingTokens "+ existingTokens);
+            }catch(Exception e){
+                //throw?
+                throw new _jdraftException("Exception with featureSelector ["+ i+" ] "+ featureSelects.get(i)+System.lineSeparator()+"...with input "+_t, e);
+            }
+        }
+        return allTokens;
     }
 
     /**
@@ -184,7 +152,215 @@ public class Select<S> {
          */
         public abstract $feature<_T, _F> copy();
     }
-    
+
+    /**
+     * a list of $bots that is assigned to test the feature of a targetClass (This class will "resolve"s a feature
+     * from the target class and have the bot test/extract tokens from, the feature
+     *
+     * @param <$B> the $bot type
+     * @param <_T> the target class type (where the resolve starts)
+     * @param <_F> the resolved feature type (within the target type instance) (the thing the $bot tests)
+     */
+    public static class $botListSelect<$B extends $bot, _T, _F> extends $feature<_T, List<_F>> {
+
+        public static<_T, _R> $botListSelect of(Class<_T>targetClass, Class<_R>featureClass, String featureName, Function<_T, _R> featureResolver){
+            return new $botListSelect(targetClass, featureClass, featureName, featureResolver);
+        }
+
+        public static<$B extends $bot, _T, _R> $botListSelect of(Class<_T>targetClass, Class<_R>featureClass, String featureName, Function<_T, _R> featureResolver, List<$B> botList){
+            return new $botListSelect(targetClass, featureClass, featureName, featureResolver).setBotList(botList);
+        }
+
+        public $botListSelect(Class<_T>targetClass, Class<List<_F>> featureClass, String featureName, Function<_T,List<_F>> featureResolver){
+            super(targetClass, (Class<List<_F>>) featureClass, featureName, featureResolver);
+        }
+
+        /** A list of individual bots that must be satisfied */
+        public List<$B> botList = new ArrayList<>();
+
+        public $B get(int index){
+            return botList.get(index);
+        }
+
+        /**
+         * if NON-NULL Means that (normally we use the featureName, but you can set the matchAllName using
+         * setMatchAllName(String)
+         *
+         * any list of values not only matches, but the entire list is returned as a token with the matchAllName
+         */
+        public String matchAllName = null;
+
+        public $botListSelect<$B, _T, _F>  setBotList(List<$B> botList){
+            this.botList = botList;
+            return this;
+        }
+
+        public $botListSelect<$B, _T, _F> add($B...bots){
+            if(this.getBotList() == null ){
+                this.botList = new ArrayList<$B>();
+            }
+            Stream.of(bots).forEach(b ->this.getBotList().add(b) );
+            return this;
+        }
+
+        public List<$B> getBotList(){
+            return this.botList;
+        }
+
+        public boolean isMatchAll(){
+            return this.matchAllName != null;
+        }
+
+        public String getMatchAllName(){
+            return this.matchAllName;
+        }
+
+        /**
+         * NOTE: setting this to null will remove the matchAllName
+         * @param matchAll if true sets matchAll to be the featureName, if false, sets to not match all
+         * @return
+         */
+        public $botListSelect<$B, _T, _F> setMatchAll(Boolean matchAll){
+            if( matchAll == true ){
+                this.matchAllName = this.featureName;
+                //System.out.println( "FN \""+ this.featureName+"\"");
+            } else{
+                this.matchAllName = null;
+            }
+            return this;
+        }
+
+        /**
+         * NOTE: setting this to null will remove the matchAllName
+         * @param matchAllName
+         * @return
+         */
+        public $botListSelect<$B, _T, _F> setMatchAll(String matchAllName){
+            this.matchAllName = matchAllName;
+            return this;
+        }
+
+        public boolean isMatchAny(){
+            return this.botList == null || this.botList.isEmpty();
+        }
+
+        public $botListSelect<$B, _T, _F> $(String target, String name){
+            if( botList != null ) {
+                this.botList.forEach(b -> b.$(target, name));
+            }
+            return this;
+        }
+
+        public $botListSelect<$B, _T, _F> $hardcode(Translator translator, Tokens keyValues){
+            if(botList != null ) {
+                //System.out.println( keyValues +" "+keyValues.getClass());
+                this.botList.forEach(b -> b.$hardcode(translator, keyValues));
+            }
+            return this;
+        }
+
+        public $botListSelect<$B, _T, _F> $hardcode(Translator translator, Map<String,Object> keyValues){
+            if(botList != null ) {
+                //System.out.println( keyValues +" "+keyValues.getClass());
+                this.botList.forEach(b -> b.$hardcode(translator, (Map<String,Object>)keyValues));
+            }
+            return this;
+        }
+
+        public List<String> $list(){
+            List<String> all = new ArrayList<>();
+            if( this.botList != null ) {
+                this.botList.forEach(b -> all.addAll(b.$list()));
+            }
+            return all;
+        }
+
+        public List<String> $listNormalized(){
+            List<String> all = new ArrayList<>();
+            if( this.botList != null ) {
+                this.botList.forEach(b -> all.addAll(b.$listNormalized()));
+            }
+            return all;
+        }
+
+        public List<_F> draft(Translator translator, Map<String,Object> keyValues){
+            if( this.botList != null ) {
+                List<_F> list = new ArrayList<>();
+                this.botList.forEach(b -> list.add( (_F)b.draft(translator, keyValues)) );
+                return list;
+            }
+            return new ArrayList<>();
+        }
+
+        public $botListSelect<$B, _T, _F> copy(){
+            $botListSelect $copy = new $botListSelect( this.targetClass, this.featureClass, this.featureName+"", this.featureResolver.andThen(Function.identity()));
+            if( this.botList != null ){
+                List<$bot> copyBots = new ArrayList<>();
+                this.botList.forEach( b -> copyBots.add( ($B)b.copy()));
+                $copy.setBotList(copyBots);
+            }
+            $copy.setMatchAll(this.matchAllName);
+            return $copy;
+        }
+
+        @Override
+        public Tokens apply(_T t) {
+            if( this.featureResolver == null || this.botList == null){
+                return new Tokens();
+            }
+            List<_F> resolvedList = null;
+            try {
+                resolvedList = featureResolver.apply(t);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            if( this.isMatchAll() ){
+                return Tokens.of(this.matchAllName, resolvedList);
+            }
+            try{
+                if( this.botList.isEmpty() ){
+                    return new Tokens();
+                }
+                if( resolvedList.size() < this.botList.size() ){
+                    return null;
+                }
+                List<_F>leftList = new ArrayList<>();
+                leftList.addAll(resolvedList);
+
+                Tokens all = new Tokens();
+                for(int i=0;i<this.botList.size();i++){
+                    $B bot = this.botList.get(i);
+                    Optional<_F> found = leftList.stream().filter( e -> bot.matches(e)).findFirst();
+                    if( !found.isPresent() ){
+                        return null;
+                    }
+                    Select<_F> sel = bot.select(found.get());
+                    leftList.remove(sel.selection);
+                    if( all.isConsistent(sel.tokens) ){
+                        all.putAll(sel.tokens);
+                    } else{
+                        return null;
+                    }
+                }
+                return all;
+            } catch(Exception e){
+                return null;
+            }
+        }
+
+        public String toString(){
+            if( this.isMatchAny() ){
+                return this.featureName+" : MATCH [ANY]";
+            }
+            if( this.isMatchAll() ){
+                return this.featureName+" : MATCH ALL ["+this.matchAllName+"=*]";
+            }
+            return this.featureName+" : MATCH "+this.botList+"";
+        }
+    }
+
     /**
      * $bot that is assigned to test the feature of a targetClass (This clas will "resolve"s a feature
      * from the target class and have the bot test/extract tokens from, the feature
@@ -246,9 +422,9 @@ public class Select<S> {
             return new ArrayList<>();
         }
 
-        public _F draft(Translator translator, Map<String,Object> memberValues){
+        public _F draft(Translator translator, Map<String,Object> keyValues){
             if( this.bot != null ) {
-                return (_F) this.bot.draft(translator, memberValues);
+                return (_F) this.bot.draft(translator, keyValues);
             }
             return null;
         }
@@ -284,6 +460,13 @@ public class Select<S> {
             } catch(Exception e){
                 return null;
             }
+        }
+
+        public String toString(){
+            if( this.isMatchAny() ){
+                return this.featureName+" : MATCH [ANY]";
+            }
+            return this.featureName+" : MATCH "+this.bot+"";
         }
     }
 
@@ -353,6 +536,10 @@ public class Select<S> {
             } catch(Exception e){
                 return null;
             }
+        }
+
+        public String toString(){
+            return this.featureName+": MATCH predicate "+this.predicate.toString();
         }
     }
 
@@ -467,6 +654,13 @@ public class Select<S> {
         public boolean isMatchAny(){
             return this.excludedValues == null || excludedValues.isEmpty();
         }
+
+        public String toString(){
+            if( isMatchAny() ){
+                return this.featureName + " : MATCH ANY "+this.getIncludedValues();
+            }
+            return this.featureName+" : MATCH "+this.getIncludedValues();
+        }
     }
 
     /**
@@ -550,6 +744,13 @@ public class Select<S> {
 
         public boolean isMatchAny(){
             return this.expectedValue == null;
+        }
+
+        public String toString(){
+            if( this.isMatchAny()){
+                return this.featureName+ " : MATCH [ANY]";
+            }
+            return this.featureName+" : MATCH "+this.expectedValue;
         }
     }
 
@@ -652,6 +853,10 @@ public class Select<S> {
                 return this.stencil.$list();
             }
             return new ArrayList<>();
+        }
+
+        public String toString(){
+            return this.featureName+" MATCH \""+this.stencil+"\"";
         }
     }
 }

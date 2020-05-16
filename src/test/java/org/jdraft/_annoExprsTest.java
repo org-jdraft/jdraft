@@ -87,7 +87,7 @@ public class _annoExprsTest extends TestCase {
     public void testChildParent(){
         FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
         _annoExprs _as = new _annoExprs( fd );
-        _as.getAt( 0 ).addMemberValue( "Key", 1000 );
+        _as.getAt( 0 ).addPair( "Key", 1000 );
 
         assertTrue( _as.getAt(0).is("@a(Key=1000)"));
 
@@ -97,7 +97,7 @@ public class _annoExprsTest extends TestCase {
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         //System.out.println( ae.getParentNode().isPresent() );
         _annoExpr _aNoParent = new _annoExpr(ae);
-        _aNoParent.addMemberValue( "Key", 9999 );
+        _aNoParent.addPair( "Key", 9999 );
         assertTrue( _aNoParent.is("@a(Key=9999)") );
         //System.out.println( _aNoParent );
     }

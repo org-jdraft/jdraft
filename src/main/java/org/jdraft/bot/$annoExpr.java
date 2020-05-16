@@ -13,11 +13,11 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * pattern for an annotation expression
  * i.e. @Deprecated, @Generated("12/14/2019")
- *
  *
  * @author Eric
  */
@@ -29,19 +29,11 @@ public class $annoExpr
         $field.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part, $type.$part {
 
-    /**
-     * Returns the Ast node implementation type that is used to identify the types as walking the AST
-     * @return the type that this $proto intercepts
-     */
-    public Class<AnnotationExpr> astType(){
-        return AnnotationExpr.class;
-    }
-
     public static $annoExpr of(){
         return new $annoExpr( $name.of() );
     }
     
-    public static $annoExpr of($name name, $memberValue...memberValues ){
+    public static $annoExpr of($name name, $pair...memberValues ){
         return new $annoExpr(name, memberValues);
     }
     
@@ -128,12 +120,14 @@ public class $annoExpr
     public $name name;
 
     /** the member values of the annotation */
-    public List<$memberValue> $mvs = new ArrayList<>();
+    public Select.$botListSelect<$pair, _annoExpr, _annoExpr._pair> pairs =
+            new Select.$botListSelect(_annoExpr.class, _annoExpr._pair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
     public $annoExpr copy(){
-        return of( this.predicate.and(t->true) )
-                .$name( this.name.copy() )
-                .$memberValues(this.$mvs.stream().map(mv-> mv.copy()).collect(Collectors.toList()) );
+        $annoExpr $copy = of( this.predicate.and(t->true) );
+        $copy.$name( this.name.copy() );
+        $copy.pairs = pairs.copy(); //$memberValues(this.$mvs.stream().map(mv-> mv.copy()).collect(Collectors.toList()) );
+        return $copy;
     }
 
     /**
@@ -141,9 +135,10 @@ public class $annoExpr
      * @param name
      * @param mvs
      */
-    private $annoExpr($name name, $memberValue...mvs ){
+    private $annoExpr($name name, $pair...mvs ){
        this.name = name;
-       Arrays.stream(mvs).forEach( mv -> this.$mvs.add(mv));
+       this.pairs.setBotList(Stream.of(mvs).collect(Collectors.toList()));
+       //Arrays.stream(mvs).forEach( mv -> this.$mvs.add(mv));
     }
 
     //internal (or) constructor
@@ -158,10 +153,17 @@ public class $annoExpr
         AnnotationExpr astAnn = proto.ast();
         if (astAnn instanceof NormalAnnotationExpr) {
             NormalAnnotationExpr na = (NormalAnnotationExpr) astAnn;
-            na.getPairs().forEach(mv -> $mvs.add($memberValue.of(mv.getNameAsString(), mv.getValue())));
+
+            na.getPairs().forEach(mv -> pairs.add($pair.of(mv.getNameAsString(), mv.getValue())));
         } else if (astAnn instanceof SingleMemberAnnotationExpr) {
+
             SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr) astAnn;
-            $mvs.add($memberValue.of(sa.getMemberValue()));
+            Stencil st =Stencil.of( sa.getMemberValue().toString() );
+            if( st.isMatchAny() ){ //i.e. @A($any$) which matches @A, @A(1), @A(k=1), @A(k=1v=2)...
+                pairs.setMatchAll(st.$list().get(0));
+            } else {
+                pairs.add($pair.of(sa.getMemberValue()));
+            }
         }
     }
 
@@ -211,13 +213,14 @@ public class $annoExpr
      * NOT key/value     : @A(key=1)
      * </PRE>
      * @return the modified
-     */
+
     public $annoExpr $markerAnnotation(){
         return $and(_a -> _a.isMarker() );
     }
+    */
 
-    public $annoExpr $memberValues(List<$memberValue> mvs){
-        this.$mvs.addAll(mvs);
+    public $annoExpr $memberValues(List<$pair> mvs){
+        this.pairs.add(mvs.toArray(new $pair[0]));
         return this;
     }
 
@@ -231,8 +234,8 @@ public class $annoExpr
      * @param mv
      * @return
      */
-    public $annoExpr $memberValue($memberValue mv ){
-        this.$mvs.add(mv);
+    public $annoExpr $memberValue($pair mv ){
+        this.pairs.add(mv);
         return this;
     }
 
@@ -243,7 +246,7 @@ public class $annoExpr
      * @return
      */
     public $annoExpr $memberValue(String key, Expression value){
-        this.$mvs.add( new $memberValue(key, value) );
+        this.pairs.add( new $pair(key, value) );
         return this;
     }
 
@@ -254,7 +257,7 @@ public class $annoExpr
      * @return
      */
     public $annoExpr $memberValue(String key, String value){
-        this.$mvs.add( new $memberValue(key, value) );
+        this.pairs.add( new $pair(key, value) );
         return this;
     }
 
@@ -264,6 +267,16 @@ public class $annoExpr
         this.name = this.name.$hardcode(translator, kvs);
         //System.out.println( "IN HARDCODE "+ name);
 
+        Object val = kvs.get(this.pairs.getMatchAllName());
+        //System.out.println( "CHECKING "+ this.pairs.getMatchAllName() );
+        if(  val != null ){
+            //System.out.println( "HARDCODING "+ this.pairs.getMatchAllName() +" WITH "+ val);
+            //I previously had @A($value$), now I'm trying to hardcode value
+            this.pairs.add( $pair.of( Exprs.of(val.toString())));
+            this.pairs.setMatchAll(false);
+        }
+        this.pairs.$hardcode(translator, kvs);
+        /*
         List<$memberValue> sts = new ArrayList<>();
         this.$mvs.forEach(mv -> {
             //System.out.println("B4 "+ mv );
@@ -272,6 +285,7 @@ public class $annoExpr
             //System.out.println("B4 "+ mv );
         });
         this.$mvs = sts;
+         */
         return this;
     }
 
@@ -280,7 +294,7 @@ public class $annoExpr
      * @return
      */
     public boolean isMatchAny(){
-        return name.isMatchAny() && ( this.$mvs.isEmpty() || (this.$mvs.size() ==1 && this.$mvs.get(0).isMatchAny() ));
+        return name.isMatchAny() && this.pairs.isMatchAny();
     }
 
     /**
@@ -304,7 +318,7 @@ public class $annoExpr
             //System.out.println("PREDICATE FAILED" );
             return null;
         }
-
+        //Tokens ts = Select.tokensFrom(_a, )
         Select ss = name.select(_a.getNameNode());
         if( ss == null ){
             //System.out.println( "Parse null for name "+name+" for \""+_a.getName()+"\"");
@@ -313,6 +327,13 @@ public class $annoExpr
         //System.out.println("NAME PASSED" );
         Tokens ts = ss.tokens; //name.parse(_a.getName());
 
+        Tokens mvs = this.pairs.apply(_a);
+        if( ts.isConsistent(mvs)){
+            mvs.putAll(ts);
+            return ts;
+        }
+        return null;
+        /*
         if ($mvs.isEmpty() ) {
             //System.out.println( "Returning "+ts+" for name \""+_a.getName()+"\"");
             return ts;
@@ -399,7 +420,9 @@ public class $annoExpr
             }
             return null;
         }
+
         return null;
+         */
     }
 
     public boolean matches( AnnotationExpr astAnno){
@@ -427,6 +450,11 @@ public class $annoExpr
             kvs.remove("$anno"); //remove to avoid stackOverflow
             return $a.draftToString(translator, kvs);
         }
+        _annoExpr _a = _annoExpr.of();
+        _a.setName(name.draft(translator, keyValues).toString());
+        _a.setPairs(pairs.draft(translator, keyValues));
+        return _a.toString();
+        /*
         StringBuilder sb = new StringBuilder();
         sb.append("@");
         sb.append(name.draft(translator, keyValues));
@@ -441,6 +469,7 @@ public class $annoExpr
             return sb.toString();
         }
         return sb.toString() + "(" + properties + ")";
+         */
     }
 
     @Override
@@ -459,7 +488,8 @@ public class $annoExpr
     @Override
     public $annoExpr $(String target, String $paramName) {
         name.$(target, $paramName);
-        $mvs.forEach(mv -> mv.key.stencil = mv.key.stencil.$(target, $paramName));
+        pairs.$(target, $paramName);
+        //$mvs.forEach(mv -> mv.key.stencil = mv.key.stencil.$(target, $paramName));
         return this;
     }
 
@@ -507,10 +537,13 @@ public class $annoExpr
     public List<String> $list() {
         List<String> params = new ArrayList<>();
         params.addAll( this.name.$list() );
+        params.addAll( this.pairs.$list() );
+        /*
         this.$mvs.forEach(m -> {
             params.addAll( m.key.$list() );
             params.addAll( m.value.$list() );
         });
+         */
         return params;
     }
 
@@ -518,10 +551,13 @@ public class $annoExpr
     public List<String> $listNormalized() {
         List<String> params = new ArrayList<>();
         params.addAll( this.name.$listNormalized() );
+        params.addAll( this.pairs.$listNormalized());
+        /*
         this.$mvs.forEach(m -> {
             params.addAll( m.key.stencil.$listNormalized() );
             params.addAll( m.value.$listNormalized() );
         });
+         */
         return params.stream().distinct().collect(Collectors.toList() );
     }
 
@@ -563,14 +599,19 @@ public class $annoExpr
     @Override
     public String toString(){
         if( this.isMatchAny() ){
-            return "$anno{ $ANY$ }";
+            return "$anno{ [MATCH ANY] }";
         }
         StringBuilder sb = new StringBuilder();
         sb.append("@");
         sb.append(this.name.stencil);
-        if( this.$mvs.isEmpty() ){
+        if( this.pairs.botList.isEmpty() ){
             return "$anno{ "+sb.toString()+" }";
         }
+        sb.append("( " +this.pairs.toString() + ")");
+        //if( this.$mvs.isEmpty() ){
+
+        //}
+        /*
         sb.append("(");
         for(int i=0;i<this.$mvs.size();i++){
             if( i > 0 ){
@@ -580,6 +621,7 @@ public class $annoExpr
         }
         sb.append(")");
         sb.append(System.lineSeparator());
+         */
         return "$anno{"+System.lineSeparator()+sb.toString()+"}";
     }
 
@@ -587,49 +629,49 @@ public class $annoExpr
      * prototype for member values (i.e. the key values inside the annotation)
      * i.e. @A(key="value")
      */
-    public static class $memberValue implements $bot<MemberValuePair, _annoExpr._memberValue, $memberValue> {
+    public static class $pair implements $bot<MemberValuePair, _annoExpr._pair, $pair> {
 
         public $name key = $name.of();
 
         public $expr value = $e.of(); //new $ex(Expression.class, "$value$");
 
-        public Predicate<_annoExpr._memberValue> constraint = t -> true;
+        public Predicate<_annoExpr._pair> constraint = t -> true;
 
-        public static $memberValue of(_annoExpr._memberValue _mv){
-            return new $memberValue( _mv.getName(), _mv.getValue().ast());
+        public static $pair of(_annoExpr._pair _mv){
+            return new $pair( _mv.getName(), _mv.getValue().ast());
         }
 
-        public static $memberValue of(Predicate<_annoExpr._memberValue> matchFn){
-            $memberValue $mv = new $memberValue( );
+        public static $pair of(Predicate<_annoExpr._pair> matchFn){
+            $pair $mv = new $pair( );
             return $mv.$and(matchFn);
         }
 
-        public static $memberValue of(Expression value) {
+        public static $pair of(Expression value) {
             //return new $memberValue("$_$", value);
-            return new $memberValue("value", value);
+            return new $pair("value", value);
         }
 
-        public static $memberValue of(String key, String value) {
-            return new $memberValue(key, value);
+        public static $pair of(String key, String value) {
+            return new $pair(key, value);
         }
 
-        public static $memberValue of(String key, Expression exp) {
-            return new $memberValue(key, exp);
+        public static $pair of(String key, Expression exp) {
+            return new $pair(key, exp);
         }
 
-        public static $memberValue of() {
-            return new $memberValue("$key$", "$value$");
+        public static $pair of() {
+            return new $pair("$key$", "$value$");
         }
 
-        public $memberValue copy(){
-            $memberValue $mv = of();
+        public $pair copy(){
+            $pair $mv = of();
             $mv.key = key.copy();
             $mv.value = (($e)value).copy();
             return $mv;
         }
 
         @Override
-        public Select<_annoExpr._memberValue> select(Node n) {
+        public Select<_annoExpr._pair> select(Node n) {
             if( n instanceof MemberValuePair ){
                 return select( (MemberValuePair)n);
             }
@@ -654,13 +696,13 @@ public class $annoExpr
             return  k && v;
         }
 
-        private $memberValue(){ }
+        private $pair(){ }
 
-        public $memberValue(String name, String value) {
+        public $pair(String name, String value) {
             this(name, Exprs.of(value));
         }
 
-        public $memberValue(String name, Expression value) {
+        public $pair(String name, Expression value) {
             this.key.stencil = Stencil.of(name);
             Stencil st = Stencil.of(value.toString());
             if( st.isMatchAny() ){
@@ -670,7 +712,7 @@ public class $annoExpr
             }
         }
 
-        public $memberValue $hardcode(Translator translator, Tokens tokens){
+        public $pair $hardcode(Translator translator, Tokens tokens){
             if( this.key != null ) {
                 this.key = this.key.$hardcode(translator, tokens);
             }
@@ -680,16 +722,16 @@ public class $annoExpr
             return this;
         }
 
-        public $memberValue $and(Predicate<_annoExpr._memberValue> mvpMatchFn){
+        public $pair $and(Predicate<_annoExpr._pair> mvpMatchFn){
             this.constraint = this.constraint.and(mvpMatchFn);
             return this;
         }
 
         @Override
-        public _annoExpr._memberValue draft(Translator translator, Map<String, Object> keyValues) {
+        public _annoExpr._pair draft(Translator translator, Map<String, Object> keyValues) {
             _expr _ex = (_expr)this.value.draft(translator, keyValues);
             String key = this.key.draft(translator, keyValues).toString();
-            return _annoExpr._memberValue.of( new MemberValuePair(key, _ex.ast()));
+            return _annoExpr._pair.of( new MemberValuePair(key, _ex.ast()));
         }
 
         /**
@@ -698,7 +740,7 @@ public class $annoExpr
          * @param $paramName
          * @return
          */
-        public $memberValue $(String target, String $paramName) {
+        public $pair $(String target, String $paramName) {
             this.key.stencil = this.key.stencil.$(target, $paramName);
             this.value.$(target, $paramName);
             return this;
@@ -725,7 +767,7 @@ public class $annoExpr
          * @param pairs
          * @return
          */
-        public Select selectFirst( List<_annoExpr._memberValue> pairs ){
+        public Select selectFirst( List<_annoExpr._pair> pairs ){
             for(int i=0;i<pairs.size();i++){
                 Select sel = select(pairs.get(i) );
                 if( sel != null ){
@@ -743,10 +785,10 @@ public class $annoExpr
         }
 
         @Override
-        public _annoExpr._memberValue firstIn(Node astNode, Predicate<_annoExpr._memberValue> nodeMatchFn) {
-            Node mvp = Tree.first(astNode, MemberValuePair.class, m -> select(_annoExpr._memberValue.of(m) ) != null);
+        public _annoExpr._pair firstIn(Node astNode, Predicate<_annoExpr._pair> nodeMatchFn) {
+            Node mvp = Tree.first(astNode, MemberValuePair.class, m -> select(_annoExpr._pair.of(m) ) != null);
             if( mvp != null ){
-                return _annoExpr._memberValue.of( (MemberValuePair)mvp);
+                return _annoExpr._pair.of( (MemberValuePair)mvp);
             }
             return null;
         }
@@ -761,11 +803,11 @@ public class $annoExpr
         }
 
         @Override
-        public Select<_annoExpr._memberValue> selectFirstIn(Node astNode, Predicate<Select<_annoExpr._memberValue>> predicate) {
+        public Select<_annoExpr._pair> selectFirstIn(Node astNode, Predicate<Select<_annoExpr._pair>> predicate) {
             Optional<Node> on = astNode.stream().filter( n-> {
                 if( n instanceof MemberValuePair){
-                    _annoExpr._memberValue _mv = _annoExpr._memberValue.of( (MemberValuePair)n);
-                    Select<_annoExpr._memberValue> smv = select(_mv);
+                    _annoExpr._pair _mv = _annoExpr._pair.of( (MemberValuePair)n);
+                    Select<_annoExpr._pair> smv = select(_mv);
                     if( smv != null && predicate.test(smv)){
                         return true;
                     }
@@ -779,8 +821,8 @@ public class $annoExpr
         }
 
         @Override
-        public List<Select<_annoExpr._memberValue>> listSelectedIn(Node astNode) {
-            List<Select<_annoExpr._memberValue>> sel = new ArrayList<>();
+        public List<Select<_annoExpr._pair>> listSelectedIn(Node astNode) {
+            List<Select<_annoExpr._pair>> sel = new ArrayList<>();
             Tree.in(astNode,
                     MemberValuePair.class,
                     (MemberValuePair n)-> match(n),
@@ -790,11 +832,11 @@ public class $annoExpr
         }
 
         @Override
-        public <N extends Node> N forEachIn(N astNode, Predicate<_annoExpr._memberValue> nodeMatchFn, Consumer<_annoExpr._memberValue> nodeActionFn) {
+        public <N extends Node> N forEachIn(N astNode, Predicate<_annoExpr._pair> nodeMatchFn, Consumer<_annoExpr._pair> nodeActionFn) {
             return Tree.in(astNode,
                     MemberValuePair.class,
-                    (MemberValuePair n)-> match(n) && nodeMatchFn.test(_annoExpr._memberValue.of(n)),
-                    (MemberValuePair n) -> nodeActionFn.accept(_annoExpr._memberValue.of(n))
+                    (MemberValuePair n)-> match(n) && nodeMatchFn.test(_annoExpr._pair.of(n)),
+                    (MemberValuePair n) -> nodeActionFn.accept(_annoExpr._pair.of(n))
                 );
         }
 
@@ -812,7 +854,7 @@ public class $annoExpr
          * @return
          */
         public Tokens parse(Expression onlyValueExpression){
-            if( constraint.test( _annoExpr._memberValue.of( onlyValueExpression.toString()) ) ) {
+            if( constraint.test( _annoExpr._pair.of( onlyValueExpression.toString()) ) ) {
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
@@ -840,7 +882,7 @@ public class $annoExpr
         public Select select (Expression onlyValueExpression){
             //System.out.println( "Selecting Only Value");
             MemberValuePair mvp = new MemberValuePair("", onlyValueExpression);
-            if( constraint.test( _annoExpr._memberValue.of(mvp) ) ) {
+            if( constraint.test( _annoExpr._pair.of(mvp) ) ) {
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
@@ -864,22 +906,22 @@ public class $annoExpr
          * @param mvp
          * @return
          */
-        public Select<_annoExpr._memberValue> select(MemberValuePair mvp) {
-            return select(_annoExpr._memberValue.of(mvp));
+        public Select<_annoExpr._pair> select(MemberValuePair mvp) {
+            return select(_annoExpr._pair.of(mvp));
         }
 
         @Override
-        public Predicate<_annoExpr._memberValue> getPredicate() {
+        public Predicate<_annoExpr._pair> getPredicate() {
             return this.constraint;
         }
 
         @Override
-        public $memberValue setPredicate(Predicate<_annoExpr._memberValue> predicate) {
+        public $pair setPredicate(Predicate<_annoExpr._pair> predicate) {
             this.constraint = predicate;
             return this;
         }
 
-        public Select<_annoExpr._memberValue> select(_annoExpr._memberValue _mvp){
+        public Select<_annoExpr._pair> select(_annoExpr._pair _mvp){
             if (_mvp == null) {
                 //System.out.println("MVP NULL");
                 return null;
@@ -934,14 +976,13 @@ public class $annoExpr
 
         @Override
         public boolean matches(String candidate) {
-            return matches(_annoExpr._memberValue.of(candidate));
+            return matches(_annoExpr._pair.of(candidate));
         }
-
     }
 
     /**
      * An Or entity that can match against any of the $bot instances provided
-     * NOTE: template features (draft/fill) are supressed.
+     * NOTE: template features (draft/fill) are suppressed.
      */
     public static class Or extends $annoExpr {
 
@@ -950,7 +991,7 @@ public class $annoExpr
          public Or($annoExpr...$as){
              super();
              this.name = $name.of();
-             this.$mvs = new ArrayList<>();
+             this.pairs = new Select.$botListSelect(_annoExpr.class, _annoExpr._pair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
              Arrays.stream($as).forEach($a -> $annoExprBots.add($a) );
          }
 
@@ -966,7 +1007,7 @@ public class $annoExpr
              //now copy the predicate and all underlying bots on the baseBot
              theCopy.predicate = this.predicate.and(t->true);
              theCopy.name = this.name.copy();
-             this.$mvs.forEach(mv -> theCopy.$mvs.add( mv.copy()));
+             theCopy.pairs = this.pairs.copy();
              return theCopy;
          }
 

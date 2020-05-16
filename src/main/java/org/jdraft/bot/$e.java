@@ -153,9 +153,9 @@ public class $e
 
 	public String toString(){
 		if( this.stencil == null ){
-			return "$e{}";
+			return "$e{ MATCH ANY }";
 		}
-		return "$e{"+ this.stencil +"}";
+		return "$e{ \""+ this.stencil +"\" }";
 	}
 
 	@Override

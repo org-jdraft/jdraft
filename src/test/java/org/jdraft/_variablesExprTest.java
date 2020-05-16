@@ -18,8 +18,8 @@ public class _variablesExprTest extends TestCase {
         assertNotNull(_vs.getAnnoRef("B"));
         assertNotNull(_vs.getAnnoRef("C"));
 
-        assertNotNull(_vs.getAnnoRef(a-> a.hasMemberValue("value", 1)));
-        assertNotNull(_vs.getAnnoRef(a-> a.hasMemberValue("k", 2)));
+        assertNotNull(_vs.getAnnoRef(a-> a.hasPair("value", 1)));
+        assertNotNull(_vs.getAnnoRef(a-> a.hasPair("k", 2)));
 
         assertEquals(3, _vs.listAnnoRefs().size());
 

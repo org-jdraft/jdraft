@@ -64,7 +64,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         return new $comment( Stencil.of(comment) );
     }
 
-    public static $comment of( _comment _com){
+    public static <_C extends _comment> $comment of( _C _com){
         if( _com instanceof _blockComment ){
             return new $comment( Stencil.of(_com.getText()), c-> c instanceof _blockComment);
         }

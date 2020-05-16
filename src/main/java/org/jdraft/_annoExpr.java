@@ -150,7 +150,7 @@ public final class _annoExpr
      * }</PRE>
      * @return 
      */
-    public boolean isKeyValueAnnotation(){
+    public boolean isPair(){
         return this.astAnno.isNormalAnnotationExpr();
     }
     
@@ -171,8 +171,8 @@ public final class _annoExpr
      * @param memberValueMatchFn
      * @return
      */
-    public boolean hasMemberValue(Predicate<_memberValue> memberValueMatchFn){
-        return listMemberValues().stream().anyMatch(memberValueMatchFn);
+    public boolean hasPair(Predicate<_pair> memberValueMatchFn){
+        return listPairs().stream().anyMatch(memberValueMatchFn);
     }
 
     /**
@@ -180,32 +180,32 @@ public final class _annoExpr
      * @param memberValueMatchFn
      * @return
      */
-    public boolean hasMemberValue(BiPredicate<String, _expr> memberValueMatchFn){
-        return listMemberValues().stream().anyMatch(m -> memberValueMatchFn.test( m.getName(), m.getValue()));
+    public boolean hasPair(BiPredicate<String, _expr> memberValueMatchFn){
+        return listPairs().stream().anyMatch(m -> memberValueMatchFn.test( m.getName(), m.getValue()));
     }
 
 
     /**
      *
-     * @param memberValueMatchFn
+     * @param pairMatchFn
      * @return
      */
-    public List<_memberValue> listMemberValues(Predicate<_memberValue> memberValueMatchFn){
-        return listMemberValues().stream().filter(memberValueMatchFn).collect(Collectors.toList());
+    public List<_pair> listPairs(Predicate<_pair> pairMatchFn){
+        return listPairs().stream().filter(pairMatchFn).collect(Collectors.toList());
     }
 
     /**
      *
      * @return
      */
-    public List<_memberValue> listMemberValues(){
-        List<_memberValue> _mvs = new ArrayList<>();
+    public List<_pair> listPairs(){
+        List<_pair> _mvs = new ArrayList<>();
         if( this.astAnno.isSingleMemberAnnotationExpr()){
             //infer the that "name" is value for a singleMemberAnnotationExpr
-            _mvs.add( new _memberValue(new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue())));
+            _mvs.add( new _pair(new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue())));
         }
         else if( this.astAnno.isNormalAnnotationExpr()){
-            this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p-> _mvs.add( new _memberValue(p) ));
+            this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p-> _mvs.add( new _pair(p) ));
         }
         return _mvs;
     }
@@ -241,7 +241,7 @@ public final class _annoExpr
      * Builds a Map of Keys-> values
      * @return
      */
-    public Map<String, Expression> getKeyValuesMap(){
+    public Map<String, Expression> getPairsMap(){
         Map<String, Expression> keyValuesMap = new HashMap<>();
         if( this.astAnno instanceof MarkerAnnotationExpr ){
             return keyValuesMap;
@@ -256,87 +256,87 @@ public final class _annoExpr
     }
 
     public boolean isValue(char[] value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
     public boolean isValue(boolean[] value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
 
     public boolean isValue(double[] value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
     public boolean isValue( float[] value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
 
     public boolean isValue(int[] value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
 
     public boolean isValue(char value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
     public boolean isValue(boolean value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
 
     public boolean isValue(double value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
     public boolean isValue(float value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
 
     public boolean isValue( String value){
-        return isValue("value", value);
+        return isPair("value", value);
     }
 
     public boolean isValue(int value){
-        return isValue( "value", Exprs.of(value));
+        return isPair( "value", Exprs.of(value));
     }
 
-    public boolean isValue(String name, char[] value){
-        return isValue( name, Exprs.of(value));
+    public boolean isPair(String name, char[] value){
+        return isPair( name, Exprs.of(value));
     }
-    public boolean isValue(String name, boolean[] value){
-        return isValue( name, Exprs.of(value));
-    }
-
-    public boolean isValue(String name, double[] value){
-        return isValue( name, Exprs.of(value));
-    }
-    public boolean isValue(String name, float[] value){
-        return isValue( name, Exprs.of(value));
+    public boolean isPair(String name, boolean[] value){
+        return isPair( name, Exprs.of(value));
     }
 
-    public boolean isValue(String name, int[] value){
-        return isValue( name, Exprs.of(value));
+    public boolean isPair(String name, double[] value){
+        return isPair( name, Exprs.of(value));
+    }
+    public boolean isPair(String name, float[] value){
+        return isPair( name, Exprs.of(value));
     }
 
-    public boolean isValue(String name, char value){
-        return isValue( name, Exprs.of(value));
-    }
-    public boolean isValue(String name, boolean value){
-        return isValue( name, Exprs.of(value));
+    public boolean isPair(String name, int[] value){
+        return isPair( name, Exprs.of(value));
     }
 
-    public boolean isValue(String name, double value){
-        return isValue( name, Exprs.of(value));
+    public boolean isPair(String name, char value){
+        return isPair( name, Exprs.of(value));
     }
-    public boolean isValue(String name, float value){
-        return isValue( name, Exprs.of(value));
-    }
-
-    public boolean isValue( String name, String value){
-        return isValue(name, Exprs.stringLiteralEx(value));
+    public boolean isPair(String name, boolean value){
+        return isPair( name, Exprs.of(value));
     }
 
-    public boolean isValue(String name, int value){
-        return isValue( name, Exprs.of(value));
+    public boolean isPair(String name, double value){
+        return isPair( name, Exprs.of(value));
+    }
+    public boolean isPair(String name, float value){
+        return isPair( name, Exprs.of(value));
     }
 
-    public boolean isValue(String name, Expression value){
-        Expression e = this.getValue(name);
+    public boolean isPair(String name, String value){
+        return isPair(name, Exprs.stringLiteralEx(value));
+    }
+
+    public boolean isPair(String name, int value){
+        return isPair( name, Exprs.of(value));
+    }
+
+    public boolean isPair(String name, Expression value){
+        Expression e = this.getPairValue(name);
         if( e != null ){
             return Objects.equals(e, value);
         }
@@ -454,47 +454,47 @@ public final class _annoExpr
      * @param attrKeyValue
      * @return 
      */
-    public boolean hasMemberValue(String attrKeyValue ){
+    public boolean hasPair(String attrKeyValue ){
         try{
             AssignExpr ae = Exprs.assignEx(attrKeyValue);
             String name = ae.getTarget().toString();
-            return hasMemberValue( name, ae.getValue());
+            return hasPair( name, ae.getValue());
         } catch (Exception e){
             return false;
         }
     }
 
-    public boolean hasMemberValue( _memberValue _mv){
-        return hasMemberValue(_mv.getName(), _mv.getValue().ast());
+    public boolean hasPair(_pair _mv){
+        return hasPair(_mv.getName(), _mv.getValue().ast());
     }
 
-    public boolean hasMemberValue( MemberValuePair mvp){
-        return hasMemberValue(_memberValue.of(mvp) );
+    public boolean hasPair(MemberValuePair mvp){
+        return hasPair(_pair.of(mvp) );
     }
 
-    public boolean hasMemberValue( String name, int value){
-        return hasMemberValue( name, Exprs.of(value));
+    public boolean hasPair(String name, int value){
+        return hasPair( name, Exprs.of(value));
     }
 
-    public boolean hasMemberValue( String name, long value){
-        return hasMemberValue( name, Exprs.of(value));
+    public boolean hasPair(String name, long value){
+        return hasPair( name, Exprs.of(value));
     }
 
 
-    public boolean hasMemberValue( String name, char value){
-        return hasMemberValue( name, Exprs.of(value));
+    public boolean hasPair(String name, char value){
+        return hasPair( name, Exprs.of(value));
     }
 
-    public boolean hasMemberValue( String name, boolean value){
-        return hasMemberValue( name, Exprs.of(value));
+    public boolean hasPair(String name, boolean value){
+        return hasPair( name, Exprs.of(value));
     }
 
-    public boolean hasMemberValue( String name, float value){
-        return hasMemberValue( name, Exprs.of(value));
+    public boolean hasPair(String name, float value){
+        return hasPair( name, Exprs.of(value));
     }
 
-    public boolean hasMemberValue( String name, double value){
-        return hasMemberValue( name, Exprs.of(value));
+    public boolean hasPair(String name, double value){
+        return hasPair( name, Exprs.of(value));
     }
 
     /**
@@ -503,16 +503,16 @@ public final class _annoExpr
      * @param astExpr
      * @return 
      */
-    public boolean hasMemberValue(String attrName, Expression astExpr){
+    public boolean hasPair(String attrName, Expression astExpr){
         List<String> keys = listKeys();
         for(int i=0;i<keys.size(); i++){
             if( keys.get(i).equals(attrName) ){
-                return getValue(i).equals(astExpr) ;
+                return getPairValue(i).equals(astExpr) ;
             }
         } 
         //if the attrName is "value" 
         if(attrName.equals("value") && !this.hasKeys() && this.hasValues()){
-            return getValue(0).equals(astExpr);
+            return getPairValue(0).equals(astExpr);
         }
         return false;
     }
@@ -524,32 +524,32 @@ public final class _annoExpr
      * @param astExprMatchFn expression matching function
      * @return 
      */
-    public boolean hasMemberValue(String attrName, Predicate<Expression> astExprMatchFn){
+    public boolean hasPair(String attrName, Predicate<Expression> astExprMatchFn){
         List<String> keys = listKeys();
         for(int i=0;i<keys.size(); i++){
             if( keys.get(i).equals(attrName) ){
-                return astExprMatchFn.test( getValue(i) );
+                return astExprMatchFn.test( getPairValue(i) );
             }
         } 
         //if the attrName is "value" 
         if(attrName.equals("value") && !this.hasKeys() && this.hasValues()){
-            return astExprMatchFn.test( getValue(0) );
+            return astExprMatchFn.test( getPairValue(0) );
         }
         return false;
     }
 
-    public boolean hasMemberValues(_memberValue...mvs){
+    public boolean hasPairs(_pair...mvs){
         for(int i=0;i<mvs.length; i++){
-            if( ! hasMemberValue(mvs[i])){
+            if( ! hasPair(mvs[i])){
                 return false;
             }
         }
         return true;
     }
 
-    public boolean hasMemberValues(MemberValuePair...mvs){
+    public boolean hasPairs(MemberValuePair...mvs){
         for(int i=0;i<mvs.length; i++){
-            if( ! hasMemberValue(mvs[i])){
+            if( ! hasPair(mvs[i])){
                 return false;
             }
         }
@@ -561,15 +561,15 @@ public final class _annoExpr
      * @param mvs
      * @return
      */
-    public boolean isMemberValues(MemberValuePair...mvs){
-        return isMemberValues( Arrays.stream(mvs).map(mv -> _memberValue.of(mv)).collect(Collectors.toList()).toArray(new _memberValue[0]));
+    public boolean isPairs(MemberValuePair...mvs){
+        return isPairs( Arrays.stream(mvs).map(mv -> _pair.of(mv)).collect(Collectors.toList()).toArray(new _pair[0]));
     }
 
-    public boolean isMemberValues(_memberValue...mvs){
-        List<_memberValue> tmvs = listMemberValues();
+    public boolean isPairs(_pair...mvs){
+        List<_pair> tmvs = listPairs();
         if( mvs.length == tmvs.size() ){
             for(int i=0;i<mvs.length;i++){
-                if( ! hasMemberValue(mvs[i])){
+                if( ! hasPair(mvs[i])){
                     return false;
                 }
             }
@@ -578,17 +578,17 @@ public final class _annoExpr
         return false;
     }
 
-    public boolean isMemberValues( String... memberValuesString){
+    public boolean isPairs(String... memberValuesString){
         _annoExpr _a = _annoExpr.of("@"+this.getName()+"("+Text.combine(memberValuesString)+")");
 
-        List<_memberValue> mvs = _a.listMemberValues();
+        List<_pair> mvs = _a.listPairs();
 
         //System.out.println( mvs );
-        List<_memberValue> tmvs = listMemberValues();
+        List<_pair> tmvs = listPairs();
         //System.out.println( tmvs );
         if( mvs.size() == tmvs.size() ){
             for(int i=0;i<mvs.size();i++){
-                if( ! hasMemberValue(mvs.get(i))){
+                if( ! hasPair(mvs.get(i))){
                     return false;
                 }
             }
@@ -618,7 +618,7 @@ public final class _annoExpr
         listValues(expressionClass, astExprMatchFn ).forEach(astExprActionFn );
     }
 
-    public Expression getValue( String name ) {
+    public Expression getPairValue(String name ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
             Optional<MemberValuePair> om = n.getPairs().stream()
@@ -628,7 +628,7 @@ public final class _annoExpr
             }
         }
         if( this.astAnno instanceof SingleMemberAnnotationExpr && name.equals("value") ){
-            return getValue(0);
+            return getPairValue(0);
         }
         return null;
     }
@@ -647,7 +647,7 @@ public final class _annoExpr
         if( component == _java.Component.NAME ){
             return this.getName();
         }
-        if( component == _java.Component.KEY_VALUES ){
+        if( component == _java.Component.PAIRS){
             if( this.astAnno instanceof NormalAnnotationExpr ){
                 NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
                 return nae.getPairs();
@@ -665,10 +665,10 @@ public final class _annoExpr
         m.put(_java.Component.NAME, this.getName() );
         if( this.astAnno instanceof NormalAnnotationExpr ){
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
-            m.put(_java.Component.KEY_VALUES, nae.getPairs() );
+            m.put(_java.Component.PAIRS, nae.getPairs() );
         } else if( this.astAnno instanceof SingleMemberAnnotationExpr){
             SingleMemberAnnotationExpr se = (SingleMemberAnnotationExpr)this.astAnno;
-            m.put(_java.Component.KEY_VALUES, new MemberValuePair("value", se.getMemberValue() ) );
+            m.put(_java.Component.PAIRS, new MemberValuePair("value", se.getMemberValue() ) );
         }
         return m;
     }
@@ -696,32 +696,51 @@ public final class _annoExpr
         }        
     }
      */
-    
-    public _annoExpr addMemberValue(String key, char c ) {
-        return addMemberValue( key, Exprs.of( c ) );
+
+    public _annoExpr addPair(String key, char c ) {
+        return addPair( key, Exprs.of( c ) );
     }
 
-    public _annoExpr addMemberValue(String key, boolean b ) {
-        return addMemberValue( key, Exprs.of( b ) );
+    public _annoExpr addPair(String key, boolean b ) {
+        return addPair( key, Exprs.of( b ) );
     }
 
-    public _annoExpr addMemberValue(String key, int value ) {
-        return addMemberValue( key, Exprs.of( value ) );
+    public _annoExpr addPair(String key, int value ) {
+        return addPair( key, Exprs.of( value ) );
     }
 
-    public _annoExpr addMemberValue(String key, long value ) {
-        return addMemberValue( key, Exprs.of( value ) );
+    public _annoExpr addPair(String key, long value ) {
+        return addPair( key, Exprs.of( value ) );
     }
 
-    public _annoExpr addMemberValue(String key, float f ) {
-        return addMemberValue( key, Exprs.of( f ) );
+    public _annoExpr addPair(String key, float f ) {
+        return addPair( key, Exprs.of( f ) );
     }
 
-    public _annoExpr addMemberValue(String key, double d ) {
-        return addMemberValue( key, Exprs.of( d ) );
+    public _annoExpr addPair(String key, double d ) {
+        return addPair( key, Exprs.of( d ) );
     }
 
-    public _annoExpr addMemberValue(String key, Expression astExpr ) {
+    public _annoExpr addPair(_pair _p) {
+        if( this.astAnno instanceof NormalAnnotationExpr ) {
+            NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
+            n.getPairs().add(_p.mvp);
+            return this;
+        }
+        else {
+            NodeList<MemberValuePair> nl = new NodeList<>();
+            if( this.astAnno instanceof SingleMemberAnnotationExpr ){
+                nl.add( new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()) );
+            }
+            nl.add(_p.mvp);
+            NormalAnnotationExpr n = new NormalAnnotationExpr( this.astAnno.getName(), nl );
+            astAnno.replace( n ); //this will set the parent pointer if necessary
+            this.astAnno = n; //this will update the local reference
+        }
+        return this;
+    }
+
+    public _annoExpr addPair(String key, Expression astExpr ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
             n.addPair(key, astExpr );
@@ -737,39 +756,39 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr addMemberValue(String key, String value ) {
-        return addMemberValue(key, Exprs.stringLiteralEx(value));
+    public _annoExpr addPair(String key, String value ) {
+        return addPair(key, Exprs.stringLiteralEx(value));
     }
 
-    public _annoExpr setValue(String key, char c ) {
-        return setValue( key, Exprs.of( c ) );
+    public _annoExpr setPairValue(String key, char c ) {
+        return setPairValue( key, Exprs.of( c ) );
     }
 
-    public _annoExpr setValue(String key, boolean b ) {
-        return setValue( key, Exprs.of( b ) );
+    public _annoExpr setPairValue(String key, boolean b ) {
+        return setPairValue( key, Exprs.of( b ) );
     }
 
-    public _annoExpr setValue(String key, int value ) {
-        return setValue( key, Exprs.of( value ) );
+    public _annoExpr setPairValue(String key, int value ) {
+        return setPairValue( key, Exprs.of( value ) );
     }
 
-    public _annoExpr setValue(String key, long value ) {
-        return setValue( key, Exprs.of( value ) );
+    public _annoExpr setPairValue(String key, long value ) {
+        return setPairValue( key, Exprs.of( value ) );
     }
 
-    public _annoExpr setValue(String key, float f ) {
-        return setValue( key, Exprs.of( f ) );
+    public _annoExpr setPairValue(String key, float f ) {
+        return setPairValue( key, Exprs.of( f ) );
     }
 
-    public _annoExpr setValue(String key, double d ) {
-        return setValue( key, Exprs.of( d ) );
+    public _annoExpr setPairValue(String key, double d ) {
+        return setPairValue( key, Exprs.of( d ) );
     }
 
-    public _annoExpr setValue(String name, String expression ) {
-        return setValue( name, Exprs.stringLiteralEx( expression ) );
+    public _annoExpr setPairValue(String name, String expression ) {
+        return setPairValue( name, Exprs.stringLiteralEx( expression ) );
     }
 
-    public _annoExpr removeAttr(String name ) {
+    public _annoExpr removePair(String name ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
             nae.getPairs().removeIf( mvp -> mvp.getNameAsString().equals( name ) );
@@ -779,7 +798,7 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr removeAttr(int index ) {
+    public _annoExpr removePair(int index ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
             nae.getPairs().remove( index );
@@ -799,7 +818,18 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr setValue(String name, Expression e ) {
+    public _annoExpr setPairs(List<_pair> pairs){
+        this.removeMemberValues();
+        pairs.forEach(p -> addPair(p));
+        return this;
+    }
+
+    public _annoExpr addPairs(List<_pair> pairs ){
+        pairs.forEach(p -> addPair(p));
+        return this;
+    }
+
+    public _annoExpr setPairValue(String name, Expression e ) {
         this.listKeys().contains( name );
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
@@ -823,31 +853,31 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr setValue(int index, String stringLiteral ) {
-        return setValue( index, Exprs.stringLiteralEx( stringLiteral ) );
+    public _annoExpr setPairValue(int index, String stringLiteral ) {
+        return setPairValue( index, Exprs.stringLiteralEx( stringLiteral ) );
     }
     
-    public _annoExpr setValue(int index, int intLiteral) {
-        return setValue( index, Exprs.of( intLiteral ) );
+    public _annoExpr setPairValue(int index, int intLiteral) {
+        return setPairValue( index, Exprs.of( intLiteral ) );
     }
 
-    public _annoExpr setValue(int index, boolean boolLiteral) {
-        return setValue( index, Exprs.of( boolLiteral ) );
+    public _annoExpr setPairValue(int index, boolean boolLiteral) {
+        return setPairValue( index, Exprs.of( boolLiteral ) );
     }
     
-    public _annoExpr setValue(int index, char charLiteral) {
-        return setValue( index, Exprs.of( charLiteral ) );
+    public _annoExpr setPairValue(int index, char charLiteral) {
+        return setPairValue( index, Exprs.of( charLiteral ) );
     }
     
-    public _annoExpr setValue(int index, float floatLiteral) {
-        return setValue( index, Exprs.of( floatLiteral ) );
+    public _annoExpr setPairValue(int index, float floatLiteral) {
+        return setPairValue( index, Exprs.of( floatLiteral ) );
     }
     
-    public _annoExpr setValue(int index, double doubleLiteral) {
-        return setValue( index, Exprs.of( doubleLiteral ) );
+    public _annoExpr setPairValue(int index, double doubleLiteral) {
+        return setPairValue( index, Exprs.of( doubleLiteral ) );
     }
     
-    public _annoExpr setValue(int index, Expression value ) {
+    public _annoExpr setPairValue(int index, Expression value ) {
         if( index == 0 && this.astAnno instanceof MarkerAnnotationExpr ) {
             MarkerAnnotationExpr ma = (MarkerAnnotationExpr)this.astAnno;
             SingleMemberAnnotationExpr sv = new SingleMemberAnnotationExpr( ma.getName(), value );
@@ -880,7 +910,7 @@ public final class _annoExpr
         return !(this.astAnno instanceof MarkerAnnotationExpr);
     }
 
-    public Expression getValue( int index ) {
+    public Expression getPairValue(int index ) {
         if( !this.hasValues() ) {
             throw new _jdraftException( "No Values on Marker annotation " + this.toString() );
         }
@@ -953,24 +983,24 @@ public final class _annoExpr
      * NOTE: we also model the inferred/ hidden name (as "value") if it is not present
      * @A("val") ... (the key is inferred to be "value" and the value is the String "val")
      */
-    public static class _memberValue implements _java._node<MemberValuePair, _memberValue>,
-            _java._withName<_memberValue>{
+    public static class _pair implements _java._node<MemberValuePair, _pair>,
+            _java._withName<_pair>{
 
-        public static _memberValue of( MemberValuePair mvp){
-            return new _memberValue( mvp);
+        public static _pair of(MemberValuePair mvp){
+            return new _pair( mvp);
         }
 
-        public static _memberValue of (String...str ){
+        public static _pair of (String...str ){
             AnnotationExpr ae = StaticJavaParser.parseAnnotation( "@A("+Text.combine( str)+")" );
             if( ae.isNormalAnnotationExpr() ){
-                return new _memberValue(ae.asNormalAnnotationExpr().getPairs().get(0));
+                return new _pair(ae.asNormalAnnotationExpr().getPairs().get(0));
             }
             else{
                 SingleMemberAnnotationExpr sma = (SingleMemberAnnotationExpr)ae;
                 MemberValuePair mvp = new MemberValuePair();
                 mvp.setValue( sma.getMemberValue() );
                 mvp.setName("value");
-                _memberValue _mv = new _memberValue(mvp);
+                _pair _mv = new _pair(mvp);
                 _mv.isValueOnly = true;
                 return _mv;
             }
@@ -980,13 +1010,13 @@ public final class _annoExpr
 
         public MemberValuePair mvp;
 
-        public _memberValue(MemberValuePair mvp){
+        public _pair(MemberValuePair mvp){
             this.mvp = mvp;
         }
 
         @Override
-        public _memberValue copy() {
-            return new _memberValue( this.mvp.clone() );
+        public _pair copy() {
+            return new _pair( this.mvp.clone() );
         }
 
         @Override
@@ -1007,7 +1037,7 @@ public final class _annoExpr
             return this.mvp.getName();
         }
 
-        public _memberValue setName(String name){
+        public _pair setName(String name){
             this.mvp.setName(name);
             return this;
         }
@@ -1016,17 +1046,17 @@ public final class _annoExpr
             return _expr.of(this.mvp.getValue());
         }
 
-        public _memberValue setValue( String... ex){
+        public _pair setValue(String... ex){
             this.mvp.setValue(Exprs.of(ex));
             return this;
         }
 
-        public _memberValue setValue( _expr _e){
+        public _pair setValue(_expr _e){
             this.mvp.setValue(_e.ast());
             return this;
         }
 
-        public _memberValue setValue( Expression e){
+        public _pair setValue(Expression e){
             this.mvp.setValue(e);
             return this;
         }

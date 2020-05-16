@@ -327,7 +327,7 @@ public interface _java {
             return _moduleRequires.of( (ModuleRequiresDirective)astNode);
         }
         if( astNode instanceof MemberValuePair){
-            return _annoExpr._memberValue.of( (MemberValuePair)astNode);
+            return _annoExpr._pair.of( (MemberValuePair)astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
@@ -370,8 +370,8 @@ public interface _java {
         THROWS("throws", _throws.class),
         NAME("name", String.class),
 
-        KEY_VALUES("keyValues", List.class, MemberValuePair.class), //anno
-        KEY_VALUE("keyValue", MemberValuePair.class), //anno
+        PAIRS("pairs", List.class, MemberValuePair.class), //anno
+        PAIR("pair", MemberValuePair.class), //anno
 
         IMPORTS("imports", _imports.class),
         IMPORT("import", _import.class), //todo change to _import
