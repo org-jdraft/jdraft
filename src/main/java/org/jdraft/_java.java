@@ -782,7 +782,7 @@ public interface _java {
          */
         default _N setComment(String...comment){
             N n = ast();
-            n.setComment(_comment.of(comment));
+            n.setComment((Comment)_comment.of(comment).ast());
             return (_N)this;
         }
 
