@@ -21,8 +21,6 @@ public class $assertStmt implements $bot.$node<AssertStmt, _assertStmt, $assertS
         $bot.$withComment<$assertStmt>,
         $stmt<AssertStmt, _assertStmt, $assertStmt> {
 
-    public interface $part{}
-
     public static $assertStmt of(String name ){
         return of( new String[]{name} );
     }

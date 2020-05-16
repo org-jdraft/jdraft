@@ -11,7 +11,7 @@ import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 import junit.framework.TestCase;
 
-public class SintTest extends TestCase {
+public class $intExprTest extends TestCase {
 	
 	public void testConstruct() {
 		//any

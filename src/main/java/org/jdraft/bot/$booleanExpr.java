@@ -54,9 +54,9 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
      * @return
      */
     public $booleanExpr copy(){
-        $booleanExpr $b = of( ).$and(this.predicate.and(t->true) );
-        $b.bool = this.bool.copy();
-        return $b;
+        $booleanExpr $copy = of( ).$and(this.predicate.and(t->true) );
+        $copy.bool = this.bool.copy();
+        return $copy;
     }
 
     @Override
@@ -191,7 +191,7 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
 
     public Predicate<_booleanExpr> predicate = d -> true;
 
-    public Select.$BooleanRule<_booleanExpr> bool = new Select.$BooleanRule<>
+    public Select.$BooleanSelectRule<_booleanExpr> bool = new Select.$BooleanSelectRule<>
             (_booleanExpr.class, "value", b-> b.getValue());
 
     public $booleanExpr() {

@@ -2,7 +2,7 @@ package org.jdraft.bot;
 
 import junit.framework.TestCase;
 
-public class SexpressionStmtTest extends TestCase {
+public class $exprStmtTest extends TestCase {
 
     public void testEX(){
         class GHJ{
@@ -19,8 +19,8 @@ public class SexpressionStmtTest extends TestCase {
         assertEquals(2, $stmt.of( ()-> System.out.println(1) ).countIn(GHJ.class));
 
         //using explicit $expressionStmt
-        assertEquals(3, $expressionStmt.of( (Object $any$)-> System.out.println($any$) ).countIn(GHJ.class));
-        assertEquals(2, $expressionStmt.of( ()-> System.out.println(1) ).countIn(GHJ.class));
-        assertEquals(1, $expressionStmt.of( ()-> System.out.println(2) ).countIn(GHJ.class));
+        assertEquals(3, $exprStmt.of( (Object $any$)-> System.out.println($any$) ).countIn(GHJ.class));
+        assertEquals(2, $exprStmt.of( ()-> System.out.println(1) ).countIn(GHJ.class));
+        assertEquals(1, $exprStmt.of( ()-> System.out.println(2) ).countIn(GHJ.class));
     }
 }

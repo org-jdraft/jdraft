@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.jdraft._binaryExpr;
 import org.jdraft._expr;
 
-public class $binaryExpressionTest extends TestCase {
+public class $binaryExprTest extends TestCase {
 
     public void testSpecificOperator(){
         assertTrue( $binaryExpr.and().matches("a && b") );

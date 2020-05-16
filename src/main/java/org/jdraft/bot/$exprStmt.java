@@ -17,73 +17,73 @@ import java.util.stream.Collectors;
 /**
  * $bot for inspecting and mutating {@link _exprStmt}s / {@link com.github.javaparser.ast.stmt.ExpressionStmt}s
  */
-public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $expressionStmt>,
-        $selector.$node<_exprStmt, $expressionStmt>,
-        $stmt<ExpressionStmt, _exprStmt, $expressionStmt>, $bot.$withComment<$expressionStmt> {
+public class $exprStmt implements $bot.$node<ExpressionStmt, _exprStmt, $exprStmt>,
+        $selector.$node<_exprStmt, $exprStmt>,
+        $stmt<ExpressionStmt, _exprStmt, $exprStmt>, $bot.$withComment<$exprStmt> {
 
     public interface $part{}
 
-    public static $expressionStmt of(String name ){
+    public static $exprStmt of(String name ){
         return of( new String[]{name} );
     }
 
-    public static $expressionStmt of() {
-        return new $expressionStmt();
+    public static $exprStmt of() {
+        return new $exprStmt();
     }
 
-    public static $expressionStmt of(_exprStmt _i) {
-        return new $expressionStmt(_i);
+    public static $exprStmt of(_exprStmt _i) {
+        return new $exprStmt(_i);
     }
 
-    public static $expressionStmt of(ExpressionStmt ile) {
-        return new $expressionStmt(_exprStmt.of(ile));
+    public static $exprStmt of(ExpressionStmt ile) {
+        return new $exprStmt(_exprStmt.of(ile));
     }
 
-    public static $expressionStmt of(String... code) {
+    public static $exprStmt of(String... code) {
         return of(_exprStmt.of(code));
     }
 
-    public static $expressionStmt of( Exprs.Command lambdaWithMethodCall ){
+    public static $exprStmt of(Exprs.Command lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Consumer<? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Consumer<? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Supplier<? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Supplier<? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( BiConsumer<? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(BiConsumer<? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Function<? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Function<? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( BiFunction<? extends Object, ? extends Object,? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(BiFunction<? extends Object, ? extends Object,? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $expressionStmt of( Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    private static $expressionStmt from( StackTraceElement ste ){
+    private static $exprStmt from(StackTraceElement ste ){
         return of( _exprStmt.from( ste) );
     }
 
@@ -93,7 +93,7 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $e
 
     public $comment comment = null;
 
-    public $expressionStmt() { }
+    public $exprStmt() { }
 
     @Override
     public $comment get$Comment() {
@@ -101,13 +101,13 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $e
     }
 
     @Override
-    public $expressionStmt $hasComment($comment $c) {
+    public $exprStmt $hasComment($comment $c) {
         this.comment = $c;
         return this;
     }
 
     @Override
-    public $expressionStmt $hardcode(Translator translator, Tokens kvs) {
+    public $exprStmt $hardcode(Translator translator, Tokens kvs) {
         this.expression.$hardcode(translator, kvs);
         if( this.comment != null ){
             this.comment.$hardcode(translator, kvs);
@@ -115,7 +115,7 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $e
         return this;
     }
 
-    public $expressionStmt(_exprStmt _r){
+    public $exprStmt(_exprStmt _r){
         this.expression = $expr.of(_r.getExpression());
     }
 
@@ -123,8 +123,8 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $e
      * Build and return a new independent mutable copy of this bot
      * @return
      */
-    public $expressionStmt copy(){
-        $expressionStmt $r = of( ).$and(this.predicate.and(t->true) );
+    public $exprStmt copy(){
+        $exprStmt $r = of( ).$and(this.predicate.and(t->true) );
         $r.expression = ($expr)this.expression.copy();
         return $r;
     }
@@ -133,7 +133,7 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $e
         return this.predicate;
     }
 
-    public $expressionStmt setPredicate(Predicate<_exprStmt> predicate){
+    public $exprStmt setPredicate(Predicate<_exprStmt> predicate){
         this.predicate = predicate;
         return this;
     }
@@ -224,7 +224,7 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $e
     }
 
     @Override
-    public $expressionStmt $(String target, String $Name) {
+    public $exprStmt $(String target, String $Name) {
         this.expression.$(target, $Name);
         if( this.comment != null ){
             this.comment.$(target, $Name);
@@ -257,37 +257,37 @@ public class $expressionStmt implements $bot.$node<ExpressionStmt, _exprStmt, $e
         return this.expression;
     }
 
-    public $expressionStmt $expression( ){
+    public $exprStmt $expression( ){
         this.expression = $expr.of();
         return this;
     }
 
-    public $expressionStmt $expression($expr $e ){
+    public $exprStmt $expression($expr $e ){
         this.expression = $e;
         return this;
     }
 
-    public $expressionStmt $expression(Predicate<_expr> matchFn){
+    public $exprStmt $expression(Predicate<_expr> matchFn){
         this.expression.$and(matchFn);
         return this;
     }
 
-    public $expressionStmt $expression(Class<? extends _expr>...expressionClasses){
+    public $exprStmt $expression(Class<? extends _expr>...expressionClasses){
         this.expression = $expr.of(expressionClasses);
         return this;
     }
 
-    public $expressionStmt $expression(String expression){
+    public $exprStmt $expression(String expression){
         this.expression = $expr.of(expression);
         return this;
     }
 
-    public $expressionStmt $expression(Expression e){
+    public $exprStmt $expression(Expression e){
         this.expression = $expr.of(e);
         return this;
     }
 
-    public $expressionStmt $expression(_expr _e) {
+    public $exprStmt $expression(_expr _e) {
         this.expression = $expr.of(_e);
         return this;
     }

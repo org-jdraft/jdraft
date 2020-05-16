@@ -3,7 +3,7 @@ package org.jdraft.bot;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
-public class SargumentsTest extends TestCase {
+public class $argumentsTest extends TestCase {
 
 
     enum E{

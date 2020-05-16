@@ -275,9 +275,17 @@ public class $binaryExpr implements $bot.$node<BinaryExpr, _binaryExpr, $binaryE
         return null;
     }
 
+    public List<Select.$selectFeatureRule<_binaryExpr, ?>> $listSelectors(){
+        List<Select.$selectFeatureRule<_binaryExpr, ?>> rules = new ArrayList<>();
+        rules.add( this.left);
+        rules.add( this.operator );
+        rules.add(this.right);
+        return rules;
+    }
+
     public Select<_binaryExpr> select(_binaryExpr _i) {
         if (predicate.test(_i) ) {// && !excludedOperators.contains(_i.getOperator())) {
-            Tokens ts = Tokens.selectTokens(_i, this.left, this.right, this.operator);
+            Tokens ts = Select.tokensFrom(_i, $listSelectors() ); //this.left, this.right, this.operator);
             if (ts != null) {
                 return new Select<>(_i, ts);
             }
@@ -374,14 +382,14 @@ public class $binaryExpr implements $bot.$node<BinaryExpr, _binaryExpr, $binaryE
 
     public Predicate<_binaryExpr> predicate = d -> true;
 
-    public Select.$botRule<$expr, _binaryExpr, _expr> left =
-            Select.$botRule.of( _binaryExpr.class, _expr.class, "left", b-> b.getLeft());
+    public Select.$botSelectRule<$expr, _binaryExpr, _expr> left =
+            Select.$botSelectRule.of( _binaryExpr.class, _expr.class, "left", b-> b.getLeft());
 
-    public Select.$botRule<$expr, _binaryExpr, _expr> right =
-            Select.$botRule.of( _binaryExpr.class, _expr.class, "right", b-> b.getRight());
+    public Select.$botSelectRule<$expr, _binaryExpr, _expr> right =
+            Select.$botSelectRule.of( _binaryExpr.class, _expr.class, "right", b-> b.getRight());
 
-    public Select.$OneOfRule<_binaryExpr> operator =
-            new Select.$OneOfRule(_binaryExpr.class, "operator", b-> ((_binaryExpr)b).getOperator(), ALL_OPERATORS, new HashSet<>());
+    public Select.$OneOfSelectRule<_binaryExpr> operator =
+            new Select.$OneOfSelectRule(_binaryExpr.class, "operator", b-> ((_binaryExpr)b).getOperator(), ALL_OPERATORS, new HashSet<>());
 
     /*
     public Set<BinaryExpr.Operator> excludedOperators = new HashSet<>();

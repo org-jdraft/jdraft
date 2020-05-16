@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class SarrayAccessTest extends TestCase {
+public class $arrayAccessExprTest extends TestCase {
 
 	public void testOr(){
 		$arrayAccessExpr $aaor = $arrayAccessExpr.or(

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.jdraft._annoExpr;
 import org.jdraft._annoExprs;
 
-public class $annoRefsTest extends TestCase {
+public class $annoExprsTest extends TestCase {
 
     public void testMatchAny(){
         //verify that "anyMatch" matches no annotations

@@ -10,7 +10,7 @@ import com.github.javaparser.ast.expr.LongLiteralExpr;
 
 import junit.framework.TestCase;
 
-public class SeTest extends TestCase {
+public class $exprTest extends TestCase {
 	
 	public void testConstruct() {
 		//any match

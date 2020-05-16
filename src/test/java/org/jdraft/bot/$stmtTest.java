@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
 
-public class SsTest extends TestCase {
+public class $stmtTest extends TestCase {
 	
 	public void testConstruct() {
 		//any match

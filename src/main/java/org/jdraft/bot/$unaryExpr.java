@@ -3,6 +3,7 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
+import org.jdraft._binaryExpr;
 import org.jdraft._expr;
 import org.jdraft._java._domain;
 import org.jdraft._unaryExpr;
@@ -106,7 +107,6 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
         $unaryExpr $copy = of( ).$and(this.predicate.and(t->true) );
         $copy.$and(this.predicate);
         $copy.operator = this.operator.copy();
-        //$copy.excludedOperators.addAll( this.excludedOperators );
         $copy.expression = this.expression.copy();
         return $copy;
     }
@@ -118,8 +118,6 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
      */
     public $unaryExpr $operators(UnaryExpr.Operator... ops){
         this.operator.includeOnly(ops);
-        //this.excludedOperators.addAll(ALL_OPERATORS);
-        //Arrays.stream(ops).forEach( op -> this.excludedOperators.remove(op));
         return this;
     }
 
@@ -141,13 +139,11 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
 
     public $unaryExpr $and(UnaryExpr.Operator...operators) {
         this.operator.include(operators);
-        //Arrays.stream(operators).forEach( op -> this.excludedOperators.remove(op));
         return this;
     }
 
     public $unaryExpr $not(UnaryExpr.Operator...operators) {
         this.operator.exclude(operators);
-        //Arrays.stream(operators).forEach( op -> this.operator.e.excludedOperators.add(op));
         return this;
     }
 
@@ -220,9 +216,16 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
         return null;
     }
 
+    public List<Select.$selectFeatureRule<_unaryExpr, ?>> $listSelectors(){
+        List<Select.$selectFeatureRule<_unaryExpr, ?>> rules = new ArrayList<>();
+        rules.add( this.operator );
+        rules.add( this.expression);
+        return rules;
+    }
+
     public Select<_unaryExpr> select(_unaryExpr _i) {
         if (predicate.test(_i) ) {// && !excludedOperators.contains(_i.getOperator())) {
-            Tokens ts = Tokens.selectTokens(_i, this.expression, this.operator);
+            Tokens ts = Select.tokensFrom(_i, $listSelectors() ); ///this.expression, this.operator);
             if (ts != null) {
                 return new Select<>(_i, ts);
             }
@@ -241,28 +244,6 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
 
         UnaryExpr.Operator op = (UnaryExpr.Operator)this.operator.draft(translator, keyValues);
         return _unaryExpr.of(_l, op);
-        /*
-        if( this.excludedOperators.size() == ALL_OPERATORS.size() - 1){
-            //only (1) available operator
-            Optional<UnaryExpr.Operator> oo = ALL_OPERATORS.stream().filter(o -> !this.excludedOperators.contains(o)).findFirst();
-            return _unary.of(_l, oo.get());
-        }
-        Object o = keyValues.get("$operator");
-
-        if( o == null ){
-            throw new _jdraftException("no \"$operator\" (BinaryExpr Operator) specified in $binaryExpression or in "+ keyValues);
-        }
-        if( o instanceof UnaryExpr.Operator){
-            return _unary.of(_l, (UnaryExpr.Operator)o );
-        }
-        else{
-            UnaryExpr.Operator bo = UnaryExpr.Operator.valueOf( o.toString() );
-            if( bo == null ){
-                throw new _jdraftException("invalid \"$operator\" (BinaryExpr Operator) "+ o);
-            }
-            return _unary.of(_l, bo);
-        }
-         */
     }
 
     @Override
@@ -303,7 +284,7 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
         Set<UnaryExpr.Operator> ops = new HashSet<>();
         ops.addAll(ALL_OPERATORS);
         ops.removeAll(this.operator.excludedValues);
-        return "$unary{" + System.lineSeparator() +
+        return "$unaryExpr{" + System.lineSeparator() +
                 Text.indent( this.expression.toString()) + System.lineSeparator() +
                 Text.indent( ops.toString() )+ System.lineSeparator()
                 +"}";
@@ -311,31 +292,18 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
 
     public Predicate<_unaryExpr> predicate = d -> true;
 
-    public Select.$botRule<$expr, _unaryExpr, _expr> expression =
-            Select.$botRule.of( _unaryExpr.class, _expr.class, "expression", u-> u.getExpression());
+    public Select.$botSelectRule<$expr, _unaryExpr, _expr> expression =
+            Select.$botSelectRule.of( _unaryExpr.class, _expr.class, "expression", u-> u.getExpression());
 
-    public Select.$OneOfRule<_unaryExpr> operator = new Select.$OneOfRule<>(_unaryExpr.class, "operator", u-> u.getOperator(), ALL_OPERATORS, new HashSet<>());
+    public Select.$OneOfSelectRule<_unaryExpr> operator =
+            new Select.$OneOfSelectRule<>(_unaryExpr.class, "operator", u-> u.getOperator(), ALL_OPERATORS, new HashSet<>());
 
-    /*
-    public Set<UnaryExpr.Operator> excludedOperators = new HashSet<>();
-
-    public Select.$feature<_unary, UnaryExpr.Operator> operator =
-            Select.$feature.of( _unary.class, UnaryExpr.Operator.class, "operator", b-> b.getOperator())
-                    .setSelector( o -> {
-                        if( excludedOperators.contains(o)){
-                            return null;
-                        }
-                        return new Tokens();
-                    });
-    */
     public $unaryExpr() {
     }
 
     public $unaryExpr(_unaryExpr _i) {
         this.expression.setBot( $expr.of(_i.getExpression()) );
         this.operator.includeOnly(_i.getOperator() );
-        //Arrays.stream (UnaryExpr.Operator.values()).forEach(o-> excludedOperators.add(o) );
-        //excludedOperators.remove( _i.getOperator());
     }
 
     /**
@@ -357,12 +325,8 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
         public Or copy(){
             Or $copy = $unaryExpr.or(new $unaryExpr[0]);
             $copy.$and(this.predicate);
-
             $copy.operator = this.operator.copy();
-            //this.$unaryExpressions.forEach( ($b) -> $copy.$unaryExpressions.add($b.copy()));
-            //$copy.excludedOperators.addAll( this.excludedOperators );
             $copy.expression = this.expression.copy();
-
             return $copy;
         }
 

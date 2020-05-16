@@ -118,7 +118,7 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
             return ($S)$returnStmt.of( (ReturnStmt)st);
         }
         if( st.isExpressionStmt()){
-            return ($S)$expressionStmt.of( (ExpressionStmt)st);
+            return ($S) $exprStmt.of( (ExpressionStmt)st);
         }
         return ($S)$s.of( st.toString() );
     }

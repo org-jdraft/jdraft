@@ -2,7 +2,7 @@ package org.jdraft.bot;
 
 import junit.framework.TestCase;
 
-public class $annoRefTest extends TestCase {
+public class $annoExprTest extends TestCase {
 
 
     public void testHardCode(){

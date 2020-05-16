@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Predicate;
 
-public class $methodCallTest extends TestCase {
+public class $methodCallExprTest extends TestCase {
 
 
     public void testOf(){

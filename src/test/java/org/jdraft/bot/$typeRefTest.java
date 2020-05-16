@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class StypeRefTest extends TestCase {
+public class $typeRefTest extends TestCase {
 
     public void testAny(){
         assertTrue( $typeRef.of().matches(int.class) );

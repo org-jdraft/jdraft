@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 import org.jdraft._expr;
 import org.jdraft._unaryExpr;
 
-public class $unaryTest extends TestCase {
+public class $unaryExprTest extends TestCase {
 
     public void testMatchAny() {
         $unaryExpr $u = $unaryExpr.of();

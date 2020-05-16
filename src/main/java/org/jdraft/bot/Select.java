@@ -2,6 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import org.jdraft._jdraftException;
+import org.jdraft._parameter;
 import org.jdraft.text.*;
 
 import java.util.*;
@@ -47,6 +48,67 @@ public class Select<S> {
         return null;
     }
 
+    public static <_T> Tokens tokensFrom(_T _t, List<Select.$selectFeatureRule<_T, ?>> featureSelects ){
+
+        Tokens existingTokens = new Tokens();
+        for( int i=0; i< featureSelects.size(); i++){
+            try {
+                Tokens thisTokens = featureSelects.get(i).apply(_t);
+
+                if( thisTokens == null || !existingTokens.isConsistent(thisTokens)){
+                    //when the first token select returns null or succeeds & isn't consistent with existingTokens
+                    return null;
+                }
+                existingTokens.putAll(thisTokens);
+                    //System.out.println(" ExistingTokens "+ existingTokens);
+            }catch(Exception e){
+                    //throw?
+                throw new _jdraftException("Exception with featureSelector ["+ i+" ] "+ featureSelects.get(i)+System.lineSeparator()+"...with input "+_t, e);
+            }
+        }
+        return existingTokens;
+    }
+
+    /**
+     *
+     * @param _t
+     * @param selectorFunctions
+     * @param <_T>
+     * @return
+
+    public static <_T> Tokens tokensFrom(_T _t, List<Function<_T,Tokens>> selectorFunctions ){
+        return tokensFrom(_t, selectorFunctions.toArray( new Function[0] ));
+    }
+    */
+
+    /**
+     *
+     * @param _t
+     * @param selectorFunctions
+     * @param <_T>
+     * @return
+
+    public static<_T> Tokens tokensFrom(_T _t, Function<_T,Tokens>... selectorFunctions ){
+        Tokens existingTokens = new Tokens();
+        for( int i=0; i< selectorFunctions.length; i++){
+            try {
+                Tokens thisTokens = selectorFunctions[i].apply(_t);
+                //System.out.println(" MEMBER SELECTOR RETURNED "+ thisTokens);
+                if( thisTokens == null || !existingTokens.isConsistent(thisTokens)){
+                    //when the first token select returns null or succeeds & isn't consistent with existingTokens
+                    return null;
+                }
+                existingTokens.putAll(thisTokens);
+                //System.out.println(" ExistingTokens "+ existingTokens);
+            }catch(Exception e){
+                //throw?
+                throw new _jdraftException("Exception with memberSelector ["+ i+" ] "+ selectorFunctions[i]+System.lineSeparator()+"...with input "+_t, e);
+            }
+        }
+        return existingTokens;
+    }
+    */
+
     /**
      * Verify that the value associated with this key is equal to
      * (Just saves a getTokens() step for the caller)
@@ -72,7 +134,7 @@ public class Select<S> {
      * @param <_T> the target type containing the feature (to be resolved)
      * @param <_F> the resolved feature type (to be selected from)
      */
-    public static abstract class $featureRule<_T, _F> implements Function<_T, Tokens> {
+    public static abstract class $selectFeatureRule<_T, _F> implements Function<_T, Tokens> {
 
         /**
          * The target class containing the feature to be tested
@@ -96,7 +158,7 @@ public class Select<S> {
          */
         public Function<_T, _F> featureResolver;
 
-        public $featureRule(Class<_T>targetClass, Class<_F> featureClass, String featureName, Function<_T, _F> featureResolver){
+        public $selectFeatureRule(Class<_T>targetClass, Class<_F> featureClass, String featureName, Function<_T, _F> featureResolver){
             this.targetClass = targetClass;
             this.featureClass = featureClass;
             this.featureName = featureName;
@@ -111,11 +173,11 @@ public class Select<S> {
 
         public abstract _F draft(Translator translator, Map<String,Object> memberValues);
 
-        public $featureRule $(String target, String name){
+        public $selectFeatureRule $(String target, String name){
             return this;
         }
 
-        public abstract $featureRule $hardcode(Translator translator, Map<String,Object>keyValues);
+        public abstract $selectFeatureRule $hardcode(Translator translator, Map<String,Object>keyValues);
 
         public abstract List<String> $listNormalized();
 
@@ -125,7 +187,7 @@ public class Select<S> {
          * build and return a copy of this 
          * @return
          */
-        public abstract $featureRule<_T, _F> copy();
+        public abstract $selectFeatureRule<_T, _F> copy();
     }
     
     /**
@@ -136,23 +198,23 @@ public class Select<S> {
      * @param <_T> the target class type (where the resolve starts)
      * @param <_F> the resolved feature type (within the target type instance) (the thing the $bot tests)
      */
-    public static class $botRule<$B extends $bot, _T, _F> extends $featureRule<_T, _F> {
+    public static class $botSelectRule<$B extends $bot, _T, _F> extends $selectFeatureRule<_T, _F> {
 
-        public static<_T, _R> $botRule of(Class<_T>targetClass, Class<_R>memberClass, String memberName, Function<_T, _R> memberResolver){
-            return new $botRule(targetClass, memberClass, memberName, memberResolver);
+        public static<_T, _R> $botSelectRule of(Class<_T>targetClass, Class<_R>memberClass, String memberName, Function<_T, _R> memberResolver){
+            return new $botSelectRule(targetClass, memberClass, memberName, memberResolver);
         }
 
-        public static<$B extends $bot, _T, _R> $botRule of(Class<_T>targetClass, Class<_R>memberClass, String memberName, Function<_T, _R> memberResolver, $B bot){
-            return new $botRule(targetClass, memberClass, memberName, memberResolver).setBot(bot);
+        public static<$B extends $bot, _T, _R> $botSelectRule of(Class<_T>targetClass, Class<_R>memberClass, String memberName, Function<_T, _R> memberResolver, $B bot){
+            return new $botSelectRule(targetClass, memberClass, memberName, memberResolver).setBot(bot);
         }
 
-        public $botRule(Class<_T>targetClass, Class<_F> featureClass, String featureName, Function<_T,_F> featureResolver){
+        public $botSelectRule(Class<_T>targetClass, Class<_F> featureClass, String featureName, Function<_T,_F> featureResolver){
             super(targetClass, featureClass, featureName, featureResolver);
         }
 
         public $B bot;
 
-        public $botRule setBot($B bot){
+        public $botSelectRule setBot($B bot){
             this.bot = bot;
             return this;
         }
@@ -165,12 +227,12 @@ public class Select<S> {
             return this.bot == null || this.bot.isMatchAny();
         }
 
-        public $featureRule $(String target, String name){
+        public $selectFeatureRule $(String target, String name){
             this.bot.$(target, name);
             return this;
         }
 
-        public $featureRule $hardcode(Translator translator, Map<String,Object> keyValues){
+        public $selectFeatureRule $hardcode(Translator translator, Map<String,Object> keyValues){
             this.bot.$hardcode(translator,keyValues);
             return this;
         }
@@ -196,8 +258,8 @@ public class Select<S> {
             return null;
         }
 
-        public $botRule<$B, _T, _F> copy(){
-            $botRule $copy = new $botRule( this.targetClass, this.featureClass, this.featureName+"", this.featureResolver.andThen(Function.identity()));
+        public $botSelectRule<$B, _T, _F> copy(){
+            $botSelectRule $copy = new $botSelectRule( this.targetClass, this.featureClass, this.featureName+"", this.featureResolver.andThen(Function.identity()));
             if( this.bot != null ){
                 $copy.setBot( ($B)this.bot.copy() );
             }
@@ -207,17 +269,13 @@ public class Select<S> {
         @Override
         public Tokens apply(_T t) {
             if( this.featureResolver == null || this.bot == null){
-                //System.out.println("NOTHING WRONG WITH "+ this.toString());
-                //there is NOTHING to select (i.e. is match any)
                 return new Tokens();
             }
             _F resolved = null;
             try {
                 resolved = featureResolver.apply(t);
-                //System.out.println("RESOLVED" + resolved +" for "+ toString());
             }
             catch(Exception e) {
-                //System.err.println("Error resolving "+toString());
                 e.printStackTrace();
                 return null;
             }
@@ -229,18 +287,16 @@ public class Select<S> {
                 }
                 return null;
             } catch(Exception e){
-                //e.printStackTrace();
-                //System.err.println("Error selecting; returning null Selection");
                 return null;
             }
         }
     }
 
-    public static class $PredicateRule<_T, _F> extends $featureRule<_T, _F> {
+    public static class $PredicateSelectRule<_T, _F> extends $selectFeatureRule<_T, _F> {
 
         public Predicate<_F> predicate;
 
-        public $PredicateRule(Class<_T>targetClass, Class<_F>featureClass, String memberName, Function<_T, _F> featureResolver, Predicate<_F> predicate){
+        public $PredicateSelectRule(Class<_T>targetClass, Class<_F>featureClass, String memberName, Function<_T, _F> featureResolver, Predicate<_F> predicate){
             super( targetClass, featureClass, memberName, featureResolver );
             this.predicate = predicate;
         }
@@ -257,11 +313,11 @@ public class Select<S> {
             return false;
         }
 
-        public $PredicateRule $(String target, String name){
+        public $PredicateSelectRule $(String target, String name){
             return this;
         }
 
-        public $PredicateRule $hardcode(Translator translator, Map<String,Object> keyValues){
+        public $PredicateSelectRule $hardcode(Translator translator, Map<String,Object> keyValues){
             return this;
         }
 
@@ -273,8 +329,8 @@ public class Select<S> {
             return new ArrayList<>();
         }
 
-        public $PredicateRule<_T, _F> copy(){
-            $PredicateRule $copy = new $PredicateRule( this.targetClass, this.featureClass, this.featureName+"",
+        public $PredicateSelectRule<_T, _F> copy(){
+            $PredicateSelectRule $copy = new $PredicateSelectRule( this.targetClass, this.featureClass, this.featureName+"",
                     this.featureResolver, this.predicate.and(t->true));
             return $copy;
         }
@@ -289,10 +345,8 @@ public class Select<S> {
             _F resolved = null;
             try {
                 resolved = featureResolver.apply(t);
-                //System.out.println("RESOLVED" + resolved +" for "+ toString());
             }
             catch(Exception e) {
-                //System.err.println("Error resolving "+toString());
                 e.printStackTrace();
                 return null;
             }
@@ -314,29 +368,29 @@ public class Select<S> {
      * @see $binaryExpr#operator
      * @see $unaryExpr#operator
      */
-    public static class $OneOfRule<_T> extends $featureRule<_T, Object> {
+    public static class $OneOfSelectRule<_T> extends $selectFeatureRule<_T, Object> {
 
         public Set allPossibleValues = new HashSet<>();
         public Set excludedValues = new HashSet<>();
 
-        public $OneOfRule(Class<_T>targetClass, String memberName, Function<_T, Object> memberResolver, Set allPossibleValues, Set excludedValues){
+        public $OneOfSelectRule(Class<_T>targetClass, String memberName, Function<_T, Object> memberResolver, Set allPossibleValues, Set excludedValues){
             super( targetClass, Object.class, memberName, memberResolver );
             this.allPossibleValues = allPossibleValues;
             setExcluded(excludedValues);
         }
 
-        public $OneOfRule includeOnly(Object...values){
+        public $OneOfSelectRule includeOnly(Object...values){
             this.excludedValues.addAll(this.allPossibleValues);
             Arrays.stream(values).forEach(i-> this.excludedValues.remove(i));
             return this;
         }
 
-        public $OneOfRule setExcluded(Set s){
+        public $OneOfSelectRule setExcluded(Set s){
             this.excludedValues = s;
             return this;
         }
 
-        public $OneOfRule exclude(Object...toExclude){
+        public $OneOfSelectRule exclude(Object...toExclude){
             if( this.excludedValues == null) {
                 this.excludedValues = new HashSet<>();
             }
@@ -362,7 +416,7 @@ public class Select<S> {
             return new Tokens();
         }
 
-        public $OneOfRule include(Object...toInclude){
+        public $OneOfSelectRule include(Object...toInclude){
             if( this.excludedValues == null) {
                 this.excludedValues = new HashSet<>();
             }
@@ -385,7 +439,6 @@ public class Select<S> {
 
         public Object draft(Translator translator, Map<String,Object> memberValues){
             Set remainSet = getIncludedValues();
-            //System.out.println( remainSet );
             if( remainSet.size() == 1 ){
                 return remainSet.toArray()[0];
             }
@@ -394,7 +447,7 @@ public class Select<S> {
         }
 
         @Override
-        public $OneOfRule<_T> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        public $OneOfSelectRule<_T> $hardcode(Translator translator, Map<String, Object> keyValues) {
             return this;
         }
 
@@ -408,12 +461,12 @@ public class Select<S> {
             return new ArrayList<>();
         }
 
-        public $OneOfRule<_T> copy(){
+        public $OneOfSelectRule<_T> copy(){
              Set all = new HashSet<>();
              all.addAll( this.allPossibleValues);
              Set ex = new HashSet<>();
              ex.addAll(this.excludedValues);
-             return new $OneOfRule<_T>( this.targetClass, this.featureName, this.featureResolver, all, ex);
+             return new $OneOfSelectRule<_T>( this.targetClass, this.featureName, this.featureResolver, all, ex);
         }
 
         public boolean isMatchAny(){
@@ -431,21 +484,21 @@ public class Select<S> {
      * @see $parameter#isVarArg
      * @see $parameter#isFinal
      */
-    public static class $BooleanRule<_T> extends $featureRule<_T, Boolean> {
+    public static class $BooleanSelectRule<_T> extends $selectFeatureRule<_T, Boolean> {
 
         public Boolean expectedValue = null;
 
-        public $BooleanRule(Class<_T>targetClass, String memberName, Function<_T, Boolean> memberResolver){
+        public $BooleanSelectRule(Class<_T>targetClass, String memberName, Function<_T, Boolean> memberResolver){
             super( targetClass, Boolean.class, memberName, memberResolver );
             setExpected(null);
         }
 
-        public $BooleanRule(Class<_T>targetClass, String memberName, Function<_T, Boolean> memberResolver, Boolean expectedValue){
+        public $BooleanSelectRule(Class<_T>targetClass, String memberName, Function<_T, Boolean> memberResolver, Boolean expectedValue){
             super( targetClass, Boolean.class, memberName, memberResolver );
             setExpected(expectedValue);
         }
 
-        public $BooleanRule setExpected(Boolean bl){
+        public $BooleanSelectRule setExpected(Boolean bl){
             this.expectedValue = bl;
             return this;
         }
@@ -472,11 +525,11 @@ public class Select<S> {
             return null;
         }
 
-        public $BooleanRule<_T> copy(){
+        public $BooleanSelectRule<_T> copy(){
             if( this.expectedValue == null ){
-                return new $BooleanRule<_T>( this.targetClass, this.featureName, this.featureResolver, null);
+                return new $BooleanSelectRule<_T>( this.targetClass, this.featureName, this.featureResolver, null);
             }
-            return new $BooleanRule<_T>( this.targetClass, this.featureName, this.featureResolver, this.expectedValue.booleanValue());
+            return new $BooleanSelectRule<_T>( this.targetClass, this.featureName, this.featureResolver, this.expectedValue.booleanValue());
         }
 
         public Boolean draft(Translator translator, Map<String,Object> memberValues){
@@ -496,7 +549,7 @@ public class Select<S> {
             return new ArrayList<>();
         }
 
-        public $BooleanRule $hardcode(Translator translator, Map<String,Object> keyValues){
+        public $BooleanSelectRule $hardcode(Translator translator, Map<String,Object> keyValues){
             return this;
         }
 
@@ -513,29 +566,29 @@ public class Select<S> {
      * <LI>false means I match ONLY resolved feature values that are false</LI>
      * </UL>
      */
-    public static class $StencilRule<_T> extends $featureRule<_T, String> {
+    public static class $StencilSelectRule<_T> extends $selectFeatureRule<_T, String> {
 
         public Stencil stencil = null;
 
-        public $StencilRule(Class<_T>targetClass, String memberName, Function<_T, String> memberResolver){
+        public $StencilSelectRule(Class<_T>targetClass, String memberName, Function<_T, String> memberResolver){
             super( targetClass, String.class, memberName, memberResolver );
         }
 
-        public $StencilRule(Class<_T>targetClass, String memberName, Function<_T, String> memberResolver, String stencil){
-            super( targetClass, String.class, memberName, memberResolver );
-            setStencil(stencil);
-        }
-
-        public $StencilRule(Class<_T>targetClass, String memberName, Function<_T, String> memberResolver, Stencil stencil){
+        public $StencilSelectRule(Class<_T>targetClass, String memberName, Function<_T, String> memberResolver, String stencil){
             super( targetClass, String.class, memberName, memberResolver );
             setStencil(stencil);
         }
 
-        public $StencilRule setStencil(String s) {
+        public $StencilSelectRule(Class<_T>targetClass, String memberName, Function<_T, String> memberResolver, Stencil stencil){
+            super( targetClass, String.class, memberName, memberResolver );
+            setStencil(stencil);
+        }
+
+        public $StencilSelectRule setStencil(String s) {
             return setStencil(Stencil.of(s));
         }
 
-        public $StencilRule setStencil(Stencil st){
+        public $StencilSelectRule setStencil(Stencil st){
             this.stencil = st;
             return this;
         }
@@ -544,11 +597,11 @@ public class Select<S> {
             return this.stencil;
         }
 
-        public $StencilRule<_T> copy(){
+        public $StencilSelectRule<_T> copy(){
             if( this.stencil == null ){
-                return new $StencilRule<_T>( this.targetClass, this.featureName, this.featureResolver);
+                return new $StencilSelectRule<_T>( this.targetClass, this.featureName, this.featureResolver);
             }
-            return new $StencilRule<_T>( this.targetClass, this.featureName, this.featureResolver, this.stencil.copy());
+            return new $StencilSelectRule<_T>( this.targetClass, this.featureName, this.featureResolver, this.stencil.copy());
         }
 
         public boolean isMatchAny(){
@@ -583,7 +636,7 @@ public class Select<S> {
         }
 
         @Override
-        public $StencilRule $hardcode(Translator translator, Map<String, Object> keyValues) {
+        public $StencilSelectRule $hardcode(Translator translator, Map<String, Object> keyValues) {
             if( this.stencil != null ){
                 this.stencil.$hardcode(translator, keyValues);
             }
