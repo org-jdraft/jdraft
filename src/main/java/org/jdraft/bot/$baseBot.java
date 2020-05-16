@@ -11,23 +11,23 @@ import java.util.stream.Collectors;
 
 /**
  * Defines the base functionality for a $bot with predicate and a list of {@link Select.$feature}s
- * @param <_N>
- * @param <$B>
+ * @param <_T> the type the bot is familiar with
+ * @param <$B> the underlying bot type (the subtype)
  */
-public abstract class $baseBot<_N,$B extends $baseBot> {
+public abstract class $baseBot<_T,$B extends $baseBot> {
 
-    public Predicate<_N> predicate = t->true;
+    public Predicate<_T> predicate = t->true;
 
-    public Predicate<_N> getPredicate(){
+    public Predicate<_T> getPredicate(){
         return predicate;
     }
 
-    public $B setPredicate(Predicate<_N> predicate){
+    public $B setPredicate(Predicate<_T> predicate){
         this.predicate = predicate;
         return ($B)this;
     }
 
-    public Select<_N> select(_N _p){
+    public Select<_T> select(_T _p){
         try{
             if( this.predicate.test(_p)) {
                 Tokens ts = Select.tokensFrom(_p, $listSelectors());
@@ -46,7 +46,7 @@ public abstract class $baseBot<_N,$B extends $baseBot> {
      * @param featureSelectorAction
      * @return
      */
-    public $B $forFeatureSelectors(Consumer<Select.$feature<_N, ?>> featureSelectorAction){
+    public $B $forFeatureSelectors(Consumer<Select.$feature<_T, ?>> featureSelectorAction){
         $listSelectors().stream().forEach($ms -> featureSelectorAction.accept($ms));
         return ($B)this;
     }
@@ -84,6 +84,6 @@ public abstract class $baseBot<_N,$B extends $baseBot> {
         return false;
     }
 
-    public abstract List<Select.$feature<_N, ?>> $listSelectors();
+    public abstract List<Select.$feature<_T, ?>> $listSelectors();
 
 }
