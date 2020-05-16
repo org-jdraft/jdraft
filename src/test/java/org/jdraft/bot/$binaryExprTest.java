@@ -150,5 +150,4 @@ public class $binaryExprTest extends TestCase {
         //verify the original isn't changed
         assertTrue($oneLiteral.matches("1 >> 3"));
     }
-
 }

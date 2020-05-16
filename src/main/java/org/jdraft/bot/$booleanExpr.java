@@ -191,7 +191,7 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
 
     public Predicate<_booleanExpr> predicate = d -> true;
 
-    public Select.$BooleanSelectRule<_booleanExpr> bool = new Select.$BooleanSelectRule<>
+    public Select.$BooleanSelect<_booleanExpr> bool = new Select.$BooleanSelect<>
             (_booleanExpr.class, "value", b-> b.getValue());
 
     public $booleanExpr() {

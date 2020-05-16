@@ -234,20 +234,20 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
 
     public Predicate<_parameter> predicate = d -> true;
 
-    public Select.$botSelectRule<$annoExprs, _parameter, _annoExprs> annoRefs =
-            Select.$botSelectRule.of(_parameter.class, _annoExprs.class, "annoRefs", p-> p.getAnnoRefs() );
+    public Select.$botSelect<$annoExprs, _parameter, _annoExprs> annoRefs =
+            Select.$botSelect.of(_parameter.class, _annoExprs.class, "annoRefs", p-> p.getAnnoRefs() );
 
-    public Select.$botSelectRule<$typeRef, _parameter, _typeRef> type =
-            Select.$botSelectRule.of(_parameter.class, _typeRef.class, "type", p-> p.getTypeRef() );
+    public Select.$botSelect<$typeRef, _parameter, _typeRef> type =
+            Select.$botSelect.of(_parameter.class, _typeRef.class, "type", p-> p.getTypeRef() );
 
-    public Select.$botSelectRule<$name, _parameter, _name> name =
-            Select.$botSelectRule.of(_parameter.class, _name.class, "name", p-> _name.of(p.getName()));
+    public Select.$botSelect<$name, _parameter, _name> name =
+            Select.$botSelect.of(_parameter.class, _name.class, "name", p-> _name.of(p.getName()));
 
-    public Select.$BooleanSelectRule<_parameter> isFinal =
-            new Select.$BooleanSelectRule( _parameter.class,"isFinal", p-> ((_parameter)p).isFinal());
+    public Select.$BooleanSelect<_parameter> isFinal =
+            new Select.$BooleanSelect( _parameter.class,"isFinal", p-> ((_parameter)p).isFinal());
 
-    public Select.$BooleanSelectRule<_parameter> isVarArg =
-            new Select.$BooleanSelectRule( _parameter.class,"isVarArg", p->((_parameter)p).isVarArg());
+    public Select.$BooleanSelect<_parameter> isVarArg =
+            new Select.$BooleanSelect( _parameter.class,"isVarArg", p->((_parameter)p).isVarArg());
 
     public $parameter() { }
 
@@ -296,13 +296,13 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return this;
     }
 
-    public $parameter $forFeatureSelectors(Consumer<Select.$selectFeatureRule<_parameter, ?>> featureSelectorAction){
+    public $parameter $forFeatureSelectors(Consumer<Select.$feature<_parameter, ?>> featureSelectorAction){
         $listFeatureSelectors().stream().forEach($ms -> featureSelectorAction.accept($ms));
         return this;
     }
 
-    public List<Select.$selectFeatureRule<_parameter, ?>> $listFeatureSelectors(){
-        List<Select.$selectFeatureRule<_parameter, ?>> mss = new ArrayList<>();
+    public List<Select.$feature<_parameter, ?>> $listFeatureSelectors(){
+        List<Select.$feature<_parameter, ?>> mss = new ArrayList<>();
         mss.add(this.annoRefs);
         mss.add(this.isFinal);
         mss.add(this.type);

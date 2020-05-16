@@ -3,7 +3,6 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.UnaryExpr;
-import org.jdraft._binaryExpr;
 import org.jdraft._expr;
 import org.jdraft._java._domain;
 import org.jdraft._unaryExpr;
@@ -216,8 +215,8 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
         return null;
     }
 
-    public List<Select.$selectFeatureRule<_unaryExpr, ?>> $listSelectors(){
-        List<Select.$selectFeatureRule<_unaryExpr, ?>> rules = new ArrayList<>();
+    public List<Select.$feature<_unaryExpr, ?>> $listSelectors(){
+        List<Select.$feature<_unaryExpr, ?>> rules = new ArrayList<>();
         rules.add( this.operator );
         rules.add( this.expression);
         return rules;
@@ -292,11 +291,11 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
 
     public Predicate<_unaryExpr> predicate = d -> true;
 
-    public Select.$botSelectRule<$expr, _unaryExpr, _expr> expression =
-            Select.$botSelectRule.of( _unaryExpr.class, _expr.class, "expression", u-> u.getExpression());
+    public Select.$botSelect<$expr, _unaryExpr, _expr> expression =
+            Select.$botSelect.of( _unaryExpr.class, _expr.class, "expression", u-> u.getExpression());
 
-    public Select.$OneOfSelectRule<_unaryExpr> operator =
-            new Select.$OneOfSelectRule<>(_unaryExpr.class, "operator", u-> u.getOperator(), ALL_OPERATORS, new HashSet<>());
+    public Select.$OneOfSelect<_unaryExpr> operator =
+            new Select.$OneOfSelect<>(_unaryExpr.class, "operator", u-> u.getOperator(), ALL_OPERATORS, new HashSet<>());
 
     public $unaryExpr() {
     }
