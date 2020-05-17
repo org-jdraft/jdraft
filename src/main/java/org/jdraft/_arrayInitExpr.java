@@ -15,51 +15,51 @@ import java.util.function.Function;
  * These have two expressions each, one has 1 and 1, the other two and two.
  * <br/><code>new int[][]{{1, 1}, {2, 2}};</code>
  */
-public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _arrayInitializeExpr>,
-        _java._list<Expression, _expr, _arrayInitializeExpr> {
+public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayInitExpr>,
+        _java._list<Expression, _expr, _arrayInitExpr> {
 
-    public static _arrayInitializeExpr of( ){
-        return new _arrayInitializeExpr(new ArrayInitializerExpr());
+    public static _arrayInitExpr of( ){
+        return new _arrayInitExpr(new ArrayInitializerExpr());
     }
-    public static _arrayInitializeExpr of(ArrayInitializerExpr ai){
-        return new _arrayInitializeExpr(ai);
+    public static _arrayInitExpr of(ArrayInitializerExpr ai){
+        return new _arrayInitExpr(ai);
     }
 
-    public static <A extends Object> _arrayInitializeExpr of(Exprs.Command c){
+    public static <A extends Object> _arrayInitExpr of(Exprs.Command c){
         LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object> _arrayInitializeExpr of(Consumer<A> c){
+    public static <A extends Object> _arrayInitExpr of(Consumer<A> c){
         LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object, B extends Object> _arrayInitializeExpr of(BiConsumer<A,B> command ){
+    public static <A extends Object, B extends Object> _arrayInitExpr of(BiConsumer<A,B> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _arrayInitializeExpr of(Exprs.TriConsumer<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _arrayInitExpr of(Exprs.TriConsumer<A,B,C> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayInitializeExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayInitExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object> _arrayInitializeExpr of(Function<A,B> command ){
+    public static <A extends Object, B extends Object> _arrayInitExpr of(Function<A,B> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _arrayInitializeExpr of(BiFunction<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _arrayInitExpr of(BiFunction<A,B,C> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayInitializeExpr of(Exprs.TriFunction<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayInitExpr of(Exprs.TriFunction<A,B,C,D> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    private static _arrayInitializeExpr from(LambdaExpr le){
+    private static _arrayInitExpr from(LambdaExpr le){
         Optional<ArrayInitializerExpr> ows = le.getBody().findFirst(ArrayInitializerExpr.class);
         if( ows.isPresent() ){
             return of(ows.get());
@@ -67,35 +67,35 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
         throw new _jdraftException("No ArrayCreationExpr found in lambda");
     }
 
-    public static _arrayInitializeExpr of(String...code){
-        return new _arrayInitializeExpr(Exprs.arrayInitializerEx( code));
+    public static _arrayInitExpr of(String...code){
+        return new _arrayInitExpr(Exprs.arrayInitializerEx( code));
     }
 
-    public static _arrayInitializeExpr ofStrings(String[] arr){
+    public static _arrayInitExpr ofStrings(String[] arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         Arrays.stream(arr).forEach(i -> aie.getValues().add(new StringLiteralExpr(i)));
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(Class... arr){
+    public static _arrayInitExpr of(Class... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         Arrays.stream(arr).forEach(i -> aie.getValues().add( _classExpr.of(i).ast() ));
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(_expr... arr){
+    public static _arrayInitExpr of(_expr... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         Arrays.stream(arr).forEach(i -> aie.getValues().add(i.ast()));
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(int... arr){
+    public static _arrayInitExpr of(int... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         Arrays.stream(arr).forEach(i -> aie.getValues().add(new IntegerLiteralExpr(i)));
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(boolean... arr){
+    public static _arrayInitExpr of(boolean... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         for(int i=0;i<arr.length;i++){
             aie.getValues().add( new BooleanLiteralExpr(arr[i]));
@@ -103,7 +103,7 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(float... arr){
+    public static _arrayInitExpr of(float... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         for(int i=0;i<arr.length;i++){
             aie.getValues().add( new DoubleLiteralExpr( arr[i] +"F" ));
@@ -111,7 +111,7 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(double... arr){
+    public static _arrayInitExpr of(double... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         for(int i=0;i<arr.length;i++){
             aie.getValues().add( new DoubleLiteralExpr( arr[i] +"D" ));
@@ -119,7 +119,7 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(long... arr){
+    public static _arrayInitExpr of(long... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         for(int i=0;i<arr.length;i++){
             aie.getValues().add( new LongLiteralExpr( arr[i]+"L" ));
@@ -127,7 +127,7 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
         return of(aie);
     }
 
-    public static _arrayInitializeExpr of(char... arr){
+    public static _arrayInitExpr of(char... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         for(int i=0;i<arr.length;i++){
             aie.getValues().add( new CharLiteralExpr( arr[i] ));
@@ -137,13 +137,13 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
 
     public ArrayInitializerExpr aie;
 
-    public _arrayInitializeExpr(ArrayInitializerExpr aie){
+    public _arrayInitExpr(ArrayInitializerExpr aie){
         this.aie = aie;
     }
 
     @Override
-    public _arrayInitializeExpr copy() {
-        return new _arrayInitializeExpr(this.aie.clone());
+    public _arrayInitExpr copy() {
+        return new _arrayInitExpr(this.aie.clone());
     }
 
     @Override
@@ -151,12 +151,12 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
         return this.aie.getValues();
     }
 
-    public _arrayInitializeExpr set(int index, _expr _e){
+    public _arrayInitExpr set(int index, _expr _e){
         aie.getValues().set(index, _e.ast());
         return this;
     }
 
-    public _arrayInitializeExpr set(int index, Expression e){
+    public _arrayInitExpr set(int index, Expression e){
         aie.getValues().set(index, e);
         return this;
     }
@@ -173,8 +173,8 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
     }
 
     public boolean equals(Object other){
-        if( other instanceof _arrayInitializeExpr){
-            return ((_arrayInitializeExpr)other).aie.equals( this.aie);
+        if( other instanceof _arrayInitExpr){
+            return ((_arrayInitExpr)other).aie.equals( this.aie);
         }
         return false;
     }

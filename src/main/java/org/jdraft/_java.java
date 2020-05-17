@@ -1350,7 +1350,7 @@ public interface _java {
      *
      * @see _parameters (parameters are ordered)
      * @see _arrayCreateExpr (the dimensions of the array are in an ordered list)
-     * @see _arrayInitializeExpr (the elements located in the array are ordered)
+     * @see _arrayInitExpr (the elements located in the array are ordered)
      */
     interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _domain {
 

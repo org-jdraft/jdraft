@@ -192,7 +192,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param pattern
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(String... pattern ) {
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(String... pattern ) {
         return new $ex<>( Exprs.arrayInitializerEx(pattern ) );
     }
     
@@ -201,7 +201,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param ints
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(int[] ints ) {
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(int[] ints ) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         for(int i=0;i<ints.length; i++){
@@ -219,7 +219,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param bools
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(boolean[] bools ) {
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(boolean[] bools ) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         for(int i=0;i<bools.length; i++){
@@ -237,7 +237,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param chars
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(char[] chars ) {
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(char[] chars ) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         for(int i=0;i<chars.length; i++){
@@ -255,7 +255,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param doubles
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(double[] doubles ) {
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(double[] doubles ) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         for(int i=0;i<doubles.length; i++){
@@ -273,7 +273,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param floats
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(float[] floats ) {
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(float[] floats ) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         for(int i=0;i<floats.length; i++){
@@ -291,8 +291,8 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(Predicate<_arrayInitializeExpr> constraint) {
-        return new $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  ( Exprs.arrayInitializerEx("{1}") ).$(Exprs.of("{1}"), "any").$and(constraint);
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(Predicate<_arrayInitExpr> constraint) {
+        return new $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  ( Exprs.arrayInitializerEx("{1}") ).$(Exprs.of("{1}"), "any").$and(constraint);
     }
     
     /**
@@ -301,15 +301,15 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx(String pattern, Predicate<_arrayInitializeExpr> constraint) {
-        return new $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex> ( Exprs.arrayInitializerEx(pattern ) ).$and(constraint);
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx(String pattern, Predicate<_arrayInitExpr> constraint) {
+        return new $ex<ArrayInitializerExpr, _arrayInitExpr, $ex> ( Exprs.arrayInitializerEx(pattern ) ).$and(constraint);
     }
     
     /**
      * Any array initializer i.e. "{1,2,3,4,5}"
      * @return 
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex>  arrayInitEx() {
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex>  arrayInitEx() {
         return new $ex( ArrayInitializerExpr.class, "$arrayInitializer$");
     }
     

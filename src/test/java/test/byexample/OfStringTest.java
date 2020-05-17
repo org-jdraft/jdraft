@@ -22,7 +22,7 @@ public class OfStringTest extends TestCase {
                 _arrayAccessExpr.of("a[1][call()]"),
                 _arrayCreateExpr.of("new a[1][2]"),
                 _arrayDimension.of("[0]"),
-                _arrayInitializeExpr.of("{1,2,3}"),
+                _arrayInitExpr.of("{1,2,3}"),
                 _assertStmt.of("assert true;"),
                 _assignExpr.of("x = 1"),
                 _binaryExpr.of("a && b"),

@@ -128,7 +128,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         return this;
     }
 
-    public _arrayCreateExpr setInit(_arrayInitializeExpr ae){
+    public _arrayCreateExpr setInit(_arrayInitExpr ae){
         this.astNode.setInitializer(ae.ast());
         return this;
     }
@@ -168,7 +168,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         }
         return aie == null;
     }
-    public boolean isInit(_arrayInitializeExpr _ai){
+    public boolean isInit(_arrayInitExpr _ai){
         if( this.astNode.getInitializer().isPresent()) {
             return Objects.equals(this.astNode.getInitializer().get(), _ai.ast());
         }

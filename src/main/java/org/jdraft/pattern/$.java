@@ -499,19 +499,19 @@ public final class $ {
      * new int[][]{{1, 1}, {2, 2}};
      * @return
      */
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex> arrayInit(){
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex> arrayInit(){
         return $ex.arrayInitEx();
     }
 
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex> arrayInit(String ae){
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex> arrayInit(String ae){
         return $ex.arrayInitEx(ae);
     }
 
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex> arrayInit(ArrayInitializerExpr aei){
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex> arrayInit(ArrayInitializerExpr aei){
         return $ex.of(aei);
     }
 
-    public static $ex<ArrayInitializerExpr, _arrayInitializeExpr, $ex> arrayInit(Predicate<_arrayInitializeExpr> aei){
+    public static $ex<ArrayInitializerExpr, _arrayInitExpr, $ex> arrayInit(Predicate<_arrayInitExpr> aei){
         return $ex.arrayInitEx(aei);
     }
 

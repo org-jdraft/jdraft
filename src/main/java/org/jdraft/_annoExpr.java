@@ -1098,31 +1098,31 @@ public final class _annoExpr
 
         //arrays:
         public static _pair of( String name, int... value){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
         }
 
         public static _pair of( String name, boolean... value){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
         }
 
         public static _pair of( String name, char... value){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
         }
 
         public static _pair of( String name, float... value){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
         }
 
         public static _pair of( String name, double... value){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
         }
 
         public static _pair of( String name, long... value){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
         }
 
         public static _pair of( String name, _annoExpr... _anno){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(_anno).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(_anno).ast()));
         }
 
         public static _pair of( String name, String value){
@@ -1134,7 +1134,7 @@ public final class _annoExpr
         }
 
         public static _pair of( String name, Class... values){
-            return of( new MemberValuePair(name, _arrayInitializeExpr.of(values).ast()));
+            return of( new MemberValuePair(name, _arrayInitExpr.of(values).ast()));
         }
 
 

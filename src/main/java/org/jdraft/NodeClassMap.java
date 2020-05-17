@@ -33,7 +33,7 @@ public enum NodeClassMap {
       ARRAY_ACCESS(_arrayAccessExpr.class, ArrayAccessExpr.class),
       ARRAY_CREATE(_arrayCreateExpr.class, ArrayCreationExpr.class),
       ARRAY_DIMENSION(_arrayDimension.class, ArrayCreationLevel.class),
-      ARRAY_INITIALIZE(_arrayInitializeExpr.class, ArrayInitializerExpr.class),
+      ARRAY_INITIALIZE(_arrayInitExpr.class, ArrayInitializerExpr.class),
       ASSERT_STATEMENT(_assertStmt.class, AssertStmt.class),
       ASSIGN(_assignExpr.class, AssignExpr.class),
       BINARY_EXPRESSION(_binaryExpr.class, BinaryExpr.class),

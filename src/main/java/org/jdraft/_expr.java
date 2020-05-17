@@ -38,7 +38,7 @@ public interface _expr<E extends Expression, _E extends _expr>
         Class<_annoExpr> ANNO = _annoExpr.class;
         Class<_arrayAccessExpr> ARRAY_ACCESS = _arrayAccessExpr.class;
         Class<_assignExpr> ASSIGN = _assignExpr.class;
-        Class<_arrayInitializeExpr> ARRAY_INITIALIZE = _arrayInitializeExpr.class;
+        Class<_arrayInitExpr> ARRAY_INITIALIZE = _arrayInitExpr.class;
         Class<_binaryExpr> BINARY_EXPRESSION = _binaryExpr.class;
         Class<_booleanExpr> BOOLEAN = _booleanExpr.class;
         Class<_castExpr> CAST = _castExpr.class;
@@ -136,7 +136,7 @@ public interface _expr<E extends Expression, _E extends _expr>
             return new _arrayAccessExpr( (ArrayAccessExpr)e);
         }
         if( e instanceof ArrayInitializerExpr){
-            return new _arrayInitializeExpr( (ArrayInitializerExpr)e);
+            return new _arrayInitExpr( (ArrayInitializerExpr)e);
         }
         if( e instanceof AssignExpr){
             return new _assignExpr((AssignExpr)e);

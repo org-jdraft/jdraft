@@ -18,7 +18,7 @@ public class OfLambdaTest extends TestCase {
                 //expressions
                 _assignExpr.of( (Object a, Object b) -> a = b ),
                 _arrayCreateExpr.of( ()-> { String[][] s = new String[1][3];} ),
-                _arrayInitializeExpr.of( ()-> { int[] o = {1,3,5,7,9}; } ),
+                _arrayInitExpr.of( ()-> { int[] o = {1,3,5,7,9}; } ),
                 _binaryExpr.of( ()-> 1 + 4 ),
                 _body.of( (a)->{ System.out.println(a); }),
                 _castExpr.of(o-> (String)o ),
