@@ -146,11 +146,11 @@ public final class _annoExpr
      * //...as apposed to:
      * @Generated("2/15/2018") //a singleMember annotation type
      * 
-     * @KeyValues(key=1,value=2) //a keyValue Annotation Type
+     * @KeyValues(key=1,value=2) //a "PairedMembers" Annotation Type
      * }</PRE>
      * @return 
      */
-    public boolean isPair(){
+    public boolean isPairedMembers(){
         return this.astAnno.isNormalAnnotationExpr();
     }
     
@@ -164,7 +164,25 @@ public final class _annoExpr
         return str.equals( clazz.getCanonicalName() ) || str.equals( clazz.getSimpleName() );
     }
 
+    /**
+     * Perform some action on all matching pairs
+     * @param _actionFn the action to take on all matching candidate pairs
+     * @return yourself
+     */
+    public _annoExpr forPairs( Consumer<_pair> _actionFn){
+        return forPairs(t-> true, _actionFn);
+    }
 
+    /**
+     * Perform some action on all matching pairs
+     * @param _matchFn the function to match candidate pairs
+     * @param _actionFn the action to take on all matching canididate pairs
+     * @return yourself
+     */
+    public _annoExpr forPairs( Predicate<_pair> _matchFn, Consumer<_pair> _actionFn){
+        listPairs(_matchFn).forEach(_actionFn);
+        return this;
+    }
 
     /**
      * Does this anno have a specific member value
@@ -193,6 +211,7 @@ public final class _annoExpr
     public List<_pair> listPairs(Predicate<_pair> pairMatchFn){
         return listPairs().stream().filter(pairMatchFn).collect(Collectors.toList());
     }
+
 
     /**
      *
@@ -673,7 +692,7 @@ public final class _annoExpr
         return m;
     }
 
-    public _annoExpr removeMemberValues() {
+    public _annoExpr removePairs() {
         if( this.astAnno instanceof MarkerAnnotationExpr ) {
             return this;
         }
@@ -686,19 +705,12 @@ public final class _annoExpr
         return this;
     }
 
-    /*
-    public _anno addAttr( String attrNameValue) {
-        try{
-            AssignExpr ae = Ex.assignEx(attrNameValue);
-            return addAttr( ae.getTarget().toString(), ae.getValue() );
-        }catch(Exception e){
-            throw new _jdraftException("Unable to parse Attr Name value \""+ attrNameValue+"\"");
-        }        
-    }
-     */
-
     public _annoExpr addPair(String key, char c ) {
         return addPair( key, Exprs.of( c ) );
+    }
+
+    public _annoExpr addPair(String key, Class c ) {
+        return addPair( key, Exprs.classEx( c ) );
     }
 
     public _annoExpr addPair(String key, boolean b ) {
@@ -717,8 +729,40 @@ public final class _annoExpr
         return addPair( key, Exprs.of( f ) );
     }
 
+    public _annoExpr addPair(String key, Class...classes ) {
+        return addPair( _pair.of(key, classes) );
+    }
+
     public _annoExpr addPair(String key, double d ) {
         return addPair( key, Exprs.of( d ) );
+    }
+
+    public _annoExpr addPair(String key, char... cs ) {
+        return addPair( _pair.of(key, cs ) );
+    }
+
+    public _annoExpr addPair(String key, boolean... bs ) {
+        return addPair( _pair.of(key, bs ) );
+    }
+
+    public _annoExpr addPair(String key, int... is ) {
+        return addPair( _pair.of(key, is ) );
+    }
+
+    public _annoExpr addPair(String key, long... ls ) {
+        return addPair( _pair.of(key, ls ) );
+    }
+
+    public _annoExpr addPair(String key, float... fs ) {
+        return addPair( _pair.of(key, fs ) );
+    }
+
+    public _annoExpr addPair(String key, double... ds ) {
+        return addPair( _pair.of(key, ds ) );
+    }
+
+    public _annoExpr addPair(String key, _annoExpr... es ) {
+        return addPair( _pair.of(key, es ) );
     }
 
     public _annoExpr addPair(_pair _p) {
@@ -788,11 +832,46 @@ public final class _annoExpr
         return setPairValue( name, Exprs.stringLiteralEx( expression ) );
     }
 
+    public _annoExpr removePairs( Predicate<_pair> _matchFn){
+        listPairs(_matchFn).forEach(p -> this.removePair(p));
+        return this;
+    }
+
+
+    public _annoExpr removePair(_pair _p ){
+
+        if( this.astAnno.isSingleMemberAnnotationExpr() && _p.getName().equals("value")){
+            //infer the that "name" is value for a singleMemberAnnotationExpr
+            Expression mvpe = this.astAnno.asSingleMemberAnnotationExpr().getMemberValue();
+            if( Exprs.equal( _p.getValue().ast(), mvpe )) {
+                MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.astAnno.getName());
+                if( this.astAnno.getParentNode().isPresent() ){
+                    this.astAnno.getParentNode().get().replace( this.astAnno, mae);
+                }
+                this.astAnno = mae;
+            }
+            //_mvs.add( new _pair(new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue())));
+        }
+        else if( this.astAnno.isNormalAnnotationExpr()){
+            this.astAnno.asNormalAnnotationExpr().getPairs().remove( _p.ast() );
+            if( this.astAnno.asNormalAnnotationExpr().getPairs().isEmpty() ){
+                //ned to create a MarkerAnnoExpr
+                MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.astAnno.getName());
+                if( this.astAnno.getParentNode().isPresent() ){
+                    this.astAnno.getParentNode().get().replace( this.astAnno, mae);
+                }
+                this.astAnno = mae;
+            }
+        }
+        return this;
+    }
     public _annoExpr removePair(String name ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
             nae.getPairs().removeIf( mvp -> mvp.getNameAsString().equals( name ) );
             return this;
+        } if( this.astAnno instanceof SingleMemberAnnotationExpr && name.equals("value")){
+
         }
         //cant removeIn what is not there
         return this;
@@ -819,7 +898,7 @@ public final class _annoExpr
     }
 
     public _annoExpr setPairs(List<_pair> pairs){
-        this.removeMemberValues();
+        this.removePairs();
         pairs.forEach(p -> addPair(p));
         return this;
     }
@@ -988,6 +1067,83 @@ public final class _annoExpr
 
         public static _pair of(MemberValuePair mvp){
             return new _pair( mvp);
+        }
+
+        public static _pair of( String name, int value){
+            return of( new MemberValuePair(name, new IntegerLiteralExpr(value)));
+        }
+
+        public static _pair of( String name, boolean value){
+            return of( new MemberValuePair(name, new BooleanLiteralExpr(value)));
+        }
+
+        public static _pair of( String name, char value){
+            return of( new MemberValuePair(name, new CharLiteralExpr(value)));
+        }
+
+        public static _pair of( String name, float value){
+            return of( new MemberValuePair(name, new DoubleLiteralExpr(value)));
+        }
+
+        public static _pair of( String name, double value){
+            return of( new MemberValuePair(name, new DoubleLiteralExpr(value)));
+        }
+
+        public static _pair of( String name, long value){
+            return of( new MemberValuePair(name, new LongLiteralExpr(value)));
+        }
+
+        public static _pair of( String name, _annoExpr _anno){
+            return of( new MemberValuePair(name, _anno.ast()));
+        }
+
+
+        //arrays:
+        public static _pair of( String name, int... value){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+        }
+
+        public static _pair of( String name, boolean... value){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+        }
+
+        public static _pair of( String name, char... value){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+        }
+
+        public static _pair of( String name, float... value){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+        }
+
+        public static _pair of( String name, double... value){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+        }
+
+        public static _pair of( String name, long... value){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(value).ast()));
+        }
+
+        public static _pair of( String name, _annoExpr... _anno){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(_anno).ast()));
+        }
+
+
+
+        public static _pair of( String name, String value){
+            return of( new MemberValuePair(name, new StringLiteralExpr(value)));
+        }
+
+        public static _pair of( String name, Class value){
+            return of( new MemberValuePair(name, new ClassExpr(_typeRef.of(value.getCanonicalName()).ast())));
+        }
+
+        public static _pair of( String name, Class... values){
+            return of( new MemberValuePair(name, _arrayInitializeExpr.of(values).ast()));
+        }
+
+
+        public static _pair of( String s){
+            return of( new String[]{s});
         }
 
         public static _pair of (String...str ){

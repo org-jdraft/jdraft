@@ -13,6 +13,11 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _java._un
     public static _classExpr of(){
         return new _classExpr(new ClassExpr());
     }
+
+    public static _classExpr of(Class clazz){
+        return new _classExpr(Exprs.classEx( clazz) );
+    }
+
     public static _classExpr of(ClassExpr ce){
         return new _classExpr(ce);
     }

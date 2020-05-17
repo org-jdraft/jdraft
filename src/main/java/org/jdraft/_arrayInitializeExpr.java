@@ -77,6 +77,19 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
         return of(aie);
     }
 
+    public static _arrayInitializeExpr of(Class[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        Arrays.stream(arr).forEach(i -> aie.getValues().add( _classExpr.of(i).ast() ));
+        return of(aie);
+    }
+
+
+    public static _arrayInitializeExpr of(_expr[] arr){
+        ArrayInitializerExpr aie = new ArrayInitializerExpr();
+        Arrays.stream(arr).forEach(i -> aie.getValues().add(i.ast()));
+        return of(aie);
+    }
+
     public static _arrayInitializeExpr of(int[] arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         Arrays.stream(arr).forEach(i -> aie.getValues().add(new IntegerLiteralExpr(i)));
@@ -110,7 +123,7 @@ public final class _arrayInitializeExpr implements _expr<ArrayInitializerExpr, _
     public static _arrayInitializeExpr of(long[] arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
         for(int i=0;i<arr.length;i++){
-            aie.getValues().add( new LongLiteralExpr( arr[i] ));
+            aie.getValues().add( new LongLiteralExpr( arr[i]+"L" ));
         }
         return of(aie);
     }

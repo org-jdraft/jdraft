@@ -1,13 +1,33 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
+import org.jdraft._class;
 
 public class $annoExprTest extends TestCase {
+
+    @interface P{
+        int a() default 3;
+        int b() default 4;
+    }
 
     public void testAnyPair(){
         $annoExpr.$pair $p = $annoExpr.$pair.of();
         assertTrue( $p.matches("1") );
         assertTrue( $p.matches("key=1") );
+
+        class C{
+            @P(a=1,b=2)
+            int i;
+        }
+        assertEquals(2, $annoExpr.$pair.of().countIn(C.class));
+        assertEquals(1, $annoExpr.$pair.of("a",1).countIn(C.class));
+        assertEquals(1, $annoExpr.$pair.of("b",2).countIn(C.class));
+
+        class D{
+            @P
+            int i;
+        }
+        assertEquals(0, $p.countIn(D.class));
     }
 
     public void testHardCode(){

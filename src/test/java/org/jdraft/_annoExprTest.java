@@ -27,6 +27,91 @@ import junit.framework.TestCase;
  */
 public class _annoExprTest extends TestCase {
 
+
+    public enum E{
+        A,B,C,D;
+    }
+
+    public @interface A{
+        int value() default 0;
+    }
+
+    public @interface AI{
+        A a() default @A(1); //anonther annotation
+        Class c() default String.class; //a class
+        String s() default "S"; //a string
+        E e() default E.A;
+        //primitives
+        boolean b() default true;
+        char ch() default 'c';
+        int i() default 0; // int
+        float f() default 0.0f; //float
+        double d() default 0.0d; //double
+        long l() default 1L;
+
+        //arrays
+        A[] as() default { @A(1),@A(2)};
+        Class[] cs() default {};
+        String[] ss() default {};
+        E[] es()  default {};
+        boolean[] bs()  default {};
+        char[] chs()  default {};
+        int[] is()  default {};
+        float[] fs()  default {};
+        double[] ds() default {};
+        long[] ls() default {};
+    }
+
+    public void testRemovePair(){
+        _annoExpr _ae = _annoExpr.of("@A(1)");
+        assertTrue( _ae.isSingleMember() );
+        _ae.removePair(_annoExpr._pair.of("value", 1));
+        assertTrue( _ae.isMarker() );
+
+        System.out.println( _ae );
+
+        _ae = _annoExpr.of("@A(k=1)");
+        _ae.removePairs(p-> p.isNamed("k"));
+        assertEquals(0, _ae.listPairs().size() );
+        assertTrue(_ae.isMarker() );
+    }
+
+    @AI(is={1,2,3,4,5})
+    public void testAnnoUse(){
+        _annoExpr.of("A").addPair("i", 1);
+        _annoExpr.of("A").addPair("i", 1,2,3);
+
+        _annoExpr.of("A").addPair("i", 'a');
+        _annoExpr.of("A").addPair("i", 'a', 'b');
+
+        _annoExpr.of("A").addPair("i", true);
+        _annoExpr.of("A").addPair("i", true, false);
+        _annoExpr.of("A").addPair("i", new boolean[]{true});
+        System.out.println( _annoExpr.of("A").addPair("i", String.class, Map.class ) );
+
+        _annoExpr.of("A").addPair("i", _annoExpr.of("@A(1)"), _annoExpr.of("@A(2)") );
+
+        _annoExpr _ap = _annoExpr.of("A").addPair("i", 1L);
+
+
+        System.out.println(_annoExpr.of("A").addPair("i", 1L, 2L));
+
+
+        System.out.println( _annoExpr.of("A").addPair(_annoExpr._pair.of("i", 1,2,3,4)) );
+
+        _annoExpr.of("A").addPair("f", 1.0f);
+        _annoExpr.of("A").addPair("f", 1.0f, 2.0f);
+        _annoExpr.of("A").addPair(_annoExpr._pair.of("fs", 1.0f));
+        _annoExpr.of("A").addPair(_annoExpr._pair.of("fs", 1.0f,2.0f,3.0f,4.0f));
+
+        @AI
+        class C{ }
+
+        _annotation _a = _annotation.of(AI.class);
+        System.out.println( _a );
+        _class _c = _class.of(C.class);
+
+    }
     public void testMemberValuePair(){
         MemberValuePair mvp = new MemberValuePair();
         //System.out.println( mvp.getNameAsString() );

@@ -760,6 +760,10 @@ public enum Exprs {
     /** String.class */
     public static final Class<ClassExpr> CLASS = ClassExpr.class;
 
+    public static ClassExpr classEx(Class clazz){
+        return new ClassExpr(_typeRef.of(clazz).ast());
+    }
+
     /** i.e. "String.class" */
     public static ClassExpr classEx(String... code ) {
         return of( code ).asClassExpr();

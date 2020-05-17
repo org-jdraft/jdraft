@@ -412,6 +412,30 @@ public class $annoExpr
             return new $pair("value", value);
         }
 
+        public static $pair of(String key, int value) {
+            return new $pair(key, _intExpr.of(value));
+        }
+
+        public static $pair of(String key, boolean value) {
+            return new $pair(key, _booleanExpr.of(value));
+        }
+
+        public static $pair of(String key, long value) {
+            return new $pair(key, _longExpr.of(value));
+        }
+
+        public static $pair of(String key, float value) {
+            return new $pair(key, _doubleExpr.of(value));
+        }
+
+        public static $pair of(String key, double value) {
+            return new $pair(key, _doubleExpr.of(value));
+        }
+
+        public static $pair of(String key, Class value) {
+            return new $pair(key, _classExpr.of(value));
+        }
+
         public static $pair of(String key, String value) {
             return new $pair(key, value);
         }
@@ -467,6 +491,12 @@ public class $annoExpr
             this.key.setBot($name.of(name));
             this.value.setBot($expr.of(value));
         }
+
+        public $pair(String name, _expr value) {
+            this.key.setBot($name.of(name));
+            this.value.setBot($expr.of(value));
+        }
+
 
         @Override
         public _annoExpr._pair draft(Translator translator, Map<String, Object> keyValues) {
@@ -527,7 +557,7 @@ public class $annoExpr
          * @return
          */
         public Tokens parse(Expression onlyValueExpression) {
-            if (predicate.test(_annoExpr._pair.of(onlyValueExpression.toString()))) {
+            if (predicate.test(_annoExpr._pair.of((String)onlyValueExpression.toString()))) {
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
