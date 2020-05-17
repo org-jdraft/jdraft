@@ -5,6 +5,7 @@ import org.jdraft.text.Translator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -68,8 +69,13 @@ public abstract class $baseBot<_T,$B extends $baseBot> {
         return strs.stream().distinct().collect(Collectors.toList());
     }
 
+    public $B $hardcode(Translator translator, Map<String,Object> map){
+        $forFeatureSelectors($fs-> $fs.$hardcode(translator, map) );
+        return ($B)this;
+    }
+
     public $B $hardcode(Translator translator, Tokens ts){
-        $forFeatureSelectors($ms-> $ms.$hardcode(translator, ts));
+        $forFeatureSelectors($fs-> $fs.$hardcode(translator, ts) );
         return ($B)this;
     }
 

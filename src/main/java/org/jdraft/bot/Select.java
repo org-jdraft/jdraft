@@ -142,6 +142,12 @@ public class Select<S> {
 
         public abstract $feature $hardcode(Translator translator, Map<String,Object>keyValues);
 
+        /*
+        public $feature $hardcode(Translator translator, Tokens keyValues){
+            return $hardcode(translator, (Map<String,Object>)keyValues );
+        }
+         */
+
         public abstract List<String> $listNormalized();
 
         public abstract List<String> $list();
@@ -399,12 +405,16 @@ public class Select<S> {
         }
 
         public $feature $(String target, String name){
-            this.bot.$(target, name);
+            if( this.bot != null ) {
+                this.bot.$(target, name);
+            }
             return this;
         }
 
         public $feature $hardcode(Translator translator, Map<String,Object> keyValues){
-            this.bot.$hardcode(translator,keyValues);
+            if(this.bot != null ) {
+                this.bot.$hardcode(translator, Tokens.of(keyValues));
+            }
             return this;
         }
 

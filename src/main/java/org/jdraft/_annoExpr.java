@@ -1113,11 +1113,26 @@ public final class _annoExpr
         }
 
         public boolean equals(Object o){
+            if( o instanceof _pair){
+
+                _pair ot = (_pair)o;
+                //System.out.println( "Ist a _Pair \""+ot+"\"");
+                //System.out.println( "Against \""+this.mvp+"\"");
+                //if( ot.getName() == null || this.mvp.getNameAsString())
+                boolean same = Objects.equals( ot.getName(), this.mvp.getNameAsString() )
+                        && Objects.equals( ot.getValue().toString(), this.mvp.getValue().toString() );
+                //System.out.println( "Same "+same);
+                return same;
+                //return Objects.equals( ot.getName(), this.mvp.getName() )
+                //        && Objects.equals( ot.getValue(), this.mvp.getValue() );
+            }
+            /*
             if( o instanceof MemberValuePair){
                 MemberValuePair ot = (MemberValuePair)o;
                 return Objects.equals( ot.getName(), this.mvp.getName() )
                         && Objects.equals( ot.getValue(), this.mvp.getValue() );
             }
+             */
             return false;
         }
 

@@ -199,11 +199,6 @@ public class $assertStmt extends $baseBot<_assertStmt, $assertStmt>
     public Select.$botSelect<$comment, _assertStmt, _comment> comment =
             Select.$botSelect.of( _assertStmt.class, _comment.class, "comment", b-> b.getComment());
 
-
-    //public $expr check = $expr.of();
-    //public $expr message = $expr.of();
-    //public $comment comment = null;
-
     public $assertStmt() { }
 
     @Override

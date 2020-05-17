@@ -1,21 +1,29 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
+import org.jdraft.text.Tokens;
 
 public class $annoExprTest extends TestCase {
 
 
     public void testHardCode(){
         $annoExpr $ar = $annoExpr.of("@A($value$)");
+
         assertTrue( $ar.matches( "@A(1)"));
         assertTrue( $ar.matches( "@A(2)"));
         $ar.$hardcode("value", 1);
+
+        assertNull( $ar.pairs.getMatchAllName() );
 
         assertTrue( $ar.matches( "@A(1)"));
         assertFalse( $ar.matches( "@A(2)"));
     }
 
     public void testHardCodeOr(){
+        $annoExpr $A = $annoExpr.of("@A($value$)");
+        assertTrue( $A.matches( "@A(1)"));
+        assertTrue( $A.matches( "@A(k=1,m=4)"));
+
         $annoExpr $aror = $annoExpr.or( $annoExpr.of("@A($value$)"), $annoExpr.of("@my$name$($key$=2)") );
         assertTrue( $aror.matches("@A(1)"));
         assertTrue( $aror.matches("@A(2)"));

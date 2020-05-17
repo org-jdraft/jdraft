@@ -73,7 +73,7 @@ public interface $bot<B, _B, $B>
      * @return the modified Stencil
      */
     default $B $hardcode(Object... keyValues ) {
-        return $hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of( keyValues ) );
+        return $hardcode( Translator.DEFAULT_TRANSLATOR, Tokens.of( (Object[])keyValues ) );
     }
 
     /**
@@ -85,6 +85,7 @@ public interface $bot<B, _B, $B>
      * @return the modified Stencil
      */
     default $B $hardcode(Translator translator, Object... keyValues ) {
+
         return $hardcode( translator, Tokens.of( keyValues ) );
     }
 

@@ -3,6 +3,8 @@ package org.jdraft.text;
 import org.jdraft._jdraftException;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * KeyValue data structure for "Pairs" of
@@ -43,7 +45,8 @@ public final class Tokens implements Map<String,Object>{
 
     public static Tokens of(Object...data ){
         Tokens kvs = new Tokens();
-        return kvs.add(data);
+        kvs.add( (Object[]) data);
+        return kvs;
     }
 
     /**
@@ -63,7 +66,7 @@ public final class Tokens implements Map<String,Object>{
     public Tokens add(Object...keyValuePairs){
         if( (keyValuePairs.length % 2) != 0 ){
             throw new _jdraftException("expected in pairs (divisible where 2), got ("
-                    + keyValuePairs.length + ")");
+                    + keyValuePairs.length + ") of "+ Stream.of(keyValuePairs).collect(Collectors.toList()));
         }
         for(int i=0;i<keyValuePairs.length; i+=2){
             put((String)Translator.DEFAULT_TRANSLATOR.translate( keyValuePairs[i] ), keyValuePairs[i+1] );
