@@ -160,24 +160,25 @@ public class Select<S> {
     }
 
     /**
-     * a list of $bots that is assigned to test the feature of a targetClass (This class will "resolve"s a feature
-     * from the target class and have the bot test/extract tokens from, the feature
+     * Set of $bots that is assigned to test the feature of a targetClass (This class will "resolve"s a feature
+     * from the target class and have the set of bot test/extract tokens from, the feature)
+     * NOTE: this is a Set because the Bots DO NOT have to match in a specific order
      *
      * @param <$B> the $bot type
      * @param <_T> the target class type (where the resolve starts)
      * @param <_F> the resolved feature type (within the target type instance) (the thing the $bot tests)
      */
-    public static class $botListSelect<$B extends $bot, _T, _F> extends $feature<_T, List<_F>> {
+    public static class $botSetSelect<$B extends $bot, _T, _F> extends $feature<_T, List<_F>> {
 
-        public static<_T, _R> $botListSelect of(Class<_T>targetClass, Class<_R>featureClass, String featureName, Function<_T, _R> featureResolver){
-            return new $botListSelect(targetClass, featureClass, featureName, featureResolver);
+        public static<_T, _R> $botSetSelect of(Class<_T>targetClass, Class<_R>featureClass, String featureName, Function<_T, _R> featureResolver){
+            return new $botSetSelect(targetClass, featureClass, featureName, featureResolver);
         }
 
-        public static<$B extends $bot, _T, _R> $botListSelect of(Class<_T>targetClass, Class<_R>featureClass, String featureName, Function<_T, _R> featureResolver, List<$B> botList){
-            return new $botListSelect(targetClass, featureClass, featureName, featureResolver).setBotList(botList);
+        public static<$B extends $bot, _T, _R> $botSetSelect of(Class<_T>targetClass, Class<_R>featureClass, String featureName, Function<_T, _R> featureResolver, List<$B> botList){
+            return new $botSetSelect(targetClass, featureClass, featureName, featureResolver).setBotList(botList);
         }
 
-        public $botListSelect(Class<_T>targetClass, Class<List<_F>> featureClass, String featureName, Function<_T,List<_F>> featureResolver){
+        public $botSetSelect(Class<_T>targetClass, Class<List<_F>> featureClass, String featureName, Function<_T,List<_F>> featureResolver){
             super(targetClass, (Class<List<_F>>) featureClass, featureName, featureResolver);
         }
 
@@ -196,12 +197,12 @@ public class Select<S> {
          */
         public String matchAllName = null;
 
-        public $botListSelect<$B, _T, _F>  setBotList(List<$B> botList){
+        public $botSetSelect<$B, _T, _F> setBotList(List<$B> botList){
             this.botList = botList;
             return this;
         }
 
-        public $botListSelect<$B, _T, _F> add($B...bots){
+        public $botSetSelect<$B, _T, _F> add($B...bots){
             if(this.getBotList() == null ){
                 this.botList = new ArrayList<$B>();
             }
@@ -226,7 +227,7 @@ public class Select<S> {
          * @param matchAll if true sets matchAll to be the featureName, if false, sets to not match all
          * @return
          */
-        public $botListSelect<$B, _T, _F> setMatchAll(Boolean matchAll){
+        public $botSetSelect<$B, _T, _F> setMatchAll(Boolean matchAll){
             if( matchAll == true ){
                 this.matchAllName = this.featureName;
                 //System.out.println( "FN \""+ this.featureName+"\"");
@@ -241,7 +242,7 @@ public class Select<S> {
          * @param matchAllName
          * @return
          */
-        public $botListSelect<$B, _T, _F> setMatchAll(String matchAllName){
+        public $botSetSelect<$B, _T, _F> setMatchAll(String matchAllName){
             this.matchAllName = matchAllName;
             return this;
         }
@@ -250,14 +251,14 @@ public class Select<S> {
             return this.botList == null || this.botList.isEmpty();
         }
 
-        public $botListSelect<$B, _T, _F> $(String target, String name){
+        public $botSetSelect<$B, _T, _F> $(String target, String name){
             if( botList != null ) {
                 this.botList.forEach(b -> b.$(target, name));
             }
             return this;
         }
 
-        public $botListSelect<$B, _T, _F> $hardcode(Translator translator, Tokens keyValues){
+        public $botSetSelect<$B, _T, _F> $hardcode(Translator translator, Tokens keyValues){
             if(botList != null ) {
                 //System.out.println( keyValues +" "+keyValues.getClass());
                 this.botList.forEach(b -> b.$hardcode(translator, keyValues));
@@ -265,7 +266,7 @@ public class Select<S> {
             return this;
         }
 
-        public $botListSelect<$B, _T, _F> $hardcode(Translator translator, Map<String,Object> keyValues){
+        public $botSetSelect<$B, _T, _F> $hardcode(Translator translator, Map<String,Object> keyValues){
             if(botList != null ) {
                 //System.out.println( keyValues +" "+keyValues.getClass());
                 this.botList.forEach(b -> b.$hardcode(translator, (Map<String,Object>)keyValues));
@@ -298,8 +299,8 @@ public class Select<S> {
             return new ArrayList<>();
         }
 
-        public $botListSelect<$B, _T, _F> copy(){
-            $botListSelect $copy = new $botListSelect( this.targetClass, this.featureClass, this.featureName+"", this.featureResolver.andThen(Function.identity()));
+        public $botSetSelect<$B, _T, _F> copy(){
+            $botSetSelect $copy = new $botSetSelect( this.targetClass, this.featureClass, this.featureName+"", this.featureResolver.andThen(Function.identity()));
             if( this.botList != null ){
                 List<$bot> copyBots = new ArrayList<>();
                 this.botList.forEach( b -> copyBots.add( ($B)b.copy()));

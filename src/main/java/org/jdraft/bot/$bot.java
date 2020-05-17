@@ -86,6 +86,9 @@ public interface $bot<B, _B, $B>
      */
     default $B $hardcode(Translator translator, Object... keyValues ) {
 
+        if( keyValues.length == 1 && keyValues[0] instanceof Tokens){
+            return $hardcode( translator, (Tokens) keyValues[0]);
+        }
         return $hardcode( translator, Tokens.of( keyValues ) );
     }
 

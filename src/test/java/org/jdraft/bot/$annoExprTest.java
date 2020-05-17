@@ -1,10 +1,14 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
-import org.jdraft.text.Tokens;
 
 public class $annoExprTest extends TestCase {
 
+    public void testAnyPair(){
+        $annoExpr.$pair $p = $annoExpr.$pair.of();
+        assertTrue( $p.matches("1") );
+        assertTrue( $p.matches("key=1") );
+    }
 
     public void testHardCode(){
         $annoExpr $ar = $annoExpr.of("@A($value$)");

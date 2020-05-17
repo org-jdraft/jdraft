@@ -17,12 +17,13 @@ import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * as() exactly these match
  * of() these match (can be other annotations)
  */
-public class $annoExprs
+public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
         implements $bot<NodeWithAnnotations, _annoExprs, $annoExprs>{
 
     public static $annoExprs of(){
@@ -43,7 +44,6 @@ public class $annoExprs
 
     public static $annoExprs of(Class<? extends Annotation>... annoClasses){
         _annoExprs _ars = _annoExprs.of();
-        //_annoRef[] _ars = new _annoRef[annoClasses.length];
         for(int i=0;i<annoClasses.length;i++){
             _ars.add(_annoExpr.of( annoClasses[i]));
         }
@@ -136,9 +136,12 @@ public class $annoExprs
         return new $annoExprs.Or($as);
     }
 
-    public Predicate<_annoExprs> predicate = t-> true;
+    //public Predicate<_annoExprs> predicate = t-> true;
 
-    public Set<$annoExpr> $annos = new HashSet<>();
+    /** the member values of the annotation */
+    public Select.$botSetSelect<$annoExpr, _annoExprs, _annoExpr> $annos =
+            new Select.$botSetSelect(_annoExprs.class, _annoExpr.class, "annos", _aes-> ((_annoExprs)_aes).list());
+    //public Set<$annoExpr> $annos = new HashSet<>();
 
     public $annoExprs($annoExpr...$ars){
         Arrays.stream($ars).forEach($a -> $annos.add($a));
@@ -147,16 +150,19 @@ public class $annoExprs
     @Override
     public $annoExprs copy() {
         $annoExprs copy = of();
-        this.$annos.forEach($a -> copy.$annos.add($a.copy()));
+        copy.$annos = $annos.copy();
+        //this.$annos.forEach($a -> copy.$annos.add($a.copy()));
         copy.predicate = predicate.and(t->true);
         return copy;
     }
 
+    /*
     @Override
     public $annoExprs $hardcode(Translator translator, Tokens kvs) {
         this.$annos.forEach($a -> $a.$hardcode(translator, kvs));
         return this;
     }
+     */
 
     @Override
     public Select<_annoExprs> selectFirstIn(Node astNode, Predicate<Select<_annoExprs>> predicate) {
@@ -172,7 +178,7 @@ public class $annoExprs
         }
         return null;
     }
-
+/*
     @Override
     public Predicate<_annoExprs> getPredicate() {
         return this.predicate;
@@ -183,7 +189,7 @@ public class $annoExprs
         this.predicate = predicate;
         return this;
     }
-
+*/
 
     @Override
     public Select<_annoExprs> select(Node n) {
@@ -197,6 +203,7 @@ public class $annoExprs
         return select( _annoExprs.of( nwa));
     }
 
+    /*
     @Override
     public Select<_annoExprs> select(_annoExprs _anns) {
 
@@ -229,6 +236,7 @@ public class $annoExprs
         }
         return new Select(_anns, tokens);
     }
+     */
 
     public Select<_annoExprs> select(String...candidate){
         try {
@@ -246,25 +254,34 @@ public class $annoExprs
     @Override
     public boolean isMatchAny() {
         try {
-            return this.$annos.isEmpty() && this.predicate.test(null);
+            return this.$annos.isMatchAny() && this.predicate.test(null);
         }catch(Exception e){
             return false;
         }
     }
 
     @Override
+    public List<Select.$feature<_annoExprs, ?>> $listSelectors() {
+        return Stream.of(this.$annos).collect(Collectors.toList());
+    }
+
+    @Override
     public _annoExprs draft(Translator translator, Map<String, Object> keyValues) {
-        _annoExprs _ars = _annoExprs.of();
+        List<_annoExpr> _as = $annos.draft(translator, keyValues);
+        _annoExprs _ars = _annoExprs.of( _as.toArray(new _annoExpr[0]));
+        /*
         $annoExpr[] arr = this.$annos.toArray(new $annoExpr[0]);
         for(int i=0;i<arr.length; i++){
             _ars.add( arr[i].draftToString(translator, keyValues));
         }
+         */
         if( this.predicate.test(_ars)){
             return _ars;
         }
         return null;
     }
 
+    /*
     @Override
     public $annoExprs $(String target, String $Name) {
         this.$annos.forEach( $a -> $a.$(target, $Name));
@@ -284,6 +301,7 @@ public class $annoExprs
         this.$annos.forEach( $a -> params.addAll($a.$listNormalized() ));
         return params.stream().distinct().collect(Collectors.toList());
     }
+    */
 
     /**
      * An Or entity that can match against any of the $bot instances provided
@@ -325,7 +343,7 @@ public class $annoExprs
         @Override
         public $annoExprs.Or $hardcode(Translator translator, Tokens tokens){
             //System.out.println(" calling hardcode " + tokens);
-            $annoExprsBots.stream().forEach($a ->$a.$hardcode(translator, tokens));
+            $annoExprsBots.stream().forEach($a -> $a.$hardcode(translator, tokens));
             return this;
         }
 
