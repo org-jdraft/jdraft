@@ -202,7 +202,6 @@ public final class _annoExpr
         return listPairs().stream().anyMatch(m -> memberValueMatchFn.test( m.getName(), m.getValue()));
     }
 
-
     /**
      *
      * @param pairMatchFn
@@ -211,7 +210,6 @@ public final class _annoExpr
     public List<_pair> listPairs(Predicate<_pair> pairMatchFn){
         return listPairs().stream().filter(pairMatchFn).collect(Collectors.toList());
     }
-
 
     /**
      *
@@ -597,8 +595,8 @@ public final class _annoExpr
         return false;
     }
 
-    public boolean isPairs(String... memberValuesString){
-        _annoExpr _a = _annoExpr.of("@"+this.getName()+"("+Text.combine(memberValuesString)+")");
+    public boolean isPairs(String... keyValuePairs){
+        _annoExpr _a = _annoExpr.of("@"+this.getName()+"("+Text.combine(keyValuePairs)+")");
 
         List<_pair> mvs = _a.listPairs();
 
@@ -1127,8 +1125,6 @@ public final class _annoExpr
             return of( new MemberValuePair(name, _arrayInitializeExpr.of(_anno).ast()));
         }
 
-
-
         public static _pair of( String name, String value){
             return of( new MemberValuePair(name, new StringLiteralExpr(value)));
         }
@@ -1270,25 +1266,13 @@ public final class _annoExpr
 
         public boolean equals(Object o){
             if( o instanceof _pair){
-
                 _pair ot = (_pair)o;
-                //System.out.println( "Ist a _Pair \""+ot+"\"");
-                //System.out.println( "Against \""+this.mvp+"\"");
-                //if( ot.getName() == null || this.mvp.getNameAsString())
+
                 boolean same = Objects.equals( ot.getName(), this.mvp.getNameAsString() )
                         && Objects.equals( ot.getValue().toString(), this.mvp.getValue().toString() );
-                //System.out.println( "Same "+same);
+
                 return same;
-                //return Objects.equals( ot.getName(), this.mvp.getName() )
-                //        && Objects.equals( ot.getValue(), this.mvp.getValue() );
             }
-            /*
-            if( o instanceof MemberValuePair){
-                MemberValuePair ot = (MemberValuePair)o;
-                return Objects.equals( ot.getName(), this.mvp.getName() )
-                        && Objects.equals( ot.getValue(), this.mvp.getValue() );
-            }
-             */
             return false;
         }
 
