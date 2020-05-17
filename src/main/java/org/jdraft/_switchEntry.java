@@ -250,7 +250,7 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
      * @return
      */
     public _switchEntry setStatements(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2] );
         return setStatements(le);
     }
 
@@ -330,7 +330,7 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
      * @return
      */
     public _switchEntry addStatements(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2] );
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2] );
         return addStatements(le);
     }
 

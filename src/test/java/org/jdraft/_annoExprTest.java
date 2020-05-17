@@ -483,11 +483,11 @@ public class _annoExprTest extends TestCase {
         assertTrue( _a.isValue(1) );
         assertTrue( _a.isPair("value", 1));
 
-        Exprs.arrayInitializerEx(new int[]{1,2,3});
+        Exprs.of(new int[]{1,2,3});
         _annoExpr _b = _annoExpr.of("B(k=1,v={'a','b'})");
         assertTrue( _b.isPair("k", 1) );
         assertTrue( _b.isPair("v", new char[]{'a', 'b'}) );
-        assertTrue( _b.isPair("v", Exprs.charArray('a', 'b')) );
+        assertTrue( _b.isPair("v", Exprs.of('a', 'b')) );
     }
 
     public void test23Draft(){

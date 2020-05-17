@@ -25,37 +25,37 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
     }
 
     public static <A extends Object> _localClassStmt of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _localClassStmt of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _localClassStmt of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _localClassStmt of( Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _localClassStmt of( Function<A,B> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _localClassStmt of( BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _localClassStmt of( Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _localClassStmt from( LambdaExpr le){

@@ -35,7 +35,7 @@ public enum Exprs {
 
     /**
      * Functional interface for no input, no return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaEx(Command)} operation
+     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(Command)} operation
      * in order to get the LamdbaExpr AST from the Runtime to a 
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      */
@@ -46,7 +46,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (3) input, (1) return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaEx(TriFunction)}
+     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(TriFunction)}
      * operation
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <A>
@@ -61,7 +61,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (4) input PARAMETERS, (1) return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaEx(QuadFunction)}
+     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(QuadFunction)}
      * operation)
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <A>
@@ -77,7 +77,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (3) input PARAMETERS, no return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaEx(TriConsumer)}
+     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(TriConsumer)}
      * operation)
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <T>
@@ -91,7 +91,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (4) input PARAMETERS, no return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaEx(QuadConsumer)}
+     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(QuadConsumer)}
      * operation
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <T> any type
@@ -119,7 +119,7 @@ public enum Exprs {
      */
     public static LambdaExpr of( Exprs.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -138,7 +138,7 @@ public enum Exprs {
      */
     public static <T extends Object> LambdaExpr of( Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -158,7 +158,7 @@ public enum Exprs {
      */
     public static <T extends Object, U extends Object> LambdaExpr of( BiConsumer<T, U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -179,7 +179,7 @@ public enum Exprs {
      */
     public static <T extends Object, U extends Object, V extends Object> LambdaExpr of( TriConsumer<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -199,7 +199,7 @@ public enum Exprs {
      */
     public static <T extends Object, U extends Object> LambdaExpr of( Function<T, U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -220,7 +220,7 @@ public enum Exprs {
      */
     public static <T extends Object, U extends Object, V extends Object> LambdaExpr of( BiFunction<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -242,7 +242,7 @@ public enum Exprs {
      */
     public static <T extends Object, U extends Object, V extends Object, Z extends Object> LambdaExpr of( TriFunction<T, U, V, Z> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -264,7 +264,7 @@ public enum Exprs {
      */
     public static <A extends Object, B extends Object, C extends Object, D extends Object> LambdaExpr of( QuadConsumer<A,B,C,D> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -293,8 +293,8 @@ public enum Exprs {
      * @param ste the stack trace Element line containing the code to draw from  
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    public static LambdaExpr lambdaEx(StackTraceElement ste ) {
-        return lambdaEx(ste, _io.IN_DEFAULT );
+    public static LambdaExpr lambdaExpr(StackTraceElement ste ) {
+        return lambdaExpr(ste, _io.IN_DEFAULT );
     }
 
     /**
@@ -324,7 +324,7 @@ public enum Exprs {
      * @param resolver the resolver for finding the source referenced in the StackTraceElement line
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    public static LambdaExpr lambdaEx(StackTraceElement ste, _in._resolver resolver ){
+    public static LambdaExpr lambdaExpr(StackTraceElement ste, _in._resolver resolver ){
         _type _t = null;
         try {
             //System.out.println( ste.toString() );
@@ -359,8 +359,8 @@ public enum Exprs {
         throw new _ioException("unable to find in lambda at (" + ste.getFileName() + ":" + ste.getLineNumber() + ")"+System.lineSeparator()+ _io.describe());
     }
 
-    public static ObjectCreationExpr newEx(String ex ){
-        return newEx(new String[]{ex});
+    public static ObjectCreationExpr newExpr(String ex ){
+        return newExpr(new String[]{ex});
     }
 
     /**
@@ -389,7 +389,7 @@ public enum Exprs {
      * {@link org.jdraft.io._io._config#inProjectsPath(java.lang.String)}
      * </UL>
      * 
-     * alternatively, you can use the {@link #newEx(Object)}
+     * alternatively, you can use the {@link #newExpr(Object)}
      * method and pass in an _in.resolver to locate the code manually
      * 
      * @see org.jdraft.io._io._config#inFilesPath(java.lang.String)
@@ -397,9 +397,9 @@ public enum Exprs {
      * @param anonymousObject an anonymous Object
      * @return the ObjectCreationExpr AST representation of the anonymousObject passed in
      */
-    public static ObjectCreationExpr newEx(Object anonymousObject ){
+    public static ObjectCreationExpr newExpr(Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return newEx(ste, _io.IN_DEFAULT);
+        return newExpr(ste, _io.IN_DEFAULT);
     }
 
     /**
@@ -437,9 +437,9 @@ public enum Exprs {
      * code
      * @return the ObjectCreationExpr AST representation of the anonymousObject passed in
      */
-    public static ObjectCreationExpr newEx(Object anonymousObject, _in._resolver resolver){
+    public static ObjectCreationExpr newExpr(Object anonymousObject, _in._resolver resolver){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return newEx(ste, resolver);
+        return newExpr(ste, resolver);
     }
 
     /**
@@ -475,8 +475,8 @@ public enum Exprs {
      * @return the ObjectCreationExpr AST representation of the anonymousObject passed in
      * @throws _ioException if unable to resolve the Source of the anonymousObject
      */
-    public static ObjectCreationExpr newEx(StackTraceElement ste ){
-         return newEx(ste, _io.IN_DEFAULT );
+    public static ObjectCreationExpr newExpr(StackTraceElement ste ){
+         return newExpr(ste, _io.IN_DEFAULT );
     }
 
     /**
@@ -512,7 +512,7 @@ public enum Exprs {
      * referred to from the StackTraceElement passed in
      * @throws _ioException if unable to resolve the Source of the anonymousObject
      */
-    public static ObjectCreationExpr newEx(StackTraceElement ste, _in._resolver resolver ){
+    public static ObjectCreationExpr newExpr(StackTraceElement ste, _in._resolver resolver ){
         _type _t = null;
         try {
             Class clazz = Class.forName(ste.getClassName());
@@ -626,7 +626,7 @@ public enum Exprs {
      * @param code
      * @return
      */
-    public static ArrayAccessExpr arrayAccessEx(String... code ) {
+    public static ArrayAccessExpr arrayAccessExpr(String... code ) {
         String cd = Text.combine(code);
         Expression ee = of(cd);
         //System.out.println("GOT EXPRESSION"+ee+" "+ee.getClass() );
@@ -639,7 +639,7 @@ public enum Exprs {
      */
     public static final Class<ArrayCreationExpr> ARRAY_CREATION = ArrayCreationExpr.class;
 
-    public static ArrayCreationExpr arrayCreationEx(String... code ) {
+    public static ArrayCreationExpr arrayCreationExpr(String... code ) {
         return of( code ).asArrayCreationExpr();
     }
 
@@ -649,12 +649,12 @@ public enum Exprs {
     public static final Class<ArrayCreationLevel> ARRAY_CREATION_LEVEL = ArrayCreationLevel.class;
 
     public static NodeList<ArrayCreationLevel> arrayCreationLevels(String...code){
-        ArrayCreationExpr aae = Exprs.arrayCreationEx("Object "+Text.combine(code)+" empty ");
+        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" empty ");
         return aae.getLevels();
     }
 
     public static ArrayCreationLevel arrayCreationLevel(String...code){
-        ArrayCreationExpr aae = Exprs.arrayCreationEx("Object "+Text.combine(code)+" empty ");
+        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" empty ");
         return aae.getLevels().get(0);
     }
 
@@ -666,7 +666,7 @@ public enum Exprs {
     /**
      * i.e. "{1,2,3,4,5}"
      */
-    public static ArrayInitializerExpr arrayInitializerEx(String... code ) {
+    public static ArrayInitializerExpr arrayInitExpr(String... code ) {
         String ai = Text.combine(code);
         ai = "new Object[] "+ai;
         ArrayInitializerExpr aie = of(ai).asArrayCreationExpr().getInitializer().get();
@@ -678,7 +678,7 @@ public enum Exprs {
     public static final Class<AssignExpr> ASSIGN = AssignExpr.class;
 
     /** i.e. "a = 1", "a = 4" */
-    public static AssignExpr assignEx(String... code ) {
+    public static AssignExpr assignExpr(String... code ) {
         return of( code ).asAssignExpr();
     }
 
@@ -686,7 +686,7 @@ public enum Exprs {
     public static final Class<BinaryExpr> BINARY = BinaryExpr.class;
 
     /** i.e. "a + b"*/
-    public static BinaryExpr binaryEx(String... code ) {
+    public static BinaryExpr binaryExpr(String... code ) {
         return of( code ).asBinaryExpr();
     }
 
@@ -697,7 +697,7 @@ public enum Exprs {
     }
 
     /** "true" / "false" */
-    public static BooleanLiteralExpr booleanLiteralEx(boolean b) {
+    public static BooleanLiteralExpr booleanExpr(boolean b) {
         if( b ){
             return new BooleanLiteralExpr(true);
         }
@@ -705,19 +705,19 @@ public enum Exprs {
     }
 
     /** "true" / "false" */
-    public static BooleanLiteralExpr booleanLiteralEx(String... code ) {
+    public static BooleanLiteralExpr booleanExpr(String... code ) {
         return of( code ).asBooleanLiteralExpr();
     }
 
     public static final Class<CastExpr> CAST = CastExpr.class;
 
     /** (String)o */
-    public static CastExpr castEx(String... code ) {
+    public static CastExpr castExpr(String... code ) {
         return of( code ).asCastExpr();
     }
 
-    public static CastExpr castEx(Class castType, Expression expr ){
-        return castEx( Types.of(castType), expr);
+    public static CastExpr castExpr(Class castType, Expression expr ){
+        return castExpr( Types.of(castType), expr);
     }
 
     /**
@@ -728,7 +728,7 @@ public enum Exprs {
      * @param expr the expression to be cast
      * @return the CastExpr
      */
-    public static CastExpr castEx(Type type, Expression expr ){
+    public static CastExpr castExpr(Type type, Expression expr ){
         CastExpr ce = new CastExpr();
         ce.setType(type);
         ce.setExpression(expr);
@@ -743,11 +743,11 @@ public enum Exprs {
     }
 
     /** 'c' */
-    public static CharLiteralExpr charLiteralEx(char c ) {
+    public static CharLiteralExpr charExpr(char c ) {
         return new CharLiteralExpr(c);
     }
 
-    public static CharLiteralExpr charLiteralEx(String s) {
+    public static CharLiteralExpr charExpr(String s) {
         return new CharLiteralExpr(s);
     }
 
@@ -760,27 +760,22 @@ public enum Exprs {
     /** String.class */
     public static final Class<ClassExpr> CLASS = ClassExpr.class;
 
-    public static ClassExpr classEx(Class clazz){
+    public static ClassExpr classExpr(Class clazz){
         return new ClassExpr(_typeRef.of(clazz).ast());
     }
 
     /** i.e. "String.class" */
-    public static ClassExpr classEx(String... code ) {
+    public static ClassExpr classExpr(String... code ) {
         return of( code ).asClassExpr();
     }
 
     /**
      * saved ? return true;
      */
-    public static final Class<ConditionalExpr> CONDITIONAL = ConditionalExpr.class;
+    public static final Class<ConditionalExpr> TERNARY = ConditionalExpr.class;
 
     /** saved ? return true; */
-    public static ConditionalExpr conditionalEx(String... code ) {
-        return of( code ).asConditionalExpr();
-    }
-
-    /** saved ? return true; */
-    public static ConditionalExpr ternaryEx(String... code ) {
+    public static ConditionalExpr ternaryExpr(String... code ) {
         return of( code ).asConditionalExpr();
     }
 
@@ -792,12 +787,12 @@ public enum Exprs {
         return new DoubleLiteralExpr( d );
     }
 
-    public static DoubleLiteralExpr doubleLiteralEx(double d ) {
+    public static DoubleLiteralExpr doubleExpr(double d ) {
         return new DoubleLiteralExpr( d );
     }
 
     /** i.e. "3.14d" */
-    public static DoubleLiteralExpr doubleLiteralEx(String... code ) {
+    public static DoubleLiteralExpr doubleExpr(String... code ) {
         return of( code ).asDoubleLiteralExpr();
     }
 
@@ -805,11 +800,11 @@ public enum Exprs {
         return new DoubleLiteralExpr( d );
     }
     
-    public static ArrayInitializerExpr arrayInitializerEx(int[] intArray ){
-        return of( intArray);
-    }
+    //public static ArrayInitializerExpr arrayInitExpr(int[] intArray ){
+    //    return of( intArray);
+    //}
     
-    public static ArrayInitializerExpr of( int[] intArray ){
+    public static ArrayInitializerExpr of( int... intArray ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<intArray.length;i++){
@@ -819,14 +814,14 @@ public enum Exprs {
             sb.append( intArray[i] );
         }
         sb.append(" }");
-        return arrayInitializerEx( sb.toString() );
+        return arrayInitExpr( sb.toString() );
     }
     
-    public static ArrayInitializerExpr arrayInitializerEx(float[] floatArray ){
-        return of( floatArray);
-    }
+    //public static ArrayInitializerExpr arrayInitExpr(float[] floatArray ){
+    //    return of( floatArray);
+    //}
     
-    public static ArrayInitializerExpr of( float[] array ){
+    public static ArrayInitializerExpr of( float... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -836,14 +831,14 @@ public enum Exprs {
             sb.append( array[i] ).append("f");
         }
         sb.append(" }");
-        return arrayInitializerEx( sb.toString() );
+        return arrayInitExpr( sb.toString() );
     }
     
-    public static ArrayInitializerExpr arrayInitializerEx(double[] array ){
-        return of( array);
-    }
+    //public static ArrayInitializerExpr arrayInitExpr(double[] array ){
+     //   return of( array);
+    //}
     
-    public static ArrayInitializerExpr of( double[] array ){
+    public static ArrayInitializerExpr of( double... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -853,14 +848,14 @@ public enum Exprs {
             sb.append( array[i] ).append("d");
         }
         sb.append(" }");
-        return arrayInitializerEx( sb.toString() );
+        return arrayInitExpr( sb.toString() );
     }
 
-    public static ArrayInitializerExpr arrayInitializerEx(boolean[] array ){
-        return of( array);
-    }
+    //public static ArrayInitializerExpr arrayInitExpr(boolean[] array ){
+    //    return of( array);
+   // }
     
-    public static ArrayInitializerExpr of( boolean[] array ){
+    public static ArrayInitializerExpr of( boolean... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -870,24 +865,26 @@ public enum Exprs {
             sb.append( array[i] );
         }
         sb.append(" }");
-        return arrayInitializerEx( sb.toString() );
+        return arrayInitExpr( sb.toString() );
     }
 
-    public static ArrayInitializerExpr charArray(char...chars ){
+    /*
+    //public static ArrayInitializerExpr arrayInitializerExpr(char...chars ){
         return of( chars);
     }
-    public static ArrayInitializerExpr booleanArray( boolean...bools){
+    //public static ArrayInitializerExpr arrayInitializerExpr( boolean...bools){
         return of(bools);
     }
-    public static ArrayInitializerExpr floatArray( float...floats){
+    //public static ArrayInitializerExpr arrayInitializerExpr( float...floats){
         return of(floats);
     }
-    public static ArrayInitializerExpr doubleArray( double...doubles){
+    //public static ArrayInitializerExpr arrayInitializerExpr( double...doubles){
         return of(doubles);
     }
-    public static ArrayInitializerExpr intArray( int...ints){
+    //public static ArrayInitializerExpr arrayInitializerExpr( int...ints){
         return of(ints);
     }
+     */
 
     /**
      * Creates and returns a String lister Array ArrayInitailizerExpr
@@ -897,17 +894,18 @@ public enum Exprs {
      * @param strs
      * @return
      */
-    public static ArrayInitializerExpr stringArray( String...strs ){
+    public static ArrayInitializerExpr stringArrayInitExpr(String...strs ){
         ArrayInitializerExpr ae = new ArrayInitializerExpr();
-        Arrays.stream(strs).forEach( s -> ae.getValues().add( Exprs.stringLiteralEx(s)));
+        Arrays.stream(strs).forEach( s -> ae.getValues().add( Exprs.stringExpr(s)));
         return ae;
     }
 
-    public static ArrayInitializerExpr arrayInitializerEx(char[] array ){
+
+    public static ArrayInitializerExpr arrayInitExpr(char... array ){
         return of( array );
     }
     
-    public static ArrayInitializerExpr of( char[] array ){
+    public static ArrayInitializerExpr of( char... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -917,23 +915,23 @@ public enum Exprs {
             sb.append("'").append( array[i] ).append("'");
         }
         sb.append(" }");
-        return arrayInitializerEx( sb.toString() );
+        return arrayInitExpr( sb.toString() );
     }
     
 
-    public static DoubleLiteralExpr doubleLiteralEx(float d ) {
+    public static DoubleLiteralExpr doubleExpr(float d ) {
         return new DoubleLiteralExpr( d );
     }
 
     /** i.e. "3.14f" */
-    public static DoubleLiteralExpr floatLiteralEx(String... code ) {
+    public static DoubleLiteralExpr floatExpr(String... code ) {
         return of( code ).asDoubleLiteralExpr();
     }
 
-    public static final Class<EnclosedExpr> ENCLOSED = EnclosedExpr.class;
+    public static final Class<EnclosedExpr> PARENTHESIZED = EnclosedExpr.class;
 
     /** i.e. ( 4 + 5 ) */
-    public static EnclosedExpr enclosedEx(String... code ) {
+    public static EnclosedExpr parenthesizedExpr(String... code ) {
         return of( code ).asEnclosedExpr();
     }
     
@@ -950,9 +948,9 @@ public enum Exprs {
      * @return the EnclosedExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static EnclosedExpr enclosedEx(Function<? extends Object,? extends Object> lambdaWithFieldAccessInSource ){
+    public static EnclosedExpr parenthesizedExpr(Function<? extends Object,? extends Object> lambdaWithFieldAccessInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaEx(ste);
+        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(EnclosedExpr.class).get();
     }
 
@@ -967,7 +965,7 @@ public enum Exprs {
      * @param code
      * @return
      */
-    public static FieldAccessExpr fieldAccessEx(String... code ) {
+    public static FieldAccessExpr fieldAccessExpr(String... code ) {
         return of( code ).asFieldAccessExpr();
     }
 
@@ -984,9 +982,9 @@ public enum Exprs {
      * @return the FieldAccessExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static FieldAccessExpr fieldAccessEx(Function<? extends Object,? extends Object> lambdaWithFieldAccessInSource ){
+    public static FieldAccessExpr fieldAccessExpr(Function<? extends Object,? extends Object> lambdaWithFieldAccessInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaEx(ste);
+        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(FieldAccessExpr.class).get();
     }
     
@@ -1000,7 +998,7 @@ public enum Exprs {
      * @param code
      * @return
      */
-    public static InstanceOfExpr instanceOfEx(String... code ) {
+    public static InstanceOfExpr instanceOfExpr(String... code ) {
         return of( code ).asInstanceOfExpr();
     }
 
@@ -1009,27 +1007,27 @@ public enum Exprs {
      * @param fun
      * @return
      */
-    public static InstanceOfExpr instanceOfEx(Function<? extends Object, ? extends Object> fun ){
+    public static InstanceOfExpr instanceOfExpr(Function<? extends Object, ? extends Object> fun ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr le = lambdaEx(ste);
+        LambdaExpr le = lambdaExpr(ste);
         return le.getBody().findFirst(InstanceOfExpr.class).get();
     }
 
     public static final Class<IntegerLiteralExpr> INT_LITERAL = IntegerLiteralExpr.class;
 
     public static IntegerLiteralExpr of(int i) {
-        return intLiteralEx( ""+i);
+        return intExpr( ""+i);
         //IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
         //return ile;
     }
 
-    public static IntegerLiteralExpr intLiteralEx(int i) {
-        return intLiteralEx(""+i);
+    public static IntegerLiteralExpr intExpr(int i) {
+        return intExpr(""+i);
         //IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
         //return ile;
     }
 
-    public static IntegerLiteralExpr intLiteralEx(String... code ) {
+    public static IntegerLiteralExpr intExpr(String... code ) {
         Expression e = of(code);
         if( e instanceof IntegerLiteralExpr ){
             return (IntegerLiteralExpr)e;
@@ -1061,7 +1059,7 @@ public enum Exprs {
      * @param code
      * @return
      */
-    public static LambdaExpr lambdaEx(String... code ) {
+    public static LambdaExpr lambdaExpr(String... code ) {
         return of( code ).asLambdaExpr();
     }
 
@@ -1074,9 +1072,9 @@ public enum Exprs {
      * @param c a "command" or no arg, no return lambda implementation
      * @return the LambdaExpr instance
      */
-    public static LambdaExpr lambdaEx(Exprs.Command c ){
+    public static LambdaExpr lambdaExpr(Exprs.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1089,9 +1087,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object,U extends Object>  LambdaExpr lambdaEx(Function<T, U> c ){
+    public static <T extends Object,U extends Object>  LambdaExpr lambdaExpr(Function<T, U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1105,9 +1103,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object,U extends Object, V extends Object> LambdaExpr lambdaEx(BiFunction<T, U, V> c ){
+    public static <T extends Object,U extends Object, V extends Object> LambdaExpr lambdaExpr(BiFunction<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1122,9 +1120,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object,U extends Object, V extends Object, W extends Object> LambdaExpr lambdaEx(TriFunction<T, U, V, W> c ){
+    public static <T extends Object,U extends Object, V extends Object, W extends Object> LambdaExpr lambdaExpr(TriFunction<T, U, V, W> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1140,9 +1138,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object,U extends Object, V extends Object, W extends Object, X extends Object> LambdaExpr lambdaEx(QuadFunction<T, U, V, W, X> c ){
+    public static <T extends Object,U extends Object, V extends Object, W extends Object, X extends Object> LambdaExpr lambdaExpr(QuadFunction<T, U, V, W, X> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1154,9 +1152,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object>  LambdaExpr lambdaEx(Consumer<T> c ){
+    public static <T extends Object>  LambdaExpr lambdaExpr(Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1169,9 +1167,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object, U extends Object>  LambdaExpr lambdaEx(BiConsumer<T, U> c ){
+    public static <T extends Object, U extends Object>  LambdaExpr lambdaExpr(BiConsumer<T, U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1185,9 +1183,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object, U extends Object, V extends Object> LambdaExpr lambdaEx(Exprs.TriConsumer<T, U, V> c ){
+    public static <T extends Object, U extends Object, V extends Object> LambdaExpr lambdaExpr(Exprs.TriConsumer<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
 
     /**
@@ -1202,9 +1200,9 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> LambdaExpr lambdaEx(Exprs.QuadConsumer<A,B,C,D> c ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> LambdaExpr lambdaExpr(Exprs.QuadConsumer<A,B,C,D> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return lambdaEx( ste );
+        return lambdaExpr( ste );
     }
     
     public static final Class<LongLiteralExpr> LONG_LITERAL = LongLiteralExpr.class;
@@ -1213,11 +1211,11 @@ public enum Exprs {
         return new LongLiteralExpr(l);
     }
 
-    public static LongLiteralExpr longLiteralEx(long l ) {
+    public static LongLiteralExpr longExpr(long l ) {
         return new LongLiteralExpr(l);
     }
 
-    public static LongLiteralExpr longLiteralEx(String... code ) {
+    public static LongLiteralExpr longExpr(String... code ) {
         return new LongLiteralExpr(Text.combine(code));
     }
 
@@ -1229,13 +1227,13 @@ public enum Exprs {
      * @param code
      * @return
      */
-    public static MethodCallExpr methodCallEx(String... code ) {
+    public static MethodCallExpr methodCallExpr(String... code ) {
         String str = Text.combine(code);
         if( str.startsWith("<")){ //
             String s = "Object t = "+ str +";";
             //Box <String> box = new Box <String> ("Jack");
             //System.out.println( s );
-            VariableDeclarationExpr vde =  Exprs.varLocalEx(s);
+            VariableDeclarationExpr vde =  Exprs.variablesExpr(s);
             return (MethodCallExpr) vde.getVariable(0).getInitializer().get();
         }
         return of( code ).asMethodCallExpr();
@@ -1253,9 +1251,9 @@ public enum Exprs {
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static MethodCallExpr methodCallEx(Exprs.Command lambdaWithMethodCallInSource ){
+    public static MethodCallExpr methodCallExpr(Exprs.Command lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaEx(ste);
+        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
 
@@ -1271,9 +1269,9 @@ public enum Exprs {
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static MethodCallExpr methodCallEx(Consumer<? extends Object> lambdaWithMethodCallInSource ){
+    public static MethodCallExpr methodCallExpr(Consumer<? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaEx(ste);
+        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }    
     
@@ -1289,9 +1287,9 @@ public enum Exprs {
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static MethodCallExpr methodCallEx(BiConsumer<? extends Object,? extends Object> lambdaWithMethodCallInSource ){
+    public static MethodCallExpr methodCallExpr(BiConsumer<? extends Object,? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaEx(ste);
+        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }  
     
@@ -1307,9 +1305,9 @@ public enum Exprs {
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static MethodCallExpr methodCallEx(TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+    public static MethodCallExpr methodCallExpr(TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaEx(ste);
+        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
     
@@ -1325,9 +1323,9 @@ public enum Exprs {
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static MethodCallExpr methodCallEx(QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
+    public static MethodCallExpr methodCallExpr(QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaEx(ste);
+        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
     
@@ -1340,11 +1338,11 @@ public enum Exprs {
      * @param code
      * @return 
      */
-    public static MethodReferenceExpr methodReferenceEx(String... code ) {
+    public static MethodReferenceExpr methodReferenceExpr(String... code ) {
         String r = Text.combine(code);
         r = "o -> "+ r;
         //System.out.println( r );
-        LambdaExpr rs = lambdaEx(r);
+        LambdaExpr rs = lambdaExpr(r);
         MethodReferenceExpr mre = rs.getExpressionBody().get().asMethodReferenceExpr();
         mre.removeForced(); //DISCONNECT
         return mre;
@@ -1353,7 +1351,7 @@ public enum Exprs {
 
     public static final Class<NameExpr> NAME = NameExpr.class;
 
-    public static NameExpr nameEx(String... code ) {
+    public static NameExpr nameExpr(String... code ) {
         return of( code ).asNameExpr();
     }
 
@@ -1378,18 +1376,30 @@ public enum Exprs {
      */
     public static final Class<NormalAnnotationExpr> ANNOTATION_NORMAL = NormalAnnotationExpr.class;
 
-    public static AnnotationExpr annotation( String... code ) {
+    public static AnnotationExpr annoExpr(String... code ) {
         return of( code ).asAnnotationExpr();
     }
 
     public static final Class<NullLiteralExpr> NULL = NullLiteralExpr.class;
 
     /** i.e. null */
-    public static NullLiteralExpr nullEx(){
+    public static NullLiteralExpr nullExpr(){
         return new NullLiteralExpr();
     }
 
     public static final Class<ObjectCreationExpr> OBJECT_CREATION = ObjectCreationExpr.class;
+
+    public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return newExpr(ste, _io.IN_DEFAULT);
+    }
+
+    /**
+     * @return the ObjectCreationExpr model instance of the runtime instance
+     */
+    public static ObjectCreationExpr newExpr(Class clazz) {
+        return Exprs.newExpr("new "+clazz.getCanonicalName()+"()");
+    }
 
     /**
      * Builds a JavaParser AST model of an Anonymous Class (an {@link ObjectCreationExpr} based on the
@@ -1402,19 +1412,10 @@ public enum Exprs {
      *        }
      *     });
      * </PRE>
-     * @param anonymousClassImplementation
+     * @param code
      * @return the ObjectCreationExpr model instance of the runtime instance
      */
-    public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
-        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return newEx(ste, _io.IN_DEFAULT);
-    }
-
-    public static ObjectCreationExpr newEx(Class clazz) {
-        return Exprs.newEx("new "+clazz.getCanonicalName()+"()");
-    }
-
-    public static ObjectCreationExpr newEx(String... code ) {
+    public static ObjectCreationExpr newExpr(String... code ) {
         String str = Text.combine(code);
         if( !str.startsWith("new") ){
             str = "new "+str;
@@ -1436,15 +1437,15 @@ public enum Exprs {
      * @param lambdaThatCreatesObject a supplier lambda expression that must contain a "new"
      * @return the AST ObjectCreation Expression representing the new
      */
-    public static ObjectCreationExpr newEx(Supplier<? extends Object> lambdaThatCreatesObject ) {
+    public static ObjectCreationExpr newExpr(Supplier<? extends Object> lambdaThatCreatesObject ) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr le = lambdaEx(ste);
+        LambdaExpr le = lambdaExpr(ste);
         return le.getBody().findFirst(ObjectCreationExpr.class).get();        
     }
 
     public static final Class<StringLiteralExpr> STRING_LITERAL = StringLiteralExpr.class;
 
-    public static StringLiteralExpr stringLiteralEx(String code ){
+    public static StringLiteralExpr stringExpr(String code ){
         String str = code;
         if(! str.startsWith("\"") ){
             str = "\""+str;
@@ -1455,7 +1456,7 @@ public enum Exprs {
         return of( str ).asStringLiteralExpr();
     }
     
-    public static StringLiteralExpr stringLiteralEx(String... code ) {
+    public static StringLiteralExpr stringExpr(String... code ) {
         String str = Text.combine( code );
         if(! str.startsWith("\"") ){
             str = "\""+str;
@@ -1466,11 +1467,11 @@ public enum Exprs {
         return of( str ).asStringLiteralExpr();
     }
 
-    public static TextBlockLiteralExpr textBlockEx(String code ){
+    public static TextBlockLiteralExpr textBlockExpr(String code ){
         return new TextBlockLiteralExpr(code);
     }
 
-    public static TextBlockLiteralExpr textBlockEx(String... code ) {
+    public static TextBlockLiteralExpr textBlockExpr(String... code ) {
         String str = Text.combine( code );
         return new TextBlockLiteralExpr(str);
     }
@@ -1483,11 +1484,11 @@ public enum Exprs {
      * 
      * @return a super expression
      */
-    public static SuperExpr superEx(  ) {
+    public static SuperExpr superExpr(  ) {
         return new SuperExpr();
     }
     
-    public static SuperExpr superEx(String... expr ){
+    public static SuperExpr superExpr(String... expr ){
         return (SuperExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
@@ -1499,7 +1500,7 @@ public enum Exprs {
      *
      * @return a switch expression
      */
-    public static SwitchExpr switchEx(  ) {
+    public static SwitchExpr switchExpr(  ) {
         return new SwitchExpr();
     }
 
@@ -1508,23 +1509,23 @@ public enum Exprs {
      *
      * @return a switch expression
      */
-    public static SwitchExpr switchEx(String... expr ){
+    public static SwitchExpr switchExpr(String... expr ){
         return (SwitchExpr)Ast.PARSER.parseExpression(Text.combine(expr)).getResult().get();
     }
 
     public static final Class<ThisExpr> THIS = ThisExpr.class;
 
-    public static ThisExpr thisEx(  ) {
+    public static ThisExpr thisExpr(  ) {
         return new ThisExpr();
     }
     
-    public static ThisExpr thisEx(String... expr ){
+    public static ThisExpr thisExpr(String... expr ){
         return (ThisExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
     public static final Class<TypeExpr> TYPE = TypeExpr.class;
 
-    public static TypeExpr typeEx(String... code ) {
+    public static TypeExpr typeExpr(String... code ) {
         //World::greet
         String str = Text.combine(code);
         str = str + "::method";
@@ -1548,9 +1549,9 @@ public enum Exprs {
      * @param lambdaThatCreatesObject a supplier lambda expression that must contain a "new"
      * @return the AST ObjectCreation Expression representing the new
      */
-    public static UnaryExpr unaryEx(Supplier<? extends Object> lambdaThatCreatesObject ) {
+    public static UnaryExpr unaryExpr(Supplier<? extends Object> lambdaThatCreatesObject ) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr le = lambdaEx(ste);
+        LambdaExpr le = lambdaExpr(ste);
         return le.getBody().findFirst(UnaryExpr.class).get();        
     }
     
@@ -1560,7 +1561,7 @@ public enum Exprs {
      * @param code the unary operator expression
      * @return 
      */
-    public static UnaryExpr unaryEx(String... code ) {
+    public static UnaryExpr unaryExpr(String... code ) {
         return of( code ).asUnaryExpr();
     }
     
@@ -1577,7 +1578,7 @@ public enum Exprs {
      * @param code
      * @return 
      */
-    public static VariableDeclarationExpr varLocalEx(String... code ) {
+    public static VariableDeclarationExpr variablesExpr(String... code ) {
         return StaticJavaParser.parseVariableDeclarationExpr( Text.combine( code ));
     }    
     
@@ -1776,7 +1777,7 @@ public enum Exprs {
                 return equal(exp , e );
             }catch(Exception e){
                 if( exp instanceof StringLiteralExpr ){
-                    return equal( exp, Exprs.stringLiteralEx(o.toString()) );
+                    return equal( exp, Exprs.stringExpr(o.toString()) );
                 }
             }
         }
@@ -1785,7 +1786,7 @@ public enum Exprs {
             return equal( Exprs.of(o.toString()), exp );
         }
         else if(o instanceof Character ){
-            return Objects.equals( Exprs.charLiteralEx( (Character)o), exp );
+            return Objects.equals( Exprs.charExpr( (Character)o), exp );
         }
         //arrays?
         else if( o.getClass().isArray() ){

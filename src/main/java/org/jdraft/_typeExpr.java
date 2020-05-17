@@ -18,7 +18,7 @@ public final class _typeExpr
         return new _typeExpr(te);
     }
     public static _typeExpr of(String...code){
-        return new _typeExpr(Exprs.typeEx( code));
+        return new _typeExpr(Exprs.typeExpr( code));
     }
 
     public TypeExpr te;

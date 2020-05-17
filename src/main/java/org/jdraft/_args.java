@@ -28,7 +28,7 @@ public final class _args
         implements _java._list<Expression, _expr, _args> {
 
     public static _args of(){
-        return of( Exprs.methodCallEx("empty()"));
+        return of( Exprs.methodCallExpr("empty()"));
     }
 
     public static _args of(Expression... exs){
@@ -40,19 +40,19 @@ public final class _args
     }
 
     public static <A extends Object> _args of(Supplier<A> supplier ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _args of(Function<A,B> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _args of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _args of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _args from(LambdaExpr le){
@@ -71,7 +71,7 @@ public final class _args
                 if( code.length() ==0 ){
                     return of();
                 }
-                return of( Exprs.methodCallEx("empty("+ code+")"));
+                return of( Exprs.methodCallExpr("empty("+ code+")"));
             }
         }
         StringBuilder sb = new StringBuilder();
@@ -85,7 +85,7 @@ public final class _args
             sb.append(args[i]);
         }
         sb.append(")");
-        return of( Exprs.methodCallEx("empty"+ sb.toString()));
+        return of( Exprs.methodCallExpr("empty"+ sb.toString()));
     }
 
 

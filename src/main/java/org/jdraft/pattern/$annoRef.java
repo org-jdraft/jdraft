@@ -89,7 +89,7 @@ public class $annoRef
      */
     public static $annoRef of(Object anonymousObjectWithAnnotation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newExpr( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( _annoExpr.of(bd.getAnnotation(0) ) );

@@ -762,12 +762,12 @@ public class AstTest extends TestCase {
     }
 
     public void testTypeParameterAst(){
-        TypeParameter tp = Types.typeParameter("<T extends Map>");
+        TypeParameter tp = Types.typeParam("<T extends Map>");
         assertFalse( tp.getParentNode().isPresent() );
     }
 
     public void testTypeParametersAst(){
-        NodeList<TypeParameter> tps = Types.typeParameters("<T extends Map, A, R, F>");
+        NodeList<TypeParameter> tps = Types.typeParams("<T extends Map, A, R, F>");
         assertFalse( tps.getParentNode().isPresent() );
     }
 
@@ -1068,28 +1068,28 @@ public class AstTest extends TestCase {
 
     public void testTypeParameter(){
         //with
-        assertNull( Types.typeParameter( "") );
-        Types.typeParameter( "A");
-        Types.typeParameter( "<A>");
-        Types.typeParameter( "<A extends B>");
-        Types.typeParameter( "<J extends A & B>");
-        Types.typeParameter( "<T extends B1 & B2 & B3>" );
+        assertNull( Types.typeParam( "") );
+        Types.typeParam( "A");
+        Types.typeParam( "<A>");
+        Types.typeParam( "<A extends B>");
+        Types.typeParam( "<J extends A & B>");
+        Types.typeParam( "<T extends B1 & B2 & B3>" );
     }
 
     public void testTypeParameters(){
-        assertTrue( Types.typeParameters( "" ).isEmpty());
-        assertTrue( Types.typeParameters( "A").size() == 1);
-        assertTrue( Types.typeParameters( "<A>").size() == 1);
-        assertTrue( Types.typeParameters( "A extends R").size() == 1);
-        assertTrue( Types.typeParameters( "<A extends R>").size() == 1);
-        assertTrue( Types.typeParameters( "A, B").size() == 2);
-        assertTrue( Types.typeParameters( "A, B extends C").size() == 2);
-        assertTrue( Types.typeParameters( "A extends T, B").size() == 2);
+        assertTrue( Types.typeParams( "" ).isEmpty());
+        assertTrue( Types.typeParams( "A").size() == 1);
+        assertTrue( Types.typeParams( "<A>").size() == 1);
+        assertTrue( Types.typeParams( "A extends R").size() == 1);
+        assertTrue( Types.typeParams( "<A extends R>").size() == 1);
+        assertTrue( Types.typeParams( "A, B").size() == 2);
+        assertTrue( Types.typeParams( "A, B extends C").size() == 2);
+        assertTrue( Types.typeParams( "A extends T, B").size() == 2);
 
-        assertTrue( Types.typeParameters( "<A extends T, B>").size() == 2);
+        assertTrue( Types.typeParams( "<A extends T, B>").size() == 2);
 
-        assertTrue( Types.typeParameters(  "<T extends B1 & B2 & B3>" ).size() == 1);
-        assertTrue( Types.typeParameters(  "T extends B1 & B2 & B3, R extends A" ).size() == 2);
+        assertTrue( Types.typeParams(  "<T extends B1 & B2 & B3>" ).size() == 1);
+        assertTrue( Types.typeParams(  "T extends B1 & B2 & B3, R extends A" ).size() == 2);
 
     }
 
@@ -1103,7 +1103,7 @@ public class AstTest extends TestCase {
         Stmts.continueStmt( "continue;");
         Stmts.continueStmt( "continue out;");
         ExpressionStmt es = new ExpressionStmt( Exprs.of("3+4"));
-        Stmts.expressionStmt( "c=a+b;");
+        Stmts.exprStmt( "c=a+b;");
         Stmts.forEachStmt( "for( int x : expressions){}");
         Stmts.doStmt( "do{ System.out.println(1); }while(n<100);");
         Stmts.forStmt( "for(int i=0;i<100;i++){System.out.printlnt(1);}");

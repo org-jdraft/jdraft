@@ -21,7 +21,7 @@ import java.util.Optional;
  * (includes some interfaces/abstract classes)
  *
  */
-public enum NodeClassMap {
+public enum Nodes {
 
       //_anno implementations are a single class in _jdraft, multiple implementation classes in JavaParser
       ANNO(_annoExpr.class, AnnotationExpr.class),
@@ -150,14 +150,14 @@ public enum NodeClassMap {
     public final Class<? extends _java._node> _n;
     public final Class<? extends Node> n;
 
-    NodeClassMap(Class<? extends _java._node> _n, Class<? extends Node> n){
+    Nodes(Class<? extends _java._node> _n, Class<? extends Node> n){
         this._n = _n;
         this.n = n;
     }
 
 
-    public static NodeClassMap of(Class clazz){
-        Optional<NodeClassMap> ncm = Arrays.stream(NodeClassMap.values()).filter(n -> n._n == clazz || n.n == clazz).findFirst();
+    public static Nodes of(Class clazz){
+        Optional<Nodes> ncm = Arrays.stream(Nodes.values()).filter(n -> n._n == clazz || n.n == clazz).findFirst();
         if( ncm.isPresent() ){
             return ncm.get();
         }
@@ -169,15 +169,15 @@ public enum NodeClassMap {
     }
 
     public static boolean is_node( Class clazz){
-        return Arrays.stream(NodeClassMap.values()).filter(n -> n._n == clazz).findFirst().isPresent();
+        return Arrays.stream(Nodes.values()).filter(n -> n._n == clazz).findFirst().isPresent();
     }
 
     public static boolean isNode( Class clazz){
-        return Arrays.stream(NodeClassMap.values()).filter(n -> n.n == clazz).findFirst().isPresent();
+        return Arrays.stream(Nodes.values()).filter(n -> n.n == clazz).findFirst().isPresent();
     }
 
     public static Class<? extends Node> node (Class _nodeClass){
-        Optional<NodeClassMap> ncm = Arrays.stream(NodeClassMap.values()).filter(n -> n._n == _nodeClass).findFirst();
+        Optional<Nodes> ncm = Arrays.stream(Nodes.values()).filter(n -> n._n == _nodeClass).findFirst();
         if( ncm.isPresent() ){
             return ncm.get().n;
         }
@@ -185,7 +185,7 @@ public enum NodeClassMap {
     }
 
     public static Class<? extends _java._node> _node(Class _nodeClass){
-        Optional<NodeClassMap> ncm = Arrays.stream(NodeClassMap.values()).filter(n -> n.n == _nodeClass).findFirst();
+        Optional<Nodes> ncm = Arrays.stream(Nodes.values()).filter(n -> n.n == _nodeClass).findFirst();
         if( ncm.isPresent() ){
             return ncm.get()._n;
         }

@@ -70,7 +70,7 @@ public final class _annoExpr
      */
     public static _annoExpr of(Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration<?> bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( bd.getAnnotation(0) );
@@ -345,7 +345,7 @@ public final class _annoExpr
     }
 
     public boolean isPair(String name, String value){
-        return isPair(name, Exprs.stringLiteralEx(value));
+        return isPair(name, Exprs.stringExpr(value));
     }
 
     public boolean isPair(String name, int value){
@@ -429,7 +429,7 @@ public final class _annoExpr
      * @return 
      */
     public boolean hasValue( String s){
-        return hasValue( Exprs.stringLiteralEx(s));
+        return hasValue( Exprs.stringExpr(s));
     }
     
     /**
@@ -473,7 +473,7 @@ public final class _annoExpr
      */
     public boolean hasPair(String attrKeyValue ){
         try{
-            AssignExpr ae = Exprs.assignEx(attrKeyValue);
+            AssignExpr ae = Exprs.assignExpr(attrKeyValue);
             String name = ae.getTarget().toString();
             return hasPair( name, ae.getValue());
         } catch (Exception e){
@@ -708,7 +708,7 @@ public final class _annoExpr
     }
 
     public _annoExpr addPair(String key, Class c ) {
-        return addPair( key, Exprs.classEx( c ) );
+        return addPair( key, Exprs.classExpr( c ) );
     }
 
     public _annoExpr addPair(String key, boolean b ) {
@@ -799,7 +799,7 @@ public final class _annoExpr
     }
 
     public _annoExpr addPair(String key, String value ) {
-        return addPair(key, Exprs.stringLiteralEx(value));
+        return addPair(key, Exprs.stringExpr(value));
     }
 
     public _annoExpr setPairValue(String key, char c ) {
@@ -827,7 +827,7 @@ public final class _annoExpr
     }
 
     public _annoExpr setPairValue(String name, String expression ) {
-        return setPairValue( name, Exprs.stringLiteralEx( expression ) );
+        return setPairValue( name, Exprs.stringExpr( expression ) );
     }
 
     public _annoExpr removePairs( Predicate<_pair> _matchFn){
@@ -931,7 +931,7 @@ public final class _annoExpr
     }
 
     public _annoExpr setPairValue(int index, String stringLiteral ) {
-        return setPairValue( index, Exprs.stringLiteralEx( stringLiteral ) );
+        return setPairValue( index, Exprs.stringExpr( stringLiteral ) );
     }
     
     public _annoExpr setPairValue(int index, int intLiteral) {

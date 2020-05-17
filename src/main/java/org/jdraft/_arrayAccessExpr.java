@@ -29,16 +29,16 @@ public final class _arrayAccessExpr
     }
 
     public static _arrayAccessExpr of(String code){
-        return new _arrayAccessExpr(Exprs.arrayAccessEx( code));
+        return new _arrayAccessExpr(Exprs.arrayAccessExpr( code));
     }
 
     public static _arrayAccessExpr of(String...code){
-        return new _arrayAccessExpr(Exprs.arrayAccessEx( code));
+        return new _arrayAccessExpr(Exprs.arrayAccessExpr( code));
     }
 
     //a simple literal name[3]
     public static _arrayAccessExpr of(String name, int index){
-        return of( Exprs.nameEx(name), index);
+        return of( Exprs.nameExpr(name), index);
     }
 
     /**
@@ -48,7 +48,7 @@ public final class _arrayAccessExpr
      * @return
      */
     public static _arrayAccessExpr of(String name, int... indexes){
-        return of( Exprs.nameEx(name), indexes);
+        return of( Exprs.nameExpr(name), indexes);
     }
 
     /**

@@ -18,7 +18,7 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._uniPa
         return new _thisExpr(te);
     }
     public static _thisExpr of(String...code){
-        return new _thisExpr(Exprs.thisEx( code));
+        return new _thisExpr(Exprs.thisExpr( code));
     }
 
     public ThisExpr ile;
@@ -35,7 +35,7 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._uniPa
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.thisEx(stringRep));
+            return is( Exprs.thisExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

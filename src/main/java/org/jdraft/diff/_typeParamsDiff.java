@@ -12,10 +12,10 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public final class _typeParametersDiff
+public final class _typeParamsDiff
         implements _differ<_typeParams, _java._multiPart> {
 
-    public static final _typeParametersDiff INSTANCE = new _typeParametersDiff();
+    public static final _typeParamsDiff INSTANCE = new _typeParamsDiff();
     
     public boolean equivalent(NodeList<TypeParameter> left, NodeList<TypeParameter> right) {
         return Types.equal(left, right);
@@ -35,13 +35,13 @@ public final class _typeParametersDiff
         
         if (!Types.equal( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(),
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
-            dt.addDiff(new _change_typeParameters(path.in(_java.Component.TYPE_PARAMETERS), 
+            dt.addDiff(new _change_typeParams(path.in(_java.Component.TYPE_PARAMETERS),
                     (_withTypeParams) _leftParent, (_withTypeParams) _rightParent));
         }
         return dt;
     }
 
-    public static class _change_typeParameters
+    public static class _change_typeParams
             implements _diffNode<_withTypeParams>, _diffNode._change<NodeList<TypeParameter>> {
 
         public _nodePath path;
@@ -50,7 +50,7 @@ public final class _typeParametersDiff
         public NodeList<TypeParameter> left;
         public NodeList<TypeParameter> right;
 
-        public _change_typeParameters(_nodePath path, _withTypeParams leftParent, _withTypeParams rightParent) {
+        public _change_typeParams(_nodePath path, _withTypeParams leftParent, _withTypeParams rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;

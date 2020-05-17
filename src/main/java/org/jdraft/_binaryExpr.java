@@ -47,7 +47,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public static _binaryExpr of(String...code){
-        return new _binaryExpr(Exprs.binaryEx( code));
+        return new _binaryExpr(Exprs.binaryExpr( code));
     }
 
     public static _binaryExpr of(Expression left, BinaryExpr.Operator operator, Expression right ){
@@ -59,42 +59,42 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public static <A extends Object> _binaryExpr of(Supplier s){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _binaryExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _binaryExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _binaryExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _binaryExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _binaryExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _binaryExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _binaryExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _binaryExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _binaryExpr from(LambdaExpr le){
@@ -235,7 +235,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.binaryEx(stringRep));
+            return is( Exprs.binaryExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

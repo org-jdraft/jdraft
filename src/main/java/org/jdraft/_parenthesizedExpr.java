@@ -25,42 +25,42 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
         return new _parenthesizedExpr(ee);
     }
     public static _parenthesizedExpr of(String...code){
-        return new _parenthesizedExpr(Exprs.enclosedEx( code));
+        return new _parenthesizedExpr(Exprs.parenthesizedExpr( code));
     }
 
 
     public static <A extends Object> _parenthesizedExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _parenthesizedExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _parenthesizedExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _parenthesizedExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _parenthesizedExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _parenthesizedExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _parenthesizedExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _parenthesizedExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _parenthesizedExpr from(LambdaExpr le){
@@ -85,7 +85,7 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.enclosedEx(stringRep));
+            return is( Exprs.parenthesizedExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

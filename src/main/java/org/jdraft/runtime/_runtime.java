@@ -374,7 +374,7 @@ public final class _runtime {
      */
     public static <I extends Object> I impl(I anonymousImplementation, Object...ctorArgs) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         _class _c = _class.of(oce.getType().getNameAsString() + "Impl", anonymousImplementation, ste);
         return (I) instanceOf(_c, ctorArgs);
     }

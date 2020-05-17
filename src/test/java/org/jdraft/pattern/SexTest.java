@@ -385,9 +385,9 @@ public class SexTest extends TestCase {
         //find EVERY lambda with a comment
         $ex $anyLambda = $ex.of("($params$)->$body$", e -> e.ast().getComment().isPresent() );
         
-        System.out.println( Exprs.lambdaEx("/** comment */ ()->true") );
+        System.out.println( Exprs.lambdaExpr("/** comment */ ()->true") );
         
-        assertTrue( $anyLambda.matches( Exprs.lambdaEx("/** comment */ ()->true") ) );
+        assertTrue( $anyLambda.matches( Exprs.lambdaExpr("/** comment */ ()->true") ) );
         
         assertTrue( $ex.lambdaEx(l -> l.ast().getComment().isPresent() ).matches("/** comment */ ()->true;") );
 
@@ -477,7 +477,7 @@ public class SexTest extends TestCase {
         assertTrue($ex.intLiteralEx(100).matches("100"));
         assertTrue($ex.of(100).matches("100"));
         assertTrue($ex.instanceOfEx("$obj$ instanceof String").matches("a instanceof String"));
-        assertTrue( $ex.longLiteralEx(100).matches( Exprs.longLiteralEx( "100")));
+        assertTrue( $ex.longLiteralEx(100).matches( Exprs.longExpr( "100")));
         assertTrue($ex.lambdaEx("$param$ -> a.$method$()").matches("x-> a.toString()"));
         assertTrue($ex.methodCallEx("$methodCall$($params$)").matches("a()"));
         assertTrue($ex.methodCallEx("$methodCall$($params$)").matches("a(1,2,3)"));
@@ -489,7 +489,7 @@ public class SexTest extends TestCase {
         assertTrue($ex.stringLiteralEx("Hello $name$").matches("\"Hello Eric\""));
         assertTrue($ex.superEx().matches("super"));
         assertTrue( $ex.thisEx().matches("this"));
-        assertTrue( $ex.typeEx("$type$").matches(Exprs.typeEx("AType")));
+        assertTrue( $ex.typeEx("$type$").matches(Exprs.typeExpr("AType")));
         assertTrue( $ex.unaryEx("!$var$").matches("!isDead"));
         assertTrue($ex.varLocalEx("int $var$").matches("int x"));
 

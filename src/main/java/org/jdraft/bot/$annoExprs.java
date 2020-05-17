@@ -85,7 +85,7 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
      */
     public static $annoExprs of(Object anonymousObjectWithAnnotations ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newExpr( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( _annoExprs.of(bd) );
@@ -117,7 +117,7 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
      */
     public static $annoExprs as(Object anonymousObjectWitAnnotations ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newExpr( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return as( bd );

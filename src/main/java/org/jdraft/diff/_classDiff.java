@@ -18,7 +18,7 @@ public final class _classDiff implements _differ<_class, _java._multiPart> {
         _annoExprsDiff.INSTANCE.diff(path, ds, left, right, left.getAnnoExprs(), right.getAnnoExprs());
         _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
-        _typeParametersDiff.INSTANCE.diff(path, ds, left, right, left.getTypeParams(), right.getTypeParams());
+        _typeParamsDiff.INSTANCE.diff(path, ds, left, right, left.getTypeParams(), right.getTypeParams());
         _extendsDiff.INSTANCE.diff(path, ds, left, right, left.listExtends(), right.listExtends());
         _implementsDiff.INSTANCE.diff(path, ds, left, right, left.listImplements(), right.listImplements());
         _initBlocksDiff.INSTANCE.diff(path, ds, left, right, left.listInitBlocks(), right.listInitBlocks());

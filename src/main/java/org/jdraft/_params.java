@@ -43,7 +43,7 @@ public final class _params
     }
 
     private static _params from(StackTraceElement lambdaStackTrace ){
-        LambdaExpr le = Exprs.lambdaEx( lambdaStackTrace );
+        LambdaExpr le = Exprs.lambdaExpr( lambdaStackTrace );
         _params _ps = of( le.getParameters() );
         le.remove(); //dont connect the lambda with the caller
         return _ps;
@@ -56,7 +56,7 @@ public final class _params
     }
 
     public static _params of(){
-        return of(  Exprs.lambdaEx("()->true") ); //Ast.method( "void $$();" ));
+        return of(  Exprs.lambdaExpr("()->true") ); //Ast.method( "void $$();" ));
     }
 
     /**
@@ -80,7 +80,7 @@ public final class _params
         if( ps.endsWith(")")){
             ps = ps.substring(0, ps.length() -1);
         }
-        return of( Exprs.lambdaEx( "(" + ps + ") -> true" ) );
+        return of( Exprs.lambdaExpr( "(" + ps + ") -> true" ) );
     }
 
     /**
@@ -181,7 +181,7 @@ public final class _params
      */
     public _params copy(){
         NodeList<Parameter> ps = new NodeList<>();
-        LambdaExpr le = Exprs.lambdaEx("()->true");
+        LambdaExpr le = Exprs.lambdaExpr("()->true");
         ast().forEach( p-> le.addParameter(p) );
         return _params.of( le );
     }

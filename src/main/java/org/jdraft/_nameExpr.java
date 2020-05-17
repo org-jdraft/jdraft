@@ -18,7 +18,7 @@ public final class _nameExpr
         return new _nameExpr( ne);
     }
     public static _nameExpr of(String...code){
-        return new _nameExpr(Exprs.nameEx( code));
+        return new _nameExpr(Exprs.nameExpr( code));
     }
 
     public NameExpr ne;

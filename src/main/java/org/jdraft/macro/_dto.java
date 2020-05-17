@@ -50,7 +50,7 @@ public @interface _dto {
          */
         public static _class of(String signature, Object body) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Exprs.newEx(ste);
+            ObjectCreationExpr oce = Exprs.newExpr(ste);
             _class _c = _class.of(signature);
             oce.getAnonymousClassBody().get().forEach(b -> _c.ast().addMember(b));
             Arrays.stream(body.getClass().getInterfaces()).forEach(e -> {

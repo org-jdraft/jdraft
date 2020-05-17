@@ -45,7 +45,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
      */
     public static _constructor of(Object anonymousObjectBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx( ste );
+        ObjectCreationExpr oce = Exprs.newExpr( ste );
         
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -247,7 +247,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     }
 
     public _constructor setTypeParameters( String typeParameters ) {
-        this.astCtor.setTypeParameters( Types.typeParameters( typeParameters ) );
+        this.astCtor.setTypeParameters( Types.typeParams( typeParameters ) );
         return this;
     }
 
@@ -552,7 +552,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
          */
         default _WC addConstructor(Object anonymousObjectContainingConstructor ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Exprs.newEx(ste);
+            ObjectCreationExpr oce = Exprs.newExpr(ste);
             MethodDeclaration theMethod = (MethodDeclaration)
                     oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                             !m.isAnnotationPresent(_remove.class) ).findFirst().get();

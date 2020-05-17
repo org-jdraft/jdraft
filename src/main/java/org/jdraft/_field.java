@@ -49,7 +49,7 @@ public final class _field
 
     public static _field of(Object anonymousObjectWithField) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 
@@ -218,7 +218,7 @@ public final class _field
     }
 
     public boolean isInit(String init) {
-        return Objects.equals(this.getInit(), Exprs.stringLiteralEx(init));
+        return Objects.equals(this.getInit(), Exprs.stringExpr(init));
     }
     
     public boolean hasInit() {
@@ -629,7 +629,7 @@ public final class _field
 
     public _field setInit(Supplier supplier) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr sup = Exprs.lambdaEx(ste);
+        LambdaExpr sup = Exprs.lambdaExpr(ste);
         return setInit(sup.getExpressionBody().get());
     }
 

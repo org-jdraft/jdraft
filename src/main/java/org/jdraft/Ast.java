@@ -1683,7 +1683,7 @@ public enum Ast {
      * @return
      */
     public static ExpressionStmt expressionStmt( String... code ) {
-        return Stmts.expressionStmt(code);
+        return Stmts.exprStmt(code);
     }
 
     /**
@@ -1782,7 +1782,7 @@ public enum Ast {
     }
 
     public static MethodCallExpr methodCallEx(String... code) {
-        return Exprs.methodCallEx(code);
+        return Exprs.methodCallExpr(code);
     }
 
     public static Name name(String code) {
@@ -1809,7 +1809,7 @@ public enum Ast {
         if (!pa.endsWith(")")) {
             pa = pa + ")";
         }
-        LambdaExpr le = Exprs.lambdaEx( pa +"->{return 1;}");
+        LambdaExpr le = Exprs.lambdaExpr( pa +"->{return 1;}");
 
         NodeList<Parameter> nps = le.getParameters();
         if (nps.getParentNode().isPresent()) {
@@ -1880,7 +1880,7 @@ public enum Ast {
      * @return
      */
     public static VariableDeclarationExpr varLocalEx(String...code ){
-        return Exprs.varLocalEx(code);
+        return Exprs.variablesExpr(code);
     }
 
     /**
@@ -2008,7 +2008,7 @@ public enum Ast {
     */
 
     public static NullLiteralExpr nullEx() {
-        return Exprs.nullEx();
+        return Exprs.nullExpr();
     }
 
     /**
@@ -2084,7 +2084,7 @@ public enum Ast {
      */
     public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return Exprs.newEx(ste, _io.IN_DEFAULT);
+        return Exprs.newExpr(ste, _io.IN_DEFAULT);
     }
     
     /**

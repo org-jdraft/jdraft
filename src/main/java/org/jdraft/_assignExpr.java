@@ -30,42 +30,42 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public static _assignExpr of(String... code) {
-        return new _assignExpr(Exprs.assignEx(code));
+        return new _assignExpr(Exprs.assignExpr(code));
     }
 
 
     public static <A extends Object> _assignExpr of(Exprs.Command c) {
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _assignExpr of(Consumer<A> c) {
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _assignExpr of(BiConsumer<A, B> command) {
-        return from(Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _assignExpr of(Exprs.TriConsumer<A, B, C> command) {
-        return from(Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _assignExpr of(Exprs.QuadConsumer<A, B, C, D> command) {
-        return from(Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _assignExpr of(Function<A, B> command) {
-        return from(Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _assignExpr of(BiFunction<A, B, C> command) {
-        return from(Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _assignExpr of(Exprs.TriFunction<A, B, C, D> command) {
-        return from(Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]));
+        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _assignExpr from(LambdaExpr le) {
@@ -90,7 +90,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     @Override
     public boolean is(String... stringRep) {
         try {
-            return is(Exprs.assignEx(stringRep));
+            return is(Exprs.assignExpr(stringRep));
         } catch (Exception e) {
         }
         return false;

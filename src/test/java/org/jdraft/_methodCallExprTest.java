@@ -12,8 +12,8 @@ public class _methodCallExprTest extends TestCase {
         _mc = _methodCallExpr.of( ($any$)-> { System.out.println($any$); });
         _methodCallExpr.of("callMethod()");
         _methodCallExpr.of("callMethod(1,2,3)");
-        _methodCallExpr.of(Exprs.methodCallEx("callMethod()"));
-        _methodCallExpr.of(Exprs.methodCallEx("callMethod(4,5,6)"));
+        _methodCallExpr.of(Exprs.methodCallExpr("callMethod()"));
+        _methodCallExpr.of(Exprs.methodCallExpr("callMethod(4,5,6)"));
 
         System.out.println( _mc);
     }

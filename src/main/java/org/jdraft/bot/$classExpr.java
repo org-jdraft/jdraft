@@ -88,7 +88,7 @@ public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>
 
     public Select<_classExpr> select(String str) {
         try {
-            return select(Exprs.classEx(str));
+            return select(Exprs.classExpr(str));
         } catch (Exception e) {
             return null;
         }

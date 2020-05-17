@@ -47,7 +47,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._mu
     }
 
     public static _unaryExpr of(String...code){
-        return new _unaryExpr(Exprs.unaryEx( code));
+        return new _unaryExpr(Exprs.unaryExpr( code));
     }
 
     public UnaryExpr unaryEx;
@@ -64,7 +64,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._mu
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.unaryEx(stringRep));
+            return is( Exprs.unaryExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

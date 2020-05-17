@@ -127,7 +127,7 @@ public class _annotationTest extends TestCase  {
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
-        assertEquals( Exprs.stringLiteralEx( "String"), _p.getDefaultValue());
+        assertEquals( Exprs.stringExpr( "String"), _p.getDefaultValue());
 
         _p = _an.getEntry("clazz");
         assertFalse( _p.hasJavadoc() );
@@ -136,14 +136,14 @@ public class _annotationTest extends TestCase  {
         assertEquals( _p.getTypeRef(), _typeRef.of(Types.of("Class[]")));
 
         assertTrue( _p.isTypeRef(Class[].class) );
-        assertEquals( Exprs.arrayInitializerEx( "{}"),_p.getDefaultValue());
+        assertEquals( Exprs.arrayInitExpr( "{}"),_p.getDefaultValue());
 
         _p = _an.getEntry("vval");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
         assertTrue( _p.isTypeRef( int.class) );
-        assertEquals( Exprs.nameEx("V"),_p.getDefaultValue());
+        assertEquals( Exprs.nameExpr("V"),_p.getDefaultValue());
         assertEquals( "ComplexAnnotationType", _an.getName());
 
         assertEquals( 4, _an.listInnerTypes().size());
@@ -154,10 +154,10 @@ public class _annotationTest extends TestCase  {
 
 
         //verify we can find the field in each nested TYPE
-        assertEquals( Exprs.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _class).get(0).getField("f").getInit() );
-        assertEquals( Exprs.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _enum).get(0).getField("f").getInit() );
-        assertEquals( Exprs.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _interface).get(0).getField("f").getInit() );
-        assertEquals( Exprs.intLiteralEx(123), _an.listInnerTypes(t-> t instanceof _annotation).get(0).getField("f").getInit() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _class).get(0).getField("f").getInit() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _enum).get(0).getField("f").getInit() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _interface).get(0).getField("f").getInit() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _annotation).get(0).getField("f").getInit() );
 
 
         //add NESTS

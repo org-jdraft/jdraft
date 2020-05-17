@@ -15,7 +15,7 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
         return new _booleanExpr(bl);
     }
     public static _booleanExpr of(String...code){
-        return new _booleanExpr(Exprs.booleanLiteralEx( code));
+        return new _booleanExpr(Exprs.booleanExpr( code));
     }
 
     public BooleanLiteralExpr be;
@@ -32,7 +32,7 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.booleanLiteralEx(stringRep));
+            return is( Exprs.booleanExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -66,7 +66,7 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
     }
 
     public _booleanExpr set(String...value){
-        this.set(Exprs.booleanLiteralEx(value));
+        this.set(Exprs.booleanExpr(value));
         return this;
     }
 

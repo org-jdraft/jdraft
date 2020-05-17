@@ -67,46 +67,46 @@ public final class _body implements _java._domain {
     }
 
     public static _body of( Exprs.Command ec ){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
     public static _body of( Supplier<? extends Object> s){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
     public static _body of( Consumer<? extends Object> s){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
     public static _body of( BiConsumer<? extends Object, ? extends Object> s){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
     public static _body of( Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> s){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
     public static _body of( Function<? extends Object, ? extends Object> f){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
     public static _body of( BiFunction<? extends Object, ? extends Object, ? extends Object> f){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
     public static _body of( Exprs.TriFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object> f){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
     public static _body of( Exprs.QuadFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object, ? extends Object> f){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from( le);
     }
 
@@ -205,7 +205,7 @@ public final class _body implements _java._domain {
      */
     public static _body of(Object anonymousClassWithMethodContainingBody){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         Optional<BodyDeclaration<?>> on = oce.getAnonymousClassBody().get().stream().filter(m -> 
                 m instanceof MethodDeclaration 
                 && !((MethodDeclaration)m)

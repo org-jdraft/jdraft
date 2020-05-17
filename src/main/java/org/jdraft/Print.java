@@ -58,7 +58,7 @@ public interface Print {
             = new PrettyPrinterConfiguration()
             .setVisitorFactory(EmptyStatementCommentPrinter::new);
     public static final PrettyPrinterConfiguration PRINT_NO_TYPE_PARAMETERS = new PrettyPrinterConfiguration()
-            .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoTypeParameters::new);
+            .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoTypeParams::new);
     /**
      * Dont print TypeParameters or Annotations... this is for dealing with {@link ClassOrInterfaceType} types
      * which MAY have "TYPE_UYSE" annotations AND erased generics in source code and we want to look at
@@ -73,7 +73,7 @@ public interface Print {
      */
     public static final PrettyPrinterConfiguration PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS
             = new PrettyPrinterConfiguration()
-            .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotationsOrTypeParameters::new);
+            .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotationsOrTypeParams::new);
     public static final PrettyPrinterConfiguration PRINT_NO_COMMENTS = new PrettyPrinterConfiguration()
             .setPrintComments(false).setPrintJavadoc(false);
     public static final PrettyPrinterConfiguration PRINT_RAW_COMMENTS = new PrettyPrinterConfiguration()
@@ -214,9 +214,9 @@ public interface Print {
      * the formatted .java source code, for the more comprehensive example:
      * @see PrettyPrintVisitor
      */
-    public static class PrintNoTypeParameters extends PrettyPrintVisitor {
+    public static class PrintNoTypeParams extends PrettyPrintVisitor {
 
-        public PrintNoTypeParameters(PrettyPrinterConfiguration prettyPrinterConfiguration) {
+        public PrintNoTypeParams(PrettyPrinterConfiguration prettyPrinterConfiguration) {
             super(prettyPrinterConfiguration);
         }
 
@@ -258,9 +258,9 @@ public interface Print {
      * the formatted .java source code, for the more comprehensive example:
      * @see PrettyPrintVisitor
      */
-    public static class PrintNoAnnotationsOrTypeParameters extends PrettyPrintVisitor {
+    public static class PrintNoAnnotationsOrTypeParams extends PrettyPrintVisitor {
 
-        public PrintNoAnnotationsOrTypeParameters(PrettyPrinterConfiguration prettyPrinterConfiguration) {
+        public PrintNoAnnotationsOrTypeParams(PrettyPrinterConfiguration prettyPrinterConfiguration) {
             super(prettyPrinterConfiguration);
         }
 

@@ -38,9 +38,9 @@ public final class _constructorDiff implements _differ<_constructor, _java._mult
         _annoExprsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
-        _receiverParameterDiff.INSTANCE.diff(path, dt, left, right, left.getReceiverParam(), right.getReceiverParam());
-        _parametersDiff.INSTANCE.diff(path, dt, left, right, left.getParams(), right.getParams());
-        _typeParametersDiff.INSTANCE.diff(path, dt, left, right, left.getTypeParams(), right.getTypeParams());
+        _receiverParamDiff.INSTANCE.diff(path, dt, left, right, left.getReceiverParam(), right.getReceiverParam());
+        _paramsDiff.INSTANCE.diff(path, dt, left, right, left.getParams(), right.getParams());
+        _typeParamsDiff.INSTANCE.diff(path, dt, left, right, left.getTypeParams(), right.getTypeParams());
         _throwsDiff.INSTANCE.diff(path, dt, left, right, left.getThrows(), right.getThrows());
         _bodyDiff.INSTANCE.diff(path, dt, left, right, left.getBody(), right.getBody());
         return dt;

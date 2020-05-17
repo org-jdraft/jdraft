@@ -532,7 +532,7 @@ public final class _switchStmt implements _stmt._controlFlow._branching<SwitchSt
     }
 
     public <E extends Enum> _switchStmt mapCode(E e, Statement...st){
-        return mapCode(Exprs.nameEx(e.name()), st);
+        return mapCode(Exprs.nameExpr(e.name()), st);
     }
 
     public <E extends Enum> _switchStmt mapCode(E e, _stmt..._st){

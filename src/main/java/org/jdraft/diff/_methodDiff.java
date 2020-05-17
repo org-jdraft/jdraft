@@ -23,9 +23,9 @@ public final class _methodDiff implements _differ<_method, _java._multiPart> {
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getTypeRef(), right.getTypeRef());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
-        _typeParametersDiff.INSTANCE.diff(p, dt, left, right, left.getTypeParams(), right.getTypeParams());
-        _receiverParameterDiff.INSTANCE.diff(p, dt, left, right, left.getReceiverParam(), right.getReceiverParam());
-        _parametersDiff.INSTANCE.diff(p, dt, left, right, left.getParams(), right.getParams());
+        _typeParamsDiff.INSTANCE.diff(p, dt, left, right, left.getTypeParams(), right.getTypeParams());
+        _receiverParamDiff.INSTANCE.diff(p, dt, left, right, left.getReceiverParam(), right.getReceiverParam());
+        _paramsDiff.INSTANCE.diff(p, dt, left, right, left.getParams(), right.getParams());
         _throwsDiff.INSTANCE.diff(p, dt, left, right, left.getThrows(), right.getThrows());
         _bodyDiff.INSTANCE.diff(p, dt, left, right, left.getBody(), right.getBody());
         return dt;

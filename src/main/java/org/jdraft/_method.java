@@ -143,7 +143,7 @@ public final class _method
      */
     public static _method of(Object anonymousObjectContainingMethod) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         //removeIn all things that aren't METHODS or METHODS WITH @_remove
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));
@@ -183,7 +183,7 @@ public final class _method
      * @return
      */
     public static _method main(Consumer<String[]> lambdaWithMainBody){
-        Statement st = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement st = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]).getBody();
         _method _m = _method.of("public static void main(String[] args){}");
         if( st.isBlockStmt() ){
             _m.setBody( (BlockStmt)st);
@@ -820,7 +820,7 @@ public final class _method
          * @return
          */
         default _WM main(Exprs.Command body) {
-            LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+            LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
                 _m.setBody(le.getBody().asBlockStmt());
@@ -839,7 +839,7 @@ public final class _method
          * @return
          */
         default _WM main(Consumer<String[]> body) {
-            LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+            LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
                 _m.setBody(le.getBody().asBlockStmt());
@@ -869,7 +869,7 @@ public final class _method
          */
         default _WM addMethod(Object anonymousObjectContainingMethod) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Exprs.newEx(ste);
+            ObjectCreationExpr oce = Exprs.newExpr(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {
                 throw new _jdraftException("No anonymous Object containing a method provided ");
             }

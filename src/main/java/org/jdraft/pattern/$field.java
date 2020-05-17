@@ -92,7 +92,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     }
 
     public static _field from( StackTraceElement ste, Object anonymousObjectWithField ){
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 

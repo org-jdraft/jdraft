@@ -7,7 +7,6 @@ import com.github.javaparser.ast.comments.LineComment;
 import com.github.javaparser.ast.stmt.*;
 import junit.framework.TestCase;
 import org.jdraft.pattern.$;
-import org.jdraft.pattern.$stmt;
 
 import java.io.*;
 import java.util.function.Predicate;
@@ -251,7 +250,7 @@ public class StmtsTest extends TestCase {
 
         assertEquals(st, Stmts.doStmt("do{ assert(1==1); }while(n>2);"));
 
-        assertEquals(Stmts.of((Integer a) -> a = 2 + 45), Stmts.expressionStmt("a = 2 + 45;"));
+        assertEquals(Stmts.of((Integer a) -> a = 2 + 45), Stmts.exprStmt("a = 2 + 45;"));
 
 
         //Stmt.expressionStmt("a = 2 + 45;");

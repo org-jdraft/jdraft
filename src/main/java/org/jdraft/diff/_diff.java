@@ -208,7 +208,7 @@ public interface _diff {
     }
 
     static _diff typeParametersOf(_withTypeParams left, _withTypeParams right) {
-        return _typeParametersDiff.INSTANCE.diff(left, right);
+        return _typeParamsDiff.INSTANCE.diff(left, right);
     }
 
     static _diff staticBlocksOf(_withInitBlocks left, _withInitBlocks right) {
@@ -216,7 +216,7 @@ public interface _diff {
     }
 
     static _diff receiverParameterOf(_withReceiverParam left, _withReceiverParam right) {
-        return _receiverParameterDiff.INSTANCE.diff(left, right);
+        return _receiverParamDiff.INSTANCE.diff(left, right);
     }
 
     /**

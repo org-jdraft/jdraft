@@ -51,7 +51,7 @@ public class Types {
      * @param param the string representation of the typeParameter
      * @return
      */
-    public static TypeParameter typeParameter(String param) {
+    public static TypeParameter typeParam(String param) {
         param = param.trim();
         if (param.length() == 0) {
             return null;
@@ -74,7 +74,7 @@ public class Types {
      * @param code the string representation of the typeParameter
      * @return
      */
-    public static NodeList<TypeParameter> typeParameters(String code) {
+    public static NodeList<TypeParameter> typeParams(String code) {
         code = code.trim();
         if (code.length() == 0) {
             return new NodeList<>();
@@ -144,7 +144,7 @@ public class Types {
         }
     }
 
-    public static List<String> normalizeTypeParameter(TypeParameter tp) {
+    public static List<String> normalizeTypeParam(TypeParameter tp) {
         List<String> tw = new ArrayList<>();
         Tree.directChildren(tp, Node.class, t -> true, t -> {
             if (t instanceof Type) {

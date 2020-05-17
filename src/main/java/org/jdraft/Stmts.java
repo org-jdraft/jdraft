@@ -288,7 +288,7 @@ public enum Stmts {
      * @return the AST LambdaExpr representation for the runtime Command
      */
     public static Statement from(StackTraceElement lambdaStackTrace ){
-        return from( Exprs.lambdaEx( lambdaStackTrace ) );
+        return from( Exprs.lambdaExpr( lambdaStackTrace ) );
     }
 
     /**
@@ -490,7 +490,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static AssertStmt assertStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(AssertStmt.class).get();
     }
 
@@ -503,23 +503,23 @@ public enum Stmts {
     }
 
     public static AssertStmt assertStmt( Exprs.Command command ){
-        return assertStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return assertStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> AssertStmt assertStmt( Consumer<A> command ){
-        return assertStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return assertStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> AssertStmt assertStmt( BiConsumer<A,B> command ){
-        return assertStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return assertStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> AssertStmt assertStmt( Exprs.TriConsumer<A,B,C> command ){
-        return assertStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return assertStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> AssertStmt assertStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return assertStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return assertStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static final Class<BlockStmt> BLOCK = BlockStmt.class;
@@ -605,7 +605,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static BlockStmt blockStmt(StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         Statement st = le.getBody();
         if( st.isBlockStmt() ){
             return st.asBlockStmt();
@@ -614,7 +614,7 @@ public enum Stmts {
     }
 
     public static BlockStmt blockStmt(Exprs.Command command ){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         Statement st = le.getBody();
         if( st.isBlockStmt() ){
             return st.asBlockStmt();
@@ -623,7 +623,7 @@ public enum Stmts {
     }
 
     public static <A extends Object> BlockStmt blockStmt(Consumer<A> command ){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         Statement st = le.getBody();
         if( st.isBlockStmt() ){
             return st.asBlockStmt();
@@ -632,7 +632,7 @@ public enum Stmts {
     }
 
     public static <A extends Object, B extends Object> BlockStmt blockStmt(BiConsumer<A,B> command ){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         Statement st = le.getBody();
         if( st.isBlockStmt() ){
             return st.asBlockStmt();
@@ -641,7 +641,7 @@ public enum Stmts {
     }
 
     public static <A extends Object, B extends Object, C extends Object> BlockStmt blockStmt(Exprs.TriConsumer<A,B,C> command ){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         Statement st = le.getBody();
         if( st.isBlockStmt() ){
             return st.asBlockStmt();
@@ -650,7 +650,7 @@ public enum Stmts {
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> BlockStmt blockStmt(Exprs.QuadConsumer<A,B,C,D> command ){
-        LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         Statement st = le.getBody();
         if( st.isBlockStmt() ){
             return st.asBlockStmt();
@@ -714,7 +714,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static DoStmt doStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(DoStmt.class).get();
     }
 
@@ -726,23 +726,23 @@ public enum Stmts {
         return ods.get();
     }
     public static DoStmt doStmt( Exprs.Command command ){
-        return doStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return doStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> DoStmt doStmt( Consumer<A> command ){
-        return doStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return doStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> DoStmt doStmt( BiConsumer<A,B> command ){
-        return doStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return doStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> DoStmt doStmt( Exprs.TriConsumer<A,B,C> command ){
-        return doStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return doStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> DoStmt doStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return doStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return doStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** 
@@ -803,7 +803,7 @@ public enum Stmts {
      * @param code
      * @return 
      */
-    public static ExpressionStmt expressionStmt( String... code ) {
+    public static ExpressionStmt exprStmt(String... code ) {
         String str = Text.combine( code );
         if(str.endsWith(";") ){
             //Expression ex = ;
@@ -817,8 +817,8 @@ public enum Stmts {
      * @param code
      * @return
      */
-    public static ExpressionStmt expressionStmt( String code ){
-        return expressionStmt( new String[]{code});
+    public static ExpressionStmt exprStmt(String code ){
+        return exprStmt( new String[]{code});
     }
 
     /**
@@ -830,12 +830,12 @@ public enum Stmts {
      * @param ste the stackTraceElement for the caller location of the
      * @return a BlockStmt based on the Lambda Expression block
      */
-    public static ExpressionStmt expressionStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+    public static ExpressionStmt exprStmt(StackTraceElement ste ){
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(ExpressionStmt.class).get();
     }
 
-    public static ExpressionStmt expressionStmt( LambdaExpr le ){
+    public static ExpressionStmt exprStmt(LambdaExpr le ){
         Optional<ExpressionStmt> ods = le.findFirst(ExpressionStmt.class);
         if( ods == null ){
             throw new _jdraftException("No ExpressionStmt in lambda "+ le );
@@ -854,24 +854,24 @@ public enum Stmts {
         throw new _jdraftException("Invliad characters to represent EmptyStmt: "+Text.combine(code));
     }
 
-    public static ExpressionStmt expressionStmt( Exprs.Command command ){
-        return expressionStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static ExpressionStmt exprStmt(Exprs.Command command ){
+        return exprStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object> ExpressionStmt expressionStmt( Consumer<A> command ){
-        return expressionStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object> ExpressionStmt exprStmt(Consumer<A> command ){
+        return exprStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object> ExpressionStmt expressionStmt( BiConsumer<A,B> command ){
-        return expressionStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object> ExpressionStmt exprStmt(BiConsumer<A,B> command ){
+        return exprStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> ExpressionStmt expressionStmt( Exprs.TriConsumer<A,B,C> command ){
-        return expressionStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> ExpressionStmt exprStmt(Exprs.TriConsumer<A,B,C> command ){
+        return exprStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> ExpressionStmt expressionStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return expressionStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> ExpressionStmt exprStmt(Exprs.QuadConsumer<A,B,C,D> command ){
+        return exprStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "for(int i=0; i<100;i++) {...}" */
@@ -905,7 +905,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static ForStmt forStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(ForStmt.class).get();
     }
 
@@ -918,23 +918,23 @@ public enum Stmts {
     }
 
     public static ForStmt forStmt( Exprs.Command command ){
-        return forStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> ForStmt forStmt( Consumer<A> command ){
-        return forStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> ForStmt forStmt( BiConsumer<A,B> command ){
-        return forStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> ForStmt forStmt( Exprs.TriConsumer<A,B,C> command ){
-        return forStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> ForStmt forStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return forStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "for(String element:arr){...}" */
@@ -971,7 +971,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static ForEachStmt forEachStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(ForEachStmt.class).get();
     }
 
@@ -984,23 +984,23 @@ public enum Stmts {
     }
 
     public static ForEachStmt forEachStmt( Exprs.Command command ){
-        return forEachStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forEachStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> ForEachStmt forEachStmt( Consumer<A> command ){
-        return forEachStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forEachStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> ForEachStmt forEachStmt( BiConsumer<A,B> command ){
-        return forEachStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forEachStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> ForEachStmt forEachStmt( Exprs.TriConsumer<A,B,C> command ){
-        return forEachStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forEachStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> ForEachStmt forEachStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return forEachStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return forEachStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "if(a==1){...}" */
@@ -1034,7 +1034,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static IfStmt ifStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(IfStmt.class).get();
     }
 
@@ -1047,23 +1047,23 @@ public enum Stmts {
     }
 
     public static IfStmt ifStmt( Exprs.Command command ){
-        return ifStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return ifStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> IfStmt ifStmt( Consumer<A> command ){
-        return ifStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return ifStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> IfStmt ifStmt( BiConsumer<A,B> command ){
-        return ifStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return ifStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> IfStmt ifStmt( Exprs.TriConsumer<A,B,C> command ){
-        return ifStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return ifStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> IfStmt ifStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return ifStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return ifStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "outer:   start = getValue();" */
@@ -1099,7 +1099,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static LabeledStmt labeledStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(LabeledStmt.class).get();
     }
 
@@ -1112,23 +1112,23 @@ public enum Stmts {
     }
 
     public static LabeledStmt labeledStmt( Exprs.Command command ){
-        return labeledStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return labeledStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> LabeledStmt labeledStmt( Consumer<A> command ){
-        return labeledStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return labeledStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> LabeledStmt labeledStmt( BiConsumer<A,B> command ){
-        return labeledStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return labeledStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> LabeledStmt labeledStmt( Exprs.TriConsumer<A,B,C> command ){
-        return labeledStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return labeledStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> LabeledStmt labeledStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return labeledStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return labeledStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "class C{ int a, b; }" */
@@ -1173,7 +1173,7 @@ public enum Stmts {
     }
 
     public static ReturnStmt returnStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx(ste);
+        LambdaExpr le = Exprs.lambdaExpr(ste);
         if( le.getExpressionBody().isPresent() ){
             return new ReturnStmt(le.getExpressionBody().get());
         }
@@ -1207,7 +1207,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static SwitchStmt switchStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(SwitchStmt.class).get();
     }
 
@@ -1220,23 +1220,23 @@ public enum Stmts {
     }
 
     public static SwitchStmt switchStmt( Exprs.Command command ){
-        return switchStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return switchStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> SwitchStmt switchStmt( Consumer<A> command ){
-        return switchStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return switchStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> SwitchStmt switchStmt( BiConsumer<A,B> command ){
-        return switchStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return switchStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> SwitchStmt switchStmt( Exprs.TriConsumer<A,B,C> command ){
-        return switchStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return switchStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> SwitchStmt switchStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return switchStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return switchStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "synchronized(e) { ...}" */
@@ -1270,7 +1270,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static SynchronizedStmt synchronizedStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(SynchronizedStmt.class).get();
     }
 
@@ -1283,23 +1283,23 @@ public enum Stmts {
     }
 
     public static SynchronizedStmt synchronizedStmt( Exprs.Command command ){
-        return synchronizedStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return synchronizedStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> SynchronizedStmt synchronizedStmt( Consumer<A> command ){
-        return synchronizedStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return synchronizedStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> SynchronizedStmt synchronizedStmt( BiConsumer<A,B> command ){
-        return synchronizedStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return synchronizedStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> SynchronizedStmt synchronizedStmt( Exprs.TriConsumer<A,B,C> command ){
-        return synchronizedStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return synchronizedStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> SynchronizedStmt synchronizedStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return synchronizedStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return synchronizedStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /**
@@ -1337,7 +1337,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static ThrowStmt throwStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(ThrowStmt.class).get();
     }
 
@@ -1350,23 +1350,23 @@ public enum Stmts {
     }
 
     public static ThrowStmt throwStmt( Exprs.Command command ){
-        return throwStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return throwStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> ThrowStmt throwStmt( Consumer<A> command ){
-        return throwStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return throwStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> ThrowStmt throwStmt( BiConsumer<A,B> command ){
-        return throwStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return throwStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> ThrowStmt throwStmt( Exprs.TriConsumer<A,B,C> command ){
-        return throwStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return throwStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> ThrowStmt throwStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return throwStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return throwStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "try{ clazz.getMethod("fieldName"); }" */
@@ -1400,7 +1400,7 @@ public enum Stmts {
      * @return a TryStmt based on the Lambda Expression block
      */
     public static TryStmt tryStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(TryStmt.class).get();
     }
 
@@ -1413,23 +1413,23 @@ public enum Stmts {
     }
 
     public static TryStmt tryStmt( Exprs.Command command ){
-        return tryStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return tryStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> TryStmt tryStmt( Consumer<A> command ){
-        return tryStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return tryStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> TryStmt tryStmt( BiConsumer<A,B> command ){
-        return tryStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return tryStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> TryStmt tryStmt( Exprs.TriConsumer<A,B,C> command ){
-        return tryStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return tryStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> TryStmt tryStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return tryStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return tryStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "while(i< 1) { ... }"*/
@@ -1465,7 +1465,7 @@ public enum Stmts {
      * @return a BlockStmt based on the Lambda Expression block
      */
     public static WhileStmt whileStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(WhileStmt.class).get();
     }
 
@@ -1478,23 +1478,23 @@ public enum Stmts {
     }
 
     public static WhileStmt whileStmt( Exprs.Command command ){
-        return whileStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return whileStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> WhileStmt whileStmt( Consumer<A> command ){
-        return whileStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return whileStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> WhileStmt whileStmt( BiConsumer<A,B> command ){
-        return whileStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return whileStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> WhileStmt whileStmt( Exprs.TriConsumer<A,B,C> command ){
-        return whileStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return whileStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> WhileStmt whileStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return whileStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return whileStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** i.e. "yield 6;" */
@@ -1509,7 +1509,7 @@ public enum Stmts {
     public static YieldStmt yieldStmt( String... code ) {
 
         String str = "switch(e){ case 1: "+Text.combine(code)+" }";
-        SwitchExpr se = Exprs.switchEx(str);
+        SwitchExpr se = Exprs.switchExpr(str);
         YieldStmt ys = (YieldStmt)se.getEntry(0).getStatement(0);
         ys.getParentNode().get().remove(ys);
         return ys;
@@ -1536,7 +1536,7 @@ public enum Stmts {
      * @return a YieldStmt based on the Lambda Expression block
      */
     public static YieldStmt yieldStmt( StackTraceElement ste ){
-        LambdaExpr le = Exprs.lambdaEx( ste );
+        LambdaExpr le = Exprs.lambdaExpr( ste );
         return le.findFirst(YieldStmt.class).get();
     }
 
@@ -1549,23 +1549,23 @@ public enum Stmts {
     }
 
     public static YieldStmt yieldStmt( Exprs.Command command ){
-        return yieldStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return yieldStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object> YieldStmt yieldStmt( Consumer<A> command ){
-        return yieldStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return yieldStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> YieldStmt yieldStmt( BiConsumer<A,B> command ){
-        return yieldStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return yieldStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> YieldStmt yieldStmt( Exprs.TriConsumer<A,B,C> command ){
-        return yieldStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return yieldStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> YieldStmt yieldStmt( Exprs.QuadConsumer<A,B,C,D> command ){
-        return yieldStmt(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
+        return yieldStmt(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     /** an empty statement i.e. ";" */

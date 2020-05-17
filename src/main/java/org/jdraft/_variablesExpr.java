@@ -33,7 +33,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     public static _variablesExpr of(String...code){
-        return new _variablesExpr(Exprs.varLocalEx(code));
+        return new _variablesExpr(Exprs.variablesExpr(code));
     }
 
     public VariableDeclarationExpr varDeclEx;
@@ -60,7 +60,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.varLocalEx(stringRep));
+            return is( Exprs.variablesExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

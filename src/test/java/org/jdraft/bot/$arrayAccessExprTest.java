@@ -81,7 +81,7 @@ public class $arrayAccessExprTest extends TestCase {
 	public void testBaseAPI() {
 		$arrayAccessExpr $aa = $arrayAccessExpr.of();
 		_arrayAccessExpr _aa = _arrayAccessExpr.of("X[i]");
-		_aa = $aa.instance( Exprs.arrayAccessEx("Y[m()]"));
+		_aa = $aa.instance( Exprs.arrayAccessExpr("Y[m()]"));
 		
 		//$and
 		$aa.$and(a-> a.getName().is("x"));		
@@ -137,7 +137,7 @@ public class $arrayAccessExprTest extends TestCase {
 		assertTrue($aa.name.matches("x"));
 		assertTrue($aa.index.matches("1"));
 
-		ArrayAccessExpr aae = Exprs.arrayAccessEx("x[1]");
+		ArrayAccessExpr aae = Exprs.arrayAccessExpr("x[1]");
 		assertTrue( $aa.matches(aae));
 		assertTrue( $aa.matches("x[1]"));
 		assertFalse( $aa.matches("y[1]"));

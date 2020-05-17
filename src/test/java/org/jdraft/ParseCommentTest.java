@@ -15,7 +15,7 @@ public class ParseCommentTest extends TestCase {
     
     public void testParseCommentsOnExpressions(){
         
-        Exprs.lambdaEx("/** */()->blah");
+        Exprs.lambdaExpr("/** */()->blah");
         
         Statement st = StaticJavaParser.parseStatement(
             "class L{" 

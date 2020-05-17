@@ -98,7 +98,7 @@ public final class _annotation
      */
     public static _annotation of( String signature, Object anonymousClassBody, StackTraceElement ste) {
         _annotation _a = of( signature );
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
 
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 
@@ -757,7 +757,7 @@ public final class _annotation
         }
         
         public _entry setDefaultValueNull(){
-            this.astAnnMember.setDefaultValue( Exprs.nullEx() );
+            this.astAnnMember.setDefaultValue( Exprs.nullExpr() );
             return this;
         }
         

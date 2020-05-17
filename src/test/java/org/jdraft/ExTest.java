@@ -32,7 +32,7 @@ public class ExTest extends TestCase {
                 "        yield -1;",
                 "}"};
 
-        SwitchExpr se = Exprs.switchEx(sy);
+        SwitchExpr se = Exprs.switchExpr(sy);
         assertEquals( 4, se.getEntries().size());
         assertEquals( 2, se.getEntry(0).getLabels().size());
         assertEquals( 1, se.getEntry(1).getLabels().size());
@@ -44,12 +44,12 @@ public class ExTest extends TestCase {
      */
     public void testArrayEx(){
 
-        assertEquals(Exprs.of(new int[]{1,2,3,4,5}), Exprs.intArray(1,2,3,4,5));
-        assertEquals(Exprs.of(new boolean[]{true, false, true}), Exprs.booleanArray(true,false,true));
-        assertEquals(Exprs.of(new float[]{1.0f, 2.0f}), Exprs.floatArray(1.0f,2.0f));
-        assertEquals(Exprs.of(new char[]{'a','b','c'}), Exprs.charArray('a','b','c'));
-        assertEquals(Exprs.of(new double[]{1.0d, 2.0d, 3.0d}), Exprs.doubleArray(1.0d,2.0d,3.0d));
-        assertEquals(Exprs.of("{\"A\", \"B\", \"C\"}"), Exprs.stringArray("A","B","C") );
+        assertEquals(Exprs.of(new int[]{1,2,3,4,5}), Exprs.of(1,2,3,4,5));
+        assertEquals(Exprs.of(new boolean[]{true, false, true}), Exprs.of(true,false,true));
+        assertEquals(Exprs.of(new float[]{1.0f, 2.0f}), Exprs.of(1.0f,2.0f));
+        assertEquals(Exprs.of(new char[]{'a','b','c'}), Exprs.of('a','b','c'));
+        assertEquals(Exprs.of(new double[]{1.0d, 2.0d, 3.0d}), Exprs.of(1.0d,2.0d,3.0d));
+        assertEquals(Exprs.of("{\"A\", \"B\", \"C\"}"), Exprs.stringArrayInitExpr("A","B","C") );
     }
 
     public void testExprThousandsSeparatorHexBinary(){
@@ -61,12 +61,12 @@ public class ExTest extends TestCase {
         Ast.expression("0xDEADBEEF");
         Ast.expression("0b110100111");
         
-        Exprs.intLiteralEx("1_000");
-        Exprs.intLiteralEx("0xDEADBEEF");
-        Exprs.intLiteralEx("0b110100111");
+        Exprs.intExpr("1_000");
+        Exprs.intExpr("0xDEADBEEF");
+        Exprs.intExpr("0b110100111");
 
-        LongLiteralExpr l = Exprs.longLiteralEx("1_000_000L");
-        LongLiteralExpr ll = Exprs.longLiteralEx("1000000L");
+        LongLiteralExpr l = Exprs.longExpr("1_000_000L");
+        LongLiteralExpr ll = Exprs.longExpr("1000000L");
         
         //this is a direct syntax comparison
         assertFalse( l.equals(11));
@@ -86,10 +86,10 @@ public class ExTest extends TestCase {
     }
     
     public void testUnary(){
-        UnaryExpr ue = Exprs.unaryEx( ()->!true );
+        UnaryExpr ue = Exprs.unaryExpr( ()->!true );
         assertEquals( Exprs.of("!true"), ue);
         
-        Exprs.instanceOfEx( ($any$)-> $any$ instanceof String );
+        Exprs.instanceOfExpr( ($any$)-> $any$ instanceof String );
     }
     
     
@@ -113,10 +113,10 @@ public class ExTest extends TestCase {
     }
     
     public void testObjectCreation(){
-        ObjectCreationExpr oce = Exprs.newEx( ()-> new HashMap() );
-        assertEquals( oce, Exprs.newEx("new HashMap()"));
+        ObjectCreationExpr oce = Exprs.newExpr( ()-> new HashMap() );
+        assertEquals( oce, Exprs.newExpr("new HashMap()"));
         
-        assertEquals( Exprs.of("List.of(1,2)"), Exprs.methodCallEx("List.of(1,2);"));
+        assertEquals( Exprs.of("List.of(1,2)"), Exprs.methodCallExpr("List.of(1,2);"));
     }
     
     public void testArrayExpr(){
@@ -128,12 +128,12 @@ public class ExTest extends TestCase {
     }
     
     public void testRuntimeAnonymousClass(){
-        ObjectCreationExpr oce = Exprs.newEx(new Object(){
+        ObjectCreationExpr oce = Exprs.newExpr(new Object(){
             int x,y,z;
         });
         assertTrue( oce.getAnonymousClassBody().get().get(0) instanceof FieldDeclaration );
 
-        oce = Exprs.newEx(
+        oce = Exprs.newExpr(
                 /** INTENTIONALLY BLANK */
                 /** INTENTIONALLY BLANK */
                 /** INTENTIONALLY BLANK */
@@ -149,12 +149,12 @@ public class ExTest extends TestCase {
 
     public void testRuntimeLambda(){
         //System.out.println( _io.describe() );
-        LambdaExpr le = Exprs.lambdaEx( ()-> System.out.println(1) );
+        LambdaExpr le = Exprs.lambdaExpr( ()-> System.out.println(1) );
 
 
         /** I need to get rid of the whole space requirement */
         le = Exprs
-                .lambdaEx(
+                .lambdaExpr(
                 //intentionally
                 //intentionally
                 //intentionally
@@ -203,11 +203,11 @@ public class ExTest extends TestCase {
         assertEquals( Stmts.of( ()->{assert true;}), le.getBody().asBlockStmt().getStatement(0));
 
         //unknown TYPE args
-        le = Exprs.lambdaEx( "(x) ->System.out.println(x)" );
+        le = Exprs.lambdaExpr( "(x) ->System.out.println(x)" );
         assertTrue( le.getParameters().get(0).getType() instanceof UnknownType);
         assertEquals( "x", le.getParameters().get(0).getNameAsString());
 
-        le = Exprs.lambdaEx( (Integer x) ->System.out.println(x) );
+        le = Exprs.lambdaExpr( (Integer x) ->System.out.println(x) );
 
         //typed args
         le = Exprs.of( (String s)->System.out.println(s) );

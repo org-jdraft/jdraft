@@ -47,7 +47,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      */
     public static $stmts of(Object anonymousObjectWithBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         //find the first method that doesnt have removeIn on it and has a BODY
         // to get it's contents
         MethodDeclaration theMethod = (MethodDeclaration)
@@ -63,37 +63,37 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
 
     public static $stmts of(Exprs.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Exprs.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaExpr(ste));
     }
 
     public static <T extends Object> $stmts of(Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Exprs.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaExpr(ste));
     }
 
     public static <T extends Object, U extends Object> $stmts of(Function<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Exprs.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaExpr(ste));
     }
 
     public static <T extends Object, U extends Object, V extends Object> $stmts of(BiFunction<T,U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Exprs.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaExpr(ste));
     }
 
     public static <T extends Object, U extends Object> $stmts of(BiConsumer<T,U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Exprs.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaExpr(ste));
     }
 
     public static <T extends Object, U extends Object, V extends Object> $stmts of(Exprs.TriConsumer<T,U,V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Exprs.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaExpr(ste));
     }
 
     public static <T extends Object, U extends Object, V extends Object, Z extends Object> $stmts of(Exprs.QuadConsumer<T,U,V,Z> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return $stmts.of( Exprs.lambdaEx(ste));
+        return $stmts.of( Exprs.lambdaExpr(ste));
     }
 
     public static $stmts of(LambdaExpr astLambda ){

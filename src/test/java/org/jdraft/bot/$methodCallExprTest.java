@@ -326,12 +326,12 @@ public class $methodCallExprTest extends TestCase {
 
         //IF there is only a single token, and there is no ('s we assume you are presenting the name
         $methodCallExpr $mc = $methodCallExpr.of("split");
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallExpr(()-> System.out.println("a"))) );
 
         $mc = $methodCallExpr.of("split").$scope($expr.of("\"eric\""));
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallExpr(()-> System.out.println("a"))) );
     }
 
     public void testArguments(){
@@ -355,38 +355,38 @@ public class $methodCallExprTest extends TestCase {
         assertTrue($mc.isMatchAny());
 
         //make sure it matches ANY method call
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> System.out.println("a"))) );
 
         //scope that is a specific string
         $mc.$scope("\"eric\"");
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Exprs.methodCallEx(()-> "deric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallExpr(()-> "deric".split("a"))) );
 
         //specific scope
         $mc.$scope( _stringExpr.of("eric"));
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Exprs.methodCallEx(()-> "deric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallExpr(()-> "deric".split("a"))) );
 
         //by class type
         $mc = new $methodCallExpr().$scope(_stringExpr.class);
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallExpr(()-> System.out.println("a"))) );
 
         //by more than one class type
         $mc = new $methodCallExpr().$scope(_stringExpr.class, _methodCallExpr.class);
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> mc().split("a"))) );
-        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> mc().split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallExpr(()-> System.out.println("a"))) );
 
         $mc = new $methodCallExpr().$scope(e-> e instanceof _stringExpr);
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertFalse( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertFalse( $mc.matches(Exprs.methodCallExpr(()-> System.out.println("a"))) );
 
         $mc = new $methodCallExpr().$scope(e-> e != null);
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> "eric".split("a"))) );
-        assertTrue( $mc.matches(Exprs.methodCallEx(()-> System.out.println("a"))) );
-        assertFalse( $mc.matches( Exprs.methodCallEx( ()-> mc())));
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> "eric".split("a"))) );
+        assertTrue( $mc.matches(Exprs.methodCallExpr(()-> System.out.println("a"))) );
+        assertFalse( $mc.matches( Exprs.methodCallExpr( ()-> mc())));
 
     }
 }

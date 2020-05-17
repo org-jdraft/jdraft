@@ -175,7 +175,7 @@ public final class _lambdaExpr
      * @return
      */
     public static _lambdaExpr of(Object anonymousObjectWithLambda ){
-        ObjectCreationExpr oce = Exprs.newEx(Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Exprs.newExpr(Thread.currentThread().getStackTrace()[2]);
         Optional<LambdaExpr> ole = oce.findFirst(LambdaExpr.class);
         if(ole.isPresent()){
             return _lambdaExpr.of( ole.get());
@@ -189,7 +189,7 @@ public final class _lambdaExpr
     }
     
     public static _lambdaExpr from(StackTraceElement ste ){
-        return _lambdaExpr.of( Exprs.lambdaEx(ste));
+        return _lambdaExpr.of( Exprs.lambdaExpr(ste));
     }
 
     public static _lambdaExpr of(){
@@ -197,7 +197,7 @@ public final class _lambdaExpr
     }
 
     public static _lambdaExpr of(String... lambda){
-        return new _lambdaExpr( Exprs.lambdaEx(lambda) );
+        return new _lambdaExpr( Exprs.lambdaExpr(lambda) );
     }
     
     public static _lambdaExpr of(LambdaExpr astLambda ){
@@ -222,7 +222,7 @@ public final class _lambdaExpr
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is(Exprs.lambdaEx(stringRep));
+            return is(Exprs.lambdaExpr(stringRep));
         } catch(Exception e){
             return false;
         }

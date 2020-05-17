@@ -125,7 +125,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     @Override
     public boolean is(String... stringRep) {
         try {
-            return is(Exprs.switchEx(stringRep));
+            return is(Exprs.switchExpr(stringRep));
         }catch(Exception e){ //string could be invalid
             return false;
         }

@@ -183,7 +183,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //@_abstract
         //@_default
         //@_static
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         if( oce.getAnonymousClassBody().isPresent() ){
             oce.getAnonymousClassBody().get().forEach( e -> _i.astInterface.addMember(e) );
         }

@@ -184,47 +184,47 @@ public final class $ {
     }
 
     public static $body body(Exprs.Command commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(Consumer commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(BiConsumer commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(Exprs.TriConsumer commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static $body body(Exprs.QuadConsumer commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object> $body body(Function<A,B> commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object, C extends Object> $body body(BiFunction<A,B,C> commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> $body body(Exprs.TriFunction<A,B,C,D> commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body( le );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object>  $body body(Exprs.QuadFunction<A,B,C,D,E> commandLambda ){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return new $body ( le );
     }
 
@@ -862,7 +862,7 @@ public final class $ {
         for(int i=0;i<ss.length; i++){
             sd.add( ss[i]);
         }
-        return new $ex( Exprs.stringLiteralEx( ) ).$and(d-> sd.contains(d));
+        return new $ex( Exprs.stringExpr( ) ).$and(d-> sd.contains(d));
     }
 
     public static $ex<StringLiteralExpr, _stringExpr, $ex> stringLiteral(StringLiteralExpr sl){
@@ -1040,27 +1040,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt assertStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt assertStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt assertStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt assertStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt assertStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(AssertStmt.class).get() );
     }
 
@@ -1079,27 +1079,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt blockStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt blockStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt blockStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt blockStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt blockStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(BlockStmt.class).get() );
     }
 
@@ -1219,27 +1219,27 @@ public final class $ {
      * @return
      */
     public static $doStmt doStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object> $doStmt doStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> $doStmt doStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> $doStmt doStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return $doStmt.of( le.findFirst(DoStmt.class).get() );
     }
 
@@ -1270,27 +1270,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt expressionStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt expressionStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt expressionStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt expressionStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt expressionStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ExpressionStmt.class).get() );
     }
 
@@ -1312,27 +1312,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt forStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt forStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt forStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt forStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt forStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForStmt.class).get() );
     }
 
@@ -1355,27 +1355,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt forEachStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt forEachStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt forEachStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt forEachStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt forEachStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ForEachStmt.class).get() );
     }
 
@@ -1398,42 +1398,42 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt ifStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt ifStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt ifStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt ifStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt ifStmt(Function<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object> org.jdraft.pattern.$stmt ifStmt(BiFunction<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt ifStmt(Exprs.TriFunction<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt ifStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(IfStmt.class).get() );
     }
 
@@ -1456,27 +1456,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt labeledStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt labeledStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt labeledStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt labeledStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt labeledStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(LabeledStmt.class).get() );
     }
 
@@ -1560,27 +1560,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt switchStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt switchStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt switchStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt switchStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt switchStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SwitchStmt.class).get() );
     }
 
@@ -1601,27 +1601,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt synchronizedStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt synchronizedStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt synchronizedStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt synchronizedStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt synchronizedStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(SynchronizedStmt.class).get() );
     }
 
@@ -1648,27 +1648,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt throwStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt throwStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt throwStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt throwStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt throwStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(ThrowStmt.class).get() );
     }
 
@@ -1696,27 +1696,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt tryStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt tryStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt tryStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt tryStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt tryStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(TryStmt.class).get() );
     }
 
@@ -1740,27 +1740,27 @@ public final class $ {
      * @return
      */
     public static org.jdraft.pattern.$stmt whileStmt(Exprs.Command ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object> org.jdraft.pattern.$stmt whileStmt(Consumer<A> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object> org.jdraft.pattern.$stmt whileStmt(BiConsumer<A,B> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt whileStmt(Exprs.TriConsumer<A,B,C> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> org.jdraft.pattern.$stmt whileStmt(Exprs.QuadConsumer<A,B,C,D> ec){
-        LambdaExpr le = Exprs.lambdaEx(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return org.jdraft.pattern.$stmt.of( le.findFirst(WhileStmt.class).get() );
     }
 
@@ -2079,7 +2079,7 @@ public final class $ {
      */
     public static $method method(Object anonymousObjectContainingMethod){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newEx(ste);
+        ObjectCreationExpr oce = Exprs.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         //removeIn all things that aren't METHODS or METHODS WITH @_remove
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));

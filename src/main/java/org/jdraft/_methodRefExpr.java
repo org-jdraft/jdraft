@@ -19,7 +19,7 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
     }
 
     public static _methodRefExpr of(String...code){
-        return new _methodRefExpr(Exprs.methodReferenceEx( code));
+        return new _methodRefExpr(Exprs.methodReferenceExpr( code));
     }
 
     public MethodReferenceExpr mre;

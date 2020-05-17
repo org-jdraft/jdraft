@@ -11,11 +11,11 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
         return new _doubleExpr(dl);
     }
     public static _doubleExpr of(String...code){
-        return new _doubleExpr(Exprs.doubleLiteralEx( code));
+        return new _doubleExpr(Exprs.doubleExpr( code));
     }
 
     public static _doubleExpr of(double d){
-        return new _doubleExpr(Exprs.doubleLiteralEx( d));
+        return new _doubleExpr(Exprs.doubleExpr( d));
     }
 
     public DoubleLiteralExpr de;
@@ -32,7 +32,7 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.doubleLiteralEx(stringRep));
+            return is( Exprs.doubleExpr(stringRep));
         } catch(Exception e){
 
         }

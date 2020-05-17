@@ -265,7 +265,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return
      */
     public static <S extends Statement, _S extends _stmt> $stmt<S,_S> of(Object anonymousObjectWithStatement ){
-        ObjectCreationExpr oce = Exprs.newEx( Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Exprs.newExpr( Thread.currentThread().getStackTrace()[2]);
         BlockStmt bs = oce.findFirst(com.github.javaparser.ast.stmt.BlockStmt.class).get();
 
         //?? do I want to do anything with $label$:{} ?
@@ -599,7 +599,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return 
      */
     public static $stmt<ExpressionStmt, _exprStmt> expressionStmt(String... pattern ) {
-        return new $stmt( Stmts.expressionStmt(pattern));
+        return new $stmt( Stmts.exprStmt(pattern));
     }
     
     /** 
@@ -609,7 +609,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return 
      */
     public static $stmt<ExpressionStmt, _exprStmt> expressionStmt(String pattern, Predicate<ExpressionStmt> constraint) {
-        return new $stmt( Stmts.expressionStmt(pattern)).$and(constraint);
+        return new $stmt( Stmts.exprStmt(pattern)).$and(constraint);
     }
 
     /** 

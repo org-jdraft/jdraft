@@ -17,7 +17,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
         return new _charExpr(new CharLiteralExpr(c));
     }
     public static _charExpr of(String...code){
-        return new _charExpr(Exprs.charLiteralEx(Text.combine(code)));
+        return new _charExpr(Exprs.charExpr(Text.combine(code)));
     }
 
     public CharLiteralExpr cle;
@@ -34,7 +34,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.charLiteralEx(Text.combine(stringRep)));
+            return is( Exprs.charExpr(Text.combine(stringRep)));
         } catch(Exception e){ }
         return false;
     }

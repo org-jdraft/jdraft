@@ -23,7 +23,7 @@ public final class _typeParam
     }
 
     public static _typeParam of(String typeParam ) {
-        return of( Types.typeParameter( typeParam ) );
+        return of( Types.typeParam( typeParam ) );
     }
 
     public static _typeParam of(TypeParameter typeParameter ) {
@@ -184,8 +184,8 @@ public final class _typeParam
         if( Objects.equals(this.typeParam, other.typeParam)){
             return true;
         }
-        List<String>ttp = Types.normalizeTypeParameter( this.typeParam);
-        List<String>otp = Types.normalizeTypeParameter( other.typeParam);
+        List<String>ttp = Types.normalizeTypeParam( this.typeParam);
+        List<String>otp = Types.normalizeTypeParam( other.typeParam);
         return Objects.equals( ttp, otp );
     }
 
@@ -198,7 +198,7 @@ public final class _typeParam
 
     @Override
     public int hashCode() {
-        return Objects.hashCode( Types.normalizeTypeParameter(this.typeParam) );
+        return Objects.hashCode( Types.normalizeTypeParam(this.typeParam) );
     }
 
     @Override

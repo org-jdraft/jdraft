@@ -15,14 +15,14 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _java._un
     }
 
     public static _classExpr of(Class clazz){
-        return new _classExpr(Exprs.classEx( clazz) );
+        return new _classExpr(Exprs.classExpr( clazz) );
     }
 
     public static _classExpr of(ClassExpr ce){
         return new _classExpr(ce);
     }
     public static _classExpr of(String...code){
-        return new _classExpr(Exprs.classEx( code));
+        return new _classExpr(Exprs.classExpr( code));
     }
 
     public ClassExpr ce;
@@ -39,7 +39,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _java._un
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.classEx(stringRep));
+            return is( Exprs.classExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
