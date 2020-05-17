@@ -27,10 +27,10 @@ public @interface _$ {
 
 
         public static <C extends _java._member & _annoExprs._withAnnoExprs> C update(C _c) {
-            List<_annoExpr> _ps = _c.listAnnoRefs("_$");
+            List<_annoExpr> _ps = _c.listAnnoExprs("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoRefs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnoExprs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();
@@ -66,10 +66,10 @@ public @interface _$ {
         }
 
         public static <C extends _java._member & _annoExprs._withAnnoExprs> String toString(C _c) {
-            List<_annoExpr> _ps = _c.listAnnoRefs("_$");
+            List<_annoExpr> _ps = _c.listAnnoExprs("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoRefs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnoExprs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();

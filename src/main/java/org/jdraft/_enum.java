@@ -312,7 +312,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of(this.astEnum );
     }
    
@@ -639,7 +639,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
+        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
         parts.put( _java.Component.IMPLEMENTS, this.listImplements() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.CONSTANTS, this.listConstants());

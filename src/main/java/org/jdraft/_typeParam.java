@@ -14,30 +14,30 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _typeParameter
-        implements _java._multiPart<TypeParameter, _typeParameter>,
-        _java._withName<_typeParameter>, _annoExprs._withAnnoExprs<_typeParameter> {
+public final class _typeParam
+        implements _java._multiPart<TypeParameter, _typeParam>,
+        _java._withName<_typeParam>, _annoExprs._withAnnoExprs<_typeParam> {
 
-    public static _typeParameter of() {
+    public static _typeParam of() {
         return of( new TypeParameter());
     }
 
-    public static _typeParameter of( String typeParam ) {
+    public static _typeParam of(String typeParam ) {
         return of( Types.typeParameter( typeParam ) );
     }
 
-    public static _typeParameter of( TypeParameter typeParameter ) {
-        return new _typeParameter( typeParameter );
+    public static _typeParam of(TypeParameter typeParameter ) {
+        return new _typeParam( typeParameter );
     }
 
-    private final TypeParameter typeParameter;
+    private final TypeParameter typeParam;
 
     /**
      * build and return an independent copy of this model
      * @return 
      */
-    public _typeParameter copy(){
-        return of( this.typeParameter.toString() );
+    public _typeParam copy(){
+        return of( this.typeParam.toString() );
     }
 
     /**
@@ -47,8 +47,8 @@ public final class _typeParameter
      * @param nc
      * @return
      */
-    public _typeParameter setExtendsTypeBound(NodeList<ClassOrInterfaceType> nc){
-        this.typeParameter.setTypeBound(nc);
+    public _typeParam setExtendsTypeBound(NodeList<ClassOrInterfaceType> nc){
+        this.typeParam.setTypeBound(nc);
         return this;
     }
 
@@ -57,7 +57,7 @@ public final class _typeParameter
      * @return
      */
     public boolean hasTypeBound(){
-        return this.typeParameter.getTypeBound().isNonEmpty();
+        return this.typeParam.getTypeBound().isNonEmpty();
     }
 
     /**
@@ -67,7 +67,7 @@ public final class _typeParameter
      * @param types
      * @return
      */
-    public _typeParameter setExtendsTypeBound(_typeRef...types){
+    public _typeParam setExtendsTypeBound(_typeRef...types){
         NodeList<ClassOrInterfaceType> nc = new NodeList<>();
         Arrays.stream(types).forEach(t -> nc.add((ClassOrInterfaceType)t.ast()));
         setExtendsTypeBound(nc);
@@ -81,7 +81,7 @@ public final class _typeParameter
      * @param types
      * @return
      */
-    public _typeParameter setExtendsTypeBound(ClassOrInterfaceType...types){
+    public _typeParam setExtendsTypeBound(ClassOrInterfaceType...types){
         NodeList<ClassOrInterfaceType> nc = new NodeList<>();
         Arrays.stream(types).forEach(t -> nc.add(t));
         setExtendsTypeBound(nc);
@@ -97,8 +97,8 @@ public final class _typeParameter
      * @param types
      * @return
      */
-    public _typeParameter addExtendsTypeBound(ClassOrInterfaceType...types){
-        Arrays.stream(types).forEach(t -> this.typeParameter.getTypeBound().add(t));
+    public _typeParam addExtendsTypeBound(ClassOrInterfaceType...types){
+        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add(t));
         return this;
     }
 
@@ -111,8 +111,8 @@ public final class _typeParameter
      * @param types
      * @return
      */
-    public _typeParameter addExtendsTypeBound(_typeRef...types){
-        Arrays.stream(types).forEach(t -> this.typeParameter.getTypeBound().add((ClassOrInterfaceType)t.ast()));
+    public _typeParam addExtendsTypeBound(_typeRef...types){
+        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add((ClassOrInterfaceType)t.ast()));
         return this;
     }
 
@@ -126,8 +126,8 @@ public final class _typeParameter
      * @param types
      * @return
      */
-    public _typeParameter addExtendsTypeBound(String...types){
-        Arrays.stream(types).forEach(t -> this.typeParameter.getTypeBound().add(StaticJavaParser.parseClassOrInterfaceType(t)));
+    public _typeParam addExtendsTypeBound(String...types){
+        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add(StaticJavaParser.parseClassOrInterfaceType(t)));
         return this;
     }
 
@@ -136,22 +136,22 @@ public final class _typeParameter
      * @return
      */
     public NodeList<ClassOrInterfaceType> getTypeBound() {
-        return typeParameter.getTypeBound();
+        return typeParam.getTypeBound();
     }
 
     @Override
     public TypeParameter ast() {        
-        return this.typeParameter;
+        return this.typeParam;
     }
 
-    public _typeParameter( TypeParameter tp ) {
-        this.typeParameter = tp;
+    public _typeParam(TypeParameter tp ) {
+        this.typeParam = tp;
     }
 
     @Override
-    public boolean is( String... typeParameterDecl ){
+    public boolean is( String... typeParam ){
         try{
-            return of( Text.combine(typeParameterDecl) ).equals(this);
+            return of( Text.combine(typeParam) ).equals(this);
         }
         catch( Exception e) {
             return false;
@@ -159,9 +159,9 @@ public final class _typeParameter
     }
 
     @Override
-    public boolean is( TypeParameter typeParameterDecl ){
+    public boolean is( TypeParameter typeParam ){
         try{
-            return of( typeParameterDecl ).equals(this);
+            return of( typeParam ).equals(this);
         }
         catch( Exception e) {
             return false;
@@ -179,50 +179,50 @@ public final class _typeParameter
         if( getClass() != obj.getClass() ) {
             return false;
         }
-        final _typeParameter other = (_typeParameter)obj;
+        final _typeParam other = (_typeParam)obj;
 
-        if( Objects.equals(this.typeParameter, other.typeParameter)){
+        if( Objects.equals(this.typeParam, other.typeParam)){
             return true;
         }
-        List<String>ttp = Types.normalizeTypeParameter( this.typeParameter);
-        List<String>otp = Types.normalizeTypeParameter( other.typeParameter);
+        List<String>ttp = Types.normalizeTypeParameter( this.typeParam);
+        List<String>otp = Types.normalizeTypeParameter( other.typeParam);
         return Objects.equals( ttp, otp );
     }
 
     @Override
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.TYPE_PARAMETER, this.typeParameter );
+        parts.put( _java.Component.TYPE_PARAMETER, this.typeParam);
         return parts;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode( Types.normalizeTypeParameter(this.typeParameter) );
+        return Objects.hashCode( Types.normalizeTypeParameter(this.typeParam) );
     }
 
     @Override
     public String toString() {
         //JavaParser already does a great job, no need to interfere
-        return typeParameter.toString();
+        return typeParam.toString();
     }
 
     @Override
-    public _typeParameter setName(String name) {
-        this.typeParameter.setName(name);
+    public _typeParam setName(String name) {
+        this.typeParam.setName(name);
         return this;
     }
 
-    public SimpleName getNameNode(){ return this.typeParameter.getName(); }
+    public SimpleName getNameNode(){ return this.typeParam.getName(); }
 
     @Override
     public String getName() {
-        return typeParameter.getNameAsString();
+        return typeParam.getNameAsString();
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
-        return _annoExprs.of( this.typeParameter);
+    public _annoExprs getAnnoExprs() {
+        return _annoExprs.of( this.typeParam);
     }
 
 }

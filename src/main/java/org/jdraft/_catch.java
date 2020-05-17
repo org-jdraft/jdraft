@@ -145,11 +145,11 @@ public final class _catch implements _java._multiPart<CatchClause, _catch>,_body
         return Types.equal(t, caughtExceptionType);
     }
 
-    public _parameter getParameter(){
-        return _parameter.of(this.cc.getParameter());
+    public _param getParameter(){
+        return _param.of(this.cc.getParameter());
     }
 
-    public boolean isParameter( Predicate<_parameter> matchFn){
+    public boolean isParameter( Predicate<_param> matchFn){
         return matchFn.test(this.getParameter());
     }
 
@@ -162,7 +162,7 @@ public final class _catch implements _java._multiPart<CatchClause, _catch>,_body
         return this;
     }
 
-    public _catch setParameter(_parameter _p){
+    public _catch setParameter(_param _p){
         this.cc.setParameter(_p.ast());
         return this;
     }
@@ -175,7 +175,7 @@ public final class _catch implements _java._multiPart<CatchClause, _catch>,_body
         return Objects.equals(this.cc.getParameter(), parameter);
     }
 
-    public boolean isParameter(_parameter _p){
+    public boolean isParameter(_param _p){
         return Objects.equals(this.cc.getParameter(), _p.ast());
     }
 

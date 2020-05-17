@@ -30,8 +30,8 @@ import org.jdraft.text.Text;
 public final class _constructor implements _annoExprs._withAnnoExprs<_constructor>,
         _javadocComment._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
     _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
-        _parameters._withParameters<_constructor>, _typeParameters._withTypeParameters<_constructor>,
-        _receiverParameter._withReceiverParameter<_constructor>, _java._declared<ConstructorDeclaration, _constructor> {
+        _params._withParams<_constructor>, _typeParams._withTypeParams<_constructor>,
+        _receiverParam._withReceiverParam<_constructor>, _java._declared<ConstructorDeclaration, _constructor> {
 
     public static _constructor of( String signature ){
         return of( new String[]{signature});
@@ -61,7 +61,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
                 !m.isAnnotationPresent(_remove.class) ).findFirst().get();
         
         //build the base method first
-        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameters.of( theMethod )+"{}" );
+        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " + _params.of( theMethod )+"{}" );
         
         //MODIFIERS
         if( theMethod.isPublic() ){
@@ -78,8 +78,8 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         }
         //System.out.println( "Setting throws");
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.addAnnoRefs( theMethod.getAnnotations()); //add annos
-        _ct.removeAnnoRefs(_toCtor.class); //remove the _ctor anno if it exists
+        _ct.addAnnoExprs( theMethod.getAnnotations()); //add annos
+        _ct.removeAnnoExprs(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         
         return _ct;
@@ -172,16 +172,16 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         if( !Objects.equals( this.getName(), other.getName() ) ) {
             return false;
         }
-        if( !Objects.equals( this.getParameters(), other.getParameters() ) ) {
+        if( !Objects.equals( this.getParams(), other.getParams() ) ) {
             return false;
         }
         if( !Types.equal( this.astCtor.getThrownExceptions(), other.astCtor.getThrownExceptions()) ){
             return false;
         }        
-        if( !Objects.equals( this.getTypeParameters(), other.getTypeParameters() ) ) {
+        if( !Objects.equals( this.getTypeParams(), other.getTypeParams() ) ) {
             return false;
         }
-        if( !Objects.equals( this.getReceiverParameter(), other.getReceiverParameter() ) ) {
+        if( !Objects.equals( this.getReceiverParam(), other.getReceiverParam() ) ) {
             return false;
         }
         return true;
@@ -190,13 +190,13 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, getAnnoRefs() );
+        parts.put( _java.Component.ANNOS, getAnnoExprs() );
         parts.put( _java.Component.BODY, getBody() );
         parts.put( _java.Component.MODIFIERS, getModifiers() );
         parts.put( _java.Component.JAVADOC, getJavadoc() );
-        parts.put( _java.Component.PARAMETERS, getParameters() );
-        parts.put( _java.Component.RECEIVER_PARAMETER, getReceiverParameter() );
-        parts.put( _java.Component.TYPE_PARAMETERS, getTypeParameters() );
+        parts.put( _java.Component.PARAMETERS, getParams() );
+        parts.put( _java.Component.RECEIVER_PARAMETER, getReceiverParam() );
+        parts.put( _java.Component.TYPE_PARAMETERS, getTypeParams() );
         parts.put( _java.Component.THROWS, getThrows() );
         parts.put( _java.Component.NAME, getName() );
         return parts;
@@ -211,10 +211,10 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
             this.getJavadoc(),
             this.getEffectiveModifiers(),
             this.getName(), 
-            this.getParameters(),            
+            this.getParams(),
             Types.hash( astCtor.getThrownExceptions()),
-            this.getTypeParameters(), 
-            this.getReceiverParameter() );
+            this.getTypeParams(),
+            this.getReceiverParam() );
         return hash;
     }
 
@@ -241,7 +241,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         return _throws.of( astCtor );
     }
 
-    public _constructor setTypeParameters( _typeParameters _tps ){
+    public _constructor setTypeParameters( _typeParams _tps ){
         this.astCtor.setTypeParameters( _tps.ast() );
         return this;
     }
@@ -252,12 +252,12 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     }
 
     @Override
-    public _typeParameters getTypeParameters() {
-        return _typeParameters.of( this.astCtor );
+    public _typeParams getTypeParams() {
+        return _typeParams.of( this.astCtor );
     }
 
     @Override
-    public boolean hasTypeParameters() {
+    public boolean hasTypeParams() {
         return this.astCtor.getTypeParameters().isNonEmpty();
     }
 
@@ -268,7 +268,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
      */
     public boolean isParameters(java.lang.reflect.Constructor ctor ){
         java.lang.reflect.Type[] genericParameterTypes = ctor.getGenericParameterTypes();
-        List<_parameter> pl = this.listParameters();
+        List<_param> pl = this.listParams();
         int delta = 0;
         if( genericParameterTypes.length != pl.size() ){
             if( genericParameterTypes.length == pl.size() + 1 && ctor.getDeclaringClass().isLocalClass()){
@@ -327,7 +327,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of( astCtor );
     }
 
@@ -339,8 +339,8 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     }
 
     @Override
-    public _parameters getParameters() {
-        return _parameters.of( astCtor );
+    public _params getParams() {
+        return _params.of( astCtor );
     }
 
     @Override
@@ -557,7 +557,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
                     oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                             !m.isAnnotationPresent(_remove.class) ).findFirst().get();
             //build the base method first
-            _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameters.of( theMethod )+"{}" );
+            _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " + _params.of( theMethod )+"{}" );
             //MODIFIERS
             if( theMethod.isPublic() ){
                 _ct.setPublic();
@@ -569,11 +569,11 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
                 _ct.setPrivate();
             }
             if( !theMethod.getTypeParameters().isEmpty()){
-                theMethod.getTypeParameters().forEach(tp -> _ct.getTypeParameters().add(tp) );
+                theMethod.getTypeParameters().forEach(tp -> _ct.getTypeParams().add(tp) );
             }
             _ct.setThrows( theMethod.getThrownExceptions() ); 
             _ct.setBody( theMethod.getBody().get() ); //BODY
-            _ct.addAnnoRefs( theMethod.getAnnotations() ); //ANNOTATIONS
+            _ct.addAnnoExprs( theMethod.getAnnotations() ); //ANNOTATIONS
             if( theMethod.hasJavaDocComment() ){
                 _ct.ast().setJavadocComment( theMethod.getJavadocComment().get());
             }

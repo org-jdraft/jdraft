@@ -28,7 +28,7 @@ public class _enumTest extends TestCase {
         // of the constant
         _c.setName("One")
                 .setArguments("1, new HashMap()")
-                .addArgument(1)
+                .addArg(1)
                 .setBody("public int G = 234;",
                      "public int rrrr(){",
                     "    return 345;",
@@ -213,14 +213,14 @@ public class _enumTest extends TestCase {
         
         _constant _c = _e.getConstant("B");
         
-        assertTrue(_c.hasAnnoRefs());
+        assertTrue(_c.hasAnnoExprs());
         assertTrue(_c.hasJavadoc());
         assertTrue(_c.hasFields());
-        assertTrue(_c.hasArguments());
-        assertEquals( 2, _c.listArguments().size());
-        assertEquals( _intExpr.of(1), _c.getArgument(0));
-        assertEquals( _stringExpr.of("String"), _c.getArgument(1));
-        assertTrue( _c.getAnnoRefs().is("@ann", "@ann2(k='o')"));
+        assertTrue(_c.hasArgs());
+        assertEquals( 2, _c.listArgs().size());
+        assertEquals( _intExpr.of(1), _c.getArg(0));
+        assertEquals( _stringExpr.of("String"), _c.getArg(1));
+        assertTrue( _c.getAnnoExprs().is("@ann", "@ann2(k='o')"));
         _field _f = _c.getField( "num");
         assertNotNull( _f);
         assertTrue( _f.getModifiers().is( "public static final"));
@@ -233,9 +233,9 @@ public class _enumTest extends TestCase {
         assertTrue( _m.getBody().is("return 12345;") );
         
         _constant _cc = _e.getConstant("C");
-        assertEquals(2, _cc.listArguments().size() );
-        assertEquals(_intExpr.of(2), _cc.getArgument(0));
-        assertEquals(_stringExpr.of("Blah"), _cc.getArgument(1));
+        assertEquals(2, _cc.listArgs().size() );
+        assertEquals(_intExpr.of(2), _cc.getArg(0));
+        assertEquals(_stringExpr.of("Blah"), _cc.getArg(1));
         
         assertTrue( _e.hasInitBlocks() );
         assertTrue( _e.getInitBlock(0).is("System.out.println(12231);"));
@@ -243,7 +243,7 @@ public class _enumTest extends TestCase {
         assertTrue( _e.hasConstructors());
         _constructor _ct = _e.getConstructor( 0 );
         
-        assertFalse(_ct.hasParameters());
+        assertFalse(_ct.hasParams());
         System.out.println( "CONSTRUCTOR "+ _ct );
         assertTrue(_ct.isPrivate());
         
@@ -252,12 +252,12 @@ public class _enumTest extends TestCase {
         assertTrue(_ct.getBody().isEmpty() );
         
         _ct = _e.getConstructor( 1 );
-        assertTrue( _ct.hasAnnoRefs() );
-        System.out.println( _ct.getAnnoRefs() );
-        assertTrue( _ct.getAnnoRefs().is("@ann","@ann2(k='y')"));
+        assertTrue( _ct.hasAnnoExprs() );
+        System.out.println( _ct.getAnnoExprs() );
+        assertTrue( _ct.getAnnoExprs().is("@ann","@ann2(k='y')"));
         assertTrue( _ct.isPrivate());
-        assertTrue( _ct.getParameter( 0 ).is( "@ann @ann2(k='l',v=6) int i"));
-        assertTrue( _ct.getParameter( 1 ).is( "String...s"));
+        assertTrue( _ct.getParam( 0 ).is( "@ann @ann2(k='l',v=6) int i"));
+        assertTrue( _ct.getParam( 1 ).is( "String...s"));
         
         
         assertTrue( _e.hasMethods());
@@ -265,7 +265,7 @@ public class _enumTest extends TestCase {
         assertTrue( _m.getModifiers().is("public static"));
         assertTrue( _m.isVoid() );
         assertTrue( _m.isVarArg() );
-        assertTrue( _m.getParameter( 0 ).is("String...vals"));
+        assertTrue( _m.getParam( 0 ).is("String...vals"));
         assertTrue( _m.getBody().is( "System.out.println(23123);"));
     }
     

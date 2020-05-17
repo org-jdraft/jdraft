@@ -252,8 +252,8 @@ public class JavaPoet_Tutorial_Test extends TestCase {
     /** https://github.com/square/javapoet#parameters */
     public void testParameters(){
         //here we use "real code" (a NOOP lambda expression) to define parameters
-        _parameters _ps = _parameters.of((final String android, final String robot)->{});
-        _method _m  = _method.of("void welcomeOverlords(){}").setParameters(_ps);
+        _params _ps = _params.of((final String android, final String robot)->{});
+        _method _m  = _method.of("void welcomeOverlords(){}").setParams(_ps);
 
         //testing/verification
         assertTrue( _m.is("void welcomeOverlords(final String android, final String robot){}"));
@@ -371,7 +371,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                return "Hoverboard";
             }
         });
-        assertTrue( _m.hasAnnoRef(Override.class));
+        assertTrue( _m.hasAnnoExpr(Override.class));
 
         //we can create annotations individually:
         _annoExpr _a = _annoExpr.of(Override.class);
@@ -382,9 +382,9 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                 return "Hoverboard";
             }
         });
-        assertFalse( _m.hasAnnoRef(Override.class));
-        _m.addAnnoRefs(_a);
-        assertTrue( _m.hasAnnoRef(Override.class));
+        assertFalse( _m.hasAnnoExpr(Override.class));
+        _m.addAnnoExprs(_a);
+        assertTrue( _m.hasAnnoExpr(Override.class));
     }
 
 
@@ -410,7 +410,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .addAnnoRefs(_a);
+                .addAnnoExprs(_a);
 
         System.out.println( _m);
     }

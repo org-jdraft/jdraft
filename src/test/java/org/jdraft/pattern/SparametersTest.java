@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import org.jdraft._class;
-import org.jdraft._parameters;
+import org.jdraft._params;
 import org.jdraft._type;
 import junit.framework.TestCase;
 
@@ -57,9 +57,9 @@ public class SparametersTest extends TestCase {
         
         //verify that ANY matches / Selects NO parameters at all
         assertNotNull( $ps.select("") );
-        assertNotNull( $ps.select(_parameters.of("")) );
+        assertNotNull( $ps.select(_params.of("")) );
         assertNotNull( $ps.select("( )") );
-        assertNotNull( $ps.select(_parameters.of("()")) );        
+        assertNotNull( $ps.select(_params.of("()")) );
         assertTrue( $ps.matches("") );
         assertTrue( $ps.matches("()") );
         
@@ -70,11 +70,11 @@ public class SparametersTest extends TestCase {
         assertTrue( $ps.select("int i, String j").is("parameters", "(int i, String j)"));
         assertTrue( $ps.select("(int i, String... j)").is("parameters", "(int i, String... j)"));
         
-        assertNotNull( $ps.select(_parameters.of()) );
-        assertTrue( $ps.matches(_parameters.of()) );
+        assertNotNull( $ps.select(_params.of()) );
+        assertTrue( $ps.matches(_params.of()) );
         
         //lets test compose...
-        assertEquals( _parameters.of(), $ps.draft());
+        assertEquals( _params.of(), $ps.draft());
         //assertEquals( _parameters.of("int i"), $ps.construct("parameters", "int i"));        
     }
     
@@ -118,7 +118,7 @@ public class SparametersTest extends TestCase {
     
     public void testDynamicParameters(){
         $parameters $ps = $parameters.of("$type$ a");
-        assertEquals( _parameters.of("String a"), $ps.draft("type", String.class));
+        assertEquals( _params.of("String a"), $ps.draft("type", String.class));
         
         //this will match any (single) parameters with only a
         assertTrue($ps.matches("int a") );

@@ -4,60 +4,60 @@ import java.util.Objects;
 
 import com.github.javaparser.ast.body.ReceiverParameter;
 import org.jdraft.*;
-import org.jdraft._receiverParameter._withReceiverParameter;
+import org.jdraft._receiverParam._withReceiverParam;
 
 import org.jdraft.diff._diff.*;
 
 public final class _receiverParameterDiff
-        implements  _differ<_receiverParameter, _java._multiPart> {
+        implements  _differ<_receiverParam, _java._multiPart> {
 
     public static final _receiverParameterDiff INSTANCE = new _receiverParameterDiff();
     
-    public _diff diff(_withReceiverParameter left, _withReceiverParameter right){
+    public _diff diff(_withReceiverParam left, _withReceiverParam right){
         return diff( _nodePath.of(),
                 new _diffList( (_java._multiPart)left, (_java._multiPart)right),
                 (_java._multiPart)left,
                 (_java._multiPart)right,
-                left.getReceiverParameter(), 
-                right.getReceiverParameter());
+                left.getReceiverParam(),
+                right.getReceiverParam());
     }
     
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParameter left, _receiverParameter right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParam left, _receiverParam right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_withReceiverParameter) _leftParent, (_withReceiverParameter) _rightParent));
+            dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_withReceiverParam) _leftParent, (_withReceiverParam) _rightParent));
         }
         return (_diff) dt;
     }
 
     public static class change_receiverParameter 
-            implements _diffNode<_withReceiverParameter>, _diffNode._change<ReceiverParameter> {
+            implements _diffNode<_withReceiverParam>, _diffNode._change<ReceiverParameter> {
 
         public _nodePath path;
-        public _withReceiverParameter leftParent;
-        public _withReceiverParameter rightParent;
+        public _withReceiverParam leftParent;
+        public _withReceiverParam rightParent;
         public ReceiverParameter left;
         public ReceiverParameter right;
 
-        public change_receiverParameter(_nodePath path, _withReceiverParameter leftParent, _withReceiverParameter rightParent) {
+        public change_receiverParameter(_nodePath path, _withReceiverParam leftParent, _withReceiverParam rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
-            if (leftParent.hasReceiverParameter()) {
-                this.left = leftParent.getReceiverParameter().astReceiverParam.clone();
+            if (leftParent.hasReceiverParam()) {
+                this.left = leftParent.getReceiverParam().astReceiverParam.clone();
             }
-            if (rightParent.hasReceiverParameter()) {
-                this.right = rightParent.getReceiverParameter().astReceiverParam.clone();
+            if (rightParent.hasReceiverParam()) {
+                this.right = rightParent.getReceiverParam().astReceiverParam.clone();
             }
         }
 
         @Override
-        public _withReceiverParameter leftParent() {
+        public _withReceiverParam leftParent() {
             return leftParent;
         }
 
         @Override
-        public _withReceiverParameter rightParent() {
+        public _withReceiverParam rightParent() {
             return rightParent;
         }
 
@@ -78,14 +78,14 @@ public final class _receiverParameterDiff
 
         @Override
         public void patchLeftToRight() {
-            leftParent.receiverParameter(left);
-            rightParent.receiverParameter(left);
+            leftParent.receiverParam(left);
+            rightParent.receiverParam(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.receiverParameter(right);
-            rightParent.receiverParameter(right);
+            leftParent.receiverParam(right);
+            rightParent.receiverParam(right);
         }
 
         @Override

@@ -19,11 +19,11 @@ public class _1_classAPITest extends TestCase {
             .setPackage("math.entity")
             .addImports("java.util.UUID", "java.io.Serializable;", "java.beans.Encoder")
             .setJavadoc("This is the class", "javadoc")
-            .addAnnoRefs("@Deprecated")
+            .addAnnoExprs("@Deprecated")
             .setFinal()
             .addExtend("java.beans.Encoder")
             .addImplement("java.io.Serializable")
-            .typeParameters("<T extends Serializable>")
+            .typeParams("<T extends Serializable>")
             .addStaticBlock("System.out.println(\"static block \" + UUID.randomUUID().toString());")
             .addFields("public int i;", "public UUID uuid;")
             .addConstructor("public C(int i){ this.i = i;}")
@@ -40,9 +40,9 @@ public class _1_classAPITest extends TestCase {
             .setHeaderComment("Some License Here")
             .addImports(UUID.class, Serializable.class, Encoder.class)
             .setJavadoc("This is the class", "javadoc")
-            .addAnnoRefs(Deprecated.class)
+            .addAnnoExprs(Deprecated.class)
             .setFinal()
-            .typeParameters("<T extends Serializable>")
+            .typeParams("<T extends Serializable>")
             .addExtend(java.beans.Encoder.class)
             .addImplement(Serializable.class)
             .addStaticBlock(()->System.out.println("static block " + UUID.randomUUID().toString()))
@@ -120,11 +120,11 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.isInPackage("math.entity"));
         assertTrue(_FROM_STRING_PARTS.hasImport(UUID.class));
         assertTrue(_FROM_STRING_PARTS.getJavadoc().contains("This is the class"));
-        assertTrue(_FROM_STRING_PARTS.hasAnnoRef("@Deprecated"));
+        assertTrue(_FROM_STRING_PARTS.hasAnnoExpr("@Deprecated"));
         assertTrue(_FROM_STRING_PARTS.isFinal());
         assertTrue(_FROM_STRING_PARTS.isExtends("Encoder"));
         assertTrue(_FROM_STRING_PARTS.isImplements(Serializable.class));
-        assertTrue(_FROM_STRING_PARTS.getTypeParameters().is("<T extends Serializable>"));
+        assertTrue(_FROM_STRING_PARTS.getTypeParams().is("<T extends Serializable>"));
         assertTrue(_FROM_STRING_PARTS.hasInitBlocks());
         assertTrue(_FROM_STRING_PARTS.getInitBlock(0).is("static{System.out.println(\"static block \" + UUID.randomUUID().toString());}"));
         assertTrue(_FROM_STRING_PARTS.getField("i").is("public int i"));
@@ -138,7 +138,7 @@ public class _1_classAPITest extends TestCase {
         //iterate over members/properties
         //properties
         _FROM_STRING_PARTS.forImports(i-> System.out.println(i));
-        _FROM_STRING_PARTS.forAnnoRefs(a-> System.out.println(a));
+        _FROM_STRING_PARTS.forAnnoExprs(a-> System.out.println(a));
         //members
         _FROM_STRING_PARTS.forInitBlocks(i-> System.out.println(i));
         //members/declared
@@ -154,7 +154,7 @@ public class _1_classAPITest extends TestCase {
 
         //selectively iterate over members/properties
         _FROM_STRING_PARTS.forImports(i-> i.isWildcard(), i-> System.out.println(i));
-        _FROM_STRING_PARTS.forAnnoRefs(a-> a.isInstance(Deprecated.class), a->System.out.println(a) );
+        _FROM_STRING_PARTS.forAnnoExprs(a-> a.isInstance(Deprecated.class), a->System.out.println(a) );
         //members
         _FROM_STRING_PARTS.forInitBlocks(i-> i.isStatic(), i-> System.out.println(i));
         //members/declared

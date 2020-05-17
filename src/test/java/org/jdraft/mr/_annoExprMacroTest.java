@@ -30,7 +30,7 @@ public class _annoExprMacroTest extends TestCase {
         //make sure we "ran" the macro
         assertTrue( _c.getField("a").isStatic());
         //make sure the macro cleaned up after itself
-        assertFalse( _c.getField("a").hasAnnoRef(_static.class));
+        assertFalse( _c.getField("a").hasAnnoExpr(_static.class));
     }
 
     public void testApplyMultipleToFields(){
@@ -43,10 +43,10 @@ public class _annoExprMacroTest extends TestCase {
 
         _field _f = _c.getField("a");
         assertTrue( _f.isStatic() && _f.isPublic() && _f.isFinal());
-        assertTrue( _f.hasAnnoRef(Deprecated.class)); //make sure I DONT remove a NON-macro annotation
-        assertFalse( _f.hasAnnoRef(_public.class)); //make sure I removed all the other (runtime/macro/annotations)
-        assertFalse( _f.hasAnnoRef(_static.class));
-        assertFalse( _f.hasAnnoRef(_final.class));
+        assertTrue( _f.hasAnnoExpr(Deprecated.class)); //make sure I DONT remove a NON-macro annotation
+        assertFalse( _f.hasAnnoExpr(_public.class)); //make sure I removed all the other (runtime/macro/annotations)
+        assertFalse( _f.hasAnnoExpr(_static.class));
+        assertFalse( _f.hasAnnoExpr(_final.class));
     }
 
     public void testApplyToMethod(){
@@ -60,9 +60,9 @@ public class _annoExprMacroTest extends TestCase {
         _method _m = _c.getMethod("main");
         assertTrue( _m.isStatic());
         assertTrue( _m.isPublic());
-        assertTrue( _m.hasAnnoRef(Deprecated.class));
-        assertFalse( _m.hasAnnoRef(_public.class));
-        assertFalse( _m.hasAnnoRef(_static.class));
+        assertTrue( _m.hasAnnoExpr(Deprecated.class));
+        assertFalse( _m.hasAnnoExpr(_public.class));
+        assertFalse( _m.hasAnnoExpr(_static.class));
         //System.out.println( _c );
     }
 
@@ -75,9 +75,9 @@ public class _annoExprMacroTest extends TestCase {
         _class _c = _class.of(AMP.class);
         _annoMacro.Apply.to(AMP.class, _c.getMethod("m").ast() );
 
-        assertTrue( _c.getMethod("m").getParameter(0).isFinal() );
-        assertTrue( _c.getMethod("m").getParameter(0).hasAnnoRef(Deprecated.class) );
-        assertFalse( _c.getMethod("m").getParameter(0).hasAnnoRef(_final.class) );
+        assertTrue( _c.getMethod("m").getParam(0).isFinal() );
+        assertTrue( _c.getMethod("m").getParam(0).hasAnnoExpr(Deprecated.class) );
+        assertFalse( _c.getMethod("m").getParam(0).hasAnnoExpr(_final.class) );
     }
 
     @Target(ElementType.TYPE_USE)
@@ -120,11 +120,11 @@ public class _annoExprMacroTest extends TestCase {
         //System.out.println( cu );
 
         //System.out.println( _c );
-        assertTrue( _c.getMethod("a").getTypeRef().hasAnnoRef(_str.class));
+        assertTrue( _c.getMethod("a").getTypeRef().hasAnnoExpr(_str.class));
         _annoMacro.Apply.to(MRT.class, _c.getMethod("a").ast() );
 
         assertTrue( _c.getMethod("a").getTypeRef().is(String.class) );
-        assertFalse( _c.getMethod("a").getTypeRef().hasAnnoRef(_str.class));
+        assertFalse( _c.getMethod("a").getTypeRef().hasAnnoExpr(_str.class));
     }
 
     public void testApplyToMethodExceptionType(){

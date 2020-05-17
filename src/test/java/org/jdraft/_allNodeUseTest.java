@@ -29,7 +29,7 @@ public class _allNodeUseTest extends TestCase {
                 _annoExpr.of("@A"),
                 _annoExprs.of("@A @B"),
                 _annotation.of("@interface AI{}"),
-                _arguments.of("(1, 'c')"),
+                _args.of("(1, 'c')"),
                 _arrayAccessExpr.of("a[1][call()]"),
                 _arrayCreateExpr.of("new a[1][2]"),
                 _arrayDimension.of("[0]"),
@@ -48,7 +48,7 @@ public class _allNodeUseTest extends TestCase {
                 _charExpr.of('a'), // or "'c'"
                 _class.of("class C{}"),
                 _classExpr.of("String.class"),
-                _conditionalExpr.of("b==0?x:y"), //also called "ternary"
+                _ternaryExpr.of("b==0?x:y"), //also called "ternary"
                 _constant.of("A(100)"), //enum constant declaration
                 _constructor.of("C(int a){ this.a = a; }"),
                 _constructorCallStmt.of("this(100);"),
@@ -59,7 +59,7 @@ public class _allNodeUseTest extends TestCase {
                 _doubleExpr.of(1.2f), //this is for double precision floats too
                 _emptyStmt.of(), // empty statement placeholders i.e. for(;;){}
                 _expr.of( "1+2" ), //_expression will create any expression type
-                _enclosedEx.of("(1 + 2)"),
+                _parenthesizedExpr.of("(1 + 2)"),
                 _enum.of("enum E{}"),
                 _exprStmt.of("System.out.println(1);"),
                 _exprStmt.of(_methodCallExpr.of("print(1)")),
@@ -104,10 +104,10 @@ public class _allNodeUseTest extends TestCase {
                 _nullExpr.of(), //the null literal
                 _package.of("package org.jdraft;"),
                 _packageInfo.of("/** information about jdraft */package org.jdraft;"),
-                _parameter.of("final int i"),
-                _parameters.of("(@ann int x, String...names)"),
+                _param.of("final int i"),
+                _params.of("(@ann int x, String...names)"),
                 _qualifiedName.of("org.jdraft._class"),
-                _receiverParameter.of("@AnnotatedUsage Currency this"),
+                _receiverParam.of("@AnnotatedUsage Currency this"),
                 _returnStmt.of("return 12;"),
                 _stmt.of("System.out.println(1);"), //_statement creates any statement type
                 _stringExpr.of("A String literal"),
@@ -122,10 +122,10 @@ public class _allNodeUseTest extends TestCase {
                 _throws.of(RuntimeException.class),
                 _throwStmt.of("throw new RuntimeException();"),
                 _tryStmt.of("try{ Files.read(fileName); } catch(IOException ioe){ }"),
-                _typeArguments.of("<T,R>"),
+                _typeArgs.of("<T,R>"),
                 _typeExpr.of("World"), //In <code>World::greet</code> the "World" is a TypeExpr
-                _typeParameter.of("K"),
-                _typeParameters.of("<String,Integer>"),
+                _typeParam.of("K"),
+                _typeParams.of("<String,Integer>"),
                 _typeRef.of("List<String>"),
                 _unaryExpr.of("!true"),
                 _variable.of("int i;"),
@@ -189,16 +189,16 @@ public class _allNodeUseTest extends TestCase {
                 _variablesExpr.of("int i, j = 100"),
                 _modifiers.of("public static final"),
                 _throws.of(IOException.class, URISyntaxException.class),
-                _typeArguments.of("<T,R>"),
-                _typeParameters.of("<String,Integer>")
+                _typeArgs.of("<T,R>"),
+                _typeParams.of("<String,Integer>")
         };
     }
 
     public void testListBasedInstances(){
         //semantically order matters
         _java._list[] ls = {
-                _arguments.of("(1, 'c')"),
-                _parameters.of("(@ann int x, String...names)")
+                _args.of("(1, 'c')"),
+                _params.of("(@ann int x, String...names)")
         };
     }
 
@@ -238,10 +238,10 @@ public class _allNodeUseTest extends TestCase {
                 _castExpr.of("(String)s"),
                 _charExpr.of('a'),
                 _classExpr.of("String.class"),
-                _conditionalExpr.of("b==0?x:y"), //also called "ternary"
+                _ternaryExpr.of("b==0?x:y"), //also called "ternary"
                 _doubleExpr.of(1.2d), //this is for double precision doubles
                 _doubleExpr.of(1.2f), //this is for double precision floats too
-                _enclosedEx.of("(1 + 2)"),
+                _parenthesizedExpr.of("(1 + 2)"),
                 _fieldAccessExpr.of("System.out"),
                 _instanceOfExpr.of("A instanceof Map"),
                 _intExpr.of("37"),

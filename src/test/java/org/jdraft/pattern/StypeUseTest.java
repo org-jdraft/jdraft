@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class StypeUseTest extends TestCase {
 
-    public static List<_typeParameter> listAllTypeParameters(Node n ){
+    public static List<_typeParam> listAllTypeParameters(Node n ){
         return $.typeParameter().listIn(Ast.root(n));
     }
 

@@ -296,13 +296,13 @@ public class $refTest extends TestCase {
 
         // in type Parameter
         assertEquals(1, $ref.of("Thingy")
-                .countIn(_typeParameter.of("<E extends Thingy>") ));
+                .countIn(_typeParam.of("<E extends Thingy>") ));
 
         assertEquals(1, $ref.of("Thingy")
                 .countIn(_method.of("<A, E extends Thingy> void m(){}") ));
 
         assertEquals(1, $ref.of("org.myproj.Thingy")
-                .countIn(_typeParameter.of("<E extends org.myproj.Thingy>") ));
+                .countIn(_typeParam.of("<E extends org.myproj.Thingy>") ));
 
 
         Print.tree(_field.of(JavaParser.class, "i").ast() );
@@ -323,13 +323,13 @@ public class $refTest extends TestCase {
 
         // in type Parameter
         assertEquals(0, $ref.of("Thingy").$matchTypeRefNames(false)
-                .countIn(_typeParameter.of("<E extends Thingy>") ));
+                .countIn(_typeParam.of("<E extends Thingy>") ));
 
         assertEquals(0, $ref.of("Thingy").$matchTypeRefNames(false)
                 .countIn(_method.of("<A, E extends Thingy> void m(){}") ));
 
         assertEquals(0, $ref.of("org.myproj.Thingy").$matchTypeRefNames(false)
-                .countIn(_typeParameter.of("<E extends org.myproj.Thingy>") ));
+                .countIn(_typeParam.of("<E extends org.myproj.Thingy>") ));
 
 
         //variable name
@@ -351,15 +351,15 @@ public class $refTest extends TestCase {
 
         //parameter name
         assertEquals( 1, $ref.of("pName")
-                .countIn(_parameter.of("int pName").ast()));
+                .countIn(_param.of("int pName").ast()));
 
         assertEquals( 0, $ref.of("pName").$matchParameterNames(false)
-                .countIn(_parameter.of("int pName")));
+                .countIn(_param.of("int pName")));
 
-        Print.tree(_parameter.of("pType pName").ast());
+        Print.tree(_param.of("pType pName").ast());
 
         assertEquals( 1, $ref.of("pType").$matchParameterNames(false)
-                .countIn(_parameter.of("pType pName")));
+                .countIn(_param.of("pType pName")));
 
         assertEquals(1, $ref.of("mName")
             .countIn(_method.of("void mName(){}")));

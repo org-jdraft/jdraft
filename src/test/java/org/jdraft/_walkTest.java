@@ -20,19 +20,19 @@ public class _walkTest extends TestCase {
 
         assertNotNull(_w.first(n-> n instanceof _binaryExpr));
         assertNotNull(_w.first(_lambdaExpr.class));
-        assertNotNull(_w.first(_lambdaExpr.class, _l->_l.getParameter("s").getTypeRef().isUnknownType()));
+        assertNotNull(_w.first(_lambdaExpr.class, _l->_l.getParam("s").getTypeRef().isUnknownType()));
 
         assertEquals( 1, _w.list(n -> n instanceof _lambdaExpr).size());
         _w.print(_lambdaExpr.class);
-        _w.print(_lambdaExpr.class, _l->_l.hasParameters());
+        _w.print(_lambdaExpr.class, _l->_l.hasParams());
         assertEquals( 1, _w.list(_lambdaExpr.class).size());
-        assertEquals( 1, _w.list(_lambdaExpr.class, _l->_l.hasParameters()).size());
+        assertEquals( 1, _w.list(_lambdaExpr.class, _l->_l.hasParams()).size());
 
         assertEquals(1, _w.stream(n-> n instanceof _lambdaExpr).count());
         assertEquals(1, _w.stream(_lambdaExpr.class).count());
         assertEquals(5, _w.stream(_intExpr.class).count());
         assertEquals(5, _w.stream(_expr._literal.class).count());
-        assertEquals(2, _w.stream(_enclosedEx.class).count());
+        assertEquals(2, _w.stream(_parenthesizedExpr.class).count());
         assertEquals(4, _w.stream(_binaryExpr.class).count());
 
         assertEquals( 3, _w.stream(_field.class).count());

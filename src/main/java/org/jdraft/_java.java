@@ -26,7 +26,7 @@ import org.jdraft._modifiers.*;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._javadocComment._withJavadoc;
 import org.jdraft._method._withMethods;
-import org.jdraft._receiverParameter._withReceiverParameter;
+import org.jdraft._receiverParam._withReceiverParam;
 import org.jdraft._initBlock._withInitBlocks;
 import org.jdraft._throws._withThrows;
 import org.jdraft._type._withExtends;
@@ -120,10 +120,10 @@ public interface _java {
         if (_type.class.isAssignableFrom(nodeClass)) {
             return Ast.typeDecl(code);
         }
-        if (_parameter.class == nodeClass) {
+        if (_param.class == nodeClass) {
             return parameter(code);
         }
-        if (_receiverParameter.class == nodeClass) {
+        if (_receiverParam.class == nodeClass) {
             return receiverParameter(Text.combine(code));
         }
         /*
@@ -168,10 +168,10 @@ public interface _java {
      * {@link _field}
      * {@link _javadocComment}
      * {@link _method}
-     * {@link _parameter}
-     * {@link _receiverParameter}
+     * {@link _param}
+     * {@link _receiverParam}
      * {@link _initBlock}
-     * {@link _typeParameter}
+     * {@link _typeParam}
      * {@link _typeRef}
      * </PRE>
      *
@@ -294,7 +294,7 @@ public interface _java {
             return _modifier.of( (Modifier)astNode);
         }
         if (astNode instanceof Parameter) {
-            return _parameter.of((Parameter) astNode);
+            return _param.of((Parameter) astNode);
         }
         if (astNode instanceof InitializerDeclaration) {
             InitializerDeclaration id = (InitializerDeclaration) astNode;
@@ -302,11 +302,11 @@ public interface _java {
         }
         if (astNode instanceof ReceiverParameter) {
             ReceiverParameter rp = (ReceiverParameter) astNode;
-            return _receiverParameter.of(rp);
+            return _receiverParam.of(rp);
         }
         if (astNode instanceof TypeParameter) {
             TypeParameter tp = (TypeParameter) astNode;
-            return _typeParameter.of(tp);
+            return _typeParam.of(tp);
         }
         if (astNode instanceof Type) {
             return _typeRef.of((Type) astNode);
@@ -362,10 +362,10 @@ public interface _java {
         LINE_COMMENT("lineComment", _lineComment.class),
         BLOCK_COMMENT("blockComment", _blockComment.class),
 
-        PARAMETERS("parameters", _parameters.class),
-        PARAMETER("parameter", _parameter.class),
-        RECEIVER_PARAMETER("receiverParameter", _receiverParameter.class),
-        TYPE_PARAMETERS("typeParameters", _typeParameters.class),
+        PARAMETERS("parameters", _params.class),
+        PARAMETER("parameter", _param.class),
+        RECEIVER_PARAMETER("receiverParameter", _receiverParam.class),
+        TYPE_PARAMETERS("typeParameters", _typeParams.class),
         TYPE_PARAMETER("typeParameter", TypeParameter.class), //_typeParameter.class
         THROWS("throws", _throws.class),
         NAME("name", String.class),
@@ -584,11 +584,11 @@ public interface _java {
         Class<_blockComment> BLOCK_COMMENT = _blockComment.class;
 
         Class<_modifiers> MODIFIERS = _modifiers.class;
-        Class<_parameter> PARAMETER = _parameter.class;
-        Class<_parameters> PARAMETERS = _parameters.class;
-        Class<_typeParameter> TYPE_PARAMETER = _typeParameter.class;
-        Class<_typeParameters> TYPE_PARAMETERS = _typeParameters.class;
-        Class<_receiverParameter> RECEIVER_PARAMETER = _receiverParameter.class;
+        Class<_param> PARAMETER = _param.class;
+        Class<_params> PARAMETERS = _params.class;
+        Class<_typeParam> TYPE_PARAMETER = _typeParam.class;
+        Class<_typeParams> TYPE_PARAMETERS = _typeParams.class;
+        Class<_receiverParam> RECEIVER_PARAMETER = _receiverParam.class;
         Class<_initBlock> STATIC_BLOCK = _initBlock.class;
         Class<_throws> THROWS = _throws.class;
         Class<_typeRef> TYPEREF = _typeRef.class;
@@ -608,8 +608,8 @@ public interface _java {
         Class<_withJavadoc> HAS_JAVADOC = _withJavadoc.class;
         Class<_withMethods> HAS_METHODS = _withMethods.class;
         Class<_withModifiers> HAS_MODIFIERS = _withModifiers.class;
-        Class<_parameters._withParameters> HAS_PARAMETERS = _parameters._withParameters.class;
-        Class<_withReceiverParameter> HAS_RECEIVER_PARAMETER = _withReceiverParameter.class;
+        Class<_params._withParams> HAS_PARAMETERS = _params._withParams.class;
+        Class<_withReceiverParam> HAS_RECEIVER_PARAMETER = _withReceiverParam.class;
         Class<_withInitBlocks> HAS_STATIC_BLOCKS = _withInitBlocks.class;
         Class<_withExtends> HAS_EXTENDS = _withExtends.class;
         Class<_withImplements> HAS_IMPLEMENTS = _withImplements.class;
@@ -1141,9 +1141,9 @@ public interface _java {
      * </UL>
      * //adornment, property
      * <LI>{@link _annoExpr} {@link AnnotationExpr}
-     * <LI>{@link _parameter} {@link Parameter}</LI>
-     * <LI>{@link _receiverParameter} {@link ReceiverParameter}</LI>
-     * <LI>{@link _typeParameter} {@link TypeParameter}</LI>
+     * <LI>{@link _param} {@link Parameter}</LI>
+     * <LI>{@link _receiverParam} {@link ReceiverParameter}</LI>
+     * <LI>{@link _typeParam} {@link TypeParameter}</LI>
      * <LI>{@link _typeRef} {@link Type}</LI>
      * </UL>
      * @see _java for mappings
@@ -1189,7 +1189,7 @@ public interface _java {
      * @see _annoExprs < AnnotationExpr, _annoRef >
      * @see _imports< ImportDeclaration,_import>
      * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
-     * @see _typeParameters< TypeParameter,_typeParameter>
+     * @see _typeParams < TypeParameter, _typeParam >
      * @see _throws< ReferenceType,_typeRef>
      *
      * @param <EL>
@@ -1348,7 +1348,7 @@ public interface _java {
      * Sometimes we have groupings of entities that do not
      * map to a specific Ast entity but a grouping of AST entities
      *
-     * @see _parameters (parameters are ordered)
+     * @see _params (parameters are ordered)
      * @see _arrayCreateExpr (the dimensions of the array are in an ordered list)
      * @see _arrayInitExpr (the elements located in the array are ordered)
      */
@@ -1582,12 +1582,12 @@ public interface _java {
      * {@link _type} {@link _class} {@link _enum} {@link _interface} {@link _annotation}
      * {@link _method}
      * {@link _field}
-     * {@link _parameter}
+     * {@link _param}
      * {@link _annoExpr}
      * {@link _constant}
      * {@link _entry}
      * {@link _typeRef}
-     * {@link _typeParameter}
+     * {@link _typeParam}
      *
      * {@link _methodCallExpr}
      *
@@ -1638,10 +1638,10 @@ public interface _java {
      * Entity with TYPE/NAME pair
      * <UL>
      *     <LI>{@link _field}
-     *     <LI>{@link _parameter}
+     *     <LI>{@link _param}
      *     <LI>{@link _method}
      *     <LI>{@link _annotation._entry}
-     *     <LI>{@link _receiverParameter}
+     *     <LI>{@link _receiverParam}
      *     <LI>{@link _variable}
      * </UL>
      * @param <_NT> the specialized entity that is a named TYPE

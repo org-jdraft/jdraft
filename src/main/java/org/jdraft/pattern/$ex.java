@@ -626,7 +626,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param pattern
      * @return 
      */
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalEx(String... pattern ) {
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalEx(String... pattern ) {
         return new $ex( Exprs.conditionalEx(pattern ) );
     }
 
@@ -636,7 +636,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalEx(String pattern, Predicate<_conditionalExpr> constraint) {
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalEx(String pattern, Predicate<_ternaryExpr> constraint) {
         return new $ex( Exprs.conditionalEx(pattern ) ).$and(constraint);
     }
     
@@ -645,7 +645,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalEx(Predicate<_conditionalExpr> constraint) {
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalEx(Predicate<_ternaryExpr> constraint) {
         return new $ex( Exprs.conditionalEx("(a==1) ? 1 : 2" ) )
                 .$(Exprs.conditionalEx("(a==1) ? 1 : 2"), "any")
                 .$and(constraint);
@@ -655,7 +655,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * Any conditional i.e. "(a==1) ? 1 : 2" 
      * @return 
      */
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalEx() {
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalEx() {
         return new $ex( ConditionalExpr.class, "$conditionalExpr$");
     }    
     
@@ -817,7 +817,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param pattern
      * @return 
      */
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedEx(String... pattern ) {
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedEx(String... pattern ) {
         return new $ex( Exprs.enclosedEx(pattern ) );
     }
 
@@ -826,7 +826,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedEx(Predicate<_enclosedEx>constraint ) {
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedEx(Predicate<_parenthesizedExpr>constraint ) {
         return new $ex( Exprs.enclosedEx("(a)" ) ).$("(a)", "any").$and(constraint);
     }
     
@@ -836,7 +836,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedEx(String pattern, Predicate<_enclosedEx>constraint ) {
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedEx(String pattern, Predicate<_parenthesizedExpr>constraint ) {
         return new $ex( Exprs.enclosedEx(pattern ) ).$and(constraint);
     }
     
@@ -844,7 +844,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * i.e.( 3 + 4 )    
      * @return 
      */
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedEx( ) {
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedEx( ) {
         return new $ex( EnclosedExpr.class, "$enclosedExpr$");
     }
     

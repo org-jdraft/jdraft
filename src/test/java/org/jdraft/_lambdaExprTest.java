@@ -17,10 +17,10 @@ public class _lambdaExprTest extends TestCase {
      */
     public void testBuildEmptyOne(){
         _lambdaExpr _l = _lambdaExpr.of()
-                .setParameters("a, b")
+                .setParams("a, b")
                 .setBody("System.out.println(a.toString() + b.toString());");
 
-        assertEquals("(a, b)", _l.getParameters().toString());
+        assertEquals("(a, b)", _l.getParams().toString());
         assertEquals("System.out.println(a.toString() + b.toString());", _l.getBody().toString());
     }
 
@@ -30,10 +30,10 @@ public class _lambdaExprTest extends TestCase {
      */
     public void testBuildVarArg(){
         _lambdaExpr _l = _lambdaExpr.of()
-                .setParameters("String... a")
+                .setParams("String... a")
                 .setBody("System.out.println(a.length);");
 
-        assertEquals("(String... a)", _l.getParameters().toString());
+        assertEquals("(String... a)", _l.getParams().toString());
         assertEquals("System.out.println(a.length);", _l.getBody().toString());
     }
 
@@ -74,14 +74,14 @@ public class _lambdaExprTest extends TestCase {
     public void testSetParameters(){
         _lambdaExpr _l = _lambdaExpr.of("r->{ return 1;}");
         //test setting an Unknown type parameter
-        _l.setParameters("key");
-        assertEquals("(key)", _l.getParameters().toString());
+        _l.setParams("key");
+        assertEquals("(key)", _l.getParams().toString());
 
-        _l.setParameters("String key");
-        assertEquals("(String key)", _l.getParameters().toString());
+        _l.setParams("String key");
+        assertEquals("(String key)", _l.getParams().toString());
 
-        _l.setParameters("String... key");
-        assertEquals("(String... key)", _l.getParameters().toString());
+        _l.setParams("String... key");
+        assertEquals("(String... key)", _l.getParams().toString());
 
         System.out.println(_l);
 
@@ -89,7 +89,7 @@ public class _lambdaExprTest extends TestCase {
                 .addField("public int i;");
         _l = _lambdaExpr.of();
         _l = _lambdaExpr.of("(a)-> System.out.println(1);")
-                .setParameters("b");
+                .setParams("b");
 
     }
     public void testOf(){

@@ -351,7 +351,7 @@ public class SmethodTest extends TestCase {
         System.out.println( _m );
         
         assertTrue($m.matches(_m));
-        _m.removeAnnoRefs(Deprecated.class);
+        _m.removeAnnoExprs(Deprecated.class);
         
         /** SHOULD WORK, NEED TO REFACTOR $anno first 
         _m.annotate("@java.lang.Deprecated");

@@ -22,7 +22,7 @@ public class $expressionRefactorTest extends TestCase {
         $methodCallExpr $print = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) );
         $expr.$refactor $toLogDebug = $print.refactorTo("Log.debug($any$);");
 
-        $refactorBot $r = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) ).$and(mc-> mc.isArgument(0, _stringExpr.class))
+        $refactorBot $r = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) ).$and(mc-> mc.isArg(0, _stringExpr.class))
                 .refactorTo("Log.debug($any$)");
 
         class FF{

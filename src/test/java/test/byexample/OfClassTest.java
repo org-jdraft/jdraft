@@ -41,7 +41,7 @@ public class OfClassTest extends TestCase {
                 _catch.of(IOException.class, URISyntaxException.class)
                         .setBody(()-> {System.out.println("Ohh man, ohh geez");}),
                 _newExpr.of( URL.class ),
-                _parameter.of(String.class, "name"),
+                _param.of(String.class, "name"),
         };
     }
 }

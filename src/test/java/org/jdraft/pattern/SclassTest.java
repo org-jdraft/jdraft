@@ -138,7 +138,7 @@ public class SclassTest extends TestCase {
         assertFalse($c.matches(_class.of("C").setJavadoc("not compilant")));
 
         $c = $class.of($.anno(Deprecated.class));
-        assertTrue( $c.matches(_class.of("F").addAnnoRefs(Deprecated.class)));
+        assertTrue( $c.matches(_class.of("F").addAnnoExprs(Deprecated.class)));
         assertFalse( $c.matches(_class.of("F")));
 
         $c = $class.of($.name("AC$afterPrefix$"));

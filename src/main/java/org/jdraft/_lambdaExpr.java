@@ -9,7 +9,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
-import org.jdraft._parameters._withParameters;
+import org.jdraft._params._withParams;
 
 /**
  * Representation of the source of a Java lambda expression
@@ -19,7 +19,7 @@ import org.jdraft._parameters._withParameters;
 public final class _lambdaExpr
     implements _expr<LambdaExpr, _lambdaExpr>,
         _java._multiPart<LambdaExpr, _lambdaExpr>,
-        _withParameters<_lambdaExpr> {
+        _withParams<_lambdaExpr> {
 
     /**
      * create a _lambda based on the code (as String)
@@ -210,8 +210,8 @@ public final class _lambdaExpr
     }
     
     @Override
-    public _parameters getParameters() {
-        return _parameters.of( astLambda );
+    public _params getParams() {
+        return _params.of( astLambda );
     }
 
     @Override
@@ -313,9 +313,9 @@ public final class _lambdaExpr
      * @param parameters the String representation of the parameters
      * @return the _hasParameters entity
      */
-    public _lambdaExpr setParameters(String...parameters){
-        setParameters( Ast.parameters(parameters) );
-        if( this.getParameters().size() > 1){
+    public _lambdaExpr setParams(String...parameters){
+        setParams( Ast.parameters(parameters) );
+        if( this.getParams().size() > 1){
             this.setEnclosingParameters(true);
         }
         return this;
@@ -359,7 +359,7 @@ public final class _lambdaExpr
         Map<_java.Component, Object> map = new HashMap<>();
         map.put(_java.Component.BODY, _body.of(this.astLambda));
         map.put(_java.Component.ENCLOSED_PARAMETERS, this.astLambda.isEnclosingParameters());
-        map.put(_java.Component.PARAMETERS, _parameters.of(this.astLambda.getParameters()));
+        map.put(_java.Component.PARAMETERS, _params.of(this.astLambda.getParameters()));
         return null;
     }
 }

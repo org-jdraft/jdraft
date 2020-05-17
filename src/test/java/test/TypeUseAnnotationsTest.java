@@ -7,7 +7,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft._annoExpr;
 import org.jdraft._class;
 import org.jdraft._field;
-import org.jdraft._typeParameter;
+import org.jdraft._typeParam;
 import org.jdraft.pattern.$ex;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -114,9 +114,9 @@ public class TypeUseAnnotationsTest
         
         $ex.newEx().firstIn(_c);
         
-        _typeParameter _tp = _c.getTypeParameters().getAt(0);
-        assertEquals( _annoExpr.of(TypeAnno.class), _tp.getAnnoRef(0) );
-        assertEquals( _annoExpr.of(TA2.class), _tp.getAnnoRef(1) );
+        _typeParam _tp = _c.getTypeParams().getAt(0);
+        assertEquals( _annoExpr.of(TypeAnno.class), _tp.getAnnoExpr(0) );
+        assertEquals( _annoExpr.of(TA2.class), _tp.getAnnoExpr(1) );
         
         ClassOrInterfaceType coit = _c.getExtends();
         assertEquals(_annoExpr.of(TypeAnno.class).ast(), coit.getAnnotation(0));
@@ -128,8 +128,8 @@ public class TypeUseAnnotationsTest
         assertEquals(_annoExpr.of(TA2.class).ast(), coit.getAnnotation(1));
         
         _field _f = _c.getField("o");
-        assertTrue( _f.hasAnnoRef(TypeAnno.class));
-        assertTrue( _f.hasAnnoRef(TA2.class));
+        assertTrue( _f.hasAnnoExpr(TypeAnno.class));
+        assertTrue( _f.hasAnnoExpr(TA2.class));
         
         _f = _c.getField("n");
         //System.out.println(_f);

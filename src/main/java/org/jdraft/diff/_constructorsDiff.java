@@ -14,7 +14,7 @@ public final class _constructorsDiff implements
     public static final _constructorsDiff INSTANCE = new _constructorsDiff();
     
     public static _constructor sameNameAndParameterTypes(_constructor ct, Set<_constructor> lcs) {
-        _parameters _pts = ct.getParameters();
+        _params _pts = ct.getParams();
         _typeRef[] _trs = new _typeRef[_pts.size()];
         for (int i = 0; i < _pts.size(); i++) {
             _trs[i] = _pts.getAt(i).getTypeRef();
@@ -22,7 +22,7 @@ public final class _constructorsDiff implements
         Optional<_constructor> oc
             = lcs.stream().filter(
                 c -> c.getName().equals(ct.getName())
-                && c.getParameters().hasParametersOfType(_trs)).findFirst();
+                && c.getParams().hasParamsOfType(_trs)).findFirst();
         if (oc.isPresent()) {
             return oc.get();
         }

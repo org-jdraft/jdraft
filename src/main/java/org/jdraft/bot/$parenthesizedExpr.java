@@ -11,37 +11,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class $enclosedExpr implements $bot.$node<EnclosedExpr, _enclosedEx, $enclosedExpr>,
-        $selector.$node<_enclosedEx, $enclosedExpr>,
-        $expr<EnclosedExpr, _enclosedEx, $enclosedExpr>, Template<_enclosedEx> {
+public class $parenthesizedExpr implements $bot.$node<EnclosedExpr, _parenthesizedExpr, $parenthesizedExpr>,
+        $selector.$node<_parenthesizedExpr, $parenthesizedExpr>,
+        $expr<EnclosedExpr, _parenthesizedExpr, $parenthesizedExpr>, Template<_parenthesizedExpr> {
 
-    public static $enclosedExpr of() {
-        return new $enclosedExpr();
+    public static $parenthesizedExpr of() {
+        return new $parenthesizedExpr();
     }
 
-    public static $enclosedExpr of(EnclosedExpr aae) {
-        return new $enclosedExpr(aae);
+    public static $parenthesizedExpr of(EnclosedExpr aae) {
+        return new $parenthesizedExpr(aae);
     }
 
-    public static $enclosedExpr of(_enclosedEx _aa) {
-        return new $enclosedExpr(_aa);
+    public static $parenthesizedExpr of(_parenthesizedExpr _aa) {
+        return new $parenthesizedExpr(_aa);
     }
 
-    public static $enclosedExpr of(String... code) {
-        return new $enclosedExpr(_enclosedEx.of(code));
+    public static $parenthesizedExpr of(String... code) {
+        return new $parenthesizedExpr(_parenthesizedExpr.of(code));
     }
 
-    public Predicate<_enclosedEx> getPredicate(){
+    public Predicate<_parenthesizedExpr> getPredicate(){
         return this.predicate;
     }
 
-    public $enclosedExpr setPredicate(Predicate<_enclosedEx> predicate){
+    public $parenthesizedExpr setPredicate(Predicate<_parenthesizedExpr> predicate){
         this.predicate = predicate;
         return this;
     }
 
     @Override
-    public $enclosedExpr $hardcode(Translator translator, Tokens kvs) {
+    public $parenthesizedExpr $hardcode(Translator translator, Tokens kvs) {
         this.expression.$hardcode(translator, kvs);
         return this;
     }
@@ -56,8 +56,8 @@ public class $enclosedExpr implements $bot.$node<EnclosedExpr, _enclosedEx, $enc
         return false;
     }
 
-    public _enclosedEx instance(String... s) {
-        return _enclosedEx.of(s);
+    public _parenthesizedExpr instance(String... s) {
+        return _parenthesizedExpr.of(s);
     }
 
     public boolean matches(Node node) {
@@ -65,14 +65,14 @@ public class $enclosedExpr implements $bot.$node<EnclosedExpr, _enclosedEx, $enc
     }
 
     public boolean matches(_java._domain _j) {
-        return _j instanceof _enclosedEx && matches((_enclosedEx) _j);
+        return _j instanceof _parenthesizedExpr && matches((_parenthesizedExpr) _j);
     }
 
-    public Select<_enclosedEx> select(String... str) {
+    public Select<_parenthesizedExpr> select(String... str) {
         return select(Text.combine(str));
     }
 
-    public Select<_enclosedEx> select(String str) {
+    public Select<_parenthesizedExpr> select(String str) {
         try {
             return select(Exprs.classEx(str));
         } catch (Exception e) {
@@ -80,14 +80,14 @@ public class $enclosedExpr implements $bot.$node<EnclosedExpr, _enclosedEx, $enc
         }
     }
 
-    public Select<_enclosedEx> select(Node n) {
+    public Select<_parenthesizedExpr> select(Node n) {
         if (n instanceof EnclosedExpr) {
-            return select(_enclosedEx.of((EnclosedExpr) n));
+            return select(_parenthesizedExpr.of((EnclosedExpr) n));
         }
         return null;
     }
 
-    public Select<_enclosedEx> select(_enclosedEx _aa) {
+    public Select<_parenthesizedExpr> select(_parenthesizedExpr _aa) {
         if (this.predicate.test(_aa)) {
             Select s = this.expression.select(_aa.getExpression());
             if (s == null) {
@@ -102,23 +102,23 @@ public class $enclosedExpr implements $bot.$node<EnclosedExpr, _enclosedEx, $enc
      * Build and return a new independent mutable copy of this bot
      * @return
      */
-    public $enclosedExpr copy(){
-        $enclosedExpr $e = of().$and(this.predicate.and(t->true) );
+    public $parenthesizedExpr copy(){
+        $parenthesizedExpr $e = of().$and(this.predicate.and(t->true) );
         $e.expression = ($expr)this.expression.copy();
         return $e;
     }
 
-    public $enclosedExpr $and(Predicate<_enclosedEx> _matchFn) {
+    public $parenthesizedExpr $and(Predicate<_parenthesizedExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
     }
 
-    public $enclosedExpr $not(Predicate<_enclosedEx> _matchFn) {
+    public $parenthesizedExpr $not(Predicate<_parenthesizedExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn.negate());
         return this;
     }
 
-    public $enclosedExpr $(String target, String $name) {
+    public $parenthesizedExpr $(String target, String $name) {
         this.expression.$(target, $name);
         return this;
     }
@@ -131,48 +131,48 @@ public class $enclosedExpr implements $bot.$node<EnclosedExpr, _enclosedEx, $enc
         return this.expression.$listNormalized();
     }
 
-    public $enclosedExpr $expression($expr $t) {
+    public $parenthesizedExpr $expression($expr $t) {
         this.expression = $t;
         return this;
     }
 
-    public $enclosedExpr $expression(_expr _e) {
+    public $parenthesizedExpr $expression(_expr _e) {
         this.expression = $expr.of(_e);
         return this;
     }
 
-    public $enclosedExpr $expression(String... astE) {
+    public $parenthesizedExpr $expression(String... astE) {
         this.expression = $expr.of(Text.combine(astE));
         return this;
     }
 
     @Override
-    public _enclosedEx draft(Translator translator, Map<String, Object> keyValues) {
-        _enclosedEx _e = _enclosedEx.of();
+    public _parenthesizedExpr draft(Translator translator, Map<String, Object> keyValues) {
+        _parenthesizedExpr _e = _parenthesizedExpr.of();
         _e.setExpression((_expr)this.expression.draft(translator, keyValues));
         return _e;
     }
 
-    public _enclosedEx instance(EnclosedExpr astNode) {
-        return _enclosedEx.of(astNode);
+    public _parenthesizedExpr instance(EnclosedExpr astNode) {
+        return _parenthesizedExpr.of(astNode);
     }
 
     public String toString() {
         return "$enclosedExpr{" + System.lineSeparator() + "    " + this.expression.toString() + System.lineSeparator() + "}";
     }
 
-    Predicate<_enclosedEx> predicate = (a) -> true;
+    Predicate<_parenthesizedExpr> predicate = (a) -> true;
 
     $expr expression = $expr.of();
 
-    public $enclosedExpr() {
+    public $parenthesizedExpr() {
     }
 
-    public $enclosedExpr(EnclosedExpr e) {
+    public $parenthesizedExpr(EnclosedExpr e) {
         this.expression = $expr.of(e.getInner());
     }
 
-    public $enclosedExpr(_enclosedEx _e) {
+    public $parenthesizedExpr(_parenthesizedExpr _e) {
         this.expression = $expr.of(_e.getExpression());
     }
 

@@ -16,11 +16,11 @@ import org.jdraft.text.*;
 /**
  * @author Eric
  */
-public class $parameter implements Template<_parameter>, //$pattern<_parameter, $parameter>,
-        $pattern.$java<_parameter,$parameter>, $method.$part, $constructor.$part {
+public class $parameter implements Template<_param>, //$pattern<_parameter, $parameter>,
+        $pattern.$java<_param,$parameter>, $method.$part, $constructor.$part {
 
-    public Class<_parameter> _modelType(){
-        return _parameter.class;
+    public Class<_param> _modelType(){
+        return _param.class;
     }
 
     /**
@@ -30,7 +30,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     
     
     /** a constraint to be applied for matching*/
-    public Predicate<_parameter> constraint = t->true;
+    public Predicate<_param> constraint = t->true;
     
     /** 
      * in this context, false will match final or non final, 
@@ -95,7 +95,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return
      */
     public static $parameter of( Parameter astParam ){
-        return new $parameter( _parameter.of(astParam), p->true);
+        return new $parameter( _param.of(astParam), p->true);
     }
 
     /**
@@ -103,7 +103,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param _p the prototype parameter
      * @return the $parameter
      */
-    public static $parameter of( _parameter _p ){
+    public static $parameter of( _param _p ){
         return new $parameter( _p, p->true );
     }
 
@@ -114,7 +114,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return
      */
     public static $parameter of( String parameter ){
-        return new $parameter( _parameter.of(parameter), p->true );
+        return new $parameter( _param.of(parameter), p->true );
     }
 
     public static $parameter of( Class parameterType ){
@@ -131,7 +131,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         return new $parameter(parts);
     }
 
-    public static $parameter.Or or( _parameter... _protos ){
+    public static $parameter.Or or( _param... _protos ){
         $parameter[] arr = new $parameter[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $parameter.of( _protos[i]);
@@ -144,16 +144,16 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     }
 
     public static $parameter as( String param ){
-        return as( _parameter.of(param) );
+        return as( _param.of(param) );
     }
 
     public static $parameter as( Parameter p){
-        return as(_parameter.of(p) );
+        return as(_param.of(p) );
     }
 
-    public static $parameter as( _parameter _p){
+    public static $parameter as( _param _p){
         $annoRefs $as = $annoRefs.none();
-        if( _p.hasAnnoRefs() ){
+        if( _p.hasAnnoExprs() ){
             $as = $annoRefs.as(_p); //set the EXACT annos
         }
         $name $nm = $name.of( _p.getName() );
@@ -223,17 +223,17 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_parameter> pf = f-> $fa.countIn(f) > 0;
+                Predicate<_param> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
                 final $name $fn = (($name)parts[i]);
-                Predicate<_parameter> pf = f-> $fn.matches(f.getName());
+                Predicate<_param> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeRef){
                 final $typeRef $fj = (($typeRef)parts[i]);
-                Predicate<_parameter> pf = f-> $fj.matches(f.getTypeRef());
+                Predicate<_param> pf = f-> $fj.matches(f.getTypeRef());
                 $and( pf.negate() );
             }
         }
@@ -267,7 +267,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param _p
      * @param constraint 
      */
-    public $parameter( _parameter _p, Predicate<_parameter> constraint){
+    public $parameter(_param _p, Predicate<_param> constraint){
         if( _p.isFinal() ){
             this.isFinal = true;
         }
@@ -276,7 +276,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         }
         this.name.nameStencil = Stencil.of(_p.getName() );
         this.type = $typeRef.of(_p.getTypeRef());
-        this.annos = $annoRefs.of( _p.getAnnoRefs() );
+        this.annos = $annoRefs.of( _p.getAnnoExprs() );
     }
     
     public $parameter $anno(){
@@ -408,8 +408,8 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
     }
     
     @Override
-    public _parameter draft(Translator translator, Map<String, Object> keyValues) {
-        return _parameter.of( composeToString(translator, keyValues));
+    public _param draft(Translator translator, Map<String, Object> keyValues) {
+        return _param.of( composeToString(translator, keyValues));
     }
     
     /**
@@ -417,7 +417,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $parameter $and(Predicate<_parameter>constraint ){
+    public $parameter $and(Predicate<_param>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -428,7 +428,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public boolean matches( Parameter astParam ){
-        return select(_parameter.of(astParam)) != null;
+        return select(_param.of(astParam)) != null;
     }
     
     /**
@@ -436,7 +436,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param _p
      * @return 
      */
-    public boolean matches( _parameter _p ){
+    public boolean matches( _param _p ){
         return select(_p) != null;
     }
     
@@ -455,7 +455,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public Select select( Parameter astParameter ){
-        return select(_parameter.of(astParameter));
+        return select(_param.of(astParameter));
     }
     
     /**
@@ -465,7 +465,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      */
     public Select select( String parameter){
         try{
-            return select( _parameter.of(parameter));
+            return select( _param.of(parameter));
         }catch(Exception e){
             return null;
         }        
@@ -476,7 +476,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param _p
      * @return 
      */
-    public Select select( _parameter _p ){
+    public Select select( _param _p ){
 
         if( this.isFinal != null ){
             if( this.isFinal ) {
@@ -622,7 +622,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint) {
         List<Select> found = new ArrayList<>();
-        Tree.in(_j, _parameter.class, p-> {
+        Tree.in(_j, _param.class, p-> {
             Select sel = select(p);
             if( sel != null && selectConstraint.test(sel)){
                 found.add(sel);
@@ -640,11 +640,11 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_parameter> _parameterMatchFn, Consumer<_parameter> _parameterActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_param> _parameterMatchFn, Consumer<_param> _parameterActionFn) {
         astNode.walk(Parameter.class, p-> {
             Select sel = select(p);
             if( sel != null && _parameterMatchFn.test(sel._param)){
-                _parameterActionFn.accept(_parameter.of(p));
+                _parameterActionFn.accept(_param.of(p));
             }
         });
         return astNode;
@@ -685,7 +685,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
-        return Tree.in(_j, _parameter.class, p->{
+        return Tree.in(_j, _param.class, p->{
             Select sel = select(p);
             if( sel != null ){
                 selectActionFn.accept(sel);
@@ -731,7 +731,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return Tree.in(_j, _parameter.class, p->{
+        return Tree.in(_j, _param.class, p->{
             Select sel = select(p);
             if( sel != null && selectConstraint.test(sel)){
                 selectActionFn.accept(sel);
@@ -744,7 +744,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @param clazz
      * @return 
      */
-    public _parameter firstIn( Class clazz ){
+    public _param firstIn(Class clazz ){
         return firstIn( (_type) _type.of(clazz));
     }
     
@@ -754,7 +754,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return  the first _field that matches (or null if none found)
      */
     @Override
-    public _parameter firstIn( _java._domain _j){
+    public _param firstIn(_java._domain _j){
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel()){
                 return firstIn( ((_codeUnit) _j).astCompilationUnit() );
@@ -771,13 +771,13 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * @return  the first _field that matches (or null if none found)
      */
     @Override
-    public _parameter firstIn(Node astStartNode, Predicate<_parameter> _parameterMatchFn){
+    public _param firstIn(Node astStartNode, Predicate<_param> _parameterMatchFn){
         Optional<Parameter> p = astStartNode.findFirst(Parameter.class, s ->{
             Select sel = select(s);
             return sel != null && _parameterMatchFn.test( sel._param );
           });         
         if( p.isPresent()){
-            return _parameter.of(p.get());
+            return _param.of(p.get());
         }
         return null;
     }
@@ -893,7 +893,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
          * @return
          */
         public $parameter whichMatch(Parameter parameter){
-            if( !this.constraint.test(_parameter.of(parameter) ) ){
+            if( !this.constraint.test(_param.of(parameter) ) ){
                 return null;
             }
             Optional<$parameter> orsel  = this.ors.stream().filter( $p-> $p.match(parameter) ).findFirst();
@@ -909,27 +909,27 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
      * inside of some Node or _node
      */
     public static class Select 
-        implements $pattern.selected, select_java<_parameter>, selectAst<Parameter> {
+        implements $pattern.selected, select_java<org.jdraft._param>, selectAst<Parameter> {
         
-        public final _parameter _param;
+        public final org.jdraft._param _param;
         public final $tokens tokens;
 
-        public Select ( _parameter _p, Tokens tokens){
+        public Select (org.jdraft._param _p, Tokens tokens){
             this._param = _p;
             this.tokens = $tokens.of(tokens);
         }
         
-        public Select ( _parameter _p, $tokens $a){
+        public Select (org.jdraft._param _p, $tokens $a){
             this._param = _p;
             tokens = $a;
         }
         
         public Select ( Parameter astParam, $tokens tokens){
-            this( _parameter.of(astParam), tokens);
+            this( org.jdraft._param.of(astParam), tokens);
         }
         
         public boolean hasAnno( Class<? extends Annotation> annotationClass){            
-            return _param.hasAnnoRef(annotationClass);
+            return _param.hasAnnoExpr(annotationClass);
         }
         
         public boolean is(String...expectedParameter ){            
@@ -984,7 +984,7 @@ public class $parameter implements Template<_parameter>, //$pattern<_parameter, 
         } 
         
         @Override
-        public _parameter _node() {
+        public org.jdraft._param _node() {
             return _param;
         }        
     }    

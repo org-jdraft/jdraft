@@ -193,7 +193,7 @@ public class AnonymousShortcutsTest extends TestCase {
         
         assertTrue( _c.isImplements(ToImplement.class));
         assertTrue( _c.getField("implemented").is("public static final boolean implemented = true;") );
-        assertTrue( _c.getMethod("implementedThisMethod").hasAnnoRef(Override.class) );
+        assertTrue( _c.getMethod("implementedThisMethod").hasAnnoExpr(Override.class) );
         assertTrue( _c.getMethod("anotherIncludedMethod").isStatic());
         assertNull( _c.getField("someValueIDontWant")); 
     }

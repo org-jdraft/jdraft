@@ -28,7 +28,7 @@ import java.util.function.Predicate;
  * ({@link ClassOrInterfaceDeclaration}) for logical manipulation.
  */
 public final class _interface implements _type<ClassOrInterfaceDeclaration, _interface>,
-        _method._withMethods<_interface>, _typeParameters._withTypeParameters<_interface>,
+        _method._withMethods<_interface>, _typeParams._withTypeParams<_interface>,
         _type._withExtends<_interface> {
 
     public static _interface of(){
@@ -366,7 +366,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of(this.astInterface);
     }
     
@@ -411,7 +411,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( !Objects.equals( this.getModifiers(), other.getModifiers())){
             return false;
         }
-        if( !Objects.equals( this.getTypeParameters(), other.getTypeParameters())){
+        if( !Objects.equals( this.getTypeParams(), other.getTypeParams())){
             return false;
         }
 
@@ -481,7 +481,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
 
         hash = 53 * Objects.hash( this.getPackage(), 
             Exprs.hashAnnos(astInterface),
-            this.getJavadoc(),this.getModifiers(), this.getTypeParameters(),
+            this.getJavadoc(),this.getModifiers(), this.getTypeParams(),
             tm, tf,
             _imports.Compare.importsHash(astInterface),
             Types.hash(astInterface.getExtendedTypes()),
@@ -497,13 +497,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
+        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.EXTENDS, this.listExtends() );
         parts.put( _java.Component.NAME, this.getName() );
 
         parts.put( _java.Component.MODIFIERS, this.getModifiers() );
-        parts.put( _java.Component.TYPE_PARAMETERS, this.getTypeParameters() );
+        parts.put( _java.Component.TYPE_PARAMETERS, this.getTypeParams() );
         parts.put( _java.Component.FIELDS, this.listFields() );
         parts.put( _java.Component.METHODS, this.listMethods() );
         parts.put( _java.Component.INNER_TYPES, this.listInnerTypes() );

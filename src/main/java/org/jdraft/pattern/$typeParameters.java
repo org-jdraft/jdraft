@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._typeParameters;
+import org.jdraft._typeParams;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
@@ -24,8 +24,8 @@ import org.jdraft.text.Translator;
  *
  */
 public class $typeParameters
-    implements Template<_typeParameters>, //$pattern<_typeParameters,$typeParameters>,
-        $pattern.$java<_typeParameters,$typeParameters>,
+    implements Template<_typeParams>, //$pattern<_typeParameters,$typeParameters>,
+        $pattern.$java<_typeParams,$typeParameters>,
         $method.$part, $constructor.$part, $class.$part,$interface.$part, $type.$part {
 
     /**
@@ -42,7 +42,7 @@ public class $typeParameters
      * @return
      */
     public static $typeParameters of( String... pattern){
-        return new $typeParameters( _typeParameters.of(pattern)  );
+        return new $typeParameters( _typeParams.of(pattern)  );
     }
 
     public static $typeParameters of( List<$typeParameter> $tps ){
@@ -54,7 +54,7 @@ public class $typeParameters
      * @param constraint
      * @return
      */
-    public static $typeParameters of( Predicate<_typeParameters> constraint ){
+    public static $typeParameters of( Predicate<_typeParams> constraint ){
         return new $typeParameters( constraint );
     }
 
@@ -64,8 +64,8 @@ public class $typeParameters
      * @param constraint
      * @return
      */
-    public static $typeParameters of( String pattern, Predicate<_typeParameters> constraint){
-        return new $typeParameters( _typeParameters.of(pattern) ).$and(constraint);
+    public static $typeParameters of( String pattern, Predicate<_typeParams> constraint){
+        return new $typeParameters( _typeParams.of(pattern) ).$and(constraint);
     }
 
     /**
@@ -73,7 +73,7 @@ public class $typeParameters
      * @param _proto
      * @return
      */
-    public static $typeParameters of( _typeParameters _proto){
+    public static $typeParameters of( _typeParams _proto){
         return new $typeParameters( _proto  );
     }
 
@@ -83,11 +83,11 @@ public class $typeParameters
      * @param constraint
      * @return
      */
-    public static $typeParameters of( _typeParameters _proto, Predicate<_typeParameters> constraint){
+    public static $typeParameters of(_typeParams _proto, Predicate<_typeParams> constraint){
         return new $typeParameters( _proto ).$and(constraint);
     }
 
-    public static $typeParameters.Or or( _typeParameters... _protos ){
+    public static $typeParameters.Or or( _typeParams... _protos ){
         $typeParameters[] arr = new $typeParameters[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $typeParameters.of( _protos[i]);
@@ -103,10 +103,10 @@ public class $typeParameters
         if( combined.length() == 0 ){
             return none();
         }
-        return as( _typeParameters.of(combined) );
+        return as( _typeParams.of(combined) );
     }
 
-    public static $typeParameters as(_typeParameters _tps){
+    public static $typeParameters as(_typeParams _tps){
         if( _tps.isEmpty() ){
             return none();
         }
@@ -127,7 +127,7 @@ public class $typeParameters
         return of().$and(tps-> tps.isEmpty());
     }
 
-    public Predicate<_typeParameters> constraint = t-> true;
+    public Predicate<_typeParams> constraint = t-> true;
         
     public List<$typeParameter> typeParams = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class $typeParameters
         this(new ArrayList<>());
     }
 
-    private $typeParameters(_typeParameters proto ){
+    private $typeParameters(_typeParams proto ){
         proto.forEach(t-> typeParams.add(new $typeParameter(t )));
     }
 
@@ -143,12 +143,12 @@ public class $typeParameters
         this.typeParams.addAll($tps);
     }
 
-    private $typeParameters( Predicate<_typeParameters> constraint ){        
+    private $typeParameters( Predicate<_typeParams> constraint ){
         this.constraint = constraint;
     }
 
-    public Class<_typeParameters> _modelType(){
-        return _typeParameters.class;
+    public Class<_typeParams> _modelType(){
+        return _typeParams.class;
     }
 
     /**
@@ -156,7 +156,7 @@ public class $typeParameters
      * @param constraint a constraint to be added
      * @return the modified prototype
      */
-    public $typeParameters $and(Predicate<_typeParameters>constraint ){
+    public $typeParameters $and(Predicate<_typeParams>constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -184,8 +184,8 @@ public class $typeParameters
     }
 
     public boolean match( _java _j ){
-        if( _j instanceof _typeParameters._withTypeParameters){
-            return matches( (_typeParameters._withTypeParameters)_j);
+        if( _j instanceof _typeParams._withTypeParams){
+            return matches( (_typeParams._withTypeParams)_j);
         }
         return false;
     }
@@ -200,10 +200,10 @@ public class $typeParameters
         //this sucks... but ohh well
         MethodDeclaration dummy = Ast.method("void $DUMMY_TYPE_PARAMETER_HOLDER$(){}");
         ntps.forEach(tp -> dummy.addTypeParameter(tp) );
-        return matches(_typeParameters.of(dummy));
+        return matches(_typeParams.of(dummy));
     }
 
-    public boolean matches(_typeParameters._withTypeParameters _htp){
+    public boolean matches(_typeParams._withTypeParams _htp){
         return matches( (NodeWithTypeParameters) ((_java._multiPart)_htp).ast() );
     }
 
@@ -222,7 +222,7 @@ public class $typeParameters
      * @return
      */
     public boolean matches (NodeWithTypeParameters nwtp ){
-        return select(_typeParameters.of(nwtp) ) != null;
+        return select(_typeParams.of(nwtp) ) != null;
     }
 
     /**
@@ -235,7 +235,7 @@ public class $typeParameters
         //if( composite.length() == 0 ){
         //    return this.isMatchAny();
         //}
-        return matches(_typeParameters.of(typeParams) );
+        return matches(_typeParams.of(typeParams) );
     }
     
     /**
@@ -252,7 +252,7 @@ public class $typeParameters
      * @param _t
      * @return 
      */
-    public boolean matches( _typeParameters _t){
+    public boolean matches( _typeParams _t){
         return select( _t ) != null;
     }
 
@@ -262,7 +262,7 @@ public class $typeParameters
      * @return 
      */
     public Select select( CallableDeclaration astCallable ){
-        return select( _typeParameters.of( astCallable ) );
+        return select( _typeParams.of( astCallable ) );
     }
     
     /**
@@ -270,10 +270,10 @@ public class $typeParameters
      * @param _i
      * @return 
      */
-    public Select select(_typeParameters _i){
+    public Select select(_typeParams _i){
         if( this.constraint.test(_i)){            
                 
-            List<_typeParameter> listed = _i.list();
+            List<_typeParam> listed = _i.list();
             if( listed.size() < this.typeParams.size() ){
                 return null;
             }
@@ -281,7 +281,7 @@ public class $typeParameters
             for(int i=0;i<typeParams.size();i++ ){
                 $typeParameter $tp = typeParams.get(i);
                 
-                Optional<_typeParameter> ort = 
+                Optional<_typeParam> ort =
                     listed.stream().filter(rt -> $tp.matches(rt) ).findFirst();
                 if( !ort.isPresent() ){
                     return null;
@@ -320,9 +320,9 @@ public class $typeParameters
     }
 
     @Override
-    public _typeParameters draft(Translator translator, Map<String, Object> keyValues) {
+    public _typeParams draft(Translator translator, Map<String, Object> keyValues) {
         
-        _typeParameters _ts = _typeParameters.of();
+        _typeParams _ts = _typeParams.of();
         if( keyValues.get("$typeParameters") != null ){ //PARAMETER OVERRIDE
             Object tps = keyValues.get("$typeParameters");
             Map<String,Object> kvs = new HashMap<>();
@@ -332,8 +332,8 @@ public class $typeParameters
             if( tps instanceof $typeParameters ){
                 return (($typeParameters)tps).draft(translator, kvs);
             } 
-            if( tps instanceof _typeParameters){
-                return ($typeParameters.of((_typeParameters)tps)).draft(translator, kvs);
+            if( tps instanceof _typeParams){
+                return ($typeParameters.of((_typeParams)tps)).draft(translator, kvs);
             }
             return $typeParameters.of(tps.toString()).draft(translator, kvs);
         }         
@@ -342,7 +342,7 @@ public class $typeParameters
     }
 
     //TODO this seems backwards, select should call parse
-    public Tokens parse(_typeParameters _ts){
+    public Tokens parse(_typeParams _ts){
         Select sel = select(_ts);
         if( sel != null ){
             return sel.tokens.asTokens();
@@ -356,7 +356,7 @@ public class $typeParameters
      * @param allTokens
      * @return 
      */
-    public Tokens parseTo(_typeParameters _ts, Tokens allTokens ){
+    public Tokens parseTo(_typeParams _ts, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }
@@ -408,7 +408,7 @@ public class $typeParameters
      * @return  the first _import that matches (or null if none found)
      */
     @Override
-    public _typeParameters firstIn(Node astStartNode, Predicate<_typeParameters> typeParamsMatchFn){
+    public _typeParams firstIn(Node astStartNode, Predicate<_typeParams> typeParamsMatchFn){
         if( astStartNode.findCompilationUnit().isPresent() ){
             Optional<CallableDeclaration> f = astStartNode.findCompilationUnit().get()
                 .findFirst(CallableDeclaration.class, s ->{
@@ -416,7 +416,7 @@ public class $typeParameters
                     return sel != null && typeParamsMatchFn.test(sel.typeParameters);                    
                 });         
             if( f.isPresent()){
-                return _typeParameters.of(f.get());
+                return _typeParams.of(f.get());
             }
         }
         return null;
@@ -584,7 +584,7 @@ public class $typeParameters
      * @param _i
      * @return 
      */
-    public <_CT extends _type> _CT  replaceIn(Class clazz, _typeParameters _i){
+    public <_CT extends _type> _CT  replaceIn(Class clazz, _typeParams _i){
         return (_CT)replaceIn( (_type) _type.of(clazz), _i);
     }
     
@@ -595,7 +595,7 @@ public class $typeParameters
      * @param _i
      * @return 
      */
-    public <_J extends _java._domain> _J replaceIn(_J _j, _typeParameters _i){
+    public <_J extends _java._domain> _J replaceIn(_J _j, _typeParams _i){
         return replaceIn(_j, $typeParameters.of(_i));
     }
     
@@ -643,7 +643,7 @@ public class $typeParameters
             astNode.findCompilationUnit().get().walk(CallableDeclaration.class, e-> {
                 Select sel = select( e );
                 if( sel != null ){                    
-                    _typeParameters _ths = $i.draft(sel.tokens.asTokens());
+                    _typeParams _ths = $i.draft(sel.tokens.asTokens());
                     sel.typeParameters.astHolder().setTypeParameters(_ths.ast());                    
                 }
             });
@@ -737,7 +737,7 @@ public class $typeParameters
     }
     
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_typeParameters>_typeParamMatchFn, Consumer<_typeParameters> _typeParamActionFn){
+    public <N extends Node> N forEachIn(N astNode, Predicate<_typeParams>_typeParamMatchFn, Consumer<_typeParams> _typeParamActionFn){
         astNode.walk(CallableDeclaration.class, e-> {
             Select sel = select(e);
             if( sel != null && _typeParamMatchFn.test(sel.typeParameters)){
@@ -781,7 +781,7 @@ public class $typeParameters
          * @param n
          * @return
          */
-        public $typeParameters.Select select(_typeParameters n){
+        public $typeParameters.Select select(_typeParams n){
             $typeParameters $a = whichMatch(n);
             if( $a != null ){
                 return $a.select(n);
@@ -798,7 +798,7 @@ public class $typeParameters
          * @param tps
          * @return
          */
-        public $typeParameters whichMatch(_typeParameters tps){
+        public $typeParameters whichMatch(_typeParams tps){
             if( !this.constraint.test(tps ) ){
                 return null;
             }
@@ -815,18 +815,18 @@ public class $typeParameters
      * inside of some CompilationUnit
      */
     public static class Select implements $pattern.selected,
-            select_java<_typeParameters> {
+            select_java<_typeParams> {
     
-        public final _typeParameters typeParameters;
+        public final _typeParams typeParameters;
         public final $tokens tokens;
 
-        public Select(_typeParameters _i, $tokens tokens){
+        public Select(_typeParams _i, $tokens tokens){
             this.typeParameters = _i;  
             this.tokens = tokens;
         }
         
         public Select( NodeWithTypeParameters astImport, $tokens tokens){
-            this.typeParameters = _typeParameters.of(astImport );
+            this.typeParameters = _typeParams.of(astImport );
             this.tokens = tokens;
         }
         
@@ -844,7 +844,7 @@ public class $typeParameters
         }
         
         @Override
-        public _typeParameters _node() {
+        public _typeParams _node() {
             return typeParameters;
         }
     }

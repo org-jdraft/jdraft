@@ -29,25 +29,25 @@ public class _1_Model_methodTest extends TestCase {
         assertEquals("setX", _m.getName() );
         assertTrue( _m.isPublic() );
         assertTrue( _m.isImplemented() );
-        assertTrue( _m.hasParameters() );
+        assertTrue( _m.hasParams() );
         assertTrue( _m.isTypeRef( int.class ) );
 
         // other simple questions you can ask
             assertFalse( _m.hasJavadoc() );
             assertFalse( _m.hasThrows() );
-            assertFalse( _m.hasAnnoRefs() );
+            assertFalse( _m.hasAnnoExprs() );
 
         // the _method can also return other _models that are also part of the _method
         _modifiers _ms = _m.getModifiers();
-        _parameters _ps = _m.getParameters();
+        _params _ps = _m.getParams();
         _typeRef _t = _m.getTypeRef();
 
         // other _method _models
-            _typeParameters _tps = _m.getTypeParameters();
+            _typeParams _tps = _m.getTypeParams();
             _throws _ts = _m.getThrows();
-            _annoExprs _as = _m.getAnnoRefs();
+            _annoExprs _as = _m.getAnnoExprs();
             _javadocComment _jd = _m.getJavadoc();
-            _receiverParameter _rp = _m.getReceiverParameter();
+            _receiverParam _rp = _m.getReceiverParam();
 
         // what IS the _method?
         // the _method is actually a stateless wrapper pointing to a JavaParser AST
@@ -92,8 +92,8 @@ public class _1_Model_methodTest extends TestCase {
         Class<? extends _java._domain>[] _MODEL_TYPES = new Class[]{
             _type.class, _class.class, _interface.class, _enum.class, _annotation.class,
             _field.class, _constructor.class, _initBlock.class, _constant.class, _annotation._entry.class,
-            _parameter.class, _parameters.class, _typeRef.class, _modifiers.class, _annoExpr.class,
-            _annoExprs.class, _body.class, _import.class, _throws.class, _typeParameter.class,
-            _typeParameters.class};
+            _param.class, _params.class, _typeRef.class, _modifiers.class, _annoExpr.class,
+            _annoExprs.class, _body.class, _import.class, _throws.class, _typeParam.class,
+            _typeParams.class};
     }
 }

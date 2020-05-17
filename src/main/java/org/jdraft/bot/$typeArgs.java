@@ -12,42 +12,42 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class $typeArguments<N extends Node & NodeWithTypeArguments>
-        implements $bot<N, _typeArguments, $typeArguments>, $methodCallExpr.$part {
+public class $typeArgs<N extends Node & NodeWithTypeArguments>
+        implements $bot<N, _typeArgs, $typeArgs>, $methodCallExpr.$part {
 
-    public static $typeArguments of(){
-        return new $typeArguments();
+    public static $typeArgs of(){
+        return new $typeArgs();
     }
 
-    public static $typeArguments of (_typeArguments args){
-        return new $typeArguments(args);
+    public static $typeArgs of (_typeArgs args){
+        return new $typeArgs(args);
     }
 
-    public static $typeArguments of (_typeRef... args){
-        return new $typeArguments(args);
+    public static $typeArgs of (_typeRef... args){
+        return new $typeArgs(args);
     }
 
-    public static $typeArguments of(String...args){
-        return of( _typeArguments.of(args));
+    public static $typeArgs of(String...args){
+        return of( _typeArgs.of(args));
     }
 
-    public static $typeArguments of($typeRef ...$es){
-        return new $typeArguments($es);
+    public static $typeArgs of($typeRef ...$es){
+        return new $typeArgs($es);
     }
 
-    public static $typeArguments.Or or($typeArguments...$as){
-        return new $typeArguments.Or($as);
+    public static $typeArgs.Or or($typeArgs...$as){
+        return new $typeArgs.Or($as);
     }
 
     public List<$typeRef> list = new ArrayList<>();
-    public Predicate<_typeArguments> predicate = p->true;
+    public Predicate<_typeArgs> predicate = p->true;
 
     /**
      * Build and return a new independent mutable copy of this bot
      * @return
      */
-    public $typeArguments copy(){
-        $typeArguments $s = of().$and( this.predicate.and(t->true) );
+    public $typeArgs copy(){
+        $typeArgs $s = of().$and( this.predicate.and(t->true) );
         List<$typeRef> l = new ArrayList<>();
         this.list.forEach( e-> l.add(e.copy()));
         $s.list = l;
@@ -55,32 +55,32 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
     }
 
     @Override
-    public $typeArguments<N> $hardcode(Translator translator, Tokens kvs) {
+    public $typeArgs<N> $hardcode(Translator translator, Tokens kvs) {
         this.list.forEach(t -> t.$hardcode(translator, kvs));
         return this;
     }
 
-    public $typeArguments(){ }
+    public $typeArgs(){ }
 
-    public $typeArguments(_typeArguments args){
+    public $typeArgs(_typeArgs args){
         for(int i=0;i<args.size(); i++){
             list.add( $typeRef.of(args.getAt(i)));
         }
     }
 
-    public $typeArguments(_typeRef..._exs){
+    public $typeArgs(_typeRef..._exs){
         for(int i=0;i<_exs.length; i++){
             list.add( $typeRef.of(_exs[i]));
         }
     }
 
-    public $typeArguments($typeRef...$exs){
+    public $typeArgs($typeRef...$exs){
         for(int i=0;i<$exs.length; i++){
             list.add( $exs[i]);
         }
     }
 
-    public $typeArguments setPredicate(Predicate<_typeArguments> predicate){
+    public $typeArgs setPredicate(Predicate<_typeArgs> predicate){
         this.predicate = predicate;
         return this;
     }
@@ -90,11 +90,11 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
      * @param _ex
      * @return
      */
-    public $typeArguments $all(Predicate<_typeRef> _ex ){
+    public $typeArgs $all(Predicate<_typeRef> _ex ){
         return $and( p-> p.allMatch(_ex) );
     }
 
-    public boolean matches(_typeArguments _args){
+    public boolean matches(_typeArgs _args){
         return select(_args) != null;
     }
 
@@ -114,37 +114,37 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
         return select(_exs) != null;
     }
 
-    public Select<_typeArguments> select(Type...exs){
-        return select(_typeArguments.of(exs));
+    public Select<_typeArgs> select(Type...exs){
+        return select(_typeArgs.of(exs));
     }
 
-    public Select<_typeArguments> select(_typeRef...exs){
-        return select(_typeArguments.of(exs));
+    public Select<_typeArgs> select(_typeRef...exs){
+        return select(_typeArgs.of(exs));
     }
 
-    public Select<_typeArguments> select(String args){
-        return select(_typeArguments.of(args));
+    public Select<_typeArgs> select(String args){
+        return select(_typeArgs.of(args));
     }
 
-    public Select<_typeArguments> select(String...args){
-        return select(_typeArguments.of(args));
+    public Select<_typeArgs> select(String...args){
+        return select(_typeArgs.of(args));
     }
 
     @Override
-    public Select<_typeArguments> select(Node n) {
+    public Select<_typeArgs> select(Node n) {
         if( n instanceof NodeWithTypeArguments){
-            _typeArguments _as = _typeArguments.of( (NodeWithTypeArguments)n );
+            _typeArgs _as = _typeArgs.of( (NodeWithTypeArguments)n );
             return select(_as);
         }
         return null;
     }
 
     @Override
-    public Select<_typeArguments> selectFirstIn(Node astNode, Predicate<Select<_typeArguments>> predicate) {
+    public Select<_typeArgs> selectFirstIn(Node astNode, Predicate<Select<_typeArgs>> predicate) {
         Optional<Node> on = astNode.stream().filter(n ->{
                 if( n instanceof NodeWithTypeArguments ){
-                    _typeArguments _as = _typeArguments.of( (NodeWithTypeArguments)n);
-                    Select<_typeArguments> sel = select(_as);
+                    _typeArgs _as = _typeArgs.of( (NodeWithTypeArguments)n);
+                    Select<_typeArgs> sel = select(_as);
                     if( sel != null ){
                         return predicate.test(sel);
                     }
@@ -152,18 +152,18 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
                 return false;
              }).findFirst();
         if( on.isPresent()){
-            return select(_typeArguments.of( (NodeWithTypeArguments)on.get() ));
+            return select(_typeArgs.of( (NodeWithTypeArguments)on.get() ));
         }
         return null;
     }
 
     @Override
-    public Predicate<_typeArguments> getPredicate() {
+    public Predicate<_typeArgs> getPredicate() {
         return predicate;
     }
 
     @Override
-    public Select<_typeArguments> select(_typeArguments candidate) {
+    public Select<_typeArgs> select(_typeArgs candidate) {
         if( isMatchAny()){
             return new Select(candidate, new Tokens());
         }
@@ -199,7 +199,7 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
     }
 
     @Override
-    public $typeArguments $and(Predicate<_typeArguments> matchFn) {
+    public $typeArgs $and(Predicate<_typeArgs> matchFn) {
         setPredicate( getPredicate().and(matchFn));
         this.predicate = this.predicate.and(matchFn);
         return this;
@@ -225,8 +225,8 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
     }
 
     @Override
-    public _typeArguments draft(Translator translator, Map<String, Object> keyValues) {
-        _typeArguments _as = _typeArguments.of();
+    public _typeArgs draft(Translator translator, Map<String, Object> keyValues) {
+        _typeArgs _as = _typeArgs.of();
         for(int i = 0; i<this.list.size(); i++){
             _as.add( (_typeRef)this.list.get(i).draft(translator, keyValues) );
         }
@@ -237,7 +237,7 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
     }
 
     @Override
-    public $typeArguments $(String target, String $Name) {
+    public $typeArgs $(String target, String $Name) {
         this.list.forEach(e -> e.$(target, $Name));
         return this;
     }
@@ -260,12 +260,12 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
      * An Or entity that can match against any of some number of instances
      * NOTE: this can be used as a selector but NOT as a Template
      */
-    public static class Or extends $typeArguments {
+    public static class Or extends $typeArgs {
 
-        public List<$typeArguments> $typeArgumentsList = new ArrayList<>();
+        public List<$typeArgs> $typeArgsList = new ArrayList<>();
 
-        private Or($typeArguments...nms){
-            Arrays.stream(nms).forEach(n-> $typeArgumentsList.add(n));
+        private Or($typeArgs...nms){
+            Arrays.stream(nms).forEach(n-> $typeArgsList.add(n));
         }
 
         public boolean isMatchAny(){
@@ -276,24 +276,24 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
             return select(nwa) != null;
         }
 
-        public $typeArguments.Or copy(){
+        public $typeArgs.Or copy(){
             Or or = new Or();
             or.predicate = this.predicate.and(t->true);
-            this.$typeArgumentsList.forEach( e-> or.$typeArgumentsList.add(e.copy()));
+            this.$typeArgsList.forEach(e-> or.$typeArgsList.add(e.copy()));
             this.list.forEach( e-> or.list.add( (($expr)e).copy()));
             return or;
         }
 
-        public Select<_typeArguments> select(NodeWithTypeArguments nwas){
-            return select( _typeArguments.of(nwas) );
+        public Select<_typeArgs> select(NodeWithTypeArguments nwas){
+            return select( _typeArgs.of(nwas) );
         }
 
-        public Select<_typeArguments> select(_typeArguments _candidate){
+        public Select<_typeArgs> select(_typeArgs _candidate){
             Select commonSelect = super.select(_candidate);
             if(  commonSelect == null){
                 return null;
             }
-            $typeArguments $whichBot = whichMatch(_candidate);
+            $typeArgs $whichBot = whichMatch(_candidate);
             if( $whichBot == null ){
                 return null;
             }
@@ -310,8 +310,8 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
          * @param nwa
          * @return
          */
-        public $typeArguments whichMatch(NodeWithTypeArguments nwa){
-            return whichMatch(_typeArguments.of(nwa));
+        public $typeArgs whichMatch(NodeWithTypeArguments nwa){
+            return whichMatch(_typeArgs.of(nwa));
         }
 
         /**
@@ -320,19 +320,19 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
          * @param ae
          * @return
          */
-        public $typeArguments whichMatch(_typeArguments ae){
+        public $typeArgs whichMatch(_typeArgs ae){
             if( !this.predicate.test(ae ) ){
                 return null;
             }
-            Optional<$typeArguments> orsel  = this.$typeArgumentsList.stream().filter($p-> $p.matches(ae) ).findFirst();
+            Optional<$typeArgs> orsel  = this.$typeArgsList.stream().filter($p-> $p.matches(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
             return null;
         }
 
-        public Tokens parse(_typeArguments _a){
-            $typeArguments $a = whichMatch(_a);
+        public Tokens parse(_typeArgs _a){
+            $typeArgs $a = whichMatch(_a);
             if( $a != null) {
                 Select s = $a.select(_a);
                 if( s != null ){
@@ -345,8 +345,8 @@ public class $typeArguments<N extends Node & NodeWithTypeArguments>
         public String toString(){
             StringBuilder sb = new StringBuilder();
             sb.append( "$typeArguments.Or{").append(System.lineSeparator());
-            for(int i = 0; i<this.$typeArgumentsList.size(); i++){
-                sb.append( Text.indent( this.$typeArgumentsList.get(i).toString()) );
+            for(int i = 0; i<this.$typeArgsList.size(); i++){
+                sb.append( Text.indent( this.$typeArgsList.get(i).toString()) );
             }
             sb.append("}");
             return sb.toString();

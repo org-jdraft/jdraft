@@ -11,25 +11,25 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class _parameterTest extends TestCase {
+public class _paramTest extends TestCase {
 
     public void testBuildFromScratch(){
-        _parameter _p = _parameter.of();
+        _param _p = _param.of();
         System.out.println( _p );
         _p.setTypeRef(int.class).setName("x");
         System.out.println( _p );
     }
     public void testFullyQualified(){
-        _parameter _a = _parameter.of("java.util.List l");
-        _parameter _b = _parameter.of("List l");
+        _param _a = _param.of("java.util.List l");
+        _param _b = _param.of("List l");
 
         assertEquals( _a, _b);
         assertEquals( _a.hashCode(), _b.hashCode() );
     }
 
     public void testOfIsEqualsHashCode(){
-        _parameter _p = _parameter.of("int a");
-        assertEquals( _parameter.of( "int a" ), _p  );
+        _param _p = _param.of("int a");
+        assertEquals( _param.of( "int a" ), _p  );
         assertTrue( _p.is("int a"));
         assertTrue( _p.isTypeRef("int") );
         assertTrue( _p.isNamed("a") );

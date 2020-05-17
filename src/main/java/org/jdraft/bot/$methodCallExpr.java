@@ -215,11 +215,11 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
             if( parts[i] instanceof $expr){
                 $mc.scope = ($expr)parts[i];
             }
-            if( parts[i] instanceof $arguments){
-                $mc.arguments = ($arguments)parts[i];
+            if( parts[i] instanceof $args){
+                $mc.arguments = ($args)parts[i];
             }
-            if( parts[i] instanceof $typeArguments){
-                $mc.typeArguments = ($typeArguments)parts[i];
+            if( parts[i] instanceof $typeArgs){
+                $mc.typeArguments = ($typeArgs)parts[i];
             }
         }
         return $mc;
@@ -237,9 +237,9 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     public Predicate<_methodCallExpr> predicate = d -> true;
 
     public $expr scope = $expr.of();
-    public $typeArguments typeArguments = $typeArguments.of();
+    public $typeArgs typeArguments = $typeArgs.of();
     public $name name = $name.of();
-    public $arguments arguments = $arguments.of();
+    public $args arguments = $args.of();
 
     public $methodCallExpr() { }
 
@@ -248,11 +248,11 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         if( _mc.hasScope()){
             scope = $expr.of(_mc.getScope());
         }
-        if( _mc.hasArguments() ){
-            arguments = $arguments.of(_mc.getArguments());
+        if( _mc.hasArgs() ){
+            arguments = $args.of(_mc.getArgs());
         }
         if( _mc.hasTypeArguments() ){
-            typeArguments = $typeArguments.of( _mc.getTypeArguments() );
+            typeArguments = $typeArgs.of( _mc.getTypeArguments() );
         }
     }
 
@@ -351,7 +351,7 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         }
         ts.putAll(s.tokens);
 
-        s = this.arguments.select(_mc.getArguments() );
+        s = this.arguments.select(_mc.getArgs() );
         if( s == null || !ts.isConsistent(s.tokens)){
             return null;
         }
@@ -371,7 +371,7 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         if( !this.scope.isMatchAny() ){
             _mc.setScope( (_expr)this.scope.draft(tr, keyValues));
         }
-        _mc.setArguments( this.arguments.draft(tr, keyValues));
+        _mc.setArgs( this.arguments.draft(tr, keyValues));
         try{
             _mc.setTypeArguments( this.typeArguments.draft(tr, keyValues));
         } catch(Exception e){
@@ -415,82 +415,82 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     }
 
     //$withTypeArguments
-    public $typeArguments get$typeArguments(){
+    public $typeArgs get$typeArguments(){
         return this.typeArguments;
     }
 
     public $methodCallExpr $typeArguments(){
-        this.typeArguments = $typeArguments.of();
+        this.typeArguments = $typeArgs.of();
         return this;
     }
 
-    public $methodCallExpr $typeArguments(Predicate<_typeArguments> predicate){
+    public $methodCallExpr $typeArguments(Predicate<_typeArgs> predicate){
         this.typeArguments.$and(predicate);
         return this;
     }
 
-    public $methodCallExpr $typeArguments($typeArguments $as){
+    public $methodCallExpr $typeArguments($typeArgs $as){
         this.typeArguments = $as;
         return this;
     }
 
     public $methodCallExpr $typeArguments(String ts){
-        this.typeArguments = $typeArguments.of(ts);
+        this.typeArguments = $typeArgs.of(ts);
         return this;
     }
 
     public $methodCallExpr $typeArguments(String... ts){
-        this.typeArguments = $typeArguments.of(ts);
+        this.typeArguments = $typeArgs.of(ts);
         return this;
     }
 
     public $methodCallExpr $typeArguments($typeRef...tas){
-        this.typeArguments = $typeArguments.of(tas);
+        this.typeArguments = $typeArgs.of(tas);
         return this;
     }
 
     public $methodCallExpr $typeArguments(_typeRef...args){
-        this.typeArguments = $typeArguments.of(args);
+        this.typeArguments = $typeArgs.of(args);
         return this;
     }
 
     //$withArguments
-    public $arguments get$arguments(){
+    public $args get$arguments(){
         return this.arguments;
     }
 
     public $methodCallExpr $arguments(){
-        this.arguments = $arguments.of();
+        this.arguments = $args.of();
         return this;
     }
 
-    public $methodCallExpr $arguments(Predicate<_arguments> predicate){
+    public $methodCallExpr $arguments(Predicate<_args> predicate){
         this.arguments.$and(predicate);
         return this;
     }
 
     public $methodCallExpr $arguments(String args){
-        this.arguments = $arguments.of(args);
+        this.arguments = $args.of(args);
         return this;
     }
 
     public $methodCallExpr $arguments(String...args){
-        this.arguments = $arguments.of(args);
+        this.arguments = $args.of(args);
         return this;
     }
 
-    public $methodCallExpr $arguments($arguments $as){
+    public $methodCallExpr $arguments($args $as){
         this.arguments = $as;
         return this;
     }
 
     public $methodCallExpr $arguments($expr...args){
-        this.arguments = $arguments.of(args);
+        this.arguments = $args.of(args);
         return this;
     }
 
     public $methodCallExpr $arguments(_expr...args){
-        this.arguments = $arguments.of(args);
+        this.arguments = $args.of(args);
         return this;
     }
 

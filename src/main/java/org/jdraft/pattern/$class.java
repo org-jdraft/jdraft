@@ -60,7 +60,7 @@ public class $class
         List<BodyDeclaration> nots = new ArrayList<>();
 
         //only _declared members can have annotations (i.e. @_$not )
-        _c.forDeclared(d -> d.hasAnnoRef(_$not.class), d -> {
+        _c.forDeclared(d -> d.hasAnnoExpr(_$not.class), d -> {
             if( d instanceof _field ){
                 nots.add(((_field) d).getFieldDeclaration());
                 ((_field)d).getFieldDeclaration().remove(); //remove it from the AST so we dont treat it as an $and
@@ -127,10 +127,10 @@ public class $class
         /** end of parameterizing @_$ class level annotations in the source code */
 
         $c.$javadoc(_c.getJavadoc());
-        _c.forAnnoRefs(a-> $c.annos.add($annoRef.of(a)));
+        _c.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
-        _c.getTypeParameters().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
+        _c.getTypeParams().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
         if( _c.getExtends() != null) {
             $c.extend = $typeRef.of(_c.getExtends());
         }
@@ -273,12 +273,12 @@ public class $class
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_class> pf = an-> an.getAnnoRef(a ->$fa.match(a) ) != null;
+                Predicate<_class> pf = an-> an.getAnnoExpr(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_class> pf = an-> $fa.matches(an.getAnnoRefs());
+                Predicate<_class> pf = an-> $fa.matches(an.getAnnoExprs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -357,7 +357,7 @@ public class $class
             _c.setJavadoc(this.javadoc.draft(translator, base));
         }
         _c.setModifiers( this.modifiers.draft(translator, base));
-        _c.typeParameters( this.typeParameters.draft(translator, base));
+        _c.typeParams( this.typeParameters.draft(translator, base));
         this.imports.stream().forEach( i -> _c.addImports( i.draft(translator, base)));
 
         if( !extend.isMatchAny() ) {
@@ -368,7 +368,7 @@ public class $class
         }
         this.implement.forEach(i -> _c.addImplement( i.draft(translator, base).toString() ) );
 
-        _c.addAnnoRefs( this.annos.draft(translator, base).ast() );
+        _c.addAnnoExprs( this.annos.draft(translator, base).ast() );
         this.initBlocks.forEach(ib -> _c.addInitBlock( ib.draft(translator, base)));
         this.methods.forEach(m -> _c.addMethod( m.draft(translator, base)) );
         this.fields.forEach(f-> _c.addField(f.draft(translator, base)));
@@ -555,7 +555,7 @@ public class $class
         tokens = $tokens.to( tokens, ()-> this.javadoc.parse(instance ));
         tokens = $tokens.to( tokens, ()-> this.modifiers.parse(instance));
         tokens = $tokens.to( tokens, ()-> this.name.parse(instance.getName()));
-        tokens = $tokens.to( tokens, ()-> this.typeParameters.parse(instance.getTypeParameters()) );
+        tokens = $tokens.to( tokens, ()-> this.typeParameters.parse(instance.getTypeParams()) );
 
         tokens = $tokens.to( tokens, ()-> $type.selectExtends(this.extend, instance) );
         tokens = $tokens.to( tokens, ()-> $type.selectImplements(this.implement, instance) );

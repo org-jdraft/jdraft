@@ -166,7 +166,7 @@ public class SfTest extends TestCase {
      */
     public void testBuild$f(){
         $field $b = $field.of(); //any field
-        $b.$and(f-> f.hasAnnoRef(Deprecated.class));
+        $b.$and(f-> f.hasAnnoExpr(Deprecated.class));
         
         assertFalse( $b.matches("int a") ); //expected Deprecated
         assertTrue( $b.matches("@Deprecated int a") ); //expected Deprecated
@@ -196,7 +196,7 @@ public class SfTest extends TestCase {
     
     public void testB(){
         Predicate<_field> pf = (_field f)-> {
-            return f.hasAnnoRef(Deprecated.class);
+            return f.hasAnnoExpr(Deprecated.class);
         };
         assertTrue( pf.test( _field.of("@Deprecated int i") ) );        
         

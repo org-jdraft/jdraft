@@ -75,8 +75,8 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         if( _f.hasJavadoc() ){
             $inst.javadoc = $comment.javadocComment(_f.getJavadoc());
         }
-        if( _f.hasAnnoRefs() ){
-            $inst.annos = $annoRefs.as(_f.getAnnoRefs());
+        if( _f.hasAnnoExprs() ){
+            $inst.annos = $annoRefs.as(_f.getAnnoExprs());
         } else{
             $inst.annos = $annoRefs.none();
         }
@@ -167,8 +167,8 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         if( _f.hasJavadoc() ){
             $inst.javadoc = $comment.javadocComment(_f.getJavadoc());
         }
-        if( _f.hasAnnoRefs() ){
-            $inst.annos = $annoRefs.of(_f.getAnnoRefs());
+        if( _f.hasAnnoExprs() ){
+            $inst.annos = $annoRefs.of(_f.getAnnoExprs());
         }
         if( _f.getModifiers().size() > 0 ){
             $inst.modifiers = $modifiers.of(_f);
@@ -272,7 +272,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_field> pf = f-> !f.listAnnoRefs(a -> $fa.matches(a)).isEmpty();
+                Predicate<_field> pf = f-> !f.listAnnoExprs(a -> $fa.matches(a)).isEmpty();
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -954,7 +954,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             } else{
                 all = javadoc.parseTo(null, all);
             }
-            all = annos.parseTo(_f.getAnnoRefs(), all);
+            all = annos.parseTo(_f.getAnnoExprs(), all);
             all = type.parseTo(_f.getTypeRef(), all);
             all = name.parseTo(_f.getName(), all);
             if( init == null ){
@@ -1284,11 +1284,11 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         }
         
         public boolean hasAnnos(){
-            return _f.hasAnnoRefs();
+            return _f.hasAnnoExprs();
         }
         
         public boolean hasAnno(Class<? extends Annotation> annoClass){            
-            return _f.hasAnnoRef(annoClass);
+            return _f.hasAnnoExpr(annoClass);
         }
         
         public boolean isInit( Predicate<Expression> initMatchFn){            

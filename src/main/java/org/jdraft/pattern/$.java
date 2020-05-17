@@ -24,8 +24,8 @@ import java.util.function.*;
 
 import org.jdraft.*;
 import org.jdraft._annoExprs;
-import org.jdraft._parameters;
-import org.jdraft._typeParameters;
+import org.jdraft._params;
+import org.jdraft._typeParams;
 import org.jdraft.bot.$expr;
 import org.jdraft.bot.$refactorBot;
 import org.jdraft.bot.$stmt;
@@ -619,19 +619,19 @@ public final class $ {
         return $ex.classEx(ce);
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalExpr(){
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalExpr(){
         return $ex.conditionalEx();
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalExpr(String ce){
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalExpr(String ce){
         return $ex.conditionalEx(ce);
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalExpr(ConditionalExpr ce){
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalExpr(ConditionalExpr ce){
         return $ex.of(ce);
     }
 
-    public static $ex<ConditionalExpr, _conditionalExpr, $ex> conditionalExpr(Predicate<_conditionalExpr> ce){
+    public static $ex<ConditionalExpr, _ternaryExpr, $ex> conditionalExpr(Predicate<_ternaryExpr> ce){
         return $ex.conditionalEx(ce);
     }
 
@@ -661,19 +661,19 @@ public final class $ {
         return $ex.doubleLiteralEx(floats);
     }
 
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedExpr(){
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedExpr(){
         return $ex.enclosedEx();
     }
 
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedExpr(String ee){
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedExpr(String ee){
         return $ex.enclosedEx(ee);
     }
 
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedExpr(EnclosedExpr ee){
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedExpr(EnclosedExpr ee){
         return $ex.of(ee);
     }
 
-    public static $ex<EnclosedExpr, _enclosedEx, $ex> enclosedExpr(Predicate<_enclosedEx> ee){
+    public static $ex<EnclosedExpr, _parenthesizedExpr, $ex> enclosedExpr(Predicate<_parenthesizedExpr> ee){
         return $ex.enclosedEx(ee);
     }
 
@@ -2322,7 +2322,7 @@ public final class $ {
         return $parameters.of(parameters);
     }
     
-    public static $parameters parameters(Predicate<_parameters> constraint){
+    public static $parameters parameters(Predicate<_params> constraint){
         return $parameters.of().$and(constraint);
     }
     
@@ -2334,11 +2334,11 @@ public final class $ {
         return $parameter.of(p);
     }
 
-    public static $parameter parameter( _parameter p){
+    public static $parameter parameter( _param p){
         return $parameter.of(p);
     }
 
-    public static $parameter parameter(Predicate<_parameter> constraint){
+    public static $parameter parameter(Predicate<_param> constraint){
         return $parameter.of().$and(constraint);
     }
     
@@ -2367,11 +2367,11 @@ public final class $ {
         return $typeParameter.of(tp);
     }
 
-    public static $typeParameter typeParameter(_typeParameter tp){
+    public static $typeParameter typeParameter(_typeParam tp){
         return $typeParameter.of(tp);
     }
 
-    public static $typeParameter typeParameter(Predicate<_typeParameter> tp){
+    public static $typeParameter typeParameter(Predicate<_typeParam> tp){
         return $typeParameter.of().$and(tp);
     }
     
@@ -2383,11 +2383,11 @@ public final class $ {
         return $typeParameters.of(tps);
     }
 
-    public static $typeParameters typeParameters(_typeParameters tps){
+    public static $typeParameters typeParameters(_typeParams tps){
         return $typeParameters.of(tps);
     }
 
-    public static $typeParameters typeParameters(Predicate<_typeParameters> tps){
+    public static $typeParameters typeParameters(Predicate<_typeParams> tps){
         return $typeParameters.of().$and(tps);
     }
     

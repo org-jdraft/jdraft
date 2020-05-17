@@ -35,7 +35,7 @@ import org.jdraft.text.Text;
  * <LI>{@link _field} i.e. @nonnull String NAME;
  * <LI>{@link _method} i.e. @Deprecated String toString(){...}
  * <LI>{@link _constant} @Deprecated E(2)
- * <LI>{@link _parameter} (@nonNull Object VALUE)
+ * <LI>{@link _param} (@nonNull Object VALUE)
  * </UL>
  * <PRE>{@code
  * @name

@@ -77,24 +77,24 @@ public class SannoRefsTest extends TestCase {
         $annoRefs $as = new $annoRefs();
         _class _c = _class.of("C");
         assertNotNull( $as.select(_c) );
-        assertNotNull( $as.parse(_c.getAnnoRefs()) );
-        _c.addAnnoRefs("@A");
+        assertNotNull( $as.parse(_c.getAnnoExprs()) );
+        _c.addAnnoExprs("@A");
         assertNotNull( $as.select(_c) );
-        assertNotNull( $as.parse(_c.getAnnoRefs()) );
+        assertNotNull( $as.parse(_c.getAnnoExprs()) );
 
         
         
         $as = $annoRefs.of("@A");
         assertNotNull( $as.select(_c) );
-        assertNotNull( $as.select(_c.getAnnoRefs()) );
-        assertNotNull( $as.parse(_c.getAnnoRefs()) );
-        _c.removeAnnoRefs("A");
+        assertNotNull( $as.select(_c.getAnnoExprs()) );
+        assertNotNull( $as.parse(_c.getAnnoExprs()) );
+        _c.removeAnnoExprs("A");
         assertNull( $as.select(_c) );
-        assertNull( $as.parse(_c.getAnnoRefs()) );
+        assertNull( $as.parse(_c.getAnnoExprs()) );
         
         $as = $annoRefs.of($annoRef.of(Deprecated.class) );
         
         assertFalse( $as.matches(_class.of("C")));
-        assertTrue( $as.matches(_class.of("C").addAnnoRefs(Deprecated.class)));
+        assertTrue( $as.matches(_class.of("C").addAnnoExprs(Deprecated.class)));
     }
 }

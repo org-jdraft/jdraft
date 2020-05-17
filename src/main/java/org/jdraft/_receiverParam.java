@@ -28,25 +28,25 @@ import org.jdraft.text.Text;
  * NOTE: All ANNOTATIONS preceding the TYPE will be set on this object, not on the TYPE.
  * @author Eric
  */
-public final class _receiverParameter
-        implements _java._multiPart<ReceiverParameter, _receiverParameter>,
-        _java._withNameTypeRef<ReceiverParameter, _receiverParameter>, _annoExprs._withAnnoExprs<_receiverParameter> {
+public final class _receiverParam
+        implements _java._multiPart<ReceiverParameter, _receiverParam>,
+        _java._withNameTypeRef<ReceiverParameter, _receiverParam>, _annoExprs._withAnnoExprs<_receiverParam> {
 
-    public static _receiverParameter of(){
+    public static _receiverParam of(){
         return of( new ReceiverParameter());
     }
 
-    public static _receiverParameter of( String rp ) {
+    public static _receiverParam of(String rp ) {
         return of( Ast.receiverParameter( rp ) );
     }
 
-    public static _receiverParameter of( ReceiverParameter rp ) {
-        return new _receiverParameter( rp );
+    public static _receiverParam of(ReceiverParameter rp ) {
+        return new _receiverParam( rp );
     }
 
     public final ReceiverParameter astReceiverParam;
 
-    public _receiverParameter( ReceiverParameter rp ) {
+    public _receiverParam(ReceiverParameter rp ) {
         this.astReceiverParam = rp;
     }
 
@@ -54,7 +54,7 @@ public final class _receiverParameter
      * Build and return an independent copy of this receiverParameter
      * @return 
      */
-    public _receiverParameter copy(){
+    public _receiverParam copy(){
         return of( this.astReceiverParam.toString() );
     }
     
@@ -78,7 +78,7 @@ public final class _receiverParameter
     }
 
     @Override
-    public _receiverParameter setName(String name ) {
+    public _receiverParam setName(String name ) {
         this.astReceiverParam.setName( name );
         return this;
     }
@@ -96,13 +96,13 @@ public final class _receiverParameter
     }
 
     @Override
-    public _receiverParameter setTypeRef(Type astType ) {
+    public _receiverParam setTypeRef(Type astType ) {
         this.astReceiverParam.setType( astType );
         return this;
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of( this.astReceiverParam );
     }
 
@@ -122,7 +122,7 @@ public final class _receiverParameter
         if( getClass() != obj.getClass() ) {
             return false;
         }
-        final _receiverParameter other = (_receiverParameter)obj;
+        final _receiverParam other = (_receiverParam)obj;
         if( this.astReceiverParam == other.astReceiverParam ) {
             return true; //two _receiverParameter s pointing to the same ReceiverParameter
         }
@@ -141,7 +141,7 @@ public final class _receiverParameter
     @Override
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, getAnnoRefs() );
+        parts.put( _java.Component.ANNOS, getAnnoExprs() );
         parts.put( _java.Component.TYPE, getTypeRef() );
         parts.put( _java.Component.NAME, getName() );
         return parts;
@@ -165,22 +165,22 @@ public final class _receiverParameter
      * @author Eric
      * @param <_WRP>
      */
-    public interface _withReceiverParameter<_WRP extends _withReceiverParameter>
+    public interface _withReceiverParam<_WRP extends _withReceiverParam>
             extends _java._domain {
 
-        default boolean hasReceiverParameter() {      
-            return getAstReceiverParameter() != null;            
+        default boolean hasReceiverParam() {
+            return getAstReceiverParam() != null;
         }
 
-        default _receiverParameter getReceiverParameter() {
-            ReceiverParameter astRp = getAstReceiverParameter();
+        default _receiverParam getReceiverParam() {
+            ReceiverParameter astRp = getAstReceiverParam();
             if( astRp != null ){
-                return _receiverParameter.of(astRp);
+                return _receiverParam.of(astRp);
             }
             return null;            
         }
         
-        default ReceiverParameter getAstReceiverParameter(){
+        default ReceiverParameter getAstReceiverParam(){
             Node n = (Node) ((_java._multiPart)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
@@ -196,8 +196,8 @@ public final class _receiverParameter
             return null;
         }
         
-        default _WRP removeReceiverParameter() {
-            if( hasReceiverParameter()){
+        default _WRP removeReceiverParam() {
+            if( hasReceiverParam()){
                 Node n = (Node) ((_java._multiPart)this).ast();
                 if( n instanceof MethodDeclaration ){
                     MethodDeclaration md = (MethodDeclaration)n;
@@ -210,15 +210,15 @@ public final class _receiverParameter
             return (_WRP)this;
         }
 
-        default _WRP receiverParameter(String receiverParameter ) {
-            return receiverParameter( Ast.receiverParameter( receiverParameter ) );
+        default _WRP receiverParam(String receiverParam ) {
+            return receiverParam( Ast.receiverParameter( receiverParam ) );
         }
 
-        default _WRP receiverParameter(_receiverParameter _rp ) {
-            return receiverParameter( _rp.ast() );
+        default _WRP receiverParam(_receiverParam _rp ) {
+            return receiverParam( _rp.ast() );
         }
         
-        default _WRP receiverParameter(ReceiverParameter rp ) {
+        default _WRP receiverParam(ReceiverParameter rp ) {
             Node n = (Node) ((_java._multiPart)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;

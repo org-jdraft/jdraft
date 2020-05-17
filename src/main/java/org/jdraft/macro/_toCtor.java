@@ -74,17 +74,17 @@ public @interface _toCtor {
         /** given a _method turn it into a _constructor */
         public static _constructor fromMethod( _method _m ){
             _constructor _ct = _constructor.of( _m.getModifiers()+" "+_m.getName() +"(){}");
-            _m.forParameters( p-> _ct.addParameter(p) );
-            if( _m.hasTypeParameters()){
-                _ct.setTypeParameters( _m.getTypeParameters() );
+            _m.forParams(p-> _ct.addParam(p) );
+            if( _m.hasTypeParams()){
+                _ct.setTypeParameters( _m.getTypeParams() );
             }
-            if( _m.hasAnnoRefs() ) {
-                _ct.addAnnoRefs(_m.ast().getAnnotations() );
+            if( _m.hasAnnoExprs() ) {
+                _ct.addAnnoExprs(_m.ast().getAnnotations() );
             }
-            _ct.removeAnnoRefs(_toCtor.class);
+            _ct.removeAnnoExprs(_toCtor.class);
             _ct.setBody( _m.getBody() );
             _ct.setThrows(_m.ast().getThrownExceptions());
-            _ct.setTypeParameters(_m.getTypeParameters());
+            _ct.setTypeParameters(_m.getTypeParams());
             if( _m.hasJavadoc() ){
                 _ct.ast().setJavadocComment(_m.ast().getJavadocComment().get());
             }
@@ -116,14 +116,14 @@ public @interface _toCtor {
                 cd.setPrivate(true); //enum constructors are ALWAYS private
             }
             //port all the constructor stuff to the AST constructor
-            cd.setTypeParameters(_ct.getTypeParameters().ast());
+            cd.setTypeParameters(_ct.getTypeParams().ast());
             cd.setBody(_ct.getBody().ast());
-            cd.setParameters( _ct.getParameters().ast());
+            cd.setParameters( _ct.getParams().ast());
             cd.setThrownExceptions( _ct.getThrows().ast());
             if( _ct.hasJavadoc() ) {
                 cd.setJavadocComment(_ct.getJavadoc().ast());
             }
-            cd.setAnnotations( _ct.getAnnoRefs().ast());
+            cd.setAnnotations( _ct.getAnnoExprs().ast());
             cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );
 
             //remove the old method

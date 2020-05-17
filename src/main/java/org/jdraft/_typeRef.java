@@ -74,7 +74,7 @@ public final class _typeRef<T extends Type>
         return new _typeRef( Types.of( string ) );
     }
 
-    public _annoExprs getAnnoRefs(){
+    public _annoExprs getAnnoExprs(){
         /** this is a hack... because right now accessing the annotations from the Type AST is a mess frought with danger
          * often when there ARE annotations that are applied at the wrong level... it
          * s not JavaParsers fault, but rather the sheer ambiguity of how Annotaitons can be applied to BOTH
@@ -114,7 +114,7 @@ public final class _typeRef<T extends Type>
      * this is why we need to strip off the Generics before looking
      * @return
      */
-    public boolean hasAnnoRefs(){
+    public boolean hasAnnoExprs(){
         return getErasedType(this.astType).findFirst(AnnotationExpr.class).isPresent();
     }
 

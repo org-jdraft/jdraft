@@ -500,8 +500,8 @@ public class _annoExprTest extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .addAnnoRefs(_a);
-        _a = _m.getAnnoRef(0);
+                .addAnnoExprs(_a);
+        _a = _m.getAnnoExpr(0);
         _a.isPair("Accept", "application/json; charset=utf-8");
         _a.isPair("User-Agent", "Square Cash");
 

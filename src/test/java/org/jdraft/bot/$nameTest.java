@@ -55,13 +55,13 @@ public class $nameTest extends TestCase {
 
         // in type Parameter
         assertEquals(0, $name.of("Thingy")
-                .countIn(_typeParameter.of("<E extends Thingy>") ));
+                .countIn(_typeParam.of("<E extends Thingy>") ));
 
         assertEquals(0, $name.of("Thingy")
                 .countIn(_method.of("<A, E extends Thingy> void m(){}") ));
 
         assertEquals(0, $name.of("org.myproj.Thingy")
-                .countIn(_typeParameter.of("<E extends org.myproj.Thingy>") ));
+                .countIn(_typeParam.of("<E extends org.myproj.Thingy>") ));
 
 
         //explicitly omit type name
@@ -111,10 +111,10 @@ public class $nameTest extends TestCase {
 
         //parameter name
         assertEquals( 1, $name.of("pName")
-                .countIn(_parameter.of("int pName")));
+                .countIn(_param.of("int pName")));
 
         assertEquals( 0, $name.of("pName").$matchParameterNames(false)
-                .countIn(_parameter.of("int pName")));
+                .countIn(_param.of("int pName")));
 
         /**Type
         assertEquals( 1, $name.of("pType").$matchParameterNames(false)

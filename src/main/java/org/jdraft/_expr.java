@@ -44,8 +44,8 @@ public interface _expr<E extends Expression, _E extends _expr>
         Class<_castExpr> CAST = _castExpr.class;
         Class<_charExpr> CHAR = _charExpr.class;
         Class<_classExpr> CLASS_EXPRESSION = _classExpr.class;
-        Class<_conditionalExpr> CONDITIONAL_EXPRESSION = _conditionalExpr.class;
-        Class<_enclosedEx> ENCLOSED_EXPRESSION = _enclosedEx.class;
+        Class<_ternaryExpr> CONDITIONAL_EXPRESSION = _ternaryExpr.class;
+        Class<_parenthesizedExpr> ENCLOSED_EXPRESSION = _parenthesizedExpr.class;
         Class<_fieldAccessExpr> FIELD_ACCESS = _fieldAccessExpr.class;
         Class<_intExpr> INT = _intExpr.class;
         Class<_longExpr> LONG = _longExpr.class;
@@ -151,7 +151,7 @@ public interface _expr<E extends Expression, _E extends _expr>
             return new _classExpr((ClassExpr)e);
         }
         if( e instanceof EnclosedExpr){
-            return new _enclosedEx((EnclosedExpr)e);
+            return new _parenthesizedExpr((EnclosedExpr)e);
         }
         if( e instanceof FieldAccessExpr){
             return new _fieldAccessExpr((FieldAccessExpr)e);
@@ -181,7 +181,7 @@ public interface _expr<E extends Expression, _E extends _expr>
             return new _superExpr((SuperExpr)e);
         }
         if( e instanceof ConditionalExpr){
-            return new _conditionalExpr((ConditionalExpr)e);
+            return new _ternaryExpr((ConditionalExpr)e);
         }
         if( e instanceof SwitchExpr){
             return new _switchExpr( (SwitchExpr)e);

@@ -20,12 +20,12 @@ public class _staticTest extends TestCase {
         }
         _class _c = _class.of(F.class);
         assertTrue( _c.isStatic() );
-        assertFalse( _c.hasAnnoRef(_static.class));
+        assertFalse( _c.hasAnnoExpr(_static.class));
         assertTrue( _c.getField("g").isStatic() );
-        assertFalse( _c.getField("g").hasAnnoRef(_static.class));
+        assertFalse( _c.getField("g").hasAnnoExpr(_static.class));
 
         assertTrue( _c.getMethod("method").isStatic() );
-        assertFalse( _c.getMethod("method").hasAnnoRef(_static.class));
+        assertFalse( _c.getMethod("method").hasAnnoExpr(_static.class));
 
         System.out.println( _c);
         //System.out.println( _macro.to(F.class, _class.of(F.class)) );

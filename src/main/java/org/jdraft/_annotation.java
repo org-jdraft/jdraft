@@ -115,7 +115,7 @@ public final class _annotation
                 _ae.setJavadoc( ((FieldDeclaration) f).getJavadocComment().get());
             }
             if( !f.getAnnotations().isEmpty()){
-                _ae.addAnnoRefs( f.getAnnotations());
+                _ae.addAnnoExprs( f.getAnnotations());
             }
             _a.addEntry(_ae);
         });
@@ -232,22 +232,22 @@ public final class _annotation
 
     public _annotation setRetentionPolicyRuntime(){
         this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnoRefs(Retention.class); //remove if one already exists
-        addAnnoRefs( "Retention(RetentionPolicy.RUNTIME)");
+        this.removeAnnoExprs(Retention.class); //remove if one already exists
+        addAnnoExprs( "Retention(RetentionPolicy.RUNTIME)");
         return this;
     }
 
     public _annotation setRetentionPolicyClass(){
         this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnoRefs(Retention.class);
-        addAnnoRefs( "Retention(RetentionPolicy.CLASS)");
+        this.removeAnnoExprs(Retention.class);
+        addAnnoExprs( "Retention(RetentionPolicy.CLASS)");
         return this;
     }
 
     public _annotation setRetentionPolicySource(){
         this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnoRefs(Retention.class);
-        addAnnoRefs( "Retention(RetentionPolicy.SOURCE)");
+        this.removeAnnoExprs(Retention.class);
+        addAnnoExprs( "Retention(RetentionPolicy.SOURCE)");
         return this;
     }
 
@@ -259,12 +259,12 @@ public final class _annotation
      */
     public _annotation setTargets(ElementType...elementTypes ){
         if( elementTypes.length == 0 ){
-            this.removeAnnoRefs( Target.class);
+            this.removeAnnoExprs( Target.class);
         }
         this.addImports(Target.class, ElementType.class);
         if( elementTypes.length == 1 ){
-            this.removeAnnoRefs( Target.class);
-            return addAnnoRefs("Target(ElementType."+elementTypes[0].name()+")" );
+            this.removeAnnoExprs( Target.class);
+            return addAnnoExprs("Target(ElementType."+elementTypes[0].name()+")" );
         }
         StringBuilder sb = new StringBuilder();
         for(int i=0;i<elementTypes.length; i++){
@@ -273,76 +273,76 @@ public final class _annotation
             }
             sb.append("ElementType.").append(elementTypes[i].name() );
         }
-        return addAnnoRefs("Target({"+sb.toString()+"})");
+        return addAnnoExprs("Target({"+sb.toString()+"})");
     }
 
     public _annotation setTargetMethod(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.METHOD)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.METHOD)");
         return this;
     }
 
     public _annotation setTargetParameter(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.PARAMETER)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.PARAMETER)");
         return this;
     }
 
     public _annotation setTargetTypeUse(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.TYPE_USE)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.TYPE_USE)");
         return this;
     }
 
     public _annotation setTargetType(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.TYPE)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.TYPE)");
         return this;
     }
 
     public _annotation setTargetTypeParameter(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.TYPE_PARAMETER)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.TYPE_PARAMETER)");
         return this;
     }
 
     public _annotation setTargetLocalVariable(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.LOCAL_VARIABLE)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.LOCAL_VARIABLE)");
         return this;
     }
 
     public _annotation setTargetAnnotationType(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.ANNOTATION_TYPE)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.ANNOTATION_TYPE)");
         return this;
     }
 
     public _annotation setTargetPackage(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.PACKAGE)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.PACKAGE)");
         return this;
     }
 
     public _annotation setTargetConstructor(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.CONSTRUCTOR)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.CONSTRUCTOR)");
         return this;
     }
 
     public _annotation setTargetField(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoRefs(Target.class);
-        addAnnoRefs("Target(ElementType.FIELD)");
+        removeAnnoExprs(Target.class);
+        addAnnoExprs("Target(ElementType.FIELD)");
         return this;
     }
 
@@ -367,7 +367,7 @@ public final class _annotation
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of(this.astAnnotation );
     }
 
@@ -533,7 +533,7 @@ public final class _annotation
         parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
+        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.NAME, this.getName() );
         parts.put( _java.Component.MODIFIERS, this.getModifiers() );
@@ -789,7 +789,7 @@ public final class _annotation
         }
 
         @Override
-        public _annoExprs getAnnoRefs() {
+        public _annoExprs getAnnoExprs() {
             return _annoExprs.of(this.astAnnMember );
         }
 
@@ -833,7 +833,7 @@ public final class _annotation
         @Override
         public Map<_java.Component, Object> components( ) {
             Map<_java.Component, Object> parts = new HashMap<>();
-            parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
+            parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
             parts.put( _java.Component.JAVADOC, this.getJavadoc() );
             parts.put( _java.Component.NAME, this.getName() );
             parts.put( _java.Component.TYPE, this.getTypeRef() );

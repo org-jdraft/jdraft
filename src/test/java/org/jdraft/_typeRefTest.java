@@ -70,7 +70,7 @@ public class _typeRefTest extends TestCase {
         t.walk(AnnotationExpr.class, a-> System.out.println( "PARENT " + a.getParentNode().get().getClass() ));
         assertTrue( t.getAnnotations().isNonEmpty() );
         
-        assertNotNull( _tr.getAnnoRefs().getAt(0) );
+        assertNotNull( _tr.getAnnoExprs().getAt(0) );
     }
 
     public void testSimplify(){
@@ -187,7 +187,7 @@ public class _typeRefTest extends TestCase {
 
    public void testGenericTypes(){
       _class _c = _class.of( GenericTypes.class ); //make sure we can read thesein
-      _typeParameters _args = _c.getMethod( "intersection" ).getTypeParameters();
+      _typeParams _args = _c.getMethod( "intersection" ).getTypeParams();
       //Type t = mds.getAt( 0 ).getType();
       //System.out.println( _typeParams );
       _typeRef wc = _c.getMethod("wildcard").getTypeRef();
@@ -322,7 +322,7 @@ public class _typeRefTest extends TestCase {
    }
 
    public void testGenericParams(){
-      _typeParameters.of( "<T extends B1 & B2 & B3>" );
+      _typeParams.of( "<T extends B1 & B2 & B3>" );
    }
 
    public void testFailType(){

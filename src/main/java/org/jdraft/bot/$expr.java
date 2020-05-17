@@ -85,7 +85,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
             return ($E) $classExpr.of( (ClassExpr)e);
         }
         if( e instanceof EnclosedExpr ){
-            return ($E) $enclosedExpr.of( (EnclosedExpr)e);
+            return ($E) $parenthesizedExpr.of( (EnclosedExpr)e);
         }
         if( e instanceof MethodCallExpr){
             return ($E) $methodCallExpr.of( (MethodCallExpr) e);

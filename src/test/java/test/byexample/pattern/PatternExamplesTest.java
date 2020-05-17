@@ -125,10 +125,10 @@ public class PatternExamplesTest extends TestCase {
         $n.forEachIn(_c, e-> System.out.println(e.getClass() + " "+e) );
 
 
-        assertTrue( $parameter.of(int.class).matches(_parameter.of("int param1")) );
-        assertTrue( $parameter.of(String.class).matches(_parameter.of("String a")) );
+        assertTrue( $parameter.of(int.class).matches(_param.of("int param1")) );
+        assertTrue( $parameter.of(String.class).matches(_param.of("String a")) );
 
-        assertTrue( $parameters.of(int.class, String.class).matches(_parameters.of("int param1, String a")) );
+        assertTrue( $parameters.of(int.class, String.class).matches(_params.of("int param1, String a")) );
     }
 
     public void test$ctorProto(){

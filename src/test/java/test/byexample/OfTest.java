@@ -13,7 +13,7 @@ public class OfTest extends TestCase {
                 _annoExpr.of(),
                 _annoExprs.of(),
                 _annotation.of(),
-                _arguments.of(),
+                _args.of(),
                 _arrayAccessExpr.of(),
                 _arrayCreateExpr.of(),
                 _arrayDimension.of(),
@@ -32,7 +32,7 @@ public class OfTest extends TestCase {
                 _charExpr.of(), // or "'c'"
                 _class.of(),
                 _classExpr.of(),
-                _conditionalExpr.of(), //also called "ternary"
+                _ternaryExpr.of(), //also called "ternary"
                 _constant.of(), //enum constant declaration
                 _constructor.of(),
                 _constructorCallStmt.of(),
@@ -40,7 +40,7 @@ public class OfTest extends TestCase {
                 _doStmt.of(),
                 _doubleExpr.of(), //this is for double precision doubles
                 _emptyStmt.of(), // empty statement placeholders i.e. for(;;){}
-                _enclosedEx.of(),
+                _parenthesizedExpr.of(),
                 _enum.of(),
                 _exprStmt.of(),
                 _field.of(),
@@ -73,10 +73,10 @@ public class OfTest extends TestCase {
                 _nullExpr.of(),
                 _package.of(),
                 _packageInfo.of(),
-                _parameter.of(),
-                _parameters.of(),
+                _param.of(),
+                _params.of(),
                 //_qualifiedName.of(),
-                _receiverParameter.of(),
+                _receiverParam.of(),
                 _returnStmt.of(),
                 _stringExpr.of(),
                 _superExpr.of(),
@@ -89,10 +89,10 @@ public class OfTest extends TestCase {
                 _throws.of(),
                 _throwStmt.of(),
                 _tryStmt.of(),
-                _typeArguments.of(),
+                _typeArgs.of(),
                 _typeExpr.of(), //In <code>World::greet</code> the "World" is a TypeExpr
-                _typeParameter.of(),
-                _typeParameters.of(),
+                _typeParam.of(),
+                _typeParams.of(),
                 //_typeRef.of(),
                 _unaryExpr.of(),
                 _variable.of(),

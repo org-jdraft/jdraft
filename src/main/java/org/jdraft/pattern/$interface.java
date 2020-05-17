@@ -103,7 +103,7 @@ public class $interface
         List<Node> nots = new ArrayList<>();
 
         //remove _$not things
-        _c.forDeclared( d -> d.hasAnnoRef(_$not.class), d-> {
+        _c.forDeclared( d -> d.hasAnnoExpr(_$not.class), d-> {
             System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -116,10 +116,10 @@ public class $interface
         } );
 
         $c.$javadoc(_c.getJavadoc());
-        _c.forAnnoRefs(a-> $c.annos.add($annoRef.of(a)));
+        _c.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
-        _c.getTypeParameters().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
+        _c.getTypeParams().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
         _c.listExtends().forEach(i -> $c.$extend(i));
         _c.forFields(f-> $c.fields.add($field.of(f)));
         _c.forMethods(m -> $c.$methods($method.of(m)));
@@ -361,7 +361,7 @@ public class $interface
         tokens = $tokens.to( tokens, ()-> this.javadoc.parse(instance ));
         tokens = $tokens.to( tokens, ()-> this.modifiers.parse(instance));
         tokens = $tokens.to( tokens, ()-> this.name.parse(instance.getName()));
-        tokens = $tokens.to( tokens, ()-> this.typeParameters.parse(instance.getTypeParameters()) );
+        tokens = $tokens.to( tokens, ()-> this.typeParameters.parse(instance.getTypeParams()) );
 
         tokens = $tokens.to( tokens, ()-> $type.selectExtends(this.extend, instance) );
 
@@ -432,22 +432,22 @@ public class $interface
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_interface> pf = an-> an.getAnnoRef(a ->$fa.matches(a) ) != null;
+                Predicate<_interface> pf = an-> an.getAnnoExpr(a ->$fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_interface> pf = an-> $fa.matches(an.getAnnoRefs());
+                Predicate<_interface> pf = an-> $fa.matches(an.getAnnoExprs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameters){
                 final $typeParameters $fa = (($typeParameters)parts[i]);
-                Predicate<_interface> pf = an-> $fa.matches(an.getTypeParameters());
+                Predicate<_interface> pf = an-> $fa.matches(an.getTypeParams());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameter){
                 final $typeParameter $fa = (($typeParameter)parts[i]);
-                Predicate<_interface> pf = an-> an.getTypeParameter( a ->$fa.matches(a) ) != null;
+                Predicate<_interface> pf = an-> an.getTypeParam(a ->$fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -643,7 +643,7 @@ public class $interface
         return this;
     }
 
-    public $interface $typeParameters(Predicate<_typeParameters> _tpMatchFn){
+    public $interface $typeParameters(Predicate<_typeParams> _tpMatchFn){
         this.typeParameters.$and(_tpMatchFn);
         return this;
     }

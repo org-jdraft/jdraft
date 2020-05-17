@@ -34,7 +34,7 @@ public final class _methodsDiff
     public static _method findSameNameAndParameters(_method tm, Set<_method> targets) {
         Optional<_method> om = targets.stream().filter(m -> m.getName().equals(tm.getName())
                 //&& m.getType().equals(tm.getType())
-                && m.getParameters().hasParametersOfType(tm.getParameters().types())).findFirst();
+                && m.getParams().hasParamsOfType(tm.getParams().types())).findFirst();
         if (om.isPresent()) {
             return om.get();
         }

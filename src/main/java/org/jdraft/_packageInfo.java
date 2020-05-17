@@ -134,7 +134,7 @@ public final class _packageInfo
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         if (astCompilationUnit().getPackageDeclaration().isPresent()) {
             //annos are on the packageDeclaration
             return _annoExprs.of(astCompilationUnit().getPackageDeclaration().get());
@@ -186,7 +186,7 @@ public final class _packageInfo
         m.put(_java.Component.HEADER_COMMENT, this.getHeaderComment());
         //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
         m.put(_java.Component.PACKAGE, getPackage());
-        m.put(_java.Component.ANNOS, getAnnoRefs());
+        m.put(_java.Component.ANNOS, getAnnoExprs());
         m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));
         return m;
     }

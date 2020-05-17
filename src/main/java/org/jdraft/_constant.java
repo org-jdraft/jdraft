@@ -27,7 +27,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         _annoExprs._withAnnoExprs<_constant>,
         _method._withMethods<_constant>,
         _field._withFields<_constant>,
-        _arguments._withArguments<EnumConstantDeclaration, _constant> {
+        _args._withArgs<EnumConstantDeclaration, _constant> {
 
     public static _constant of(){
         return of( new EnumConstantDeclaration());
@@ -102,7 +102,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return of(this.astConstant.toString());
     }
 
-    public boolean hasArguments(){
+    public boolean hasArgs(){
         return this.astConstant.getArguments().size() > 0;
     }
 
@@ -146,7 +146,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         }
         EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ A("+args+"); }");
         NodeList<Expression> argsList = ed.getEntry(0).getArguments();
-        argsList.forEach(a-> addArgument(a));
+        argsList.forEach(a-> addArg(a));
         return this;
     }
 
@@ -201,7 +201,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     }
     */
 
-    public _constant addArgument( Expression e ){
+    public _constant addArg(Expression e ){
         this.astConstant.addArgument( e );
         return this;
     }
@@ -276,7 +276,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     */
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of(this.astConstant );
     }
 
@@ -381,7 +381,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         if( !Objects.equals( this.getName(), other.getName() ) ) {
             return false;
         }
-        if( !Objects.equals(this.listArguments(), other.listArguments() ) ) {
+        if( !Objects.equals(this.listArgs(), other.listArgs() ) ) {
             return false;
         }
         Set<_method> tms = new HashSet<>();
@@ -405,10 +405,10 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     @Override
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
+        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
         parts.put( _java.Component.JAVADOC, this.getJavadoc() );
         parts.put( _java.Component.NAME, this.getName());
-        parts.put( _java.Component.ARGUMENTS, this.listArguments());
+        parts.put( _java.Component.ARGUMENTS, this.listArgs());
         parts.put( _java.Component.METHODS, this.listMethods() );
         parts.put( _java.Component.FIELDS, this.listFields() );
         return parts;
@@ -431,7 +431,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         hash = 13 * hash + Objects.hash( tms, tfs,
                 Exprs.hashAnnos(astConstant),
                 getJavadoc(),
-                getName(), listArguments() );
+                getName(), listArgs() );
         return hash;
     }
 }

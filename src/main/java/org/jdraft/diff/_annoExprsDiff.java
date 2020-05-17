@@ -24,8 +24,8 @@ public final class _annoExprsDiff
                 new _diffList( (_java._multiPart)left, (_java._multiPart)right),
                 (_java._multiPart)left,
                 (_java._multiPart)right,
-                left.getAnnoRefs(),
-                right.getAnnoRefs());
+                left.getAnnoExprs(),
+                right.getAnnoExprs());
     }
      
     @Override
@@ -93,17 +93,17 @@ public final class _annoExprsDiff
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeAnnoRef(left.ast());
-            rightParent.removeAnnoRef(left.ast());
+            leftParent.removeAnnoExpr(left.ast());
+            rightParent.removeAnnoExpr(left.ast());
         }
 
         @Override
         public void patchLeftToRight() {
             
-            leftParent.removeAnnoRef(left.ast());
-            leftParent.addAnnoRefs(left);
-            rightParent.removeAnnoRef(left.ast());
-            rightParent.addAnnoRefs(left);
+            leftParent.removeAnnoExpr(left.ast());
+            leftParent.addAnnoExprs(left);
+            rightParent.removeAnnoExpr(left.ast());
+            rightParent.addAnnoExprs(left);
         }
 
         @Override
@@ -149,17 +149,17 @@ public final class _annoExprsDiff
         @Override
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnnoRef(right.ast());
-            leftParent.addAnnoRefs(right);
-            rightParent.removeAnnoRef(right.ast());
-            rightParent.addAnnoRefs(right);
+            leftParent.removeAnnoExpr(right.ast());
+            leftParent.addAnnoExprs(right);
+            rightParent.removeAnnoExpr(right.ast());
+            rightParent.addAnnoExprs(right);
         }
 
         @Override
         public void patchLeftToRight() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnnoRef(right.ast());
-            rightParent.removeAnnoRef(right.ast());
+            leftParent.removeAnnoExpr(right.ast());
+            rightParent.removeAnnoExpr(right.ast());
         }
 
         @Override

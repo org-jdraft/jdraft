@@ -29,24 +29,24 @@ public class _methodCallExprTest extends TestCase {
 
     public void testArguments() {
         _methodCallExpr _mc = _methodCallExpr.of();
-        assertTrue(_mc.isArguments(as -> as.isEmpty()));
-        assertFalse(_mc.hasArguments());
-        assertFalse(_mc.isArgument(0, _intExpr.of(1)));
+        assertTrue(_mc.isArgs(as -> as.isEmpty()));
+        assertFalse(_mc.hasArgs());
+        assertFalse(_mc.isArg(0, _intExpr.of(1)));
         _mc.setName("MN");
         assertEquals("MN", _mc.getName());
-        _mc.addArguments("1");
-        assertTrue(_mc.hasArguments());
-        assertTrue(_mc.isArgument(0, _intExpr.of(1)));
-        assertTrue(_mc.isArgument(0, "1"));
-        _mc.addArgument(5);
-        assertTrue(_mc.isArgument(1, _intExpr.of(5)));
-        assertTrue(_mc.isArgument(1, "5"));
-        assertEquals(2, _mc.countArguments());
+        _mc.addArgs("1");
+        assertTrue(_mc.hasArgs());
+        assertTrue(_mc.isArg(0, _intExpr.of(1)));
+        assertTrue(_mc.isArg(0, "1"));
+        _mc.addArg(5);
+        assertTrue(_mc.isArg(1, _intExpr.of(5)));
+        assertTrue(_mc.isArg(1, "5"));
+        assertEquals(2, _mc.countArgs());
 
         //verify I can go through Arguments
         AtomicInteger ai = new AtomicInteger();
         //for all int literal arguments; add up the arguments int literal values
-        _mc.forArguments(e -> e.ast().isIntegerLiteralExpr(),
+        _mc.forArgs(e -> e.ast().isIntegerLiteralExpr(),
                 e -> ai.addAndGet(((_intExpr) e).getValue()));
 
         assertEquals(6, ai.get());

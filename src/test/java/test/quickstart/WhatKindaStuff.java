@@ -30,7 +30,7 @@ public class WhatKindaStuff extends TestCase {
         // open up an IDE and manually make these changes
 
         // Simple Programs
-        String aSrc = _class.of(A.class).forConstructors(m ->m.forParameters(p-> p.setFinal())).toString();
+        String aSrc = _class.of(A.class).forConstructors(m ->m.forParams(p-> p.setFinal())).toString();
         System.out.println(aSrc);
 
         @_dto @_packageName("graph") class Point{
@@ -70,7 +70,7 @@ public class WhatKindaStuff extends TestCase {
         _project _cc = _p.load();
 
         // set all constructor parameters to be final (for ALL constructors)
-        $constructor.of().forEachIn(_cc, c-> c.forParameters(p-> p.setFinal()));
+        $constructor.of().forEachIn(_cc, c-> c.forParams(p-> p.setFinal()));
 
         //remove all Deprecated annotations
         $annoRef.of(Deprecated.class).removeIn(_cc);

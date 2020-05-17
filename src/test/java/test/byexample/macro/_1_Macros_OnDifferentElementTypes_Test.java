@@ -79,9 +79,9 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
             }
         }
         _class _c = macro.to(P.class);
-        assertTrue( _c.getConstructor(0).getParameter(0).is("final String n"));
-        assertTrue( _c.getMethod("m").getParameter(0).is("final String name"));
-        assertTrue( _c.getMethod("m").getParameter(1).is("final int y"));
+        assertTrue( _c.getConstructor(0).getParam(0).is("final String n"));
+        assertTrue( _c.getMethod("m").getParam(0).is("final String name"));
+        assertTrue( _c.getMethod("m").getParam(1).is("final int y"));
         System.out.println( _c );
     }
 

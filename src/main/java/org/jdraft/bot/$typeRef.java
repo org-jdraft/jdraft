@@ -23,7 +23,7 @@ public class $typeRef
         $selector.$node<_typeRef, $typeRef>,
         $method.$part,
         $field.$part,
-        $parameter.$part,
+        $param.$part,
         $typeParameter.$part,
         $var.$part,
         $annotationEntry.$part {
@@ -427,7 +427,7 @@ public class $typeRef
                 }
                 return null; //couldnt match either the super OR extended Type
             }
-            if( _tr.hasAnnoRefs() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
+            if( _tr.hasAnnoExprs() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
                 try {
                     return select(_tr.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
                 } catch(Exception e){
@@ -437,10 +437,10 @@ public class $typeRef
                 }
             }
             Tokens ats = new Tokens();
-            _annoExprs _as = _typeRef.of(this.type).getAnnoRefs();
-            if( _tr.hasAnnoRefs() && !_as.isEmpty() ){
+            _annoExprs _as = _typeRef.of(this.type).getAnnoExprs();
+            if( _tr.hasAnnoExprs() && !_as.isEmpty() ){
                 //System.out.println ("BOTH HAVE ANNOS");
-                ats = $annoExprs.of(_as).apply(_tr.getAnnoRefs());
+                ats = $annoExprs.of(_as).apply(_tr.getAnnoExprs());
                 if( ats == null ){
                     //System.out.println( "Tokens not equal");
                     return null;

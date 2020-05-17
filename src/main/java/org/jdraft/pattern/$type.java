@@ -120,12 +120,12 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoExpr)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_annoExpr)a) ) != null;
                 $and( pf  );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_type> pf = an-> $fa.matches(an.getAnnoRefs());
+                Predicate<_type> pf = an-> $fa.matches(an.getAnnoExprs());
                 $and( pf );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -216,12 +216,12 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoRef(a -> $fa.match( (_annoExpr)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_annoExpr)a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_type> pf = an-> $fa.matches(an.getAnnoRefs());
+                Predicate<_type> pf = an-> $fa.matches(an.getAnnoExprs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -543,8 +543,8 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         tokens = $tokens.to(tokens, () -> this.modifiers.parse(instance));
         tokens = $tokens.to(tokens, () -> this.name.parse(instance.getName()));
 
-        if (instance instanceof _typeParameters._withTypeParameters) {
-            tokens = $tokens.to(tokens, () -> this.typeParameters.parse(((_typeParameters._withTypeParameters) instance).getTypeParameters()));
+        if (instance instanceof _typeParams._withTypeParams) {
+            tokens = $tokens.to(tokens, () -> this.typeParameters.parse(((_typeParams._withTypeParams) instance).getTypeParams()));
         } else {
             if (!this.typeParameters.isMatchAny()) {
                 return null;

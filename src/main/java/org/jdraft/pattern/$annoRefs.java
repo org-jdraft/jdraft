@@ -59,7 +59,7 @@ public class $annoRefs
      * @return 
      */
     public static $annoRefs of(_withAnnoExprs _ha){
-        return new $annoRefs( _ha.getAnnoRefs() );
+        return new $annoRefs( _ha.getAnnoExprs() );
     }
     
     /**
@@ -119,7 +119,7 @@ public class $annoRefs
      * @return
      */
     public static $annoRefs as(_withAnnoExprs _ha){
-        return as( _ha.getAnnoRefs() );
+        return as( _ha.getAnnoExprs() );
     }
 
 
@@ -357,7 +357,7 @@ public class $annoRefs
     }
 
     public Tokens parse( _withAnnoExprs _ha ){
-        return parse(_ha.getAnnoRefs());
+        return parse(_ha.getAnnoExprs());
     }
 
     /**
@@ -412,7 +412,7 @@ public class $annoRefs
      * @return
      */
     public Select select( _withAnnoExprs _annotated ){
-        return select( _annotated.getAnnoRefs() );
+        return select( _annotated.getAnnoExprs() );
     }
 
     public boolean match( Node astNode){

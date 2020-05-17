@@ -130,7 +130,7 @@ public class botByExampleTest extends TestCase {
      */
     public void testEmbedded$Bots(){
         //matches empty arguments list
-        $arguments $noArgs = $arguments.empty();
+        $args $noArgs = $args.empty();
         assertTrue( $noArgs.matches("()"));
 
         //the $mc matches method calls that have no arguments
@@ -221,7 +221,7 @@ public class botByExampleTest extends TestCase {
             }
         }
 
-        assertTrue($arguments.of("($any$)").select("(1)").is("any", "1"));
+        assertTrue($args.of("($any$)").select("(1)").is("any", "1"));
 
         assertTrue( $print.get$arguments().select("(1)").is("any", "1"));
         assertTrue( $print.select("System.out.print(1);").is("any", "1") );

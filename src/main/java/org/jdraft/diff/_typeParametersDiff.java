@@ -5,7 +5,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.TypeParameter;
 
 import org.jdraft.*;
-import org.jdraft._typeParameters._withTypeParameters;
+import org.jdraft._typeParams._withTypeParams;
 import org.jdraft.diff._diff.*;
 
 /**
@@ -13,7 +13,7 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public final class _typeParametersDiff
-        implements _differ<_typeParameters, _java._multiPart> {
+        implements _differ<_typeParams, _java._multiPart> {
 
     public static final _typeParametersDiff INSTANCE = new _typeParametersDiff();
     
@@ -21,36 +21,36 @@ public final class _typeParametersDiff
         return Types.equal(left, right);
     }
 
-    public _diff diff(_withTypeParameters leftParent, _withTypeParameters rightParent){
+    public _diff diff(_withTypeParams leftParent, _withTypeParams rightParent){
         return diff( _nodePath.of(),
                 new _diffList( (_java._multiPart)leftParent, (_java._multiPart)rightParent),
                 (_java._multiPart)leftParent,
                 (_java._multiPart)rightParent,
-                leftParent.getTypeParameters(),
-                rightParent.getTypeParameters());
+                leftParent.getTypeParams(),
+                rightParent.getTypeParams());
     }
 
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeParameters left, _typeParameters right) {
+    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeParams left, _typeParams right) {
         
         if (!Types.equal( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(),
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
             dt.addDiff(new _change_typeParameters(path.in(_java.Component.TYPE_PARAMETERS), 
-                    (_withTypeParameters) _leftParent, (_withTypeParameters) _rightParent));
+                    (_withTypeParams) _leftParent, (_withTypeParams) _rightParent));
         }
         return dt;
     }
 
     public static class _change_typeParameters
-            implements _diffNode<_withTypeParameters>, _diffNode._change<NodeList<TypeParameter>> {
+            implements _diffNode<_withTypeParams>, _diffNode._change<NodeList<TypeParameter>> {
 
         public _nodePath path;
-        public _withTypeParameters leftParent;
-        public _withTypeParameters rightParent;
+        public _withTypeParams leftParent;
+        public _withTypeParams rightParent;
         public NodeList<TypeParameter> left;
         public NodeList<TypeParameter> right;
 
-        public _change_typeParameters(_nodePath path, _withTypeParameters leftParent, _withTypeParameters rightParent) {
+        public _change_typeParameters(_nodePath path, _withTypeParams leftParent, _withTypeParams rightParent) {
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -62,12 +62,12 @@ public final class _typeParametersDiff
         }
 
         @Override
-        public _withTypeParameters leftParent() {
+        public _withTypeParams leftParent() {
             return leftParent;
         }
 
         @Override
-        public _withTypeParameters rightParent() {
+        public _withTypeParams rightParent() {
             return rightParent;
         }
 
@@ -88,20 +88,20 @@ public final class _typeParametersDiff
 
         @Override
         public void patchLeftToRight() {
-            this.leftParent.removeTypeParameters();
-            this.leftParent.typeParameters(left);
+            this.leftParent.removeTypeParams();
+            this.leftParent.typeParams(left);
 
-            this.rightParent.removeTypeParameters();
-            this.rightParent.typeParameters(left);
+            this.rightParent.removeTypeParams();
+            this.rightParent.typeParams(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            this.leftParent.removeTypeParameters();
-            this.leftParent.typeParameters(right);
+            this.leftParent.removeTypeParams();
+            this.leftParent.typeParams(right);
 
-            this.rightParent.removeTypeParameters();
-            this.rightParent.typeParameters(right);
+            this.rightParent.removeTypeParams();
+            this.rightParent.typeParams(right);
         }
 
         @Override

@@ -29,7 +29,7 @@ public class _annotationTest extends TestCase  {
         _annotation _an = _annotation.of()
                 .setName("A")
                 .setPackage("a.io")
-                .addAnnoRefs(Deprecated.class)
+                .addAnnoExprs(Deprecated.class)
                 .setPublic();
 
         //System.out.println(_an);
@@ -107,8 +107,8 @@ public class _annotationTest extends TestCase  {
         assertEquals( _package.of("test"), _an.getPackage() );
         assertTrue(_an.hasImport( ann2.class));
         assertTrue(_an.hasJavadoc());
-        assertTrue( _an.hasAnnoRefs());
-        assertTrue( _an.getAnnoRefs().is( "@ann", "@ann2(k='5',v=7)"));
+        assertTrue( _an.hasAnnoExprs());
+        assertTrue( _an.getAnnoExprs().is( "@ann", "@ann2(k='5',v=7)"));
         assertTrue( _an.getModifiers().is( "public"));
         assertTrue(_an.isPublic());
 
@@ -118,20 +118,20 @@ public class _annotationTest extends TestCase  {
         assertEquals( Exprs.of( 102), _an.getField("V").getInit());
 
         _entry _p = _an.getEntry("value");
-        assertTrue(_p.getAnnoRefs().is( "@ann", "@ann2(k='3',v=2)"));
+        assertTrue(_p.getAnnoExprs().is( "@ann", "@ann2(k='3',v=2)"));
         assertTrue(_p.getJavadoc().getText().contains( "javadoc"));
         assertFalse( _p.hasDefaultValue());
         assertTrue( _p.isTypeRef( int.class));
 
         _p = _an.getEntry("s");
         assertFalse( _p.hasJavadoc() );
-        assertFalse( _p.hasAnnoRefs() );
+        assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
         assertEquals( Exprs.stringLiteralEx( "String"), _p.getDefaultValue());
 
         _p = _an.getEntry("clazz");
         assertFalse( _p.hasJavadoc() );
-        assertFalse( _p.hasAnnoRefs() );
+        assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
         assertEquals( _p.getTypeRef(), _typeRef.of(Types.of("Class[]")));
 
@@ -140,7 +140,7 @@ public class _annotationTest extends TestCase  {
 
         _p = _an.getEntry("vval");
         assertFalse( _p.hasJavadoc() );
-        assertFalse( _p.hasAnnoRefs() );
+        assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
         assertTrue( _p.isTypeRef( int.class) );
         assertEquals( Exprs.nameEx("V"),_p.getDefaultValue());

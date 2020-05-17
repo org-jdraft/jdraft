@@ -2,10 +2,10 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-public class _argumentsTest extends TestCase {
+public class _argsTest extends TestCase {
 
     public void testA(){
-        _arguments _as = _arguments.of(); //no args
+        _args _as = _args.of(); //no args
         assertEquals(0, _as.size());
         assertTrue(_as.isEmpty());
         assertTrue(_as.allMatch( e-> e.is(Exprs.of(1))));
@@ -47,11 +47,11 @@ public class _argumentsTest extends TestCase {
 
     public void testConstImpl(){
         _constant _c = _constant.of("A");
-        _arguments _as = _c.getArguments();
+        _args _as = _c.getArgs();
         assertTrue(_as.isEmpty());
-        _c.setArguments(_arguments.of("1,2,3, 'c', \"String\""));
+        _c.setArgs(_args.of("1,2,3, 'c', \"String\""));
         assertEquals( 5, _as.size());
 
-        _c.forArguments( a-> System.out.println( a) );
+        _c.forArgs(a-> System.out.println( a) );
     }
 }

@@ -16,10 +16,10 @@ public final class _interfaceDiff
         _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackageName(), right.getPackageName());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         
-        _annoExprsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoRefs(), right.getAnnoRefs());
+        _annoExprsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
         _extendsDiff.INSTANCE.diff(path, dt, left, right, left.listExtends(), right.listExtends());
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
-        _typeParametersDiff.INSTANCE.diff(path, dt, left, right, left.getTypeParameters(), right.getTypeParameters());
+        _typeParametersDiff.INSTANCE.diff(path, dt, left, right, left.getTypeParams(), right.getTypeParams());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _methodsDiff.INSTANCE.diff(path, dt, left, right, left.listMethods(), right.listMethods());

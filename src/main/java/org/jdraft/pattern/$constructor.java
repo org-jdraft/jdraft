@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annoExprs;
-import org.jdraft._parameters;
-import org.jdraft._typeParameters;
+import org.jdraft._params;
+import org.jdraft._typeParams;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
@@ -199,21 +199,21 @@ public class $constructor
         if( _ct.hasJavadoc() ){
             $ct.javadoc = $comment.javadocComment(_ct.getJavadoc());
         }
-        if( _ct.hasAnnoRefs() ){
-            $ct.annos = $annoRefs.as(_ct.getAnnoRefs() );
+        if( _ct.hasAnnoExprs() ){
+            $ct.annos = $annoRefs.as(_ct.getAnnoExprs() );
         } else{
             $ct.annos = $annoRefs.none();
         }
         $ct.modifiers = $modifiers.as(_ct );
-        if( !_ct.hasTypeParameters() ){
-            final _typeParameters etps = _ct.getTypeParameters();
+        if( !_ct.hasTypeParams() ){
+            final _typeParams etps = _ct.getTypeParams();
             $ct.typeParameters = $typeParameters.as(etps);
         } else{
             $ct.typeParameters = $typeParameters.none();
         }
         $ct.name = $name.as(_ct.getName() );
-        if( _ct.hasParameters() ){
-            $ct.parameters = $parameters.as(_ct.getParameters());
+        if( _ct.hasParams() ){
+            $ct.parameters = $parameters.as(_ct.getParams());
         } else{
             $ct.parameters = $parameters.none();
         }
@@ -245,7 +245,7 @@ public class $constructor
         Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
 
         //build the base method first
-        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " +_parameters.of( theMethod )+"{}" );
+        _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " + _params.of( theMethod )+"{}" );
 
         //MODIFIERS
         if( theMethod.isPublic() ){
@@ -261,8 +261,8 @@ public class $constructor
             _ct.setJavadoc(theMethod.getJavadocComment().get());
         }
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.addAnnoRefs( theMethod.getAnnotations()); //add annos
-        _ct.removeAnnoRefs(_toCtor.class); //remove the _ctor anno if it exists
+        _ct.addAnnoExprs( theMethod.getAnnotations()); //add annos
+        _ct.removeAnnoExprs(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         return _ct;
     }
@@ -414,17 +414,17 @@ public class $constructor
         if( _ct.hasJavadoc() ){
             javadoc = $comment.javadocComment(_ct.getJavadoc());
         }        
-        if( _ct.hasAnnoRefs() ){
-            annos = $annoRefs.of(_ct.getAnnoRefs() );
+        if( _ct.hasAnnoExprs() ){
+            annos = $annoRefs.of(_ct.getAnnoExprs() );
         }
         modifiers = $modifiers.of(_ct );        
-        if( !_ct.hasTypeParameters() ){
-            final _typeParameters etps = _ct.getTypeParameters();
+        if( !_ct.hasTypeParams() ){
+            final _typeParams etps = _ct.getTypeParams();
             typeParameters = $typeParameters.of(etps);
         }
         name = $name.of(_ct.getName() );
-        if( _ct.hasParameters() ){
-            parameters = $parameters.of(_ct.getParameters());
+        if( _ct.hasParams() ){
+            parameters = $parameters.of(_ct.getParams());
         }        
         thrown = $throws.of( _ct.getThrows() );        
         if( _ct.hasBody() ){            
@@ -462,7 +462,7 @@ public class $constructor
             }
             else if( parts[i] instanceof $parameters ){
                 final $parameters $fa = (($parameters)parts[i]);
-                Predicate<_constructor> pf = f-> $fa.matches(f.getParameters());
+                Predicate<_constructor> pf = f-> $fa.matches(f.getParams());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $parameter ){
@@ -472,7 +472,7 @@ public class $constructor
             }
             else if( parts[i] instanceof $typeParameters ){
                 final $typeParameters $fa = (($typeParameters)parts[i]);
-                Predicate<_constructor> pf = f-> $fa.matches(f.getTypeParameters());
+                Predicate<_constructor> pf = f-> $fa.matches(f.getTypeParams());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameter ){
@@ -596,12 +596,12 @@ public class $constructor
         return this;
     }
     
-    public $constructor $parameters( _parameters _ps ){
+    public $constructor $parameters( _params _ps ){
         this.parameters = $parameters.of(_ps);
         return this;
     }
     
-    public $constructor $parameters(Predicate<_parameters> constraint){
+    public $constructor $parameters(Predicate<_params> constraint){
         this.parameters.$and(constraint);
         return this;
     }
@@ -665,7 +665,7 @@ public class $constructor
         return this;
     }
     
-    public $constructor $typeParameters(Predicate<_typeParameters> constraint){
+    public $constructor $typeParameters(Predicate<_typeParams> constraint){
         this.typeParameters.$and(constraint);
         return this;
     }
@@ -790,12 +790,12 @@ public class $constructor
         _constructor _ct = _constructor.of();
         _ct.setName( this.name.draft(translator, keyValues));
         _ct.setModifiers( this.modifiers.draft(translator, keyValues));
-        _ct.setParameters(this.parameters.draft(translator, keyValues));
+        _ct.setParams(this.parameters.draft(translator, keyValues));
         _ct.setThrows( this.thrown.draft(translator, keyValues));
         _ct.setJavadoc(this.javadoc.draft(translator, keyValues));
         _ct.setTypeParameters(this.typeParameters.draft(translator, keyValues));
         _ct.setBody(this.body.draft(translator, keyValues));
-        _ct.setAnnoRefs(this.annos.draft(translator, keyValues));
+        _ct.setAnnoExprs(this.annos.draft(translator, keyValues));
 
         return _ct;
         /*
@@ -865,10 +865,10 @@ public class $constructor
         } else{
             all = javadoc.parseTo(null, all);
         }
-        all = annos.parseTo(_ct.getAnnoRefs(), all);
-        all = typeParameters.parseTo(_ct.getTypeParameters(), all);
+        all = annos.parseTo(_ct.getAnnoExprs(), all);
+        all = typeParameters.parseTo(_ct.getTypeParams(), all);
         all = name.parseTo(_ct.getName(), all);
-        all = parameters.parseTo(_ct.getParameters(), all);
+        all = parameters.parseTo(_ct.getParams(), all);
         all = thrown.parseTo(_ct.getThrows(), all);
         all = body.parseTo(_ct.getBody(), all);
         if( all != null ){
@@ -1458,7 +1458,7 @@ public class $constructor
         }
         
         public boolean isParameters(String...params ){
-            return _ct.getParameters().is(params);
+            return _ct.getParams().is(params);
         }
         
         public boolean isVarArg(){
@@ -1482,7 +1482,7 @@ public class $constructor
         }
         
         public boolean hasParameters(){            
-            return _ct.hasParameters();
+            return _ct.hasParams();
         }
         
         public boolean is(String...methodDeclaration){
@@ -1490,7 +1490,7 @@ public class $constructor
         }
         
         public boolean hasTypeParameters(){            
-            return _ct.hasTypeParameters();
+            return _ct.hasTypeParams();
         }
     }
 }

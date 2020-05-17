@@ -2,7 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.type.TypeParameter;
 import org.jdraft._java;
-import org.jdraft._typeParameter;
+import org.jdraft._typeParam;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -138,27 +138,27 @@ public class StypeParameterTest extends TestCase {
         
         $typeParameter $tp = 
             $typeParameter.of("@A @C(k=1,v='c') G extends @UU RR & @VV GG");
-        assertEquals(_typeParameter.of("@A @C(k=1,v='c') G extends @UU RR & @VV GG"), $tp.draft());
+        assertEquals(_typeParam.of("@A @C(k=1,v='c') G extends @UU RR & @VV GG"), $tp.draft());
         
-        assertEquals(_typeParameter.of("F"), $typeParameter.of("$name$").draft("name", "F"));
-        assertEquals(_typeParameter.of("@A F"), $typeParameter.of("@A $name$").draft("name", "F"));
-        assertEquals(_typeParameter.of("@A F extends Serializable"), $typeParameter.of("@A $name$ extends Serializable").draft("name", "F"));
+        assertEquals(_typeParam.of("F"), $typeParameter.of("$name$").draft("name", "F"));
+        assertEquals(_typeParam.of("@A F"), $typeParameter.of("@A $name$").draft("name", "F"));
+        assertEquals(_typeParam.of("@A F extends Serializable"), $typeParameter.of("@A $name$ extends Serializable").draft("name", "F"));
     }
     
     public void testAny(){
         assertTrue( $typeParameter.of().matches("A"));
         assertTrue( $typeParameter.of().matches(new TypeParameter("A")));
-        assertTrue( $typeParameter.of().matches(_typeParameter.of("A")));
+        assertTrue( $typeParameter.of().matches(_typeParam.of("A")));
         assertNotNull( $typeParameter.of().select("A"));
         
         assertTrue( $typeParameter.of().matches("A extends B"));
         assertTrue( $typeParameter.of().matches("A extends B & C"));
         
         $typeParameter.Select sel = 
-            $typeParameter.of().select(_typeParameter.of("A"));
+            $typeParameter.of().select(_typeParam.of("A"));
         assertNotNull( sel );
         
-        assertEquals( _typeParameter.of("A"), 
+        assertEquals( _typeParam.of("A"),
             $typeParameter.of().draft("typeParameter", "A"));
     }
     
@@ -185,9 +185,9 @@ public class StypeParameterTest extends TestCase {
     public void testMatchAnnos(){
         $typeParameter $tp = $typeParameter.of("@A I");
         assertTrue( $tp.matches("@A I"));
-        assertTrue( $tp.matches(_typeParameter.of("@A I")));
-        assertFalse( $tp.matches(_typeParameter.of("I")));
-        assertFalse( $tp.matches(_typeParameter.of("@B I")));
+        assertTrue( $tp.matches(_typeParam.of("@A I")));
+        assertFalse( $tp.matches(_typeParam.of("I")));
+        assertFalse( $tp.matches(_typeParam.of("@B I")));
     }
     
     public void testLambda(){

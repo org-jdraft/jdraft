@@ -24,13 +24,13 @@ public class _privateTest extends TestCase {
         }
         _class _c = _class.of(F.class);
         assertTrue( _c.isPrivate() );
-        assertFalse( _c.hasAnnoRef(_private.class));
+        assertFalse( _c.hasAnnoExpr(_private.class));
         assertTrue( _c.getConstructor(0).isPrivate());
-        assertFalse( _c.getConstructor(0).hasAnnoRef(_private.class));
+        assertFalse( _c.getConstructor(0).hasAnnoExpr(_private.class));
 
         assertTrue( _c.getField("g").isPrivate());
-        assertFalse( _c.getField("g").hasAnnoRef(_private.class));
+        assertFalse( _c.getField("g").hasAnnoExpr(_private.class));
         assertTrue( _c.getMethod("b").isPrivate());
-        assertFalse( _c.getMethod("b").hasAnnoRef(_private.class));
+        assertFalse( _c.getMethod("b").hasAnnoExpr(_private.class));
     }
 }

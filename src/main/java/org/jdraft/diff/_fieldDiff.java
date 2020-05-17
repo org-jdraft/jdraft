@@ -29,7 +29,7 @@ public final class _fieldDiff implements _differ<_field, _java._multiPart> {
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getTypeRef(), right.getTypeRef());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
-        _annoExprsDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoRefs(), right.getAnnoRefs());
+        _annoExprsDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
 
         if (!Objects.equals(left.getInit(), right.getInit())) {
             dt.addDiff(new _changeInit(p.in(Component.INIT), left, right));

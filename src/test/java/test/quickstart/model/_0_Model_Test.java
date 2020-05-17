@@ -31,13 +31,13 @@ public class _0_Model_Test extends TestCase {
         _typeRef _t = _m.getTypeRef();
         assertTrue(_t.is(int.class));
 
-        _parameters _ps = _m.getParameters();
+        _params _ps = _m.getParams();
         assertTrue( _ps.isEmpty() );
 
         // jdraft models make modifying code easy
         _m.setName("getValue")
                 .setProtected()
-                .addAnnoRefs(Deprecated.class)
+                .addAnnoExprs(Deprecated.class)
                 .setFinal();
 
         // internally jdraft models wrap a JavaParser Ast instance

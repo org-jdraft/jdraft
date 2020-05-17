@@ -9,19 +9,19 @@ public class _variablesExprTest extends TestCase {
         assertEquals(3, _vs.size());
         assertEquals(3, _vs.list().size());
         assertEquals(2, _vs.list(v-> v.hasInit()).size());
-        assertTrue( _vs.hasAnnoRef("A"));
-        assertTrue( _vs.hasAnnoRef("B"));
-        assertTrue( _vs.hasAnnoRef("C"));
+        assertTrue( _vs.hasAnnoExpr("A"));
+        assertTrue( _vs.hasAnnoExpr("B"));
+        assertTrue( _vs.hasAnnoExpr("C"));
 
 
-        assertNotNull(_vs.getAnnoRef("A"));
-        assertNotNull(_vs.getAnnoRef("B"));
-        assertNotNull(_vs.getAnnoRef("C"));
+        assertNotNull(_vs.getAnnoExpr("A"));
+        assertNotNull(_vs.getAnnoExpr("B"));
+        assertNotNull(_vs.getAnnoExpr("C"));
 
-        assertNotNull(_vs.getAnnoRef(a-> a.hasPair("value", 1)));
-        assertNotNull(_vs.getAnnoRef(a-> a.hasPair("k", 2)));
+        assertNotNull(_vs.getAnnoExpr(a-> a.hasPair("value", 1)));
+        assertNotNull(_vs.getAnnoExpr(a-> a.hasPair("k", 2)));
 
-        assertEquals(3, _vs.listAnnoRefs().size());
+        assertEquals(3, _vs.listAnnoExprs().size());
 
         assertEquals(1, _vs.list(_v-> _v.isInit(100)).size());
     }
@@ -60,11 +60,11 @@ public class _variablesExprTest extends TestCase {
 
     public void testAnno(){
         _variablesExpr _vs = _variablesExpr.of( "@A final int i");
-        assertTrue( _vs.hasAnnoRefs() );
-        assertTrue( _vs.hasAnnoRef("A"));
-        assertTrue( _vs.hasAnnoRef(a->a.isNamed("A")));
-        assertEquals( _annoExpr.of("@A"), _vs.getAnnoRef(0) );
-        _vs.addAnnoRefs(_annoExpr.of("@B(1)"), _annoExpr.of("@C(k=2)"));
+        assertTrue( _vs.hasAnnoExprs() );
+        assertTrue( _vs.hasAnnoExpr("A"));
+        assertTrue( _vs.hasAnnoExpr(a->a.isNamed("A")));
+        assertEquals( _annoExpr.of("@A"), _vs.getAnnoExpr(0) );
+        _vs.addAnnoExprs(_annoExpr.of("@B(1)"), _annoExpr.of("@C(k=2)"));
 
         _vs.remove(_variable.of("int i"));
 

@@ -4,7 +4,7 @@ import com.github.javaparser.printer.ASCIITreePrinter;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import static java.lang.System.out;
-import org.jdraft._arguments;
+import org.jdraft._args;
 import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
 
@@ -209,7 +209,7 @@ public class $methodCallExprTest extends TestCase {
         //NOTE:
         $methodCallExpr $or = $methodCallExpr.or($methodCallExpr.of("println"), $methodCallExpr.of("print"))
                 .$and( _mc-> _mc.isScope("System.out") || _mc.isScope("out") )
-                .$and( _mc -> _mc.isArgument(0, e-> e instanceof _intExpr) );
+                .$and( _mc -> _mc.isArg(0, e-> e instanceof _intExpr) );
         class c{
             void m(){
                 System.out.print(1);
@@ -243,8 +243,8 @@ public class $methodCallExprTest extends TestCase {
 
         //what about static imported System or System.out
         //                      here just match the name "print" (not the fully qualified Scope "System.out.println")
-        $print = $methodCallExpr.of("print", $arguments.of("$any$").$and(a-> ((_arguments)a).size() == 1));
-        $println = $methodCallExpr.of("println", $arguments.of("$any$").$and(a-> ((_arguments)a).size() == 1));
+        $print = $methodCallExpr.of("print", $args.of("$any$").$and(a-> ((_args)a).size() == 1));
+        $println = $methodCallExpr.of("println", $args.of("$any$").$and(a-> ((_args)a).size() == 1));
 
         $printOrPrintln = $methodCallExpr.or($print, $println);
         class FFG{
@@ -295,7 +295,7 @@ public class $methodCallExprTest extends TestCase {
 
         // add a predicate to the $or (which applies the constraint to ALL of
         // effectively applies this "constraint" to BOTH $print or $println
-        $or.$and(m-> m.countArguments() == 1);
+        $or.$and(m-> m.countArgs() == 1);
 
         assertFalse( $or.matches("print()") );
         assertTrue( $or.matches("print(1)") );
@@ -309,8 +309,8 @@ public class $methodCallExprTest extends TestCase {
     }
 
     public void testPredicate(){
-        assertTrue( $methodCallExpr.of().$and(m-> !m.hasArguments()).matches("m()") );
-        assertFalse( $methodCallExpr.of().$and(m-> !m.hasArguments()).matches("m(1)") );
+        assertTrue( $methodCallExpr.of().$and(m-> !m.hasArgs()).matches("m()") );
+        assertFalse( $methodCallExpr.of().$and(m-> !m.hasArgs()).matches("m(1)") );
 
         assertTrue( $methodCallExpr.of().$and(m-> !m.hasTypeArguments()).matches("m()") );
         assertFalse( $methodCallExpr.of().$and(m-> !m.hasTypeArguments()).matches("<T> m(1)") );
@@ -335,13 +335,13 @@ public class $methodCallExprTest extends TestCase {
     }
 
     public void testArguments(){
-        $methodCallExpr $mc = $methodCallExpr.of( $arguments.of().$and(a->((_arguments)a).isEmpty()));
+        $methodCallExpr $mc = $methodCallExpr.of( $args.of().$and(a->((_args)a).isEmpty()));
         assertTrue($mc.matches("System.out.println();"));
         assertFalse($mc.matches("System.out.println(1);"));
     }
 
     public void testTypeArguments(){
-        $methodCallExpr $mc = $methodCallExpr.of( $typeArguments.of().$and(a->!((_typeArguments)a).isEmpty()));
+        $methodCallExpr $mc = $methodCallExpr.of( $typeArgs.of().$and(a->!((_typeArgs)a).isEmpty()));
         assertTrue( $mc.matches(" Collection.<T>call()") );
         assertFalse( $mc.matches("Collection.call()") );
         assertFalse( $mc.matches("call()") );

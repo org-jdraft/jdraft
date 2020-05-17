@@ -121,7 +121,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of(this.varDeclEx);
     }
 

@@ -50,15 +50,15 @@ public class $enumConstant
 
     public static $enumConstant of( _constant _ec ){
         $enumConstant ec = new $enumConstant();
-        if( _ec.hasAnnoRefs() ) {
-            ec.annos = $annoRefs.of(_ec.getAnnoRefs());
+        if( _ec.hasAnnoExprs() ) {
+            ec.annos = $annoRefs.of(_ec.getAnnoExprs());
         }
         if( _ec.hasJavadoc()) {
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
         }
         ec.name = $name.of(_ec.getName());
-        if( _ec.hasArguments() ) {
-            _ec.listArguments().forEach(a -> ec.args.add($ex.of(a)));
+        if( _ec.hasArgs() ) {
+            _ec.listArgs().forEach(a -> ec.args.add($ex.of(a)));
         }
         if( _ec.hasFields() ) {
             _ec.listFields().forEach(f -> ec.fields.add($field.of(f)));
@@ -107,8 +107,8 @@ public class $enumConstant
 
     public static $enumConstant as( _constant _ec ){
         $enumConstant ec = new $enumConstant();
-        if( _ec.hasAnnoRefs() ) {
-            ec.annos = $annoRefs.as(_ec.getAnnoRefs());
+        if( _ec.hasAnnoExprs() ) {
+            ec.annos = $annoRefs.as(_ec.getAnnoExprs());
         } else{
             ec.annos = $annoRefs.none();
         }
@@ -116,15 +116,15 @@ public class $enumConstant
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
         }
         ec.name = $name.as(_ec.getName());
-        if( _ec.hasArguments() ) {
-            _ec.listArguments().forEach(a -> ec.args.add($ex.of(a)));
+        if( _ec.hasArgs() ) {
+            _ec.listArgs().forEach(a -> ec.args.add($ex.of(a)));
             ec.$and(c-> {
-                if( c.listArguments().size() != _ec.listArguments().size()){
+                if( c.listArgs().size() != _ec.listArgs().size()){
                     //System.out.println( "Diff Arg Size " );
                     return false;
                 }
-                for(int i = 0; i < c.listArguments().size(); i++){
-                    if( !ec.args.get(i).matches(c.getArgument(i).ast())){
+                for(int i = 0; i < c.listArgs().size(); i++){
+                    if( !ec.args.get(i).matches(c.getArg(i).ast())){
                         return false;
                     }
                 }
@@ -138,7 +138,7 @@ public class $enumConstant
             _ec.listMethods().forEach(m -> ec.methods.add($method.as(m)));
         }
         //make sure they have EXACTLY this many arguments, fields and methods
-        ec.$and( c -> c.listArguments().size() == _ec.listArguments().size() );
+        ec.$and( c -> c.listArgs().size() == _ec.listArgs().size() );
         ec.$and( c -> c.listFields().size() == _ec.listFields().size() );
         ec.$and( c -> c.listMethods().size() == _ec.listMethods().size() );
 
@@ -346,7 +346,7 @@ public class $enumConstant
         for(int i=0;i<$protoArgs.size(); i++) {
             final $ex t = $protoArgs.get(i);
             List<$ex.Select>matches = new ArrayList<>();
-            _ec.listArguments().forEach( c ->{
+            _ec.listArgs().forEach(c ->{
                 $ex.Select sel = t.select(c);
                 if( sel != null ){
                     matches.add(sel);

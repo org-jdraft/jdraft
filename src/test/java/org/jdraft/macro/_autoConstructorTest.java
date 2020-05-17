@@ -12,7 +12,7 @@ public class _autoConstructorTest extends TestCase {
         }
         _class _c =  _class.of(F.class);
         //verify I created a constructor AND it has no PARAMETERS
-        assertTrue( _c.getConstructor(0).getParameters().isEmpty() );
+        assertTrue( _c.getConstructor(0).getParams().isEmpty() );
 
         @_autoConstructor
         class G{
@@ -21,7 +21,7 @@ public class _autoConstructorTest extends TestCase {
         }
         _c = _class.of(G.class);
         //verify I created a constructor AND it has no PARAMETERS (no final FIELDS)
-        assertTrue( _c.getConstructor(0).getParameters().isEmpty() );
+        assertTrue( _c.getConstructor(0).getParams().isEmpty() );
     }
 
     @_autoConstructor
@@ -31,7 +31,7 @@ public class _autoConstructorTest extends TestCase {
 
     public void testCtorSingleArg(){
         _class _c = _class.of(S.class);
-        assertTrue( _c.getConstructor(0).getParameter(0).isTypeRef(int.class));
+        assertTrue( _c.getConstructor(0).getParam(0).isTypeRef(int.class));
     }
 
     @_autoConstructor
@@ -41,6 +41,6 @@ public class _autoConstructorTest extends TestCase {
 
     public void testCtorSingleArgInit(){
         _class _c = _class.of(S2.class);
-        assertFalse( _c.getConstructor(0).hasParameters());
+        assertFalse( _c.getConstructor(0).hasParams());
     }
 }

@@ -26,7 +26,7 @@ public final class _enumDiff implements _differ<_enum, _java._multiPart> {
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _enum left, _enum right) {
         _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackageName(), right.getPackageName());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
-        _annoExprsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoRefs(), right.getAnnoRefs());
+        _annoExprsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
 
         _implementsDiff.INSTANCE.diff(path, dt, left, right, left.listImplements(), right.listImplements());
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
@@ -64,10 +64,10 @@ public final class _enumDiff implements _differ<_enum, _java._multiPart> {
 
             _nodePath _p = path.in(CONSTANT, left.getName());
 
-            _annoExprsDiff.INSTANCE.diff(_p, dt, left, right, left.getAnnoRefs(), right.getAnnoRefs());
+            _annoExprsDiff.INSTANCE.diff(_p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
             _javadocCommentDiff.INSTANCE.diff(_p, dt, left, right, left.getJavadoc(), right.getJavadoc());
             _namedDiff.INSTANCE.diff(_p, dt, left, right, left.getName(), right.getName());            
-            ARGUMENTS_DIFF.diff(_p, dt, left, right, left.listArguments(), right.listArguments());
+            ARGUMENTS_DIFF.diff(_p, dt, left, right, left.listArgs(), right.listArgs());
             _methodsDiff.INSTANCE.diff(_p, dt, left, right, left.listMethods(), right.listMethods());
             _fieldsDiff.INSTANCE.diff(_p, dt, left, right, left.listFields(), right.listFields());
             return dt;

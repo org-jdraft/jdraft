@@ -73,10 +73,10 @@ public class _diffTest extends TestCase {
         });
         _c1.setPackage("aaaa.bbbb");
         _c1.setName("B");
-        _c1.addAnnoRefs(Deprecated.class);
+        _c1.addAnnoExprs(Deprecated.class);
         _c1.addExtend("G");
         _c1.addConstructor("public C(){System.out.println(1);}");
-        _c1.typeParameters("<T extends base>");
+        _c1.typeParams("<T extends base>");
         _c1.setJavadoc("some javadoc");
         _c1.addInitBlock(()-> System.out.println("Static block"));
         _c1.addInner(_interface.of("I") );
@@ -175,7 +175,7 @@ public class _diffTest extends TestCase {
         
         
         _e2.addConstant("C");
-        _a1.addArgument(true);        
+        _a1.addArg(true);
         dt.diffNodeList.clear();        
         _enumDiff.ENUM_CONSTANTS_DIFF.diff(path, dt, _e2, _e1, _e2.listConstants(), _e1.listConstants());
         
@@ -201,8 +201,8 @@ public class _diffTest extends TestCase {
         
         _a1.addMethod("int m(){ return 1; }");
         _a1.addField("int i=100;");
-        _a1.addArgument(0);
-        _a1.addAnnoRefs(Deprecated.class);
+        _a1.addArg(0);
+        _a1.addAnnoExprs(Deprecated.class);
         _a1.setJavadoc("Javadoc ");
         
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);
@@ -233,9 +233,9 @@ public class _diffTest extends TestCase {
         _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         dt = new _diffList(leftRoot, rightRoot);
-        _m1.typeParameters("<T extends A>");
-        _m1.receiverParameter("rp this");
-        _m1.addParameter("int i");
+        _m1.typeParams("<T extends A>");
+        _m1.receiverParam("rp this");
+        _m1.addParam("int i");
         _m1.addThrows(IOException.class);
         _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         

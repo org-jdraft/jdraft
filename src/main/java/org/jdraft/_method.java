@@ -32,8 +32,8 @@ import org.jdraft.text.Text;
 public final class _method
         implements _javadocComment._withJavadoc<_method>, _annoExprs._withAnnoExprs<_method>,
         _java._withNameTypeRef<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
-        _modifiers._withModifiers<_method>, _parameters._withParameters<_method>,
-        _typeParameters._withTypeParameters<_method>, _receiverParameter._withReceiverParameter<_method>,
+        _modifiers._withModifiers<_method>, _params._withParams<_method>,
+        _typeParams._withTypeParams<_method>, _receiverParam._withReceiverParam<_method>,
         _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,
         _modifiers._withAbstract<_method>, _modifiers._withSynchronized<_method>,
         _modifiers._withStrictFp<_method>, _java._declared<MethodDeclaration, _method> {
@@ -320,7 +320,7 @@ public final class _method
      */
     public static final Predicate<_method> IS_MAIN = m-> 
         m.isPublic() && m.isStatic() && m.getName().equals("main") && m.isVoid()
-        && m.getParameters().size() == 1 && m.getParameter(0).isTypeRef(String[].class);
+        && m.getParams().size() == 1 && m.getParam(0).isTypeRef(String[].class);
 
     @Override
     public boolean equals(Object obj) {
@@ -359,19 +359,19 @@ public final class _method
         if (!Objects.equals(this.getName(), other.getName())) {
             return false;
         }
-        if (!Objects.equals(this.getParameters(), other.getParameters())) {
+        if (!Objects.equals(this.getParams(), other.getParams())) {
             return false;
         }
         if (!Types.equal(astMethod.getThrownExceptions(), other.astMethod.getThrownExceptions())) {
             return false;
         }        
-        if (!Objects.equals(this.getTypeParameters(), other.getTypeParameters())) {
+        if (!Objects.equals(this.getTypeParams(), other.getTypeParams())) {
             return false;
         }
         if (!Types.equal(astMethod.getType(), other.astMethod.getType())) {
             return false;
         }
-        if (!Objects.equals(this.getReceiverParameter(), other.getReceiverParameter())) {
+        if (!Objects.equals(this.getReceiverParam(), other.getReceiverParam())) {
             return false;
         }
         return true;
@@ -379,13 +379,13 @@ public final class _method
 
     enum Token {
         JAVADOC(1, "javadoc", (_method a)-> a.getJavadoc()),
-        ANNOS(2,"annos", (_method a)-> a.getAnnoRefs() ),
+        ANNOS(2,"annos", (_method a)-> a.getAnnoExprs() ),
         MODIFIERS(3,"modifiers", (_method a)-> a.getEffectiveModifiers()),
-        TYPE_PARAMETERS(4,"typeParameters", (_method a)-> a.getTypeParameters()),
+        TYPE_PARAMETERS(4,"typeParameters", (_method a)-> a.getTypeParams()),
         TYPE(5,"type", (_method a)-> a.getTypeRef()),
         NAME(6, "name", (_method a)-> a.getName()),
-        RECEIVER_PARAMETER(7, "receiverParameter", (_method a)-> a.getReceiverParameter()),
-        PARAMETERS(8, "parameters", (_method a)-> a.getParameters()),
+        RECEIVER_PARAMETER(7, "receiverParameter", (_method a)-> a.getReceiverParam()),
+        PARAMETERS(8, "parameters", (_method a)-> a.getParams()),
         THROWS(9, "throws", (_method a)-> a.getThrows()),
         BODY(10, "body", (_method a)-> a.getBody());
 
@@ -411,14 +411,14 @@ public final class _method
     @Override
     public Map<_java.Component, Object> components() {
         Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put(_java.Component.ANNOS, getAnnoRefs());
+        parts.put(_java.Component.ANNOS, getAnnoExprs());
         parts.put(_java.Component.BODY, getBody());
         parts.put(_java.Component.TYPE, getTypeRef());
-        parts.put(_java.Component.PARAMETERS, getParameters());
+        parts.put(_java.Component.PARAMETERS, getParams());
         parts.put(_java.Component.MODIFIERS, getEffectiveModifiers());
         parts.put(_java.Component.JAVADOC, getJavadoc());
-        parts.put(_java.Component.RECEIVER_PARAMETER, getReceiverParameter());
-        parts.put(_java.Component.TYPE_PARAMETERS, getTypeParameters());
+        parts.put(_java.Component.RECEIVER_PARAMETER, getReceiverParam());
+        parts.put(_java.Component.TYPE_PARAMETERS, getTypeParams());
         parts.put(_java.Component.THROWS, getThrows());
         parts.put(_java.Component.NAME, getName());
         return parts;
@@ -438,10 +438,10 @@ public final class _method
                 //this.getJavadoc(),
                 modsSet, //this.getEffectiveModifiers(), //this.getModifiers(),
                 this.getName(),
-                this.getParameters(),
+                this.getParams(),
                 Types.hash(astMethod.getThrownExceptions()),
-                this.getTypeParameters(),
-                this.getReceiverParameter(),
+                this.getTypeParams(),
+                this.getReceiverParam(),
                 Types.hash(astMethod.getType()));
         if( this.ast().hasJavaDocComment() ){
 
@@ -483,7 +483,7 @@ public final class _method
         java.lang.reflect.Type[] genericParameterTypes = m.getGenericParameterTypes();
         if( m.getParameterCount() > 0 ) {
         }
-        List<_parameter> pl = this.listParameters();
+        List<_param> pl = this.listParams();
         if (genericParameterTypes.length != pl.size()) {
             return false;
         }
@@ -549,7 +549,7 @@ public final class _method
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of(astMethod);
     }
 
@@ -561,8 +561,8 @@ public final class _method
     }
     
     @Override
-    public _parameters getParameters() {
-        return _parameters.of(astMethod);
+    public _params getParams() {
+        return _params.of(astMethod);
     }
     
     @Override
@@ -914,12 +914,12 @@ public final class _method
         StringBuilder sb = new StringBuilder();
         sb.append(_m.getName());
         sb.append("(");
-        for (int i = 0; i < _m.getParameters().size(); i++) {
+        for (int i = 0; i < _m.getParams().size(); i++) {
             if (i > 0) {
                 sb.append(", ");
             }
-            sb.append(_m.getParameter(i).getTypeRef());
-            if (_m.getParameter(i).isVarArg()) {
+            sb.append(_m.getParam(i).getTypeRef());
+            if (_m.getParam(i).isVarArg()) {
                 sb.append("...");
             }
         }

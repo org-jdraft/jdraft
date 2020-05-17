@@ -133,7 +133,7 @@ public class _typeTest extends TestCase {
 
         List<_field> _fs = _t.listFields();
         assertTrue( _fs.isEmpty() );
-        _fs = _t.listFields( (_f)-> ((_field)_f).hasAnnoRefs());
+        _fs = _t.listFields( (_f)-> ((_field)_f).hasAnnoExprs());
         assertTrue( _fs.isEmpty() );
 
         _t.setHeaderComment("This is a header comment", "on multiple lines");

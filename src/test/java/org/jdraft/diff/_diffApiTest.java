@@ -69,7 +69,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //add deprecated to _a only
-        _a.addAnnoRefs(Deprecated.class);
+        _a.addAnnoExprs(Deprecated.class);
         
         _diff _d = _diff.of(_a, _b);
         
@@ -118,7 +118,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getInnerType("Inner").getField("g").addAnnoRefs(Deprecated.class);
+        _a.getInnerType("Inner").getField("g").addAnnoExprs(Deprecated.class);
         
         _diff _d = _diff.of(_a,_b);
         //How many changes?
@@ -205,8 +205,8 @@ public class _diffApiTest extends TestCase {
         _dn.patchLeftToRight();
         
         assertEquals(_a, _b);
-        assertTrue(_a.getInnerType("Inner").getField("g").hasAnnoRef(Deprecated.class));
-        assertTrue(_b.getInnerType("Inner").getField("g").hasAnnoRef(Deprecated.class));
+        assertTrue(_a.getInnerType("Inner").getField("g").hasAnnoExpr(Deprecated.class));
+        assertTrue(_b.getInnerType("Inner").getField("g").hasAnnoExpr(Deprecated.class));
     }
     
     
@@ -233,7 +233,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_b, _a).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getInnerType("Inner").getField("g").addAnnoRefs(Deprecated.class);
+        _a.getInnerType("Inner").getField("g").addAnnoExprs(Deprecated.class);
         
         _diff _d = _diff.of(_b,_a);
         
@@ -312,8 +312,8 @@ public class _diffApiTest extends TestCase {
         //this will add the Deprecated Anno
         _dn.patchRightToLeft();
         assertEquals(_a, _b);
-        assertTrue( _a.getInnerType("Inner").getField("g").hasAnnoRef(Deprecated.class) );
-        assertTrue( _b.getInnerType("Inner").getField("g").hasAnnoRef(Deprecated.class) );
+        assertTrue( _a.getInnerType("Inner").getField("g").hasAnnoExpr(Deprecated.class) );
+        assertTrue( _b.getInnerType("Inner").getField("g").hasAnnoExpr(Deprecated.class) );
     }
     
     

@@ -85,7 +85,7 @@ public class _diffPatchTest
             }
             
             @_toCtor public void L(){}
-        }).addAnnoRefs(Deprecated.class);
+        }).addAnnoExprs(Deprecated.class);
                 
         assertTrue(_diff.of(_c1,_c2).hasRightOnlyAt(FIELD) );
         assertTrue(_diff.fieldsOf(_c1,_c2).hasRightOnlyAt(FIELD) );
@@ -166,7 +166,7 @@ public class _diffPatchTest
             }
         });
         //this will change api
-        _c.getConstructor(0).addParameter("final int lastParameter");
+        _c.getConstructor(0).addParam("final int lastParameter");
 
         System.out.println( _c );
         System.out.println( _c2 );
@@ -229,7 +229,7 @@ public class _diffPatchTest
                
         assertEquals("NESTST  5 ", 1, _c.listInnerTypes().size() );
         
-        _c.addAnnoRefs("@AAAAA");
+        _c.addAnnoExprs("@AAAAA");
         System.out.println(_diff.of(_c, _c2));
         assertNotNull(_diff.of(_c, _c2).firstOn(ANNO) );
         dl = _diff.of(_c, _c2);
@@ -267,7 +267,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         
-        _c.removeTypeParameters();
+        _c.removeTypeParams();
         dl = _diff.of(_c, _c2);
         assertNotNull( dl.firstOn(TYPE_PARAMETERS) );        
         dl.patchLeftToRight();        
@@ -291,7 +291,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getField("aFieldIAdded").addAnnoRefs(Deprecated.class);
+        _c.getField("aFieldIAdded").addAnnoExprs(Deprecated.class);
         
         dl = _diff.of(_c, _c2);
         //System.out.println(_c.getField("aFieldIAdded"));
@@ -348,7 +348,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         //--------------CONSTRUCTOR ON CLASS------------------
-        _c.getConstructor(0).addAnnoRefs(Deprecated.class);
+        _c.getConstructor(0).addAnnoExprs(Deprecated.class);
          dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(ANNO).isLeftOnly() );        
@@ -362,7 +362,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getConstructor(0).addAnnoRefs("AGGGG");
+        _c.getConstructor(0).addAnnoExprs("AGGGG");
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(CONSTRUCTOR).isLeftOnly() );                
@@ -390,7 +390,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         
-        _c.getConstructor(0).removeTypeParameters();
+        _c.getConstructor(0).removeTypeParams();
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertNotNull( dl.firstOn(CONSTRUCTOR).isRightOnly() );                
@@ -412,7 +412,7 @@ public class _diffPatchTest
         */
 
         /** ----METHOD ON CLASS */
-        _c.getMethod(0).addAnnoRefs(Deprecated.class);
+        _c.getMethod(0).addAnnoExprs(Deprecated.class);
          dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(ANNO).isLeftOnly() );        
@@ -430,7 +430,7 @@ public class _diffPatchTest
 
         System.out.println("******** "+ _c.getMethod("doIt"));
 
-        _c.getMethod(0).addAnnoRefs("AGGGG");
+        _c.getMethod(0).addAnnoExprs("AGGGG");
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(METHOD).isLeftOnly() );                
@@ -463,7 +463,7 @@ public class _diffPatchTest
         System.out.println("AFTER "+ _c.getMethod("doIt"));
         
         
-        _c.getMethod(0).removeTypeParameters();
+        _c.getMethod(0).removeTypeParams();
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertNotNull( dl.firstOn(METHOD).isRightOnly() );                
@@ -474,7 +474,7 @@ public class _diffPatchTest
         System.out.println("BEFORE "+ _c );
 
         //this will change api
-        _c.getMethod(0).getParameters().astHolder().getParameters().add( 0, Ast.parameter( "final int firstParameter"));
+        _c.getMethod(0).getParams().astHolder().getParameters().add( 0, Ast.parameter( "final int firstParameter"));
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertTrue(dl.hasLeftOnly());
@@ -507,7 +507,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                   
         assertTrue(_diff.of(_c, _c2).isEmpty());        
         
-        _c.getDeclared(_enum.class, "E").addAnnoRefs("AFG");
+        _c.getDeclared(_enum.class, "E").addAnnoExprs("AFG");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(ANNO).isLeftOnly());
@@ -606,7 +606,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _i.addAnnoRefs("Annop");
+        _i.addAnnoExprs("Annop");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(ANNO));
         dl.patchLeftToRight();
@@ -639,7 +639,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _i.removeTypeParameters();
+        _i.removeTypeParams();
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasChangeAt(TYPE_PARAMETERS));        
         dl.patchLeftToRight();
@@ -685,14 +685,14 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.addAnnoRefs("Annoed");
+        _c.addAnnoExprs("Annoed");
         dl = _diff.of(_i, _i2);
         System.out.println( dl);
         assertTrue( dl.hasLeftOnlyAt(ANNO, "Annoed"));        
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.removeTypeParameters();
+        _c.removeTypeParams();
         dl = _diff.of(_i, _i2);
         System.out.println( dl);
         assertTrue( dl.hasChangeAt(TYPE_PARAMETERS));        

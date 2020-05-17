@@ -121,7 +121,7 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
                     //the _macro expansion MAY have actually removed the
                     // entity entirely, so double check... if not, make sure the
                     // annotation is removed after the _macro processes
-                    _model = (T)_model.removeAnnoRefs(anns[i].annotationType());
+                    _model = (T)_model.removeAnnoExprs(anns[i].annotationType());
                 }
                 //System.out.println( "After "+_ma+" "+_model);
             }
@@ -148,7 +148,7 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
 
     static _method to( Class clazz, _method _mm ){
         
-        if( !_mm.hasAnnoRefs()){
+        if( !_mm.hasAnnoExprs()){
             return _mm;
         }
         Method mm = null;
@@ -187,7 +187,7 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
         }
         Parameter[] ps = mm.getParameters();
         for(int i=0;i<ps.length; i++){
-            applyAllAnnotationMacros(_mm.getParameter(i), ps[i] );
+            applyAllAnnotationMacros(_mm.getParam(i), ps[i] );
         }
         //apply ANNOTATIONS to the method AFTER PARAMETERS
         return applyAllAnnotationMacros(_mm, mm );
@@ -283,7 +283,7 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
      * @return 
      */
     static _constructor to(Class clazz, _constructor _c ) {
-        if( !_c.hasAnnoRefs() ){
+        if( !_c.hasAnnoExprs() ){
             return _c;
         }
         List<Constructor> cs = Arrays.stream(clazz.getDeclaredConstructors()).collect(Collectors.toList());
@@ -295,9 +295,9 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
                 Constructor ct = cs.get(i);
                 if( _c.isParameters( ct ) ){
                     Parameter[] ps = ct.getParameters();
-                    int delta = ps.length - _c.getParameters().size();
-                    for(int j =0; j< _c.getParameters().size();j++ ){
-                        applyAllAnnotationMacros(_c.getParameter(j), ps[j+delta]);
+                    int delta = ps.length - _c.getParams().size();
+                    for(int j = 0; j< _c.getParams().size(); j++ ){
+                        applyAllAnnotationMacros(_c.getParam(j), ps[j+delta]);
                     }
                     return applyAllAnnotationMacros(_c, ct); //process the constructor
                 }
@@ -327,9 +327,9 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
                 //Constructor ct = cs.get(i);
                 if( _c.isParameters( ct ) ){
                     Parameter[] ps = ct.getParameters();
-                    int delta = ps.length - _c.getParameters().size();
-                    for(int j =0; j< _c.getParameters().size();j++ ){
-                        applyAllAnnotationMacros(_c.getParameter(j), ps[j+delta]);
+                    int delta = ps.length - _c.getParams().size();
+                    for(int j = 0; j< _c.getParams().size(); j++ ){
+                        applyAllAnnotationMacros(_c.getParam(j), ps[j+delta]);
                     }
                     return applyAllAnnotationMacros(_c, ct); //process the constructor
                 }

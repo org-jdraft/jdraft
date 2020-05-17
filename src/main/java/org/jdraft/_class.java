@@ -36,7 +36,7 @@ import org.jdraft.text.Text;
  */
 public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _method._withMethods<_class>, _constructor._withConstructors<_class, ClassOrInterfaceDeclaration>,
-        _typeParameters._withTypeParameters<_class>, _initBlock._withInitBlocks<_class>,
+        _typeParams._withTypeParams<_class>, _initBlock._withInitBlocks<_class>,
         _modifiers._withAbstract<_class>, _modifiers._withFinal<_class>,
         _modifiers._withStatic<_class>, _type._withImplements<_class>,
         _type._withExtends<_class> {
@@ -767,7 +767,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of(this.astClass );
     }
 
@@ -849,8 +849,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             Log.trace("Expected modifiers %s got: %s", this::getModifiers, other::getModifiers);
             return false;
         }
-        if( !Objects.equals( this.getTypeParameters(), other.getTypeParameters() ) ) {
-            Log.trace("Expected typeParameters %s got: %s", this::getTypeParameters, other::getTypeParameters);
+        if( !Objects.equals( this.getTypeParams(), other.getTypeParams() ) ) {
+            Log.trace("Expected typeParameters %s got: %s", this::getTypeParams, other::getTypeParams);
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {
@@ -934,11 +934,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         parts.put(_java.Component.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Component.PACKAGE, this.getPackage() );
         parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnoRefs() );
+        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
         parts.put( Component.EXTENDS, this.astClass.getExtendedTypes() );
         parts.put( Component.IMPLEMENTS, this.listImplements() );
         parts.put( Component.JAVADOC, this.getJavadoc() );
-        parts.put( Component.TYPE_PARAMETERS, this.getTypeParameters() );
+        parts.put( Component.TYPE_PARAMETERS, this.getTypeParams() );
         parts.put( Component.INIT_BLOCKS, this.listInitBlocks());
         parts.put( Component.NAME, this.getName() );
         parts.put( Component.MODIFIERS, this.getModifiers() );
@@ -984,8 +984,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         sbs.addAll( this.listInitBlocks());
 
         hash = 47 * hash + Objects.hash( this.getPackage(), this.getName(),
-                this.getJavadoc(), this.getAnnoRefs(), this.getModifiers(),
-                this.getTypeParameters(), Types.hash(this.getExtends()),
+                this.getJavadoc(), this.getAnnoExprs(), this.getModifiers(),
+                this.getTypeParams(), Types.hash(this.getExtends()),
                 sbs, Types.hash( ast().getImplementedTypes() ),
                 Exprs.hashAnnos(astClass),
                 tf, tm, tc, tn, cths);

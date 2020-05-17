@@ -25,10 +25,10 @@ import java.util.List;
  *
  * @author Eric
  */
-public class _typeParameterTest extends TestCase {
+public class _typeParamTest extends TestCase {
 
     public void testBuildFromScratch(){
-        _typeParameter _tp = _typeParameter.of();
+        _typeParam _tp = _typeParam.of();
         NodeList<ClassOrInterfaceType> tb = new NodeList<>();
         tb.add(StaticJavaParser.parseClassOrInterfaceType("Map<Integer,String>"));
         _tp.setExtendsTypeBound(tb);
@@ -41,7 +41,7 @@ public class _typeParameterTest extends TestCase {
 
     }
     public void testTypeParameterT(){
-        _typeParameters _tps = _typeParameters.of("B extends R & J");
+        _typeParams _tps = _typeParams.of("B extends R & J");
         System.out.println( _tps.getAt(0).getTypeBound() );
         
         System.out.println( _tps );
@@ -54,11 +54,11 @@ public class _typeParameterTest extends TestCase {
         
         System.out.println( t );
         
-        System.out.println( _typeParameters.of("A") );        
-        System.out.println( _typeParameters.of("A,B") );        
-        System.out.println( _typeParameters.of("A,B extends R & J") );        
+        System.out.println( _typeParams.of("A") );
+        System.out.println( _typeParams.of("A,B") );
+        System.out.println( _typeParams.of("A,B extends R & J") );
         //System.out.println( _typeParameters.of("A,B super R") );        
-        _typeParameters _tp = _typeParameters.of("A, B extends R");        
+        _typeParams _tp = _typeParams.of("A, B extends R");
         TypeParameter A = _tp.getAt(0).ast();
         System.out.println( A.getName() );
         System.out.println( "TYPE BOUND" + A.getTypeBound() );
@@ -66,8 +66,8 @@ public class _typeParameterTest extends TestCase {
         System.out.println( B.getName() );
         System.out.println( "TYPE BOUND" + B.getTypeBound() );
         
-        _tp = _typeParameters.of( "<String, Integer>" );
-        _tp = _typeParameters.of( "<A, B extends Map<Integer, ? extends R>>" );
+        _tp = _typeParams.of( "<String, Integer>" );
+        _tp = _typeParams.of( "<A, B extends Map<Integer, ? extends R>>" );
         
         
         //System.out.println("TYPE PARAMETERS "+  _tp );        
@@ -80,12 +80,12 @@ public class _typeParameterTest extends TestCase {
    
     public void testTypeParameterAnno(){
         String s = "@R A extends @Test B";
-        _typeParameter _tp = _typeParameter.of(s);
+        _typeParam _tp = _typeParam.of(s);
         TypeParameter astTp = _tp.ast();
         System.out.println( _tp );
         System.out.println( astTp );
         
-        assertEquals( 1, _tp.listAnnoRefs().size());
+        assertEquals( 1, _tp.listAnnoExprs().size());
         assertTrue( _tp.is(s) );
         
         
@@ -99,46 +99,46 @@ public class _typeParameterTest extends TestCase {
     }
     
     public void testTypeParametersWithAnno(){
-        _typeParameters _a = _typeParameters.of("<A extends @Test B>");
+        _typeParams _a = _typeParams.of("<A extends @Test B>");
         System.out.println( _a );
         
-        _a = _typeParameters.of("<A extends @Test aaaa.B>");
+        _a = _typeParams.of("<A extends @Test aaaa.B>");
         System.out.println( _a );
         
     }
     
     public void testTypeParameters(){
-        _typeParameters _a = _typeParameters.of("<A,B,C,D,E>");
-        _typeParameters _b = _typeParameters.of("<E,D,C,B,A>");
+        _typeParams _a = _typeParams.of("<A,B,C,D,E>");
+        _typeParams _b = _typeParams.of("<E,D,C,B,A>");
         assertEquals( _a, _b);
         assertEquals( _a.hashCode(), _b.hashCode());
 
-        _a = _typeParameters.of("<A extends aaaa.B>");
-        _b = _typeParameters.of("<A extends B>");
+        _a = _typeParams.of("<A extends aaaa.B>");
+        _b = _typeParams.of("<A extends B>");
         assertEquals( _a, _b);
 
         //out of order, &
-        _a = _typeParameters.of("<A extends aaaa.B, T extends ccc.R>");
-        _b = _typeParameters.of("<T extends R, A extends B>");
+        _a = _typeParams.of("<A extends aaaa.B, T extends ccc.R>");
+        _b = _typeParams.of("<T extends R, A extends B>");
         assertEquals( _a, _b);
     }
 
     public void testFullyQualified(){
-        _typeParameter _a = _typeParameter.of("T extends java.io.Serializable");
-        _typeParameter _b = _typeParameter.of("T extends Serializable");
+        _typeParam _a = _typeParam.of("T extends java.io.Serializable");
+        _typeParam _b = _typeParam.of("T extends Serializable");
 
         assertEquals( _a, _b);
         assertEquals( _a.hashCode(), _b.hashCode());
 
-        _typeParameter _c = _typeParameter.of("I extends java.io.DataInput & java.io.Closeable");
-        _typeParameter _d = _typeParameter.of("I extends DataInput & Closeable");
+        _typeParam _c = _typeParam.of("I extends java.io.DataInput & java.io.Closeable");
+        _typeParam _d = _typeParam.of("I extends DataInput & Closeable");
 
         assertEquals( _c, _d);
         assertEquals( _c.hashCode(), _d.hashCode());
     }
 
     public void testTypeParameter(){
-        _typeParameter _tp = _typeParameter.of( "T" );
+        _typeParam _tp = _typeParam.of( "T" );
     }
 
 
@@ -221,7 +221,7 @@ public class _typeParameterTest extends TestCase {
     }
 
     public void testTypeArgs(){
-        _typeParameters _tp = _typeParameters.of("<T>");
+        _typeParams _tp = _typeParams.of("<T>");
         System.out.println (_tp);
 
     }

@@ -254,7 +254,7 @@ public final class _field
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
 
         if( this.getFieldDeclaration() != null && this.astVar != null && this.astVar.getParentNode().isPresent()) {
 
@@ -331,8 +331,8 @@ public final class _field
         if (this.hasJavadoc()) {
             sb.append(this.getJavadoc());
         }
-        if (this.hasAnnoRefs()) {
-            sb.append(this.getAnnoRefs());
+        if (this.hasAnnoExprs()) {
+            sb.append(this.getAnnoExprs());
         }
         String mods = this.getModifiers().toString();
         if (mods.trim().length() > 0) {
@@ -415,7 +415,7 @@ public final class _field
         } else{
             //if this is ONLY a var
             return other.getFieldDeclaration() == null || 
-                    other.getAnnoRefs().isEmpty() && other.getModifiers().ast().isEmpty();
+                    other.getAnnoExprs().isEmpty() && other.getModifiers().ast().isEmpty();
         }       
         return true;
     }
@@ -427,7 +427,7 @@ public final class _field
         parts.put(_java.Component.TYPE, getTypeRef());
         parts.put(_java.Component.MODIFIERS, getModifiers());
         parts.put(_java.Component.JAVADOC, getJavadoc());
-        parts.put(_java.Component.ANNOS, getAnnoRefs());
+        parts.put(_java.Component.ANNOS, getAnnoExprs());
         parts.put(_java.Component.INIT, getInit());
         return parts;
     }

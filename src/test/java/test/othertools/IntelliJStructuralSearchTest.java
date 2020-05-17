@@ -99,7 +99,7 @@ public class IntelliJStructuralSearchTest{
         __( $type.of() );
 
         //Classes with type parameterized constructors
-        __( $class.of(c-> c.hasTypeParameters()) );
+        __( $class.of(c-> c.hasTypeParams()) );
 
         //Methods and constructors
         __( $.or($method.of(), $constructor.of() ) );
@@ -156,13 +156,13 @@ public class IntelliJStructuralSearchTest{
         __( $.initBlock(i-> i.isStatic()) );
 
         //Annotated Classes
-        __( $class.of(c-> c.hasAnnoRefs() ) );
+        __( $class.of(c-> c.hasAnnoExprs() ) );
 
         //Annotated Fields
-        __( $field.of(f->f.hasAnnoRefs() ) );
+        __( $field.of(f->f.hasAnnoExprs() ) );
 
         //Annotated Methods
-        __( $method.of(m->m.hasAnnoRefs() ) );
+        __( $method.of(m->m.hasAnnoExprs() ) );
 
         //Annotation Type Declarations
         __( $annotation.of() );
@@ -215,8 +215,8 @@ public class IntelliJStructuralSearchTest{
 
 //simple method invocation with constant
         //method calls that use a single parameter literal
-        __( $.methodCall(m -> m.countArguments()  == 1
-                        && m.getArguments().isAt(0, a -> a.isLiteral() ) ) );
+        __( $.methodCall(m -> m.countArgs()  == 1
+                        && m.getArgs().isAt(0, a -> a.isLiteral() ) ) );
 
         //String concatenation with many operands
         __( $.binaryExpr(b-> b.isPlus() &&
@@ -242,20 +242,20 @@ public class IntelliJStructuralSearchTest{
         __( $.cast(c-> c.getTypeRef().isGenericType() ) );
 
         //Generic Classes
-        __( $class.of(c-> c.hasTypeParameters()) );
+        __( $class.of(c-> c.hasTypeParams()) );
         //$class.of(c->c.isGeneric())
         //$class.of().$isGeneric()
 
         //Generic Constructors
-        $constructor.of(c-> c.hasTypeParameters());
+        $constructor.of(c-> c.hasTypeParams());
         //is not generic
-        $constructor.of(c-> !c.hasTypeParameters());
+        $constructor.of(c-> !c.hasTypeParams());
 
 
         //Generic Methods
-        $method.of(m-> m.hasTypeParameters());
+        $method.of(m-> m.hasTypeParams());
         //not generic
-        $method.of(m-> !m.hasTypeParameters());
+        $method.of(m-> !m.hasTypeParams());
 
 
         //Method returns bounded wildcard
@@ -383,8 +383,8 @@ public class IntelliJStructuralSearchTest{
         __( $class.of(c-> c.allMethods(m-> m.isFinal()) ) );
         __( $class.of(c-> c.allFields(f-> f.isFinal()) ) );
         __( $class.of(c-> c.allInitBlocks(i-> i.isStatic() ) ) );
-        __( $class.of(c-> c.allTypeParameters(tp-> !tp.hasTypeBound() ) ) );
-        __( $class.of(c-> c.isAllAnnoRefs(a-> !a.isNamed("todo") ) ) );
+        __( $class.of(c-> c.allTypeParams(tp-> !tp.hasTypeBound() ) ) );
+        __( $class.of(c-> c.isAllAnnoExprs(a-> !a.isNamed("todo") ) ) );
 
         //Singletons
         // OR classes that HAVE defined constructors that are ALL private

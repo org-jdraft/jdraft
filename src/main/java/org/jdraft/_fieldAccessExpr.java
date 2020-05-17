@@ -13,7 +13,7 @@ import java.util.function.Function;
 public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAccessExpr>,
         _java._multiPart<FieldAccessExpr, _fieldAccessExpr>,
         _java._withName<_fieldAccessExpr>,
-        _typeArguments._withTypeArguments<FieldAccessExpr, _fieldAccessExpr>,
+        _typeArgs._withTypeArguments<FieldAccessExpr, _fieldAccessExpr>,
         _java._withScope<FieldAccessExpr, _fieldAccessExpr> {
 
     public static _fieldAccessExpr of(){

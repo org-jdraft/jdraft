@@ -12,87 +12,87 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
- * $bot for inspecting, drafting and mutating {@link _parameter}s / {@link Parameter}s
+ * $bot for inspecting, drafting and mutating {@link _param}s / {@link Parameter}s
  */
-public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>,
-        $selector.$node<_parameter, $parameter> {
+public class $param implements $bot.$node<Parameter, _param, $param>,
+        $selector.$node<_param, $param> {
 
     interface $part{}
 
-    public static $parameter of(Exprs.Command lambdaWithParameter ){
+    public static $param of(Exprs.Command lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Consumer<? extends Object> lambdaWithParameter ){
+    public static $param of(Consumer<? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Supplier<? extends Object> lambdaWithParameter ){
+    public static $param of(Supplier<? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(BiConsumer<? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(BiConsumer<? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Function<? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Function<? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(BiFunction<? extends Object, ? extends Object,? extends Object> lambdaWithParameter ){
+    public static $param of(BiFunction<? extends Object, ? extends Object,? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $parameter of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    private static $parameter from(StackTraceElement ste ){
-        return of( _parameter.from( ste) );
+    private static $param from(StackTraceElement ste ){
+        return of( _param.from( ste) );
     }
 
-    public static $parameter of( _typeRef _tr){
+    public static $param of(_typeRef _tr){
         return of().$typeRef(_tr);
     }
 
-    public static $parameter of( Class parameterType ){
+    public static $param of(Class parameterType ){
         return of().$typeRef(parameterType);
     }
 
-    public static $parameter of( String parameterCode ){
-        return of( _parameter.of(parameterCode) );
+    public static $param of(String parameterCode ){
+        return of( _param.of(parameterCode) );
     }
 
-    public static $parameter of() {
-        return new $parameter();
+    public static $param of() {
+        return new $param();
     }
 
-    public static $parameter of(_parameter _p) {
-        return new $parameter(_p);
+    public static $param of(_param _p) {
+        return new $param(_p);
     }
 
-    public static $parameter of(Parameter ile) {
-        return new $parameter(_parameter.of(ile));
+    public static $param of(Parameter ile) {
+        return new $param(_param.of(ile));
     }
 
-    public static $parameter of(String... code) {
-        return of(_parameter.of(Text.combine( code)));
+    public static $param of(String... code) {
+        return of(_param.of(Text.combine( code)));
     }
 
-    public static $parameter as(String...code ){
-        return as( _parameter.of(Text.combine(code)));
+    public static $param as(String...code ){
+        return as( _param.of(Text.combine(code)));
     }
 
     /**
@@ -100,7 +100,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
      * @param _p the parameter to match exactly to
      * @return the parameter bot
      */
-    public static $parameter as(_parameter _p){
+    public static $param as(_param _p){
         return of()
                 .$name(_p.getName())
                 .$typeRef(_p.getTypeRef())
@@ -114,7 +114,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
      * @param b whether to match varArg Parameters (null means dont care either way)
      * @return the $parameter bot
      */
-    public $parameter $isVarArg(Boolean b){
+    public $param $isVarArg(Boolean b){
         this.isVarArg.setExpected(b);
         return this;
     }
@@ -124,12 +124,12 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
      * @param b whether to match varArg Parameters (null means dont care either way)
      * @return the $parameter bot
      */
-    public $parameter $isFinal(Boolean b){
+    public $param $isFinal(Boolean b){
         this.isFinal.setExpected(b);
         return this;
     }
 
-    public static $parameter.Or or($parameter...$params ){
+    public static $param.Or or($param...$params ){
         return new Or($params);
     }
 
@@ -165,21 +165,21 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
      * assertTrue($or.IsIn("import java.io.IOException;","class C{ long t = System.getTimeMillis(); }");
      * </PRE>
      */
-    public static class Or extends $parameter {
+    public static class Or extends $param {
 
-         public List<$parameter> $parameterBots = new ArrayList<>();
+         public List<$param> $paramBots = new ArrayList<>();
 
-         public Or($parameter...$mcs){
-             Arrays.stream($mcs).forEach(m -> $parameterBots.add(m));
+         public Or($param...$mcs){
+             Arrays.stream($mcs).forEach(m -> $paramBots.add(m));
          }
 
-         public List<$parameter> $listOrBots() {
-            return $parameterBots;
+         public List<$param> $listOrBots() {
+            return $paramBots;
         }
 
          public Or copy(){
-             List<$parameter> cp = $parameterBots.stream().map(p-> p.copy()).collect(Collectors.toList());
-             Or or = new Or(cp.toArray(new $parameter[0]));
+             List<$param> cp = $paramBots.stream().map(p-> p.copy()).collect(Collectors.toList());
+             Or or = new Or(cp.toArray(new $param[0]));
              or.$and( this.predicate.and(t->true) );
              //I need to port over all of the common things
              or.annoRefs = this.annoRefs.copy();
@@ -190,12 +190,12 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
              return or;
          }
 
-         public Select<_parameter> select(_parameter _candidate){
+         public Select<_param> select(_param _candidate){
              Select commonSelect = super.select(_candidate);
              if(  commonSelect == null){
                  return null;
              }
-             $parameter $whichBot = whichMatch(_candidate);
+             $param $whichBot = whichMatch(_candidate);
              if( $whichBot == null ){
                  return null;
              }
@@ -213,8 +213,8 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
          * @param candidate
          * @return
          */
-        public $parameter whichMatch(_parameter candidate){
-            Optional<$parameter> orsel  = this.$parameterBots.stream().filter($p-> $p.matches( candidate ) ).findFirst();
+        public $param whichMatch(_param candidate){
+            Optional<$param> orsel  = this.$paramBots.stream().filter($p-> $p.matches( candidate ) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
@@ -232,27 +232,27 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         }
     }
 
-    public Predicate<_parameter> predicate = d -> true;
+    public Predicate<_param> predicate = d -> true;
 
-    public Select.$botSelect<$annoExprs, _parameter, _annoExprs> annoRefs =
-            Select.$botSelect.of(_parameter.class, _annoExprs.class, "annoRefs", p-> p.getAnnoRefs() );
+    public Select.$botSelect<$annoExprs, _param, _annoExprs> annoRefs =
+            Select.$botSelect.of(_param.class, _annoExprs.class, "annoRefs", p-> p.getAnnoExprs() );
 
-    public Select.$botSelect<$typeRef, _parameter, _typeRef> type =
-            Select.$botSelect.of(_parameter.class, _typeRef.class, "type", p-> p.getTypeRef() );
+    public Select.$botSelect<$typeRef, _param, _typeRef> type =
+            Select.$botSelect.of(_param.class, _typeRef.class, "type", p-> p.getTypeRef() );
 
-    public Select.$botSelect<$name, _parameter, _name> name =
-            Select.$botSelect.of(_parameter.class, _name.class, "name", p-> _name.of(p.getName()));
+    public Select.$botSelect<$name, _param, _name> name =
+            Select.$botSelect.of(_param.class, _name.class, "name", p-> _name.of(p.getName()));
 
-    public Select.$BooleanSelect<_parameter> isFinal =
-            new Select.$BooleanSelect( _parameter.class,"isFinal", p-> ((_parameter)p).isFinal());
+    public Select.$BooleanSelect<_param> isFinal =
+            new Select.$BooleanSelect( _param.class,"isFinal", p-> ((_param)p).isFinal());
 
-    public Select.$BooleanSelect<_parameter> isVarArg =
-            new Select.$BooleanSelect( _parameter.class,"isVarArg", p->((_parameter)p).isVarArg());
+    public Select.$BooleanSelect<_param> isVarArg =
+            new Select.$BooleanSelect( _param.class,"isVarArg", p->((_param)p).isVarArg());
 
-    public $parameter() { }
+    public $param() { }
 
-    public $parameter(_parameter _p){
-        if( _p.hasAnnoRefs() ) {
+    public $param(_param _p){
+        if( _p.hasAnnoExprs() ) {
             annoRefs.setBot( $annoExprs.of(_p.ast()) );
         }
         name.setBot( $name.of(_p.getName()) );
@@ -270,8 +270,8 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
      * Build and return a new independent mutable copy of this $bot
      * @return
      */
-    public $parameter copy(){
-        $parameter $p = of().$and( this.predicate.and(t->true) );
+    public $param copy(){
+        $param $p = of().$and( this.predicate.and(t->true) );
         $p.annoRefs = this.annoRefs.copy();
         $p.name = this.name.copy();
         $p.type = this.type.copy();
@@ -282,27 +282,27 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     @Override
-    public $parameter $hardcode(Translator translator, Tokens kvs) {
+    public $param $hardcode(Translator translator, Tokens kvs) {
         $forFeatureSelectors($ms -> $ms.$hardcode(translator, kvs));
         return this;
     }
 
-    public Predicate<_parameter> getPredicate(){
+    public Predicate<_param> getPredicate(){
         return this.predicate;
     }
 
-    public $parameter setPredicate(Predicate<_parameter> predicate){
+    public $param setPredicate(Predicate<_param> predicate){
         this.predicate = predicate;
         return this;
     }
 
-    public $parameter $forFeatureSelectors(Consumer<Select.$feature<_parameter, ?>> featureSelectorAction){
+    public $param $forFeatureSelectors(Consumer<Select.$feature<_param, ?>> featureSelectorAction){
         $listFeatureSelectors().stream().forEach($ms -> featureSelectorAction.accept($ms));
         return this;
     }
 
-    public List<Select.$feature<_parameter, ?>> $listFeatureSelectors(){
-        List<Select.$feature<_parameter, ?>> mss = new ArrayList<>();
+    public List<Select.$feature<_param, ?>> $listFeatureSelectors(){
+        List<Select.$feature<_param, ?>> mss = new ArrayList<>();
         mss.add(this.annoRefs);
         mss.add(this.isFinal);
         mss.add(this.type);
@@ -324,29 +324,29 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return false;
     }
 
-    public Select<_parameter> select(String... code) {
+    public Select<_param> select(String... code) {
         try {
-            return select(_parameter.of(Text.combine(code)));
+            return select(_param.of(Text.combine(code)));
         } catch (Exception e) {
             return null;
         }
     }
 
-    public Select<_parameter> select(Node n) {
+    public Select<_param> select(Node n) {
         if (n instanceof Parameter) {
-            return select(_parameter.of((Parameter) n));
+            return select(_param.of((Parameter) n));
         }
         return null;
     }
 
-    public Select<_parameter> select(_java._domain _n) {
-        if (_n instanceof _parameter) {
-            return select((_parameter) _n);
+    public Select<_param> select(_java._domain _n) {
+        if (_n instanceof _param) {
+            return select((_param) _n);
         }
         return null;
     }
 
-    public Select<_parameter> select(_parameter _p){
+    public Select<_param> select(_param _p){
         try{
             if( this.predicate.test(_p)) {
                 //Tokens ts = Select.tokensFrom(_p, this.$listFeatureSelectors().toArray(new Function[0]));
@@ -362,9 +362,9 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return null;
     }
 
-    public _parameter draft(Translator tr, Map<String,Object> keyValues){
-        _parameter _p = _parameter.of();
-        _p.setAnnoRefs( this.annoRefs.draft(tr, keyValues) );
+    public _param draft(Translator tr, Map<String,Object> keyValues){
+        _param _p = _param.of();
+        _p.setAnnoExprs( this.annoRefs.draft(tr, keyValues) );
         _p.setName(this.name.draft(tr, keyValues).name.toString());
         _p.setTypeRef(this.type.draft(tr, keyValues));
         if( this.isFinal.getExpected() ){
@@ -377,7 +377,7 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
     }
 
     @Override
-    public $parameter $(String target, String $Name) {
+    public $param $(String target, String $Name) {
         $forFeatureSelectors($ms -> $ms.$(target, $Name) );
         return this;
     }
@@ -396,27 +396,27 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
-    public $parameter $annoRefs(){
+    public $param $annoRefs(){
         this.annoRefs.setBot(null);
         return this;
     }
 
-    public $parameter $annoRefs($annoExprs $arfs){
+    public $param $annoRefs($annoExprs $arfs){
         this.annoRefs.setBot($arfs);
         return this;
     }
 
-    public $parameter $annoRefs( $annoExpr...$ars){
+    public $param $annoRefs($annoExpr...$ars){
         this.annoRefs.setBot( $annoExprs.of($ars));
         return this;
     }
 
-    public $parameter $typeRef(){
+    public $param $typeRef(){
         this.type.setBot( $typeRef.of());
         return this;
     }
 
-    public $parameter $typeRef(Predicate<_typeRef> predicate){
+    public $param $typeRef(Predicate<_typeRef> predicate){
         if( this.type.getBot() == null ){
             this.type.setBot( $typeRef.of().$and(predicate));
         } else{
@@ -426,33 +426,33 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return this;
     }
 
-    public $parameter $typeRef(_typeRef _tr){
+    public $param $typeRef(_typeRef _tr){
         return $typeRef( $typeRef.of(_tr));
     }
 
-    public $parameter $typeRef($typeRef $as){
+    public $param $typeRef($typeRef $as){
         this.type.setBot( $as );
         return this;
     }
 
-    public $parameter $typeRef(String ts){
+    public $param $typeRef(String ts){
         return $typeRef($typeRef.of(ts));
     }
 
-    public $parameter $typeRef(Class clazz){
+    public $param $typeRef(Class clazz){
         return $typeRef($typeRef.of(clazz));
     }
 
-    public $parameter $typeRef(String... ts){
+    public $param $typeRef(String... ts){
         return $typeRef($typeRef.of(Text.combine( ts)));
     }
 
-    public $parameter $name(){
+    public $param $name(){
         this.name.setBot($name.of());
         return this;
     }
 
-    public $parameter $name(Predicate<String> matchFn){
+    public $param $name(Predicate<String> matchFn){
         $name $n = ($name)this.name.getBot();
         if( $n == null ){
             $n = $name.of();
@@ -462,12 +462,12 @@ public class $parameter implements $bot.$node<Parameter, _parameter, $parameter>
         return this;
     }
 
-    public $parameter $name(String name){
+    public $param $name(String name){
         this.name.setBot( $name.of(name) );
         return this;
     }
 
-    public $parameter $name($name $n){
+    public $param $name($name $n){
         this.name.setBot( $n );
         return this;
     }

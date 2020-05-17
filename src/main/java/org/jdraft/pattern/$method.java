@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annoExprs;
-import org.jdraft._parameters;
-import org.jdraft._typeParameters;
+import org.jdraft._params;
+import org.jdraft._typeParams;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 import org.jdraft.text.*;
@@ -205,22 +205,22 @@ public class $method
         if( _m.hasJavadoc() ){
             $m.javadoc = $comment.javadocComment(_m.getJavadoc());
         }
-        if( _m.hasAnnoRefs() ){
-            $m.annos = $annoRefs.as(_m.getAnnoRefs() );
+        if( _m.hasAnnoExprs() ){
+            $m.annos = $annoRefs.as(_m.getAnnoExprs() );
         } else{
             $m.annos = $annoRefs.none();
         }
         $m.modifiers = $modifiers.as(_m );
         $m.type = $typeRef.as(_m.getTypeRef());
-        if( !_m.hasTypeParameters() ){
-            final _typeParameters etps = _m.getTypeParameters();
+        if( !_m.hasTypeParams() ){
+            final _typeParams etps = _m.getTypeParams();
             $m.typeParameters = $typeParameters.as(etps);
         } else{
             $m.typeParameters = $typeParameters.none();
         }
         $m.name = $name.as(_m.getName() );
-        if( _m.hasParameters() ){
-            $m.parameters = $parameters.as(_m.getParameters());
+        if( _m.hasParams() ){
+            $m.parameters = $parameters.as(_m.getParams());
         } else{
             $m.parameters = $parameters.none();
         }
@@ -369,18 +369,18 @@ public class $method
         if( _m.hasJavadoc() ){
             javadoc = $comment.javadocComment(_m.getJavadoc() );
         }        
-        if( _m.hasAnnoRefs() ){
-            annos = $annoRefs.of(_m.getAnnoRefs() );
+        if( _m.hasAnnoExprs() ){
+            annos = $annoRefs.of(_m.getAnnoExprs() );
         }
         modifiers = $modifiers.of(_m);
         type = $typeRef.of(_m.getTypeRef() );
-        if( !_m.hasTypeParameters() ){
-            final _typeParameters etps = _m.getTypeParameters();
+        if( !_m.hasTypeParams() ){
+            final _typeParams etps = _m.getTypeParams();
             typeParameters = $typeParameters.of( etps );           
         }
         name = $name.of(_m.getName());
-        if( _m.hasParameters() ){
-            parameters = $parameters.of(_m.getParameters());
+        if( _m.hasParams() ){
+            parameters = $parameters.of(_m.getParams());
         }        
         thrown = $throws.of(_m.getThrows());
         body = $body.of( _m.ast() );
@@ -460,7 +460,7 @@ public class $method
             }
             else if( parts[i] instanceof $parameters ){
                 final $parameters $fa = (($parameters)parts[i]);
-                Predicate<_method> pf = f-> $fa.matches(f.getParameters());
+                Predicate<_method> pf = f-> $fa.matches(f.getParams());
                 $and( pf  );
             }
             else if( parts[i] instanceof $parameter ){
@@ -470,7 +470,7 @@ public class $method
             }
             else if( parts[i] instanceof $typeParameters ){
                 final $typeParameters $fa = (($typeParameters)parts[i]);
-                Predicate<_method> pf = f-> $fa.matches(f.getTypeParameters());
+                Predicate<_method> pf = f-> $fa.matches(f.getTypeParams());
                 $and( pf  );
             }
             else if( parts[i] instanceof $typeParameter ){
@@ -546,7 +546,7 @@ public class $method
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_method> pf = f-> f.getAnnoRefs().get(a -> $fa.matches(a) ) != null;
+                Predicate<_method> pf = f-> f.getAnnoExprs().get(a -> $fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -556,7 +556,7 @@ public class $method
             }
             else if( parts[i] instanceof $parameters ){
                 final $parameters $fa = (($parameters)parts[i]);
-                Predicate<_method> pf = f-> $fa.matches(f.getParameters());
+                Predicate<_method> pf = f-> $fa.matches(f.getParams());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $parameter ){
@@ -566,7 +566,7 @@ public class $method
             }
             else if( parts[i] instanceof $typeParameters ){
                 final $typeParameters $fa = (($typeParameters)parts[i]);
-                Predicate<_method> pf = f-> $fa.matches(f.getTypeParameters());
+                Predicate<_method> pf = f-> $fa.matches(f.getTypeParams());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameter ){
@@ -686,7 +686,7 @@ public class $method
         return this;
     }
     
-    public $method $parameters( Predicate<_parameters> constraint){
+    public $method $parameters( Predicate<_params> constraint){
         this.parameters.$and( constraint);
         return this;
     }
@@ -812,7 +812,7 @@ public class $method
         return this;
     }
     
-    public $method $typeParameters(Predicate<_typeParameters> constraint){
+    public $method $typeParameters(Predicate<_typeParams> constraint){
         this.typeParameters.$and(constraint);
         return this;
     }
@@ -1038,11 +1038,11 @@ public class $method
                 return null;
             }
         }
-        all = annos.parseTo(_m.getAnnoRefs(), all);
-        all = typeParameters.parseTo(_m.getTypeParameters(), all);
+        all = annos.parseTo(_m.getAnnoExprs(), all);
+        all = typeParameters.parseTo(_m.getTypeParams(), all);
         all = type.parseTo(_m.getTypeRef(), all);
         all = name.parseTo(_m.getName(), all);
-        all = parameters.parseTo(_m.getParameters(), all);
+        all = parameters.parseTo(_m.getParams(), all);
         all = thrown.parseTo(_m.getThrows(), all);
         all = body.parseTo(_m.getBody(), all);
         if( all != null ){
@@ -1647,7 +1647,7 @@ public class $method
         }
         
         public boolean hasParameters(){            
-            return _m.hasParameters();
+            return _m.hasParams();
         }
         
         public boolean is(String...methodDeclaration){
@@ -1655,7 +1655,7 @@ public class $method
         }
         
         public boolean hasTypeParameters(){            
-            return _m.hasTypeParameters();
+            return _m.hasTypeParams();
         }
     }
 }

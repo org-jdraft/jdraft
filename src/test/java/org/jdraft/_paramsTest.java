@@ -9,15 +9,15 @@ import java.util.List;
  *
  * @author Eric
  */
-public class _parametersTest extends TestCase {
+public class _paramsTest extends TestCase {
 
     public void testNewApiEmpty(){
-        _parameters _ts = _parameters.of();
+        _params _ts = _params.of();
         assertEquals(_ts, _ts.copy());
         assertEquals(_ts.hashCode(), _ts.copy().hashCode());
 
         assertTrue(_ts.is(""));
-        assertFalse(_ts.has(_parameter.of("int i")));
+        assertFalse(_ts.has(_param.of("int i")));
         assertTrue(_ts.is( new ArrayList<>()));
         assertTrue(_ts.isEmpty());
         assertEquals(0, _ts.size());
@@ -28,40 +28,40 @@ public class _parametersTest extends TestCase {
     }
 
     public void testFromScratch(){
-        _parameters _ps = _parameters.of();
+        _params _ps = _params.of();
         assertTrue( _ps.isEmpty());
         _ps.add("int a");
         assertFalse( _ps.isEmpty());
 
     }
     public void testNames(){
-        _parameters _ps = _parameters.of( (Object a, Object b)->{} );
+        _params _ps = _params.of( (Object a, Object b)->{} );
         List<String> names = _ps.names();
         assertEquals( "a", names.get(0) );
         assertEquals( "b", names.get(1) );
     }
 
     public void testRemove(){
-        _parameters _ps = _parameters.of( "int a", "String name", "Map m");
+        _params _ps = _params.of( "int a", "String name", "Map m");
         _ps.remove( p-> p.isTypeRef(int.class));
 
         System.out.println( _ps );
     }
     public void testP(){
-        _parameters _ps = _parameters.of("int a, String b");
+        _params _ps = _params.of("int a, String b");
         assertEquals( 2, _ps.size() );
-        assertEquals( _parameter.of( "int a" ), _ps.getAt( 0 ) );
-        assertEquals( _parameter.of( "String b" ), _ps.getAt( 1 ) );
+        assertEquals( _param.of( "int a" ), _ps.getAt( 0 ) );
+        assertEquals( _param.of( "String b" ), _ps.getAt( 1 ) );
         assertTrue( _ps.is("int  a", "String  b" ));
     }
     
     public void testFullThing(){
-        _parameters _ps = _parameters.of( "final List<String,Integer>vals, @ann(key=1,VALUE=2) @ann2(key2=1,value2=1)Object...vargs");
+        _params _ps = _params.of( "final List<String,Integer>vals, @ann(key=1,VALUE=2) @ann2(key2=1,value2=1)Object...vargs");
         assertEquals(2, _ps.size());
-        assertEquals( _parameter.of("final List<String,Integer>vals"), _ps.getAt( 0));
+        assertEquals( _param.of("final List<String,Integer>vals"), _ps.getAt( 0));
         //verify that with annotation ELEMENTS out of order, and ANNOTATIONS out of order, I can STILL
         // understand that the two are equivalent
-        assertEquals( _parameter.of("@ann2(value2=1,key2=1) @ann(VALUE=2,key=1)Object... vargs"), _ps.getAt( 1));
+        assertEquals( _param.of("@ann2(value2=1,key2=1) @ann(VALUE=2,key=1)Object... vargs"), _ps.getAt( 1));
     }
 
 
@@ -85,7 +85,7 @@ public class _parametersTest extends TestCase {
     }
 
     public void testParamsCopy(){
-        _parameters _ps = _parameters.of();
+        _params _ps = _params.of();
         _ps.add("int x");
         _ps.add("int y");
 
@@ -93,52 +93,52 @@ public class _parametersTest extends TestCase {
     }
 
     public void testEqualsOrderDoesntMatter(){
-        _parameters _ps1 = _parameters.of();
-        _parameters _ps2 = _parameters.of();
+        _params _ps1 = _params.of();
+        _params _ps2 = _params.of();
         assertEquals( _ps1, _ps2);
 
-        assertEquals( _parameters.of("int a"), _parameters.of("int a") );
-        assertEquals( _parameters.of("final int a"), _parameters.of("final int a") );
+        assertEquals( _params.of("int a"), _params.of("int a") );
+        assertEquals( _params.of("final int a"), _params.of("final int a") );
 
-        assertEquals( _parameters.of("int a,String[] b"), _parameters.of("int a,String[] b") );
+        assertEquals( _params.of("int a,String[] b"), _params.of("int a,String[] b") );
 
-        assertEquals( _parameters.of("final @ann1 @ann2 Map<Integer,String>a"), _parameters.of("final @ann1 @ann2 Map<Integer,String>a") );
+        assertEquals( _params.of("final @ann1 @ann2 Map<Integer,String>a"), _params.of("final @ann1 @ann2 Map<Integer,String>a") );
 
-        _ps1 = _parameters.of("final @ann1 @ann2 Map<Integer,String>a");
-        _ps2 = _parameters.of("final @ann1 @ann2 Map<Integer,String>a");
+        _ps1 = _params.of("final @ann1 @ann2 Map<Integer,String>a");
+        _ps2 = _params.of("final @ann1 @ann2 Map<Integer,String>a");
 
-        _parameters _p1 = _parameters.of("final @ann1 @ann2 Map<Integer,String>a");
-        _parameters _p2 = _parameters.of("final @ann1 @ann2 Map<Integer,String>a");
+        _params _p1 = _params.of("final @ann1 @ann2 Map<Integer,String>a");
+        _params _p2 = _params.of("final @ann1 @ann2 Map<Integer,String>a");
 
         assertEquals(_p1,_p2);
-        _p2 = _parameters.of("final @ann2 @ann1 Map<Integer,String>a");
+        _p2 = _params.of("final @ann2 @ann1 Map<Integer,String>a");
 
         assertEquals(_p1,_p2);
 
         assertTrue( _ps1.equals( _ps2 ) );
 
         assertEquals(
-                _parameters.of("final @ann1 @ann2 Map<Integer,String>a"),
-                _parameters.of("final @ann2 @ann1 Map<Integer,String>a") );
+                _params.of("final @ann1 @ann2 Map<Integer,String>a"),
+                _params.of("final @ann2 @ann1 Map<Integer,String>a") );
 
     }
 
     public void testConstruct() {
-        _parameter _pa = _parameter.of( "String NAME" );
+        _param _pa = _param.of( "String NAME" );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
         //_p = _param.of( String.class, "NAME" );
         //assertEquals( "java.lang.String", _param.getType() );
         //assertEquals( "NAME", _param.getName() );
-        _pa = _parameter.of( "@ann String NAME" );
-        assertEquals( "@ann", _pa.getAnnoRefs().toString().trim() );
+        _pa = _param.of( "@ann String NAME" );
+        assertEquals( "@ann", _pa.getAnnoExprs().toString().trim() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
-        _pa = _parameter.of( "@ann1 @ann2 String NAME" );
-        assertEquals( "@ann1", _pa.getAnnoRefs().getAt( 0 ).toString() );
-        assertEquals( "@ann2", _pa.getAnnoRefs().getAt( 1 ).toString() );
+        _pa = _param.of( "@ann1 @ann2 String NAME" );
+        assertEquals( "@ann1", _pa.getAnnoExprs().getAt( 0 ).toString() );
+        assertEquals( "@ann2", _pa.getAnnoExprs().getAt( 1 ).toString() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
@@ -154,22 +154,22 @@ public class _parametersTest extends TestCase {
         assertEquals( "String", _param.getType() );
         assertEquals( "NAME", _param.getName() );
          */
-        _pa = _parameter.of( "final String NAME" );
-        assertEquals( "", _pa.getAnnoRefs().toString() );
+        _pa = _param.of( "final String NAME" );
+        assertEquals( "", _pa.getAnnoExprs().toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
-        _pa = _parameter.of( "final String... NAME" );
-        assertEquals( "", _pa.getAnnoRefs().toString() );
+        _pa = _param.of( "final String... NAME" );
+        assertEquals( "", _pa.getAnnoExprs().toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( true, _pa.isVarArg() );
         assertEquals( "String", _pa.getTypeRef().toString() );
         assertEquals( "NAME", _pa.getName().toString() );
 
-        _pa = _parameter.of( "@ann1 @ann2 final Map<Integer,String>... countToName" );
-        assertEquals( "@ann1", _pa.getAnnoRefs().getAt( 0 ).toString() );
-        assertEquals( "@ann2", _pa.getAnnoRefs().getAt( 1 ).toString() );
+        _pa = _param.of( "@ann1 @ann2 final Map<Integer,String>... countToName" );
+        assertEquals( "@ann1", _pa.getAnnoExprs().getAt( 0 ).toString() );
+        assertEquals( "@ann2", _pa.getAnnoExprs().getAt( 1 ).toString() );
         assertEquals( true, _pa.isFinal() );
         assertEquals( true, _pa.isVarArg() );
         assertEquals( "Map<Integer, String>", _pa.getTypeRef().toString() );
@@ -182,10 +182,10 @@ public class _parametersTest extends TestCase {
     }
 
     public void testParamsOf(){
-        _parameters _ps =
-                _parameters.of( "@ann final Map<? extends Integer, String>compose, String... names" );
+        _params _ps =
+                _params.of( "@ann final Map<? extends Integer, String>compose, String... names" );
         assertEquals( _ps.size(), 2);
-        assertNotNull( _ps.getAt( 0 ).getAnnoRefs().get("ann"));
+        assertNotNull( _ps.getAt( 0 ).getAnnoExprs().get("ann"));
         assertTrue( _ps.getAt( 0 ).isFinal() );
         assertEquals(
                 _ps.getAt(0).getTypeRef(),

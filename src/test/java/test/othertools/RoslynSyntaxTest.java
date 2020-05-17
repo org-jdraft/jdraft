@@ -43,7 +43,7 @@ public class RoslynSyntaxTest extends TestCase {
         //get the _method
         _method _main = _c.getMethod("main");
 
-        _parameter _p = _main.getParameter(0);
+        _param _p = _main.getParam(0);
     }
 
     /**
@@ -64,13 +64,13 @@ public class RoslynSyntaxTest extends TestCase {
         _class _c = _class.of(HelloWorld.class);
 
         //traditional (direct) walk walk the first method for the first parameter
-        _c.getMethod(0).getParameter(0);
+        _c.getMethod(0).getParam(0);
         //find the main method and get the first parameter
-        _c.getMethod("main").getParameter(0);
+        _c.getMethod("main").getParam(0);
 
         //protoype walk
         //get the first method named "main" in the type and get it['s first parameter
-        $method.of($.name("main")).firstIn(HelloWorld.class).getParameter(0);
+        $method.of($.name("main")).firstIn(HelloWorld.class).getParam(0);
     }
 
     public void testSyntaxWalkers(){

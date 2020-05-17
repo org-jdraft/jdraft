@@ -81,7 +81,7 @@ public class $annotation
         List<Node>nots = new ArrayList<>();
 
         //remove _$not things
-        _a.forDeclared( d -> d.hasAnnoRef(_$not.class), d-> {
+        _a.forDeclared( d -> d.hasAnnoExpr(_$not.class), d-> {
             //System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -94,7 +94,7 @@ public class $annotation
         } );
 
         $c.$javadoc(_a.getJavadoc());
-        _a.forAnnoRefs(a-> $c.annos.add($annoRef.of(a)));
+        _a.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_a.getModifiers());
         $c.$name(_a.getSimpleName());
         _a.forEntries(e -> $c.$elements($annotationEntry.of(e)));
@@ -197,12 +197,12 @@ public class $annotation
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_annotation> pf = an-> an.getAnnoRef(a ->$fa.match(a) ) != null;
+                Predicate<_annotation> pf = an-> an.getAnnoExpr(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_annotation> pf = an-> $fa.matches(an.getAnnoRefs());
+                Predicate<_annotation> pf = an-> $fa.matches(an.getAnnoExprs());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {

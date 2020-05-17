@@ -1536,7 +1536,7 @@ public enum Tree {
      *
      * NOTE: this ALSO works with {@link _java} interfaces like
      * {@link _java}, {@link _method._withMethods}
-     * {@link _parameters._withParameters} etc.
+     * {@link _params._withParams} etc.
      *
      * @param tt the traversal TYPE
      * @param astRootNode the root AST node
@@ -1560,7 +1560,7 @@ public enum Tree {
      *
      * NOTE: this ALSO works with {@link _java} interfaces like
      * {@link _java}, {@link _method._withMethods}
-     * {@link _parameters._withParameters} etc.
+     * {@link _params._withParams} etc.
      *
      * @param tt the traversal TYPE
      * @param levels the number of levels (walking up (through parents) or down (through children)) to limit the walk
@@ -2574,8 +2574,8 @@ public enum Tree {
             return ans.get();
         }
         //need to handle _typeParameters, _parameters, _annos
-        if( _j instanceof _typeParameters ){
-            _typeParameters _tps = (_typeParameters)_j;
+        if( _j instanceof _typeParams){
+            _typeParams _tps = (_typeParams)_j;
             _java._multiPart _n = (_java._multiPart)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
@@ -2587,8 +2587,8 @@ public enum Tree {
                 return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
             }
         }
-        if( _j instanceof _parameters){
-            _parameters _tps = (_parameters)_j;
+        if( _j instanceof _params){
+            _params _tps = (_params)_j;
             _java._multiPart _n = (_java._multiPart)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }

@@ -5,7 +5,7 @@
  */
 package org.jdraft.pattern;
 
-import org.jdraft._parameter;
+import org.jdraft._param;
 import junit.framework.TestCase;
 
 /**
@@ -23,7 +23,7 @@ public class SparameterTest extends TestCase {
         assertTrue($p.matches("@Ann final A<B> a")); //anno final generic
         assertTrue($p.matches("@Ann final A<B>... a")); //anno final generic, vararg
 
-        _parameter _pp = _parameter.of("final A a");
+        _param _pp = _param.of("final A a");
         assertTrue( _pp.isFinal());
 
         $p = $parameter.as("A a");
@@ -52,7 +52,7 @@ public class SparameterTest extends TestCase {
 
     public void testCompose(){
         $parameter $p = $parameter.of("int i");        
-        _parameter _p = _parameter.of("int i");
+        _param _p = _param.of("int i");
         
         assertEquals( _p, $p.draft() );
         
@@ -62,22 +62,22 @@ public class SparameterTest extends TestCase {
         
         $p = $parameter.of("final String... nm");
         
-        assertEquals( _parameter.of("final String... nm"), $p.draft());
+        assertEquals( _param.of("final String... nm"), $p.draft());
         
         //verify they MUST be both vararg and final
-        assertNotSame( _parameter.of("String... nm"), $p.draft());
-        assertNotSame( _parameter.of("final String nm"), $p.draft());
+        assertNotSame( _param.of("String... nm"), $p.draft());
+        assertNotSame( _param.of("final String nm"), $p.draft());
         
         $p = $parameter.of("$type$ name");
         
-        assertEquals(_parameter.of(" String name"), $p.draft("type", String.class));
+        assertEquals(_param.of(" String name"), $p.draft("type", String.class));
         
         //make sure if I have (one or more) annos they are composed 
         $p = $parameter.of("@A int i");        
-        assertEquals(_parameter.of("@A int i"), $p.draft());
+        assertEquals(_param.of("@A int i"), $p.draft());
         
         $p = $parameter.of("@A @B @C final int... i");
-        assertEquals(_parameter.of("@A @B @C final int... i"), $p.draft());
+        assertEquals(_param.of("@A @B @C final int... i"), $p.draft());
         
     }
     

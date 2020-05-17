@@ -27,7 +27,7 @@ public class _newExprTest extends TestCase {
         System.out.println(_n);
         _n.setTypeRef("Thingy");
         System.out.println(_n);
-        _n.setArguments(_intExpr.of(1) );
+        _n.setArgs(_intExpr.of(1) );
         System.out.println( _n );
 
         _n.addTypeArguments(Types.of("A"));
@@ -35,8 +35,8 @@ public class _newExprTest extends TestCase {
         _n.removeTypeArguments(Types.of("A"));
         System.out.println( _n );
 
-        _n.addArguments(_intExpr.of(3));
-        assertEquals(2, _n.countArguments());
+        _n.addArgs(_intExpr.of(3));
+        assertEquals(2, _n.countArgs());
         _newExpr.of(Integer.class);
 
         _n = _newExpr.of("new List()");
@@ -87,30 +87,30 @@ public class _newExprTest extends TestCase {
         }
 
         _newExpr _n = _newExpr.of( ()-> new A(1,2,3,4,5) );
-        assertTrue(_n.hasArguments());
-        assertEquals( 5, _n.countArguments() );
-        assertTrue(_n.isArgument(0, _intExpr.of(1)));
-        assertTrue(_n.isArgument(1, _intExpr.of(2)));
-        assertTrue(_n.isArgument(2, _intExpr.of(3)));
-        assertTrue(_n.isArgument(3, _intExpr.of(4)));
-        assertTrue(_n.isArgument(4, _intExpr.of(5)));
+        assertTrue(_n.hasArgs());
+        assertEquals( 5, _n.countArgs() );
+        assertTrue(_n.isArg(0, _intExpr.of(1)));
+        assertTrue(_n.isArg(1, _intExpr.of(2)));
+        assertTrue(_n.isArg(2, _intExpr.of(3)));
+        assertTrue(_n.isArg(3, _intExpr.of(4)));
+        assertTrue(_n.isArg(4, _intExpr.of(5)));
 
-        assertEquals( 5, _n.listArguments().size());
-        assertEquals( _intExpr.of(1), _n.getArgument(0));
-        assertEquals( _intExpr.of(2), _n.getArgument(1));
-        assertEquals( _intExpr.of(3), _n.getArgument(2));
-        assertEquals( _intExpr.of(4), _n.getArgument(3));
-        assertEquals( _intExpr.of(5), _n.getArgument(4));
+        assertEquals( 5, _n.listArgs().size());
+        assertEquals( _intExpr.of(1), _n.getArg(0));
+        assertEquals( _intExpr.of(2), _n.getArg(1));
+        assertEquals( _intExpr.of(3), _n.getArg(2));
+        assertEquals( _intExpr.of(4), _n.getArg(3));
+        assertEquals( _intExpr.of(5), _n.getArg(4));
         AtomicInteger ai = new AtomicInteger(0);
-        _n.forArguments(a -> ai.incrementAndGet());
+        _n.forArgs(a -> ai.incrementAndGet());
         assertEquals(5, ai.get());
         ai.set(0);
-        _n.forArguments(e-> e instanceof _intExpr && ((_intExpr)e).getValue() < 3, e-> ai.incrementAndGet());
+        _n.forArgs(e-> e instanceof _intExpr && ((_intExpr)e).getValue() < 3, e-> ai.incrementAndGet());
         assertEquals(2, ai.get());
 
-        _n.addArguments(_intExpr.of(6));
-        assertEquals(6, _n.countArguments());
-        assertEquals( _intExpr.of(6), _n.getArgument(5));
+        _n.addArgs(_intExpr.of(6));
+        assertEquals(6, _n.countArgs());
+        assertEquals( _intExpr.of(6), _n.getArg(5));
     }
 
     public void testFull(){
@@ -131,7 +131,7 @@ public class _newExprTest extends TestCase {
         });
         System.out.println( _n.getScope() );
         System.out.println( _n.getTypeRef() );
-        System.out.println( _n.listArguments() );
+        System.out.println( _n.listArgs() );
         //assertEquals(2, _n.listTypeArguments().size() );
     }
 }

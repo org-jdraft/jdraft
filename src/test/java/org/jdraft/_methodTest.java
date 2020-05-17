@@ -160,7 +160,7 @@ public class _methodTest extends TestCase {
         
         assertTrue( _m.isAbstract() ); //modifier is set
         assertTrue( !_m.ast().getBody().isPresent()); //body is removed
-        assertTrue( !_m.hasAnnoRef(_abstract.class)); //no annotation left
+        assertTrue( !_m.hasAnnoExpr(_abstract.class)); //no annotation left
     }
     
     interface I{
@@ -323,7 +323,7 @@ public class _methodTest extends TestCase {
             }
         });
         assertTrue( _m.isStatic() );
-        assertTrue( _m.hasAnnoRef(annot.class));
+        assertTrue( _m.hasAnnoExpr(annot.class));
         assertTrue( _m.hasJavadoc( ));
         
         //_m = _method.of("/** Javadoc */ @annot public static void main",
@@ -349,10 +349,10 @@ public class _methodTest extends TestCase {
 
     public void testM2(){
         _method _m = _method.of("void a(){}");
-        assertTrue( _m.getAnnoRefs().isEmpty() );
+        assertTrue( _m.getAnnoExprs().isEmpty() );
         assertEquals( _m.getName(), "a" );
 
-        assertTrue( _m.getParameters().isEmpty() );
+        assertTrue( _m.getParams().isEmpty() );
         assertFalse( _m.isVarArg() );
     }
 
@@ -552,7 +552,7 @@ public class _methodTest extends TestCase {
         assertEquals( "a", _m.getName() );
         assertTrue( _m.isVoid() );
         assertFalse( _m.isVarArg() );
-        assertTrue( _m.getParameters().isEmpty() );
+        assertTrue( _m.getParams().isEmpty() );
         assertTrue( _m.getTypeRef().isVoid());
     }
 
@@ -580,20 +580,20 @@ public class _methodTest extends TestCase {
         assertTrue( _m.hasJavadoc() );
         assertEquals( "blah", _m.getJavadoc().getText() );
 
-        assertEquals( 1, _m.getAnnoRefs().list( "p" ).size());
+        assertEquals( 1, _m.getAnnoExprs().list( "p" ).size());
         assertEquals( "int", _m.getTypeRef().toString() );
 
         assertTrue( _m.getModifiers().isPublic() );
         assertEquals( "getM", _m.getName() );
 
-        _parameter _pa = _m.getParameters().getAt( 0 );
+        _param _pa = _m.getParams().getAt( 0 );
         assertEquals( _pa.getTypeRef().toString(), "int" );
         assertEquals( _pa.getName().toString(), "a" );
     }
 
     public void testMatch(){
         //Predicate<_method> mm = m-> !m.isAbstract() && m.isStatic() && m.hasAnno(ann.class);
-        Predicate<_method> mm = (_method m) -> !m.isAbstract() && m.isStatic() && m.hasAnnoRef(ann.class);
+        Predicate<_method> mm = (_method m) -> !m.isAbstract() && m.isStatic() && m.hasAnnoExpr(ann.class);
         assertTrue( mm.test( _method.of("@ann", "public static void doIt(){}")));
 
 
@@ -626,9 +626,9 @@ public class _methodTest extends TestCase {
         _method _m = _method.of("void m();");
         assertFalse( _m.hasBody());
         assertFalse( _m.hasJavadoc());
-        assertFalse( _m.hasParameters());
-        assertFalse( _m.hasTypeParameters());
-        assertFalse( _m.hasAnnoRefs());
+        assertFalse( _m.hasParams());
+        assertFalse( _m.hasTypeParams());
+        assertFalse( _m.hasAnnoExprs());
         
         _m.getThrows().add( IOException.class );
         System.out.println( _m );
@@ -664,32 +664,32 @@ public class _methodTest extends TestCase {
             "}" );       
         assertTrue(_m.hasJavadoc() );
         assertTrue( _m.getJavadoc().getText().contains("JAVADOC"));
-        assertTrue(_m.hasAnnoRefs());
-        assertTrue(_m.hasAnnoRef( "ann"));
-        assertTrue(_m.hasAnnoRef( ann.class));
-        assertTrue(_m.hasAnnoRef( ann2.class));
-        assertTrue(_m.getAnnoRefs().getAt( 0 ).is( "@ann") );
-        assertTrue(_m.getAnnoRefs().getAt( 1 ).is( "@ann2(key=7,VALUE='r')") );
+        assertTrue(_m.hasAnnoExprs());
+        assertTrue(_m.hasAnnoExpr( "ann"));
+        assertTrue(_m.hasAnnoExpr( ann.class));
+        assertTrue(_m.hasAnnoExpr( ann2.class));
+        assertTrue(_m.getAnnoExprs().getAt( 0 ).is( "@ann") );
+        assertTrue(_m.getAnnoExprs().getAt( 1 ).is( "@ann2(key=7,VALUE='r')") );
         
         assertTrue( _m.getModifiers().is("public static final"));
         assertTrue( _m.getModifiers().isPublic());
         assertTrue( _m.getModifiers().isStatic());
         assertTrue( _m.getModifiers().isFinal());
         
-        assertNotNull(_m.getTypeParameters());
-        assertTrue( _m.hasTypeParameters() );
-        assertNotNull(_m.getTypeParameters().is("<E extends element>"));
-        assertEquals(1, _m.getTypeParameters().size());
+        assertNotNull(_m.getTypeParams());
+        assertTrue( _m.hasTypeParams() );
+        assertNotNull(_m.getTypeParams().is("<E extends element>"));
+        assertEquals(1, _m.getTypeParams().size());
         
         assertTrue( _m.isTypeRef( "List<String>"));
         assertTrue( _m.isTypeRef( Types.of( "List<String>")) );
         
         assertEquals("aMethod", _m.getName());
-        assertTrue( _m.hasParameters() );
-        assertTrue( _m.getParameters().is( "@ann @ann2(key=1,VALUE='v')final int val, String...varArg") );
+        assertTrue( _m.hasParams() );
+        assertTrue( _m.getParams().is( "@ann @ann2(key=1,VALUE='v')final int val, String...varArg") );
         
         //verify we can rearrange the order of ANNOTATIONS and STILL be equal
-        assertTrue( _m.getParameters().is( "@ann2(VALUE='v',key=1) @ann final int val, String... varArg") );
+        assertTrue( _m.getParams().is( "@ann2(VALUE='v',key=1) @ann final int val, String... varArg") );
         
        
         assertTrue( _m.hasThrows() );
@@ -724,13 +724,13 @@ public class _methodTest extends TestCase {
      public void testFromScratch(){
         _method _m = _method.of( "void a();");
         _m.setJavadoc(" JAVADOC");
-        _m.addAnnoRefs( ann.class );
-        _m.addAnnoRefs( "@ann2(key=7,VALUE='r')");
+        _m.addAnnoExprs( ann.class );
+        _m.addAnnoExprs( "@ann2(key=7,VALUE='r')");
         _m.setPublic().setStatic().setFinal();
         _m.setTypeRef("List<String>");
         _m.setName("aMethod");
-        _m.typeParameters("<E extends element>");
-        _m.addParameters("@ann @ann2(key=1, VALUE='v')final int val",
+        _m.typeParams("<E extends element>");
+        _m.addParams("@ann @ann2(key=1, VALUE='v')final int val",
             "String...varArg");
         _m.addThrows("A", "B");
         _m.setBody("//comment", "System.out.println(1);", "return null;" );

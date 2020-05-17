@@ -53,7 +53,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     /** Remove the annotation from the AST Node (after completing the macro task, clean up and remove th annotation */
     public static <N extends Node> N removeAnnotation(N node, Class<? extends Annotation> annClass){
         if( node instanceof VariableDeclarator ){
-            _field.of( (VariableDeclarator)node).removeAnnoRefs(annClass);
+            _field.of( (VariableDeclarator)node).removeAnnoExprs(annClass);
         } else {
             _annoExprs.of((NodeWithAnnotations) node).remove(annClass);
         }
@@ -129,8 +129,8 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                         //if( mm.getParameterCount() > _m.getParameters().size()){
                         //    startIndex = 1;
                         //}
-                        for(int i=0;i<_m.getParameters().size(); i++){
-                            to( _m.getParameter(i).ast(), mm.getParameters()[i]);
+                        for(int i = 0; i<_m.getParams().size(); i++){
+                            to( _m.getParam(i).ast(), mm.getParameters()[i]);
                         }
                         to( (MethodDeclaration)m, om.get());
                     }
@@ -154,9 +154,9 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                         //    startIndex = 1;
                         //}
 
-                        for(int i=0;i<_ct.getParameters().size(); i++){
+                        for(int i = 0; i<_ct.getParams().size(); i++){
                             //System.out.println( "ON "+ ct.getParameters()[i] );
-                            to( _ct.getParameter(i).ast(), ct.getParameters()[i]);
+                            to( _ct.getParam(i).ast(), ct.getParameters()[i]);
                             //to( _ct.getParameter(i).ast(), ct.getAnnotatedParameterTypes()[i+startIndex]);
                         }
                         to((ConstructorDeclaration)c, ct);

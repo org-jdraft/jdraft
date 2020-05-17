@@ -13,12 +13,12 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _parameter
-    implements _java._withNameTypeRef<Parameter, _parameter>, _annoExprs._withAnnoExprs<_parameter>,
-        _modifiers._withFinal<_parameter>, _java._multiPart<Parameter, _parameter> {
+public final class _param
+    implements _java._withNameTypeRef<Parameter, _param>, _annoExprs._withAnnoExprs<_param>,
+        _modifiers._withFinal<_param>, _java._multiPart<Parameter, _param> {
 
-    public static _parameter from (StackTraceElement ste ){
-        _parameter _p = _lambdaExpr.from(ste).getParameter(0);
+    public static _param from (StackTraceElement ste ){
+        _param _p = _lambdaExpr.from(ste).getParam(0);
         _p.ast().remove();
         return of( _p.ast() );
     }
@@ -28,7 +28,7 @@ public final class _parameter
      * @param name
      * @return
      */
-    public static _parameter of( Class type, String name ) {
+    public static _param of(Class type, String name ) {
         return of( new Parameter( Types.of( type ), name ) );
     }
 
@@ -38,7 +38,7 @@ public final class _parameter
      * @param name
      * @return
      */
-    public static _parameter of( Type type, String name ) {
+    public static _param of(Type type, String name ) {
         return of( new Parameter( type, name ) );
     }
 
@@ -47,11 +47,11 @@ public final class _parameter
      * @param p
      * @return
      */
-    public static _parameter of( Parameter p ) {
-        return new _parameter( p );
+    public static _param of(Parameter p ) {
+        return new _param( p );
     }
 
-    public static _parameter of(){
+    public static _param of(){
         return of( new Parameter() );
     }
     /**
@@ -59,13 +59,13 @@ public final class _parameter
      * @param parameter
      * @return
      */
-    public static _parameter of( String parameter ) {
+    public static _param of(String parameter ) {
         return of( Ast.parameter( parameter ) );
     }
 
     private final Parameter astParameter;
 
-    public _parameter( Parameter p ) {
+    public _param(Parameter p ) {
         this.astParameter = p;
     }
 
@@ -75,14 +75,14 @@ public final class _parameter
     }
 
     @Override
-    public _parameter copy(){
+    public _param copy(){
         return of( this.astParameter.toString());
     }
 
     public SimpleName getNameNode() { return this.astParameter.getName(); }
 
     @Override
-    public _parameter setName(String name ) {
+    public _param setName(String name ) {
         this.astParameter.setName( name );
         return this;
     }
@@ -93,7 +93,7 @@ public final class _parameter
     }
 
     @Override
-    public _parameter setTypeRef(Type _tr ) {
+    public _param setTypeRef(Type _tr ) {
         this.astParameter.setType( _tr );
         return this;
     }
@@ -104,11 +104,11 @@ public final class _parameter
     }
 
     @Override
-    public _annoExprs getAnnoRefs() {
+    public _annoExprs getAnnoExprs() {
         return _annoExprs.of( this.astParameter );
     }
 
-    public _parameter setVarArg(boolean b ){
+    public _param setVarArg(boolean b ){
         this.astParameter.setVarArgs(b);
         return this;
     }
@@ -140,7 +140,7 @@ public final class _parameter
     @Override
     public boolean is( String... paramDecl ) {
         try {
-            return equals( _parameter.of( Text.combine( paramDecl ) ) );
+            return equals( _param.of( Text.combine( paramDecl ) ) );
         }
         catch( Exception e ) {
         }
@@ -150,7 +150,7 @@ public final class _parameter
     @Override
     public boolean is( Parameter astParam ){
         try {
-            return equals( _parameter.of( astParam ) );
+            return equals( _param.of( astParam ) );
         }
         catch( Exception e ) {
         }
@@ -215,7 +215,7 @@ public final class _parameter
         if( getClass() != obj.getClass() ) {
             return false;
         }
-        final _parameter other = (_parameter)obj;
+        final _param other = (_param)obj;
         if( !Objects.equals( this.astParameter.getName(), other.astParameter.getName() )){
             return false;
         }
@@ -240,7 +240,7 @@ public final class _parameter
     }
 
     @Override
-    public _parameter setFinal( boolean toSet ) {
+    public _param setFinal(boolean toSet ) {
         this.astParameter.setFinal( toSet );
         return this;
     }
@@ -249,7 +249,7 @@ public final class _parameter
     public Map<_java.Component, Object> components( ) {
         Map<_java.Component, Object> parts = new HashMap<>();
         parts.put( _java.Component.FINAL, isFinal() );
-        parts.put( _java.Component.ANNOS, getAnnoRefs() );
+        parts.put( _java.Component.ANNOS, getAnnoExprs() );
         parts.put( _java.Component.TYPE, getTypeRef() );
         parts.put( _java.Component.NAME, getName() );
         parts.put( _java.Component.VAR_ARG, isVarArg() );

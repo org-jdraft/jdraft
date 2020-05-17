@@ -34,7 +34,7 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         @_autoConstructor class B{ @_final int a; int b; }
 
         //Note: only final fields are required (so only a is in the parameters)
-        assertTrue(_class.of(B.class).getConstructor(0).getParameters().is("int a"));
+        assertTrue(_class.of(B.class).getConstructor(0).getParams().is("int a"));
 
         //@_autoConstructor also works for building an _enum constructor... (but the constructor is private)
         //_enum _ea = _enum.of( "aaaa.E", new @_autoConstructor Object(){
@@ -58,8 +58,8 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
 
         assertTrue(_d.getMethod("getX").isTypeRef(int.class));
         assertTrue(_d.getMethod("getY").isTypeRef(int.class));
-        assertTrue(_d.getMethod("setX").getParameters().is("int x"));
-        assertTrue(_d.getMethod("setY").getParameters().is("int y"));
+        assertTrue(_d.getMethod("setX").getParams().is("int x"));
+        assertTrue(_d.getMethod("setY").getParams().is("int y"));
         assertNotNull( _d.getMethod("equals"));
         assertNotNull( _d.getMethod("hashCode"));
         assertNotNull( _d.getMethod("toString"));
@@ -98,7 +98,7 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         assertTrue( _f.getField("a").isFinal());
         assertTrue( _f.getMethod("g").isFinal());
         System.out.println( _f );
-        assertTrue( _f.getMethod("h").getParameter(0).isFinal());
+        assertTrue( _f.getMethod("h").getParam(0).isFinal());
 
         //get works on classes (creates getter methods getX(), getY())
         @_get class G{ int x, y; }

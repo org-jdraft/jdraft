@@ -11,7 +11,7 @@ public class _setTest extends TestCase {
 
         }
         _class _c = _class.of(C.class);
-        assertTrue( _c.listAnnoRefs(_set.class).isEmpty());
+        assertTrue( _c.listAnnoExprs(_set.class).isEmpty());
         assertTrue(_c.listMethods().isEmpty());
 
         @_set
@@ -19,7 +19,7 @@ public class _setTest extends TestCase {
             final int f = 100;
         }
         _c = _class.of(D.class);
-        assertTrue( _c.listAnnoRefs(_set.class).isEmpty());
+        assertTrue( _c.listAnnoExprs(_set.class).isEmpty());
         assertTrue(_c.listMethods().isEmpty());
     }
 
@@ -30,9 +30,9 @@ public class _setTest extends TestCase {
             int a;
         }
         _class _c = _class.of(G.class);
-        assertTrue( _c.listAnnoRefs(_set.class).isEmpty());
+        assertTrue( _c.listAnnoExprs(_set.class).isEmpty());
         assertTrue( _c.getMethod("setA").isVoid());
-        assertTrue( _c.getMethod("setA").getParameter(0).isTypeRef(int.class));
+        assertTrue( _c.getMethod("setA").getParam(0).isTypeRef(int.class));
     }
 
     public void testSetMulti(){
@@ -44,13 +44,13 @@ public class _setTest extends TestCase {
         }
 
         _class _c = _class.of(G.class);
-        assertTrue( _c.listAnnoRefs(_set.class).isEmpty());
+        assertTrue( _c.listAnnoExprs(_set.class).isEmpty());
         assertTrue( _c.getMethod("setA").isVoid());
-        assertTrue( _c.getMethod("setA").getParameter(0).isTypeRef(int.class));
+        assertTrue( _c.getMethod("setA").getParam(0).isTypeRef(int.class));
         assertTrue( _c.getMethod("setB").isVoid());
-        assertTrue( _c.getMethod("setB").getParameter(0).isTypeRef(int.class));
+        assertTrue( _c.getMethod("setB").getParam(0).isTypeRef(int.class));
         assertTrue( _c.getMethod("setC").isVoid());
-        assertTrue( _c.getMethod("setC").getParameter(0).isTypeRef(int.class));
+        assertTrue( _c.getMethod("setC").getParam(0).isTypeRef(int.class));
         assertNull( _c.getMethod("setName")); //make sure there is no setName method (final field)
     }
 

@@ -2,10 +2,10 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-public class _typeArgumentsTest extends TestCase {
+public class _typeArgsTest extends TestCase {
 
     public void testEmptyDiamondOperator(){
-        _typeArguments _tas = _typeArguments.of();
+        _typeArgs _tas = _typeArgs.of();
         assertTrue(_tas.isEmpty());
         assertFalse(_tas.isUsingDiamondOperator());
         try{
@@ -31,21 +31,21 @@ public class _typeArgumentsTest extends TestCase {
 
     public void testTypeArgs(){
 
-        _typeArguments _tas = _typeArguments.of("<>");
+        _typeArgs _tas = _typeArgs.of("<>");
         assertTrue( _tas.isUsingDiamondOperator());
         assertTrue( _tas.isEmpty());
 
         //single
-        _tas = _typeArguments.of("<T>");
+        _tas = _typeArgs.of("<T>");
         assertFalse( _tas.isUsingDiamondOperator());
         assertFalse( _tas.isEmpty());
 
-        _tas = _typeArguments.of("<T, R>");
-        assertEquals( _tas, _typeArguments.of("T", "R"));
-        _tas = _typeArguments.of();
+        _tas = _typeArgs.of("<T, R>");
+        assertEquals( _tas, _typeArgs.of("T", "R"));
+        _tas = _typeArgs.of();
         _tas.add("T");
         _tas.add("R");
-        assertEquals( _tas, _typeArguments.of("T", "R"));
+        assertEquals( _tas, _typeArgs.of("T", "R"));
     }
 
     public void testNew(){

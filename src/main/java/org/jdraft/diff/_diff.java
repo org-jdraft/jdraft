@@ -14,9 +14,9 @@ import org.jdraft._java.Component;
 import org.jdraft._javadocComment._withJavadoc;
 import org.jdraft._method._withMethods;
 import org.jdraft._modifiers._withModifiers;
-import org.jdraft._receiverParameter._withReceiverParameter;
+import org.jdraft._receiverParam._withReceiverParam;
 import org.jdraft._throws._withThrows;
-import org.jdraft._typeParameters._withTypeParameters;
+import org.jdraft._typeParams._withTypeParams;
 import org.jdraft._initBlock._withInitBlocks;
 
 import org.jdraft.diff._diffNode._edit;
@@ -207,7 +207,7 @@ public interface _diff {
         return _packageNameDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff typeParametersOf(_withTypeParameters left, _withTypeParameters right) {
+    static _diff typeParametersOf(_withTypeParams left, _withTypeParams right) {
         return _typeParametersDiff.INSTANCE.diff(left, right);
     }
 
@@ -215,7 +215,7 @@ public interface _diff {
         return _initBlocksDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff receiverParameterOf(_withReceiverParameter left, _withReceiverParameter right) {
+    static _diff receiverParameterOf(_withReceiverParam left, _withReceiverParam right) {
         return _receiverParameterDiff.INSTANCE.diff(left, right);
     }
 

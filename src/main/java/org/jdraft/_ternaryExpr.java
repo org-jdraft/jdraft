@@ -17,54 +17,54 @@ import java.util.function.Function;
  * The ternary conditional expression.
  * In <code>b==0?x:y</code>, b==0 is the condition, x is thenExpr, and y is elseExpr.
  */
-public final class _conditionalExpr implements _expr<ConditionalExpr,
-        _conditionalExpr>, _java._multiPart<ConditionalExpr, _conditionalExpr> {
+public final class _ternaryExpr implements _expr<ConditionalExpr,
+        _ternaryExpr>, _java._multiPart<ConditionalExpr, _ternaryExpr> {
 
-    public static _conditionalExpr of(){
-        return new _conditionalExpr( new ConditionalExpr( ));
+    public static _ternaryExpr of(){
+        return new _ternaryExpr( new ConditionalExpr( ));
     }
-    public static _conditionalExpr of(ConditionalExpr ce){
-        return new _conditionalExpr(ce);
+    public static _ternaryExpr of(ConditionalExpr ce){
+        return new _ternaryExpr(ce);
     }
-    public static _conditionalExpr of(String...code){
-        return new _conditionalExpr(Exprs.conditionalEx( code));
+    public static _ternaryExpr of(String...code){
+        return new _ternaryExpr(Exprs.conditionalEx( code));
     }
 
-    public static <A extends Object> _conditionalExpr of(Exprs.Command c){
+    public static <A extends Object> _ternaryExpr of(Exprs.Command c){
         LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object> _conditionalExpr of(Consumer<A> c){
+    public static <A extends Object> _ternaryExpr of(Consumer<A> c){
         LambdaExpr le = Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object, B extends Object> _conditionalExpr of(BiConsumer<A,B> command ){
+    public static <A extends Object, B extends Object> _ternaryExpr of(BiConsumer<A,B> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _conditionalExpr of(Exprs.TriConsumer<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _ternaryExpr of(Exprs.TriConsumer<A,B,C> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternaryExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object> _conditionalExpr of(Function<A,B> command ){
+    public static <A extends Object, B extends Object> _ternaryExpr of(Function<A,B> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _conditionalExpr of(BiFunction<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _ternaryExpr of(BiFunction<A,B,C> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _conditionalExpr of(Exprs.TriFunction<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternaryExpr of(Exprs.TriFunction<A,B,C,D> command ){
         return from(Exprs.lambdaEx( Thread.currentThread().getStackTrace()[2]));
     }
 
-    private static _conditionalExpr from(LambdaExpr le){
+    private static _ternaryExpr from(LambdaExpr le){
         Optional<ConditionalExpr> ows = le.getBody().findFirst(ConditionalExpr.class);
         if( ows.isPresent() ){
             return of(ows.get());
@@ -74,13 +74,13 @@ public final class _conditionalExpr implements _expr<ConditionalExpr,
     
     public ConditionalExpr ce;
 
-    public _conditionalExpr(ConditionalExpr ce){
+    public _ternaryExpr(ConditionalExpr ce){
         this.ce = ce;
     }
 
     @Override
-    public _conditionalExpr copy() {
-        return new _conditionalExpr(this.ce.clone());
+    public _ternaryExpr copy() {
+        return new _ternaryExpr(this.ce.clone());
     }
 
     @Override
@@ -122,17 +122,17 @@ public final class _conditionalExpr implements _expr<ConditionalExpr,
         return Objects.equals( this.ce.getCondition(), e);
     }
 
-    public _conditionalExpr setCondition(String...expr){
+    public _ternaryExpr setCondition(String...expr){
         this.ce.setCondition(Exprs.of(expr));
         return this;
     }
 
-    public _conditionalExpr setCondition(_expr _e){
+    public _ternaryExpr setCondition(_expr _e){
         this.ce.setCondition(_e.ast());
         return this;
     }
 
-    public _conditionalExpr setCondition(Expression e){
+    public _ternaryExpr setCondition(Expression e){
         this.ce.setCondition( e );
         return this;
     }
@@ -149,22 +149,22 @@ public final class _conditionalExpr implements _expr<ConditionalExpr,
         return Objects.equals( this.ce.getCondition(), e);
     }
 
-    public _conditionalExpr setThen(String...expr){
+    public _ternaryExpr setThen(String...expr){
         this.ce.setThenExpr(Exprs.of(expr));
         return this;
     }
 
-    public _conditionalExpr setThen(_expr _e){
+    public _ternaryExpr setThen(_expr _e){
         this.ce.setThenExpr(_e.ast());
         return this;
     }
 
-    public _conditionalExpr setThen(Expression e){
+    public _ternaryExpr setThen(Expression e){
         this.ce.setThenExpr( e );
         return this;
     }
 
-    public _conditionalExpr setElse(_expr _e){
+    public _ternaryExpr setElse(_expr _e){
         this.ce.setElseExpr(_e.ast());
         return this;
     }
@@ -181,12 +181,12 @@ public final class _conditionalExpr implements _expr<ConditionalExpr,
         return Objects.equals( this.ce.getCondition(), e);
     }
 
-    public _conditionalExpr setElse(Expression e){
+    public _ternaryExpr setElse(Expression e){
         this.ce.setElseExpr( e );
         return this;
     }
 
-    public _conditionalExpr setElse(String...expr){
+    public _ternaryExpr setElse(String...expr){
         this.ce.setElseExpr(Exprs.of(expr));
         return this;
     }
@@ -204,8 +204,8 @@ public final class _conditionalExpr implements _expr<ConditionalExpr,
     }
 
     public boolean equals(Object other){
-        if( other instanceof _conditionalExpr){
-            return ((_conditionalExpr)other).ce.equals( this.ce);
+        if( other instanceof _ternaryExpr){
+            return ((_ternaryExpr)other).ce.equals( this.ce);
         }
         return false;
     }

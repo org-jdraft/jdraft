@@ -21,10 +21,10 @@ public class _dtoTest extends TestCase {
         }
         _class _c = _class.of(AD.class);
         //even though this class is
-        assertTrue( _c.getConstructor(0).getParameters().isEmpty() ); //no arg constructor
+        assertTrue( _c.getConstructor(0).getParams().isEmpty() ); //no arg constructor
         assertTrue( _c.getMethod("toString").isTypeRef(String.class) ); //a toString method
         assertTrue( _c.getMethod("equals").isTypeRef(boolean.class)); //an typesEqual method
-        assertTrue( _c.getMethod("equals").getParameter(0).isTypeRef(Object.class)); //accepts an object input
+        assertTrue( _c.getMethod("equals").getParam(0).isTypeRef(Object.class)); //accepts an object input
 
     }
 }

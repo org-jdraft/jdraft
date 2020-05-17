@@ -14,7 +14,7 @@ public class _constructorTest extends TestCase {
     public void testBuildFromScratch(){
         _constructor _ct = _constructor.of();
         _ct.setName("C")
-                .setParameters("int i").setModifiers("public")
+                .setParams("int i").setModifiers("public")
                 .addThrows(IOException.class);
         System.out.println(_ct);
     }
@@ -118,10 +118,10 @@ public class _constructorTest extends TestCase {
                     }
                 });
         _constructor _ct = _c.getConstructor(0);
-        assertTrue( _ct.hasAnnoRef(Deprecated.class));
+        assertTrue( _ct.hasAnnoExpr(Deprecated.class));
         assertTrue( _ct.getJavadoc().getText().contains("This is a constructor"));
-        assertTrue( _ct.getParameter(0).is("int x"));
-        assertTrue( _ct.getParameter(1).is("int y"));
+        assertTrue( _ct.getParam(0).is("int x"));
+        assertTrue( _ct.getParam(1).is("int y"));
         //System.out.println(_c);
         //_javac.of( _c); //make sure it compiles
     }
@@ -131,10 +131,10 @@ public class _constructorTest extends TestCase {
         assertEquals("A",_ct.getName());
         assertTrue( _ct.hasBody() );
         assertFalse( _ct.hasJavadoc());
-        assertFalse( _ct.hasParameters());
-        assertFalse( _ct.hasAnnoRefs() );
+        assertFalse( _ct.hasParams());
+        assertFalse( _ct.hasAnnoExprs() );
         assertFalse( _ct.hasThrows());
-        assertFalse( _ct.hasTypeParameters() ); 
+        assertFalse( _ct.hasTypeParams() );
         
         assertFalse( _ct.isPublic() );
         assertFalse( _ct.isPrivate() );
@@ -154,20 +154,20 @@ public class _constructorTest extends TestCase {
             "}"); 
         assertTrue( _ct.hasJavadoc() );
         assertTrue( _ct.getJavadoc().getText().contains( "ctor JAVADOC"));
-        assertTrue( _ct.hasAnnoRefs() );
-        assertTrue( _ct.getAnnoRef( 0 ).is( "@ann") );
-        assertTrue( _ct.getAnnoRef( 1 ).is( "@ann2(k=1,v='t')") );
+        assertTrue( _ct.hasAnnoExprs() );
+        assertTrue( _ct.getAnnoExpr( 0 ).is( "@ann") );
+        assertTrue( _ct.getAnnoExpr( 1 ).is( "@ann2(k=1,v='t')") );
         assertTrue( _ct.getModifiers().is( "public"));
-        assertTrue( _ct.hasTypeParameters() ); 
-        assertTrue( _ct.getTypeParameters().is( "<E extends element>") ); 
+        assertTrue( _ct.hasTypeParams() );
+        assertTrue( _ct.getTypeParams().is( "<E extends element>") );
         assertEquals("C",_ct.getName());
-        assertTrue( _ct.hasParameters());
+        assertTrue( _ct.hasParams());
         
-        assertTrue( _ct.getParameters().is( "@ann @ann2(k=1,v='e')final int v, Map<Integer,String>...m" ));
-        assertTrue( _ct.getParameter(0).is("@ann @ann2(k=1,v='e')final int v"));
-        assertFalse( _ct.getParameter(0).isVarArg());        
-        assertTrue( _ct.getParameter(1).is("Map<Integer,String>...m"));
-        assertTrue( _ct.getParameter(1).isVarArg());        
+        assertTrue( _ct.getParams().is( "@ann @ann2(k=1,v='e')final int v, Map<Integer,String>...m" ));
+        assertTrue( _ct.getParam(0).is("@ann @ann2(k=1,v='e')final int v"));
+        assertFalse( _ct.getParam(0).isVarArg());
+        assertTrue( _ct.getParam(1).is("Map<Integer,String>...m"));
+        assertTrue( _ct.getParam(1).isVarArg());
         assertTrue( _ct.isVarArg());
         assertTrue( _ct.hasThrows());
         assertTrue( _ct.getThrows().is("A,B"));

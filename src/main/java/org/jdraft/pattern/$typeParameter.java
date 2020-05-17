@@ -20,12 +20,12 @@ import org.jdraft.text.*;
  * @author Eric
  */
 public class $typeParameter
-    implements Template<_typeParameter>, //$pattern<_typeParameter, $typeParameter>,
-        $pattern.$java<_typeParameter,$typeParameter>,
+    implements Template<_typeParam>, //$pattern<_typeParameter, $typeParameter>,
+        $pattern.$java<_typeParam,$typeParameter>,
         $method.$part, $constructor.$part, $class.$part, $interface.$part, $type.$part {
 
-    public Class<_typeParameter> _modelType(){
-        return _typeParameter.class;
+    public Class<_typeParam> _modelType(){
+        return _typeParam.class;
     }
 
     /** */
@@ -53,7 +53,7 @@ public class $typeParameter
      * @param constraint
      * @return 
      */
-    public static $typeParameter of( Predicate<_typeParameter> constraint ){
+    public static $typeParameter of( Predicate<_typeParam> constraint ){
         return of().$and(constraint);
     }
     
@@ -63,7 +63,7 @@ public class $typeParameter
      * @return 
      */
     public static $typeParameter of( String typeParameter){
-        return new $typeParameter( _typeParameter.of(typeParameter) );
+        return new $typeParameter( _typeParam.of(typeParameter) );
     }
     
     /**
@@ -71,7 +71,7 @@ public class $typeParameter
      * @param _tp
      * @return 
      */
-    public static $typeParameter of( _typeParameter _tp){
+    public static $typeParameter of( _typeParam _tp){
         return new $typeParameter(_tp);
     }
     
@@ -81,10 +81,10 @@ public class $typeParameter
      * @return 
      */
     public static $typeParameter of( TypeParameter astTp){
-        return new $typeParameter(_typeParameter.of(astTp));
+        return new $typeParameter(_typeParam.of(astTp));
     }
 
-    public static $typeParameter.Or or( _typeParameter... _protos ){
+    public static $typeParameter.Or or( _typeParam... _protos ){
         $typeParameter[] arr = new $typeParameter[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $typeParameter.of( _protos[i]);
@@ -97,12 +97,12 @@ public class $typeParameter
     }
 
     public static $typeParameter as( String typeParameter){
-        return as( _typeParameter.of(typeParameter));
+        return as( _typeParam.of(typeParameter));
     }
 
-    public static $typeParameter as( _typeParameter _tp ){
+    public static $typeParameter as( _typeParam _tp ){
         $annoRefs $as = $annoRefs.none();
-        if( _tp.hasAnnoRefs() ){
+        if( _tp.hasAnnoExprs() ){
             $as = $annoRefs.as(_tp);
         }
         $name $nm = $name.as( _tp.getName() );
@@ -122,7 +122,7 @@ public class $typeParameter
         return $tp;
     }
 
-    public Predicate<_typeParameter> constraint = t-> true;
+    public Predicate<_typeParam> constraint = t-> true;
     
     public $annoRefs anns = $annoRefs.of();
     
@@ -174,12 +174,12 @@ public class $typeParameter
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_typeParameter> pf = f-> $fa.countIn(f) > 0;
+                Predicate<_typeParam> pf = f-> $fa.countIn(f) > 0;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){
                 final $name $fn = (($name)parts[i]);
-                Predicate<_typeParameter> pf = f-> $fn.matches(f.getName());
+                Predicate<_typeParam> pf = f-> $fn.matches(f.getName());
                 $and( pf.negate() );
             }
         }
@@ -190,7 +190,7 @@ public class $typeParameter
         //no arg... match defaults (can be created through of(), and any() static methods)
     }
     
-    public $typeParameter(_typeParameter _tp){
+    public $typeParameter(_typeParam _tp){
         anns = $annoRefs.of(_tp);
         name = name.of(_tp.getName() );
         _tp.getTypeBound().forEach(tb -> this.$typeBound.add($typeRef.of(tb)));                   
@@ -236,13 +236,13 @@ public class $typeParameter
         return this;
     }
     
-    public $typeParameter $and(Predicate<_typeParameter> constraint ){
+    public $typeParameter $and(Predicate<_typeParam> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
     
     @Override
-    public _typeParameter draft(Translator translator, Map<String, Object> keyValues) {
+    public _typeParam draft(Translator translator, Map<String, Object> keyValues) {
         if( keyValues.get("$typeParameter") != null ){
             Object tp = keyValues.get("$typeParameter");            
             Map<String,Object> kvs = new HashMap<>();
@@ -251,8 +251,8 @@ public class $typeParameter
             if( tp instanceof $typeParameter ){
                 return (($typeParameter)tp).draft(translator, kvs);
             }
-            if( tp instanceof _typeParameter){
-                return $typeParameter.of( (_typeParameter)tp).draft(translator, kvs);
+            if( tp instanceof _typeParam){
+                return $typeParameter.of( (_typeParam)tp).draft(translator, kvs);
             }
             if( tp instanceof TypeParameter){
                 return $typeParameter.of( (TypeParameter)tp).draft(translator, kvs);
@@ -275,7 +275,7 @@ public class $typeParameter
             }
             tb = " extends "+ b.toString();
         }
-        return _typeParameter.of(anos+nm+tb);        
+        return _typeParam.of(anos+nm+tb);
     }
 
     @Override
@@ -327,14 +327,14 @@ public class $typeParameter
     }
 
     @Override
-    public _typeParameter firstIn(Node astStartNode, Predicate<_typeParameter> _typeParamMatchFn) {
+    public _typeParam firstIn(Node astStartNode, Predicate<_typeParam> _typeParamMatchFn) {
         Optional<TypeParameter> otp = 
             astStartNode.findFirst(TypeParameter.class, tp->{
                 Select sel = select(tp);
                 return sel != null && _typeParamMatchFn.test(sel._tp);
             });
         if( otp.isPresent()){
-            return _typeParameter.of(otp.get());
+            return _typeParam.of(otp.get());
         }
         return null;
     }
@@ -422,7 +422,7 @@ public class $typeParameter
     }
     
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_typeParameter> _typeParamMatchFn, Consumer<_typeParameter> _typeParameterActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_typeParam> _typeParamMatchFn, Consumer<_typeParam> _typeParameterActionFn) {
         astNode.walk(TypeParameter.class, tp-> {
             Select sel = select(tp);
             if( sel != null && _typeParamMatchFn.test(sel._tp)){
@@ -469,15 +469,15 @@ public class $typeParameter
         return select(astTp) != null;
     }
     
-    public boolean matches(_typeParameter _tp){
+    public boolean matches(_typeParam _tp){
         return select(_tp) != null;
     }
     
     public Select select(String typeParameter){
-        return select( _typeParameter.of(typeParameter));
+        return select( _typeParam.of(typeParameter));
     }
     
-    public Select select(_typeParameter _tp){
+    public Select select(_typeParam _tp){
         if( !this.constraint.test(_tp)){
             System.out.println( "Failed constraint");
             return null;
@@ -526,7 +526,7 @@ public class $typeParameter
     }
     
     public Select select(TypeParameter astTp){
-        return select( _typeParameter.of(astTp));
+        return select( _typeParam.of(astTp));
     }
 
 
@@ -564,7 +564,7 @@ public class $typeParameter
          * @param n
          * @return
          */
-        public $typeParameter.Select select(_typeParameter n){
+        public $typeParameter.Select select(_typeParam n){
             $typeParameter $a = whichMatch(n);
             if( $a != null ){
                 return $a.select(n);
@@ -581,7 +581,7 @@ public class $typeParameter
          * @param tp
          * @return
          */
-        public $typeParameter whichMatch(_typeParameter tp){
+        public $typeParameter whichMatch(_typeParam tp){
             if( !this.constraint.test(tp ) ){
                 return null;
             }
@@ -596,15 +596,15 @@ public class $typeParameter
     public static class Select 
         implements $pattern.selected,
             selectAst<TypeParameter>,
-            select_java<_typeParameter> {
+            select_java<_typeParam> {
 
-        public Select(_typeParameter _tp, Tokens ts){
+        public Select(_typeParam _tp, Tokens ts){
             this._tp = _tp;
             this.$tokens = $tokens.of(ts);
         }
         
         public $tokens $tokens;
-        public _typeParameter _tp;
+        public _typeParam _tp;
         
         @Override
         public $tokens tokens() {
@@ -618,7 +618,7 @@ public class $typeParameter
 
         
         @Override
-        public _typeParameter _node() {
+        public _typeParam _node() {
             return _tp;
         }        
         
@@ -635,7 +635,7 @@ public class $typeParameter
         }
         
         public _annoExprs annos(){
-            return _tp.getAnnoRefs();
+            return _tp.getAnnoExprs();
         }
 
         @Override

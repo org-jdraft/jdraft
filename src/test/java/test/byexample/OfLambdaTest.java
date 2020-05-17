@@ -42,8 +42,8 @@ public class OfLambdaTest extends TestCase {
                 _stmt.of( (a) -> System.out.println(a)),
 
                 _assertStmt.of( ()-> {assert (1==1);} ),
-                _parameters.of( (final Integer a, String... s)->{} ),
-                _arguments.of( ()-> new Object[]{1, "Value", System.currentTimeMillis()} )
+                _params.of( (final Integer a, String... s)->{} ),
+                _args.of( ()-> new Object[]{1, "Value", System.currentTimeMillis()} )
         };
     }
 }

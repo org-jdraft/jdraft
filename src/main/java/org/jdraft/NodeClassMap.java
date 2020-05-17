@@ -50,7 +50,7 @@ public enum NodeClassMap {
        CLASS_EXPRESSION(_classExpr.class, ClassExpr.class),
     //_JAVA_TO_AST_NODE_CLASSES.put(_codeUnit.class, CompilationUnit.class); Hidden
        COMMENT(_comment.class, Comment.class), //INTERFACE
-       CONDITIONAL_EXPRESSION(_conditionalExpr.class, ConditionalExpr.class),
+       CONDITIONAL_EXPRESSION(_ternaryExpr.class, ConditionalExpr.class),
        CONSTANT(_constant.class, EnumConstantDeclaration.class),
        CONSTRUCTOR(_constructor.class, ConstructorDeclaration.class),
        CONSTRUCTOR_CALL(_constructorCallStmt.class, ExplicitConstructorInvocationStmt.class),
@@ -58,7 +58,7 @@ public enum NodeClassMap {
        DO_STATEMENT(_doStmt.class, DoStmt.class),
        DOUBLE(_doubleExpr.class, DoubleLiteralExpr.class),
        EMPTY_STATEMENT(_emptyStmt.class, EmptyStmt.class),
-       ENCLOSED_EXPRESSION(_enclosedEx.class, EnclosedExpr.class),
+       ENCLOSED_EXPRESSION(_parenthesizedExpr.class, EnclosedExpr.class),
 
        ENUMERATION(_enum.class, EnumDeclaration.class),
        FIELD(_field.class, FieldDeclaration.class), //**
@@ -94,10 +94,10 @@ public enum NodeClassMap {
         NULL(_nullExpr.class, NullLiteralExpr.class),
         PACKAGE(_package.class, PackageDeclaration.class),
         PACKAGE_INFO(_packageInfo.class, CompilationUnit.class), /***/
-        PARAMETER(_parameter.class, Parameter.class),
+        PARAMETER(_param.class, Parameter.class),
     //_JAVA_TO_AST_NODE_CLASSES.put(_parameters.class, Name.class);
         QUALIFIED_NAME(_qualifiedName.class, Name.class), /** VIRTUAL */
-        RECEIVER_PARAMETER(_receiverParameter.class, ReceiverParameter.class),
+        RECEIVER_PARAMETER(_receiverParam.class, ReceiverParameter.class),
         RETURN_STMT(_returnStmt.class, ReturnStmt.class),
         STRING(_stringExpr.class, StringLiteralExpr.class),
         SUPER(_superExpr.class, SuperExpr.class),
@@ -114,7 +114,7 @@ public enum NodeClassMap {
         TYPE(_type.class, TypeDeclaration.class),
     //_JAVA_TO_AST_NODE_CLASSES.put(_typeArguments.class VIRTUAL
          TYPE_EXPRESSION(_typeExpr.class, TypeExpr.class),
-         TYPE_PARAMETER(_typeParameter.class, TypeParameter.class),
+         TYPE_PARAMETER(_typeParam.class, TypeParameter.class),
     //_JAVA_TO_AST_NODE_CLASSES.put(_typeParameters.class VIRTUAL
          TYPE_REF(_typeRef.class, Type.class),
             ARRAY_TYPE(_typeRef.class, ArrayType.class),

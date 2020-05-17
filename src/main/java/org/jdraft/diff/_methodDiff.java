@@ -19,13 +19,13 @@ public final class _methodDiff implements _differ<_method, _java._multiPart> {
         _nodePath p = path.in(_java.Component.METHOD, describeMethodSignature(left));
 
         _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
-        _annoExprsDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoRefs(), right.getAnnoRefs());
+        _annoExprsDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getTypeRef(), right.getTypeRef());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
-        _typeParametersDiff.INSTANCE.diff(p, dt, left, right, left.getTypeParameters(), right.getTypeParameters());
-        _receiverParameterDiff.INSTANCE.diff(p, dt, left, right, left.getReceiverParameter(), right.getReceiverParameter());
-        _parametersDiff.INSTANCE.diff(p, dt, left, right, left.getParameters(), right.getParameters());
+        _typeParametersDiff.INSTANCE.diff(p, dt, left, right, left.getTypeParams(), right.getTypeParams());
+        _receiverParameterDiff.INSTANCE.diff(p, dt, left, right, left.getReceiverParam(), right.getReceiverParam());
+        _parametersDiff.INSTANCE.diff(p, dt, left, right, left.getParams(), right.getParams());
         _throwsDiff.INSTANCE.diff(p, dt, left, right, left.getThrows(), right.getThrows());
         _bodyDiff.INSTANCE.diff(p, dt, left, right, left.getBody(), right.getBody());
         return dt;

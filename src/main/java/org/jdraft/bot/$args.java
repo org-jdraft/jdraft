@@ -22,95 +22,95 @@ import java.util.stream.Collectors;
  *
  * @param <N>
  */
-public class $arguments<N extends Node & NodeWithArguments>
-        implements $bot<N, _arguments, $arguments>, $methodCallExpr.$part {
+public class $args<N extends Node & NodeWithArguments>
+        implements $bot<N, _args, $args>, $methodCallExpr.$part {
 
-    public static $arguments of(){
-        return new $arguments();
+    public static $args of(){
+        return new $args();
     }
 
     /**
      * Build and return a $arguments bot matching empty arguments lists
      * @return $arguments bot that matches empty arguments lists
      */
-    public static $arguments empty(){
-        return of().$and( a -> ((_arguments)a).isEmpty() );
+    public static $args empty(){
+        return of().$and( a -> ((_args)a).isEmpty() );
     }
 
     /**
      * Build and return a $arguments bot matching arguments lists that are not empty
      * @return $arguments bot that matches non-empty arguments lists
      */
-    public static $arguments notEmpty(){
-        return of().$and( a-> ! ((_arguments)a).isEmpty() );
+    public static $args notEmpty(){
+        return of().$and( a-> ! ((_args)a).isEmpty() );
     }
 
-    public static $arguments of (_arguments args){
-        return new $arguments(args);
+    public static $args of (_args args){
+        return new $args(args);
     }
 
-    public static $arguments of (_expr... args){
-        return new $arguments(args);
+    public static $args of (_expr... args){
+        return new $args(args);
     }
 
-    public static $arguments of( String...args){
-        return of( _arguments.of(args));
+    public static $args of(String...args){
+        return of( _args.of(args));
     }
 
-    public static $arguments of( $expr...$es){
-        return new $arguments($es);
+    public static $args of($expr...$es){
+        return new $args($es);
     }
 
-    public static $arguments.Or or($arguments...$as){
-        return new $arguments.Or($as);
+    public static $args.Or or($args...$as){
+        return new $args.Or($as);
     }
 
     public List<$expr> argumentList = new ArrayList<>();
-    public Predicate<_arguments> predicate = p->true;
+    public Predicate<_args> predicate = p->true;
 
     /**
      * Build and return a new mutable copy of this bot
      * @return
      */
-    public $arguments copy(){
-        $arguments $args = of( ).$and(this.predicate.and(t->true) );
+    public $args copy(){
+        $args $args = of( ).$and(this.predicate.and(t->true) );
         this.argumentList.forEach( a -> $args.argumentList.add( a.copy()));
         return $args;
     }
 
     @Override
-    public $arguments $hardcode(Translator translator, Tokens kvs) {
+    public $args $hardcode(Translator translator, Tokens kvs) {
         this.argumentList.forEach( a -> a.$hardcode(translator, kvs));
         return this;
     }
 
-    public $arguments(){ }
+    public $args(){ }
 
-    public $arguments(_arguments args){
+    public $args(_args args){
         for(int i=0;i<args.size(); i++){
             argumentList.add( $expr.of(args.getAt(i)));
         }
     }
 
-    public $arguments(_expr..._exs){
+    public $args(_expr..._exs){
         for(int i=0;i<_exs.length; i++){
             argumentList.add( $expr.of(_exs[i]));
         }
     }
 
-    public $arguments($expr...$exs){
+    public $args($expr...$exs){
         for(int i=0;i<$exs.length; i++){
             argumentList.add( $exs[i]);
         }
     }
 
-    public $arguments setPredicate( Predicate<_arguments> predicate){
+    public $args setPredicate(Predicate<_args> predicate){
         this.predicate = predicate;
         return this;
     }
 
-    public $arguments $any(Class<? extends _expr>...expressionClasses ){
-        Predicate<_arguments> ps =
+    public $args $any(Class<? extends _expr>...expressionClasses ){
+        Predicate<_args> ps =
                 (args) -> Arrays.stream(expressionClasses).anyMatch( ec-> args.get(a -> ec.isAssignableFrom(a.getClass())) != null );
         return $and( ps );
     }
@@ -121,7 +121,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @param _exMatchFn
      * @return
      */
-    public $arguments $any( Predicate<_expr> _exMatchFn){
+    public $args $any(Predicate<_expr> _exMatchFn){
         return $and( a-> a.anyMatch(_exMatchFn));
     }
 
@@ -130,7 +130,7 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @param _ex
      * @return
      */
-    public $arguments $all( Predicate<_expr> _ex ){
+    public $args $all(Predicate<_expr> _ex ){
         return $and( p-> p.allMatch(_ex) );
     }
 
@@ -139,11 +139,11 @@ public class $arguments<N extends Node & NodeWithArguments>
      * @param ecs
      * @return
      */
-    public $arguments $all( Class<? extends _expr>...ecs){
+    public $args $all(Class<? extends _expr>...ecs){
         return $and( es->es.allMatch(e-> Arrays.stream(ecs).anyMatch( ec-> ec.isAssignableFrom(e.getClass()))));
     }
 
-    public boolean matches(_arguments _args){
+    public boolean matches(_args _args){
         return select(_args) != null;
     }
 
@@ -163,37 +163,37 @@ public class $arguments<N extends Node & NodeWithArguments>
         return select(_exs) != null;
     }
 
-    public Select<_arguments> select(Expression...exs){
-        return select(_arguments.of(exs));
+    public Select<_args> select(Expression...exs){
+        return select(_args.of(exs));
     }
 
-    public Select<_arguments> select(_expr...exs){
-        return select(_arguments.of(exs));
+    public Select<_args> select(_expr...exs){
+        return select(_args.of(exs));
     }
 
-    public Select<_arguments> select(String args){
-        return select(_arguments.of(args));
+    public Select<_args> select(String args){
+        return select(_args.of(args));
     }
 
-    public Select<_arguments> select(String...args){
-        return select(_arguments.of(args));
+    public Select<_args> select(String...args){
+        return select(_args.of(args));
     }
 
     @Override
-    public Select<_arguments> select(Node n) {
+    public Select<_args> select(Node n) {
         if( n instanceof NodeWithArguments){
-            _arguments _as = _arguments.of( (NodeWithArguments)n );
+            _args _as = _args.of( (NodeWithArguments)n );
             return select(_as);
         }
         return null;
     }
 
     @Override
-    public Select<_arguments> selectFirstIn(Node astNode, Predicate<Select<_arguments>> predicate) {
+    public Select<_args> selectFirstIn(Node astNode, Predicate<Select<_args>> predicate) {
         Optional<Node> on = astNode.stream().filter(n ->{
                 if( n instanceof NodeWithArguments ){
-                    _arguments _as = _arguments.of( (NodeWithArguments)n);
-                    Select<_arguments> sel = select(_as);
+                    _args _as = _args.of( (NodeWithArguments)n);
+                    Select<_args> sel = select(_as);
                     if( sel != null ){
                         return predicate.test(sel);
                     }
@@ -201,18 +201,18 @@ public class $arguments<N extends Node & NodeWithArguments>
                 return false;
              }).findFirst();
         if( on.isPresent()){
-            return select(_arguments.of( (NodeWithArguments)on.get() ));
+            return select(_args.of( (NodeWithArguments)on.get() ));
         }
         return null;
     }
 
     @Override
-    public Predicate<_arguments> getPredicate() {
+    public Predicate<_args> getPredicate() {
         return predicate;
     }
 
     @Override
-    public Select<_arguments> select(_arguments candidate) {
+    public Select<_args> select(_args candidate) {
         if( isMatchAny()){
             return new Select(candidate, new Tokens());
         }
@@ -279,7 +279,7 @@ public class $arguments<N extends Node & NodeWithArguments>
     }
 
     @Override
-    public $arguments $and(Predicate<_arguments> matchFn) {
+    public $args $and(Predicate<_args> matchFn) {
         setPredicate( getPredicate().and(matchFn));
         return this;
     }
@@ -304,8 +304,8 @@ public class $arguments<N extends Node & NodeWithArguments>
     }
 
     @Override
-    public _arguments draft(Translator translator, Map<String, Object> keyValues) {
-        _arguments _as = _arguments.of();
+    public _args draft(Translator translator, Map<String, Object> keyValues) {
+        _args _as = _args.of();
         for(int i=0;i<this.argumentList.size(); i++){
             _as.add( (_expr)this.argumentList.get(i).draft(translator, keyValues) );
         }
@@ -316,7 +316,7 @@ public class $arguments<N extends Node & NodeWithArguments>
     }
 
     @Override
-    public $arguments $(String target, String $Name) {
+    public $args $(String target, String $Name) {
         this.argumentList.forEach(e -> e.$(target, $Name));
         return this;
     }
@@ -339,23 +339,23 @@ public class $arguments<N extends Node & NodeWithArguments>
      * An Or entity that can match against any of some number of instances
      * NOTE: this can be used as a selector but NOT as a Template
      */
-    public static class Or extends $arguments {
+    public static class Or extends $args {
 
-        public List<$arguments> $argumentsBots = new ArrayList<>();
+        public List<$args> $argsBots = new ArrayList<>();
 
-        private Or($arguments...nms){
-            Arrays.stream(nms).forEach(n-> $argumentsBots.add(n));
+        private Or($args...nms){
+            Arrays.stream(nms).forEach(n-> $argsBots.add(n));
         }
 
         public boolean isMatchAny(){
             return false;
         }
 
-        public Select<_arguments> select(NodeWithArguments nwas){
-            return select( _arguments.of(nwas) );
+        public Select<_args> select(NodeWithArguments nwas){
+            return select( _args.of(nwas) );
         }
 
-        public boolean matches(_arguments candidate){
+        public boolean matches(_args candidate){
             return select(candidate) != null;
         }
 
@@ -364,12 +364,12 @@ public class $arguments<N extends Node & NodeWithArguments>
          * @param nwa
          * @return
          */
-        public $arguments whichMatch(NodeWithArguments nwa){
-            return whichMatch(_arguments.of(nwa));
+        public $args whichMatch(NodeWithArguments nwa){
+            return whichMatch(_args.of(nwa));
         }
 
-        public List<$arguments> $listOrSelectors() {
-            return this.$argumentsBots;
+        public List<$args> $listOrSelectors() {
+            return this.$argsBots;
         }
 
         /**
@@ -378,22 +378,22 @@ public class $arguments<N extends Node & NodeWithArguments>
          * @param
          * @return
          */
-        public $arguments whichMatch(_arguments ae){
+        public $args whichMatch(_args ae){
             if( !this.predicate.test(ae ) ){
                 return null;
             }
-            Optional<$arguments> orsel  = this.$argumentsBots.stream().filter($p-> $p.matches(ae) ).findFirst();
+            Optional<$args> orsel  = this.$argsBots.stream().filter($p-> $p.matches(ae) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();
             }
             return null;
         }
 
-        public $arguments.Or copy(){
-            $arguments.Or $copy = $arguments.or();
+        public $args.Or copy(){
+            $args.Or $copy = $args.or();
             $copy.$and(this.predicate);
             this.argumentList.forEach( ($a)-> $copy.argumentList.add( (($expr)$a).copy()));
-            this.$argumentsBots.forEach( ($a) -> $copy.$argumentsBots.add($a.copy()));
+            this.$argsBots.forEach( ($a) -> $copy.$argsBots.add($a.copy()));
             return $copy;
         }
 
@@ -402,12 +402,12 @@ public class $arguments<N extends Node & NodeWithArguments>
          * @param _a
          * @return
          */
-        public Select<_arguments> select(_arguments _a){
+        public Select<_args> select(_args _a){
             Select commonSelect = super.select(_a);
             if(  commonSelect == null){
                 return null;
             }
-            $arguments $whichBot = whichMatch(_a);
+            $args $whichBot = whichMatch(_a);
             if( $whichBot == null ){
                 return null;
             }
@@ -422,8 +422,8 @@ public class $arguments<N extends Node & NodeWithArguments>
         public String toString(){
             StringBuilder sb = new StringBuilder();
             sb.append( "$arguments.Or{").append(System.lineSeparator());
-            for(int i = 0; i<this.$argumentsBots.size(); i++){
-                sb.append( Text.indent( this.$argumentsBots.get(i).toString()) );
+            for(int i = 0; i<this.$argsBots.size(); i++){
+                sb.append( Text.indent( this.$argsBots.get(i).toString()) );
             }
             sb.append("}");
             return sb.toString();

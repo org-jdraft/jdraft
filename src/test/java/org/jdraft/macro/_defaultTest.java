@@ -14,7 +14,7 @@ public class _defaultTest extends TestCase {
         //System.out.println( _i);
 
         assertTrue( _i.getMethod("getY").isDefault());
-        assertFalse( _i.getMethod("getY").hasAnnoRef(_default.class));
+        assertFalse( _i.getMethod("getY").hasAnnoExpr(_default.class));
 
         //manually apply the _macro to the method
         _method _m = _method.of("public static int getY(){ return 1; }");

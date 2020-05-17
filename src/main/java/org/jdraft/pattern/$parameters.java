@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._parameters;
+import org.jdraft._params;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
@@ -21,17 +21,17 @@ import org.jdraft.text.Translator;
  * Pattern for parameter list
  * @author Eric
  */
-public class $parameters implements Template<_parameters>,
+public class $parameters implements Template<_params>,
         //$pattern<_parameters,$parameters>,
-        $pattern.$java<_parameters,$parameters>,
+        $pattern.$java<_params,$parameters>,
         $constructor.$part, $method.$part {
 
 
     public static $parameters of(){
-        return new $parameters( _parameters.of() );
+        return new $parameters( _params.of() );
     }
         
-    public static $parameters of( _parameters _ps ){
+    public static $parameters of( _params _ps ){
         return new $parameters(_ps);
     }
 
@@ -50,10 +50,10 @@ public class $parameters implements Template<_parameters>,
     }
 
     public static $parameters of( String...pattern){
-        return new $parameters(_parameters.of(pattern));
+        return new $parameters(_params.of(pattern));
     }
 
-    public static $parameters.Or or( _parameters... _protos ){
+    public static $parameters.Or or( _params... _protos ){
         $parameters[] arr = new $parameters[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $parameters.of( _protos[i]);
@@ -66,14 +66,14 @@ public class $parameters implements Template<_parameters>,
     }
 
     public static $parameters as( List<Parameter> parameters ){
-        return as( _parameters.of(parameters));
+        return as( _params.of(parameters));
     }
 
     public static $parameters as( String...parameters ){
-        return as( _parameters.of(parameters));
+        return as( _params.of(parameters));
     }
 
-    public static $parameters as( _parameters _ps ){
+    public static $parameters as( _params _ps ){
         if( _ps.size() == 0 ){
             return none();
         }
@@ -102,21 +102,21 @@ public class $parameters implements Template<_parameters>,
 
     List<$parameter> $params = new ArrayList<>();
 
-    Predicate<_parameters> constraint = t-> true;
+    Predicate<_params> constraint = t-> true;
 
     /**
      * 
      * @param _ps prototype parameters 
      */
-    private $parameters( _parameters _ps ){
+    private $parameters( _params _ps ){
         _ps.forEach( p -> $params.add( $parameter.of(p)) );
     }
     
-    private $parameters( Predicate<_parameters> constraint){
+    private $parameters( Predicate<_params> constraint){
         this.constraint = constraint;
     }
     
-    public $parameters $and(Predicate<_parameters> constraint ){
+    public $parameters $and(Predicate<_params> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -138,13 +138,13 @@ public class $parameters implements Template<_parameters>,
     }
 
     @Override
-    public Class<_parameters> _modelType(){
-        return _parameters.class;
+    public Class<_params> _modelType(){
+        return _params.class;
     }
 
     @Override
-    public _parameters draft(Translator translator, Map<String, Object> keyValues) {
-        _parameters _ps = _parameters.of();
+    public _params draft(Translator translator, Map<String, Object> keyValues) {
+        _params _ps = _params.of();
         
         for(int i=0;i<$params.size(); i++){            
             _ps.add($params.get(i).draft(translator, keyValues));
@@ -172,41 +172,41 @@ public class $parameters implements Template<_parameters>,
     }
 
     public boolean matches( NodeWithParameters astNodeWithParams ){
-        return select(_parameters.of(astNodeWithParams)) == null;
+        return select(_params.of(astNodeWithParams)) == null;
     }
     
     public boolean matches( String parameters ){
         return select(parameters) != null;
     }
     
-    public boolean matches( _parameters _ps ){
+    public boolean matches( _params _ps ){
         return select(_ps) != null;
     }
 
-    public boolean matches( _parameters._withParameters _ps ){
-        return select( _ps.getParameters() ) != null;
+    public boolean matches( _params._withParams _ps ){
+        return select( _ps.getParams() ) != null;
     }
 
     public boolean match( _java _j) {
-        if (_j instanceof _parameters._withParameters) {
-            return matches((_parameters._withParameters) _j);
+        if (_j instanceof _params._withParams) {
+            return matches((_params._withParams) _j);
         }
         return false;
     }
 
     public Select select(NodeWithParameters astNodeWithParams ){
-        return select( _parameters.of(astNodeWithParams) );
+        return select( _params.of(astNodeWithParams) );
     }
     
     public Select select( String... parameters ){
-        return select(_parameters.of( parameters));
+        return select(_params.of( parameters));
     }
 
-    public Select select( _parameters._withParameters _hp){
-        return select(_hp.getParameters());
+    public Select select( _params._withParams _hp){
+        return select(_hp.getParams());
     }
 
-    public Select select( _parameters _ps ){
+    public Select select( _params _ps ){
         if( this.constraint.test(_ps)){
             
             if( this.$params.isEmpty() ){
@@ -231,7 +231,7 @@ public class $parameters implements Template<_parameters>,
         return null;
     } 
     
-     public Tokens parseTo(_parameters p, Tokens all) {
+     public Tokens parseTo(_params p, Tokens all) {
         if (all == null) { /* Skip decompose if the tokens already null*/
             return null;
         }
@@ -286,7 +286,7 @@ public class $parameters implements Template<_parameters>,
      * @return 
      */
     @Override
-    public _parameters firstIn(Node astStartNode, Predicate<_parameters> _parametersMatchFn){
+    public _params firstIn(Node astStartNode, Predicate<_params> _parametersMatchFn){
         Optional<Node> f =                 
             astStartNode.findFirst( Node.class,
                 n ->{
@@ -298,7 +298,7 @@ public class $parameters implements Template<_parameters>,
                 });         
         
         if( f.isPresent()){
-            return _parameters.of( (NodeWithParameters)f.get());
+            return _params.of( (NodeWithParameters)f.get());
         }
         return null;
     }
@@ -345,7 +345,7 @@ public class $parameters implements Template<_parameters>,
     public <N extends Node> N replaceIn(N astNode, $parameters $replacementProto) {
         
         return forSelectedIn( astNode, s->{
-            _parameters _replaceParams = $replacementProto.draft(s.tokens);
+            _params _replaceParams = $replacementProto.draft(s.tokens);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }
@@ -370,16 +370,16 @@ public class $parameters implements Template<_parameters>,
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, $parameters $replacementProto) {
         return forSelectedIn(_j, s->{
-            _parameters _replaceParams = $replacementProto.draft(s.tokens);
+            _params _replaceParams = $replacementProto.draft(s.tokens);
             s._params.astHolder().setParameters(_replaceParams.ast());             
             } );
     }
     
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_parameters> _parametersMatchFn, Consumer<_parameters> _parametersActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_params> _parametersMatchFn, Consumer<_params> _parametersActionFn) {
         astNode.walk( Node.class, n-> {
             if( n instanceof NodeWithParameters){
-                Select sel = select(_parameters.of( (NodeWithParameters)n ) );
+                Select sel = select(_params.of( (NodeWithParameters)n ) );
                 if( sel != null && _parametersMatchFn.test(sel._params)){
                     _parametersActionFn.accept(sel._params);
                 }
@@ -399,7 +399,7 @@ public class $parameters implements Template<_parameters>,
         
         astRootNode.walk( Node.class, n-> {            
             if( n instanceof NodeWithParameters){
-                Select sel = select(_parameters.of( (NodeWithParameters)n ) );
+                Select sel = select(_params.of( (NodeWithParameters)n ) );
                 if( sel != null ){
                     _parametersActionFn.accept(sel);
                 }
@@ -420,7 +420,7 @@ public class $parameters implements Template<_parameters>,
         
         astRootNode.walk( Node.class, n-> {            
             if( n instanceof NodeWithParameters){
-                Select sel = select(_parameters.of( (NodeWithParameters)n ) );
+                Select sel = select(_params.of( (NodeWithParameters)n ) );
                 if( sel != null && selectConstraint.test(sel) ){
                     _parametersActionFn.accept(sel);
                 }
@@ -447,7 +447,7 @@ public class $parameters implements Template<_parameters>,
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> _parametersActionFn) {
-        Tree.in(_j, _parameters.class, n-> {
+        Tree.in(_j, _params.class, n-> {
             Select sel = select( n );
             if( sel != null ){
                 _parametersActionFn.accept(sel);            
@@ -476,7 +476,7 @@ public class $parameters implements Template<_parameters>,
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
-        Tree.in(_j, _parameters.class, n-> {
+        Tree.in(_j, _params.class, n-> {
             Select sel = select( n );
             if( sel != null && selectConstraint.test(sel) ){
                 _parametersActionFn.accept(sel);            
@@ -554,7 +554,7 @@ public class $parameters implements Template<_parameters>,
          * @return
          */
         public $parameters whichMatch(NodeWithParameters parameters){
-            if( !this.constraint.test(_parameters.of(parameters) ) ){
+            if( !this.constraint.test(_params.of(parameters) ) ){
                 return null;
             }
             Optional<$parameters> orsel  = this.ors.stream().filter( $p-> $p.matches(parameters) ).findFirst();
@@ -571,17 +571,17 @@ public class $parameters implements Template<_parameters>,
      * inside of some Node or _node
      */
     public static class Select 
-        implements $pattern.selected, select_java<_parameters> {
+        implements $pattern.selected, select_java<org.jdraft._params> {
         
-        public final _parameters _params;
+        public final org.jdraft._params _params;
         public final $tokens tokens;
 
-        public Select ( _parameters _p, Tokens tokens){
+        public Select (org.jdraft._params _p, Tokens tokens){
             this._params = _p;
             this.tokens = $tokens.of(tokens);
         }
         
-        public Select ( _parameters _p, $tokens $a){
+        public Select (org.jdraft._params _p, $tokens $a){
             this._params = _p;
             tokens = $a;
         }
@@ -608,7 +608,7 @@ public class $parameters implements Template<_parameters>,
         }
         
         @Override
-        public _parameters _node() {
+        public org.jdraft._params _node() {
             return _params;
         }        
     }

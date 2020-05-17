@@ -105,13 +105,13 @@ public class _interfaceTest extends TestCase {
         _interface _i1 = _interface.of("interface R <U extends Comparable<? super java.io.Serializable>>{}");
         _interface _i2 = _interface.of("interface R <U extends Comparable<? super Serializable>>{}");
 
-        _typeParameters _tps1 = _i1.getTypeParameters();
-        _typeParameters _tps2 = _i2.getTypeParameters();
+        _typeParams _tps1 = _i1.getTypeParams();
+        _typeParams _tps2 = _i2.getTypeParams();
         assertEquals( _tps1, _tps2);
 
         assertEquals( _i1, _i2);
 
-        _typeParameter tp = _i1.getTypeParameters().getAt(0);
+        _typeParam tp = _i1.getTypeParams().getAt(0);
         //System.out.println( tp.getTypeBound() );
 
         //_walk.directChildren( tp, Node.class, ni -> System.out.println( ni+" " +ni.getClass() ) );
@@ -145,9 +145,9 @@ public class _interfaceTest extends TestCase {
         _i.setPackage("test");
         _i.addImports( Serializable.class, MarkerInterface.class, WithDefaultMethods.class, ann2.class);
         _i.setJavadoc( "javadocs", "@author Eric", "@param <Y>", "@param <Z>");
-        _i.addAnnoRefs( "@ann", "@ann2(k='d')");
+        _i.addAnnoExprs( "@ann", "@ann2(k='d')");
         _i.setPublic();
-        _i.typeParameters( "<Y, Z extends Base>");
+        _i.typeParams( "<Y, Z extends Base>");
         _i.addExtend( "MarkerInterface<String>").addExtend( "WithDefaultMethods<Serializable>");
         _i.addField( "/** field javadoc */", "@ann @ann2(k='2',v=3)", "static final int VALUE = 120;");
         
@@ -219,9 +219,9 @@ public class _interfaceTest extends TestCase {
         assertTrue( _i.hasImport( ann2.class));
         
         assertTrue( _i.getJavadoc().getText().contains("javadocs"));
-        assertTrue( _i.getAnnoRefs().is("@ann", "@ann2(k='d')"));
+        assertTrue( _i.getAnnoExprs().is("@ann", "@ann2(k='d')"));
         assertTrue( _i.getModifiers().is( "public"));
-        assertTrue( _i.getTypeParameters().is( "<Y, Z extends Base>"));
+        assertTrue( _i.getTypeParams().is( "<Y, Z extends Base>"));
         assertTrue( _i.isExtends("MarkerInterface<String>"));
         assertTrue( _i.isExtends( "WithDefaultMethods<Serializable>"));
         

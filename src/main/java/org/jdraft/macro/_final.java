@@ -7,12 +7,13 @@ import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithFinalModifier;
 import com.github.javaparser.utils.Log;
 import org.jdraft._java;
 import org.jdraft._modifiers;
+import org.jdraft._param;
 
 import java.lang.annotation.*;
 
 /**
  * Annotation / Macro to add add the final modifier to a
- * {@link org.jdraft._type} {@link org.jdraft._method}, {@link org.jdraft._field}, {@link org.jdraft._parameter}
+ * {@link org.jdraft._type} {@link org.jdraft._method}, {@link org.jdraft._field}, {@link _param}
  *
  * @see macro
  */

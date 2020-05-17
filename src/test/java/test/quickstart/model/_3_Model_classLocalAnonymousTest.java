@@ -86,7 +86,7 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
 
         _method _m = _c.getMethod("id" );
         assertTrue( _m.isTypeRef( UUID.class ) );
-        assertTrue( _m.hasAnnoRef( Deprecated.class ) );
+        assertTrue( _m.hasAnnoExpr( Deprecated.class ) );
         _m.setStatic().setFinal().setPublic();
 
         // the _class has methods to add elements (like _field/_method/_constructor/_initBlock) using Strings

@@ -21,22 +21,22 @@ import java.util.stream.Collectors;
  * {@link _methodRefExpr}
  * order doesnt matter
  */
-public final class _typeArguments
-        implements _java._set<Type, _typeRef, _typeArguments> {
+public final class _typeArgs
+        implements _java._set<Type, _typeRef, _typeArgs> {
 
-    public static _typeArguments of(){
+    public static _typeArgs of(){
         return of( Exprs.newEx("new empty()"));
     }
 
-    public static _typeArguments of( _typeRef...rt){
+    public static _typeArgs of(_typeRef...rt){
         return of().add(rt);
     }
 
-    public static _typeArguments of( Type...rt){
+    public static _typeArgs of(Type...rt){
         return of().add(rt);
     }
 
-    public static _typeArguments of(String...args){
+    public static _typeArgs of(String...args){
         if( args.length == 1){
             String a = args[0].trim();
             if( a.startsWith("<") && a.endsWith(">")){
@@ -65,25 +65,25 @@ public final class _typeArguments
         return of( Exprs.newEx("new<"+ sb.toString() + "> empty()"));
     }
 
-    public static _typeArguments of(NodeWithTypeArguments nwta){
-         return new _typeArguments(nwta);
+    public static _typeArgs of(NodeWithTypeArguments nwta){
+         return new _typeArgs(nwta);
     }
 
     public NodeWithTypeArguments nwta;
 
-    public _typeArguments(NodeWithTypeArguments nwta){
+    public _typeArgs(NodeWithTypeArguments nwta){
         this.nwta = nwta;
     }
 
-    public _typeArguments add(Class...clazz){
+    public _typeArgs add(Class...clazz){
         return add(Arrays.stream(clazz).map(a -> _typeRef.of(a) ).collect(Collectors.toList()).toArray(new _typeRef[0]));
     }
 
-    public _typeArguments add(String...args){
+    public _typeArgs add(String...args){
         return add(Arrays.stream(args).map(a -> _typeRef.of(a) ).collect(Collectors.toList()).toArray(new _typeRef[0]));
     }
 
-    public _typeArguments add(Type... astElements) {
+    public _typeArgs add(Type... astElements) {
         if( !this.nwta.getTypeArguments().isPresent()){
             this.nwta.setTypeArguments(new NodeList<Type>());
         }
@@ -93,7 +93,7 @@ public final class _typeArguments
         return this;
     }
 
-    public _typeArguments add(_typeRef... elements) {
+    public _typeArgs add(_typeRef... elements) {
         if( !this.nwta.getTypeArguments().isPresent()){
             this.nwta.setTypeArguments(new NodeList<Type>());
         }
@@ -109,9 +109,9 @@ public final class _typeArguments
     }
 
     @Override
-    public _typeArguments copy() {
+    public _typeArgs copy() {
         Node n = (Node)nwta;
-        return new _typeArguments( (NodeWithTypeArguments) (n.clone()) );
+        return new _typeArgs( (NodeWithTypeArguments) (n.clone()) );
     }
 
     @Override
@@ -138,12 +138,12 @@ public final class _typeArguments
         return this.nwta.isUsingDiamondOperator();
     }
 
-    public _typeArguments setUseDiamondOperator(){
+    public _typeArgs setUseDiamondOperator(){
         this.nwta.setDiamondOperator();
         return this;
     }
 
-    public _typeArguments removeDiamondOperator(){
+    public _typeArgs removeDiamondOperator(){
         this.nwta.removeTypeArguments();
         return this;
     }
@@ -174,8 +174,8 @@ public final class _typeArguments
     }
 
     public boolean equals( Object o){
-        if( o instanceof _typeArguments){
-            _typeArguments _as = (_typeArguments) o;
+        if( o instanceof _typeArgs){
+            _typeArgs _as = (_typeArgs) o;
             if( !_as.hasTypeArgs() ){
                 return !this.hasTypeArgs();
             }
@@ -221,14 +221,14 @@ public final class _typeArguments
     public interface _withTypeArguments<N extends Node, _WTA extends _java._node> extends _java._node<N, _WTA> {
 
         /**
-         * Creates and returns an {@link _typeArguments} to model the whole arguments list
+         * Creates and returns an {@link _typeArgs} to model the whole arguments list
          * @return an _args modelling 0...n arguments in the arguments list)
          */
-        default _typeArguments getTypeArguments(){
+        default _typeArgs getTypeArguments(){
             return of( (NodeWithTypeArguments)ast());
         }
 
-        default _WTA setTypeArguments( _typeArguments _tas){
+        default _WTA setTypeArguments( _typeArgs _tas){
             if( _tas.hasTypeArgs() ) {
                 ((NodeWithTypeArguments) ast()).setTypeArguments(_tas.listAstElements());
             } else{
@@ -295,7 +295,7 @@ public final class _typeArguments
             return false;
         }
 
-        default boolean isTypeArguments(Predicate<_typeArguments> matchFn){
+        default boolean isTypeArguments(Predicate<_typeArgs> matchFn){
             return matchFn.test( getTypeArguments() );
         }
 
@@ -318,31 +318,31 @@ public final class _typeArguments
         }
 
         default _WTA addTypeArgument(Type e){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             _ta.add(e);
             return (_WTA)this;
         }
 
         default _WTA addTypeArguments(Class... clazz){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             Arrays.stream(clazz).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
 
         default _WTA addTypeArguments(String... es){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             Arrays.stream(es).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
 
         default _WTA addTypeArguments(Type... es){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             Arrays.stream(es).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
 
         default _WTA addTypeArguments(_typeRef... _tr){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             Arrays.stream(_tr).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
@@ -353,13 +353,13 @@ public final class _typeArguments
         }
 
         default _WTA removeTypeArguments(Predicate<_typeRef> matchFn){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             _ta.remove(matchFn);
             return (_WTA)this;
         }
 
         default _WTA removeTypeArguments(_typeRef... es){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             for(int i=0;i<es.length;i++){
                 _ta.remove(es[i]);
             }
@@ -367,7 +367,7 @@ public final class _typeArguments
         }
 
         default _WTA removeTypeArguments(Type... es){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             for(int i=0;i<es.length;i++){
                 _ta.remove(es[i]);
             }
@@ -375,13 +375,13 @@ public final class _typeArguments
         }
 
         default _WTA forTypeArguments(Consumer<_typeRef> argFn){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             _ta.forEach(argFn);
             return (_WTA)this;
         }
 
         default _WTA forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> argFn){
-            _typeArguments _ta = getTypeArguments();
+            _typeArgs _ta = getTypeArguments();
             _ta.forEach(matchFn, argFn);
             return (_WTA)this;
         }
