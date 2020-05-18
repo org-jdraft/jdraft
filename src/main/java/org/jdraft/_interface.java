@@ -492,7 +492,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public Map<_java.Feature, Object> components( ) {
+    public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Feature.PACKAGE, this.getPackage() );

@@ -409,7 +409,7 @@ public final class _method
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
         parts.put(_java.Feature.BODY, getBody());

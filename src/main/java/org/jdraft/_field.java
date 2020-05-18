@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _field
-        implements _javadocComment._withJavadoc<_field>, _annoExprs._withAnnoExprs<_field>, _modifiers._withModifiers<_field>, //_modifiers._hasModifiers<_field>,
+        implements _javadocComment._withJavadoc<_field>, _annoExprs._withAnnoExprs<_field>, _modifiers._withModifiers<_field>,
         _modifiers._withFinal<_field>, _modifiers._withStatic<_field>, _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
         _java._withNameTypeRef<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
 
@@ -54,7 +54,7 @@ public final class _field
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 
         //add the field to a class so I can run
-        _class _c = _class.of("Temp").add(_field.of(fd.clone().getVariable(0)));
+        _class _c = _class.of("Unknown").add(_field.of(fd.clone().getVariable(0)));
         macro.to(anonymousObjectWithField.getClass(), _c);
 
         //I NEED TO DISSOCIATE THE FIELD FROM THE OTHER ??? (I think clone does that)
@@ -417,7 +417,7 @@ public final class _field
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put(_java.Feature.NAME, getName());
         parts.put(_java.Feature.TYPE, getTypeRef());

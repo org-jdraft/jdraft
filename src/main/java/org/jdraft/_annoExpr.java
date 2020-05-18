@@ -677,7 +677,7 @@ public final class _annoExpr
     }
 
     @Override
-    public Map<_java.Feature,Object> components(){
+    public Map<_java.Feature,Object> features(){
         Map<_java.Feature,Object> m = new HashMap<>();
         m.put(_java.Feature.NAME, this.getName() );
         if( this.astAnno instanceof NormalAnnotationExpr ){

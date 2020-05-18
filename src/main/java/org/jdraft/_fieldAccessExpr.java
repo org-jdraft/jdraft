@@ -85,7 +85,7 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.SCOPE_EXPR, fe.getScope());
         if( fe.getTypeArguments().isPresent()) {

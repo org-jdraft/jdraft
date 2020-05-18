@@ -634,7 +634,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     @Override
-    public Map<_java.Feature, Object> components( ) {
+    public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
         parts.put( _java.Feature.PACKAGE, this.getPackage() );

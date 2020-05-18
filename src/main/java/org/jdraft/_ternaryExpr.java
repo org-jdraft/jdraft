@@ -102,7 +102,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
         comps.put(_java.Feature.CONDITION_EXPR, ce.getCondition());

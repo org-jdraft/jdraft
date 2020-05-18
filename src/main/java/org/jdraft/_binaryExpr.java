@@ -250,7 +250,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.LEFT_EXPR, astBe.getLeft());
         comps.put(_java.Feature.BINARY_OPERATOR, astBe.getOperator());

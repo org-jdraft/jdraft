@@ -107,7 +107,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._multi
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
         comps.put(_java.Feature.TYPE, ce.getType());

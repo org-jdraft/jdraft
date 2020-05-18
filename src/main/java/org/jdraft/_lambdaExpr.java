@@ -355,7 +355,7 @@ public final class _lambdaExpr
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> map = new HashMap<>();
         map.put(_java.Feature.BODY, _body.of(this.astLambda));
         map.put(_java.Feature.IS_ENCLOSED_PARAMS, this.astLambda.isEnclosingParameters());

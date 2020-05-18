@@ -383,7 +383,7 @@ public final class _typeRef<T extends Type>
     }
 
     @Override
-    public Map<_java.Feature, Object> components( ) {
+    public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
 
         parts.put( _java.Feature.AST_TYPE, this.astType);

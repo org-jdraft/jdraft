@@ -93,7 +93,7 @@ public final class _moduleInfo
      * @return a map of key values
      */
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
 
         Map m = new HashMap();
         m.put(_java.Feature.HEADER_COMMENT, getHeaderComment());

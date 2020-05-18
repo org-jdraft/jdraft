@@ -497,7 +497,7 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put( _java.Feature.TRY_BODY, tryStmt.getTryBlock());
         comps.put( _java.Feature.WITH_RESOURCES_EXPRS, tryStmt.getResources());

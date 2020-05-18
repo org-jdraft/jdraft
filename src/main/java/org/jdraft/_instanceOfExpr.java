@@ -100,7 +100,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.TYPE, ioe.getType());
         comps.put(_java.Feature.EXPRESSION, ioe.getExpression());

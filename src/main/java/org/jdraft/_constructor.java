@@ -188,7 +188,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
         parts.put( _java.Feature.BODY, getBody() );

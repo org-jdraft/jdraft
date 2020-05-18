@@ -280,7 +280,7 @@ public final class _catch implements _java._multiPart<CatchClause, _catch>,_body
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put( _java.Feature.BODY, this.cc.getBody());
         comps.put( _java.Feature.PARAM, this.cc.getParameter());

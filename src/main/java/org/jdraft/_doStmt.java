@@ -138,7 +138,7 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.CONDITION_EXPR, astStmt.getCondition());
         comps.put(_java.Feature.BODY, astStmt.getBody());

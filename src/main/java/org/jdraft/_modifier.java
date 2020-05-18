@@ -77,7 +77,7 @@ public enum _modifier implements _java._multiPart<Modifier, _modifier> {
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         return Collections.emptyMap();
     }
 

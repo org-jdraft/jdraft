@@ -308,7 +308,7 @@ public final class _import implements _java._multiPart<ImportDeclaration, _impor
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature,Object>components = new HashMap<>();
         components.put(_java.Feature.NAME, this.astId.getNameAsString());
         components.put(_java.Feature.IS_STATIC, this.astId.isStatic());

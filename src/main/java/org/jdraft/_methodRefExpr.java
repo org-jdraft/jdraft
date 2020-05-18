@@ -38,7 +38,7 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
         comps.put(_java.Feature.SCOPE_EXPR, mre.getScope());

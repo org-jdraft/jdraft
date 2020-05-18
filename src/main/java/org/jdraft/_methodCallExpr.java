@@ -92,7 +92,7 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
         if( mce.getScope().isPresent() ) {

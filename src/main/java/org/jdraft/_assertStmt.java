@@ -212,7 +212,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.EXPRESSION, astStmt.getCheck() );
         if( astStmt.getMessage().isPresent()){

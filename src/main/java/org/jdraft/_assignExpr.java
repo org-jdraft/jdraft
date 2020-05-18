@@ -106,7 +106,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.TARGET_EXPR, ae.getTarget());
         comps.put(_java.Feature.ASSIGN_OPERATOR, ae.getOperator());

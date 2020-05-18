@@ -149,7 +149,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
     */
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
         if( oce.getAnonymousClassBody().isPresent()){

@@ -144,7 +144,7 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
     }
 
     @Override
-    public Map<_java.Feature, Object> components() {
+    public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.LABEL, astStmt.getLabel().asString());
         comps.put(_java.Feature.STATEMENT, astStmt.getStatement());

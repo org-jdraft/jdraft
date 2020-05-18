@@ -112,8 +112,8 @@ public class _diffCompanionTypeTest extends TestCase {
         _cp.addCompanionTypes(_class.of("D"));
 
         /** TO ADD */
-        assertTrue(_cp.components().containsKey(_java.Feature.COMPANION_TYPES));
-        assertTrue( ((List<_type>)_cp.components().get(_java.Feature.COMPANION_TYPES)).size() == 1 );
+        assertTrue(_cp.features().containsKey(_java.Feature.COMPANION_TYPES));
+        assertTrue( ((List<_type>)_cp.features().get(_java.Feature.COMPANION_TYPES)).size() == 1 );
 
         assertFalse( _c.equals( _cp)); //verify not same
         assertFalse( _c.hashCode() == _cp.hashCode()); //verify not same hashcode

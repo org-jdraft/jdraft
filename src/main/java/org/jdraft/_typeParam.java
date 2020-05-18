@@ -190,7 +190,7 @@ public final class _typeParam
     }
 
     @Override
-    public Map<_java.Feature, Object> components( ) {
+    public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.TYPE_PARAM, this.typeParam);
         return parts;

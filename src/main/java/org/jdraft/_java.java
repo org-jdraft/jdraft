@@ -1165,7 +1165,7 @@ public interface _java {
          * Decompose the entity into key-VALUE pairs where the key is the Component
          * @return a map of key values
          */
-        Map<Feature, Object> components();
+        Map<Feature, Object> features();
 
         /**
          * Decompose the entity into smaller named tokens
@@ -1173,7 +1173,7 @@ public interface _java {
          * @return a Map with the names mapped to the corresponding components
          */
         default Map<String, Object> tokenize() {
-            Map<Feature, Object> parts = components();
+            Map<Feature, Object> parts = features();
             Map<String, Object> mdd = new HashMap<>();
             parts.forEach((p, o) -> {
                 mdd.put(p.name, o);
@@ -1287,10 +1287,6 @@ public interface _java {
         default _EL getAt(int index){
             return this.list().get(index);
         }
-
-        //default EL getAst(int index){
-        //   return this.listAstElements().get(index);
-        //}
 
         default int indexOf(_EL target){
             return list().indexOf(target);
