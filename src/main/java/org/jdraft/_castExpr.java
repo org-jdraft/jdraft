@@ -18,7 +18,7 @@ import java.util.function.*;
  * </CODE></PRE>
  *
  */
-public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._multiPart<CastExpr, _castExpr>,
+public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<CastExpr, _castExpr>,
         _typeRef._withTypeRef<CastExpr, _castExpr>, _java._withExpression<CastExpr, _castExpr> {
 
     public static _castExpr of(){
@@ -106,7 +106,6 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._multi
         return ce;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

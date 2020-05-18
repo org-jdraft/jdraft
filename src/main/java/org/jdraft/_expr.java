@@ -212,8 +212,8 @@ public interface _expr<E extends Expression, _E extends _expr>
      * @see _nullExpr
      * @see _textBlockExpr
      */
-    interface _literal<NE extends Expression, _NE extends _expr & _java._uniPart>  extends _expr<NE, _NE>,
-            _java._uniPart<NE, _NE> {
+    interface _literal<NE extends Expression, _NE extends _expr & _java._node>  extends _expr<NE, _NE>,
+            _java._node<NE, _NE> {
 
         //get me the string representation of the literal value
         String valueAsString();

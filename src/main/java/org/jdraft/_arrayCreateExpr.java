@@ -20,7 +20,7 @@ import java.util.function.Function;
  *  <br/>All the brackets are stored in the levels field, from left to right.
  */
 public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCreateExpr>,
-        _java._multiPart<ArrayCreationExpr, _arrayCreateExpr>,
+        _java._node<ArrayCreationExpr, _arrayCreateExpr>,
         _java._list<ArrayCreationLevel, _arrayDimension, _arrayCreateExpr> {
 
     public static _arrayCreateExpr of( ){
@@ -111,7 +111,6 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         return astNode;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

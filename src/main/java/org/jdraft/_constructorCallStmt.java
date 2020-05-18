@@ -14,7 +14,7 @@ import java.util.*;
  */
 public final class _constructorCallStmt
         implements _stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _java._multiPart<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        _java._node<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _typeArgs._withTypeArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _args._withArgs<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
 
@@ -88,7 +88,6 @@ public final class _constructorCallStmt
         return this;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

@@ -15,7 +15,7 @@ import java.util.function.Function;
  *  <br/><code>(1+1)</code>
  */
 public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesizedExpr>,
-        _java._uniPart<EnclosedExpr, _parenthesizedExpr>,
+        _java._node<EnclosedExpr, _parenthesizedExpr>,
         _java._withExpression<EnclosedExpr, _parenthesizedExpr>{
 
     public static _parenthesizedExpr of( ){

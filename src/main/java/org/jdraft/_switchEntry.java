@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class _switchEntry implements _java._multiPart<SwitchEntry, _switchEntry> {
+public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry> {
 
     public static _switchEntry of(){
         return new _switchEntry(new SwitchEntry());
@@ -467,7 +467,6 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
         return this.switchEntry;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> cs = new HashMap<>();
         cs.put(_java.Feature.STATEMENTS, this.switchEntry.getStatements());

@@ -11,7 +11,7 @@ import org.jdraft.text.Text;
  *
  */
 public final class _packageInfo
-        implements _codeUnit<_packageInfo>, _annoExprs._withAnnoExprs<_packageInfo>, _java._multiPart<CompilationUnit, _packageInfo> {
+        implements _codeUnit<_packageInfo>, _annoExprs._withAnnoExprs<_packageInfo>, _java._node<CompilationUnit, _packageInfo> {
 
     public static _packageInfo of(String... pkgInfo) {
         return new _packageInfo(StaticJavaParser.parse(Text.combine(pkgInfo)));
@@ -180,7 +180,6 @@ public final class _packageInfo
      *
      * @return a map of key values
      */
-    @Override
     public Map<_java.Feature, Object> features() {
         Map m = new HashMap();
         m.put(_java.Feature.HEADER_COMMENT, this.getHeaderComment());

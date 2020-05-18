@@ -12,7 +12,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public final class _fieldsDiff implements _differ<List<_field>, _java._multiPart> {
+public final class _fieldsDiff implements _differ<List<_field>, _java._node> {
 
     public static final _fieldsDiff INSTANCE = new _fieldsDiff();
     
@@ -34,11 +34,11 @@ public final class _fieldsDiff implements _differ<List<_field>, _java._multiPart
     }
 
     public _diff diff(_withFields left, _withFields right){
-        return diff( _nodePath.of(), new _diffList((_java._multiPart)left, (_java._multiPart)right), (_java._multiPart)left, (_java._multiPart)right, left.listFields(), right.listFields());
+        return diff( _nodePath.of(), new _diffList((_java._node)left, (_java._node)right), (_java._node)left, (_java._node)right, left.listFields(), right.listFields());
     }
     
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_field> left, List<_field> right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_field> left, List<_field> right) {
         Set<_field> lf = new HashSet<>();
         Set<_field> rf = new HashSet<>();
         lf.addAll(left);

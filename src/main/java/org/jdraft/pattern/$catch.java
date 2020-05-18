@@ -207,7 +207,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
                 return selectFirstIn( ((_type)_j).ast(), selectConstraint);
             }
         }        
-        return selectFirstIn( ((_java._multiPart)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -265,7 +265,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
                 return listSelectedIn( ((_type) _j).ast(), selectConstraint);
             }
         }        
-        return listSelectedIn( ((_java._multiPart) _j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._node) _j).ast(), selectConstraint);
     }
 
     /**

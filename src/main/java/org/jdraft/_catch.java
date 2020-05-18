@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.function.*;
 import java.util.stream.Stream;
 
-public final class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasBody<_catch> {
+public final class _catch implements _java._node<CatchClause, _catch>,_body._hasBody<_catch> {
 
     public static _catch of(){
         return new _catch( new CatchClause() );
@@ -279,7 +279,6 @@ public final class _catch implements _java._multiPart<CatchClause, _catch>,_body
         return this.cc;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put( _java.Feature.BODY, this.cc.getBody());

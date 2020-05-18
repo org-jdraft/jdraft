@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.function.*;
 
 public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallExpr>,
-        _java._multiPart<MethodCallExpr, _methodCallExpr>,
+        _java._node<MethodCallExpr, _methodCallExpr>,
         _java._withName<_methodCallExpr>,
         _java._withScope<MethodCallExpr, _methodCallExpr>,
         _args._withArgs<MethodCallExpr, _methodCallExpr>,
@@ -91,7 +91,6 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         return mce;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

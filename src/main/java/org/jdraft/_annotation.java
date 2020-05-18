@@ -527,7 +527,6 @@ public final class _annotation
         return this;
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
@@ -830,7 +829,6 @@ public final class _annotation
             return true;
         }
 
-        @Override
         public Map<_java.Feature, Object> features( ) {
             Map<_java.Feature, Object> parts = new HashMap<>();
             parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );

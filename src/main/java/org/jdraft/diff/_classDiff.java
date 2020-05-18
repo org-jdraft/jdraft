@@ -3,12 +3,12 @@ package org.jdraft.diff;
 import org.jdraft.*;
 import org.jdraft.diff._diff.*;
 
-public final class _classDiff implements _differ<_class, _java._multiPart> {
+public final class _classDiff implements _differ<_class, _java._node> {
 
     public static _classDiff INSTANCE = new _classDiff();
     
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _class left, _class right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _class left, _class right) {
         if( left.hasPackage() || right.hasPackage() ){
             _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackageName(), right.getPackageName());
         }

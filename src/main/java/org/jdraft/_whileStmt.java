@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.*;
 
 public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt, _whileStmt>,
-        _java._multiPart<WhileStmt, _whileStmt>,
+        _java._node<WhileStmt, _whileStmt>,
         _stmt._controlFlow._loop<WhileStmt, _whileStmt>,
         _java._withCondition<WhileStmt, _whileStmt>,
         _body._hasBody<_whileStmt>{
@@ -174,7 +174,6 @@ public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt
         return whileStmt;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.CONDITION_EXPR, whileStmt.getCondition());

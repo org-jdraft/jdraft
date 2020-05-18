@@ -18,7 +18,7 @@ import org.jdraft.text.Text;
  *
  * @see _constructorCallStmt
  */
-public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._uniPart<SuperExpr, _superExpr> {
+public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._node<SuperExpr, _superExpr> {
 
     public static _superExpr of(){
         return new _superExpr( new SuperExpr());

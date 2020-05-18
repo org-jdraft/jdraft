@@ -14,7 +14,7 @@ import java.util.function.*;
 
 public final class _ifStmt implements _stmt._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt>,
         _java._withCondition<IfStmt, _ifStmt>,
-        _java._multiPart<IfStmt, _ifStmt> {
+        _java._node<IfStmt, _ifStmt> {
 
     public static _ifStmt of(){
         return new _ifStmt( new IfStmt( ));
@@ -149,7 +149,6 @@ public final class _ifStmt implements _stmt._controlFlow._branching<IfStmt, _ifS
         return astStmt;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.CONDITION_EXPR, astStmt.getCondition());

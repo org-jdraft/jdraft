@@ -15,7 +15,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _typeParam
-        implements _java._multiPart<TypeParameter, _typeParam>,
+        implements _java._node<TypeParameter, _typeParam>,
         _java._withName<_typeParam>, _annoExprs._withAnnoExprs<_typeParam> {
 
     public static _typeParam of() {
@@ -189,7 +189,6 @@ public final class _typeParam
         return Objects.equals( ttp, otp );
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.TYPE_PARAM, this.typeParam);

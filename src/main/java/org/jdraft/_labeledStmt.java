@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.function.*;
 
 public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
-        _java._multiPart<LabeledStmt, _labeledStmt> {
+        _java._node<LabeledStmt, _labeledStmt> {
 
     public static _labeledStmt of(){
         return new _labeledStmt( new LabeledStmt( ));
@@ -143,7 +143,6 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         return astStmt;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.LABEL, astStmt.getLabel().asString());
@@ -214,8 +213,8 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
      * @param labelName
      */
     public static void flattenLabel(_java._domain _j, String labelName){
-        if( _j instanceof _java._multiPart){
-            Tree.flattenLabel( ((_java._multiPart)_j).ast(), labelName);
+        if( _j instanceof _java._node){
+            Tree.flattenLabel( ((_java._node)_j).ast(), labelName);
             return;
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());

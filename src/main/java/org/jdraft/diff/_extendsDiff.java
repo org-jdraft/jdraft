@@ -15,7 +15,7 @@ import org.jdraft.diff._diff._build;
 import org.jdraft.diff._diff._differ;
 
 public final class _extendsDiff implements
-        _differ<List<ClassOrInterfaceType>, _java._multiPart> {
+        _differ<List<ClassOrInterfaceType>, _java._node> {
 
     public static final _extendsDiff INSTANCE = new _extendsDiff();
     
@@ -41,7 +41,7 @@ public final class _extendsDiff implements
     }
     
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
         
         for (int i = 0; i < left.size(); i++) {
             ClassOrInterfaceType cit = left.get(i);

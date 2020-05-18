@@ -9,7 +9,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public final class _innerTypesDiff implements _differ<List<_type>, _java._multiPart> {
+public final class _innerTypesDiff implements _differ<List<_type>, _java._node> {
 
     public static _innerTypesDiff INSTANCE = new _innerTypesDiff();
     
@@ -40,7 +40,7 @@ public final class _innerTypesDiff implements _differ<List<_type>, _java._multiP
     }
 
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
         Set<_type> ls = new HashSet<>();
         Set<_type> rs = new HashSet<>();
         Set<_type> both = new HashSet<>();

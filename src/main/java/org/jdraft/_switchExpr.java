@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
-        _java._multiPart<SwitchExpr, _switchExpr>, _switch<_switchExpr> {
+        _java._node<SwitchExpr, _switchExpr>, _switch<_switchExpr> {
 
     public static _switchExpr of(){
         return new _switchExpr(new SwitchExpr());
@@ -403,7 +403,6 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return this;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> mc = new HashMap<>();
         mc.put(_java.Feature.SWITCH_SELECTOR_EXPR, this.switchExpr.getSelector());

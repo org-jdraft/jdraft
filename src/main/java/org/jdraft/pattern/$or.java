@@ -87,8 +87,8 @@ public final class $or<$p extends $pattern>
     }
 
     public boolean match(_java._domain _j){
-        if( _j instanceof _java._multiPart){
-            return match( ((_java._multiPart)_j).ast());
+        if( _j instanceof _java._node){
+            return match( ((_java._node)_j).ast());
         }
         return false;
     }
@@ -132,7 +132,7 @@ public final class $or<$p extends $pattern>
         return ss.stream().distinct().collect(Collectors.toList());
     }
 
-    public Select select(_java._multiPart _n ){
+    public Select select(_java._node _n ){
         return select( _n.ast());
     }
 
@@ -213,7 +213,7 @@ public final class $or<$p extends $pattern>
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._multiPart) _j).ast());
+        return listSelectedIn( ((_java._node) _j).ast());
     }
 
     /**
@@ -246,7 +246,7 @@ public final class $or<$p extends $pattern>
             }
             return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._multiPart)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint);
     }
 
     private static boolean replaceNode( Node target, Node replacement ){
@@ -343,7 +343,7 @@ public final class $or<$p extends $pattern>
             replaceIn( ((_type) _j).ast(), replacement);
             return _j;
         }
-        replaceIn( ((_java._multiPart) _j).ast(), replacement);
+        replaceIn( ((_java._node) _j).ast(), replacement);
         return _j;
     }
 
@@ -405,7 +405,7 @@ public final class $or<$p extends $pattern>
             replaceIn( ((_type) _j).ast(), replacement);
             return _j;
         }
-        replaceIn( ((_java._multiPart) _j).ast(), replacement);
+        replaceIn( ((_java._node) _j).ast(), replacement);
         return _j;
     }
 
@@ -442,7 +442,7 @@ public final class $or<$p extends $pattern>
             forSelectedIn( ((_type) _j).ast(), nodeActionFn);
             return _j;
         }
-        forSelectedIn( ((_java._multiPart) _j).ast(), nodeActionFn);
+        forSelectedIn( ((_java._node) _j).ast(), nodeActionFn);
         return _j;
     }
 
@@ -481,7 +481,7 @@ public final class $or<$p extends $pattern>
             forSelectedIn( ((_type) _j).ast(), nodeActionFn);
             return _j;
         }
-        forSelectedIn( ((_java._multiPart) _j).ast(), nodeActionFn);
+        forSelectedIn( ((_java._node) _j).ast(), nodeActionFn);
         return _j;
     }
 

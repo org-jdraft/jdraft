@@ -15,7 +15,7 @@ import java.util.function.*;
  * Binary Expresssions
  */
 public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
-        _java._multiPart<BinaryExpr, _binaryExpr> {
+        _java._node<BinaryExpr, _binaryExpr> {
 
     /** ALL OPERATORS */
 
@@ -249,7 +249,6 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         return astBe;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.LEFT_EXPR, astBe.getLeft());

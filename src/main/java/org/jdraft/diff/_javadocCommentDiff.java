@@ -12,7 +12,7 @@ import org.jdraft.diff._diff.*;
 /**
  * Differ for {@link _javadocComment}
  */
-public final class _javadocCommentDiff implements _differ<_javadocComment, _java._multiPart> {
+public final class _javadocCommentDiff implements _differ<_javadocComment, _java._node> {
 
     public static final _javadocCommentDiff INSTANCE = new _javadocCommentDiff();
 
@@ -22,15 +22,15 @@ public final class _javadocCommentDiff implements _differ<_javadocComment, _java
 
     public _diff diff(_withJavadoc leftParent, _withJavadoc rightParent){
         return diff( _nodePath.of(),
-            new _diffList((_java._multiPart)leftParent, (_java._multiPart)rightParent),
-            (_java._multiPart)leftParent,
-            (_java._multiPart)rightParent,
+            new _diffList((_java._node)leftParent, (_java._node)rightParent),
+            (_java._node)leftParent,
+            (_java._node)rightParent,
             leftParent.getJavadoc(),
             rightParent.getJavadoc());
     }
 
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _javadocComment left, _javadocComment right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _javadocComment left, _javadocComment right) {
         if (!equivalent(left, right)) {
             dt.addDiff(new _changeJavadoc(path.in(_java.Feature.JAVADOC), (_withJavadoc) _leftParent, (_withJavadoc) _rightParent));
         }

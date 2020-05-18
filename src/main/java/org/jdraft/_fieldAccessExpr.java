@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAccessExpr>,
-        _java._multiPart<FieldAccessExpr, _fieldAccessExpr>,
+        _java._node<FieldAccessExpr, _fieldAccessExpr>,
         _java._withName<_fieldAccessExpr>,
         _typeArgs._withTypeArguments<FieldAccessExpr, _fieldAccessExpr>,
         _java._withScope<FieldAccessExpr, _fieldAccessExpr> {
@@ -84,7 +84,6 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
         return fe;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.SCOPE_EXPR, fe.getScope());

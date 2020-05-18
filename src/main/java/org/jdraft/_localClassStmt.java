@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _localClassStmt>,
-        _java._uniPart<LocalClassDeclarationStmt, _localClassStmt> {
+        _java._node<LocalClassDeclarationStmt, _localClassStmt> {
 
     public static _localClassStmt of(){
         return new _localClassStmt( new LocalClassDeclarationStmt( ));

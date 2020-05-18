@@ -33,13 +33,13 @@ public final class _nodePath {
                 if( pathAsTokens[i] instanceof _java.Feature){
                     _p = _p.in((_java.Feature) pathAsTokens[i], (String) pathAsTokens[i + 1]);
                 } else{
-                    _p = _p.in(_java.Feature.of( (Class<_java._multiPart>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
+                    _p = _p.in(_java.Feature.of( (Class<_java._node>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
                 }
             } else {
                 if( pathAsTokens[i] instanceof _java.Feature){
                     _p = _p.in((_java.Feature) pathAsTokens[i]);
                 } else{
-                    _p = _p.in( _java.Feature.of( (Class<_java._multiPart>)pathAsTokens[i]));
+                    _p = _p.in( _java.Feature.of( (Class<_java._node>)pathAsTokens[i]));
                 }
             }
         }
@@ -189,7 +189,7 @@ public final class _nodePath {
      * @param id
      * @return
      */
-    public <_N extends _java._multiPart> boolean is(int index, Class<_N> clazz, String id) {
+    public <_N extends _java._node> boolean is(int index, Class<_N> clazz, String id) {
         if (index <= this.size() && index >= 0) {
             return this.featurePath.get(index).implementationClass.equals(clazz)
                     && this.idPath.get(index).equals(id);
@@ -215,7 +215,7 @@ public final class _nodePath {
      * @param id
      * @return
      */
-    public <_N extends _java._multiPart> boolean isLeaf(Class<_N> clazz, String id) {
+    public <_N extends _java._node> boolean isLeaf(Class<_N> clazz, String id) {
         return isLeaf(clazz) && leafId().equals(id);
     }
 
@@ -233,7 +233,7 @@ public final class _nodePath {
      * @param clazz
      * @return
      */
-    public <_N extends _java._multiPart> boolean isLeaf(Class<_N> clazz) {
+    public <_N extends _java._node> boolean isLeaf(Class<_N> clazz) {
         return leaf().implementationClass.equals(clazz);
     }
 
@@ -296,7 +296,7 @@ public final class _nodePath {
      * @param clazz
      * @return
      */
-    public <_N extends _java._multiPart> boolean has(Class<_N> clazz) {
+    public <_N extends _java._node> boolean has(Class<_N> clazz) {
         for (int i = 0; i < size(); i++) {
             if (this.featurePath.get(i).implementationClass.equals(clazz)) {
                 return true;
@@ -330,7 +330,7 @@ public final class _nodePath {
      * @param id
      * @return
      */
-    public <_N extends _java._multiPart> boolean has(Class<_N> clazz, String id) {
+    public <_N extends _java._node> boolean has(Class<_N> clazz, String id) {
         for (int i = 0; i < size(); i++) {
             if (this.featurePath.get(i).implementationClass.equals(clazz)
                     && this.idPath.get(i).equals(id)) {

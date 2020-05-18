@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodRefExpr>,
-        _java._multiPart<MethodReferenceExpr, _methodRefExpr>,
+        _java._node<MethodReferenceExpr, _methodRefExpr>,
         _java._withScope<MethodReferenceExpr, _methodRefExpr>,
         _typeArgs._withTypeArguments<MethodReferenceExpr, _methodRefExpr> {
 
@@ -37,7 +37,6 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
         return mre;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

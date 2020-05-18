@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  * ("x++") with postfix operator
  *
  */
-public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._multiPart<UnaryExpr, _unaryExpr>,
+public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._node<UnaryExpr, _unaryExpr>,
         _java._withExpression<UnaryExpr, _unaryExpr> {
 
     public static final UnaryExpr.Operator BITWISE_COMPLEMENT = UnaryExpr.Operator.BITWISE_COMPLEMENT;
@@ -78,7 +78,6 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._mu
         return unaryEx;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

@@ -13,13 +13,15 @@ public class EquivalentTest extends TestCase {
     public void testS(){        
         assertEquals( m1, m1a);
         assertEquals( m2, m2a);
-        
+
+        /*
         m1.tokenize().forEach((s, o)-> {
             System.out.println( s+" \""+o+"\" : " +Objects.hash( o ) );
         });
         m1a.tokenize().forEach((s, o)-> {
             System.out.println( s+" \""+o+"\" : " +Objects.hash( o ) );
         });
+         */
         
         assertEquals( m1.hashCode(), m1a.hashCode());
         assertEquals( m2.hashCode(), m2a.hashCode());

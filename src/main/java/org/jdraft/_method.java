@@ -408,7 +408,6 @@ public final class _method
         return tokensMap;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
@@ -882,7 +881,7 @@ public final class _method
             MethodDeclaration md = (MethodDeclaration) obd.get();
             //md.removeForced();
 
-            Optional<CompilationUnit> oc = ((_java._multiPart)this).ast().findCompilationUnit();
+            Optional<CompilationUnit> oc = ((_java._node)this).ast().findCompilationUnit();
             if( oc.isPresent() ){
                 CompilationUnit cu = oc.get();
                 Set<Class> clazzes = _import.inferImportsFrom(anonymousObjectContainingMethod.getClass());    

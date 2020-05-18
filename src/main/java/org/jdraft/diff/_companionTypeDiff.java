@@ -13,7 +13,7 @@ import static org.jdraft._java.Feature.*;
  *
  * @author Eric
  */
-public final class _companionTypeDiff implements _differ<List<_type>, _java._multiPart> {
+public final class _companionTypeDiff implements _differ<List<_type>, _java._node> {
 
     public static _companionTypeDiff INSTANCE = new _companionTypeDiff();
 
@@ -44,7 +44,7 @@ public final class _companionTypeDiff implements _differ<List<_type>, _java._mul
     }
 
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_type> left, List<_type> right) {
         Set<_type> ls = new HashSet<>();
         Set<_type> rs = new HashSet<>();
         Set<_type> both = new HashSet<>();

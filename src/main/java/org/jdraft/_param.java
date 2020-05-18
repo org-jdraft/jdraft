@@ -15,7 +15,7 @@ import org.jdraft.text.Text;
  */
 public final class _param
     implements _java._withNameTypeRef<Parameter, _param>, _annoExprs._withAnnoExprs<_param>,
-        _modifiers._withFinal<_param>, _java._multiPart<Parameter, _param> {
+        _modifiers._withFinal<_param>, _java._node<Parameter, _param> {
 
     public static _param from (StackTraceElement ste ){
         _param _p = _lambdaExpr.from(ste).getParam(0);
@@ -245,7 +245,6 @@ public final class _param
         return this;
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.IS_FINAL, isFinal() );

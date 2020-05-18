@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 
 public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchronizedStmt>,
         _body._hasBody<_synchronizedStmt>,
-        _java._multiPart<SynchronizedStmt, _synchronizedStmt>,
+        _java._node<SynchronizedStmt, _synchronizedStmt>,
         _java._withExpression<SynchronizedStmt, _synchronizedStmt> {
 
     public static _synchronizedStmt of(){
@@ -110,7 +110,6 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
         return astStmt;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

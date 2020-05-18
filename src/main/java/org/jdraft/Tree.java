@@ -2568,28 +2568,28 @@ public enum Tree {
      * @return true if the parent node exists, is of a particular type and complies with the predicate
      */
     public static <_J extends _java._domain> boolean isParent(_java._domain _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
-        if( _j instanceof _java._multiPart){
+        if( _j instanceof _java._node){
             AtomicBoolean ans = new AtomicBoolean(false);
-            in_java(Node.TreeTraversal.PARENTS, 1, ((_java._multiPart)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
+            in_java(Node.TreeTraversal.PARENTS, 1, ((_java._node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
             return ans.get();
         }
         //need to handle _typeParameters, _parameters, _annos
         if( _j instanceof _typeParams){
             _typeParams _tps = (_typeParams)_j;
-            _java._multiPart _n = (_java._multiPart)_java.of( (Node)_tps.astHolder());
+            _java._node _n = (_java._node)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         if( _j instanceof _body){
             _body _tps = (_body)_j;
             Object par = _tps.astParentNode();
             if( par != null ){
-                _java._multiPart _n = (_java._multiPart)_java.of( (Node)par );
+                _java._node _n = (_java._node)_java.of( (Node)par );
                 return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
             }
         }
         if( _j instanceof _params){
             _params _tps = (_params)_j;
-            _java._multiPart _n = (_java._multiPart)_java.of( (Node)_tps.astHolder());
+            _java._node _n = (_java._node)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         return false;

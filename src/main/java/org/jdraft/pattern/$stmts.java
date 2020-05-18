@@ -257,10 +257,11 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
      * 
      * @param _n
      * @return 
-     */
+
     public List<Statement> draft(_java._multiPart _n ){
         return draft(_n.tokenize());
     }
+     */
 
     @Override
     public List<Statement> draft(Translator t, Map<String,Object> tokens ){
@@ -477,7 +478,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._multiPart) _j).ast());
+        return listSelectedIn( ((_java._node) _j).ast());
     }
 
     @Override
@@ -647,8 +648,8 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _j instanceof _java._multiPart){
-            Tree.flattenLabel( ((_java._multiPart) _j).ast(), "$replacement$");
+        if( _j instanceof _java._node){
+            Tree.flattenLabel( ((_java._node) _j).ast(), "$replacement$");
         }
         return _j;
     }

@@ -298,15 +298,6 @@ public class $typeRef
         return new $typeRef();
     }
 
-    /**
-     *
-     * @param _n
-     * @return
-     */
-    public _typeRef draft(_java._multiPart _n ){
-        return draft(_n.tokenize());
-    }
-
     @Override
     public _typeRef draft(Translator t, Map<String,Object> tokens ){
         return _typeRef.of(typePattern().draft( t, tokens ));

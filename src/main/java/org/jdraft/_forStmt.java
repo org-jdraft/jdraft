@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.*;
 
 public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStmt>,
-        _java._multiPart<ForStmt, _forStmt>,
+        _java._node<ForStmt, _forStmt>,
         _stmt._controlFlow._branching<ForStmt,_forStmt>, _body._hasBody<_forStmt> {
 
     public static _forStmt of(){
@@ -279,7 +279,6 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return astStmt;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.INIT_EXPR, astStmt.getInitialization());

@@ -34,7 +34,7 @@ public @interface _static  {
             to(node);
         }
 
-        public static <_N extends _java._multiPart> _N to (_N _n){
+        public static <_N extends _java._node> _N to (_N _n){
             to( _n.ast());
             return _n;
         }

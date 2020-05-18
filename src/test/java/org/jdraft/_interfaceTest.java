@@ -232,19 +232,21 @@ public class _interfaceTest extends TestCase {
             "static final int VALUE = 120;"));
         
         _method _m = _i.getMethod( "getValue" );
-        
+
+        /*
         _m.tokenize().forEach( (s, o)->{
             System.out.println( s+" "+o+" : "+ Objects.hashCode(o) );
         });
-        
+        */
         _method _m2 = _method.of("@ann2(v=12345,k='F') @ann", //NOTE: i intentionally out of order
             "static int getValue(){",
             "return 12345;",
             "}");
-        
+        /*
         _m2.tokenize().forEach( (s, o)->{
             System.out.println( s+" "+o+" : "+ Objects.hashCode(o) );
         });
+         */
         assertTrue( _m.is("@ann2(v=12345,k='F') @ann", //NOTE: i intentionally out of order
             "static int getValue(){",
             "return 12345;",

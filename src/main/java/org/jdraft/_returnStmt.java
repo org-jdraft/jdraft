@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 public final class _returnStmt implements _stmt._controlFlow._signal<ReturnStmt, _returnStmt>,
         _java._withExpression<ReturnStmt, _returnStmt>,
-        _java._uniPart<ReturnStmt, _returnStmt> {
+        _java._node<ReturnStmt, _returnStmt> {
 
     public static _returnStmt of(){
         return new _returnStmt( new ReturnStmt( ));

@@ -1178,16 +1178,6 @@ public class $stmt<S extends Statement, _S extends _stmt>
     public _S draft(Map<String,Object> tokens ){
         return (_S) _stmt.of((S) parameterize$LabeledStmt( Stmts.of(stmtStencil.draft( tokens )), tokens ));
     }
-    
-    /**
-     * 
-     * @param _n
-     * @return 
-     */
-    public _S draft(_java._multiPart _n ){
-        Map<String,Object> decons = _n.tokenize();
-        return (_S) draft( decons );
-    }
 
     @Override
     public _S draft(Translator t, Map<String,Object> tokens ){
@@ -1328,7 +1318,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
         if( _j instanceof _body ){
             return selectFirstIn( ((_body)_j).ast() );
         }
-        return selectFirstIn( ((_java._multiPart) _j).ast() );
+        return selectFirstIn( ((_java._node) _j).ast() );
     }
      
 
@@ -1359,7 +1349,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._multiPart)_n).ast(), selectConstraint );
+        return selectFirstIn( ((_java._node)_n).ast(), selectConstraint );
     }
 
     /**
@@ -1755,7 +1745,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @param <_N> the node type
      * @return the modified node
      */
-    public <_N extends _java._multiPart> _N unComment(_N _n){
+    public <_N extends _java._node> _N unComment(_N _n){
         unComment( _n.ast() );
         return _n;
     }
@@ -1831,8 +1821,8 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _j instanceof _java._multiPart){
-            Tree.flattenLabel( ((_java._multiPart) _j).ast(), "$replacement$");
+        if( _j instanceof _java._node){
+            Tree.flattenLabel( ((_java._node) _j).ast(), "$replacement$");
         }
         return (_J) _j;
     }

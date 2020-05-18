@@ -1986,10 +1986,11 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * 
      * @param _n
      * @return 
-     */
+
     public _E draft(_java._multiPart _n ){
         return (_E)draft(_n.tokenize());
     }
+     */
 
     @Override
     public _E draft(Translator t, Map<String,Object> tokens ){
@@ -2259,7 +2260,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
             _type _t = (_type) _j; //only possible
             return selectFirstIn(_t.ast());
         }
-        return selectFirstIn( ((_java._multiPart) _j).ast() );
+        return selectFirstIn( ((_java._node) _j).ast() );
     }
 
     /**
@@ -2300,7 +2301,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_java._multiPart) _j).ast(), selectConstraint);
+        return selectFirstIn(((_java._node) _j).ast(), selectConstraint);
     }
 
     /**
@@ -2328,7 +2329,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
             }
                 return listIn(((_type) _j).ast());
         }
-        return listIn( ((_java._multiPart) _j).ast() );
+        return listIn( ((_java._node) _j).ast() );
     }    
 
     @Override
@@ -2517,7 +2518,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
         Tree.in(_j, this.astExpressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
-                Expression replaceNode = (Expression)( (  (_java._multiPart)$replaceProto.draft( sel.tokens.asTokens())).ast());
+                Expression replaceNode = (Expression)( (  (_java._node)$replaceProto.draft( sel.tokens.asTokens())).ast());
                 sel.ast().replace( replaceNode );
             }
         });

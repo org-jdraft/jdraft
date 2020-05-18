@@ -18,7 +18,7 @@ import java.util.function.Function;
  * assert( true ); //check only
  * assert i==3 : "unexpected Expected this"; //check with optional message
  */
-public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java._multiPart<AssertStmt,_assertStmt> {
+public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java._node<AssertStmt,_assertStmt> {
 
     public static _assertStmt of(){
         return new _assertStmt( new AssertStmt( ));
@@ -211,7 +211,6 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         return _expr.of(astStmt.getCheck());
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.EXPRESSION, astStmt.getCheck() );

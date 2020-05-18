@@ -17,7 +17,7 @@ import java.util.Objects;
  * </PRE>
  */
 public final class _breakStmt
-        implements _stmt._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniPart<BreakStmt, _breakStmt> {
+        implements _stmt._controlFlow._signal<BreakStmt, _breakStmt>, _java._node<BreakStmt, _breakStmt> {
 
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ).removeLabel());

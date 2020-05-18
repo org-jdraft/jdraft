@@ -22,7 +22,7 @@ import java.util.Objects;
  * type
  *
  */
-public final class _qualifiedName implements _java._uniPart<Node, _qualifiedName> {
+public final class _qualifiedName implements _java._node<Node, _qualifiedName> {
 
     public String getNameString(){
         String firstPart = "";

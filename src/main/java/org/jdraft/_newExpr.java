@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
-        _java._multiPart<ObjectCreationExpr, _newExpr>,
+        _java._node<ObjectCreationExpr, _newExpr>,
         _typeRef._withTypeRef<ObjectCreationExpr, _newExpr>,
         _java._withScope<ObjectCreationExpr, _newExpr>,
         _args._withArgs<ObjectCreationExpr, _newExpr>,
@@ -148,7 +148,6 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
     }
     */
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

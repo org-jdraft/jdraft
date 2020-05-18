@@ -80,8 +80,9 @@ public interface _java {
     /**
      * Marker interface for ALL models and interfaces related to Java Language Constructs
      *
-     * @see _multiPart a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
-     * @see _list a one-to 0 or more NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
+     * @see _node a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
+     * @see _list a one-to 0 or more ordered NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
+     * @see _set a one-to 0 or more NodeList instances of AST nodes ( _modifiers <--> NodeList<Parameter> )
      */
     interface _domain { }
 
@@ -509,7 +510,7 @@ public interface _java {
          * @param <_N>
          * @return
          */
-        public static <_N extends _multiPart> Feature of(Class<_N> nodeClass) {
+        public static <_N extends _node> Feature of(Class<_N> nodeClass) {
             Optional<Feature> op = Arrays.stream(Feature.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
             if (op.isPresent()) {
                 return op.get();
@@ -605,7 +606,7 @@ public interface _java {
         /**
          * The classes below are categorical interfaces that are applied to classes
          */
-        Class<_multiPart> NODE = _multiPart.class;
+        //Class<_multiPart> NODE = _multiPart.class;
         Class<_declared> MEMBER = _declared.class;
         Class<_withName> NAMED = _withName.class;
         Class<_withNameTypeRef> NAMED_TYPE = _withNameTypeRef.class;
@@ -639,7 +640,6 @@ public interface _java {
      * NOTE: each {@link _declared} maps directly to:
      * <UL>
      *     <LI>an AST representation {@link Node}
-     *     <LI></LI>a meta-representation {@link _multiPart}
      * </UL>
      * <UL>
      * <LI>{@link _field} {@link FieldDeclaration}
@@ -664,7 +664,7 @@ public interface _java {
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _multiPart & _withName & _withAnnoExprs & _withJavadoc & _withComments>
+    interface _declared<N extends Node, _D extends _withName & _withAnnoExprs & _withJavadoc & _withComments>
             extends _member<N, _D>, _withName<_D>, _withAnnoExprs<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
 
         @Override
@@ -693,7 +693,7 @@ public interface _java {
 
     /**
      * A member within the body of a Class (something defined in the  { }) including {@link _initBlock}s.
-     * All _{@link _member}s are {@link _multiPart}s (they are represented by BOTH a meta-representation i.e. {@link _method},
+     * All _{@link _member}s (they are represented by BOTH a meta-representation i.e. {@link _method},
      * and an AST representation {@link MethodDeclaration}.
      *
      * {@link _initBlock} IS a {@link _member}, BUT IS NOT a {@link _declared}, because even though
@@ -718,8 +718,8 @@ public interface _java {
      * @see _declared (an EXTENSION of {@link _member}s that are also {@link _withName}...(all {@link _member}s are
      * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
      */
-    interface _member<N extends Node, _N extends _multiPart & _withComments>
-            extends _multiPart<N, _N>, _withComments<N, _N> {
+    interface _member<N extends Node, _N extends _withComments>
+            extends _withComments<N, _N> { //_multiPart<N, _N>,
 
         /**
          * Returns the parent _member for this _member (if it exists)
@@ -1124,8 +1124,9 @@ public interface _java {
      * @param <N> the AST node type
      * @param <_UP> the _domain type
      * @see _multiPart for an ast node type that contains multiple walkable child entities
-     */
+
     interface _uniPart<N extends Node, _UP extends _uniPart> extends _node<N, _UP> { }
+    */
 
     /**
      * {@link _multiPart} entity (having more than one possible child) that maps directly to an AST {@link Node}
@@ -1158,20 +1159,21 @@ public interface _java {
      * @see _java for mappings
      * @param <_MP> the jdraft _node type {@link _method}, {@link _field}
      * @param <N> ast node {@link MethodDeclaration}, {@link FieldDeclaration}
-     */
+
     interface _multiPart<N extends Node, _MP extends _multiPart> extends _node<N, _MP> {
 
-        /**
+
          * Decompose the entity into key-VALUE pairs where the key is the Component
          * @return a map of key values
-         */
+
         Map<Feature, Object> features();
 
-        /**
+
+
          * Decompose the entity into smaller named tokens
          * returning a mapping between the name and the constituent part
-         * @return a Map with the names mapped to the corresponding components
-         */
+         * @return a Map with the names mapped to the corresponding component
+
         default Map<String, Object> tokenize() {
             Map<Feature, Object> parts = features();
             Map<String, Object> mdd = new HashMap<>();
@@ -1180,7 +1182,9 @@ public interface _java {
             });
             return mdd;
         }
+
     }
+    */
 
     /**
      * A grouping of monotonic (same type) entities where the order doesnt matter
@@ -1484,7 +1488,7 @@ public interface _java {
          * @param text the text to be set on the entity
          * @return
          */
-        _WT setText(String text );
+        _WT setText( String text );
 
         /**
          * does the textual content of this node match the Predicate?
@@ -1651,7 +1655,7 @@ public interface _java {
      * </UL>
      * @param <_NT> the specialized entity that is a named TYPE
      */
-    interface _withNameTypeRef<N extends Node, _NT extends _withNameTypeRef> extends _withName<_NT>, _typeRef._withTypeRef<N,_NT> {
+    interface _withNameTypeRef<N extends Node, _NT extends _withNameTypeRef> extends _node<N, _NT>, _withName<_NT>, _typeRef._withTypeRef<N,_NT> {
 
     }
 

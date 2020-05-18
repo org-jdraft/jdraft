@@ -21,7 +21,7 @@ import java.util.function.Function;
  */
 public final class _forEachStmt implements _stmt._controlFlow._branching<ForEachStmt, _forEachStmt>,
         _stmt._controlFlow._loop<ForEachStmt, _forEachStmt>,
-        _java._multiPart<ForEachStmt, _forEachStmt>,
+        _java._node<ForEachStmt, _forEachStmt>,
         _body._hasBody<_forEachStmt>{
 
     public static _forEachStmt of(){
@@ -219,7 +219,6 @@ public final class _forEachStmt implements _stmt._controlFlow._branching<ForEach
         return astStmt;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.ITERABLE_EXPR, astStmt.getIterable());

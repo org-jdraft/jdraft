@@ -15,7 +15,7 @@ import java.util.function.Function;
  *
  */
 public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
-        _java._uniPart<ExpressionStmt, _exprStmt>, _java._withExpression<ExpressionStmt, _exprStmt> {
+        _java._node<ExpressionStmt, _exprStmt>, _java._withExpression<ExpressionStmt, _exprStmt> {
 
     public static _exprStmt of(){
         return new _exprStmt( new ExpressionStmt( ));

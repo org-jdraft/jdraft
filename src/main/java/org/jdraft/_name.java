@@ -31,7 +31,7 @@ import java.util.function.Predicate;
  * </UL>
  *
  */
-public final class _name implements _java._uniPart<Node, _name> {
+public final class _name implements _java._node<Node, _name> {
 
     public static _name of(){
         return of( new Name() );

@@ -80,7 +80,7 @@ import org.jdraft.macro.macro;
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
     extends _javadocComment._withJavadoc<_T>, _annoExprs._withAnnoExprs<_T>, _modifiers._withModifiers<_T>,
-        _field._withFields<_T>, _java._declared<AST, _T>, _codeUnit<_T>, _java._multiPart<AST, _T> {
+        _field._withFields<_T>, _java._declared<AST, _T>, _codeUnit<_T>, _java._node<AST, _T> {
 
     /**
      * Read the java source code from a url and return the _type(_class, _enum, _interface, _annotation)

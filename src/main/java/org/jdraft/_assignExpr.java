@@ -19,7 +19,7 @@ import java.util.function.Function;
  * a = b
  * </PRE>
  */
-public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java._multiPart<AssignExpr, _assignExpr> {
+public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java._node<AssignExpr, _assignExpr> {
 
     public static _assignExpr of() {
         return new _assignExpr(new AssignExpr());
@@ -105,7 +105,6 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         return ae;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.TARGET_EXPR, ae.getTarget());

@@ -633,7 +633,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return this;
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );

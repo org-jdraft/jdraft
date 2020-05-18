@@ -18,7 +18,7 @@ import org.jdraft._params._withParams;
  */
 public final class _lambdaExpr
     implements _expr<LambdaExpr, _lambdaExpr>,
-        _java._multiPart<LambdaExpr, _lambdaExpr>,
+        _java._node<LambdaExpr, _lambdaExpr>,
         _withParams<_lambdaExpr> {
 
     /**
@@ -354,7 +354,6 @@ public final class _lambdaExpr
         return this.astLambda.toString();
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> map = new HashMap<>();
         map.put(_java.Feature.BODY, _body.of(this.astLambda));

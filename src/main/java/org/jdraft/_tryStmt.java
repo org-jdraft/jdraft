@@ -11,7 +11,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _tryStmt>,
-        _java._multiPart<TryStmt, _tryStmt>{
+        _java._node<TryStmt, _tryStmt>{
 
     public static _tryStmt of(){
         return new _tryStmt( new TryStmt( ));
@@ -496,7 +496,6 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
         return this.tryStmt.toString();
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put( _java.Feature.TRY_BODY, tryStmt.getTryBlock());

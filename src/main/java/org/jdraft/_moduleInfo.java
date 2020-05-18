@@ -11,7 +11,7 @@ import java.util.*;
  * 
  */
 public final class _moduleInfo
-        implements _codeUnit<_moduleInfo>, _java._multiPart<CompilationUnit, _moduleInfo>,
+        implements _codeUnit<_moduleInfo>, _java._node<CompilationUnit, _moduleInfo>,
         _java._withComments<CompilationUnit, _moduleInfo> {
 
     public CompilationUnit astCompUnit;
@@ -92,7 +92,6 @@ public final class _moduleInfo
      *
      * @return a map of key values
      */
-    @Override
     public Map<_java.Feature, Object> features() {
 
         Map m = new HashMap();

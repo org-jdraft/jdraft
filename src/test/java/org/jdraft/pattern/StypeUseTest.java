@@ -34,7 +34,7 @@ public class StypeUseTest extends TestCase {
             int a;
             String b;
 
-            public <A extends Map & _java._multiPart> A m() throws IOException { return null; }
+            public <A extends Map & _java._node> A m() throws IOException { return null; }
 
             public java.util.List getAList(){
                 System.out.println( 1);

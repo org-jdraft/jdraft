@@ -29,7 +29,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _receiverParam
-        implements _java._multiPart<ReceiverParameter, _receiverParam>,
+        implements _java._node<ReceiverParameter, _receiverParam>,
         _java._withNameTypeRef<ReceiverParameter, _receiverParam>, _annoExprs._withAnnoExprs<_receiverParam> {
 
     public static _receiverParam of(){
@@ -138,7 +138,6 @@ public final class _receiverParam
         return true;
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
@@ -181,7 +180,7 @@ public final class _receiverParam
         }
         
         default ReceiverParameter getAstReceiverParam(){
-            Node n = (Node) ((_java._multiPart)this).ast();
+            Node n = (Node) ((_java._node)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 if(md.getReceiverParameter().isPresent()){
@@ -198,7 +197,7 @@ public final class _receiverParam
         
         default _WRP removeReceiverParam() {
             if( hasReceiverParam()){
-                Node n = (Node) ((_java._multiPart)this).ast();
+                Node n = (Node) ((_java._node)this).ast();
                 if( n instanceof MethodDeclaration ){
                     MethodDeclaration md = (MethodDeclaration)n;
                     md.removeReceiverParameter();
@@ -219,7 +218,7 @@ public final class _receiverParam
         }
         
         default _WRP receiverParam(ReceiverParameter rp ) {
-            Node n = (Node) ((_java._multiPart)this).ast();
+            Node n = (Node) ((_java._node)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 md.setReceiverParameter(rp);

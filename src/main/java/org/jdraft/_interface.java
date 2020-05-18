@@ -491,7 +491,6 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         return hash;
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );

@@ -928,7 +928,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return true;
     }
 
-    @Override
     public Map<Feature, Object> features( ) {
         Map<Feature, Object> parts = new HashMap<>();
         parts.put(Feature.HEADER_COMMENT, this.getHeaderComment() );

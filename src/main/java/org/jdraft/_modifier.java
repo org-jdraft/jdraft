@@ -5,7 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.*;
 
-public enum _modifier implements _java._multiPart<Modifier, _modifier> {
+public enum _modifier implements _java._node<Modifier, _modifier> {
 
     /** Making the internal AST modifiers more accessible */
     PUBLIC( com.github.javaparser.ast.Modifier.publicModifier(), java.lang.reflect.Modifier.PUBLIC ),
@@ -76,7 +76,6 @@ public enum _modifier implements _java._multiPart<Modifier, _modifier> {
         return this.mod;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         return Collections.emptyMap();
     }

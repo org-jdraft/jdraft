@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class _switchStmt implements _stmt._controlFlow._branching<SwitchStmt, _switchStmt>,
-        _java._multiPart<SwitchStmt, _switchStmt>, _switch<_switchStmt> {
+        _java._node<SwitchStmt, _switchStmt>, _switch<_switchStmt> {
 
     public static _switchStmt ofSelector(String selectorExpression){
         return ofSelector(Exprs.of(selectorExpression));
@@ -1228,7 +1228,6 @@ public final class _switchStmt implements _stmt._controlFlow._branching<SwitchSt
         return this;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> mc = new HashMap<>();
         mc.put(_java.Feature.SWITCH_SELECTOR_EXPR, this.switchStmt.getSelector());

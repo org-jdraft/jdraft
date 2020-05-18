@@ -20,7 +20,7 @@ import static org.jdraft.Types.of;
  * @param <T> the Type implementation (i.e. ReferenceType)
  */
 public final class _typeRef<T extends Type>
-        implements _java._multiPart<Type, _typeRef>, _annoExprs._withAnnoExprs<_typeRef> {
+        implements _java._node<Type, _typeRef>, _annoExprs._withAnnoExprs<_typeRef> {
 
     /** Void type used in */
     public static _typeRef VOID = of( new VoidType() );
@@ -382,7 +382,6 @@ public final class _typeRef<T extends Type>
         }
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
 

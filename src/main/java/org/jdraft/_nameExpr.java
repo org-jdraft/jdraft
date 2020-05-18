@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public final class _nameExpr
         implements _expr<NameExpr, _nameExpr>,
-        _java._uniPart<NameExpr, _nameExpr>,
+        _java._node<NameExpr, _nameExpr>,
         _java._withName<_nameExpr> {
 
     public static _nameExpr of(){

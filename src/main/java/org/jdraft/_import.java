@@ -15,7 +15,7 @@ import org.jdraft.text.Text;
  * @see _imports representation of a set of _import s
  * @author Eric
  */
-public final class _import implements _java._multiPart<ImportDeclaration, _import>,
+public final class _import implements _java._node<ImportDeclaration, _import>,
         _java._withName<_import> {
 
     /** return a copy of this import */
@@ -307,7 +307,6 @@ public final class _import implements _java._multiPart<ImportDeclaration, _impor
         }
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature,Object>components = new HashMap<>();
         components.put(_java.Feature.NAME, this.astId.getNameAsString());
@@ -315,8 +314,6 @@ public final class _import implements _java._multiPart<ImportDeclaration, _impor
         components.put(_java.Feature.IS_WILDCARD, this.astId.isAsterisk());
         return components;
     }
-
-
 
     /**
      * 

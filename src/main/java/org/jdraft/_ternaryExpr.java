@@ -19,7 +19,7 @@ import java.util.function.Function;
  */
 public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         _java._withCondition<ConditionalExpr, _ternaryExpr>,
-        _java._multiPart<ConditionalExpr, _ternaryExpr> {
+        _java._node<ConditionalExpr, _ternaryExpr> {
 
     public static _ternaryExpr of(){
         return new _ternaryExpr( new ConditionalExpr( ));
@@ -101,7 +101,6 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         return ce;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 

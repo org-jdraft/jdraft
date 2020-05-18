@@ -8,7 +8,7 @@ import com.github.javaparser.ast.expr.TypeExpr;
  */
 public final class _typeExpr
         implements _expr<TypeExpr, _typeExpr>,
-        _java._uniPart<TypeExpr, _typeExpr>,
+        _java._node<TypeExpr, _typeExpr>,
         _typeRef._withTypeRef<TypeExpr, _typeExpr> {
 
     public static _typeExpr of(){

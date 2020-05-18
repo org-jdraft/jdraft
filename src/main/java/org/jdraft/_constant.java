@@ -324,7 +324,6 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return true;
     }
 
-    @Override
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );

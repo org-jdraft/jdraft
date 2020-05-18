@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfExpr>,
-        _java._multiPart<InstanceOfExpr, _instanceOfExpr>,
+        _java._node<InstanceOfExpr, _instanceOfExpr>,
         _typeRef._withTypeRef<InstanceOfExpr, _instanceOfExpr>,
         _java._withExpression<InstanceOfExpr, _instanceOfExpr>{
 
@@ -99,7 +99,6 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         return ioe;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.TYPE, ioe.getType());

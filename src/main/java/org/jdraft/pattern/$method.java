@@ -1002,10 +1002,11 @@ public class $method
      * 
      * @param _n
      * @return 
-     */
+
     public _method draft(_java._multiPart _n ){
         return draft(_n.tokenize() );
     }
+    */
 
     public static final BlockStmt EMPTY = Stmts.blockStmt("{}");
 
@@ -1206,7 +1207,7 @@ public class $method
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_java._multiPart) _j).ast(), selectConstraint);
+        return selectFirstIn(((_java._node) _j).ast(), selectConstraint);
     }
 
     /**

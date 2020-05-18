@@ -18,7 +18,7 @@ import java.util.function.Predicate;
  */
 public final class _arrayAccessExpr
         implements _expr<ArrayAccessExpr, _arrayAccessExpr>,
-        _java._multiPart<ArrayAccessExpr, _arrayAccessExpr> {
+        _java._node<ArrayAccessExpr, _arrayAccessExpr> {
 
     public static _arrayAccessExpr of(){
         return new _arrayAccessExpr(new ArrayAccessExpr());
@@ -89,7 +89,6 @@ public final class _arrayAccessExpr
         return aae;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.INDEX_EXPR, aae.getIndex());

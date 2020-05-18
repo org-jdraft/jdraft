@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
         _stmt._controlFlow._branching<DoStmt, _doStmt>,
-        _java._multiPart<DoStmt, _doStmt>,
+        _java._node<DoStmt, _doStmt>,
         _java._withCondition<DoStmt,_doStmt>,
         _body._hasBody<_doStmt> {
 
@@ -137,7 +137,6 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
         return astStmt;
     }
 
-    @Override
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.CONDITION_EXPR, astStmt.getCondition());

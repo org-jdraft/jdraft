@@ -8,7 +8,7 @@ import java.util.Objects;
 
 
 public final class _yieldStmt implements _stmt._controlFlow._signal<YieldStmt, _yieldStmt>,
-        _java._uniPart<YieldStmt, _yieldStmt>,
+        _java._node<YieldStmt, _yieldStmt>,
         _java._withExpression<YieldStmt, _yieldStmt>{
 
     public static _yieldStmt of(){

@@ -48,7 +48,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _annoExpr
-        implements _expr<AnnotationExpr, _annoExpr>, _java._withName<_annoExpr>, _java._multiPart<AnnotationExpr, _annoExpr> {
+        implements _expr<AnnotationExpr, _annoExpr>, _java._withName<_annoExpr>, _java._node<AnnotationExpr, _annoExpr> {
 
     public static _annoExpr of(String anno ){
         return of( new String[]{anno} );
@@ -676,7 +676,6 @@ public final class _annoExpr
         return null;
     }
 
-    @Override
     public Map<_java.Feature,Object> features(){
         Map<_java.Feature,Object> m = new HashMap<>();
         m.put(_java.Feature.NAME, this.getName() );

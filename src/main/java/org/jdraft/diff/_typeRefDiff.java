@@ -7,12 +7,12 @@ import org.jdraft.*;
 import org.jdraft.diff._diff.*;
 
 public final class _typeRefDiff
-    implements _differ<_typeRef, _java._multiPart> {
+    implements _differ<_typeRef, _java._node> {
     
     public static final _typeRefDiff INSTANCE = new _typeRefDiff();
 
     @Override
-    public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeRef left, _typeRef right) {
+    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeRef left, _typeRef right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new _change_type(path.in(_java.Feature.TYPE), (_java._withNameTypeRef) _leftParent, (_java._withNameTypeRef) _rightParent));
         }

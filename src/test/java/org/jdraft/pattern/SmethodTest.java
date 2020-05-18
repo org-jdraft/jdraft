@@ -341,13 +341,13 @@ public class SmethodTest extends TestCase {
         // (i.e. a _field will decompose to 
         // even though the field is private, we DONT traspose the 
         //modifier because it is static
-        assertEquals( $m.draft( _field.of("private int count") ),
-                $m.draft( _field.of("int count") ) );
+        //assertEquals( $m.draft( _field.of("private int count") ),
+        //        $m.draft( "type",int.class, "name", "count" )); //_field.of("int count") ) );
         //_method _m = $m.construct( _field.of("private int count") );                
         //System.out.println( _m );
         
         $m.$annos("@Deprecated");
-        _method _m = $m.draft( _field.of("private int count") );
+        _method _m = $m.draft( "type", "int", "name", "count"  );
         System.out.println( _m );
         
         assertTrue($m.matches(_m));
@@ -493,7 +493,7 @@ public class SmethodTest extends TestCase {
                 return this.$name$;
             }
         });
-        System.out.println( $m.draft( _field.of("int count;")) );
+        //System.out.println( $m.draft( _field.of("int count;")) );
 
         //verify that the ANNOTATIONS and JAVADOC are transposed
         //
@@ -504,7 +504,7 @@ public class SmethodTest extends TestCase {
                 " * @return ",
                 " */",
                 "@Deprecated",
-                "public int getCount(){ return this.count; }"), $m.draft(_field.of("int count;") ));
+                "public int getCount(){ return this.count; }"), $m.draft("type", "int", "name","count"));
     }
 
     public void testGetterSetter(){
