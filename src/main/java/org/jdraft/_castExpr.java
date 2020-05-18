@@ -1,7 +1,9 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.CastExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.type.Type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -118,6 +120,58 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._multi
             return ((_castExpr)other).ce.equals( this.ce);
         }
         return false;
+    }
+
+    public _castExpr setType( String typeRef ){
+        return setType(_typeRef.of(typeRef));
+    }
+
+    public _castExpr setType( _typeRef _t ){
+        this.ce.setType(_t.ast());
+        return this;
+    }
+
+    public _castExpr setType( Type t ){
+        this.ce.setType(t);
+        return this;
+    }
+
+    public boolean isType(String type ){
+        return isType(_typeRef.of(type));
+    }
+
+    public boolean isType( Type t){
+        return Types.equal(t, this.ce.getType());
+    }
+
+    public boolean isType( _typeRef _t){
+        return Types.equal(_t.ast(), this.ce.getType());
+    }
+
+    public _castExpr setExpression(String ex){
+        return setExpression(_expr.of(ex));
+    }
+
+    public _castExpr setExpression(Expression e){
+        this.ce.setExpression(e);
+        return this;
+    }
+
+    public _castExpr setExpression(_expr _e){
+        this.ce.setExpression(_e.ast());
+        return this;
+    }
+
+    public boolean isExpression(String expression ){
+        return isExpression(_expr.of(expression));
+    }
+
+    public boolean isExpression( Expression e){
+        return Exprs.equal(e, this.ce.getExpression());
+    }
+
+    public boolean isExpression( _expr _e){
+        return Exprs.equal(_e.ast(), this.ce.getExpression());
     }
 
     public int hashCode(){

@@ -242,7 +242,7 @@ public class $constructor
         _method _m = _method.of(theMethod);
 
         //get the Runtime Reflection Method
-        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+        Method rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm ->_m.hasParamsOf(mm)).findFirst().get();
 
         //build the base method first
         _constructor _ct = _constructor.of( theMethod.getNameAsString() + " " + _params.of( theMethod )+"{}" );

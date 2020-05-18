@@ -803,7 +803,20 @@ public enum Exprs {
     //public static ArrayInitializerExpr arrayInitExpr(int[] intArray ){
     //    return of( intArray);
     //}
-    
+
+    public static ArrayInitializerExpr of(long...longArray) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{ ");
+        for(int i=0;i<longArray.length;i++){
+            if( i > 0 ){
+                sb.append(",");
+            }
+            sb.append( longArray[i]+"L" );
+        }
+        sb.append(" }");
+        return arrayInitExpr( sb.toString() );
+    }
+
     public static ArrayInitializerExpr of( int... intArray ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
@@ -1027,6 +1040,7 @@ public enum Exprs {
         //return ile;
     }
 
+
     public static IntegerLiteralExpr intExpr(String... code ) {
         Expression e = of(code);
         if( e instanceof IntegerLiteralExpr ){
@@ -1210,6 +1224,8 @@ public enum Exprs {
     public static LongLiteralExpr of(long l) {
         return new LongLiteralExpr(l);
     }
+
+
 
     public static LongLiteralExpr longExpr(long l ) {
         return new LongLiteralExpr(l);

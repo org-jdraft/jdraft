@@ -157,7 +157,7 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
 
         for (int i = 0; i < ms.size(); i++) {
 
-            if( _mm.hasParametersOf(ms.get(i))) {
+            if( _mm.hasParamsOf(ms.get(i))) {
                 mm = ms.get(i);
             }
         }

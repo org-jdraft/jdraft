@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
+import java.util.stream.Stream;
 
 public final class _catch implements _java._multiPart<CatchClause, _catch>,_body._hasBody<_catch> {
 
@@ -102,6 +103,61 @@ public final class _catch implements _java._multiPart<CatchClause, _catch>,_body
         this.cc = cc;
     }
 
+    public _catch addThrownType( Class<? extends Exception>...clazz){
+        Stream.of(clazz).forEach( c -> addThrownType( (ReferenceType)_typeRef.of(c).ast()));
+        return this;
+    }
+
+    public _catch addThrownType( _typeRef... _ts){
+        Stream.of(_ts).forEach( _t -> addThrownType( (ReferenceType)_t.ast()));
+        return this;
+    }
+
+    public _catch addThrownType( ReferenceType ts){
+        Type pt = this.cc.getParameter().getType();
+        if( pt.isUnionType() ){
+            UnionType ut = pt.asUnionType();
+            NodeList<ReferenceType> rts = ut.getElements();
+            rts.add( ts );
+        } else{
+            UnionType ut = new UnionType();
+            ut.getElements().add( (ReferenceType) pt );
+            ut.getElements().add( ts );
+            this.cc.getParameter().setType(ut);
+        }
+        return this;
+    }
+
+    public _catch removeThrownType( Class<? extends Exception>...clazz){
+        Stream.of(clazz).forEach( c -> removeThrownType(_typeRef.of(c).ast()));
+        return this;
+    }
+
+    public _catch removeThrownType( _typeRef _ts){
+        Stream.of(_ts).forEach( _t -> removeThrownType(_t.ast()));
+        return this;
+    }
+
+    public _catch removeThrownType( Type ts){
+        Type pt = this.cc.getParameter().getType();
+        if( pt.isUnionType() ){
+            UnionType ut = pt.asUnionType();
+
+            NodeList<ReferenceType> rts = ut.getElements();
+            rts.removeIf( r-> Types.equal(r, ts));
+
+            if( ut.getElements().size() == 1 ){
+                //replace unionType with ReferenceType?
+                this.cc.getParameter().setType(ut.getElements().get(0));
+            }
+        } else{
+            if( Stream.of(ts).anyMatch(e -> Types.equal(e,pt))){
+                throw new _jdraftException("cannot remove the last Exception type"+pt+" from "+this);
+            }
+        }
+        return this;
+    }
+
     /**
      * Does the single parameter have this type in it (either directly:
      * (i.e. for IOException):
@@ -120,16 +176,7 @@ public final class _catch implements _java._multiPart<CatchClause, _catch>,_body
      * @return
      */
     public boolean hasType( Class<? extends Throwable> caughtExceptionType ){
-        return hasType(  StaticJavaParser.parseType(caughtExceptionType.getCanonicalName()) );
-        /*
-        Type t = this.cc.getParameter().getType();
-        Type targetType = StaticJavaParser.parseType(caughtExceptionType.getCanonicalName());
-        if( t instanceof UnionType ){
-            UnionType ut = t.asUnionType();
-            return ut.getElements().stream().anyMatch(tt -> Types.equal(tt, targetType));
-        }
-        return Types.equal(t, targetType);
-         */
+        return hasType( StaticJavaParser.parseType(caughtExceptionType.getCanonicalName()) );
     }
 
     public boolean hasType( _typeRef _t ){

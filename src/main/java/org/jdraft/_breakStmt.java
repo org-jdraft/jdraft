@@ -5,8 +5,19 @@ import com.github.javaparser.ast.stmt.BreakStmt;
 
 import java.util.Objects;
 
-
-public final class _breakStmt implements _stmt._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniPart<BreakStmt, _breakStmt> {
+/**
+ * <PRE>
+ * a simple break statement or break statement with a label:
+ * for(int i=0;i<100;i++){
+ *     if( call(i) == expected){
+ *        break outer;
+ *     }
+ * }
+ * outer: System.out.println( "found");
+ * </PRE>
+ */
+public final class _breakStmt
+        implements _stmt._controlFlow._signal<BreakStmt, _breakStmt>, _java._uniPart<BreakStmt, _breakStmt> {
 
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ).removeLabel());
@@ -55,6 +66,11 @@ public final class _breakStmt implements _stmt._controlFlow._signal<BreakStmt, _
         return label == null;
     }
 
+    @Override
+    public boolean is(BreakStmt astNode) {
+        return this.astStmt.equals( astNode);
+    }
+
     public _breakStmt setLabel(SimpleName sn){
         this.astStmt.setLabel( sn );
         return this;
@@ -68,11 +84,6 @@ public final class _breakStmt implements _stmt._controlFlow._signal<BreakStmt, _
     public _breakStmt removeLabel(){
         this.astStmt.removeLabel();
         return this;
-    }
-
-    @Override
-    public boolean is(BreakStmt astNode) {
-        return this.astStmt.equals( astNode);
     }
 
     public BreakStmt ast(){

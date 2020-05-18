@@ -41,17 +41,6 @@ public final class _caseGroup implements _java._domain{
         return new _caseGroup(new SwitchStmt());
     }
 
-    /*
-    public static _caseGroup of(_expression..._expressions){
-        for(int i=0;i<_expressions.length;i++) {
-            NodeList<Expression> label = new NodeList<>();
-            label.add(_expressions[i].ast());
-            SwitchEntry se = new SwitchEntry(label, SwitchEntry.Type.STATEMENT_GROUP, new NodeList<>());
-        }
-        new _caseGroup
-    }
-     */
-
     /**
      * Build a caseGroup from scratch (it uses a SwitchStmt by default)
      * @param code the code representing the cases and body

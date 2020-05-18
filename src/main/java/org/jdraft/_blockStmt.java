@@ -24,7 +24,6 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         return new _blockStmt(Stmts.blockStmt( code));
     }
 
-
     public static <A extends Object> _blockStmt of(Exprs.Command c){
         LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);

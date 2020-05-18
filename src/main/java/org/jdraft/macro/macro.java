@@ -64,7 +64,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         //_method _mm = macro.to(anonymousObjectContainingMethod.getClass(), md);
         _method _m = _method.of(md);
 
-        Method rm = Arrays.stream(clazz.getDeclaredMethods()).filter(mm ->_m.hasParametersOf(mm)).findFirst().get();
+        Method rm = Arrays.stream(clazz.getDeclaredMethods()).filter(mm ->_m.hasParamsOf(mm)).findFirst().get();
 
         macro.to(md, rm );
         return _method.of(md);
@@ -119,7 +119,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                     _method _m = _method.of( (MethodDeclaration)m);
                     Optional<Method> om =
                             Arrays.stream(clazz.getDeclaredMethods()).filter(
-                                    em -> em.getName().equals(_m.getName()) && _m.hasParametersOf(em)).findFirst();
+                                    em -> em.getName().equals(_m.getName()) && _m.hasParamsOf(em)).findFirst();
 
                     if( om.isPresent() ) {
                         Method mm = om.get();

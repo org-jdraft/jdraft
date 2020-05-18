@@ -84,7 +84,7 @@ public final class _method
     public static _method of( Method m ){
         Class declClass = m.getDeclaringClass();
         _class _c = _class.of(declClass);
-        _method _mm =  _c.getMethod(_m -> _m.getName().equals(m.getName()) && _m.hasParametersOf(m));
+        _method _mm =  _c.getMethod(_m -> _m.getName().equals(m.getName()) && _m.hasParamsOf(m));
         if( _mm != null ){
             _mm.ast().remove();
         }
@@ -158,7 +158,7 @@ public final class _method
             rm = anonClass.getDeclaredMethods()[0];
         } else {
             //Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).forEach(m -> System.out.println(m));
-            rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm -> _m.hasParametersOf(mm)).findFirst().get();
+            rm = Arrays.stream(anonymousObjectContainingMethod.getClass().getDeclaredMethods()).filter(mm -> _m.hasParamsOf(mm)).findFirst().get();
         }
 
         macro.to(md, rm );
@@ -479,7 +479,7 @@ public final class _method
      * @param m the method
      * @return
      */
-    public boolean hasParametersOf(java.lang.reflect.Method m) {
+    public boolean hasParamsOf(java.lang.reflect.Method m) {
         java.lang.reflect.Type[] genericParameterTypes = m.getGenericParameterTypes();
         if( m.getParameterCount() > 0 ) {
         }
@@ -509,7 +509,7 @@ public final class _method
      * @return true if they match, false otherwise
      */
     public static boolean match( _method _m, java.lang.reflect.Method m ){
-        if( _m.getName().equals(m.getName()) && _m.hasParametersOf(m)){
+        if( _m.getName().equals(m.getName()) && _m.hasParamsOf(m)){
 
             /** ARRG we have to handle Array Types returns because they return "[Z", "[B", ,"[S, "[F"... for class names*/
             //if( m.getGenericReturnType().)

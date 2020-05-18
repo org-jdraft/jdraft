@@ -485,7 +485,7 @@ public class _classTest extends TestCase {
         //System.out.println( );
         //Arrays.stream( L.class.getMethods()[0].getGenericParameterTypes() ).forEach(t -> System.out.println("&&&&&&& " + t));
         //assertTrue(_m.hasParametersOfType(L.class.getMethods()[0].getGenericParameterTypes()));
-        assertTrue(_m.hasParametersOf(L.class.getMethods()[0]));
+        assertTrue(_m.hasParamsOf(L.class.getMethods()[0]));
         //assertTrue(_m.hasParametersOfType(L.class.getMethods()[0].getParameterTypes()));
     }
 
