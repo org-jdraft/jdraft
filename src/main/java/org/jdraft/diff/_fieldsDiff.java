@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.jdraft.*;
 import org.jdraft._field._withFields;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 
 import org.jdraft.diff._diff.*;
 
@@ -53,7 +53,7 @@ public final class _fieldsDiff implements _differ<List<_field>, _java._multiPart
 
         
         lf.forEach(f -> {
-            _nodePath p = path.in(Component.FIELD, f.getName());
+            _nodePath p = path.in(Feature.FIELD, f.getName());
             _field match = getFieldNamed(rf, f.getName());
             if (match != null) {
                 _fieldDiff.INSTANCE.diff(path, dt, _leftParent, _rightParent, f, match);
@@ -63,7 +63,7 @@ public final class _fieldsDiff implements _differ<List<_field>, _java._multiPart
             }
         });
         rf.forEach(f -> {
-            _nodePath p = path.in(Component.FIELD, f.getName());
+            _nodePath p = path.in(Feature.FIELD, f.getName());
             dt.addDiff(new _rightOnly_field(p, (_withFields) _leftParent, (_withFields) _rightParent, f.copy()));
         });
 

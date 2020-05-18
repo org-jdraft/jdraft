@@ -84,7 +84,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         $inst.type = $typeRef.as(_f.getTypeRef());
         $inst.name = $name.as( _f.getName() );
         if( _f.hasInit() ){
-            $inst.init = $ex.of(_f.getInit() );
+            $inst.init = $ex.of(_f.getInitNode() );
         } else{
             $inst.$and( f-> !f.hasInit());
         }
@@ -179,7 +179,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         $inst.type = $typeRef.of(_f.getTypeRef());
         $inst.name = $name.of( _f.getName() );
         if( _f.hasInit() ){
-            $inst.init = $ex.of(_f.getInit() );
+            $inst.init = $ex.of(_f.getInitNode() );
         }
         return $inst;
     }
@@ -292,7 +292,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             }
             else if( parts[i] instanceof $ex){
                 final $ex $fi = (($ex)parts[i]);
-                Predicate<_field> pf = f-> $fi.matches(f.getInit());
+                Predicate<_field> pf = f-> $fi.matches(f.getInitNode());
                 $and( pf.negate() );
             }
             else if(parts[i] instanceof $comment ){
@@ -963,7 +963,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
                 if( !_f.hasInit() ){
                     return null;
                 }
-                $ex.Select sel = init.select(_f.getInit());
+                $ex.Select sel = init.select(_f.getInitNode());
                 if( all.isConsistent(sel.tokens.asTokens()) ){
                     all.putAll( sel.tokens().asTokens() );
                 } else{

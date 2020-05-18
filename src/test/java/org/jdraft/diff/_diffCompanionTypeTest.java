@@ -112,8 +112,8 @@ public class _diffCompanionTypeTest extends TestCase {
         _cp.addCompanionTypes(_class.of("D"));
 
         /** TO ADD */
-        assertTrue(_cp.components().containsKey(_java.Component.COMPANION_TYPES));
-        assertTrue( ((List<_type>)_cp.components().get(_java.Component.COMPANION_TYPES)).size() == 1 );
+        assertTrue(_cp.components().containsKey(_java.Feature.COMPANION_TYPES));
+        assertTrue( ((List<_type>)_cp.components().get(_java.Feature.COMPANION_TYPES)).size() == 1 );
 
         assertFalse( _c.equals( _cp)); //verify not same
         assertFalse( _c.hashCode() == _cp.hashCode()); //verify not same hashcode
@@ -121,9 +121,9 @@ public class _diffCompanionTypeTest extends TestCase {
         _diff _d = _diff.of(_c, _cp);
         assertEquals( 1, _d.size()); //verify we have 1 diff
 
-        assertNotNull( _d.firstOn(_java.Component.COMPANION_TYPE)); //there is a companion Type diff
-        assertNotNull( _d.rightOnlyOn(_java.Component.CLASS, "D")); //the class is D
-        assertNotNull( _d.rightOnlyAt(_java.Component.CLASS, "D")); //the class is D
+        assertNotNull( _d.firstOn(_java.Feature.COMPANION_TYPE)); //there is a companion Type diff
+        assertNotNull( _d.rightOnlyOn(_java.Feature.CLASS, "D")); //the class is D
+        assertNotNull( _d.rightOnlyAt(_java.Feature.CLASS, "D")); //the class is D
 
         System.out.println( _d );
     }

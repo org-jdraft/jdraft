@@ -280,12 +280,12 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.INITIALIZATION, astStmt.getInitialization());
-        comps.put(_java.Component.UPDATE, astStmt.getUpdate());
-        comps.put(_java.Component.COMPARE, astStmt.getCompare());
-        comps.put(_java.Component.BODY, astStmt.getBody());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put(_java.Feature.INIT_EXPR, astStmt.getInitialization());
+        comps.put(_java.Feature.UPDATE_EXPR, astStmt.getUpdate());
+        comps.put(_java.Feature.COMPARE_EXPR, astStmt.getCompare());
+        comps.put(_java.Feature.BODY, astStmt.getBody());
         return comps;
     }
 

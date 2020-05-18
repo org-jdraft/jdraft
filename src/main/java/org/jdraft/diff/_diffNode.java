@@ -148,18 +148,18 @@ public interface _diffNode<_PN extends _java._domain> {
         return path().has(clazz, id);
     }
         
-    default boolean on( _java.Component component){
-        return path().has(component);
+    default boolean on( _java.Feature feature){
+        return path().has(feature);
     }
     
-    default boolean on( _java.Component component, String id){
+    default boolean on(_java.Feature feature, String id){
         /*
         _path p = path();
         for(int i=0;i<p.size(); i++){
             p.is(i, component, id);
         }
         */
-        return path().has(component, id);
+        return path().has(feature, id);
     }
     
     /**
@@ -174,12 +174,12 @@ public interface _diffNode<_PN extends _java._domain> {
      * CONSTRUCTOR, "c(int,int)"//the constructor named c with (2) int args
      * </PRE>
      *
-     * @param component the component
+     * @param feature the component
      * @param id the identifying features of this path
      * @return true if this is the last part of the path
      */
-    default boolean at(_java.Component component, String id) {
-        return path().isLeaf(component) && path().isLeafId(id);
+    default boolean at(_java.Feature feature, String id) {
+        return path().isLeaf(feature) && path().isLeafId(id);
     }
     
     /**
@@ -201,11 +201,11 @@ public interface _diffNode<_PN extends _java._domain> {
      * Is the underlying leaf level component where the diff occurs this
      * specific component? (i.e. METHOD, PARAMETER, FIELD)
      *
-     * @param component the expected leaf component
+     * @param feature the expected leaf component
      * @return true if this node has a path ending with this component
      */
-    default boolean at(_java.Component component) {
-        return path().isLeaf(component);
+    default boolean at(_java.Feature feature) {
+        return path().isLeaf(feature);
     }
 
     /**

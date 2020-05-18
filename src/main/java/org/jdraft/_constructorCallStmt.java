@@ -41,23 +41,6 @@ public final class _constructorCallStmt
         return new _constructorCallStmt( this.astStmt.clone());
     }
 
-    /*
-    @Override
-    public List<_expression> list() {
-        List<_expression> _la = new ArrayList<>();
-        listAstElements().forEach(a -> _la.add(_expression.of(a)));
-        return _la;
-    }
-
-     */
-
-    /*
-    @Override
-    public NodeList<Expression> listAstElements() {
-        return this.astStmt.getArguments();
-    }
-     */
-
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -66,32 +49,9 @@ public final class _constructorCallStmt
         return false;
     }
 
-    /*
-    @Override
-    public boolean is(ExplicitConstructorInvocationStmt astNode) {
-        return this.astStmt.equals( astNode);
-    }
-     */
-
     public ExplicitConstructorInvocationStmt ast(){
         return astStmt;
     }
-
-    /*
-    public List<_typeRef> listTypeArguments(){
-        List<_typeRef> tas = new ArrayList<>();
-        if( this.astStmt.getTypeArguments().isPresent()){
-            this.astStmt.getTypeArguments().get().forEach(ts -> tas.add( _typeRef.of(ts)));
-        }
-        return tas;
-    }
-
-
-
-    public boolean hasTypeArguments(){
-        return this.astStmt.getTypeArguments().isPresent();
-    }
-    */
 
     /**
      * is a constructor call with this(...);
@@ -108,15 +68,6 @@ public final class _constructorCallStmt
     public boolean isSuper(){
         return !this.astStmt.isThis();
     }
-
-    /**
-     * Is using the Diamond operator / Type Arguments <>
-     * @return
-
-    public boolean isUsingDiamondOperator(){
-        return this.astStmt.isUsingDiamondOperator();
-    }
-    */
 
     public boolean isExpression( _expr _e){
         if( this.astStmt.getExpression().isPresent() ){
@@ -137,60 +88,19 @@ public final class _constructorCallStmt
         return this;
     }
 
-    /*
-    public List<_expression> listArguments(){
-        List<_expression> args = new ArrayList<>();
-        this.astStmt.getArguments().forEach(a -> args.add( _expression.of(a)));
-        return args;
-    }
-
-
-    public boolean isArguments( _expression..._exs){
-        List<_expression> tes = list();
-        if( _exs.length == tes.size()){
-            for(int i=0;i<tes.size();i++){
-                if( !tes.get(i).equals( _exs[i])){
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public _constructorCallStmt setArguments(_expression... _es ){
-        NodeList<Expression> ars = new NodeList<>();
-        Arrays.stream(_es).forEach(e -> ars.add(e.ast()));
-        this.astStmt.setArguments(ars);
-        return this;
-    }
-
-    public _constructorCallStmt setArgument(int index, _expression _e ){
-        this.astStmt.setArgument(index, _e.ast());
-        return this;
-    }
-    */
-
-
-    /*
-    public boolean hasArguments(){
-        return this.astStmt.getArguments().size() > 0;
-    }
-     */
-
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
         if(astStmt.getExpression().isPresent()) {
-            comps.put(_java.Component.EXPRESSION, astStmt.getExpression().get());
+            comps.put(_java.Feature.EXPRESSION, astStmt.getExpression().get());
         }
 
-        comps.put(_java.Component.THIS_CALL, astStmt.isThis());
-        comps.put(_java.Component.SUPER_CALL, !astStmt.isThis());
-        comps.put(_java.Component.ARGUMENTS, astStmt.getArguments());
+        comps.put(_java.Feature.IS_THIS_CALL, astStmt.isThis());
+        comps.put(_java.Feature.IS_SUPER_CALL, !astStmt.isThis());
+        comps.put(_java.Feature.ARGS_EXPRS, astStmt.getArguments());
         if( astStmt.getTypeArguments().isPresent()){
-            comps.put(_java.Component.TYPE_ARGUMENTS, astStmt.getTypeArguments().get());
+            comps.put(_java.Feature.TYPE_ARGS, astStmt.getTypeArguments().get());
         }
         return comps;
     }

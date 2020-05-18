@@ -143,7 +143,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                 c->{
                     _constructor _ct = _constructor.of( (ConstructorDeclaration)c );
                     Optional<Constructor> oc =
-                            Arrays.stream(clazz.getDeclaredConstructors()).filter( ct -> _ct.isParameters(ct) ).findFirst();
+                            Arrays.stream(clazz.getDeclaredConstructors()).filter( ct -> _ct.isParams(ct) ).findFirst();
                     if( oc.isPresent() ){
                         Constructor ct = oc.get();
                         //todo do parameters

@@ -2,7 +2,7 @@ package org.jdraft.diff;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 import org.jdraft.macro.*;
 
 /**
@@ -129,34 +129,34 @@ public class _diffApiTest extends TestCase {
         
         //assertTrue(_dn.at(Component.ANNOTATION));
         assertTrue(_dn.at("Deprecated"));        
-        assertTrue(_dn.at(Component.ANNO, "Deprecated"));
+        assertTrue(_dn.at(Feature.ANNO_EXPR, "Deprecated"));
         assertTrue(_dn.at(_annoExpr.class, "Deprecated"));
         assertTrue(_dn.at("Deprecated"));        
-        assertTrue(_dn.at(Component.ANNO, "Deprecated"));
+        assertTrue(_dn.at(Feature.ANNO_EXPR, "Deprecated"));
         
         //What has changed? (a Deprecated _anno)
         assertTrue( _d.isDiffOf(_annoExpr.of(Deprecated.class)));//the diff Object is the Deprecated _anno
         
         //you wont use this much, but it's available (pass in the FULL PATH to where the diff occurs)
-        assertEquals(_dn, _d.at(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated"));
-        assertEquals(_dn, _d.at(_nodePath.of(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated")));
+        assertEquals(_dn, _d.at(Feature.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated"));
+        assertEquals(_dn, _d.at(_nodePath.of(Feature.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated")));
         
         //Where does the change occur
         // At = on what "leaf node" in the AST
         // On = within some path of the AST 
         assertTrue(_d.isAt(_annoExpr.class));
-        assertTrue(_d.isAt(Component.ANNO));
+        assertTrue(_d.isAt(Feature.ANNO_EXPR));
         assertTrue(_d.isAt("Deprecated"));
         
-        assertTrue(_d.isAt(Component.ANNO, "Deprecated"));
+        assertTrue(_d.isAt(Feature.ANNO_EXPR, "Deprecated"));
         assertTrue(_d.isAt(_annoExpr.class, "Deprecated"));
         
         //return the first matching 
         assertEquals(_dn, _d.firstAt("Deprecated"));
         assertEquals(_dn, _d.firstAt(_annoExpr.class));
         assertEquals(_dn, _d.firstAt(_annoExpr.class, "Deprecated"));
-        assertEquals(_dn, _d.firstAt(Component.ANNO));
-        assertEquals(_dn, _d.firstAt(Component.ANNO, "Deprecated"));
+        assertEquals(_dn, _d.firstAt(Feature.ANNO_EXPR));
+        assertEquals(_dn, _d.firstAt(Feature.ANNO_EXPR, "Deprecated"));
         
         //lets verify the leftOnlyAPI        
         //"AT" means the "leaf node" (or the last component of the Path)
@@ -173,23 +173,23 @@ public class _diffApiTest extends TestCase {
         //ON (works for the direct at location)
         assertTrue(_d.isOn("Deprecated"));
         assertTrue(_d.isOn(_annoExpr.class));
-        assertTrue(_d.isOn(Component.ANNO));
-        assertTrue(_d.isOn(Component.ANNO, "Deprecated"));
+        assertTrue(_d.isOn(Feature.ANNO_EXPR));
+        assertTrue(_d.isOn(Feature.ANNO_EXPR, "Deprecated"));
         assertTrue(_d.isOn(_annoExpr.class, "Deprecated"));
         
         //On checks the input to each node in the path graph to the _diffNode
-        assertTrue(_d.isOn(Component.INNER_TYPE));
-        assertTrue(_d.isOn(Component.CLASS, "Inner"));
+        assertTrue(_d.isOn(Feature.INNER_TYPE));
+        assertTrue(_d.isOn(Feature.CLASS, "Inner"));
         assertTrue(_d.isOn("g"));
         assertTrue(_d.isOn(_field.class, "g"));
-        assertTrue(_d.isOn(Component.FIELD, "g"));
+        assertTrue(_d.isOn(Feature.FIELD, "g"));
         assertTrue(_d.isOn(_class.class));
         assertTrue(_d.isOn("Inner"));
         
         assertEquals(_dn, _d.on(_annoExpr.class));
         assertEquals(_dn, _d.on(_annoExpr.class, "Deprecated"));
-        assertEquals(_dn, _d.on(Component.ANNO));
-        assertEquals(_dn, _d.on(Component.ANNO, "Deprecated"));
+        assertEquals(_dn, _d.on(Feature.ANNO_EXPR));
+        assertEquals(_dn, _d.on(Feature.ANNO_EXPR, "Deprecated"));
         
         //"ON" means get the first one that is (at or below) this path
         assertEquals(_dn,_d.leftOnlyOn("Deprecated"));        
@@ -245,25 +245,25 @@ public class _diffApiTest extends TestCase {
         assertTrue( _d.isDiffOf(_annoExpr.of(Deprecated.class)));//the diff Object is the Deprecated _anno
         
         //you wont use this much, but it's available (pass in the FULL PATH to where the diff occurs)
-        assertEquals(_dn, _d.at(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated"));
-        assertEquals(_dn, _d.at(_nodePath.of(Component.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated")));
+        assertEquals(_dn, _d.at(Feature.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated"));
+        assertEquals(_dn, _d.at(_nodePath.of(Feature.INNER_TYPE, "", _class.class, "Inner", _field.class, "g", _annoExpr.class, "Deprecated")));
         
         //Where does the change occur
         // At = on what "leaf node" in the AST
         // On = within some path of the AST 
         assertTrue(_d.isAt(_annoExpr.class));
-        assertTrue(_d.isAt(Component.ANNO));
+        assertTrue(_d.isAt(Feature.ANNO_EXPR));
         assertTrue(_d.isAt("Deprecated"));
         
-        assertTrue(_d.isAt(Component.ANNO, "Deprecated"));
+        assertTrue(_d.isAt(Feature.ANNO_EXPR, "Deprecated"));
         assertTrue(_d.isAt(_annoExpr.class, "Deprecated"));
         
         //return the first matching 
         assertEquals(_dn, _d.firstAt("Deprecated"));
         assertEquals(_dn, _d.firstAt(_annoExpr.class));
         assertEquals(_dn, _d.firstAt(_annoExpr.class, "Deprecated"));
-        assertEquals(_dn, _d.firstAt(Component.ANNO));
-        assertEquals(_dn, _d.firstAt(Component.ANNO, "Deprecated"));
+        assertEquals(_dn, _d.firstAt(Feature.ANNO_EXPR));
+        assertEquals(_dn, _d.firstAt(Feature.ANNO_EXPR, "Deprecated"));
         
         //lets verify the leftOnlyAPI        
         //"AT" means the "leaf node" (or the last component of the Path)
@@ -280,23 +280,23 @@ public class _diffApiTest extends TestCase {
         //ON (works for the direct at location)
         assertTrue(_d.isOn("Deprecated"));
         assertTrue(_d.isOn(_annoExpr.class));
-        assertTrue(_d.isOn(Component.ANNO));
-        assertTrue(_d.isOn(Component.ANNO, "Deprecated"));
+        assertTrue(_d.isOn(Feature.ANNO_EXPR));
+        assertTrue(_d.isOn(Feature.ANNO_EXPR, "Deprecated"));
         assertTrue(_d.isOn(_annoExpr.class, "Deprecated"));
         
         //On checks the input to each node in the path graph to the _diffNode
-        assertTrue(_d.isOn(Component.INNER_TYPE));
-        assertTrue(_d.isOn(Component.CLASS, "Inner"));
+        assertTrue(_d.isOn(Feature.INNER_TYPE));
+        assertTrue(_d.isOn(Feature.CLASS, "Inner"));
         assertTrue(_d.isOn("g"));
         assertTrue(_d.isOn(_field.class, "g"));
-        assertTrue(_d.isOn(Component.FIELD, "g"));
+        assertTrue(_d.isOn(Feature.FIELD, "g"));
         assertTrue(_d.isOn(_class.class));
         assertTrue(_d.isOn("Inner"));
         
         assertEquals(_dn, _d.on(_annoExpr.class));
         assertEquals(_dn, _d.on(_annoExpr.class, "Deprecated"));
-        assertEquals(_dn, _d.on(Component.ANNO));
-        assertEquals(_dn, _d.on(Component.ANNO, "Deprecated"));
+        assertEquals(_dn, _d.on(Feature.ANNO_EXPR));
+        assertEquals(_dn, _d.on(Feature.ANNO_EXPR, "Deprecated"));
         
         //"ON" means get the first one that is (at or below) this path
         assertEquals(_dn,_d.rightOnlyOn("Deprecated"));        
@@ -352,7 +352,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_dn.isChange());
         assertEquals(Exprs.of(200), _dn.asChange().left());//the left value
         assertEquals(Exprs.of(100), _dn.asChange().right());//the right value
-        assertTrue( _dn.at(Component.INIT) );
+        assertTrue( _dn.at(Feature.INIT) );
         assertTrue(_dn.on(_class.class));
         assertTrue(_dn.on("Inner"));
         
@@ -360,11 +360,11 @@ public class _diffApiTest extends TestCase {
         assertTrue(_d.isDiffOf(Exprs.of(100))); //there is some change from/to 100
         
         assertTrue( _d.hasChange() );
-        assertTrue( _d.hasChangeAt(Component.INIT));        
+        assertTrue( _d.hasChangeAt(Feature.INIT));
         
-        assertTrue( _d.hasChangeOn(Component.INIT));
-        assertTrue( _d.hasChangeOn(Component.FIELD));
-        assertTrue( _d.hasChangeOn(Component.FIELD, "g"));       
+        assertTrue( _d.hasChangeOn(Feature.INIT));
+        assertTrue( _d.hasChangeOn(Feature.FIELD));
+        assertTrue( _d.hasChangeOn(Feature.FIELD, "g"));
         
         //OK, here's where it gets interesting, merge the change from leftToRight
         //which means take the value 200 in a and merge the change into b        
@@ -374,8 +374,8 @@ public class _diffApiTest extends TestCase {
         // _a and _b are both equal
         assertTrue( _diff.of(_a, _b).isEmpty());
         //AND verify they are now BOTH 200
-        assertEquals( _a.getInnerType("Inner").getField("g").getInit(), Exprs.of(200));
-        assertEquals( _b.getInnerType("Inner").getField("g").getInit(), Exprs.of(200));
+        assertEquals( _a.getInnerType("Inner").getField("g").getInitNode(), Exprs.of(200));
+        assertEquals( _b.getInnerType("Inner").getField("g").getInitNode(), Exprs.of(200));
         //assertEquals( _a.getNest("Inner").getField("g"), _a.getNest("Inner").getField("g"));        
     }
     

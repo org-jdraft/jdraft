@@ -246,13 +246,13 @@ public final class _param
     }
 
     @Override
-    public Map<_java.Component, Object> components( ) {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.FINAL, isFinal() );
-        parts.put( _java.Component.ANNOS, getAnnoExprs() );
-        parts.put( _java.Component.TYPE, getTypeRef() );
-        parts.put( _java.Component.NAME, getName() );
-        parts.put( _java.Component.VAR_ARG, isVarArg() );
+    public Map<_java.Feature, Object> components( ) {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put( _java.Feature.IS_FINAL, isFinal() );
+        parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
+        parts.put( _java.Feature.TYPE, getTypeRef() );
+        parts.put( _java.Feature.NAME, getName() );
+        parts.put( _java.Feature.IS_VAR_ARG, isVarArg() );
         return parts;
     }
 

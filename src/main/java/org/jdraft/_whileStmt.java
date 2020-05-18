@@ -175,10 +175,10 @@ public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.CONDITION, whileStmt.getCondition());
-        comps.put(_java.Component.BODY, whileStmt.getBody());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put(_java.Feature.CONDITION_EXPR, whileStmt.getCondition());
+        comps.put(_java.Feature.BODY, whileStmt.getBody());
         return comps;
     }
 

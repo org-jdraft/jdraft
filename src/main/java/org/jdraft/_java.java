@@ -327,7 +327,7 @@ public interface _java {
             return _moduleRequires.of( (ModuleRequiresDirective)astNode);
         }
         if( astNode instanceof MemberValuePair){
-            return _annoExpr._pair.of( (MemberValuePair)astNode);
+            return _annoExpr._entryPair.of( (MemberValuePair)astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
@@ -340,21 +340,22 @@ public interface _java {
      * like (by componentizing things out and comparing or matching on a part by
      * part basis)
      */
-    enum Component {
+    enum Feature {
         MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
-        PACKAGE("package", PackageDeclaration.class),
-        /** i.e. @Deprecated @NotNull */
-        ANNOS("annos", _annoExprs.class),
+        PACKAGE("package", _package.class),
         /** i.e. @Deprecated */
-        ANNO("anno", _annoExpr.class),
+        ANNO_EXPR("annoExpr", _annoExpr.class),
+        /** i.e. @Deprecated @NotNull */
+        ANNO_EXPRS("annoExprs", _annoExprs.class),
+
         CLASS("class", _class.class),
         ENUM("enum", _enum.class),
         INTERFACE("interface", _interface.class),
         ANNOTATION("annotation", _annotation.class),
         BODY("body", _body.class),
 
-        MODIFIERS("modifiers", _modifiers.class), //List.class, Modifier.class),
         MODIFIER("modifier", _modifier.class),
+        MODIFIERS("modifiers", _modifiers.class), //List.class, Modifier.class),
 
         HEADER_COMMENT("header", Comments.class),
         JAVADOC("javadoc", _javadocComment.class),
@@ -362,52 +363,60 @@ public interface _java {
         LINE_COMMENT("lineComment", _lineComment.class),
         BLOCK_COMMENT("blockComment", _blockComment.class),
 
-        PARAMETERS("parameters", _params.class),
-        PARAMETER("parameter", _param.class),
-        RECEIVER_PARAMETER("receiverParameter", _receiverParam.class),
-        TYPE_PARAMETERS("typeParameters", _typeParams.class),
-        TYPE_PARAMETER("typeParameter", TypeParameter.class), //_typeParameter.class
+        PARAM("param", _param.class),
+        PARAMS("params", _params.class),
+
+        RECEIVER_PARAM("receiverParam", _receiverParam.class),
+        TYPE_PARAM("typeParam", _typeParam.class), //_typeParameter.class
+        TYPE_PARAMS("typeParams", _typeParams.class),
         THROWS("throws", _throws.class),
         NAME("name", String.class),
 
-        PAIRS("pairs", List.class, MemberValuePair.class), //anno
-        PAIR("pair", MemberValuePair.class), //anno
+        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair", MemberValuePair.class), //anno
+        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs", List.class, MemberValuePair.class), //anno
 
+        IMPORT("import", _import.class),
         IMPORTS("imports", _imports.class),
-        IMPORT("import", _import.class), //todo change to _import
 
-        STATIC("static", Boolean.class),
-        WILDCARD("wildcard", Boolean.class),
-        ELEMENTS("elements", List.class, _entry.class), //_annotation
-        ELEMENT("element", _entry.class), //annotation
-        FIELDS("fields", List.class, _field.class),
+        IS_STATIC("isStatic", Boolean.class),
+        IS_WILDCARD("isWildcard", Boolean.class),
+
+        ANNOTATION_ENTRY("annotationEntry", _entry.class), //annotation
+        ANNOTATION_ENTRIES("annotationEntries", List.class, _entry.class), //_annotation
+
         FIELD("field", _field.class),
-        INNER_TYPES("innerType", List.class, _type.class),
-        INNER_TYPE("innerType", _type.class),
+        FIELDS("fields", List.class, _field.class),
 
-        COMPANION_TYPES( "companionTypes", List.class, _type.class),
+        INNER_TYPE("innerType", _type.class),
+        INNER_TYPES("innerTypes", List.class, _type.class),
+
         COMPANION_TYPE( "companionType", _type.class),
+        COMPANION_TYPES( "companionTypes", List.class, _type.class),
 
         TYPE("type", _typeRef.class), //annotation.element
-        DEFAULT("default", Expression.class), //_annotation.element
+        DEFAULT_EXPR("defaultExpr", Expression.class), //_annotation.element
 
-        EXTENDS("extends", List.class, ClassOrInterfaceType.class), //_class, //_interface
-        IMPLEMENTS("implements", List.class, ClassOrInterfaceType.class), //_class, _enum
+        EXTENDS_TYPES("extendsTypes", List.class, ClassOrInterfaceType.class), //_class, //_interface
+        IMPLEMENTS_TYPES("implementsTypes", List.class, ClassOrInterfaceType.class), //_class, _enum
+
+        INIT_BLOCK("initBlock", _initBlock.class), //class, _enum
         INIT_BLOCKS("initBlocks", List.class, _initBlock.class), //class, _enum
-        INIT_BLOCK("initBlocks", _initBlock.class), //class, _enum
-        CONSTRUCTORS("constructors", List.class, _constructor.class), //class, _enum
-        CONSTRUCTOR("constructor", _constructor.class),
-        METHODS("methods", List.class, _method.class), //class, _enum, _interface, _enum._constant
-        METHOD("method", _method.class),
-        CONSTANTS("constants", List.class, _constant.class),
-        CONSTANT("constant", _constant.class), //_enum
 
-        ARGUMENT("argument", Expression.class), //_enum._constant
-        ARGUMENTS("arguments", List.class, Expression.class), //_enum._constant
+        CONSTRUCTOR("constructor", _constructor.class),
+        CONSTRUCTORS("constructors", List.class, _constructor.class), //class, _enum
+
+        METHOD("method", _method.class),
+        METHODS("methods", List.class, _method.class), //class, _enum, _interface, _enum._constant
+
+        CONSTANT("constant", _constant.class), //_enum
+        CONSTANTS("constants", List.class, _constant.class),
+
+        ARG_EXPR("arg", Expression.class), //_enum._constant
+        ARGS_EXPRS("args", List.class, Expression.class), //_enum._constant
 
         INIT("init", Expression.class), //field
-        FINAL("final", Boolean.class), //_parameter
-        VAR_ARG("varArg", Boolean.class), //parameter
+        IS_FINAL("isFinal", Boolean.class), //_parameter
+        IS_VAR_ARG("isVarArg", Boolean.class), //parameter
 
         AST_TYPE("astType", Type.class), //typeRef
         ARRAY_LEVEL("arrayLevel", Integer.class), //_typeRef
@@ -417,62 +426,61 @@ public interface _java {
         TRY_BODY("tryBody", BlockStmt.class),
         CATCH_CLAUSES( "catchClauses", List.class, CatchClause.class), //tryStmt
         FINALLY_BODY( "finallyBody", BlockStmt.class),
-        WITH_RESOURCES("withResources", List.class, Expression.class), //tryStmt
+        WITH_RESOURCES_EXPRS("withResourcesExpr", List.class, Expression.class), //tryStmt
 
         STATEMENTS("statements", List.class, Statement.class), //statements of a switch entry
-        SWITCH_SELECTOR("switchSelector", Expression.class),
+        SWITCH_SELECTOR_EXPR("switchSelectorExpr", Expression.class),
         SWITCH_ENTRIES("switchEntries", List.class, SwitchEntry.class), //TODO change to _switchEntry
         SWITCH_BODY_TYPE("switchBodyType", com.github.javaparser.ast.stmt.SwitchEntry.Type.class),
-        SWITCH_LABELS("switchLabels", List.class, Expression.class),
+        SWITCH_LABEL_EXPRS("switchLabelExprs", List.class, Expression.class),
         ARRAY_NAME("arrayName", Expression.class), //arrayAccess
-        INDEX("index", Expression.class), //arrayAccess
-        VALUES("values", List.class, Expression.class), //ArrayInit
-        TARGET("target", Expression.class), //assign
-        VALUE("value", Expression.class), //assign
-        LEFT( "left", Expression.class), //binaryExpression
-        RIGHT( "right", Expression.class), //binaryExpression
-        BINARY_OPERATOR( "binaryOperator", BinaryExpr.Operator.class), //binaryExpression
-        UNARY_OPERATOR( "unaryOperator", UnaryExpr.Operator.class), //unaryExpression
+        INDEX_EXPR("indexExpr", Expression.class), //arrayAccess
+        VALUE_EXPRS("valueExprs", List.class, Expression.class), //ArrayInit
+        TARGET_EXPR("targetExpr", Expression.class), //assign
+        VALUE_EXPR("valueExpr", Expression.class), //assign
+        LEFT_EXPR( "leftExpr", Expression.class), //binaryExpr
+        RIGHT_EXPR( "rightExpr", Expression.class), //binaryExpr
+        BINARY_OPERATOR( "binaryOperator", BinaryExpr.Operator.class), //binaryExpr
+        UNARY_OPERATOR( "unaryOperator", UnaryExpr.Operator.class), //unaryExpr
         EXPRESSION("expression", Expression.class), //CastExpr
-        CONDITION("condition", Expression.class), //ternary
-        THEN("then", Expression.class),    //ternary
-        ELSE("else", Expression.class),   //ternary
-        INNER("inner", Expression.class), //enclosedExpr
-        SCOPE("scope", Expression.class), //fieldAccessExpr
-        TYPE_ARGUMENTS("typeArguments", List.class, Type.class), //methodCall
+        CONDITION_EXPR("conditionExpr", Expression.class), //ternary
+        THEN_EXPR("thenExpr", Expression.class),    //ternary
+        ELSE_EXPR("else", Expression.class),   //ternary
+        INNER_EXPR("innerExpr", Expression.class), //parenthesizedExpr
+        SCOPE_EXPR("scopeExpr", Expression.class), //fieldAccessExpr
+        TYPE_ARGS("typeArgs", List.class, Type.class), //methodCall
         IDENTIFIER("identifier", String.class),  //methodReference
         ANONYMOUS_CLASS_BODY("anonymousClassBody", List.class, BodyDeclaration.class),//_new
         TYPE_NAME("typeName", String.class), //_super superExpr
         VARIABLES("variables", List.class, _variable.class), //VariableDeclarator.class),
-        CHECK("check", Expression.class), //assertStmt
-        MESSAGE("message", Expression.class), //assertStmt
+        CHECK_EXPR("checkExpr", Expression.class), //assertStmt
+        MESSAGE_EXPR("messageExpr", Expression.class), //assertStmt
         LABEL("label", String.class), //breakStmt, labeledStmt
-        THIS_CALL("thisCall", Boolean.class), //constructorCallStmt
-        SUPER_CALL("superCall", Boolean.class), //constructorCallStmt
-        ITERABLE("iterable", Expression.class), //forEachStmt
+        IS_THIS_CALL("isThisCall", Boolean.class), //constructorCallStmt
+        IS_SUPER_CALL("isSuperCall", Boolean.class), //constructorCallStmt
+        ITERABLE_EXPR("iterableExpr", Expression.class), //forEachStmt
         VARIABLE("variable", VariableDeclarationExpr.class), //forEachStmt
-        INITIALIZATION("initialization", List.class, Expression.class), //forStmt
-        UPDATE("update", List.class, Expression.class),
-        COMPARE("compare", Expression.class),
+        INIT_EXPR("initExpr", List.class, Expression.class), //forStmt
+        UPDATE_EXPR("updateExpr", List.class, Expression.class),
+        COMPARE_EXPR("compareExpr", Expression.class),
         STATEMENT("statement", Statement.class), //labeledStatment
-        ARRAY_DIMENSIONS("arrayDimensions", List.class, ArrayCreationLevel.class), //arrayCreate
         ARRAY_DIMENSION("arrayDimension", Expression.class),
-        ENCLOSED_PARAMETERS( "enclosedParameters", Boolean.class),
+        ARRAY_DIMENSIONS("arrayDimensions", List.class, ArrayCreationLevel.class), //arrayCreate
+        IS_ENCLOSED_PARAMS( "isEnclosedParams", Boolean.class),
         LITERAL("literal", Object.class), //typeRef, textBlock
         ASSIGN_OPERATOR("assignOperator", AssignExpr.Operator.class);
-
 
         public final String name;
         public final Class implementationClass;
         public final Class elementClass;
 
-        Component(String name, Class implementationClass) {
+        Feature(String name, Class implementationClass) {
             this.name = name;
             this.implementationClass = implementationClass;
             this.elementClass = null;
         }
 
-        Component(String name, Class containerClass, Class elementClass) {
+        Feature(String name, Class containerClass, Class elementClass) {
             this.name = name;
             this.implementationClass = containerClass;
             this.elementClass = elementClass;
@@ -487,8 +495,8 @@ public interface _java {
             return name;
         }
 
-        public static Component of(String name) {
-            Optional<Component> op = Arrays.stream(Component.values()).filter(p -> p.name.equals(name)).findFirst();
+        public static Feature of(String name) {
+            Optional<Feature> op = Arrays.stream(Feature.values()).filter(p -> p.name.equals(name)).findFirst();
             if (op.isPresent()) {
                 return op.get();
             }
@@ -501,8 +509,8 @@ public interface _java {
          * @param <_N>
          * @return
          */
-        public static <_N extends _multiPart> Component of(Class<_N> nodeClass) {
-            Optional<Component> op = Arrays.stream(Component.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
+        public static <_N extends _multiPart> Feature of(Class<_N> nodeClass) {
+            Optional<Feature> op = Arrays.stream(Feature.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
             if (op.isPresent()) {
                 return op.get();
             }
@@ -514,19 +522,20 @@ public interface _java {
          *
          * @param t the type instance
          * @return the Component
-         */
-        public static Component getComponent(_type t) {
+
+        public static Feature getFeature(_type t) {
             if (t instanceof _class) {
-                return Component.CLASS;
+                return Feature.CLASS;
             }
             if (t instanceof _interface) {
-                return Component.INTERFACE;
+                return Feature.INTERFACE;
             }
             if (t instanceof _enum) {
-                return Component.ENUM;
+                return Feature.ENUM;
             }
-            return Component.ANNOTATION;
+            return Feature.ANNOTATION;
         }
+        */
     }
 
     /**
@@ -1156,7 +1165,7 @@ public interface _java {
          * Decompose the entity into key-VALUE pairs where the key is the Component
          * @return a map of key values
          */
-        Map<Component, Object> components();
+        Map<Feature, Object> components();
 
         /**
          * Decompose the entity into smaller named tokens
@@ -1164,7 +1173,7 @@ public interface _java {
          * @return a Map with the names mapped to the corresponding components
          */
         default Map<String, Object> tokenize() {
-            Map<Component, Object> parts = components();
+            Map<Feature, Object> parts = components();
             Map<String, Object> mdd = new HashMap<>();
             parts.forEach((p, o) -> {
                 mdd.put(p.name, o);
@@ -1650,6 +1659,16 @@ public interface _java {
 
     }
 
+    /**
+     *
+     * @param <N>
+     * @param <_WS>
+     *
+     * @see _fieldAccessExpr
+     * @see _methodCallExpr
+     * @see _methodRefExpr
+     * @see _newExpr
+     */
     interface _withScope<N extends Node, _WS extends _node> extends _node<N, _WS> {
 
         default boolean hasScope(){
@@ -1711,6 +1730,17 @@ public interface _java {
     }
 
 
+    /**
+     * A Java node containing a condition
+     *
+     * @param <N> the Ast Node type
+     * @param <_WC> the java node type
+     *
+     * @see _ifStmt
+     * @see _ternaryExpr
+     * @see _doStmt
+     * @see _whileStmt
+     */
     interface _withCondition <N extends Node, _WC extends _node> extends _node<N, _WC> {
 
         default boolean isCondition(String...expression){
@@ -1751,6 +1781,11 @@ public interface _java {
         }
     }
 
+    /**
+     * Container of an {@link Expression} / {@link _expr}
+     * @param <N>
+     * @param <_WE>
+     */
     interface _withExpression <N extends Node, _WE extends _node> extends _node<N, _WE> {
 
         default boolean isExpression(String...expression){
@@ -1797,6 +1832,30 @@ public interface _java {
             return isExpression( Exprs.of(c) );
         }
 
+        default boolean isExpression( int... i){
+            return isExpression( Exprs.of(i) );
+        }
+
+        default boolean isExpression( boolean... b){
+            return isExpression( Exprs.of(b) );
+        }
+
+        default boolean isExpression( float... f){
+            return isExpression( Exprs.of(f) );
+        }
+
+        default boolean isExpression( long... l){
+            return isExpression( Exprs.of(l) );
+        }
+
+        default boolean isExpression( double... d){
+            return isExpression( Exprs.of(d) );
+        }
+
+        default boolean isExpression( char... c){
+            return isExpression( Exprs.of(c) );
+        }
+
         default _WE setExpression(String...expression){
             return setExpression(Exprs.of(expression));
         }
@@ -1823,7 +1882,6 @@ public interface _java {
      *
      * //list all lambda expressions with parameters within AClass.class
      * List<_lambda> _ls = _class.of(AClass.class).walk().list(_lambda.class, _l->_l.hasParameters());
-     *
      *
      */
     class _walk {

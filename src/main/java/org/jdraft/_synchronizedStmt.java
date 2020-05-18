@@ -111,11 +111,11 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
-        comps.put(_java.Component.EXPRESSION, astStmt.getExpression());
-        comps.put(_java.Component.BODY, astStmt.getBody());
+        comps.put(_java.Feature.EXPRESSION, astStmt.getExpression());
+        comps.put(_java.Feature.BODY, astStmt.getBody());
         return comps;
     }
 

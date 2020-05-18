@@ -293,7 +293,7 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
             for (int i = 0; i < cs.size(); i++) {    
                 
                 Constructor ct = cs.get(i);
-                if( _c.isParameters( ct ) ){
+                if( _c.isParams( ct ) ){
                     Parameter[] ps = ct.getParameters();
                     int delta = ps.length - _c.getParams().size();
                     for(int j = 0; j< _c.getParams().size(); j++ ){
@@ -325,7 +325,7 @@ public interface _macro<M extends _annoExprs._withAnnoExprs>
             for (int i = 0; i < cs.size(); i++) {
                 Constructor ct = cs.get(i);
                 //Constructor ct = cs.get(i);
-                if( _c.isParameters( ct ) ){
+                if( _c.isParams( ct ) ){
                     Parameter[] ps = ct.getParameters();
                     int delta = ps.length - _c.getParams().size();
                     for(int j = 0; j< _c.getParams().size(); j++ ){

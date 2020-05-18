@@ -10,7 +10,7 @@ import static junit.framework.TestCase.assertTrue;
 import test.ComplexClass;
 import test.ComplexInterface;
 
-import static org.jdraft._java.Component.*;
+import static org.jdraft._java.Feature.*;
 import java.io.IOException;
 import org.jdraft.macro._toCtor;
 
@@ -91,7 +91,7 @@ public class _diffPatchTest
         assertTrue(_diff.fieldsOf(_c1,_c2).hasRightOnlyAt(FIELD) );
         assertTrue(_diff.methodsOf(_c1,_c2).hasRightOnlyAt(METHOD) );
         assertTrue(_diff.constructorsOf(_c1,_c2).hasRightOnlyAt(CONSTRUCTOR) );
-        assertTrue(_diff.annosOf(_c1,_c2).hasRightOnlyAt(ANNO) );
+        assertTrue(_diff.annosOf(_c1,_c2).hasRightOnlyAt(ANNO_EXPR) );
         
         assertTrue(_diff.of(_c1,_c2).firstOn(FIELD, "f").isRightOnly() );
         assertTrue(_diff.of(_c1,_c2).firstOn(FIELD).isRightOnly() );
@@ -102,8 +102,8 @@ public class _diffPatchTest
         assertTrue(_diff.constructorsOf(_c1,_c2).firstOn(CONSTRUCTOR).isRightOnly() );
         System.out.println( _diff.constructorsOf(_c1,_c2) );
         assertTrue(_diff.constructorsOf(_c1,_c2).firstOn(CONSTRUCTOR, "L()").isRightOnly() );
-        assertTrue(_diff.annosOf(_c1,_c2).firstOn(ANNO).isRightOnly() );
-        assertTrue(_diff.annosOf(_c1,_c2).firstOn(ANNO, "Deprecated").isRightOnly() );
+        assertTrue(_diff.annosOf(_c1,_c2).firstOn(ANNO_EXPR).isRightOnly() );
+        assertTrue(_diff.annosOf(_c1,_c2).firstOn(ANNO_EXPR, "Deprecated").isRightOnly() );
         
     }
 
@@ -231,7 +231,7 @@ public class _diffPatchTest
         
         _c.addAnnoExprs("@AAAAA");
         System.out.println(_diff.of(_c, _c2));
-        assertNotNull(_diff.of(_c, _c2).firstOn(ANNO) );
+        assertNotNull(_diff.of(_c, _c2).firstOn(ANNO_EXPR) );
         dl = _diff.of(_c, _c2);
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
@@ -250,26 +250,26 @@ public class _diffPatchTest
         
          _c.addExtend("Blarg<Integer>");
         _diff _dl = _diff.of(_c, _c2);        
-        assertNotNull( _dl.firstOn(EXTENDS) );        
+        assertNotNull( _dl.firstOn(EXTENDS_TYPES) );        
         _dl.patchLeftToRight();
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         _c.addImplement(Serializable.class);
         _dl = _diff.of(_c, _c2);
-        assertTrue( _dl.firstAt(IMPLEMENTS).isLeftOnly()); //verify that an implement was removed between c -> c2        
+        assertTrue( _dl.firstAt(IMPLEMENTS_TYPES).isLeftOnly()); //verify that an implement was removed between c -> c2        
         _dl.patchLeftToRight(); //ok, push the change to both left and right
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         _c.addImplement("SomeDiffInterface");
         dl = _diff.of(_c, _c2);
-        assertNotNull( dl.firstOn(IMPLEMENTS) );        
+        assertNotNull( dl.firstOn(IMPLEMENTS_TYPES) );        
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         
         _c.removeTypeParams();
         dl = _diff.of(_c, _c2);
-        assertNotNull( dl.firstOn(TYPE_PARAMETERS) );        
+        assertNotNull( dl.firstOn(TYPE_PARAMS) );        
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
@@ -303,8 +303,8 @@ public class _diffPatchTest
         assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
         assertEquals( dl.firstOn("aFieldIAdded").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
         assertEquals( dl.firstOn(FIELD).asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
-        assertEquals( dl.firstAt(ANNO).asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
-        assertEquals( dl.firstAt(ANNO, "Deprecated").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
+        assertEquals( dl.firstAt(ANNO_EXPR).asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
+        assertEquals( dl.firstAt(ANNO_EXPR, "Deprecated").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
@@ -351,7 +351,7 @@ public class _diffPatchTest
         _c.getConstructor(0).addAnnoExprs(Deprecated.class);
          dl = _diff.of(_c, _c2);
         //System.out.println( dl);
-        assertNotNull( dl.firstOn(ANNO).isLeftOnly() );        
+        assertNotNull( dl.firstOn(ANNO_EXPR).isLeftOnly() );        
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
@@ -366,7 +366,7 @@ public class _diffPatchTest
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(CONSTRUCTOR).isLeftOnly() );                
-        assertNotNull( dl.firstOn(ANNO).isLeftOnly() );
+        assertNotNull( dl.firstOn(ANNO_EXPR).isLeftOnly() );
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
@@ -394,7 +394,7 @@ public class _diffPatchTest
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertNotNull( dl.firstOn(CONSTRUCTOR).isRightOnly() );                
-        assertNotNull( dl.firstOn(TYPE_PARAMETERS).isRightOnly() );
+        assertNotNull( dl.firstOn(TYPE_PARAMS).isRightOnly() );
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
@@ -415,7 +415,7 @@ public class _diffPatchTest
         _c.getMethod(0).addAnnoExprs(Deprecated.class);
          dl = _diff.of(_c, _c2);
         //System.out.println( dl);
-        assertNotNull( dl.firstOn(ANNO).isLeftOnly() );        
+        assertNotNull( dl.firstOn(ANNO_EXPR).isLeftOnly() );        
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
 
@@ -434,7 +434,7 @@ public class _diffPatchTest
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(METHOD).isLeftOnly() );                
-        assertNotNull( dl.firstOn(ANNO).isLeftOnly() );
+        assertNotNull( dl.firstOn(ANNO_EXPR).isLeftOnly() );
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
 
@@ -467,7 +467,7 @@ public class _diffPatchTest
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertNotNull( dl.firstOn(METHOD).isRightOnly() );                
-        assertNotNull( dl.firstOn(TYPE_PARAMETERS).isRightOnly() );
+        assertNotNull( dl.firstOn(TYPE_PARAMS).isRightOnly() );
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
 
@@ -510,7 +510,7 @@ public class _diffPatchTest
         _c.getDeclared(_enum.class, "E").addAnnoExprs("AFG");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
-        assertTrue( dl.firstOn(ANNO).isLeftOnly());
+        assertTrue( dl.firstOn(ANNO_EXPR).isLeftOnly());
         assertTrue( dl.firstOn(ENUM, "E").isLeftOnly());        
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
@@ -527,7 +527,7 @@ public class _diffPatchTest
         _c.getDeclared(_enum.class, "E").addImplements("IM");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
-        assertTrue( dl.firstOn(IMPLEMENTS).isLeftOnly());
+        assertTrue( dl.firstOn(IMPLEMENTS_TYPES).isLeftOnly());
         assertTrue( dl.firstOn(ENUM, "E").isLeftOnly());        
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
@@ -602,13 +602,13 @@ public class _diffPatchTest
         
         _i.addExtend("AnotherE");
         dl = _diff.of(_i, _i2);
-        assertTrue( dl.hasLeftOnlyAt(EXTENDS));
+        assertTrue( dl.hasLeftOnlyAt(EXTENDS_TYPES));
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
         _i.addAnnoExprs("Annop");
         dl = _diff.of(_i, _i2);
-        assertTrue( dl.hasLeftOnlyAt(ANNO));
+        assertTrue( dl.hasLeftOnlyAt(ANNO_EXPR));
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
@@ -641,7 +641,7 @@ public class _diffPatchTest
         
         _i.removeTypeParams();
         dl = _diff.of(_i, _i2);
-        assertTrue( dl.hasChangeAt(TYPE_PARAMETERS));        
+        assertTrue( dl.hasChangeAt(TYPE_PARAMS));        
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
@@ -675,27 +675,27 @@ public class _diffPatchTest
         
         _c.addExtend("ExtendEd");
         dl = _diff.of(_i, _i2);
-        assertTrue( dl.hasLeftOnlyAt(EXTENDS));        
+        assertTrue( dl.hasLeftOnlyAt(EXTENDS_TYPES));        
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
         _c.addImplement("Impled");
         dl = _diff.of(_i, _i2);
-        assertTrue( dl.hasLeftOnlyAt(IMPLEMENTS));        
+        assertTrue( dl.hasLeftOnlyAt(IMPLEMENTS_TYPES));        
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
         _c.addAnnoExprs("Annoed");
         dl = _diff.of(_i, _i2);
         System.out.println( dl);
-        assertTrue( dl.hasLeftOnlyAt(ANNO, "Annoed"));        
+        assertTrue( dl.hasLeftOnlyAt(ANNO_EXPR, "Annoed"));        
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
         _c.removeTypeParams();
         dl = _diff.of(_i, _i2);
         System.out.println( dl);
-        assertTrue( dl.hasChangeAt(TYPE_PARAMETERS));        
+        assertTrue( dl.hasChangeAt(TYPE_PARAMS));        
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         

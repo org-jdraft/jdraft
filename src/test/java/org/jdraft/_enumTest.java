@@ -27,7 +27,7 @@ public class _enumTest extends TestCase {
         //TODO i need a .body(String...) method that will represent the body
         // of the constant
         _c.setName("One")
-                .setArguments("1, new HashMap()")
+                .setArgs("1, new HashMap()")
                 .addArg(1)
                 .setBody("public int G = 234;",
                      "public int rrrr(){",
@@ -224,7 +224,7 @@ public class _enumTest extends TestCase {
         _field _f = _c.getField( "num");
         assertNotNull( _f);
         assertTrue( _f.getModifiers().is( "public static final"));
-        assertEquals( Exprs.of(12233), _f.getInit() );
+        assertEquals( Exprs.of(12233), _f.getInitNode() );
         
         _method _m = _c.getMethod("getNum");
         assertTrue( _m.hasJavadoc() );

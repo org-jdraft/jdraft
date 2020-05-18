@@ -17,8 +17,9 @@ import java.util.function.Function;
  * The ternary conditional expression.
  * In <code>b==0?x:y</code>, b==0 is the condition, x is thenExpr, and y is elseExpr.
  */
-public final class _ternaryExpr implements _expr<ConditionalExpr,
-        _ternaryExpr>, _java._multiPart<ConditionalExpr, _ternaryExpr> {
+public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
+        _java._withCondition<ConditionalExpr, _ternaryExpr>,
+        _java._multiPart<ConditionalExpr, _ternaryExpr> {
 
     public static _ternaryExpr of(){
         return new _ternaryExpr( new ConditionalExpr( ));
@@ -101,40 +102,13 @@ public final class _ternaryExpr implements _expr<ConditionalExpr,
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
-        comps.put(_java.Component.CONDITION, ce.getCondition());
-        comps.put(_java.Component.THEN, ce.getThenExpr());
-        comps.put(_java.Component.ELSE, ce.getElseExpr());
+        comps.put(_java.Feature.CONDITION_EXPR, ce.getCondition());
+        comps.put(_java.Feature.THEN_EXPR, ce.getThenExpr());
+        comps.put(_java.Feature.ELSE_EXPR, ce.getElseExpr());
         return comps;
-    }
-
-    public boolean isCondition( String...expr){
-        return isCondition( Exprs.of(expr));
-    }
-
-    public boolean isCondition( _expr _e){
-        return isCondition(_e.ast());
-    }
-
-    public boolean isCondition( Expression e){
-        return Objects.equals( this.ce.getCondition(), e);
-    }
-
-    public _ternaryExpr setCondition(String...expr){
-        this.ce.setCondition(Exprs.of(expr));
-        return this;
-    }
-
-    public _ternaryExpr setCondition(_expr _e){
-        this.ce.setCondition(_e.ast());
-        return this;
-    }
-
-    public _ternaryExpr setCondition(Expression e){
-        this.ce.setCondition( e );
-        return this;
     }
 
     public boolean isThen( String...expr){
@@ -189,10 +163,6 @@ public final class _ternaryExpr implements _expr<ConditionalExpr,
     public _ternaryExpr setElse(String...expr){
         this.ce.setElseExpr(Exprs.of(expr));
         return this;
-    }
-
-    public _expr getCondition(){
-        return _expr.of(this.ce.getCondition());
     }
 
     public _expr getThen(){

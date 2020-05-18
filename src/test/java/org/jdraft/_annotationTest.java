@@ -115,7 +115,7 @@ public class _annotationTest extends TestCase  {
         assertTrue( _an.hasFields() );
         assertTrue( _an.getField( "V").getModifiers().is( "public static final") );
         assertTrue( _an.getField("V").isTypeRef( int.class));
-        assertEquals( Exprs.of( 102), _an.getField("V").getInit());
+        assertEquals( Exprs.of( 102), _an.getField("V").getInitNode());
 
         _entry _p = _an.getEntry("value");
         assertTrue(_p.getAnnoExprs().is( "@ann", "@ann2(k='3',v=2)"));
@@ -154,10 +154,10 @@ public class _annotationTest extends TestCase  {
 
 
         //verify we can find the field in each nested TYPE
-        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _class).get(0).getField("f").getInit() );
-        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _enum).get(0).getField("f").getInit() );
-        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _interface).get(0).getField("f").getInit() );
-        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _annotation).get(0).getField("f").getInit() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _class).get(0).getField("f").getInitNode() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _enum).get(0).getField("f").getInitNode() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _interface).get(0).getField("f").getInitNode() );
+        assertEquals( Exprs.intExpr(123), _an.listInnerTypes(t-> t instanceof _annotation).get(0).getField("f").getInitNode() );
 
 
         //add NESTS

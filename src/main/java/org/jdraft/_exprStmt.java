@@ -10,7 +10,10 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
+/**
+ * Statement wrapper over and Expression (to make an Expression a Statement)
+ *
+ */
 public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
         _java._uniPart<ExpressionStmt, _exprStmt>, _java._withExpression<ExpressionStmt, _exprStmt> {
 
@@ -27,7 +30,6 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
     public static _exprStmt of(String...code){
         return new _exprStmt(Stmts.exprStmt( code));
     }
-
 
     public static <A extends Object> _exprStmt of(Exprs.Command c){
         LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);

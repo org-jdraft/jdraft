@@ -14,7 +14,7 @@ public final class _typeRefDiff
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeRef left, _typeRef right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _change_type(path.in(_java.Component.TYPE), (_java._withNameTypeRef) _leftParent, (_java._withNameTypeRef) _rightParent));
+            dt.addDiff(new _change_type(path.in(_java.Feature.TYPE), (_java._withNameTypeRef) _leftParent, (_java._withNameTypeRef) _rightParent));
         }
         return  dt;
     }

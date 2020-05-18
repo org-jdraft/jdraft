@@ -149,21 +149,21 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
     */
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
         if( oce.getAnonymousClassBody().isPresent()){
-            comps.put(_java.Component.ANONYMOUS_CLASS_BODY, oce.getAnonymousClassBody().get());
+            comps.put(_java.Feature.ANONYMOUS_CLASS_BODY, oce.getAnonymousClassBody().get());
         }
-        comps.put(_java.Component.ARGUMENTS, oce.getArguments());
+        comps.put(_java.Feature.ARGS_EXPRS, oce.getArguments());
 
         if( oce.getScope().isPresent() ) {
-            comps.put(_java.Component.SCOPE, oce.getScope().get());
+            comps.put(_java.Feature.SCOPE_EXPR, oce.getScope().get());
         }
-        comps.put(_java.Component.TYPE, oce.getType());
+        comps.put(_java.Feature.TYPE, oce.getType());
 
         if( oce.getTypeArguments().isPresent()) {
-            comps.put(_java.Component.TYPE_ARGUMENTS, oce.getTypeArguments().get());
+            comps.put(_java.Feature.TYPE_ARGS, oce.getTypeArguments().get());
         }
         return comps;
     }

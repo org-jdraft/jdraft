@@ -166,14 +166,14 @@ public final class _field
     }
 
     public boolean isInit(Predicate<Expression> expressionPredicate) {
-        return this.hasInit() && expressionPredicate.test(this.getInit());
+        return this.hasInit() && expressionPredicate.test(this.getInitNode());
     }
 
     public boolean isInit(String... initExpression) {
         if( this.hasInit() ) {
             try {
                 Expression e = Exprs.of(initExpression);
-                return this.getInit().equals(e);
+                return this.getInitNode().equals(e);
             }catch (Exception e){
                 return false;
             }
@@ -182,43 +182,43 @@ public final class _field
     }
     
     public boolean isInit(Expression e) {
-        return Objects.equals(this.getInit(), e);
+        return Objects.equals(this.getInitNode(), e);
     }
 
     public boolean isInit(boolean b) {
-        return Objects.equals(this.getInit(), Exprs.of(b));
+        return Objects.equals(this.getInitNode(), Exprs.of(b));
     }
 
     public boolean isInit(byte b) {
-        return Objects.equals(this.getInit(), Exprs.of(b));
+        return Objects.equals(this.getInitNode(), Exprs.of(b));
     }
 
     public boolean isInit(short s) {
-        return Objects.equals(this.getInit(), Exprs.of(s));
+        return Objects.equals(this.getInitNode(), Exprs.of(s));
     }
 
     public boolean isInit(int i) {
-        return Objects.equals(this.getInit(), Exprs.of(i));
+        return Objects.equals(this.getInitNode(), Exprs.of(i));
     }
 
     public boolean isInit(char c) {
-        return Objects.equals(this.getInit(), Exprs.of(c));
+        return Objects.equals(this.getInitNode(), Exprs.of(c));
     }
 
     public boolean isInit(float f) {
-        return Objects.equals(this.getInit(), Exprs.of(f));
+        return Objects.equals(this.getInitNode(), Exprs.of(f));
     }
 
     public boolean isInit(double d) {
-        return Objects.equals(this.getInit(), Exprs.of(d));
+        return Objects.equals(this.getInitNode(), Exprs.of(d));
     }
 
     public boolean isInit(long l) {
-        return Objects.equals(this.getInit(), Exprs.of(l));
+        return Objects.equals(this.getInitNode(), Exprs.of(l));
     }
 
     public boolean isInit(String init) {
-        return Objects.equals(this.getInit(), Exprs.stringExpr(init));
+        return Objects.equals(this.getInitNode(), Exprs.stringExpr(init));
     }
     
     public boolean hasInit() {
@@ -233,8 +233,15 @@ public final class _field
     public VariableDeclarator ast() {
         return astVar;
     }
-    
-    public Expression getInit() {
+
+    public _expr getInit(){
+        if (astVar.getInitializer().isPresent()) {
+            return _expr.of( astVar.getInitializer().get());
+        }
+        return null;
+    }
+
+    public Expression getInitNode() {
         if (astVar.getInitializer().isPresent()) {
             return astVar.getInitializer().get();
         }
@@ -305,17 +312,6 @@ public final class _field
         }
         return null;
     }
-    /*
-    @Override
-    public _javadoc getJavadoc() {
-        if( this.getFieldDeclaration() != null){
-            return _javadoc.of(getFieldDeclaration());
-        }
-        return null;
-    }
-
-     */
-
 
     @Override
     public _field removeJavadoc() {
@@ -344,7 +340,7 @@ public final class _field
         sb.append(this.getName());
         if (this.hasInit()) {
             sb.append(" = ");
-            sb.append(this.getInit());
+            sb.append(this.getInitNode());
         }
         sb.append(";");
         return sb.toString();
@@ -397,7 +393,7 @@ public final class _field
         if (!Types.equal(this.astVar.getType(), other.astVar.getType())) {
             return false;
         }
-        if( !Exprs.equal(getInit(), other.getInit())) {
+        if( !Exprs.equal(getInitNode(), other.getInitNode())) {
             return false;
         }        
         if (!Objects.equals(getJavadoc(), other.getJavadoc())) {
@@ -421,14 +417,14 @@ public final class _field
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put(_java.Component.NAME, getName());
-        parts.put(_java.Component.TYPE, getTypeRef());
-        parts.put(_java.Component.MODIFIERS, getModifiers());
-        parts.put(_java.Component.JAVADOC, getJavadoc());
-        parts.put(_java.Component.ANNOS, getAnnoExprs());
-        parts.put(_java.Component.INIT, getInit());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put(_java.Feature.NAME, getName());
+        parts.put(_java.Feature.TYPE, getTypeRef());
+        parts.put(_java.Feature.MODIFIERS, getModifiers());
+        parts.put(_java.Feature.JAVADOC, getJavadoc());
+        parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
+        parts.put(_java.Feature.INIT, getInitNode());
         return parts;
     }
 
@@ -440,7 +436,7 @@ public final class _field
                 ms, //getModifiers(),
                 Exprs.hashAnnos(getFieldDeclaration()),
                 getJavadoc(), 
-                Exprs.hash(getInit()));
+                Exprs.hash(getInitNode()));
     }
 
     @Override

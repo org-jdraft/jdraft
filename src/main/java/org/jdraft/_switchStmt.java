@@ -1229,10 +1229,10 @@ public final class _switchStmt implements _stmt._controlFlow._branching<SwitchSt
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> mc = new HashMap<>();
-        mc.put(_java.Component.SWITCH_SELECTOR, this.switchStmt.getSelector());
-        mc.put(_java.Component.SWITCH_ENTRIES, this.switchStmt.getEntries());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> mc = new HashMap<>();
+        mc.put(_java.Feature.SWITCH_SELECTOR_EXPR, this.switchStmt.getSelector());
+        mc.put(_java.Feature.SWITCH_ENTRIES, this.switchStmt.getEntries());
         return mc;
     }
 

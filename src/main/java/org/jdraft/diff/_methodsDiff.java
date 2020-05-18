@@ -78,13 +78,13 @@ public final class _methodsDiff
                         fm);
             } else {
                 dt.addDiff(new _leftOnly_method(
-                        path.in(_java.Component.METHOD, describeMethodSignature(m)),
+                        path.in(_java.Feature.METHOD, describeMethodSignature(m)),
                         (_method._withMethods) _leftParent, (_method._withMethods) _rightParent, m));
             }
         });
         rs.forEach(m -> {
             dt.addDiff(new _rightOnly_method(
-                    path.in(_java.Component.METHOD, describeMethodSignature(m)),
+                    path.in(_java.Feature.METHOD, describeMethodSignature(m)),
                     (_method._withMethods) _leftParent, (_method._withMethods) _rightParent, m));
         });
         return dt;

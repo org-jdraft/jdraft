@@ -139,7 +139,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
      * @param arguments
      * @return
      */
-    public _constant setArguments(String ...arguments){
+    public _constant setArgs(String ...arguments){
         String args = Text.combine(arguments);
         if( args.startsWith("(") && args.endsWith(")") ){
             args = args.substring(1, args.length() -1);
@@ -175,105 +175,27 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return this;
     }
 
-    /*
-    public _constant addArgument( int i){
-        return addArgument( Ex.of(i) );
-    }
-
-    public _constant addArgument( boolean b){
-        return addArgument( Ex.of(b) );
-    }
-
-    public _constant addArgument( float f){
-        return addArgument( Ex.of(f) );
-    }
-
-    public _constant addArgument( long l){
-        return addArgument( Ex.of(l) );
-    }
-
-    public _constant addArgument( double d){
-        return addArgument( Ex.of(d) );
-    }
-
-    public _constant addArgument( char c){
-        return addArgument( Ex.of(c) );
-    }
-    */
-
     public _constant addArg(Expression e ){
         this.astConstant.addArgument( e );
         return this;
     }
 
-    public _constant addArgument( String str ){
+    public _constant addArg(String str ){
         this.astConstant.addArgument( str );
         return this;
     }
 
-
-    /*
-    public _constant setArgument( int index, Expression e){
-        this.astConstant.getArguments().set( index, e );
-        return this;
-    }
-     */
-
-    public _constant setArguments( NodeList<Expression> arguments ){
+    public _constant setArgs(NodeList<Expression> arguments ){
         this.astConstant.setArguments(arguments);
         return this;
     }
 
-    public _constant setArguments( List<Expression> arguments ){
+    public _constant setArgs(List<Expression> arguments ){
         NodeList<Expression> nles = new NodeList<>();
         nles.addAll(arguments);
         this.astConstant.setArguments(nles);
         return this;
     }
-
-    /*
-    public _constant forArguments( Consumer<Expression> expressionAction ){
-        this.listArguments().forEach(expressionAction);
-        return this;
-    }
-
-     */
-
-    /*
-    public _constant forArguments(Predicate<Expression> expressionMatchFn, Consumer<Expression> expressionAction ){
-        this.listArguments(expressionMatchFn).forEach(expressionAction);
-        return this;
-    }
-     */
-
-    /*
-    public _constant removeArgument( int index ){
-        this.astConstant.getArguments().remove(index);
-        return this;
-    }
-    */
-    /*
-    public _constant removeArguments( Predicate<Expression> argumentMatchFn ){
-        listArguments(argumentMatchFn).forEach(e -> e.removeForced() );
-        return this;
-    }
-    */
-    /*
-    public List<Expression> listArguments(){
-        return this.astConstant.getArguments();
-    }
-     */
-
-    /*
-    public List<Expression>listArguments(Predicate<Expression> expressionMatchFn){
-        return this.astConstant.getArguments().stream().filter( expressionMatchFn ).collect(Collectors.toList() );
-    }
-
-
-    public Expression getArgument( int index ){
-        return listArguments().get( index );
-    }
-    */
 
     @Override
     public _annoExprs getAnnoExprs() {
@@ -403,14 +325,14 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     }
 
     @Override
-    public Map<_java.Component, Object> components( ) {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
-        parts.put( _java.Component.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Component.NAME, this.getName());
-        parts.put( _java.Component.ARGUMENTS, this.listArgs());
-        parts.put( _java.Component.METHODS, this.listMethods() );
-        parts.put( _java.Component.FIELDS, this.listFields() );
+    public Map<_java.Feature, Object> components( ) {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
+        parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
+        parts.put( _java.Feature.NAME, this.getName());
+        parts.put( _java.Feature.ARGS_EXPRS, this.listArgs());
+        parts.put( _java.Feature.METHODS, this.listMethods() );
+        parts.put( _java.Feature.FIELDS, this.listFields() );
         return parts;
     }
 

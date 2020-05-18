@@ -468,11 +468,11 @@ public final class _switchEntry implements _java._multiPart<SwitchEntry, _switch
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> cs = new HashMap<>();
-        cs.put(_java.Component.STATEMENTS, this.switchEntry.getStatements());
-        cs.put(_java.Component.SWITCH_BODY_TYPE, this.switchEntry.getType());
-        cs.put(_java.Component.SWITCH_LABELS, this.switchEntry.getLabels());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> cs = new HashMap<>();
+        cs.put(_java.Feature.STATEMENTS, this.switchEntry.getStatements());
+        cs.put(_java.Feature.SWITCH_BODY_TYPE, this.switchEntry.getType());
+        cs.put(_java.Feature.SWITCH_LABEL_EXPRS, this.switchEntry.getLabels());
         return cs;
     }
 

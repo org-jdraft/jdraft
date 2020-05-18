@@ -5,7 +5,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import org.jdraft.*;
 import static org.jdraft.Types.equal;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 import org.jdraft._type._withImplements;
 
 import org.jdraft.diff._diff.*;
@@ -46,14 +46,14 @@ public final class _implementsDiff implements
             ClassOrInterfaceType cit = left.get(i);
             if (!right.stream().filter(c -> Types.equal(c, cit)).findFirst().isPresent()) {
                 //addRight.add(cit);
-                dt.addDiff(new _leftOnly_implements(path.in(Component.IMPLEMENTS), (_type) _leftParent, (_type) _rightParent, cit));
+                dt.addDiff(new _leftOnly_implements(path.in(Feature.IMPLEMENTS_TYPES), (_type) _leftParent, (_type) _rightParent, cit));
             }
         }
         for (int i = 0; i < right.size(); i++) {
             ClassOrInterfaceType cit = right.get(i);
             if (!left.stream().filter(c -> Types.equal(c, cit)).findFirst().isPresent()) {
                 //addLeft.add(cit);
-                dt.addDiff(new _rightOnly_implements(path.in(Component.IMPLEMENTS), (_type) _leftParent, (_type) _rightParent, cit));
+                dt.addDiff(new _rightOnly_implements(path.in(Feature.IMPLEMENTS_TYPES), (_type) _leftParent, (_type) _rightParent, cit));
             }
         }
         return (_diff) dt;

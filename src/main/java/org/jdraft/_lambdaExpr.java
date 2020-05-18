@@ -355,11 +355,11 @@ public final class _lambdaExpr
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> map = new HashMap<>();
-        map.put(_java.Component.BODY, _body.of(this.astLambda));
-        map.put(_java.Component.ENCLOSED_PARAMETERS, this.astLambda.isEnclosingParameters());
-        map.put(_java.Component.PARAMETERS, _params.of(this.astLambda.getParameters()));
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> map = new HashMap<>();
+        map.put(_java.Feature.BODY, _body.of(this.astLambda));
+        map.put(_java.Feature.IS_ENCLOSED_PARAMS, this.astLambda.isEnclosingParameters());
+        map.put(_java.Feature.PARAMS, _params.of(this.astLambda.getParameters()));
         return null;
     }
 }

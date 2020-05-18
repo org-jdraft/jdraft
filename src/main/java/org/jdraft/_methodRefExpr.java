@@ -38,14 +38,14 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
-        comps.put(_java.Component.SCOPE, mre.getScope());
+        comps.put(_java.Feature.SCOPE_EXPR, mre.getScope());
         if( mre.getTypeArguments().isPresent()) {
-            comps.put(_java.Component.TYPE_ARGUMENTS, mre.getTypeArguments().get());
+            comps.put(_java.Feature.TYPE_ARGS, mre.getTypeArguments().get());
         }
-        comps.put(_java.Component.IDENTIFIER, mre.getId());
+        comps.put(_java.Feature.IDENTIFIER, mre.getId());
         return comps;
     }
 

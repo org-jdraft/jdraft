@@ -90,10 +90,10 @@ public final class _arrayAccessExpr
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.INDEX, aae.getIndex());
-        comps.put(_java.Component.ARRAY_NAME, aae.getName());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put(_java.Feature.INDEX_EXPR, aae.getIndex());
+        comps.put(_java.Feature.ARRAY_NAME, aae.getName());
         return comps;
     }
 

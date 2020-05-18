@@ -139,11 +139,11 @@ public final class _receiverParam
     }
 
     @Override
-    public Map<_java.Component, Object> components( ) {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, getAnnoExprs() );
-        parts.put( _java.Component.TYPE, getTypeRef() );
-        parts.put( _java.Component.NAME, getName() );
+    public Map<_java.Feature, Object> components( ) {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
+        parts.put( _java.Feature.TYPE, getTypeRef() );
+        parts.put( _java.Feature.NAME, getName() );
         return parts;
     }
 

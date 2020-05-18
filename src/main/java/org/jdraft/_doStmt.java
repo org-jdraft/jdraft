@@ -91,39 +91,6 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
         return false;
     }
 
-    /*
-    public _expression getCondition(){
-        return _expression.of(this.astStmt.getCondition());
-    }
-
-    public boolean isCondition( String...expr){
-        return isCondition( Ex.of(expr));
-    }
-
-    public boolean isCondition( _expression _e){
-        return isCondition(_e.ast());
-    }
-
-    public boolean isCondition( Expression e){
-        return Objects.equals( this.astStmt.getCondition(), e);
-    }
-
-    public _doStmt setCondition( String...expr){
-        this.astStmt.setCondition(Ex.of(expr));
-        return this;
-    }
-
-    public _doStmt setCondition( Expression e){
-        this.astStmt.setCondition( e );
-        return this;
-    }
-
-    public _doStmt setCondition(_expression e){
-        this.astStmt.setCondition(e.ast());
-        return this;
-    }
-     */
-
     public _body getBody(){
         return _body.of( this.astStmt.getBody() );
     }
@@ -171,10 +138,10 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.CONDITION, astStmt.getCondition());
-        comps.put(_java.Component.BODY, astStmt.getBody());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put(_java.Feature.CONDITION_EXPR, astStmt.getCondition());
+        comps.put(_java.Feature.BODY, astStmt.getBody());
         return comps;
     }
 

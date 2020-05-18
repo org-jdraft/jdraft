@@ -121,8 +121,8 @@ public class $annoExpr
     /**
      * the pairs of key values of the annotation (i.e. @A(key=1) )
      */
-    public Select.$botSetSelect<$pair, _annoExpr, _annoExpr._pair> pairs =
-            new Select.$botSetSelect(_annoExpr.class, _annoExpr._pair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
+    public Select.$botSetSelect<$pair, _annoExpr, _annoExpr._entryPair> pairs =
+            new Select.$botSetSelect(_annoExpr.class, _annoExpr._entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
 
     public $annoExpr copy() {
         $annoExpr $copy = of(this.predicate.and(t -> true));
@@ -387,22 +387,22 @@ public class $annoExpr
      * bot for inspecting and mutating a member values pair (i.e. the key values inside the annotation)
      * i.e. @A(key="value")
      */
-    public static class $pair extends $baseBot<_annoExpr._pair, $pair>
-            implements $bot<MemberValuePair, _annoExpr._pair, $pair> {
+    public static class $pair extends $baseBot<_annoExpr._entryPair, $pair>
+            implements $bot<MemberValuePair, _annoExpr._entryPair, $pair> {
 
         /** key of the key/value pair*/
-        public Select.$botSelect<$name, _annoExpr._pair, _name> key =
-                Select.$botSelect.of(_annoExpr._pair.class, _name.class, "key", p -> _name.of(p.getNameNode()));
+        public Select.$botSelect<$name, _annoExpr._entryPair, _name> key =
+                Select.$botSelect.of(_annoExpr._entryPair.class, _name.class, "key", p -> _name.of(p.getNameNode()));
 
         /** value of the key/value pair */
-        public Select.$botSelect<$expr, _annoExpr._pair, _expr> value =
-                Select.$botSelect.of(_annoExpr._pair.class, _expr.class, "value", p -> p.getValue());
+        public Select.$botSelect<$expr, _annoExpr._entryPair, _expr> value =
+                Select.$botSelect.of(_annoExpr._entryPair.class, _expr.class, "value", p -> p.getValue());
 
-        public static $pair of(_annoExpr._pair _mv) {
+        public static $pair of(_annoExpr._entryPair _mv) {
             return new $pair(_mv.getName(), _mv.getValue().ast());
         }
 
-        public static $pair of(Predicate<_annoExpr._pair> matchFn) {
+        public static $pair of(Predicate<_annoExpr._entryPair> matchFn) {
             $pair $mv = new $pair();
             return $mv.$and(matchFn);
         }
@@ -455,7 +455,7 @@ public class $annoExpr
         }
 
         @Override
-        public Select<_annoExpr._pair> select(Node n) {
+        public Select<_annoExpr._entryPair> select(Node n) {
             if (n instanceof MemberValuePair) {
                 return select((MemberValuePair) n);
             }
@@ -475,7 +475,7 @@ public class $annoExpr
         }
 
         @Override
-        public List<Select.$feature<_annoExpr._pair, ?>> $listSelectors() {
+        public List<Select.$feature<_annoExpr._entryPair, ?>> $listSelectors() {
             return Stream.of(this.key, this.value).collect(Collectors.toList());
         }
 
@@ -498,17 +498,17 @@ public class $annoExpr
 
 
         @Override
-        public _annoExpr._pair draft(Translator translator, Map<String, Object> keyValues) {
+        public _annoExpr._entryPair draft(Translator translator, Map<String, Object> keyValues) {
             _expr _ex = (_expr) this.value.draft(translator, keyValues);
             String key = this.key.draft(translator, keyValues).toString();
-            return _annoExpr._pair.of(new MemberValuePair(key, _ex.ast()));
+            return _annoExpr._entryPair.of(new MemberValuePair(key, _ex.ast()));
         }
 
         /**
          * @param pairs
          * @return
          */
-        public Select selectFirst(List<_annoExpr._pair> pairs) {
+        public Select selectFirst(List<_annoExpr._entryPair> pairs) {
             for (int i = 0; i < pairs.size(); i++) {
                 Select sel = select(pairs.get(i));
                 if (sel != null) {
@@ -526,11 +526,11 @@ public class $annoExpr
         }
 
         @Override
-        public Select<_annoExpr._pair> selectFirstIn(Node astNode, Predicate<Select<_annoExpr._pair>> predicate) {
+        public Select<_annoExpr._entryPair> selectFirstIn(Node astNode, Predicate<Select<_annoExpr._entryPair>> predicate) {
             Optional<Node> on = astNode.stream().filter(n -> {
                 if (n instanceof MemberValuePair) {
-                    _annoExpr._pair _mv = _annoExpr._pair.of((MemberValuePair) n);
-                    Select<_annoExpr._pair> smv = select(_mv);
+                    _annoExpr._entryPair _mv = _annoExpr._entryPair.of((MemberValuePair) n);
+                    Select<_annoExpr._entryPair> smv = select(_mv);
                     if (smv != null && predicate.test(smv)) {
                         return true;
                     }
@@ -556,7 +556,7 @@ public class $annoExpr
          * @return
          */
         public Tokens parse(Expression onlyValueExpression) {
-            if (predicate.test(_annoExpr._pair.of((String)onlyValueExpression.toString()))) {
+            if (predicate.test(_annoExpr._entryPair.of((String)onlyValueExpression.toString()))) {
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
@@ -583,7 +583,7 @@ public class $annoExpr
         public Select select(Expression onlyValueExpression) {
             //System.out.println( "Selecting Only Value");
             MemberValuePair mvp = new MemberValuePair("", onlyValueExpression);
-            if (predicate.test(_annoExpr._pair.of(mvp))) {
+            if (predicate.test(_annoExpr._entryPair.of(mvp))) {
                 //because values can be arrays we dont want to test for direct equality of the
                 //expression, but rather whether we can select the expression from the Expression value
                 // for example,
@@ -605,13 +605,13 @@ public class $annoExpr
          * @param mvp
          * @return
          */
-        public Select<_annoExpr._pair> select(MemberValuePair mvp) {
-            return select(_annoExpr._pair.of(mvp));
+        public Select<_annoExpr._entryPair> select(MemberValuePair mvp) {
+            return select(_annoExpr._entryPair.of(mvp));
         }
 
         @Override
         public boolean matches(String candidate) {
-            return matches(_annoExpr._pair.of(candidate));
+            return matches(_annoExpr._entryPair.of(candidate));
         }
     }
 
@@ -626,7 +626,7 @@ public class $annoExpr
         public Or($annoExpr... $as) {
             super();
             this.name.setBot(null);
-            this.pairs = new Select.$botSetSelect(_annoExpr.class, _annoExpr._pair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
+            this.pairs = new Select.$botSetSelect(_annoExpr.class, _annoExpr._entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
             Arrays.stream($as).forEach($a -> $annoExprBots.add($a));
         }
 

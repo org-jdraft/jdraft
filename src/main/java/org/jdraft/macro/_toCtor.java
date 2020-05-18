@@ -76,7 +76,7 @@ public @interface _toCtor {
             _constructor _ct = _constructor.of( _m.getModifiers()+" "+_m.getName() +"(){}");
             _m.forParams(p-> _ct.addParam(p) );
             if( _m.hasTypeParams()){
-                _ct.setTypeParameters( _m.getTypeParams() );
+                _ct.setTypeParams( _m.getTypeParams() );
             }
             if( _m.hasAnnoExprs() ) {
                 _ct.addAnnoExprs(_m.ast().getAnnotations() );
@@ -84,7 +84,7 @@ public @interface _toCtor {
             _ct.removeAnnoExprs(_toCtor.class);
             _ct.setBody( _m.getBody() );
             _ct.setThrows(_m.ast().getThrownExceptions());
-            _ct.setTypeParameters(_m.getTypeParams());
+            _ct.setTypeParams(_m.getTypeParams());
             if( _m.hasJavadoc() ){
                 _ct.ast().setJavadocComment(_m.ast().getJavadocComment().get());
             }

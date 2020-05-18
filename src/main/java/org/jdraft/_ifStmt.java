@@ -150,12 +150,12 @@ public final class _ifStmt implements _stmt._controlFlow._branching<IfStmt, _ifS
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.CONDITION, astStmt.getCondition());
-        comps.put(_java.Component.THEN, astStmt.getThenStmt());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put(_java.Feature.CONDITION_EXPR, astStmt.getCondition());
+        comps.put(_java.Feature.THEN_EXPR, astStmt.getThenStmt());
         if( this.astStmt.getElseStmt().isPresent()) {
-            comps.put(_java.Component.ELSE, astStmt.getElseStmt().get());
+            comps.put(_java.Feature.ELSE_EXPR, astStmt.getElseStmt().get());
         }
         return comps;
     }

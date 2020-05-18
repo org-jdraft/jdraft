@@ -92,17 +92,17 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
         if( mce.getScope().isPresent() ) {
-            comps.put(_java.Component.SCOPE, mce.getScope().get());
+            comps.put(_java.Feature.SCOPE_EXPR, mce.getScope().get());
         }
-        comps.put(_java.Component.NAME, mce.getNameAsString());
+        comps.put(_java.Feature.NAME, mce.getNameAsString());
         if( mce.getTypeArguments().isPresent()) {
-            comps.put(_java.Component.TYPE_ARGUMENTS, mce.getTypeArguments().get());
+            comps.put(_java.Feature.TYPE_ARGS, mce.getTypeArguments().get());
         }
-        comps.put(_java.Component.ARGUMENTS, mce.getArguments());
+        comps.put(_java.Feature.ARGS_EXPRS, mce.getArguments());
         return comps;
     }
 

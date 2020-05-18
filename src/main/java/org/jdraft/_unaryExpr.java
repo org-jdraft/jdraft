@@ -79,11 +79,11 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._mu
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
-        comps.put(_java.Component.UNARY_OPERATOR, unaryEx.getOperator());
-        comps.put(_java.Component.EXPRESSION, unaryEx.getExpression());
+        comps.put(_java.Feature.UNARY_OPERATOR, unaryEx.getOperator());
+        comps.put(_java.Feature.EXPRESSION, unaryEx.getExpression());
         return comps;
     }
 

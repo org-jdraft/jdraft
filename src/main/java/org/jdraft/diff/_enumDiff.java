@@ -7,7 +7,7 @@ import com.github.javaparser.ast.expr.Expression;
 
 import org.jdraft.*;
 
-import static org.jdraft._java.Component.*;
+import static org.jdraft._java.Feature.*;
 import org.jdraft.diff._diff.*;
 
 /**
@@ -248,7 +248,7 @@ public final class _enumDiff implements _differ<_enum, _java._multiPart> {
         //public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<Expression> left, List<Expression> right) {
         public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_expr> left, List<_expr> right) {
             if (!Objects.equals(left, right)) {
-                dt.addDiff(new _changeArguments(path.in(ARGUMENTS), (_constant) _leftParent, (_constant) _rightParent));
+                dt.addDiff(new _changeArguments(path.in(ARGS_EXPRS), (_constant) _leftParent, (_constant) _rightParent));
             }
             return (_diff) dt;
         }
@@ -301,14 +301,14 @@ public final class _enumDiff implements _differ<_enum, _java._multiPart> {
 
             @Override
             public void patchRightToLeft() {
-                this.leftParent.setArguments(rightArguments);
-                this.rightParent.setArguments(rightArguments);
+                this.leftParent.setArgs(rightArguments);
+                this.rightParent.setArgs(rightArguments);
             }
 
             @Override
             public void patchLeftToRight() {
-                this.leftParent.setArguments(leftArguments);
-                this.rightParent.setArguments(leftArguments);
+                this.leftParent.setArgs(leftArguments);
+                this.rightParent.setArgs(leftArguments);
             }
 
             @Override

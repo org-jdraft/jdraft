@@ -168,7 +168,7 @@ public class _javaTest extends TestCase {
         assertEquals( "aaaa.bbbb", _c.getPackageName());
 
         _c.getField("Message").getModifiers().is("public", "static", "final");
-        assertEquals( "Hello", _c.getField("Message").getInit().asStringLiteralExpr().asString()) ;
+        assertEquals( "Hello", _c.getField("Message").getInitNode().asStringLiteralExpr().asString()) ;
     }
 
     public void testAutoCtor(){

@@ -112,14 +112,14 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
         if( astNode.getInitializer().isPresent()) {
-            comps.put(_java.Component.INIT, astNode.getInitializer());
+            comps.put(_java.Feature.INIT, astNode.getInitializer());
         }
-        comps.put(_java.Component.ARRAY_DIMENSIONS, astNode.getLevels());
-        comps.put(_java.Component.TYPE, astNode.getElementType());
+        comps.put(_java.Feature.ARRAY_DIMENSIONS, astNode.getLevels());
+        comps.put(_java.Feature.TYPE, astNode.getElementType());
         return comps;
     }
 

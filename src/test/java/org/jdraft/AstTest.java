@@ -595,7 +595,7 @@ public class AstTest extends TestCase {
         }
 
         _class _c = _class.of(ROOT.class);
-        Node n = Ast.root( _c.getField("a").getInit() );
+        Node n = Ast.root( _c.getField("a").getInitNode() );
 
         assertTrue( n instanceof CompilationUnit );
 

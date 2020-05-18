@@ -2,7 +2,7 @@ package org.jdraft.diff;
 
 import org.jdraft._interface;
 import junit.framework.TestCase;
-import static org.jdraft._java.Component.*;
+import static org.jdraft._java.Feature.*;
 
 /**
  *
@@ -45,11 +45,11 @@ public class _extendsDiffTest extends TestCase {
         
         //_diff.typeRefsOf(_a1, _a2);
         //System.out.println( _extendsDiff.INSTANCE.diff(_a1, _a2) );
-        assertTrue( _extendsDiff.INSTANCE.diff(_a1, _a2).hasLeftOnlyAt(EXTENDS));
-        assertEquals(2, _extendsDiff.INSTANCE.diff(_a1, _a2).listAt(EXTENDS).size());
+        assertTrue( _extendsDiff.INSTANCE.diff(_a1, _a2).hasLeftOnlyAt(EXTENDS_TYPES));
+        assertEquals(2, _extendsDiff.INSTANCE.diff(_a1, _a2).listAt(EXTENDS_TYPES).size());
         
-        assertTrue( _extendsDiff.INSTANCE.diff(_a2, _a1).hasRightOnlyAt(EXTENDS));
-        assertEquals(2, _extendsDiff.INSTANCE.diff(_a1, _a2).listAt(EXTENDS).size());
+        assertTrue( _extendsDiff.INSTANCE.diff(_a2, _a1).hasRightOnlyAt(EXTENDS_TYPES));
+        assertEquals(2, _extendsDiff.INSTANCE.diff(_a1, _a2).listAt(EXTENDS_TYPES).size());
         
     }
     

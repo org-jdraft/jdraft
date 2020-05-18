@@ -3,7 +3,7 @@ package org.jdraft.diff;
 import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
-import static org.jdraft._java.Component.*;
+import static org.jdraft._java.Feature.*;
 
 import org.jdraft.diff._diffNode._change;
 import org.jdraft.diff._diffNode._edit;
@@ -171,7 +171,7 @@ public class _inspectTest extends TestCase {
         _f2.setInit(1);
         _f2.addAnnoExprs("@Ann");
         dt = _diff.of(_c1, _c2);
-        assertTrue(dt.firstAt(ANNO) instanceof _rightOnly);
+        assertTrue(dt.firstAt(ANNO_EXPR) instanceof _rightOnly);
         
         _f1.addAnnoExprs("@Ann");
         _f1.setPrivate();
@@ -250,10 +250,10 @@ public class _inspectTest extends TestCase {
         
         System.out.println( dt );
         
-        assertEquals( 1, dt.listAt(ANNO).size() );
-        assertTrue(dt.firstAt(ANNO) instanceof _rightOnly ); //its Added from left -> right        
+        assertEquals( 1, dt.listAt(ANNO_EXPR).size() );
+        assertTrue(dt.firstAt(ANNO_EXPR) instanceof _rightOnly ); //its Added from left -> right
         assertNotNull(dt.firstOn(_method.class, "m()"));
-        assertNotNull(dt.firstAt(ANNO));
+        assertNotNull(dt.firstAt(ANNO_EXPR));
        
         _c1.forMethods(m -> m.setFinal());
         
@@ -298,12 +298,12 @@ public class _inspectTest extends TestCase {
         
         assertTrue(dt.list(d -> ((_diffNode)d).at(NAME)).size() == 1);
         
-        dt.forEach(d -> System.out.println( d.path().componentPath) );
+        dt.forEach(d -> System.out.println( d.path().featurePath) );
         assertTrue(dt.listAt(CONSTRUCTOR).size() >= 1);
         
         _c1.getMethod("m").addAnnoExprs(Deprecated.class);
         dt = _diff.of(_c1, _c2);
-        assertTrue(dt.firstAt(ANNO) instanceof _leftOnly); //its removed from left -> right
+        assertTrue(dt.firstAt(ANNO_EXPR) instanceof _leftOnly); //its removed from left -> right
         
         
         

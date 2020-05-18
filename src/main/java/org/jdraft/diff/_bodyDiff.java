@@ -54,7 +54,7 @@ public final class _bodyDiff
             LinkedList<diff_match_patch.Diff> diffs = BODY_TEXT_DIFF.diff_main(left.toString(), right.toString());
 
             //_path path, _hasBody _leftRoot, _hasBody _rightRoot, LinkedList<Diff> diffs ){
-            ds.addDiff(new _bodyEditNode(path.in(_java.Component.BODY), (_hasBody) _leftParent, (_hasBody) _rightParent, diffs));
+            ds.addDiff(new _bodyEditNode(path.in(_java.Feature.BODY), (_hasBody) _leftParent, (_hasBody) _rightParent, diffs));
 
             //dt.addEdit(path.in(_java.Component.BODY), diffs, left, right);
             //_textDiff td = new _textDiff(diffs);

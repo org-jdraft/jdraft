@@ -10,7 +10,7 @@ import org.jdraft._annoExprs._withAnnoExprs;
 import org.jdraft._body._hasBody;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._field._withFields;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 import org.jdraft._javadocComment._withJavadoc;
 import org.jdraft._method._withMethods;
 import org.jdraft._modifiers._withModifiers;
@@ -281,12 +281,12 @@ public interface _diff {
         return first( d-> d.on(clazz, id));
     }
     
-    default _diffNode on(Component component){
-        return first( d-> d.on(component));
+    default _diffNode on(Feature feature){
+        return first( d-> d.on(feature));
     }
     
-    default _diffNode on(Component component, String id){
-        return first( d-> d.on(component, id));
+    default _diffNode on(Feature feature, String id){
+        return first( d-> d.on(feature, id));
     }
     
     default _diffNode leftOnlyAt(_nodePath _p){
@@ -294,27 +294,27 @@ public interface _diff {
     }
     
     default <_N extends _java._multiPart> _diffNode leftOnlyAt(Class<_N> nodeClass){
-        return first(d -> d.isLeftOnly() && d.at(Component.of(nodeClass)));
+        return first(d -> d.isLeftOnly() && d.at(Feature.of(nodeClass)));
     }
     
     default <_N extends _java._multiPart> _diffNode leftOnlyAt(Class<_N> nodeClass, String id){
-        return first(d -> d.isLeftOnly() && d.at(Component.of(nodeClass), id));
+        return first(d -> d.isLeftOnly() && d.at(Feature.of(nodeClass), id));
     }
     
     default _diffNode leftOnlyAt(String id){
         return first(d -> d.isLeftOnly() && d.at(id));
     }
     
-    default _diffNode leftOnlyAt(Component component){
-        return first(d -> d.isLeftOnly() && d.at(component));
+    default _diffNode leftOnlyAt(Feature feature){
+        return first(d -> d.isLeftOnly() && d.at(feature));
     }
     
-    default _diffNode leftOnlyAt(Component component, String id){
-        return first(d -> d.isLeftOnly() && d.at(component, id));
+    default _diffNode leftOnlyAt(Feature feature, String id){
+        return first(d -> d.isLeftOnly() && d.at(feature, id));
     }
     
     default <_N extends _java._multiPart> _diffNode leftOnlyOn(Class<_N> nodeClass){
-        return first( d-> d.isLeftOnly() && d.on( Component.of(nodeClass) ) );
+        return first( d-> d.isLeftOnly() && d.on( Feature.of(nodeClass) ) );
     }
     
     default _diffNode leftOnlyOn(String id){
@@ -322,15 +322,15 @@ public interface _diff {
     }
     
     default <_N extends _java._multiPart>_diffNode leftOnlyOn(Class<_N> nodeClass, String id){
-        return first( d-> d.isLeftOnly() && d.on( Component.of(nodeClass), id ) );
+        return first( d-> d.isLeftOnly() && d.on( Feature.of(nodeClass), id ) );
     }
     
-    default _diffNode leftOnlyOn(Component component){
-        return first( d-> d.isLeftOnly() && d.on( component ) );
+    default _diffNode leftOnlyOn(Feature feature){
+        return first( d-> d.isLeftOnly() && d.on(feature) );
     }
     
-    default _diffNode leftOnlyOn(Component component, String id){
-        return first( d-> d.isLeftOnly() && d.on( component, id) );
+    default _diffNode leftOnlyOn(Feature feature, String id){
+        return first( d-> d.isLeftOnly() && d.on(feature, id) );
     }
     
     default _diffNode rightOnlyAt(_nodePath _p){
@@ -338,27 +338,27 @@ public interface _diff {
     }
     
     default <_N extends _java._multiPart> _diffNode rightOnlyAt(Class<_N> nodeClass){
-        return first(d -> d.isRightOnly() && d.at(Component.of(nodeClass)));
+        return first(d -> d.isRightOnly() && d.at(Feature.of(nodeClass)));
     }
     
     default <_N extends _java._multiPart> _diffNode rightOnlyAt(Class<_N> nodeClass, String id){
-        return first(d -> d.isRightOnly() && d.at(Component.of(nodeClass), id));
+        return first(d -> d.isRightOnly() && d.at(Feature.of(nodeClass), id));
     }
     
     default _diffNode rightOnlyAt(String id){
         return first(d -> d.isRightOnly() && d.at(id));
     }
     
-    default _diffNode rightOnlyAt(Component component){
-        return first(d -> d.isRightOnly() && d.at(component));
+    default _diffNode rightOnlyAt(Feature feature){
+        return first(d -> d.isRightOnly() && d.at(feature));
     }
     
-    default _diffNode rightOnlyAt(Component component, String id){
-        return first(d -> d.isRightOnly() && d.at(component, id));
+    default _diffNode rightOnlyAt(Feature feature, String id){
+        return first(d -> d.isRightOnly() && d.at(feature, id));
     }
     
     default <_N extends _java._multiPart> _diffNode rightOnlyOn(Class<_N> nodeClass){
-        return first( d-> d.isRightOnly() && d.on( Component.of(nodeClass) ) );
+        return first( d-> d.isRightOnly() && d.on( Feature.of(nodeClass) ) );
     }
 
     default _diffNode rightOnlyOn(String id){
@@ -366,15 +366,15 @@ public interface _diff {
     }
     
     default <_N extends _java._multiPart>_diffNode rightOnlyOn(Class<_N> nodeClass, String id){
-        return first( d-> d.isRightOnly() && d.on( Component.of(nodeClass), id ) );
+        return first( d-> d.isRightOnly() && d.on( Feature.of(nodeClass), id ) );
     }
     
-    default _diffNode rightOnlyOn(Component component){
-        return first( d-> d.isRightOnly() && d.on( component ) );
+    default _diffNode rightOnlyOn(Feature feature){
+        return first( d-> d.isRightOnly() && d.on(feature) );
     }
     
-    default _diffNode rightOnlyOn(Component component, String id){
-        return first( d-> d.isRightOnly() && d.on( component, id) );
+    default _diffNode rightOnlyOn(Feature feature, String id){
+        return first( d-> d.isRightOnly() && d.on(feature, id) );
     }
     
     /** change */
@@ -389,7 +389,7 @@ public interface _diff {
     }
     
     default <_N extends _java._multiPart> _diffNode changeAt(Class<_N> nodeClass){
-        return first(d -> d.isChange() && d.at(Component.of(nodeClass)));
+        return first(d -> d.isChange() && d.at(Feature.of(nodeClass)));
     }
 
     default  _diffNode changeAt(String id){
@@ -397,19 +397,19 @@ public interface _diff {
     }
     
     default <_N extends _java._multiPart> _diffNode changeAt(Class<_N> nodeClass, String id){
-        return first(d -> d.isChange() && d.at(Component.of(nodeClass), id));
+        return first(d -> d.isChange() && d.at(Feature.of(nodeClass), id));
     }
     
-    default _diffNode changeAt(Component component){
-        return first(d -> d.isChange() && d.at(component));
+    default _diffNode changeAt(Feature feature){
+        return first(d -> d.isChange() && d.at(feature));
     }
     
-    default _diffNode changeAt(Component component, String id){
-        return first(d -> d.isChange() && d.at(component, id));
+    default _diffNode changeAt(Feature feature, String id){
+        return first(d -> d.isChange() && d.at(feature, id));
     }
     
     default <_N extends _java._multiPart> _diffNode changeOn(Class<_N> nodeClass){
-        return first( d-> d.isChange() && d.on( Component.of(nodeClass) ) );
+        return first( d-> d.isChange() && d.on( Feature.of(nodeClass) ) );
     }
     
     default _diffNode changeOn(String id){
@@ -417,15 +417,15 @@ public interface _diff {
     }
     
     default <_N extends _java._multiPart>_diffNode changeOn(Class<_N> nodeClass, String id){
-        return first( d-> d.isChange() && d.on( Component.of(nodeClass), id ) );
+        return first( d-> d.isChange() && d.on( Feature.of(nodeClass), id ) );
     }
     
-    default _diffNode changeOn(Component component){
-        return first( d-> d.isChange() && d.on( component ) );
+    default _diffNode changeOn(Feature feature){
+        return first( d-> d.isChange() && d.on(feature) );
     }
     
-    default _diffNode changeOn(Component component, String id){
-        return first( d-> d.isChange() && d.on( component, id) );
+    default _diffNode changeOn(Feature feature, String id){
+        return first( d-> d.isChange() && d.on(feature, id) );
     }
     
     /** edit */
@@ -447,7 +447,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> _diffNode editAt(Class<_N> nodeClass){
-        return first(d -> d.isEdit() && d.at(Component.of(nodeClass)));
+        return first(d -> d.isEdit() && d.at(Feature.of(nodeClass)));
     }
 
     /**
@@ -467,26 +467,26 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> _diffNode editAt(Class<_N> nodeClass, String id){
-        return first(d -> d.isEdit() && d.at(Component.of(nodeClass), id));
+        return first(d -> d.isEdit() && d.at(Feature.of(nodeClass), id));
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default _diffNode editAt(Component component){
-        return first(d -> d.isEdit() && d.at(component));
+    default _diffNode editAt(Feature feature){
+        return first(d -> d.isEdit() && d.at(feature));
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default _diffNode editAt(Component component, String id){
-        return first(d -> d.isEdit() && d.at(component, id));
+    default _diffNode editAt(Feature feature, String id){
+        return first(d -> d.isEdit() && d.at(feature, id));
     }
 
     /**
@@ -496,7 +496,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> _diffNode editOn(Class<_N> nodeClass){
-        return first( d-> d.isEdit() && d.on( Component.of(nodeClass) ) );
+        return first( d-> d.isEdit() && d.on( Feature.of(nodeClass) ) );
     }
 
     /**
@@ -507,7 +507,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart>_diffNode editOn(Class<_N> nodeClass, String id){
-        return first( d-> d.isEdit() && d.on( Component.of(nodeClass), id ) );
+        return first( d-> d.isEdit() && d.on( Feature.of(nodeClass), id ) );
     }
 
     /**
@@ -521,21 +521,21 @@ public interface _diff {
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default _diffNode editOn(Component component){
-        return first( d-> d.isEdit() && d.on( component ) );
+    default _diffNode editOn(Feature feature){
+        return first( d-> d.isEdit() && d.on(feature) );
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default _edit editOn(Component component, String id){
-        return (_edit) first( d-> d.isEdit() && d.on( component, id) );
+    default _edit editOn(Feature feature, String id){
+        return (_edit) first( d-> d.isEdit() && d.on(feature, id) );
     }
     
     /**
@@ -551,11 +551,11 @@ public interface _diff {
     /**
      * IS there a Diff Node at the specified Component type?
      *
-     * @param component the component type
+     * @param feature the component type
      * @return true if there is a diff node at this type
      */
-    default boolean isAt(_java.Component component) {
-        return first(d -> d.at(component)) != null;
+    default boolean isAt(Feature feature) {
+        return first(d -> d.at(feature)) != null;
     }
 
     /**
@@ -574,19 +574,19 @@ public interface _diff {
      * @return 
      */
     default <_N extends _java._multiPart> boolean isAt(Class<_N> c ){
-        return isAt( Component.of(c) );
+        return isAt( Feature.of(c) );
     }    
     
     /**
      * Is there a Diff Node at (i.e. the LAST part of the path) the specified
      * Component type
      *
-     * @param component the component type
+     * @param feature the component type
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default boolean isAt(_java.Component component, String id) {
-        return first(d -> d.at(component) && d.at(id)) != null;
+    default boolean isAt(Feature feature, String id) {
+        return first(d -> d.at(feature) && d.at(id)) != null;
     }
 
     /**
@@ -599,17 +599,17 @@ public interface _diff {
      * @return true if a Diff was found at this Node, false otherwise
      */
     default <_N extends _java._multiPart> boolean isAt(Class<_N>node, String id) {
-        return isAt(Component.of(node),id);
+        return isAt(Feature.of(node),id);
     }
     
     /**
      * IS there a Diff Node at the specified Component type?
      *
-     * @param component the component type
+     * @param feature the component type
      * @return true if there is a diff node at this type
      */
-    default boolean isOn(_java.Component component) {
-        return first(d -> d.on(component)) != null;
+    default boolean isOn(Feature feature) {
+        return first(d -> d.on(feature)) != null;
     }
 
     /**
@@ -619,7 +619,7 @@ public interface _diff {
      * @return 
      */
     default <_N extends _java._multiPart> boolean isOn(Class<_N> c ){
-        return isOn( Component.of(c) );
+        return isOn( Feature.of(c) );
     }    
 
     /**
@@ -637,12 +637,12 @@ public interface _diff {
      * Is there a Diff Node at (i.e. the LAST part of the path) the specified
      * Component type
      *
-     * @param component the component type
+     * @param feature the component type
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default boolean isOn(_java.Component component, String id) {
-        return first(d -> d.on(component,id)) != null;
+    default boolean isOn(Feature feature, String id) {
+        return first(d -> d.on(feature,id)) != null;
     }
 
     /**
@@ -655,7 +655,7 @@ public interface _diff {
      * @return true if a Diff was found at this Node, false otherwise
      */
     default <_N extends _java._multiPart> boolean isOn(Class<_N>node, String id) {
-        return isOn(Component.of(node),id);
+        return isOn(Feature.of(node),id);
     }
     
     /**
@@ -715,11 +715,11 @@ public interface _diff {
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasRightOnlyAt(_java.Component component) {
-        return first(d -> d.at(component) && d.isRightOnly()) != null;
+    default boolean hasRightOnlyAt(Feature feature) {
+        return first(d -> d.at(feature) && d.isRightOnly()) != null;
     }
 
     /**
@@ -729,16 +729,16 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasRightOnlyAt(Class<_N> memClass) {
-        return hasRightOnlyAt( Component.of(memClass) ); 
+        return hasRightOnlyAt( Feature.of(memClass) );
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasLeftOnlyAt(_java.Component component) {
-        return first(d -> d.at(component) && d.isLeftOnly()) != null;
+    default boolean hasLeftOnlyAt(Feature feature) {
+        return first(d -> d.at(feature) && d.isLeftOnly()) != null;
     }
 
     /**
@@ -748,16 +748,16 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasLeftOnlyAt(Class<_N> memClass) {
-        return hasLeftOnlyAt( Component.of(memClass) ); 
+        return hasLeftOnlyAt( Feature.of(memClass) );
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasChangeAt(_java.Component component) {
-        return first(d -> d.at(component) && d.isChange()) != null;
+    default boolean hasChangeAt(Feature feature) {
+        return first(d -> d.at(feature) && d.isChange()) != null;
     }
 
     /**
@@ -767,16 +767,16 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasChangeAt(Class<_N> memClass) {
-        return hasChangeAt( Component.of(memClass) ); 
+        return hasChangeAt( Feature.of(memClass) );
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasEditAt(_java.Component component) {
-        return first(d -> d.at(component) && d.isEdit()) != null;
+    default boolean hasEditAt(Feature feature) {
+        return first(d -> d.at(feature) && d.isEdit()) != null;
     }
 
     /**
@@ -786,17 +786,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasEditAt(Class<_N> memClass) {
-        return hasEditAt( Component.of(memClass) ); 
+        return hasEditAt( Feature.of(memClass) );
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasRightOnlyAt(_java.Component component, String id) {
-        return first(d -> d.at(component, id) && d.isRightOnly()) != null;
+    default boolean hasRightOnlyAt(Feature feature, String id) {
+        return first(d -> d.at(feature, id) && d.isRightOnly()) != null;
     }
 
     /**
@@ -807,17 +807,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasRightOnlyAt(Class<_N> memClass, String id) {
-        return hasRightOnlyAt( Component.of(memClass) ,id); 
+        return hasRightOnlyAt( Feature.of(memClass) ,id);
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasLeftOnlyAt(_java.Component component, String id) {
-        return first(d -> d.at(component, id) && d.isLeftOnly()) != null;
+    default boolean hasLeftOnlyAt(Feature feature, String id) {
+        return first(d -> d.at(feature, id) && d.isLeftOnly()) != null;
     }
 
     /**
@@ -828,17 +828,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasLeftOnlyAt(Class<_N> memClass, String id) {
-        return hasLeftOnlyAt( Component.of(memClass) ,id); 
+        return hasLeftOnlyAt( Feature.of(memClass) ,id);
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasChangeAt(_java.Component component, String id) {
-        return first(d -> d.at(component, id) && d.isChange()) != null;
+    default boolean hasChangeAt(Feature feature, String id) {
+        return first(d -> d.at(feature, id) && d.isChange()) != null;
     }
 
     /**
@@ -849,17 +849,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasChangeAt(Class<_N> memClass, String id) {
-        return hasChangeAt( Component.of(memClass) ,id); 
+        return hasChangeAt( Feature.of(memClass) ,id);
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasEditAt(_java.Component component, String id) {
-        return first(d -> d.at(component, id) && d.isEdit()) != null;
+    default boolean hasEditAt(Feature feature, String id) {
+        return first(d -> d.at(feature, id) && d.isEdit()) != null;
     }
 
     /**
@@ -870,16 +870,16 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasEditAt(Class<_N> memClass, String id) {
-        return hasRightOnlyAt( Component.of(memClass) ,id); 
+        return hasRightOnlyAt( Feature.of(memClass) ,id);
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasRightOnlyOn(_java.Component component) {
-        return first(d -> d.on(component) && d.isRightOnly()) != null;
+    default boolean hasRightOnlyOn(Feature feature) {
+        return first(d -> d.on(feature) && d.isRightOnly()) != null;
     }
 
     /**
@@ -889,16 +889,16 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasRightOnlyOn(Class<_N> memClass) {
-        return hasRightOnlyOn( Component.of(memClass)); 
+        return hasRightOnlyOn( Feature.of(memClass));
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasLeftOnlyOn(_java.Component component) {
-        return first(d -> d.on(component) && d.isLeftOnly()) != null;
+    default boolean hasLeftOnlyOn(Feature feature) {
+        return first(d -> d.on(feature) && d.isLeftOnly()) != null;
     }
 
     /**
@@ -908,16 +908,16 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasLeftOnlyOn(Class<_N> memClass) {
-        return hasLeftOnlyOn( Component.of(memClass)); 
+        return hasLeftOnlyOn( Feature.of(memClass));
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasChangeOn(_java.Component component) {
-        return first(d -> d.on(component) && d.isChange()) != null;
+    default boolean hasChangeOn(Feature feature) {
+        return first(d -> d.on(feature) && d.isChange()) != null;
     }
 
     /**
@@ -927,16 +927,16 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasChangeOn(Class<_N> memClass) {
-        return hasChangeOn( Component.of(memClass)); 
+        return hasChangeOn( Feature.of(memClass));
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @return
      */
-    default boolean hasEditOn(_java.Component component) {
-        return first(d -> d.on(component) && d.isEdit()) != null;
+    default boolean hasEditOn(Feature feature) {
+        return first(d -> d.on(feature) && d.isEdit()) != null;
     }
 
     /**
@@ -946,17 +946,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasEditOn(Class<_N> memClass) {
-        return hasEditOn( Component.of(memClass)); 
+        return hasEditOn( Feature.of(memClass));
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasRightOnlyOn(_java.Component component, String id) {
-        return first(d -> d.on(component, id) && d.isRightOnly()) != null;
+    default boolean hasRightOnlyOn(Feature feature, String id) {
+        return first(d -> d.on(feature, id) && d.isRightOnly()) != null;
     }
 
     /**
@@ -967,17 +967,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasRightOnlyOn(Class<_N> memClass, String id) {
-        return hasRightOnlyOn( Component.of(memClass), id); 
+        return hasRightOnlyOn( Feature.of(memClass), id);
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasLeftOnlyOn(_java.Component component, String id) {
-        return first(d -> d.on(component, id) && d.isLeftOnly()) != null;
+    default boolean hasLeftOnlyOn(Feature feature, String id) {
+        return first(d -> d.on(feature, id) && d.isLeftOnly()) != null;
     }
 
     /**
@@ -988,17 +988,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasLeftOnlyOn(Class<_N> memClass, String id) {
-        return hasLeftOnlyOn( Component.of(memClass), id); 
+        return hasLeftOnlyOn( Feature.of(memClass), id);
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasChangeOn(_java.Component component, String id) {
-        return first(d -> d.on(component, id) && d.isChange()) != null;
+    default boolean hasChangeOn(Feature feature, String id) {
+        return first(d -> d.on(feature, id) && d.isChange()) != null;
     }
 
     /**
@@ -1009,17 +1009,17 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasChangeOn(Class<_N> memClass, String id) {
-        return hasChangeOn( Component.of(memClass), id); 
+        return hasChangeOn( Feature.of(memClass), id);
     }
 
     /**
      *
-     * @param component
+     * @param feature
      * @param id
      * @return
      */
-    default boolean hasEditOn(_java.Component component, String id) {
-        return first(d -> d.on(component, id) && d.isEdit()) != null;
+    default boolean hasEditOn(Feature feature, String id) {
+        return first(d -> d.on(feature, id) && d.isEdit()) != null;
     }
 
     /**
@@ -1030,7 +1030,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> boolean hasEditOn(Class<_N> memClass, String id) {
-        return hasEditOn( Component.of(memClass), id); 
+        return hasEditOn( Feature.of(memClass), id);
     }
 
     /**
@@ -1318,7 +1318,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> _diffNode firstOn(Class<_N> nodeClass) {
-        return firstOn( Component.of(nodeClass));
+        return firstOn( Feature.of(nodeClass));
     }
     
     /**
@@ -1328,7 +1328,7 @@ public interface _diff {
      * @param componet the last component in the path
      * @return the first diff node found at this path or null if none found
      */
-    default _diffNode firstOn(_java.Component componet) {
+    default _diffNode firstOn(Feature componet) {
         Optional<_diffNode> first
             = list().stream().filter(d -> d.on(componet)).findFirst();
         if (first.isPresent()) {
@@ -1345,7 +1345,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> _diffNode firstOn(Class<_N> nodeClass, String id) {
-        return firstOn( Component.of(nodeClass), id);
+        return firstOn( Feature.of(nodeClass), id);
     }
     
     /**
@@ -1356,7 +1356,7 @@ public interface _diff {
      * @param id
      * @return the first diff node found at this path or null if none found
      */
-    default _diffNode firstOn(_java.Component componet, String id) {
+    default _diffNode firstOn(Feature componet, String id) {
         Optional<_diffNode> first
                 = list().stream().filter(d -> d.on(componet, id)).findFirst();
         if (first.isPresent()) {
@@ -1372,7 +1372,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> _diffNode firstAt(Class<_N> nodeClass) {
-        return firstAt( Component.of(nodeClass));
+        return firstAt( Feature.of(nodeClass));
     }
 
     /**
@@ -1393,12 +1393,12 @@ public interface _diff {
      * Find the first diff that is at (the last component in the path is) the
      * component type
      *
-     * @param component the last component in the path
+     * @param feature the last component in the path
      * @return the first diff node found at this path or null if none found
      */
-    default _diffNode firstAt(_java.Component component) {
+    default _diffNode firstAt(Feature feature) {
         Optional<_diffNode> first
-                = list().stream().filter(d -> d.at(component)).findFirst();
+                = list().stream().filter(d -> d.at(feature)).findFirst();
         if (first.isPresent()) {
             return first.get();
         }
@@ -1413,20 +1413,20 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> _diffNode firstAt(Class<_N> nodeClass, String id) {
-        return firstAt( Component.of(nodeClass), id);
+        return firstAt( Feature.of(nodeClass), id);
     }
     
     /**
      * Find the first diff that is at (the LAST part of the path) the component
      * type with this id
      *
-     * @param component the last component in the path
+     * @param feature the last component in the path
      * @param id the last id in the path to the component
      * @return the first diff node found at this path or null if none found
      */
-    default _diffNode firstAt(_java.Component component, String id) {
+    default _diffNode firstAt(Feature feature, String id) {
         Optional<_diffNode> first
-                = list().stream().filter(d -> d.at(component, id)).findFirst();
+                = list().stream().filter(d -> d.at(feature, id)).findFirst();
         if (first.isPresent()) {
             return first.get();
         }
@@ -1463,23 +1463,23 @@ public interface _diff {
      * List all diff _nodes that have this component as the last component in
      * the path
      *
-     * @param component the leaf component to look for (i.e. METHOD, FIELD)
+     * @param feature the leaf component to look for (i.e. METHOD, FIELD)
      * @return
      */
-    default List<_diffNode> listAt(_java.Component component) {
-        return list(d -> d.at(component));
+    default List<_diffNode> listAt(Feature feature) {
+        return list(d -> d.at(feature));
     }
 
     /**
      * List all diff _nodes that have this component as the last component in
      * the path
      *
-     * @param component the leaf component to look for (i.e. METHOD, FIELD)
+     * @param feature the leaf component to look for (i.e. METHOD, FIELD)
      * @param id
      * @return
      */
-    default List<_diffNode> listAt(_java.Component component, String id) {
-        return list(d -> d.at(component, id));
+    default List<_diffNode> listAt(Feature feature, String id) {
+        return list(d -> d.at(feature, id));
     }
     
     /**
@@ -1491,7 +1491,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> List<_diffNode> listAt(Class<_N> nodeClass) {
-        return listAt( Component.of(nodeClass) );
+        return listAt( Feature.of(nodeClass) );
     }
     
     /**
@@ -1504,7 +1504,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> List<_diffNode> listAt(Class<_N> nodeClass, String id) {
-        return listAt( Component.of(nodeClass), id);
+        return listAt( Feature.of(nodeClass), id);
     }
     
     /**
@@ -1522,11 +1522,11 @@ public interface _diff {
      * List all diff _nodes that have this component as the last component in
      * the path
      *
-     * @param component the leaf component to look for (i.e. METHOD, FIELD)
+     * @param feature the leaf component to look for (i.e. METHOD, FIELD)
      * @return
      */
-    default List<_diffNode> listOn(_java.Component component) {
-        return list(d -> d.on(component));
+    default List<_diffNode> listOn(Feature feature) {
+        return list(d -> d.on(feature));
     }
     
     /**
@@ -1538,19 +1538,19 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> List<_diffNode> listOn(Class<_N> nodeClass) {
-        return listOn( Component.of(nodeClass) );
+        return listOn( Feature.of(nodeClass) );
     }
 
     /**
      * List all _diffNode s that have this component & id part ANYWHERE on the
      * path
      *
-     * @param component the component to look for (i.e. METHOD, FIELD)
+     * @param feature the component to look for (i.e. METHOD, FIELD)
      * @param id the id to look for ("myMethod", "x")
      * @return a list of _diffNodes that occur on or
      */
-    default List<_diffNode> listOn(_java.Component component, String id) {
-        return list(d -> d.on(component, id));
+    default List<_diffNode> listOn(Feature feature, String id) {
+        return list(d -> d.on(feature, id));
     }
     
     /**
@@ -1563,7 +1563,7 @@ public interface _diff {
      * @return
      */
     default <_N extends _java._multiPart> List<_diffNode> listOn(Class<_N> nodeClass, String id) {
-        return listOn(Component.of(nodeClass), id);
+        return listOn(Feature.of(nodeClass), id);
     }
 
     /**

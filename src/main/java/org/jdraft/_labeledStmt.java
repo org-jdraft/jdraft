@@ -144,10 +144,10 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.LABEL, astStmt.getLabel().asString());
-        comps.put(_java.Component.STATEMENT, astStmt.getStatement());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put(_java.Feature.LABEL, astStmt.getLabel().asString());
+        comps.put(_java.Feature.STATEMENT, astStmt.getStatement());
         return comps;
     }
 

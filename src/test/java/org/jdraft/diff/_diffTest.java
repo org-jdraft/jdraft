@@ -4,7 +4,7 @@ import org.jdraft.*;
 import org.jdraft.diff._namedDiff._changeName;
 import org.jdraft.diff._typeRefDiff._change_type;
 import org.jdraft.diff._diff._diffList;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -195,7 +195,7 @@ public class _diffTest extends TestCase {
         
         _java._multiPart leftRoot = _e1;
         _java._multiPart rightRoot = _e2;
-        _nodePath path = new _nodePath().in(Component.ENUM, "E");
+        _nodePath path = new _nodePath().in(Feature.ENUM, "E");
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);
         System.out.println( dt );
         
@@ -269,14 +269,14 @@ public class _diffTest extends TestCase {
         _method _m1 = _method.of("int m(){ return 1; }");
         _method _m2 = _method.of("float n(){ return 1.0f; }");
         
-        _change_type _ct = new _change_type(_nodePath.of(Component.CLASS, "C"), _m1, _m2 );
+        _change_type _ct = new _change_type(_nodePath.of(Feature.CLASS, "C"), _m1, _m2 );
         
         _ct.patchRightToLeft();
         assertEquals( _typeRef.of(float.class), _m1.getTypeRef() );
         _ct.patchLeftToRight();
         assertEquals( _typeRef.of(int.class), _m1.getTypeRef() );
         
-        _changeName _cn = new _changeName(_nodePath.of(Component.CLASS, "C"), _m1, _m2 );
+        _changeName _cn = new _changeName(_nodePath.of(Feature.CLASS, "C"), _m1, _m2 );
         
         _cn.patchRightToLeft();
         assertEquals( "n", _m1.getName() );

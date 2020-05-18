@@ -7,7 +7,7 @@ import org.jdraft.diff._diff._diffList;
 
 import java.util.*;
 
-import static org.jdraft._java.Component.*;
+import static org.jdraft._java.Feature.*;
 
 /**
  *

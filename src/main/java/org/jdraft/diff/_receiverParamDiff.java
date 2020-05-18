@@ -25,7 +25,7 @@ public final class _receiverParamDiff
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParam left, _receiverParam right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new change_receiverParameter(path.in(_java.Component.RECEIVER_PARAMETER), (_withReceiverParam) _leftParent, (_withReceiverParam) _rightParent));
+            dt.addDiff(new change_receiverParameter(path.in(_java.Feature.RECEIVER_PARAM), (_withReceiverParam) _leftParent, (_withReceiverParam) _rightParent));
         }
         return (_diff) dt;
     }

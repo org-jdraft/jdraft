@@ -404,10 +404,10 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> mc = new HashMap<>();
-        mc.put(_java.Component.SWITCH_SELECTOR, this.switchExpr.getSelector());
-        mc.put(_java.Component.SWITCH_ENTRIES, this.switchExpr.getEntries());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> mc = new HashMap<>();
+        mc.put(_java.Feature.SWITCH_SELECTOR_EXPR, this.switchExpr.getSelector());
+        mc.put(_java.Feature.SWITCH_ENTRIES, this.switchExpr.getEntries());
         return mc;
     }
 

@@ -188,17 +188,17 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.ANNOS, getAnnoExprs() );
-        parts.put( _java.Component.BODY, getBody() );
-        parts.put( _java.Component.MODIFIERS, getModifiers() );
-        parts.put( _java.Component.JAVADOC, getJavadoc() );
-        parts.put( _java.Component.PARAMETERS, getParams() );
-        parts.put( _java.Component.RECEIVER_PARAMETER, getReceiverParam() );
-        parts.put( _java.Component.TYPE_PARAMETERS, getTypeParams() );
-        parts.put( _java.Component.THROWS, getThrows() );
-        parts.put( _java.Component.NAME, getName() );
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
+        parts.put( _java.Feature.BODY, getBody() );
+        parts.put( _java.Feature.MODIFIERS, getModifiers() );
+        parts.put( _java.Feature.JAVADOC, getJavadoc() );
+        parts.put( _java.Feature.PARAMS, getParams() );
+        parts.put( _java.Feature.RECEIVER_PARAM, getReceiverParam() );
+        parts.put( _java.Feature.TYPE_PARAMS, getTypeParams() );
+        parts.put( _java.Feature.THROWS, getThrows() );
+        parts.put( _java.Feature.NAME, getName() );
         return parts;
     }
 
@@ -241,12 +241,12 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         return _throws.of( astCtor );
     }
 
-    public _constructor setTypeParameters( _typeParams _tps ){
+    public _constructor setTypeParams(_typeParams _tps ){
         this.astCtor.setTypeParameters( _tps.ast() );
         return this;
     }
 
-    public _constructor setTypeParameters( String typeParameters ) {
+    public _constructor setTypeParams(String typeParameters ) {
         this.astCtor.setTypeParameters( Types.typeParams( typeParameters ) );
         return this;
     }
@@ -266,7 +266,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
      * @param ctor
      * @return 
      */
-    public boolean isParameters(java.lang.reflect.Constructor ctor ){
+    public boolean isParams(java.lang.reflect.Constructor ctor ){
         java.lang.reflect.Type[] genericParameterTypes = ctor.getGenericParameterTypes();
         List<_param> pl = this.listParams();
         int delta = 0;

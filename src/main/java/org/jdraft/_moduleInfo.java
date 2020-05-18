@@ -93,14 +93,14 @@ public final class _moduleInfo
      * @return a map of key values
      */
     @Override
-    public Map<_java.Component, Object> components() {
+    public Map<_java.Feature, Object> components() {
 
         Map m = new HashMap();
-        m.put(_java.Component.HEADER_COMMENT, getHeaderComment());
-        m.put(_java.Component.NAME, getModuleAst().getNameAsString());
-        m.put(_java.Component.MODULE_DECLARATION, getModuleAst());
-        m.put(_java.Component.ANNOS, _annoExprs.of(getModuleAst()));
-        m.put(_java.Component.IMPORTS, _imports.of(astCompUnit));
+        m.put(_java.Feature.HEADER_COMMENT, getHeaderComment());
+        m.put(_java.Feature.NAME, getModuleAst().getNameAsString());
+        m.put(_java.Feature.MODULE_DECLARATION, getModuleAst());
+        m.put(_java.Feature.ANNO_EXPRS, _annoExprs.of(getModuleAst()));
+        m.put(_java.Feature.IMPORTS, _imports.of(astCompUnit));
         //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
 
         return m;

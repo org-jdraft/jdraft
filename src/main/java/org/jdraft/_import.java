@@ -3,9 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.ImportDeclaration;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.Predicate;
 
-import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Name;
 import org.jdraft.macro._remove;
 import org.jdraft.text.Text;
@@ -310,11 +308,11 @@ public final class _import implements _java._multiPart<ImportDeclaration, _impor
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component,Object>components = new HashMap<>();
-        components.put(_java.Component.NAME, this.astId.getNameAsString());
-        components.put(_java.Component.STATIC, this.astId.isStatic());
-        components.put(_java.Component.WILDCARD, this.astId.isAsterisk());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature,Object>components = new HashMap<>();
+        components.put(_java.Feature.NAME, this.astId.getNameAsString());
+        components.put(_java.Feature.IS_STATIC, this.astId.isStatic());
+        components.put(_java.Feature.IS_WILDCARD, this.astId.isAsterisk());
         return components;
     }
 

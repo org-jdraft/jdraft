@@ -88,12 +88,12 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
 
-        comps.put( _java.Component.FINAL, varDeclEx.isFinal() );
-        comps.put( _java.Component.ANNOS, _annoExprs.of(varDeclEx));
-        comps.put( _java.Component.VARIABLES, list() );
+        comps.put( _java.Feature.IS_FINAL, varDeclEx.isFinal() );
+        comps.put( _java.Feature.ANNO_EXPRS, _annoExprs.of(varDeclEx));
+        comps.put( _java.Feature.VARIABLES, list() );
         return comps;
     }
 

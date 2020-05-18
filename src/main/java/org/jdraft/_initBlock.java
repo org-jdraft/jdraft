@@ -253,9 +253,9 @@ public final class _initBlock
     }
 
     @Override
-    public Map<_java.Component, Object> components( ) {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put(_java.Component.BODY, getBody() );
+    public Map<_java.Feature, Object> components( ) {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put(_java.Feature.BODY, getBody() );
         return parts;
     }
 

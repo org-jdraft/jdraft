@@ -35,7 +35,7 @@ public final class _typeParamsDiff
         
         if (!Types.equal( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(),
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
-            dt.addDiff(new _change_typeParams(path.in(_java.Component.TYPE_PARAMETERS),
+            dt.addDiff(new _change_typeParams(path.in(_java.Feature.TYPE_PARAMS),
                     (_withTypeParams) _leftParent, (_withTypeParams) _rightParent));
         }
         return dt;

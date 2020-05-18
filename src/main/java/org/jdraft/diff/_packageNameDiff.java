@@ -2,7 +2,7 @@ package org.jdraft.diff;
 
 import java.util.Objects;
 
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 import org.jdraft.*;
 
 import org.jdraft.diff._diff.*;
@@ -28,7 +28,7 @@ public final class _packageNameDiff
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String leftPackageName, String rightPackageName) {
         if (!Objects.equals(leftPackageName, rightPackageName)) {            
             return dt.addDiff(
-                new _changePackageName(path.in(Component.PACKAGE), (_type) _leftParent, (_type) _rightParent));
+                new _changePackageName(path.in(Feature.PACKAGE), (_type) _leftParent, (_type) _rightParent));
         }
         return dt;
     }

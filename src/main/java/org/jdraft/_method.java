@@ -409,18 +409,18 @@ public final class _method
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put(_java.Component.ANNOS, getAnnoExprs());
-        parts.put(_java.Component.BODY, getBody());
-        parts.put(_java.Component.TYPE, getTypeRef());
-        parts.put(_java.Component.PARAMETERS, getParams());
-        parts.put(_java.Component.MODIFIERS, getEffectiveModifiers());
-        parts.put(_java.Component.JAVADOC, getJavadoc());
-        parts.put(_java.Component.RECEIVER_PARAMETER, getReceiverParam());
-        parts.put(_java.Component.TYPE_PARAMETERS, getTypeParams());
-        parts.put(_java.Component.THROWS, getThrows());
-        parts.put(_java.Component.NAME, getName());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
+        parts.put(_java.Feature.BODY, getBody());
+        parts.put(_java.Feature.TYPE, getTypeRef());
+        parts.put(_java.Feature.PARAMS, getParams());
+        parts.put(_java.Feature.MODIFIERS, getEffectiveModifiers());
+        parts.put(_java.Feature.JAVADOC, getJavadoc());
+        parts.put(_java.Feature.RECEIVER_PARAM, getReceiverParam());
+        parts.put(_java.Feature.TYPE_PARAMS, getTypeParams());
+        parts.put(_java.Feature.THROWS, getThrows());
+        parts.put(_java.Feature.NAME, getName());
         return parts;
     }
 

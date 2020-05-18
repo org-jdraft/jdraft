@@ -61,7 +61,7 @@ public class vSwiftSyntaxTest extends TestCase {
         assertTrue( _t.getField("y").is("int y = 3001") );
         
         assertTrue( _t.getField("b").is("int b = 2") );
-        assertEquals( Exprs.parseInt( _t.getField("hex").getInit().asIntegerLiteralExpr().getValue() ),
+        assertEquals( Exprs.parseInt( _t.getField("hex").getInitNode().asIntegerLiteralExpr().getValue() ),
             new Integer(0xDEAE) );
     }
     

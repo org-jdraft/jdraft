@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import org.jdraft.*;
 import org.jdraft._annoExprs._withAnnoExprs;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 import org.jdraft.diff._diff.*;
 
 /**
@@ -40,7 +40,7 @@ public final class _annoExprsDiff
             //if (!raes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 
                 ds.addDiff(new _leftOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _annoExpr.of(e)));
+                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _annoExpr.of(e)));
             }
         }
         for (int i = 0; i < raes.size(); i++) {
@@ -50,7 +50,7 @@ public final class _annoExprsDiff
             if (!laes.stream().filter(a -> Exprs.equal(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!laes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 ds.addDiff(new _rightOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Component.ANNO, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _annoExpr.of(e)));
+                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _annoExpr.of(e)));
             }
         }
         return ds;

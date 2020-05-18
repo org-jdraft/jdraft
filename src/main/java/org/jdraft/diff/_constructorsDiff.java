@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.jdraft.*;
 import org.jdraft._constructor._withConstructors;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 
 import org.jdraft.diff._diff.*;
 
@@ -60,14 +60,14 @@ public final class _constructorsDiff implements
             if (_rct != null) {
                 rs.remove(_rct);
                 _constructorDiff.INSTANCE.diff(
-                        path.in(Component.CONSTRUCTOR, _constructorDiff.constructorSignatureDescription(c)),
+                        path.in(Feature.CONSTRUCTOR, _constructorDiff.constructorSignatureDescription(c)),
                         dt,
                         _leftParent,
                         _rightParent,
                         c, 
                         _rct);
             } else {
-                dt.addDiff(new _leftOnly_constructor(path.in(Component.CONSTRUCTOR,
+                dt.addDiff(new _leftOnly_constructor(path.in(Feature.CONSTRUCTOR,
                         _constructorDiff.constructorSignatureDescription(c)),
                         (_withConstructors) _leftParent,
                         (_withConstructors) _rightParent,
@@ -76,7 +76,7 @@ public final class _constructorsDiff implements
         });
         rs.forEach(c -> {
             dt.addDiff( new _rightOnly_constructor(
-                path.in(Component.CONSTRUCTOR,
+                path.in(Feature.CONSTRUCTOR,
                         _constructorDiff.constructorSignatureDescription(c)),
                     (_withConstructors) _leftParent,
                     (_withConstructors) _rightParent,

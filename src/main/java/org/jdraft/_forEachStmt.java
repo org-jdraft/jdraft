@@ -220,11 +220,11 @@ public final class _forEachStmt implements _stmt._controlFlow._branching<ForEach
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put(_java.Component.ITERABLE, astStmt.getIterable());
-        comps.put(_java.Component.VARIABLE, astStmt.getVariable());
-        comps.put(_java.Component.BODY, astStmt.getBody());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put(_java.Feature.ITERABLE_EXPR, astStmt.getIterable());
+        comps.put(_java.Feature.VARIABLE, astStmt.getVariable());
+        comps.put(_java.Feature.BODY, astStmt.getBody());
         return comps;
     }
 

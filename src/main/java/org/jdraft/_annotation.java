@@ -528,19 +528,19 @@ public final class _annotation
     }
 
     @Override
-    public Map<_java.Component, Object> components( ) {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( _java.Component.PACKAGE, this.getPackage() );
-        parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
-        parts.put( _java.Component.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Component.NAME, this.getName() );
-        parts.put( _java.Component.MODIFIERS, this.getModifiers() );
-        parts.put( _java.Component.ELEMENTS, this.listElements() );
-        parts.put( _java.Component.FIELDS, this.listFields() );
-        parts.put( _java.Component.INNER_TYPES, this.listInnerTypes() );
-        parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes() );
+    public Map<_java.Feature, Object> components( ) {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
+        parts.put( _java.Feature.PACKAGE, this.getPackage() );
+        parts.put( _java.Feature.IMPORTS, this.getImports().list() );
+        parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
+        parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
+        parts.put( _java.Feature.NAME, this.getName() );
+        parts.put( _java.Feature.MODIFIERS, this.getModifiers() );
+        parts.put( _java.Feature.ANNOTATION_ENTRIES, this.listElements() );
+        parts.put( _java.Feature.FIELDS, this.listFields() );
+        parts.put( _java.Feature.INNER_TYPES, this.listInnerTypes() );
+        parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }
 
@@ -831,13 +831,13 @@ public final class _annotation
         }
 
         @Override
-        public Map<_java.Component, Object> components( ) {
-            Map<_java.Component, Object> parts = new HashMap<>();
-            parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
-            parts.put( _java.Component.JAVADOC, this.getJavadoc() );
-            parts.put( _java.Component.NAME, this.getName() );
-            parts.put( _java.Component.TYPE, this.getTypeRef() );
-            parts.put( _java.Component.DEFAULT, this.getDefaultValue() );
+        public Map<_java.Feature, Object> components( ) {
+            Map<_java.Feature, Object> parts = new HashMap<>();
+            parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
+            parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
+            parts.put( _java.Feature.NAME, this.getName() );
+            parts.put( _java.Feature.TYPE, this.getTypeRef() );
+            parts.put( _java.Feature.DEFAULT_EXPR, this.getDefaultValue() );
             return parts;
         }
         

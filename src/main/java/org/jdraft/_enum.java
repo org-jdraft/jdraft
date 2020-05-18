@@ -634,23 +634,23 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     @Override
-    public Map<_java.Component, Object> components( ) {
-        Map<_java.Component, Object> parts = new HashMap<>();
-        parts.put( _java.Component.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( _java.Component.PACKAGE, this.getPackage() );
-        parts.put( _java.Component.IMPORTS, this.getImports().list() );
-        parts.put( _java.Component.ANNOS, this.listAnnoExprs() );
-        parts.put( _java.Component.IMPLEMENTS, this.listImplements() );
-        parts.put( _java.Component.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Component.CONSTANTS, this.listConstants());
-        parts.put( _java.Component.INIT_BLOCKS, this.listInitBlocks());
-        parts.put( _java.Component.NAME, this.getName() );
-        parts.put( _java.Component.MODIFIERS, this.getModifiers() );
-        parts.put( _java.Component.CONSTRUCTORS, this.listConstructors() );
-        parts.put( _java.Component.METHODS, this.listMethods() );
-        parts.put( _java.Component.FIELDS, this.listFields() );
-        parts.put( _java.Component.INNER_TYPES, this.listInnerTypes() );
-        parts.put( _java.Component.COMPANION_TYPES, this.listCompanionTypes());
+    public Map<_java.Feature, Object> components( ) {
+        Map<_java.Feature, Object> parts = new HashMap<>();
+        parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
+        parts.put( _java.Feature.PACKAGE, this.getPackage() );
+        parts.put( _java.Feature.IMPORTS, this.getImports().list() );
+        parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
+        parts.put( _java.Feature.IMPLEMENTS_TYPES, this.listImplements() );
+        parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
+        parts.put( _java.Feature.CONSTANTS, this.listConstants());
+        parts.put( _java.Feature.INIT_BLOCKS, this.listInitBlocks());
+        parts.put( _java.Feature.NAME, this.getName() );
+        parts.put( _java.Feature.MODIFIERS, this.getModifiers() );
+        parts.put( _java.Feature.CONSTRUCTORS, this.listConstructors() );
+        parts.put( _java.Feature.METHODS, this.listMethods() );
+        parts.put( _java.Feature.FIELDS, this.listFields() );
+        parts.put( _java.Feature.INNER_TYPES, this.listInnerTypes() );
+        parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes());
         return parts;
     }
 

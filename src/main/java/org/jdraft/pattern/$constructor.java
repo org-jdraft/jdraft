@@ -793,7 +793,7 @@ public class $constructor
         _ct.setParams(this.parameters.draft(translator, keyValues));
         _ct.setThrows( this.thrown.draft(translator, keyValues));
         _ct.setJavadoc(this.javadoc.draft(translator, keyValues));
-        _ct.setTypeParameters(this.typeParameters.draft(translator, keyValues));
+        _ct.setTypeParams(this.typeParameters.draft(translator, keyValues));
         _ct.setBody(this.body.draft(translator, keyValues));
         _ct.setAnnoExprs(this.annos.draft(translator, keyValues));
 

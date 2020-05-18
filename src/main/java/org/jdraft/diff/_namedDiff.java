@@ -3,7 +3,7 @@ package org.jdraft.diff;
 import java.util.Objects;
 
 import org.jdraft.*;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 
 import org.jdraft.diff._diff.*;
 
@@ -14,20 +14,20 @@ public final class _namedDiff implements _differ<String, _java._multiPart> {
 
     public static final _namedDiff INSTANCE = new _namedDiff();
     
-    public Component component = Component.NAME;
+    public Feature feature = Feature.NAME;
 
     public _namedDiff() {
-        this(Component.NAME);
+        this(Feature.NAME);
     }
     
-    public _namedDiff(Component component) {
-        this.component = component;
+    public _namedDiff(Feature feature) {
+        this.feature = feature;
     }
 
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, String left, String right) {
         if (!Objects.equals(left, right)) {
-            return dt.addDiff(new _changeName(path.in(component), (_java._withName) _leftParent, (_java._withName) _rightParent));
+            return dt.addDiff(new _changeName(path.in(feature), (_java._withName) _leftParent, (_java._withName) _rightParent));
         }
         return dt;
     }

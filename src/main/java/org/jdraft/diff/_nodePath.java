@@ -26,20 +26,20 @@ public final class _nodePath {
     public static _nodePath of(Object... pathAsTokens) {
         _nodePath _p = new _nodePath();
         for (int i = 0; i < pathAsTokens.length; i += 2) {
-            if (!(pathAsTokens[i] instanceof _java.Component) && !(pathAsTokens[i] instanceof Class)) {
+            if (!(pathAsTokens[i] instanceof _java.Feature) && !(pathAsTokens[i] instanceof Class)) {
                 throw new _jdraftException("element [" + i + "] MUST be a Component or _node Class ");
             }
             if ((pathAsTokens.length > i + 1) && pathAsTokens[i + 1] instanceof String) {
-                if( pathAsTokens[i] instanceof _java.Component){
-                    _p = _p.in((_java.Component) pathAsTokens[i], (String) pathAsTokens[i + 1]);
+                if( pathAsTokens[i] instanceof _java.Feature){
+                    _p = _p.in((_java.Feature) pathAsTokens[i], (String) pathAsTokens[i + 1]);
                 } else{
-                    _p = _p.in(_java.Component.of( (Class<_java._multiPart>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
+                    _p = _p.in(_java.Feature.of( (Class<_java._multiPart>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
                 }
             } else {
-                if( pathAsTokens[i] instanceof _java.Component){
-                    _p = _p.in((_java.Component) pathAsTokens[i]);
+                if( pathAsTokens[i] instanceof _java.Feature){
+                    _p = _p.in((_java.Feature) pathAsTokens[i]);
                 } else{
-                    _p = _p.in( _java.Component.of( (Class<_java._multiPart>)pathAsTokens[i]));
+                    _p = _p.in( _java.Feature.of( (Class<_java._multiPart>)pathAsTokens[i]));
                 }
             }
         }
@@ -60,7 +60,7 @@ public final class _nodePath {
      *
      * we build this as we traverse the class (when identifying diffs)
      */
-    public List<_java.Component> componentPath;
+    public List<_java.Feature> featurePath;
 
     /**
      * The identifying String of a member component (usually the name of the
@@ -75,7 +75,7 @@ public final class _nodePath {
      * build a new empty path
      */
     public _nodePath() {
-        componentPath = new ArrayList<>();
+        featurePath = new ArrayList<>();
         idPath = new ArrayList<>();
     }
 
@@ -85,8 +85,8 @@ public final class _nodePath {
      * @param original
      */
     public _nodePath(_nodePath original) {
-        componentPath = new ArrayList();
-        componentPath.addAll(original.componentPath);
+        featurePath = new ArrayList();
+        featurePath.addAll(original.featurePath);
         idPath = new ArrayList();
         idPath.addAll(original.idPath);
     }
@@ -95,11 +95,11 @@ public final class _nodePath {
      * Build and return a new _path that follows the current path down one
      * component
      *
-     * @param component
+     * @param feature
      * @return a new _path that has a leaf node at the component
      */
-    public _nodePath in(_java.Component component) {
-        return in(component, "");
+    public _nodePath in(_java.Feature feature) {
+        return in(feature, "");
     }
 
     /**
@@ -108,7 +108,7 @@ public final class _nodePath {
      * @return the number of nodes in the path
      */
     public int size() {
-        return this.componentPath.size();
+        return this.featurePath.size();
     }
 
     /**
@@ -116,9 +116,9 @@ public final class _nodePath {
      *
      * @return the last component in the path (null if the path is empty)
      */
-    public _java.Component leaf() {
-        if (!this.componentPath.isEmpty()) {
-            return this.componentPath.get(this.componentPath.size() - 1);
+    public _java.Feature leaf() {
+        if (!this.featurePath.isEmpty()) {
+            return this.featurePath.get(this.featurePath.size() - 1);
         }
         return null;
     }
@@ -154,12 +154,12 @@ public final class _nodePath {
      * does the path at index have the component provided
      *
      * @param index the index from the start of the path (0-based)
-     * @param component the component type expected
+     * @param feature the component type expected
      * @return true if the component at
      */
-    public boolean is(int index, _java.Component component) {
+    public boolean is(int index, _java.Feature feature) {
         if (index <= this.size() && index >= 0) {
-            return this.componentPath.get(index).equals(component);
+            return this.featurePath.get(index).equals(feature);
         }
         return false;
     }
@@ -168,14 +168,14 @@ public final class _nodePath {
      * does the path at index have the component and id provided
      *
      * @param index the index from the start of the path (0-based)
-     * @param component the component type expected
+     * @param feature the component type expected
      * @param id the expected id
      * @return true if the component at index has the component and id provided,
      * false otherwise
      */
-    public boolean is(int index, _java.Component component, String id) {
+    public boolean is(int index, _java.Feature feature, String id) {
         if (index <= this.size() && index >= 0) {
-            return this.componentPath.get(index).equals(component)
+            return this.featurePath.get(index).equals(feature)
                     && this.idPath.get(index).equals(id);
         }
         return false;
@@ -191,7 +191,7 @@ public final class _nodePath {
      */
     public <_N extends _java._multiPart> boolean is(int index, Class<_N> clazz, String id) {
         if (index <= this.size() && index >= 0) {
-            return this.componentPath.get(index).implementationClass.equals(clazz)
+            return this.featurePath.get(index).implementationClass.equals(clazz)
                     && this.idPath.get(index).equals(id);
         }
         return false;
@@ -200,12 +200,12 @@ public final class _nodePath {
     /**
      * Does the leaf part of the path have the provided component and id
      *
-     * @param component the component
+     * @param feature the component
      * @param id the id
      * @return true if the path has the leaf at component and id
      */
-    public boolean isLeaf(_java.Component component, String id) {
-        return component.equals(leaf()) && id.equals(leafId());
+    public boolean isLeaf(_java.Feature feature, String id) {
+        return feature.equals(leaf()) && id.equals(leafId());
     }
 
     /**
@@ -220,11 +220,11 @@ public final class _nodePath {
     }
 
     /**
-     * @param component the component
+     * @param feature the component
      * @return is the last component in the path this component?
      */
-    public boolean isLeaf(_java.Component component) {
-        return component.equals(leaf());
+    public boolean isLeaf(_java.Feature feature) {
+        return feature.equals(leaf());
     }
 
     /**
@@ -270,23 +270,23 @@ public final class _nodePath {
     /**
      * does this path contain all of these components (in ANY order)?
      *
-     * @param components
+     * @param features
      * @return true if the path contains all these components in ANY order
      */
-    public boolean has(_java.Component... components) {
-        Set<_java.Component> s = new HashSet<>();
-        Arrays.stream(components).forEach(c -> s.add(c));
-        return componentPath.containsAll(s);
+    public boolean has(_java.Feature... features) {
+        Set<_java.Feature> s = new HashSet<>();
+        Arrays.stream(features).forEach(c -> s.add(c));
+        return featurePath.containsAll(s);
     }
 
     /**
      * does the path contain this component (anywhere?)
      *
-     * @param component component to look for
+     * @param feature component to look for
      * @return true if the component occurs anywhere in the path
      */
-    public boolean has(_java.Component component) {
-        return componentPath.contains(component);
+    public boolean has(_java.Feature feature) {
+        return featurePath.contains(feature);
     }
 
     /**
@@ -298,7 +298,7 @@ public final class _nodePath {
      */
     public <_N extends _java._multiPart> boolean has(Class<_N> clazz) {
         for (int i = 0; i < size(); i++) {
-            if (this.componentPath.get(i).implementationClass.equals(clazz)) {
+            if (this.featurePath.get(i).implementationClass.equals(clazz)) {
                 return true;
             }
         }
@@ -308,14 +308,14 @@ public final class _nodePath {
     /**
      * does the path contain a part that has this exact component and id
      *
-     * @param component the component we are looking for
+     * @param feature the component we are looking for
      * @param id the path we are looking for
      * @return true if the path contains part with this component & id, false
      * otherwise
      */
-    public boolean has(_java.Component component, String id) {
+    public boolean has(_java.Feature feature, String id) {
         for (int i = 0; i < size(); i++) {
-            if (this.componentPath.get(i).equals(component)
+            if (this.featurePath.get(i).equals(feature)
                     && this.idPath.get(i).equals(id)) {
                 return true;
             }
@@ -332,7 +332,7 @@ public final class _nodePath {
      */
     public <_N extends _java._multiPart> boolean has(Class<_N> clazz, String id) {
         for (int i = 0; i < size(); i++) {
-            if (this.componentPath.get(i).implementationClass.equals(clazz)
+            if (this.featurePath.get(i).implementationClass.equals(clazz)
                     && this.idPath.get(i).equals(id)) {
                 return true;
             }
@@ -344,13 +344,13 @@ public final class _nodePath {
      * Build and return a new _path that follows the current path down one
      * component
      *
-     * @param component the next component part
+     * @param feature the next component part
      * @param id the id for the component
      * @return a new _path advanced to the next component/id
      */
-    public _nodePath in(_java.Component component, String id) {
+    public _nodePath in(_java.Feature feature, String id) {
         _nodePath _p = new _nodePath(this);
-        _p.componentPath.add(component);
+        _p.featurePath.add(feature);
         _p.idPath.add(id);
         return _p;
     }
@@ -360,11 +360,11 @@ public final class _nodePath {
      */
     public String componentPathString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < this.componentPath.size(); i++) {
+        for (int i = 0; i < this.featurePath.size(); i++) {
             if (i > 0) {
                 sb.append(".");
             }
-            sb.append(this.componentPath.get(i).getName());
+            sb.append(this.featurePath.get(i).getName());
         }
         return sb.toString();
     }
@@ -372,11 +372,11 @@ public final class _nodePath {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < this.componentPath.size(); i++) {
+        for (int i = 0; i < this.featurePath.size(); i++) {
             if (i > 0) {
                 sb.append(".");
             }
-            sb.append(this.componentPath.get(i).getName());
+            sb.append(this.featurePath.get(i).getName());
             if (this.idPath.get(i).length() > 0) {
                 sb.append("[").append(this.idPath.get(i)).append("]");
             }
@@ -387,7 +387,7 @@ public final class _nodePath {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.componentPath);
+        hash = 79 * hash + Objects.hashCode(this.featurePath);
         hash = 79 * hash + Objects.hashCode(this.idPath);
         return hash;
     }
@@ -405,7 +405,7 @@ public final class _nodePath {
         }
         _nodePath other = (_nodePath) obj;
 
-        return Objects.equals(this.componentPath, other.componentPath)
+        return Objects.equals(this.featurePath, other.featurePath)
                 && Objects.equals(this.idPath, other.idPath);
     }
 }

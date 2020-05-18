@@ -497,13 +497,13 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
     }
 
     @Override
-    public Map<_java.Component, Object> components() {
-        Map<_java.Component, Object> comps = new HashMap<>();
-        comps.put( _java.Component.TRY_BODY, tryStmt.getTryBlock());
-        comps.put( _java.Component.WITH_RESOURCES, tryStmt.getResources());
-        comps.put(_java.Component.CATCH_CLAUSES, tryStmt.getCatchClauses());
+    public Map<_java.Feature, Object> components() {
+        Map<_java.Feature, Object> comps = new HashMap<>();
+        comps.put( _java.Feature.TRY_BODY, tryStmt.getTryBlock());
+        comps.put( _java.Feature.WITH_RESOURCES_EXPRS, tryStmt.getResources());
+        comps.put(_java.Feature.CATCH_CLAUSES, tryStmt.getCatchClauses());
         if( tryStmt.getFinallyBlock().isPresent() ){
-            comps.put(_java.Component.FINALLY_BODY, tryStmt.getFinallyBlock().get());
+            comps.put(_java.Feature.FINALLY_BODY, tryStmt.getFinallyBlock().get());
         }
         return comps;
     }

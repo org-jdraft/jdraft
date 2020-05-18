@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.github.javaparser.ast.expr.Expression;
 
 import org.jdraft.*;
-import org.jdraft._java.Component;
+import org.jdraft._java.Feature;
 import org.jdraft.diff._diff.*;
 
 /**
@@ -23,7 +23,7 @@ public final class _fieldDiff implements _differ<_field, _java._multiPart> {
     @Override
     public <_PN extends _java._multiPart> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _field left, _field right) {
 
-        _nodePath p = path.in(Component.FIELD, left != null ? left.getName() : right.getName());
+        _nodePath p = path.in(Feature.FIELD, left != null ? left.getName() : right.getName());
 
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getTypeRef(), right.getTypeRef());
@@ -31,8 +31,8 @@ public final class _fieldDiff implements _differ<_field, _java._multiPart> {
         _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annoExprsDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
 
-        if (!Objects.equals(left.getInit(), right.getInit())) {
-            dt.addDiff(new _changeInit(p.in(Component.INIT), left, right));
+        if (!Objects.equals(left.getInitNode(), right.getInitNode())) {
+            dt.addDiff(new _changeInit(p.in(Feature.INIT), left, right));
         }
         return dt;
     }
@@ -54,11 +54,11 @@ public final class _fieldDiff implements _differ<_field, _java._multiPart> {
             this.path = _p;
             this.leftParent = leftParent;
             if (leftParent.hasInit()) {
-                this.leftExpression = leftParent.getInit().clone();
+                this.leftExpression = leftParent.getInitNode().clone();
             }
             this.rightParent = rightParent;
             if (rightParent.hasInit()) {
-                this.rightExpression = rightParent.getInit().clone();
+                this.rightExpression = rightParent.getInitNode().clone();
             }
         }
 

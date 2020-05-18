@@ -10,9 +10,9 @@ import java.util.List;
 public class $botListSelectTest extends TestCase {
 
     public void testSingleMemberAnno(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._pair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
-        $annoExpr.$pair $mv = $annoExpr.$pair.of(_annoExpr._pair.of("1"));
+        $annoExpr.$pair $mv = $annoExpr.$pair.of(_annoExpr._entryPair.of("1"));
         List<$annoExpr.$pair> $mvs = new ArrayList<>();
         $mvs.add($mv);
         $bls.setBotList($mvs);
@@ -27,9 +27,9 @@ public class $botListSelectTest extends TestCase {
     }
 
     public void testNormalAnno(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._pair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
-        $annoExpr.$pair $mv = $annoExpr.$pair.of(_annoExpr._pair.of("value=1"));
+        $annoExpr.$pair $mv = $annoExpr.$pair.of(_annoExpr._entryPair.of("value=1"));
         List<$annoExpr.$pair> $mvs = new ArrayList<>();
         $mvs.add($mv);
         $bls.setBotList($mvs);
@@ -41,10 +41,10 @@ public class $botListSelectTest extends TestCase {
     }
 
     public void testOrder(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._pair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
-        $annoExpr.$pair $mv1 = $annoExpr.$pair.of(_annoExpr._pair.of("key=1"));
-        $annoExpr.$pair $mv2 = $annoExpr.$pair.of(_annoExpr._pair.of("val=2"));
+        $annoExpr.$pair $mv1 = $annoExpr.$pair.of(_annoExpr._entryPair.of("key=1"));
+        $annoExpr.$pair $mv2 = $annoExpr.$pair.of(_annoExpr._entryPair.of("val=2"));
         List<$annoExpr.$pair> $mvs = new ArrayList<>();
         $mvs.add($mv1);
         $mvs.add($mv2);
@@ -56,7 +56,7 @@ public class $botListSelectTest extends TestCase {
     }
 
     public void testMatchAll(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._pair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _annoExpr._entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
         $bls.setMatchAll(true);
 
