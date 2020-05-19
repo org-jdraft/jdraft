@@ -27,10 +27,10 @@ public class _nameTest extends TestCase {
     }
 
     public void testIsTypeName(){
-        assertTrue( _name.of( _class.of("F").getNameNode()).isTypeName() );
-        assertTrue( _name.of( _interface.of("F").getNameNode()).isTypeName() );
-        assertTrue( _name.of( _enum.of("F").getNameNode()).isTypeName() );
-        assertTrue( _name.of( _annotation.of("F").getNameNode()).isTypeName() );
+        assertTrue( _name.of( _class.of("F").getNameNode()).isTypeDeclarationName() );
+        assertTrue( _name.of( _interface.of("F").getNameNode()).isTypeDeclarationName() );
+        assertTrue( _name.of( _enum.of("F").getNameNode()).isTypeDeclarationName() );
+        assertTrue( _name.of( _annotation.of("F").getNameNode()).isTypeDeclarationName() );
     }
 
     public void testMethodName(){
@@ -52,38 +52,38 @@ public class _nameTest extends TestCase {
         assertFalse(_n.isBreakLabelName());
         assertFalse(_n.isContinueLabelName());
         assertFalse(_n.isLabelStatementLabelName());
-        assertFalse(_n.isClassName());
-        assertFalse(_n.isEnumName());
-        assertFalse(_n.isInterfaceName());
-        assertFalse(_n.isAnnotationName());
+        assertFalse(_n.isClassDeclarationName());
+        assertFalse(_n.isEnumDeclarationName());
+        assertFalse(_n.isInterfaceDeclarationName());
+        assertFalse(_n.isAnnotationDeclarationName());
 
-        assertFalse(_n.isAnnotationElementName());
+        assertFalse(_n.isAnnotationEntryName());
         assertFalse(_n.isEnumConstantName());
 
-        assertFalse(_n.isMethodReference()); //name of a MethodReference "A" and "B" in "A::B"
+        assertFalse(_n.isMethodReferenceName()); //name of a MethodReference "A" and "B" in "A::B"
         assertFalse(_n.isPackageName());     //name of a package "aaaa", "bbbb" in "package aaaa.bbbb;"
-        assertFalse(_n.isTypeName());        //name of a TypeDeclaration "c" in "class C{}"
+        assertFalse(_n.isTypeDeclarationName());        //name of a TypeDeclaration "c" in "class C{}"
         //assertFalse(_n.isTypeRefName());     //name of a Type reference "Integer" in "Integer i;"
 
         assertFalse(_n.isVariableName());    //name of a variable "x" in "int x"
-        assertFalse(_n.isParameterName());   //name of a parameter "p" in "(int p)"
+        assertFalse(_n.isParamName());   //name of a parameter "p" in "(int p)"
 
-        assertFalse(_n.isAnnoName());        //name of an annotation "A" in "@A()"
-        assertFalse(_n.isAnnoMemberValueName()); //name of annotation member "k" in "@A(k=1)"
+        assertFalse(_n.isAnnoExprName());        //name of an annotation "A" in "@A()"
+        assertFalse(_n.isAnnoEntryPairName()); //name of annotation member "k" in "@A(k=1)"
 
         assertTrue( _name.of( _import.of("aaaa.bbbb.C").ast().getName() ).isImportName());
 
         assertTrue( _name.of( _import.of("aaaa.bbbb.C").ast().getName().getQualifier().get() ).isImportName());
 
-        assertTrue( _name.of( _methodRefExpr.of("A::B").ast() ).isMethodReference());
+        assertTrue( _name.of( _methodRefExpr.of("A::B").ast() ).isMethodReferenceName());
         assertTrue( _name.of( Ast.packageDeclaration("package aaaa.bbbb").getName() ).isPackageName() );
-        assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeName() );
+        assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeDeclarationName() );
         //assertTrue( _name.of( Types.of("C").asClassOrInterfaceType().getName() ).isTypeRefName() );
 
         assertTrue( _name.of( Ast.varDecl("int i").getName() ).isVariableName() );
-        assertTrue( _name.of( Ast.parameter("int i").getName() ).isParameterName() );
-        assertTrue( _name.of( Ast.anno("@A").getName() ).isAnnoName() );
-        assertTrue( _name.of( Ast.anno("@A(k=1)").asNormalAnnotationExpr().getPairs().get(0).getName() ).isAnnoMemberValueName() );
+        assertTrue( _name.of( Ast.parameter("int i").getName() ).isParamName() );
+        assertTrue( _name.of( Ast.anno("@A").getName() ).isAnnoExprName() );
+        assertTrue( _name.of( Ast.anno("@A(k=1)").asNormalAnnotationExpr().getPairs().get(0).getName() ).isAnnoEntryPairName() );
     }
 
 }

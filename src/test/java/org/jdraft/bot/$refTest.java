@@ -18,7 +18,7 @@ public class $refTest extends TestCase {
 
     public void test$exclude() {
         assertEquals(1, $ref.startsWith("pre").countIn(_import.of("pre")));
-        assertEquals(0, $ref.startsWith("pre").$exclude($ref.IMPORT_NAME, $ref.ENUM_NAME).countIn(_import.of("pre")));
+        assertEquals(0, $ref.startsWith("pre").$exclude($ref.IMPORT_NAME, $ref.ENUM_DECLARATION_NAME).countIn(_import.of("pre")));
         assertEquals(0, $ref.startsWith("pre").$exclude($ref.IMPORT_NAME).countIn(_import.of("pre")));
     }
 
@@ -72,8 +72,8 @@ public class $refTest extends TestCase {
         _java._node _n = $ref.of().listIn(_class.of("class C<T>{}")).get(1);
         Print.tree(_n.ast());
 
-        assertTrue($ref.TYPE_PARAMETER_NAME.is(_n));
-        assertEquals(1, $ref.of($ref.TYPE_PARAMETER_NAME).countIn(_class.of("class C<T>{}").ast()));
+        assertTrue($ref.TYPE_PARAM_NAME.is(_n));
+        assertEquals(1, $ref.of($ref.TYPE_PARAM_NAME).countIn(_class.of("class C<T>{}").ast()));
 
         class TP1 <X extends Serializable,Y>{
 
@@ -81,7 +81,7 @@ public class $refTest extends TestCase {
         Print.tree(TP1.class);
         $ref.of().printIn(TP1.class);
 
-        assertEquals( 2, $ref.of($ref.TYPE_PARAMETER_NAME).countIn(TP1.class));
+        assertEquals( 2, $ref.of($ref.TYPE_PARAM_NAME).countIn(TP1.class));
 
 
     }
@@ -131,12 +131,12 @@ public class $refTest extends TestCase {
         //$ref.of().$and(_name.Use.CLASS_NAME, _name.Use.TYPE_REF_NAME).printIn(C1.class);
         $ref.of().$and(_name.Use.CLASS_DECLARATION_NAME, _name.Use.TYPE_REF_NAME).printIn(C1.class);
         assertEquals( 8, $ref.of().$and(_name.Use.CLASS_DECLARATION_NAME, _name.Use.TYPE_REF_NAME).countIn(C1.class));
-        assertEquals( 8, $ref.of($ref.CLASS_NAME, $ref.TYPE_REF_NAME).countIn(C1.class));
+        assertEquals( 8, $ref.of($ref.CLASS_DECLARATION_NAME, $ref.TYPE_REF_NAME).countIn(C1.class));
         assertEquals( 7, $ref.of($ref.TYPE_REF_NAME).countIn(C1.class));
-        assertEquals( 1, $ref.of($ref.CLASS_NAME).countIn(C1.class));
+        assertEquals( 1, $ref.of($ref.CLASS_DECLARATION_NAME).countIn(C1.class));
 
         //simplified API
-        assertEquals( 8, $ref.of($ref.CLASS_NAME, $ref.TYPE_REF_NAME).countIn(C1.class));
+        assertEquals( 8, $ref.of($ref.CLASS_DECLARATION_NAME, $ref.TYPE_REF_NAME).countIn(C1.class));
 
         //System.out.println( " FOUND ");
         $ref.of().printIn(C1.class);
@@ -144,7 +144,7 @@ public class $refTest extends TestCase {
         assertEquals( 9, $ref.of().countIn(C1.class));
         assertEquals( 1, $ref.of($ref.VARIABLE_NAME).countIn(C1.class));
         assertEquals( 1, $ref.of("C1").countIn(C1.class));
-        assertEquals( 1, $ref.of("C1", $ref.CLASS_NAME).countIn(C1.class));
+        assertEquals( 1, $ref.of("C1", $ref.CLASS_DECLARATION_NAME).countIn(C1.class));
         assertEquals( 0, $ref.of("C1", $ref.IMPORT_NAME).countIn(C1.class));
         assertEquals( 1, $ref.of("C1").$matchTypeDeclarationNames(true).countIn(C1.class));
         assertEquals( 1, $ref.of("Map").countIn(C1.class));

@@ -1,8 +1,11 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
+import org.jdraft.Print;
 import org.jdraft.Types;
+import org.jdraft._class;
 import org.jdraft._typeRef;
+import org.jdraft.macro._packageName;
 import org.jdraft.pattern.$typeParameter;
 
 import java.io.Serializable;
@@ -10,6 +13,36 @@ import java.util.List;
 import java.util.Map;
 
 public class $typeRefTest extends TestCase {
+
+    /**
+     * https://github.com/javaparser/javaparser/issues/2682
+     */
+    public void testGetTypes(){
+        @_packageName("test")
+        class Test {
+            private void ioexc() throws java.io.IOException {
+                System.out.println("Hello World");
+            }
+            void test() {
+                try {
+                    ioexc();
+                }
+                catch (java.io.IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        _class _c = _class.of(Test.class);
+
+        assertEquals(2, $typeRef.VOID.countIn(_c));
+        assertEquals(2, $typeRef.of().$not($typeRef.VOID).countIn(_c));
+        assertEquals(2, $typeRef.of("java.io.IOException").countIn(_c));
+        assertEquals(2, $typeRef.of("IOException").countIn(_c));
+        assertEquals(1, $typeRef.of().$not($typeRef.VOID).streamIn(_c).distinct().count());
+
+        assertEquals(1, $typeRef.of("java.io.IOException").$not($typeRef.VOID).streamIn(_c).distinct().count());
+    }
 
     public void testAny(){
         assertTrue( $typeRef.of().matches(int.class) );

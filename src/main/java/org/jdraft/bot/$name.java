@@ -213,9 +213,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchAnnotationElementNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.ANNOTATION_ELEMENT_NAME);
+            excludedUses.remove(_name.Use.ANNOTATION_ENTRY_NAME);
         } else{
-            excludedUses.add(_name.Use.ANNOTATION_ELEMENT_NAME);
+            excludedUses.add(_name.Use.ANNOTATION_ENTRY_NAME);
         }
         return this;
         //this.matchAnnotationElementNames = b;
@@ -226,9 +226,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchAnnoMemberValueNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.ANNO_MEMBER_VALUE_NAME);
+            excludedUses.remove(_name.Use.ANNO_ENTRY_PAIR_NAME);
         } else{
-            excludedUses.add(_name.Use.ANNO_MEMBER_VALUE_NAME);
+            excludedUses.add(_name.Use.ANNO_ENTRY_PAIR_NAME);
         }
         return this;
         //this.matchAnnoMemberValueNames = b;
@@ -239,9 +239,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchAnnoNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.ANNO_NAME);
+            excludedUses.remove(_name.Use.ANNO_EXPR_NAME);
         } else{
-            excludedUses.add(_name.Use.ANNO_NAME);
+            excludedUses.add(_name.Use.ANNO_EXPR_NAME);
         }
         return this;
         //this.matchAnnoNames = b;
@@ -421,9 +421,9 @@ public class $name implements $bot<Node, _name, $name>,
 
     public $name $matchParameterNames(boolean b){
         if( b ){
-            excludedUses.remove(_name.Use.PARAMETER_NAME);
+            excludedUses.remove(_name.Use.PARAM_NAME);
         } else{
-            excludedUses.add(_name.Use.PARAMETER_NAME);
+            excludedUses.add(_name.Use.PARAM_NAME);
         }
         return this;
         //this.matchParameterNames = b;

@@ -259,7 +259,7 @@ public class $nameTest extends TestCase {
         Print.tree(_class.of(G.class).astCompilationUnit());
 
         _class _c = _class.of(G.class);
-        assertTrue( _name.of(_c.getNameNode()).isTypeName() );
+        assertTrue( _name.of(_c.getNameNode()).isTypeDeclarationName() );
 
         assertEquals(0, $name.of("lang").$matchPackageNames(false).countIn(G.class));
 

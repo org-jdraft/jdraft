@@ -128,12 +128,12 @@ public final class _name implements _java._node<Node, _name> {
         return Use.LABELED_STATEMENT_LABEL_NAME.is(this.name);
     }
 
-    public boolean isAnnoName(){
-        return Use.ANNO_NAME.is(this.name);
+    public boolean isAnnoExprName(){
+        return Use.ANNO_EXPR_NAME.is(this.name);
     }
 
-    public boolean isAnnoMemberValueName(){
-        return Use.ANNO_MEMBER_VALUE_NAME.is(this.name);
+    public boolean isAnnoEntryPairName(){
+        return Use.ANNO_ENTRY_PAIR_NAME.is(this.name);
     }
 
     /** Is this "name" type one that is being used in the context of a package name? */
@@ -157,13 +157,13 @@ public final class _name implements _java._node<Node, _name> {
     }
 
     /** Is this "name" type one that is being used in a parameter i.e. "p" within "(int p)" */
-    public boolean isParameterName(){
-        return Use.PARAMETER_NAME.is(this.name);
+    public boolean isParamName(){
+        return Use.PARAM_NAME.is(this.name);
     }
 
     /** is this name used as a Reference to a Type i.e. "int" within "int i;" */
-    public boolean isTypeParameterName(){
-        return Use.TYPE_PARAMETER_NAME.is(this.name);
+    public boolean isTypeParamName(){
+        return Use.TYPE_PARAM_NAME.is(this.name);
     }
 
     /** is this name used as a Reference to a Type i.e. "int" within "int i;" */
@@ -172,33 +172,33 @@ public final class _name implements _java._node<Node, _name> {
     }
 
     /** Is this name being used as "part" or a whole _type/TypeDeclaration name i.e. "C" within "class C{}" */
-    public boolean isTypeName(){
+    public boolean isTypeDeclarationName(){
         return Use.CLASS_DECLARATION_NAME.is(this.name) || Use.INTERFACE_DECLARATION_NAME.is(this.name) || Use.ENUM_DECLARATION_NAME.is(this.name) || Use.ANNOTATION_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _class/ClassOrInterfaceDeclaration name i.e. "C" within "class C{}" */
-    public boolean isClassName(){
+    public boolean isClassDeclarationName(){
         return Use.CLASS_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _interface/ClassOrInterfaceDeclaration name i.e. "I" within "interface I{}" */
-    public boolean isInterfaceName(){
+    public boolean isInterfaceDeclarationName(){
         return Use.INTERFACE_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _enum/EnumDeclaration name i.e. "E" within "enum E{ ; }" */
-    public boolean isEnumName(){
+    public boolean isEnumDeclarationName(){
         return Use.ENUM_DECLARATION_NAME.is(this.name);
     }
 
     /** Is this name being used as "part" or a whole _annotation/AnnotationDeclaration name i.e. "A" within "@interface A{}" */
-    public boolean isAnnotationName(){
+    public boolean isAnnotationDeclarationName(){
         return Use.ANNOTATION_DECLARATION_NAME.is(this.name);
     }
 
-    /** Is this name being used as "part" or a whole _annotation._element/AnnotationMemberDeclaration name */
-    public boolean isAnnotationElementName(){
-        return Use.ANNOTATION_ELEMENT_NAME.is(this.name);
+    /** Is this name being used as "part" or a whole _annotation._entry / AnnotationMemberDeclaration name */
+    public boolean isAnnotationEntryName(){
+        return Use.ANNOTATION_ENTRY_NAME.is(this.name);
     }
 
     /** Is the name being used as an Enum Constant (i.e. "CLUBS" in "enum Suit{ CLUBS, HEARTS, DIAMONDS, SPADES; }" */
@@ -206,9 +206,8 @@ public final class _name implements _java._node<Node, _name> {
         return Use.ENUM_CONSTANT_NAME.is(this.name);
     }
 
-
     /** Is this name a "part" of a MethodReference? */
-    public boolean isMethodReference(){
+    public boolean isMethodReferenceName(){
         return Use.METHOD_REFERENCE_NAME.is(this.name);
     }
 
@@ -221,10 +220,10 @@ public final class _name implements _java._node<Node, _name> {
      * the context around which the given NAME has been used
      */
     public enum Use {
-        ANNO_NAME( name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationExpr),
-        ANNO_MEMBER_VALUE_NAME(name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof MemberValuePair),
+        ANNO_EXPR_NAME(name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationExpr),
+        ANNO_ENTRY_PAIR_NAME(name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof MemberValuePair),
         ANNOTATION_DECLARATION_NAME(name ->  name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationDeclaration),
-        ANNOTATION_ELEMENT_NAME( name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationMemberDeclaration),
+        ANNOTATION_ENTRY_NAME(name -> name.getParentNode().isPresent() && name.getParentNode().get() instanceof AnnotationMemberDeclaration),
         CLASS_DECLARATION_NAME(name -> name instanceof SimpleName && name.getParentNode().isPresent() &&
                 name.getParentNode().get() instanceof ClassOrInterfaceDeclaration &&
                 !((ClassOrInterfaceDeclaration) name.getParentNode().get()).asClassOrInterfaceDeclaration().isInterface()),
@@ -246,8 +245,8 @@ public final class _name implements _java._node<Node, _name> {
         METHOD_REFERENCE_NAME(name -> name instanceof MethodReferenceExpr || name.getParentNode().isPresent() && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof MethodReferenceExpr)),
 
         PACKAGE_NAME(name-> name.getParentNode().isPresent() && name.getParentNode().get() instanceof PackageDeclaration),
-        PARAMETER_NAME(name-> name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof Parameter), //instanceof SimpleName?
-        TYPE_PARAMETER_NAME(name->name instanceof TypeParameter),
+        PARAM_NAME(name-> name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof Parameter), //instanceof SimpleName?
+        TYPE_PARAM_NAME(name->name instanceof TypeParameter),
         TYPE_REF_NAME(name->name instanceof Type && (!( name instanceof TypeParameter)) || (name.getParentNode().isPresent()
                 && name.stream(Node.TreeTraversal.PARENTS).anyMatch(n -> n instanceof Type))),
         VARIABLE_NAME(name-> name instanceof SimpleName && name.getParentNode().isPresent() && name.getParentNode().get() instanceof VariableDeclarator);

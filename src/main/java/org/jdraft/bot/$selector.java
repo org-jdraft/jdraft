@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Entity capable of selection which entails both
@@ -102,6 +103,14 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $not(Predicate<_S> matchFn) {
         return $and( matchFn.negate() );
+    }
+
+    default $S $not( $S $sel ){
+        return $not( (_S t) -> (($bot)$sel).matches(t) );
+    }
+
+    default $S $not( $S... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch( $s -> (($bot)$s).matches(t) ) );
     }
 
     /*--------------------------- Position/Range(Row, Column) Aware Criteria-----------------------------------------*/

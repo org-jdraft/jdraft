@@ -517,26 +517,6 @@ public interface _java {
             }
             return null;
         }
-
-        /**
-         * Returns the appropriate Component based on the _type
-         *
-         * @param t the type instance
-         * @return the Component
-
-        public static Feature getFeature(_type t) {
-            if (t instanceof _class) {
-                return Feature.CLASS;
-            }
-            if (t instanceof _interface) {
-                return Feature.INTERFACE;
-            }
-            if (t instanceof _enum) {
-                return Feature.ENUM;
-            }
-            return Feature.ANNOTATION;
-        }
-        */
     }
 
     /**
@@ -1096,97 +1076,6 @@ public interface _java {
     }
 
     /**
-     * Simple Atomic node of code that cannot be "broken down" into smaller components
-     * (Types that are ALWAYS Leaf nodes on the AST)
-     *
-     * In general it is some Ast component that has 0 or 1 parts associated with it
-     *
-     * @see _nameExpr
-     * @see _typeExpr
-     * @see _arrayDimension
-     * @see _modifier
-     * @see _superExpr
-     * @see _thisExpr
-     * @see _expr._literal
-     *     @see _nullExpr
-     *     @see _intExpr
-     *     @see _doubleExpr
-     *     @see _charExpr
-     *     @see _booleanExpr
-     *     @see _longExpr
-     *     @see _stringExpr
-     *     @see _textBlockExpr
-     * @see _emptyStmt
-     * @see _continueStmt
-     * @see _breakStmt
-     * @see _classExpr
-     *
-     * @param <N> the AST node type
-     * @param <_UP> the _domain type
-     * @see _multiPart for an ast node type that contains multiple walkable child entities
-
-    interface _uniPart<N extends Node, _UP extends _uniPart> extends _node<N, _UP> { }
-    */
-
-    /**
-     * {@link _multiPart} entity (having more than one possible child) that maps directly to an AST {@link Node}
-     * for example:
-     * <UL>
-     * <LI>{@link _declared}s</LI>
-     * <UL>
-     *     <LI>{@link _type} {@link TypeDeclaration}</LI>
-     *     <LI>{@link _annotation} {@link AnnotationDeclaration}
-     *     <LI>{@link _interface} {@link ClassOrInterfaceDeclaration}</LI>
-     *     <LI>{@link _class} {@link ClassOrInterfaceDeclaration}</LI>
-     *     <LI>{@link _enum} {@link EnumDeclaration}</LI>
-     *     <LI>{@link _constant} {@link EnumConstantDeclaration}</LI>
-     *     <LI>{@link _entry} {@link AnnotationMemberDeclaration}
-     *     <LI>{@link _method} {@link MethodDeclaration}</LI>
-     *     <LI>{@link _constructor} {@link ConstructorDeclaration}</LI>
-     *     <LI>{@link _field} {@link FieldDeclaration}</LI>
-     * </UL>
-     * <LI>{@link _member}s</LI>
-     * <UL>
-     *         <LI>{@link _initBlock} {@link InitializerDeclaration}</LI>
-     * </UL>
-     * //adornment, property
-     * <LI>{@link _annoExpr} {@link AnnotationExpr}
-     * <LI>{@link _param} {@link Parameter}</LI>
-     * <LI>{@link _receiverParam} {@link ReceiverParameter}</LI>
-     * <LI>{@link _typeParam} {@link TypeParameter}</LI>
-     * <LI>{@link _typeRef} {@link Type}</LI>
-     * </UL>
-     * @see _java for mappings
-     * @param <_MP> the jdraft _node type {@link _method}, {@link _field}
-     * @param <N> ast node {@link MethodDeclaration}, {@link FieldDeclaration}
-
-    interface _multiPart<N extends Node, _MP extends _multiPart> extends _node<N, _MP> {
-
-
-         * Decompose the entity into key-VALUE pairs where the key is the Component
-         * @return a map of key values
-
-        Map<Feature, Object> features();
-
-
-
-         * Decompose the entity into smaller named tokens
-         * returning a mapping between the name and the constituent part
-         * @return a Map with the names mapped to the corresponding component
-
-        default Map<String, Object> tokenize() {
-            Map<Feature, Object> parts = features();
-            Map<String, Object> mdd = new HashMap<>();
-            parts.forEach((p, o) -> {
-                mdd.put(p.name, o);
-            });
-            return mdd;
-        }
-
-    }
-    */
-
-    /**
      * A grouping of monotonic (same type) entities where the order doesnt matter
      * to the semantics of the set.  While they may may be stored in NodeList<N>
      * this represents the syntax, however in the semantic side, this:
@@ -1655,8 +1544,8 @@ public interface _java {
      * </UL>
      * @param <_NT> the specialized entity that is a named TYPE
      */
-    interface _withNameTypeRef<N extends Node, _NT extends _withNameTypeRef> extends _node<N, _NT>, _withName<_NT>, _typeRef._withTypeRef<N,_NT> {
-
+    interface _withNameTypeRef<N extends Node, _NT extends _withNameTypeRef>
+            extends _node<N, _NT>, _withName<_NT>, _typeRef._withTypeRef<N,_NT> {
     }
 
     /**
@@ -1728,7 +1617,6 @@ public interface _java {
             return null;
         }
     }
-
 
     /**
      * A Java node containing a condition

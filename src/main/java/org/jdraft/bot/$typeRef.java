@@ -2,10 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.type.ReferenceType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.VoidType;
-import com.github.javaparser.ast.type.WildcardType;
+import com.github.javaparser.ast.type.*;
 import org.jdraft.*;
 import org.jdraft.pattern.*;
 import org.jdraft.text.*;
@@ -13,6 +10,7 @@ import org.jdraft.text.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * $bot for searching for, inspecting, drafting, and modifying a {@link _typeRef} or {@link Type} Reference
@@ -367,6 +365,17 @@ public class $typeRef
      */
     public Select<_typeRef> select( _typeRef _tr){
 
+        /** MED ADDED CHECK */
+        if( _tr.ast().getParentNode().isPresent() && _tr.ast().getParentNode().get() instanceof ClassOrInterfaceType ){
+            //System.out.println( "Tripped the flag");
+            ClassOrInterfaceType coit = (ClassOrInterfaceType)(_tr.ast().getParentNode().get());
+            if( !coit.getTypeArguments().isPresent()){
+                //we need to perform this chack because ClassOrInterfaceTypes are nested within ClassOrInterfaceTypes
+                //which are REALLY package nodes
+                //System.out.println( "NO TYPE ARGUMENTS");
+                return null;
+            }
+        }
         if( type == null ){
             try{
                 if( predicate.test(_tr) ){
@@ -375,6 +384,7 @@ public class $typeRef
             }catch(Exception e){}
             return null;
         }
+
         if( this.predicate.test(_tr ) ) {
             if( _tr.ast().isTypeParameter() ){
                 return null;
