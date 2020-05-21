@@ -444,22 +444,6 @@ public final class _runtime {
             "public static Object eval(){",
             "    return $expr$;",
             "}");
-    /*
-    private static $method $evalExpr = $method.of(
-            "public static Object eval(){",
-            "    return $expr$;",
-            "}");
-     */
-
-    /* This requires the source of this class be on the classpath... not good
-    public static $method $evalExpr = $method.of(
-            new Object() {
-                public @_static Object eval(){
-                    return $expr$;
-                }
-                @_remove Object $expr$;
-        } );
-    */
 
     /**
      * Statically evaluates the expr
@@ -472,7 +456,7 @@ public final class _runtime {
             if( le instanceof NullLiteralExpr){
                 return null;
             }
-            if( le instanceof  StringLiteralExpr ){
+            if( le instanceof StringLiteralExpr ){
                 return ((StringLiteralExpr)le).asString();
             }
             if( le instanceof CharLiteralExpr ){

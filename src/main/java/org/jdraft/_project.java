@@ -1,56 +1,90 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.DataKey;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import org.jdraft.io._batch;
+import org.jdraft.io._io;
 
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.jdraft.io._io.ORIGIN_KEY;
+
 /**
- * multiple {@link _codeUnit}s that can be sorted or queried or modified in place
+ * A Forest containing "top level" {@link _codeUnit}s that can be sorted, queried & modified in place
+ *
+ * NOTE: each underlying {@link _codeUnit} MAY have a reference to the {@link _project}
+ * that can be accessed by {@link _codeUnit#getParentProject()} and this reference is stored
+ * within the {@link CompilationUnit#getData(DataKey)} as the {@link #PARENT_PROJECT_KEY}
  */
 public class _project {
+
+    /**
+     * Data to be put into the CompilationUnit useful for maintaining a reference to the parent _project
+     * (so we can travers "UP" an AST Tree to a "forest" of ASTs for "resolving" or other cross referenceing
+     * tasks and relationships between classes (superclasses, implemented classes, etc.)
+     * @param <_project> the underlying project instance that is the parent of a compilationUnit
+     *
+     * @see com.github.javaparser.ast.CompilationUnit#setData
+     * @see com.github.javaparser.ast.CompilationUnit#getData
+     */
+    public static DataKey<_project> PARENT_PROJECT_KEY = new DataKey<_project>(){ };
+
+    /**
+     * Returns the origin of the project (i.e. where the source java files originated from)
+     * (could be null) this is an extension of the {@link CompilationUnit.Storage} which only allows
+     * the storage to be a path on the local file system
+     *
+     * @return
+     */
+    public _io._origin getOrigin(){
+        return this.origin;
+    }
 
     public static _project of(){
         return new _project();
     }
 
     public static _project of(_batch..._batches){
-        _project _c = new _project();
-        _c.add(_batches);
-        return _c;
+        _project _p = new _project();
+        _p.add(_batches);
+        return _p;
     }
 
     public static _project of(Class...classes){
-        _project _c = new _project();
-        _c.add(classes);
-        return _c;
+        _project _p = new _project();
+        for(int i=0;i<classes.length;i++){
+            _p.add( (_codeUnit) _type.of(classes[i]) );
+        }
+        //Arrays.stream(classes).forEach( c-> _p.add(_type.of(c)));
+        return _p;
     }
 
-    public static _project of(_project..._cuss){
-        _project _c = new _project();
-        _c.add(_cuss);
-        return _c;
+    public static _project of(_project..._projs){
+        _project _p = new _project();
+        _p.add(_projs);
+        return _p;
     }
 
     public static _project of(_codeUnit..._cus){
-        _project _c = new _project();
-        _c.add(_cus);
-        return _c;
+        _project _p = new _project();
+        _p.add(_cus);
+        return _p;
     }
 
     public _project(){
         this.cache = new ArrayList<>();
     }
 
-    /**
-     * A cache of _codeUnits
-     */
+    /** A cache of _codeUnits*/
     public List<_codeUnit> cache;
+
+    /** The origin where this project came from (it could be null if the project is peiced together) */
+    public _io._origin origin;
 
     /**
      * The number of _codeUnits
@@ -83,6 +117,15 @@ public class _project {
 
     /**
      *
+     * @param _cuMatchFn
+     * @return
+     */
+    public List<_codeUnit> list(Predicate<_codeUnit> _cuMatchFn){
+        return this.cache.stream().filter( _cuMatchFn ).collect(Collectors.toList());
+    }
+
+    /**
+     *
      * <PRE>
      * //all types that import FileNotFoundException
      * List<_type> _ts = _cus.list(_type.class, _t.isImports(FileNotFoundException.class));
@@ -98,6 +141,17 @@ public class _project {
             }
             return false;
         } ).collect(Collectors.toList());
+    }
+
+    /**
+     * Set the origin on all AST Compilation Units
+     * @param origin
+     * @return
+     */
+    public _project setOrigin(_io._origin origin){
+        this.origin = origin;
+        forEach(c-> c.astCompilationUnit().setData(ORIGIN_KEY, origin));
+        return this;
     }
 
     /**
@@ -146,6 +200,16 @@ public class _project {
     public _project sort(Comparator<_codeUnit> cuComparator ){
         Collections.sort( cache, cuComparator );
         return this;
+    }
+
+    /**
+     * Returns the first of top level _codeUnit type or null if not found
+     * @param codeClass the type of codeUnit
+     * @param <_CU> the underlying type
+     * @return the first one (or null if there are none)
+     */
+    public <_CU extends _codeUnit> _CU first(Class<_CU> codeClass) {
+        return first(codeClass, _c->true, c -> Function.identity() );
     }
 
     /**
@@ -588,17 +652,20 @@ public class _project {
      * @return
      */
     public _project add(Class...clazzes ){
-        Arrays.stream(clazzes).forEach(c-> cache.add( _type.of(c) ) );
+        Arrays.stream(clazzes).forEach(c-> add( _type.of(c) ) );
         return this;
     }
 
     public _project add(_codeUnit ..._cus ){
-        Arrays.stream(_cus).forEach( cc-> { cache.add( cc ); } );
+        Arrays.stream(_cus).forEach( cc-> {
+            cache.add( cc );
+            cc.astCompilationUnit().setData(PARENT_PROJECT_KEY, this);
+        } );
         return this;
     }
 
     public _project add(CompilationUnit... asts){
-        Arrays.stream(asts).forEach( cc-> { cache.add( _codeUnit.of(cc )); } );
+        Arrays.stream(asts).forEach( cc-> { add( _codeUnit.of(cc )); } );
         return this;
     }
 
@@ -608,12 +675,15 @@ public class _project {
     }
 
     public _project add(_project...cuss){
-        Arrays.stream( cuss).forEach( cus -> add(cus.list()) );
+        Arrays.stream( cuss).forEach( cus -> {
+            add(cus.list());
+        } );
         return this;
     }
 
     public _project add(List<_codeUnit> cus){
         this.cache.addAll(cus);
+        cus.forEach( cu-> cu.astCompilationUnit().setData(PARENT_PROJECT_KEY, this));
         return this;
     }
 

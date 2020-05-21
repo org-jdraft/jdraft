@@ -1,5 +1,7 @@
 package org.jdraft.io;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.DataKey;
 import org.jdraft._project;
 import org.jdraft.text.Text;
 import org.jdraft._codeUnit;
@@ -11,6 +13,7 @@ import java.nio.file.Files;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +27,8 @@ import java.util.logging.Logger;
  *
  */
 public final class _io{
+
+
 
     private _io(){
     }
@@ -754,6 +759,40 @@ public final class _io{
                 "  draft.java.io.OutClassesDir   : " + this.outClassesDir+ System.lineSeparator()+
                 "  draft.java.io.OutResourcesDir : " + this.outResourcesDir+ System.lineSeparator()+
                 "  draft.java.io.OutDir          : " + this.outDir+ System.lineSeparator();
+        }
+    }
+
+
+
+    /**
+     * A Key for the Data that is stuffed into the CompilationUnit custom data map
+     * which represents the ORIGIN (to keep track of where the code came from)
+     * @see com.github.javaparser.ast.CompilationUnit#setData
+     * @see com.github.javaparser.ast.CompilationUnit#getData
+     */
+    public static final DataKey<_origin> ORIGIN_KEY = new DataKey<_origin>() { };
+
+    /**
+     * An object we stuff into each CompilationUnit that
+     * provides the ability to trace back to where & how the original
+     * source code was read from
+     * @see com.github.javaparser.ast.CompilationUnit#setData
+     * @see com.github.javaparser.ast.CompilationUnit#getData
+     */
+    public static class _origin {
+        public final _batch source;
+        public final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+        public final long timestampMillis;
+        public JavaParser javaParser;
+
+        public _origin(_batch source){
+            this.source = source;
+            this.timestampMillis = System.currentTimeMillis();
+        }
+
+        public String toString(){
+            return source.toString() + System.lineSeparator()+
+                    "<time>" + new SimpleDateFormat(DATE_FORMAT).format(new Date(timestampMillis))+"</time>";
         }
     }
 }

@@ -76,7 +76,7 @@ public class _diffTest extends TestCase {
         _c1.addAnnoExprs(Deprecated.class);
         _c1.addExtend("G");
         _c1.addConstructor("public C(){System.out.println(1);}");
-        _c1.typeParams("<T extends base>");
+        _c1.setTypeParams("<T extends base>");
         _c1.setJavadoc("some javadoc");
         _c1.addInitBlock(()-> System.out.println("Static block"));
         _c1.addInner(_interface.of("I") );
@@ -233,8 +233,8 @@ public class _diffTest extends TestCase {
         _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);
         
         dt = new _diffList(leftRoot, rightRoot);
-        _m1.typeParams("<T extends A>");
-        _m1.receiverParam("rp this");
+        _m1.setTypeParams("<T extends A>");
+        _m1.setReceiverParam("rp this");
         _m1.addParam("int i");
         _m1.addThrows(IOException.class);
         _methodDiff.INSTANCE.diff(new _nodePath(), dt, leftRoot, rightRoot, _m1, _m2);

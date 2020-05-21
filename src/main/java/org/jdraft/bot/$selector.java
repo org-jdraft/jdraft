@@ -24,8 +24,8 @@ import java.util.stream.Stream;
  *     <LI>determining if a "node" meets a criteria (usually via a {@link Predicate})</LI>
  *     <LI>extracting parameters within the text of the {@link _java._node} via a {@link Stencil}</LI>
  * </UL>
- * @param <_S> the candidate type being selected (i.e. a {@link $methodCall} -> {@link _methodCallExpr}
- * @param <$S> the underlying selector type  to "return itself modified" (i.e. {@link $methodCall} returns {@link $methodCall}
+ * @param <_S> the candidate type being selected (i.e. a {@link $methodCallExpr} -> {@link _methodCallExpr}
+ * @param <$S> the underlying selector type  to "return itself modified" (i.e. {@link $methodCallExpr} returns {@link $methodCallExpr}
  */
 public interface $selector<_S, $S> extends Function<_S, Tokens> {
 
@@ -86,11 +86,11 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * --Predicate Updater -- (i.e. updates/adds a new Predicate constraint to the existing predicate constraints)
      *
      * Update the matchFn with a new MatchFn that will be "ANDED" to the existing matchFn
-     * @param matchFn a new functional matching constraint to the prototype
+     * @param predicate a new functional matching constraint to the prototype
      * @return the modified $selector
      */
-    default $S $and(Predicate<_S> matchFn){
-        setPredicate( getPredicate().and(matchFn));
+    default $S $and(Predicate<_S> predicate){
+        setPredicate( getPredicate().and(predicate));
         return ($S)this;
     }
 
@@ -98,17 +98,39 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * --Predicate updater -- (i.e. updates constraints on the prototype and returns the modified prototype)
      *
      * Add a (NOT) matching constraint to add to the $prototype
-     * @param matchFn a constraint to be negated and added (via and) to the constraint
+     * @param predicate a constraint to be negated and added (via and) to the constraint
      * @return the modified $selector
      */
-    default $S $not(Predicate<_S> matchFn) {
-        return $and( matchFn.negate() );
+    default $S $not(Predicate<_S> predicate) {
+        return $and( predicate.negate() );
     }
 
+    /**
+     * Specify a like-kind of $S (selector) that will exclude selections within the predicate
+     * i.e.
+     * <PRE>
+     * //match all types except "void"
+     * $typeRef.of().$not($typeRef.VOID);
+     * </PRE>
+     *
+     * @param $sel a $S instance selector for describing matches to NOT be selected
+     * @return the modified $S
+     */
     default $S $not( $S $sel ){
         return $not( (_S t) -> (($bot)$sel).matches(t) );
     }
 
+    /**
+     * Specify many like-kind of $S (selectors) that to exclude from selection
+     * i.e.
+     * <PRE>
+     * //match all types except "void" and Double
+     * $typeRef.of().$not($typeRef.VOID, $typeRef.of(Double.class) );
+     * </PRE>
+     *
+     * @param $sels a list of $S instance selector for describing matches to be excluded
+     * @return the modified $S
+     */
     default $S $not( $S... $sels ){
         return $not( t-> Stream.of($sels).anyMatch( $s -> (($bot)$s).matches(t) ) );
     }
@@ -653,46 +675,5 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
             $listOrSelectors().forEach($botActionFn);
             return ($O) this;
         }
-
-        /**
-         * Return the underlying $arrayAccess that matches the _arrayAccess
-         * (or null if none of the $arrayAccess match the candidate _arrayAccess)
-         * @param candidate
-         * @return
-
-        default $S whichMatch(_C candidate){
-            Optional<$S> orsel  = $listOrSelectors().stream().filter($p-> $p.matches(candidate) ).findFirst();
-            if( orsel.isPresent() ){
-                return orsel.get();
-            }
-            return null;
-        }
-        */
-
-        /**
-         *
-         * @param _candidate
-         * @return
-
-        default Select<_C> select(_C _candidate){
-            //this calls super.select()... to verify the baseOr (shared predicate/properties) are met
-            Select commonSelect = baseSelect(_candidate);
-            if(  commonSelect == null){
-                return null;
-            }
-            $S $whichBot = whichMatch(_candidate);
-            if( $whichBot == null ){
-                return null;
-            }
-            Select whichSelect = $whichBot.select(_candidate);
-            if(!commonSelect.tokens.isConsistent(whichSelect.tokens)){
-                return null;
-            }
-            whichSelect.tokens.putAll(commonSelect.tokens);
-            return whichSelect;
-        }
-        */
-
     }
-
 }

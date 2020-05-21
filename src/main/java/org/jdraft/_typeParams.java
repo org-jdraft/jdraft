@@ -187,27 +187,27 @@ public final class _typeParams
          * @param typeParameters string of typeParameters
          * @return the modified T
          */
-        default _WTP typeParams(String typeParameters){
+        default _WTP setTypeParams(String typeParameters){
             _typeParams _tps = of(typeParameters);
-            return typeParams( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
+            return setTypeParams( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
         }
 
         /**
          * @param typeParameters Strings that represent individual TypeParameters
          * @return the modified T
          */
-        default _WTP typeParams(String... typeParameters){
+        default _WTP setTypeParams(String... typeParameters){
             _typeParams _tps = of(typeParameters);
-            return typeParams( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
+            return setTypeParams( _tps) ; //((NodeWithTypeParameters)_m.ast()).getTypeParameters();
         }
 
-        default _WTP typeParams(_typeParams _tps){
+        default _WTP setTypeParams(_typeParams _tps){
             _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(_tps.ast());
             return (_WTP)this;
         }
 
-        default _WTP typeParams(NodeList<TypeParameter> astTypeParams){
+        default _WTP setTypeParams(NodeList<TypeParameter> astTypeParams){
             _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).setTypeParameters(astTypeParams);
             return (_WTP)this;
@@ -216,6 +216,10 @@ public final class _typeParams
         default _WTP removeTypeParam(TypeParameter tp){
             _java._declared _m = (_java._declared) this;
             ((NodeWithTypeParameters)_m.ast()).getTypeParameters().remove(tp);
+            return (_WTP)this;
+        }
+
+        default _WTP removeTypeParams( Predicate<_typeParam> _matchFn ){
             return (_WTP)this;
         }
 

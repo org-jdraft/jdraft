@@ -729,7 +729,7 @@ public class _methodTest extends TestCase {
         _m.setPublic().setStatic().setFinal();
         _m.setTypeRef("List<String>");
         _m.setName("aMethod");
-        _m.typeParams("<E extends element>");
+        _m.setTypeParams("<E extends element>");
         _m.addParams("@ann @ann2(key=1, VALUE='v')final int val",
             "String...varArg");
         _m.addThrows("A", "B");

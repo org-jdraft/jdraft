@@ -555,13 +555,13 @@ public class _classTest extends TestCase {
 
     public void testFullyQualifiedTypeParamsEtc(){
         _class a = _class.of("A")
-                .typeParams("<T extends B, C extends List<D>>")
+                .setTypeParams("<T extends B, C extends List<D>>")
                 .addExtend("aaaa.Base")
                 .addImplements("rrrrr.T", "iiii.R")
                 .addMethod("aaaa.B blah( bbb.C c){}");
 
         _class b = _class.of("A")
-                .typeParams("<C extends java.util.List<ddd.D>, T extends bbbb.B>")
+                .setTypeParams("<C extends java.util.List<ddd.D>, T extends bbbb.B>")
                 .addExtend("Base")
                 .addImplements("R", "T")
                 .addMethod("B blah( C c){}");
@@ -806,7 +806,7 @@ public class _classTest extends TestCase {
         _c.addAnnoExprs( "@ann", "@ann(k=1,v='y')");
         _c.setPublic();
         _c.setName("Cgg");
-        _c.typeParams("<T extends Impl>");
+        _c.setTypeParams("<T extends Impl>");
         _c.addExtend( "Base");
         _c.addImplements( "A", "B");
         _c.addInitBlock("System.out.println(34);");

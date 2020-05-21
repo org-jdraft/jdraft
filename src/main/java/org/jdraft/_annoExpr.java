@@ -2,9 +2,7 @@ package org.jdraft;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 import com.github.javaparser.StaticJavaParser;
@@ -100,6 +98,11 @@ public final class _annoExpr
     }
 
     public Name getNameNode(){ return this.astAnno.getName(); }
+
+    public _annoExpr setName(_name _n){
+        this.astAnno.setName( (Name)_n.ast());
+        return this;
+    }
 
     @Override
     public _annoExpr setName(String name ){
@@ -227,90 +230,23 @@ public final class _annoExpr
         return _mvs;
     }
 
-    public List<String> listKeys() {
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
-            List<String> keys = new ArrayList<>();
-            n.getPairs().forEach( e -> keys.add( e.getNameAsString() ) );
-            return keys;
-        }
-        if( this.astAnno instanceof SingleMemberAnnotationExpr ){
-            List<String> arr = new ArrayList<>();
-            arr.add("value");
-            return arr;
-        }
-        return new ArrayList<>();
-    }
-
-    public List<Expression> listValues() {
-        return listValues( t -> true );
-    }
-
-    public List<Expression> listValues( Predicate<Expression> astExprMatchFn ) {
-        return listValues(Expression.class, astExprMatchFn );
-    }
-
-    public <E extends Expression> List<E> listValues( Class<E> expressionClass ) {
-        return listValues( expressionClass, t -> true );
-    }
+    /**
+     *
+     */
+    public static _feature._one<_annoExpr, String> NAME = new _feature._one<>(_annoExpr.class, String.class,
+            _feature.Id.NAME,
+            a -> a.getName(),
+            (_annoExpr a, String name) -> a.setName(name));
 
     /**
-     * Builds a Map of Keys-> values
-     * @return
+     *
      */
-    public Map<String, Expression> getPairsMap(){
-        Map<String, Expression> keyValuesMap = new HashMap<>();
-        if( this.astAnno instanceof MarkerAnnotationExpr ){
-            return keyValuesMap;
-        }
-        if( this.astAnno instanceof SingleMemberAnnotationExpr){
-            keyValuesMap.put("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue());
-            return keyValuesMap;
-        }
-        NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
-        n.getPairs().forEach(p -> keyValuesMap.put(p.getNameAsString(), p.getValue() ) );
-        return keyValuesMap;
-    }
+    public static _feature._many<_annoExpr, _entryPair> ENTRY_PAIRS = new _feature._many<>(_annoExpr.class, _entryPair.class,
+            _feature.Id.ANNO_EXPR_ENTRY_PAIRS, _feature.Id.ANNO_EXPR_ENTRY_PAIR,
+            a->a.listPairs(),
+            (_annoExpr a, List<_entryPair> pairs)-> a.setPairs(pairs));
 
-    public boolean isValue(char[] value){
-        return isPair( "value", Exprs.of(value));
-    }
-    public boolean isValue(boolean[] value){
-        return isPair( "value", Exprs.of(value));
-    }
-
-    public boolean isValue(double[] value){
-        return isPair( "value", Exprs.of(value));
-    }
-    public boolean isValue( float[] value){
-        return isPair( "value", Exprs.of(value));
-    }
-
-    public boolean isValue(int[] value){
-        return isPair( "value", Exprs.of(value));
-    }
-
-    public boolean isValue(char value){
-        return isPair( "value", Exprs.of(value));
-    }
-    public boolean isValue(boolean value){
-        return isPair( "value", Exprs.of(value));
-    }
-
-    public boolean isValue(double value){
-        return isPair( "value", Exprs.of(value));
-    }
-    public boolean isValue(float value){
-        return isPair( "value", Exprs.of(value));
-    }
-
-    public boolean isValue( String value){
-        return isPair("value", value);
-    }
-
-    public boolean isValue(int value){
-        return isPair( "value", Exprs.of(value));
-    }
+    public static _feature._ensemble<_annoExpr> SPEC = _feature._ensemble.of(_annoExpr.class, NAME, ENTRY_PAIRS);
 
     public boolean isPair(String name, char[] value){
         return isPair( name, Exprs.of(value));
@@ -360,105 +296,6 @@ public final class _annoExpr
         return false;
     }
 
-    public <E extends Expression> List<E> listValues( Class<E> expressionClass,
-                                                      Predicate<E> astExprMatchFn ) {
-        List<E> values = new ArrayList<>();
-        if( this.astAnno instanceof MarkerAnnotationExpr ){
-            return values;
-        }
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
-            n.getPairs().forEach(a -> {
-                if( expressionClass.isAssignableFrom( expressionClass ) && astExprMatchFn.test( (E)a.getValue() ) ) {
-                    values.add( (E)a.getValue() );
-                }
-            } );
-        }
-        else {
-            SingleMemberAnnotationExpr s = (SingleMemberAnnotationExpr)this.astAnno;
-            if( expressionClass.isAssignableFrom( expressionClass ) && astExprMatchFn.test( (E)s.getMemberValue() ) ) {
-                values.add( (E)s.getMemberValue() );
-            }
-        }
-        return values;
-    }
-
-    public void forValues( Consumer<Expression> astExprActionFn ) {
-        listValues().forEach(astExprActionFn );
-    }
-
-    /**
-     * does the annotation contain ANY attribute that contains this value
-     * @param astExpr
-     * @return 
-     */
-    public boolean hasValue(Expression astExpr){
-        return listValues().stream().anyMatch(e -> e.equals(astExpr) );
-    }
-
-    /**
-     * does the anno contain ANY attribute that contains this value?
-     * @param i the integer value of a expression value
-     * @return 
-     */
-    public boolean hasValue( int i){
-        return hasValue( Exprs.of(i));
-    }
-
-    /**
-     * does the anno contain ANY attribute that contains this value?
-     * @param c the char expression value
-     * @return 
-     */
-    public boolean hasValue( char c){
-        return hasValue( Exprs.of(c));
-    }    
-    
-    /**
-     * does the anno contain ANY attribute that contains this value?
-     * @param f the float expression value
-     * @return 
-     */
-    public boolean hasValue( float f){
-        return hasValue( Exprs.of(f));
-    }
-
-    /**
-     * does the anno contain ANY attribute that contains this value?
-     * @param s the string literal
-     * @return 
-     */
-    public boolean hasValue( String s){
-        return hasValue( Exprs.stringExpr(s));
-    }
-    
-    /**
-     * does the anno contain ANY attribute that contains this value?
-     * @param l long expression value
-     * @return 
-     */
-    public boolean hasValue( long l){
-        return hasValue( Exprs.of(l));
-    }
-    
-    /**
-     * does the anno contain ANY attribute that contains this value?
-     * @param b the boolean expression value
-     * @return 
-     */
-    public boolean hasValue( boolean b){
-        return hasValue( Exprs.of(b));
-    }    
-    
-    /**
-     * does the anno contain ANY attribute that contains this value?
-     * @param astExprMatchFn
-     * @return 
-     */
-    public boolean hasValue( Predicate<Expression> astExprMatchFn){
-        return listValues().stream().anyMatch(astExprMatchFn );
-    }
-    
     /**
      * Does this anno have an attribute that can be described by the key / value 
      * represented in the <CODE>attrKeyValue</CODE>
@@ -521,17 +358,7 @@ public final class _annoExpr
      * @return 
      */
     public boolean hasPair(String attrName, Expression astExpr){
-        List<String> keys = listKeys();
-        for(int i=0;i<keys.size(); i++){
-            if( keys.get(i).equals(attrName) ){
-                return getPairValue(i).equals(astExpr) ;
-            }
-        } 
-        //if the attrName is "value" 
-        if(attrName.equals("value") && !this.hasKeys() && this.hasValues()){
-            return getPairValue(0).equals(astExpr);
-        }
-        return false;
+        return !this.listPairs( (_entryPair p)-> Objects.equals(p.getName(), attrName) && Exprs.equal(p.mvp.getValue(), astExpr)).isEmpty();
     }
 
     /**
@@ -542,17 +369,7 @@ public final class _annoExpr
      * @return 
      */
     public boolean hasPair(String attrName, Predicate<Expression> astExprMatchFn){
-        List<String> keys = listKeys();
-        for(int i=0;i<keys.size(); i++){
-            if( keys.get(i).equals(attrName) ){
-                return astExprMatchFn.test( getPairValue(i) );
-            }
-        } 
-        //if the attrName is "value" 
-        if(attrName.equals("value") && !this.hasKeys() && this.hasValues()){
-            return astExprMatchFn.test( getPairValue(0) );
-        }
-        return false;
+        return !this.listPairs( (_entryPair p)-> Objects.equals(p.getName(), attrName) && astExprMatchFn.test(p.mvp.getValue())).isEmpty();
     }
 
     public boolean hasPairs(_entryPair...mvs){
@@ -618,21 +435,6 @@ public final class _annoExpr
     public boolean hasKeys(){
         return this.astAnno.isNormalAnnotationExpr() &&
             this.astAnno.asNormalAnnotationExpr().getPairs().size() > 0;
-    }
-
-    public boolean hasKeys(String...keys){
-        List<String> ks = Arrays.stream(keys).collect(Collectors.toList());
-        return this.listKeys().containsAll(ks);
-    }
-
-    
-    public <E extends Expression> void forValues( Class<E> expressionClass, Consumer<E> astExprActionFn ) {
-        listValues( expressionClass ).stream().forEach(astExprActionFn );
-    }
-
-    public <E extends Expression> void forValues(
-            Class<E> expressionClass, Predicate<E> astExprMatchFn, Consumer<E> astExprActionFn ) {
-        listValues(expressionClass, astExprMatchFn ).forEach(astExprActionFn );
     }
 
     public Expression getPairValue(String name ) {
@@ -906,26 +708,10 @@ public final class _annoExpr
     }
 
     public _annoExpr setPairValue(String name, Expression e ) {
-        this.listKeys().contains( name );
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
-            Optional<MemberValuePair> omvp
-                    = nae.getPairs().stream().filter( mvp -> mvp.getNameAsString().equals( name ) ).findFirst();
-            if( omvp.isPresent() ) {
-                omvp.get().setValue( e );
-            }
-            else {
-                //not found, add it
-                nae.addPair( name, e );
-            }
-            return this;
+        if( name == "value" || name == null ){
+            List<_entryPair> _eps = listPairs(p-> p.getName() == null || p.getName().equals("value"));
+            forPairs(p-> p.getName() == null || p.getName().equals("value"), p-> p.setValue(e.clone()));
         }
-        NormalAnnotationExpr nae = new NormalAnnotationExpr();
-        nae.setName(this.astAnno.getNameAsString() );
-        nae.addPair( name, e );
-
-        this.astAnno.getParentNode().get().replace(this.astAnno, nae );
-        this.astAnno = nae;
         return this;
     }
 

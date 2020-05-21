@@ -1,9 +1,6 @@
 package org.jdraft.pattern;
 
-import org.jdraft.Ast;
-import org.jdraft._annoExpr;
-import org.jdraft._class;
-import org.jdraft._type;
+import org.jdraft.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
@@ -211,9 +208,14 @@ public class SannoRefTest extends TestCase {
         assertTrue($anno.of(S.class, "($any$)").matches("S()"));
         assertTrue($anno.of(S.class, "($any$)").matches("S(Float.class)"));
         */
-        assertTrue($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S(Float.class)"));
-        assertFalse($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S"));
-        assertFalse($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S({Float.class, String.class})"));
+        assertTrue($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S(Float.class)"));
+
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S"));
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S({Float.class, String.class})"));
+
+        //assertFalse($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S"));
+
+        //assertFalse($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S({Float.class, String.class})"));
         
     }
     
@@ -274,14 +276,15 @@ public class SannoRefTest extends TestCase {
         //verify that we can find 
         assertNotNull( $annoRef.of("name($any$)").firstIn(_c,
                 //there is an Integer attribute value that is odd
-                (a)-> a.hasValue(e -> e.isIntegerLiteralExpr() && e.asIntegerLiteralExpr().asInt() % 2 == 1)) );
+                (a)-> a.hasPair(p -> p.getValue() instanceof _intExpr  && ((_intExpr)p.getValue()).getValue() % 2 == 1)) );
+                //(a)-> a.hasValue(e -> e.isIntegerLiteralExpr() && e.asIntegerLiteralExpr().asInt() % 2 == 1)) );
         
         
         assertNotNull( $annoRef.of("name(3)").firstIn(_c));
         //we can make the predicate part of the $anno
-        assertNotNull( $annoRef.of("name($any$)",(a)-> a.hasValue(3)) .firstIn(_c));
+        //assertNotNull( $annoRef.of("name($any$)",(a)-> a.hasPair(3)) .firstIn(_c));
         //we can make the predicate a part of the query
-        assertNotNull( $annoRef.of("name(3)").firstIn(_c, _a-> _a.hasValue(3)));
+        //assertNotNull( $annoRef.of("name(3)").firstIn(_c, _a-> _a.hasValue(3)));
     }
      
     public void testStatic$anno(){

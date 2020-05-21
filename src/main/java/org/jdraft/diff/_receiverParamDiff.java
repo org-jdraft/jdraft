@@ -78,14 +78,14 @@ public final class _receiverParamDiff
 
         @Override
         public void patchLeftToRight() {
-            leftParent.receiverParam(left);
-            rightParent.receiverParam(left);
+            leftParent.setReceiverParam(left);
+            rightParent.setReceiverParam(left);
         }
 
         @Override
         public void patchRightToLeft() {
-            leftParent.receiverParam(right);
-            rightParent.receiverParam(right);
+            leftParent.setReceiverParam(right);
+            rightParent.setReceiverParam(right);
         }
 
         @Override

@@ -1,7 +1,9 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -332,6 +334,8 @@ public interface _java {
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
+
+
 
     /**
      * A "concrete" way of identifying/addressing elements and properties that are the components
@@ -1863,6 +1867,12 @@ public interface _java {
 
         public List<_node> forEach(Predicate<_node> _matchFn, Consumer<_node> actionFn){
             return forEach(_node.class, _matchFn, actionFn);
+        }
+
+        public List<_node> forEach(Consumer<_node> actionFn){
+            List<_node> _l = list(_node.class, t->true);
+            _l.forEach(actionFn);
+            return _l;
         }
 
         public <_D extends _domain> List<_D> forEach(Class<_D> _nodeClass, Consumer<_D> actionFn){

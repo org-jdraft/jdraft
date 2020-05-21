@@ -349,13 +349,13 @@ public final class _throws
             return (_WT)this;
         }
 
-        default _WT removeThrow(Class<? extends Throwable> thrownClass ){
+        default _WT removeThrows(Class<? extends Throwable> thrownClass ){
             getThrows().listAstElements( t -> t.asString().equals( thrownClass.getCanonicalName()) ||
                     t.asString().equals( thrownClass.getSimpleName()) ).forEach( t -> t.remove() );
             return (_WT)this;
         }
         
-        default _WT removeThrow(Predicate<ReferenceType> throwPredicate ){
+        default _WT removeThrows(Predicate<ReferenceType> throwPredicate ){
             getThrows().astNodeWithThrows.getThrownExceptions().removeIf(throwPredicate);
             return (_WT)this;
         }

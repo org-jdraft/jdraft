@@ -221,6 +221,10 @@ public final class _path implements _batch {
                         }
                     }
                 });
+        //set the origin with each of the CompilationUnits
+        _io._origin o = new _io._origin(this);
+        o.javaParser = javaParser;
+        _cus.setOrigin(o);
         return _cus;
     }
 
@@ -433,9 +437,7 @@ public final class _path implements _batch {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         List<Path> paths = listPaths();
-        sb.append("_path : \"").append(this.rootPath.toString())
-                .append("\" (").append(paths.size()).append(")files")
-                .append(System.lineSeparator());
+        sb.append("<_path>").append(this.rootPath.toString()).append("</path>");
         return sb.toString();
     }
 

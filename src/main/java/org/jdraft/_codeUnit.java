@@ -4,6 +4,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.*;
+import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 
 import java.io.File;
@@ -95,12 +96,19 @@ public interface _codeUnit<_CU> extends _java._domain {
         return of(Ast.JAVAPARSER, contents);
     }
 
+    /**
+     *
+     * @param javaParser
+     * @param contents
+     * @return
+     * @throws _jdraftException
+     */
     static _codeUnit of(JavaParser javaParser, String...contents) throws _jdraftException {
         return of( Ast.of(javaParser, contents));
     }
 
     /**
-     * Read and return the appropriate _code model based on the .java source
+     * Read and return the appropriate {@link _codeUnit} based on the .java source
      * within the javaSourceFile
      *
      * @param javaSourceFile
@@ -157,6 +165,32 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return
      */
     _codeUnit<_CU> copy();
+
+    /**
+     * Returns the origin of the compilationUnit (i.e. where the source java files originated from)
+     * (could be null) this is an extension of the {@link CompilationUnit.Storage} which only allows
+     * the storage to be a path on the local file system
+     *
+     * @return the _origin of the _codeUnit or null if not set / undefined
+     * @see com.github.javaparser.ast.CompilationUnit#setData
+     * @see com.github.javaparser.ast.CompilationUnit#getData
+     */
+    default _io._origin getOrigin(){
+        return astCompilationUnit().getData(_io.ORIGIN_KEY);
+    }
+
+    /**
+     * gets the parent project for this codeUnit if one is defined...
+     * think about all these ASTs that exist in a project as separate, but they can
+     * be (indirectly attached to each other via a _project (forest) of ASTs
+     *
+     * @return the parent _project for this _codeUnit or null if not set
+     * @see _project
+     * @see com.github.javaparser.ast.CompilationUnit#getData
+     */
+    default _project getParentProject(){
+        return astCompilationUnit().getData(_project.PARENT_PROJECT_KEY);
+    }
 
     /**
      * Resolve the Compilation Unit that contains this _type,
@@ -228,16 +262,6 @@ public interface _codeUnit<_CU> extends _java._domain {
             return cu.getPackageDeclaration( ).get().getNameAsString();
         }
         return null;
-        /*
-        String simpleName = getSimpleName();
-        String fullName = getFullName();
-        if( simpleName.equals(fullName)){
-            return "";
-        }
-        else{
-            return fullName.substring(0, fullName.indexOf(simpleName) -1 );
-        }
-         */
     }
 
     /**

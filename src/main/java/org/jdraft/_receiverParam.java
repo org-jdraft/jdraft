@@ -209,15 +209,15 @@ public final class _receiverParam
             return (_WRP)this;
         }
 
-        default _WRP receiverParam(String receiverParam ) {
-            return receiverParam( Ast.receiverParameter( receiverParam ) );
+        default _WRP setReceiverParam(String receiverParam ) {
+            return setReceiverParam( Ast.receiverParameter( receiverParam ) );
         }
 
-        default _WRP receiverParam(_receiverParam _rp ) {
-            return receiverParam( _rp.ast() );
+        default _WRP setReceiverParam(_receiverParam _rp ) {
+            return setReceiverParam( _rp.ast() );
         }
         
-        default _WRP receiverParam(ReceiverParameter rp ) {
+        default _WRP setReceiverParam(ReceiverParameter rp ) {
             Node n = (Node) ((_java._node)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;

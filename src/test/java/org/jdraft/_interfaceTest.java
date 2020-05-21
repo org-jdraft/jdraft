@@ -9,7 +9,6 @@ import org.jdraft.macro._abstract;
 import org.jdraft.macro._default;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._static;
-import java.util.Objects;
 import junit.framework.TestCase;
 import test.ComplexInterface;
 import test.subpkg.MarkerInterface;
@@ -147,7 +146,7 @@ public class _interfaceTest extends TestCase {
         _i.setJavadoc( "javadocs", "@author Eric", "@param <Y>", "@param <Z>");
         _i.addAnnoExprs( "@ann", "@ann2(k='d')");
         _i.setPublic();
-        _i.typeParams( "<Y, Z extends Base>");
+        _i.setTypeParams( "<Y, Z extends Base>");
         _i.addExtend( "MarkerInterface<String>").addExtend( "WithDefaultMethods<Serializable>");
         _i.addField( "/** field javadoc */", "@ann @ann2(k='2',v=3)", "static final int VALUE = 120;");
         

@@ -136,6 +136,10 @@ public class _githubProject implements _batch {
                 }
             }
         });
+        //set the origin with each of the CompilationUnits
+        _io._origin o = new _io._origin(this);
+        o.javaParser = javaParser;
+        _cus.setOrigin(o);
         return _cus;
     }
 
@@ -225,10 +229,21 @@ public class _githubProject implements _batch {
         return buildURL(VIEW_JAVA_FILE_URL, this.projectDetail, branch, sourceRoot, qualifiedName);
     }
 
+    /**
+     * Explains the githubProject using the URL for the github Project to be based from
+     * @return
+     */
+    public String toString(){
+        return "<_githubProject>"+this.downloadProjectZipURL()+"</_githubProject>";
+    }
+
     private static URL buildURL(Stencil stencil, _projectDetails projectDetail, String branch, String sourceRoot, String qualifiedName){
         String pathToJavaFile = qualifiedName;
         if( pathToJavaFile.endsWith(".java") ){
             pathToJavaFile = pathToJavaFile.substring(0, pathToJavaFile.length() - ".java".length());
+        }
+        if( branch != null && branch.length() > 0){
+            projectDetail.branch = branch;
         }
         pathToJavaFile = pathToJavaFile.replace('.', '/');
         Tokens ts = Tokens.of("owner", projectDetail.owner,
@@ -239,7 +254,7 @@ public class _githubProject implements _batch {
         try {
             return new URL( url );
         }catch(MalformedURLException mue){
-            throw new _ioException("Unable to build url \""+url+"\"");
+            throw new _ioException("Unable to build github url \""+url+"\"");
         }
     }
 }

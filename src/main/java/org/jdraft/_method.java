@@ -402,11 +402,13 @@ public final class _method
 
     public static final Token[] TOKENS = Token.values();
 
+    /*
     public Map<Token, Object> tokenMap(){
         Map<Token, Object>tokensMap = new HashMap<>();
         Arrays.stream(TOKENS).forEach( t -> tokensMap.put(t, t.resolver.apply(this)));
         return tokensMap;
     }
+     */
 
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();

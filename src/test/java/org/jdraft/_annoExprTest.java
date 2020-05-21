@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 
@@ -27,6 +25,53 @@ import junit.framework.TestCase;
  */
 public class _annoExprTest extends TestCase {
 
+    public void testFeatureSpec(){
+        _annoExpr _a = _annoExpr.of("@A");
+
+        assertEquals("A", _annoExpr.NAME.get(_a));
+        _annoExpr.NAME.set( _a, "Blah");
+        assertEquals("Blah", _annoExpr.NAME.get( _a));
+        System.out.println( _annoExpr.ENTRY_PAIRS.get( _a) );
+
+        Map<String,Object> tokens = new HashMap<>();
+
+        //this is an Ensemble operation
+        _annoExpr.SPEC.forEach(s-> tokens.put( s.getFeatureId().name, s.get(_a)) );
+
+        System.out.println( tokens );
+
+
+        _annoExpr.SPEC.forEach(s-> s instanceof _feature._many,
+                s->tokens.put( s.getFeatureId().name, s.get(_a)) );
+
+        _annoExpr _b = _annoExpr.of("@Blah");
+
+        Map<_feature, Boolean> featureEqualsMap = new HashMap<>();
+
+        //I want to compare
+        _annoExpr.SPEC.forEach(f-> {
+                //I need to check between
+            if( f instanceof _feature._many){
+                _feature._many _fm = (_feature._many)f;
+                List left = (List)_fm.get(_a);
+                List right = (List)_fm.get(_b);
+                if( left.containsAll(right) && left.size() == right.size() ){
+                    featureEqualsMap.put(f, true);
+                } else{
+                    featureEqualsMap.put(f, false);
+                }
+            } else {
+                Object a = f.get(_a);
+                Object b = f.get(_b);
+                featureEqualsMap.put(f, Objects.equals(a, b));
+            }
+        } );
+        //what about a compareTo
+        System.out.println("FEATURES EQUAL " + featureEqualsMap);
+
+
+        System.out.println( tokens );
+    }
 
     public enum E{
         A,B,C,D;
@@ -151,9 +196,9 @@ public class _annoExprTest extends TestCase {
         assertTrue( _a.isPairs("v=2,k=1"));
         assertEquals(2, _a.listPairs().size());
 
-        assertTrue(_a.hasKeys("k", "v"));
-        assertTrue( _a.hasValue(1));
-        assertTrue( _a.hasValue(2));
+        //assertTrue(_a.hasKeys("k", "v"));
+        assertTrue( _a.hasPair("k", 1));
+        assertTrue( _a.hasPair("v", 2));
     }
 
     /*
@@ -448,10 +493,10 @@ public class _annoExprTest extends TestCase {
     public void testAnnoHasAttr(){
         _annoExpr _a = _annoExpr.of("a(1)");
         _annoExpr _b = _annoExpr.of("a(x=1)");
-        assertTrue( _a.hasValue(Exprs.of(1)) );
-        assertTrue( _a.hasValue(1) );
-        assertTrue( _b.hasValue(Exprs.of(1)) );
-        assertTrue( _b.hasValue(1) );
+        assertTrue( _a.hasPair("value", Exprs.of(1)) );
+        assertTrue( _a.hasPair("value", 1) );
+        assertTrue( _b.hasPair("x", Exprs.of(1)) );
+        assertTrue( _b.hasPair("x", 1) );
         
         assertTrue( _b.hasPair("x=1") );
         //assertTrue( _b.hasAttr("x", 1) );
@@ -480,7 +525,7 @@ public class _annoExprTest extends TestCase {
     public void testIsValue(){
         _annoExpr _a = _annoExpr.of("A(1)");
 
-        assertTrue( _a.isValue(1) );
+        assertTrue( _a.hasPair("value", 1) );
         assertTrue( _a.isPair("value", 1));
 
         Exprs.of(new int[]{1,2,3});
@@ -506,12 +551,14 @@ public class _annoExprTest extends TestCase {
         _a.isPair("User-Agent", "Square Cash");
 
         Expression e = _a.getPairValue("value");
+        /*
         Map<String,Expression> keyValues = _a.getPairsMap();
         Expression val = keyValues.get("value");
         assertNotNull(val);
         assertEquals( e, val);
 
         System.out.println( _m);
+         */
     }
 
     public void testAnnAst(){
@@ -571,14 +618,14 @@ public class _annoExprTest extends TestCase {
         assertEquals( _a.getPairValue( 1 ), Exprs.of(300) );
         assertEquals( _a.getPairValue( "v" ), Exprs.of(300) );
 
-        assertEquals( 2, _a.listKeys().size());
+        assertEquals( 2, _a.listPairs().size());
 
         _a.removePair("a");
-        assertEquals( 2, _a.listKeys().size());
+        assertEquals( 2, _a.listPairs().size());
         _a.removePair("v");
-        assertEquals( 1, _a.listKeys().size());
+        assertEquals( 1, _a.listPairs().size());
         _a.removePair(0);
-        assertEquals( 0, _a.listKeys().size());
+        assertEquals( 0, _a.listPairs().size());
 
         //_a.removeAttrs();
 

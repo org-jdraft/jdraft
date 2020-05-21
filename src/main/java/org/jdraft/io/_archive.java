@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
- * Wraps looking at an archive (.zip or .jar file)
+ * Wraps looking at an archive (.zip or .jar file) on the local file System (looks for .java source files)
  */
 public final class _archive implements _batch{
 
@@ -153,41 +153,19 @@ public final class _archive implements _batch{
                 System.err.println("unable to parse from path "+p);
             }
         });
+        //set the origin with each of the CompilationUnits
+        _io._origin o = new _io._origin(this);
+        o.javaParser = javaParser;
+        _cus.setOrigin(o);
         return _cus;
     }
-
-    /*
-    @Override
-    public <_C extends _codeUnit> List<_C> for_code(JavaParser javaParser, Class<_C> codeClass, Predicate<_C> _codeMatchFn, Consumer<_C> _codeActionFn) {
-        Predicate<Path> whichJavaFiles = ALL_JAVA_TYPE_FILES;
-
-        if( codeClass == _codeUnit.class){
-            //_code means parse & include package-info and module-info
-            whichJavaFiles = ALL_JAVA_FILES;
-        } else if( codeClass == _packageInfo.class){
-            whichJavaFiles = PACKAGE_INFO_FILES;
-        } else if( codeClass == _moduleInfo.class){
-            whichJavaFiles = MODULE_INFO_FILES;
-        }
-        List<_C> found = new ArrayList<>();
-
-        forEachPath(this.pathMatchFn.and(whichJavaFiles), p-> {
-            _codeUnit _c = _codeUnit.of(javaParser, p);
-            if( codeClass.isAssignableFrom( _c.getClass()) && _codeMatchFn.test( (_C)_c)){
-                _codeActionFn.accept((_C)_c);
-                found.add((_C)_c);
-            }
-        });
-        return found;
-    }
-     */
 
     public static boolean isJarOrZipPath( Path path){
         String s = path.toString();
         return s.endsWith(".jar")|| s.endsWith(".zip");
     }
 
-    public _archive toJar(String pathToJar ){
+    public _archive toJar( String pathToJar ){
         return toJar(this, Paths.get(pathToJar));
     }
 
@@ -254,7 +232,7 @@ public final class _archive implements _batch{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("_archive : \"").append(this.pathToArchiveFile.toString()).append(System.lineSeparator());
+        sb.append("<_archive>").append(this.pathToArchiveFile.toString()).append("</_archive>");
         return sb.toString();
     }
 }

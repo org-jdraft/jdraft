@@ -89,19 +89,19 @@ public final class _typeParamsDiff
         @Override
         public void patchLeftToRight() {
             this.leftParent.removeTypeParams();
-            this.leftParent.typeParams(left);
+            this.leftParent.setTypeParams(left);
 
             this.rightParent.removeTypeParams();
-            this.rightParent.typeParams(left);
+            this.rightParent.setTypeParams(left);
         }
 
         @Override
         public void patchRightToLeft() {
             this.leftParent.removeTypeParams();
-            this.leftParent.typeParams(right);
+            this.leftParent.setTypeParams(right);
 
             this.rightParent.removeTypeParams();
-            this.rightParent.typeParams(right);
+            this.rightParent.setTypeParams(right);
         }
 
         @Override

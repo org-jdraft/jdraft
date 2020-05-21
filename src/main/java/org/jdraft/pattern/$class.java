@@ -357,7 +357,7 @@ public class $class
             _c.setJavadoc(this.javadoc.draft(translator, base));
         }
         _c.setModifiers( this.modifiers.draft(translator, base));
-        _c.typeParams( this.typeParameters.draft(translator, base));
+        _c.setTypeParams( this.typeParameters.draft(translator, base));
         this.imports.stream().forEach( i -> _c.addImports( i.draft(translator, base)));
 
         if( !extend.isMatchAny() ) {

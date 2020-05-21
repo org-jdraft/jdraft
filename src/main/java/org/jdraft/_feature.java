@@ -1,0 +1,383 @@
+package org.jdraft;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+/**
+ * Specifically designate a named feature and tools to get or set the value in an automated fashion
+ * in the order the features appear within the AST
+ *
+ * <P>FROM a "Ast {@link com.github.javaparser.ast.Node} or {@link _java._node}s perspective, defines all of the
+ * exactly the underlying possible "feature" nodes "below" it that can be populated and tools for accessing
+ * or setting these nodes.</P>
+ *
+ * <P>For example: we have many Nodes in an AST that are {@link com.github.javaparser.ast.expr.Name} type, but
+ * features let you designate a specific {@link com.github.javaparser.ast.expr.Name}, (i.e. the name of a
+ * {@link com.github.javaparser.ast.body.MethodDeclaration}) and a tool for identifying, categorizing, accessing
+ * or updating specifically method name(s).</P>
+ *
+ * So the Combination of the featureClass and the featureId can uniquely identify a feature.(i.e.
+ * methodNames would be the pair : {_method.class, Feature.Id.NAME}, however there is a
+ * public static final _feature field on _methodCall that will implement the feature, so we can just say:
+ * _method.NAME... which provides the get() and set() methods appropriate for getting and setting the name
+ *
+ * @param <_T> the target Type  (i.e. the "container of the feature")
+ * @param <_F> the feature Type (the underlying feature... could be a single node or list, etc.)
+ */
+public interface _feature<_T, _F>{
+
+    /**
+     * All features associated with Names, FeatureName delineates all possible names
+     * used (i.e. FeatureNames (i.e. FeatureName.NAME) are reused in different entities/contexts
+     * @return the FeatureName
+     */
+    Id getFeatureId();
+
+    /**
+     * The disambiguation of where the feature is present (i.e. a Name Feature can exist on a particular Entity)
+     * @return
+     */
+    Class<_T> getTargetClass();
+
+    /**
+     * A getter function for retrieving the Feature from the instance
+     * @return
+     */
+    Function<_T, _F> getter();
+
+    /**
+     * Setter function that will update the Feature (_F) instance value inside the Target (_T) instance
+     * @return the setter function
+     */
+    BiConsumer<_T, _F> setter();
+
+    /**
+     *
+     * @param _targetInstance the target instance to obtain the feature from
+     * @return the feature from the targetInstance
+     */
+    _F get(_T _targetInstance);
+
+    /**
+     * Set the value of the feature with the new featureValue
+     * @param _targetInstance
+     * @param featureValue
+     * @return
+     */
+    _T set(_T _targetInstance, _F featureValue);
+
+    /**
+     * A "concrete" way of identifying/addressing elements and properties that are the components
+     * of a Java program. A way to consistently name things when we construct and deconstruct
+     * Components of Java programs (external tools for building & matching &
+     * diffing can be more valuable having the opportunity to compare like for
+     * like (by componentizing things out and comparing or matching on a part by
+     * part basis)
+     */
+    enum Id {
+        MODULE_DECLARATION("moduleDeclaration"),
+        PACKAGE("package"),
+        /** i.e. @Deprecated */
+        ANNO_EXPR("annoExpr"),
+        /** i.e. @Deprecated @NotNull */
+        ANNO_EXPRS("annoExprs"),
+
+        CLASS("class"),
+        ENUM("enum"),
+        INTERFACE("interface"),
+        ANNOTATION("annotation"),
+        BODY("body"),
+        MODIFIER("modifier"),
+        MODIFIERS("modifiers"), //List.class, Modifier.class),
+        HEADER_COMMENT("header"),
+        JAVADOC("javadoc"),
+        LINE_COMMENT("lineComment"),
+        BLOCK_COMMENT("blockComment"),
+        PARAM("param"),
+        PARAMS("params"),
+        RECEIVER_PARAM("receiverParam"),
+        TYPE_PARAM("typeParam"), //_typeParameter.class
+        TYPE_PARAMS("typeParams"),
+        THROWS("throws"),
+        NAME("name"),
+        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair"), //anno
+        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs"), //anno
+        IMPORT("import"),
+        IMPORTS("imports"),
+
+        IS_STATIC("isStatic"),
+        IS_WILDCARD("isWildcard"),
+
+        ANNOTATION_ENTRY("annotationEntry"),
+        ANNOTATION_ENTRIES("annotationEntries"),
+        FIELD("field"),
+        FIELDS("fields"),
+        INNER_TYPE("innerType"),
+        INNER_TYPES("innerTypes"),
+
+        COMPANION_TYPE( "companionType"),
+        COMPANION_TYPES( "companionTypes"),
+
+        TYPE("type"),
+        DEFAULT_EXPR("defaultExpr"),
+
+        EXTENDS_TYPES("extendsTypes"),
+        IMPLEMENTS_TYPES("implementsTypes"), //_class, _enum
+
+        INIT_BLOCK("initBlock"), //class, _enum
+        INIT_BLOCKS("initBlocks"), //class, _enum
+
+        CONSTRUCTOR("constructor"),
+        CONSTRUCTORS("constructors"), //class, _enum
+
+        METHOD("method"),
+        METHODS("methods"),
+
+        CONSTANT("constant"),
+        CONSTANTS("constants"),
+
+        ARG_EXPR("arg"), //_enum._constant
+        ARGS_EXPRS("args"), //_enum._constant
+
+        INIT("init"), //field
+        IS_FINAL("isFinal"), //_parameter
+        IS_VAR_ARG("isVarArg"), //parameter
+
+        AST_TYPE("astType"), //typeRef
+        ARRAY_LEVEL("arrayLevel"), //_typeRef
+        ELEMENT_TYPE("elementType"), //array _typeRef
+
+        //new stuff for Statements and expressions
+        TRY_BODY("tryBody"),
+        CATCH_CLAUSES( "catchClauses"), //tryStmt
+        FINALLY_BODY( "finallyBody"),
+        WITH_RESOURCES_EXPRS("withResourcesExpr"), //tryStmt
+
+        STATEMENTS("statements"), //statements of a switch entry
+        SWITCH_SELECTOR_EXPR("switchSelectorExpr"),
+        SWITCH_ENTRIES("switchEntries"),
+        SWITCH_BODY_TYPE("switchBodyType"),
+        SWITCH_LABEL_EXPRS("switchLabelExprs"),
+        ARRAY_NAME("arrayName"), //arrayAccess
+        INDEX_EXPR("indexExpr"), //arrayAccess
+        VALUE_EXPRS("valueExprs"), //ArrayInit
+        TARGET_EXPR("targetExpr"), //assign
+        VALUE_EXPR("valueExpr"), //assign
+        LEFT_EXPR( "leftExpr"), //binaryExpr
+        RIGHT_EXPR( "rightExpr"), //binaryExpr
+        BINARY_OPERATOR( "binaryOperator"), //binaryExpr
+        UNARY_OPERATOR( "unaryOperator"), //unaryExpr
+        EXPRESSION("expression"), //CastExpr
+        CONDITION_EXPR("conditionExpr"), //ternary
+        THEN_EXPR("thenExpr"),    //ternary
+        ELSE_EXPR("else"),   //ternary
+        INNER_EXPR("innerExpr"), //parenthesizedExpr
+        SCOPE_EXPR("scopeExpr"), //fieldAccessExpr
+        TYPE_ARGS("typeArgs"), //methodCall
+        IDENTIFIER("identifier"),  //methodReference
+        ANONYMOUS_CLASS_BODY("anonymousClassBody"),//_new
+        TYPE_NAME("typeName"), //_super superExpr
+        VARIABLES("variables"), //VariableDeclarator.class),
+        CHECK_EXPR("checkExpr"), //assertStmt
+        MESSAGE_EXPR("messageExpr"), //assertStmt
+        LABEL("label"), //breakStmt, labeledStmt
+        IS_THIS_CALL("isThisCall"), //constructorCallStmt
+        IS_SUPER_CALL("isSuperCall"), //constructorCallStmt
+        ITERABLE_EXPR("iterableExpr"), //forEachStmt
+        VARIABLE("variable"), //forEachStmt
+        INIT_EXPR("initExpr"), //forStmt
+        UPDATE_EXPR("updateExpr"),
+        COMPARE_EXPR("compareExpr"),
+        STATEMENT("statement"), //labeledStatment
+        ARRAY_DIMENSION("arrayDimension"),
+        ARRAY_DIMENSIONS("arrayDimensions"), //arrayCreate
+        IS_ENCLOSED_PARAMS( "isEnclosedParams"),
+        LITERAL("literal"), //typeRef, textBlock
+        ASSIGN_OPERATOR("assignOperator");
+
+        public final String name;
+
+        private Id(String name){
+            this.name = name;
+        }
+    }
+
+    /**
+     *
+     * @param <_T>
+     * @param <_E>
+     */
+    class _many<_T, _E> implements _feature<_T, List<_E>> {
+        public final Class<_T> targetClass;
+        public final Class<_E> featureElementClass;
+
+        public final Id featureId;
+        public final Id featureElementId;
+        public final Function<_T, List<_E>> getter;
+        public final BiConsumer<_T, List<_E>> setter;
+
+        public _many(Class<_T> targetClass, Class<_E>featureElementClass, Id featureId, Id featureElementId,
+                     Function<_T,List<_E>> getter, BiConsumer<_T,List<_E>> setter){
+            this.targetClass = targetClass;
+            this.featureElementClass = featureElementClass;
+            this.featureId = featureId;
+            this.featureElementId = featureElementId;
+            this.getter = getter;
+            this.setter = setter;
+        }
+
+        public Class<_T> getTargetClass(){
+            return targetClass;
+        }
+
+        public Class<_E> getFeatureElementClass(){
+            return featureElementClass;
+        }
+
+        public Id getFeatureId(){
+            return this.featureId;
+        }
+
+        public Function<_T, List<_E>> getter(){
+            return this.getter;
+        }
+
+        public List<_E> get(_T _a){
+            return this.getter.apply(_a);
+        }
+
+        public int size(_T _a){
+            List l = get(_a);
+            if( l != null ) {
+                return l.size();
+            }
+            return 0;
+        }
+
+        public Iterator<_E> iterator(_T _a){
+            List l = get(_a);
+            if( l == null ){
+                return Collections.emptyIterator();
+            }
+            return l.iterator();
+        }
+
+        public _T set(_T _targetInstance, List<_E> featureValue){
+            this.setter.accept(_targetInstance, featureValue);
+            return _targetInstance;
+        }
+
+        public BiConsumer<_T, List<_E>> setter(){
+            return this.setter;
+        }
+    }
+
+    /**
+     * A tool for operating on a specific feature that is a single entity (i.e. a
+     * within an instance of the targetClass
+     *
+     * @param <_T>
+     * @param <_F>
+     */
+    class _one<_T, _F> implements _feature<_T, _F> {
+        public final Class<_T> targetClass;
+        public final Class<_F> featureClass;
+
+        public final Id feature;
+        public final Function<_T, _F> getter;
+        public final BiConsumer<_T, _F> setter;
+
+        public _one(Class<_T> targetClass, Class<_F>featureClass, Id feature, Function<_T,_F> getter, BiConsumer<_T,_F> setter){
+            this.targetClass = targetClass;
+            this.featureClass = featureClass;
+            this.feature = feature;
+            this.getter = getter;
+            this.setter = setter;
+        }
+
+        public Class<_T> getTargetClass(){
+            return targetClass;
+        }
+
+        public Class<_F> getFeatureClass(){
+            return featureClass;
+        }
+
+        public Id getFeatureId(){
+            return this.feature;
+        }
+
+        public Function<_T, _F> getter(){
+            return this.getter;
+        }
+
+        public _F get(_T _a){
+            return this.getter.apply(_a);
+        }
+
+        public _T set(_T _targetInstance, _F featureValue){
+            this.setter.accept(_targetInstance, featureValue);
+            return _targetInstance;
+        }
+
+        public BiConsumer<_T, _F> setter(){
+            return this.setter;
+        }
+
+        public String toString(){
+            return "feature "+ targetClass.getSimpleName()+"."+ getFeatureId();
+        }
+    }
+
+    /**
+     *
+     * @param <_T>
+     */
+    class _ensemble<_T>{
+
+        public static <_T extends Object> _ensemble<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
+            return new _ensemble<>(targetClass, features);
+        }
+
+        public final Class<_T> targetClass;
+
+        /** Note: this should be the features IN THE ORDER THEY APPEAR IN THE LANGUAGE */
+        public final List<_feature<_T, ?>> featureList;
+
+        private _ensemble(Class<_T> targetClass, _feature<_T, ?>... features ){
+            this.targetClass = targetClass;
+            this.featureList = Stream.of(features).collect(Collectors.toList());
+        }
+
+        //get the target class for this specification
+        public Class<_T> getTargetClass(){
+            return targetClass;
+        }
+
+        //returns a (ordered logically in the token order appearance) list of all features for the targetClass
+        public List<_feature<_T, ?>> list(){
+            return featureList;
+        }
+
+        public List<_feature<_T, ?>> list(Predicate<_feature<_T,?>> matchFn){
+            return featureList.stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        public _ensemble<_T> forEach(Predicate<_feature<_T, ?>> matchFn, Consumer<_feature<_T,?>> actionFn){
+            list(matchFn).forEach(actionFn);
+            return this;
+        }
+
+        public _ensemble<_T> forEach(Consumer<_feature<_T,?>> consumerFn){
+            this.featureList.forEach(consumerFn);
+            return this;
+        }
+    }
+}
