@@ -283,7 +283,7 @@ public class _typeTest extends TestCase {
     
     public void testImportsFromOther_type(){
         _class _c = _class.of("aaaa.vvvv.C")
-                .addInner( _class.of("F", new Object(){
+                .addInnerType( _class.of("F", new Object(){
                     int x, y; }
                     )
                 );

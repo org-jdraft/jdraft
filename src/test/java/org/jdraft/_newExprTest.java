@@ -30,9 +30,9 @@ public class _newExprTest extends TestCase {
         _n.setArgs(_intExpr.of(1) );
         System.out.println( _n );
 
-        _n.addTypeArguments(Types.of("A"));
+        _n.addTypeArgs(Types.of("A"));
         System.out.println( _n );
-        _n.removeTypeArguments(Types.of("A"));
+        _n.removeTypeArgs(Types.of("A"));
         System.out.println( _n );
 
         _n.addArgs(_intExpr.of(3));
@@ -47,7 +47,7 @@ public class _newExprTest extends TestCase {
 
         _n = _newExpr.of("new <> List()");
         assertTrue( _n.isUsingDiamondOperator() );
-        _n.addTypeArguments(Integer.class);
+        _n.addTypeArgs(Integer.class);
         //System.out.println( _n );
 
     }
@@ -68,8 +68,8 @@ public class _newExprTest extends TestCase {
 
         assertTrue( _n.isTypeRef(Serializable.class) );
         assertEquals(1, _n.listAnonymousDeclarations().size());
-        _n.addTypeArguments(Types.of("T") );
-        _n.getTypeArgument(0);
+        _n.addTypeArgs(Types.of("T") );
+        _n.getTypeArg(0);
     }
 
     public void testTypeArgs(){

@@ -251,6 +251,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
+    public _interface setFields(List<_field> fields) {
+        this.astInterface.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        fields.forEach(f-> addField(f));
+        return this;
+    }
+
+    @Override
     public CompilationUnit astCompilationUnit(){
         if( this.ast().isTopLevelType()){
             return ast().findCompilationUnit().get();

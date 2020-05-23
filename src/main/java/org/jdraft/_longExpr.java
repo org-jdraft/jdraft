@@ -20,6 +20,14 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
         return new _longExpr(Exprs.longExpr( code));
     }
 
+    public static _feature._one<_longExpr, String> LITERAL_VALUE = new _feature._one<>(_longExpr.class, String.class,
+            _feature._id.LITERAL_VALUE,
+            a -> a.valueAsString(),
+            (_longExpr a, String value) -> a.ast().setValue(value));
+
+
+    public static _feature._meta<_longExpr> META = _feature._meta.of(_longExpr.class, LITERAL_VALUE);
+
     public LongLiteralExpr ile;
 
     public _longExpr(LongLiteralExpr ile){

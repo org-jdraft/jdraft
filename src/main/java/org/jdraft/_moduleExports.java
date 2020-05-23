@@ -10,7 +10,7 @@ import org.jdraft.text.Text;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class _moduleExports implements _java._node<ModuleExportsDirective, _moduleExports>,
+public final class _moduleExports implements _java._node<ModuleExportsDirective, _moduleExports>,
         _moduleDirective<ModuleExportsDirective, _moduleExports> {
 
     public static _moduleExports of( ModuleExportsDirective med){

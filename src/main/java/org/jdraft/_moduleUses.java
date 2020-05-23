@@ -7,7 +7,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 
-public class _moduleUses implements _java._node<ModuleUsesDirective, _moduleUses>,
+public final class _moduleUses implements _java._node<ModuleUsesDirective, _moduleUses>,
         _moduleDirective<ModuleUsesDirective, _moduleUses> {
 
     public static _moduleUses of(ModuleUsesDirective mod){

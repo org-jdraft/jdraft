@@ -10,7 +10,7 @@ import org.jdraft.text.Text;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class _moduleOpens implements _java._node<ModuleOpensDirective, _moduleOpens>,
+public final class _moduleOpens implements _java._node<ModuleOpensDirective, _moduleOpens>,
         _moduleDirective<ModuleOpensDirective, _moduleOpens> {
 
     public static _moduleOpens of(ModuleOpensDirective mod){

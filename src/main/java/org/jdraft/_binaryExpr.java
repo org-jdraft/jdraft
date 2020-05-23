@@ -221,6 +221,23 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         return new _binaryExpr( new BinaryExpr(left, right, BinaryExpr.Operator.REMAINDER));
     }
 
+    public static _feature._one<_binaryExpr, _expr> LEFT = new _feature._one<>(_binaryExpr.class, _expr.class,
+            _feature._id.LEFT_EXPR,
+            a -> a.getLeft(),
+            (_binaryExpr a, _expr _e) -> a.setLeft(_e));
+
+    public static _feature._one<_binaryExpr, BinaryExpr.Operator> OPERATOR = new _feature._one<>(_binaryExpr.class, BinaryExpr.Operator.class,
+            _feature._id.BINARY_OPERATOR,
+            a -> a.getOperator(),
+            (_binaryExpr a, BinaryExpr.Operator o) -> a.setOperator(o));
+
+    public static _feature._one<_binaryExpr, _expr> RIGHT = new _feature._one<>(_binaryExpr.class, _expr.class,
+            _feature._id.RIGHT_EXPR,
+            a -> a.getRight(),
+            (_binaryExpr a, _expr _e) -> a.setRight(_e));
+
+    public static _feature._meta<_binaryExpr> META = _feature._meta.of(_binaryExpr.class, LEFT, OPERATOR, RIGHT);
+
     public BinaryExpr astBe;
 
     public _binaryExpr(BinaryExpr astBe){

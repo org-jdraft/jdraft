@@ -12,7 +12,7 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         _java._withName<_methodCallExpr>,
         _java._withScope<MethodCallExpr, _methodCallExpr>,
         _args._withArgs<MethodCallExpr, _methodCallExpr>,
-        _typeArgs._withTypeArguments<MethodCallExpr, _methodCallExpr> {
+        _typeArgs._withTypeArgs<MethodCallExpr, _methodCallExpr> {
 
     public static _methodCallExpr of(){
         return new _methodCallExpr( new MethodCallExpr( ));

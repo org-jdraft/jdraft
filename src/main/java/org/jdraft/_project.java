@@ -21,7 +21,7 @@ import static org.jdraft.io._io.ORIGIN_KEY;
  * that can be accessed by {@link _codeUnit#getParentProject()} and this reference is stored
  * within the {@link CompilationUnit#getData(DataKey)} as the {@link #PARENT_PROJECT_KEY}
  */
-public class _project {
+public final class _project {
 
     /**
      * Data to be put into the CompilationUnit useful for maintaining a reference to the parent _project
@@ -60,7 +60,6 @@ public class _project {
         for(int i=0;i<classes.length;i++){
             _p.add( (_codeUnit) _type.of(classes[i]) );
         }
-        //Arrays.stream(classes).forEach( c-> _p.add(_type.of(c)));
         return _p;
     }
 
@@ -83,7 +82,7 @@ public class _project {
     /** A cache of _codeUnits*/
     public List<_codeUnit> cache;
 
-    /** The origin where this project came from (it could be null if the project is peiced together) */
+    /** The origin where this project came from (it could be null if the project is pieced together) */
     public _io._origin origin;
 
     /**

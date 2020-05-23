@@ -21,6 +21,8 @@ public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExp
         throw new _jdraftException("invalid code for null literal "+System.lineSeparator()+ Text.combine(code));
     }
 
+    public static _feature._meta<_nullExpr> META = _feature._meta.of(_nullExpr.class);
+
     public NullLiteralExpr nle;
 
     public _nullExpr(NullLiteralExpr nle){

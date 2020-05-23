@@ -22,7 +22,7 @@ import java.util.function.Function;
 public final class _forEachStmt implements _stmt._controlFlow._branching<ForEachStmt, _forEachStmt>,
         _stmt._controlFlow._loop<ForEachStmt, _forEachStmt>,
         _java._node<ForEachStmt, _forEachStmt>,
-        _body._hasBody<_forEachStmt>{
+        _body._withBody<_forEachStmt> {
 
     public static _forEachStmt of(){
         return new _forEachStmt( new ForEachStmt( ));
@@ -76,6 +76,23 @@ public final class _forEachStmt implements _stmt._controlFlow._branching<ForEach
         throw new _jdraftException("No for-each statement found in lambda");
     }
 
+    public static _feature._one<_forEachStmt, _body> BODY = new _feature._one<>(_forEachStmt.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_forEachStmt a, _body b) -> a.setBody(b));
+
+    public static _feature._one<_forEachStmt, _expr> ITERABLE = new _feature._one<>(_forEachStmt.class, _expr.class,
+            _feature._id.ITERABLE_EXPR,
+            a -> a.getIterable(),
+            (_forEachStmt a, _expr _e) -> a.setIterable(_e));
+
+    public static _feature._one<_forEachStmt, _variablesExpr> VARIABLES = new _feature._one<>(_forEachStmt.class, _variablesExpr.class,
+            _feature._id.VARIABLES,
+            a -> a.getVariables(),
+            (_forEachStmt a, _variablesExpr _e) -> a.setVariable(_e));
+
+    public static _feature._meta<_forEachStmt> META = _feature._meta.of(_forEachStmt.class, VARIABLES, ITERABLE, BODY);
+
     private ForEachStmt astStmt;
 
     public _forEachStmt(ForEachStmt rs){
@@ -117,7 +134,7 @@ public final class _forEachStmt implements _stmt._controlFlow._branching<ForEach
     }
 
 
-    public boolean isVariable(String...expression){
+    public boolean isVariables(String...expression){
         try {
             return Objects.equals(this.astStmt.getVariable(), Ast.varLocalEx(expression));
         }
@@ -126,15 +143,15 @@ public final class _forEachStmt implements _stmt._controlFlow._branching<ForEach
         }
     }
 
-    public boolean isVariable(VariableDeclarationExpr ve){
+    public boolean isVariables(VariableDeclarationExpr ve){
         return Objects.equals( this.astStmt.getVariable(), ve);
     }
 
-    public boolean isVariable(_variablesExpr _v){
+    public boolean isVariables(_variablesExpr _v){
         return Objects.equals( this.astStmt.getVariable(), _v.ast());
     }
 
-    public _variablesExpr getVariable(){
+    public _variablesExpr getVariables(){
         return new _variablesExpr(this.astStmt.getVariable());
     }
 

@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _initBlock
-        implements _body._hasBody<_initBlock>, _javadocComment._withJavadoc<_initBlock>,
+        implements _body._withBody<_initBlock>, _javadocComment._withJavadoc<_initBlock>,
         _java._member<InitializerDeclaration, _initBlock> {
 
     /**
@@ -146,6 +146,18 @@ public final class _initBlock
     public InitializerDeclaration ast() {
         return this.astInit;
     }
+
+    public static _feature._one<_initBlock, Boolean> IS_STATIC = new _feature._one<>(_initBlock.class, Boolean.class,
+            _feature._id.IS_STATIC,
+            a -> a.isStatic(),
+            (_initBlock a, Boolean b) -> a.setStatic(b));
+
+    public static _feature._one<_initBlock, _body> BODY = new _feature._one<>(_initBlock.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_initBlock a, _body b) -> a.setBody(b));
+
+    public static _feature._meta<_initBlock> META = _feature._meta.of(_initBlock.class, IS_STATIC, BODY);
 
     public final InitializerDeclaration astInit;
 

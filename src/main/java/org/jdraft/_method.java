@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
  */
 public final class _method
         implements _javadocComment._withJavadoc<_method>, _annoExprs._withAnnoExprs<_method>,
-        _java._withNameTypeRef<MethodDeclaration, _method>, _body._hasBody<_method>, _throws._withThrows<_method>,
+        _java._withNameTypeRef<MethodDeclaration, _method>, _body._withBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _params._withParams<_method>,
         _typeParams._withTypeParams<_method>, _receiverParam._withReceiverParam<_method>,
         _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,

@@ -28,6 +28,15 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
         return new _lineComment( Ast.lineComment(commentContents) );
     }
 
+
+    public static _feature._one<_lineComment, String> TEXT = new _feature._one<>(_lineComment.class, String.class,
+            _feature._id.TEXT,
+            a -> a.getText(),
+            (_lineComment a, String text) -> a.setText(text));
+
+
+    public static _feature._meta<_lineComment> META = _feature._meta.of(_lineComment.class, TEXT);
+
     public LineComment astComment;
 
     public _lineComment(LineComment lc ){

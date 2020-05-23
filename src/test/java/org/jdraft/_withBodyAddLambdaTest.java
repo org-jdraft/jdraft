@@ -6,7 +6,7 @@ import junit.framework.TestCase;
  *
  * @author Eric
  */
-public class _hasBodyAddLambdaTest extends TestCase {
+public class _withBodyAddLambdaTest extends TestCase {
     
     public void testSetBodyLambdaTest(){
         String mm = "public void m(){}";
@@ -53,15 +53,15 @@ public class _hasBodyAddLambdaTest extends TestCase {
             }
         });
         
-        assertEquals(3, _m.getBody().getStatements().size());
+        assertEquals(3, _m.getBody().getStatementNodeList().size());
         _m.add( ()->{System.out.println("Last");} );
-        assertEquals(4, _m.getBody().getStatements().size());
+        assertEquals(4, _m.getBody().getStatementNodeList().size());
         _m.add( (a)->{System.out.println("Last 2"+a);} );
         _m.add( (a,b)->{System.out.println("Last 3"+a+b);} );
         _m.add( (a,b,c)->{System.out.println("Last 4"+a+b+c);} );
         _m.add( (a,b,c,d)->{System.out.println("Last 5"+a+b+c+d);} );
         
-        assertEquals(8, _m.getBody().getStatements().size());
+        assertEquals(8, _m.getBody().getStatementNodeList().size());
         System.out.println(_m);           
     }
     
@@ -71,7 +71,7 @@ public class _hasBodyAddLambdaTest extends TestCase {
             }
         });
         
-        assertEquals(0, _m.getBody().getStatements().size());
+        assertEquals(0, _m.getBody().getStatementNodeList().size());
         _m.add( 0, ()->System.out.println("A") );        
         _m.add( 0, ()->System.out.println("B") );
         _m.add( 0, ()->System.out.println("C") );
@@ -79,7 +79,7 @@ public class _hasBodyAddLambdaTest extends TestCase {
         _m.add( 0, ()->System.out.println("E") );
         
         
-        assertEquals(5, _m.getBody().getStatements().size());
+        assertEquals(5, _m.getBody().getStatementNodeList().size());
         assertEquals(Stmts.of(()->System.out.println("A")), _m.getStatement(4));
         assertEquals(Stmts.of(()->System.out.println("B")), _m.getStatement(3));
         assertEquals(Stmts.of(()->System.out.println("C")), _m.getStatement(2));

@@ -65,18 +65,18 @@ public class _methodCallExprTest extends TestCase {
 
      public void testTypeArguments(){
         _methodCallExpr _mc = _methodCallExpr.of();
-        assertFalse( _mc.hasTypeArguments());
-        _mc.addTypeArguments("I");
-        assertTrue( _mc.hasTypeArguments());
-        _typeRef _tr = _mc.getTypeArgument(0);
+        assertFalse( _mc.hasTypeArgs());
+        _mc.addTypeArgs("I");
+        assertTrue( _mc.hasTypeArgs());
+        _typeRef _tr = _mc.getTypeArg(0);
         assertEquals( "I", _tr.toString());
-        _mc.removeTypeArgument(0);
+        _mc.removeTypeArg(0);
         assertTrue(_mc.isUsingDiamondOperator());
-        assertTrue( _mc.hasTypeArguments());
+        assertTrue( _mc.hasTypeArgs());
 
         //remove ALL
-        _mc.removeTypeArguments();
+        _mc.removeTypeArgs();
         assertFalse(_mc.isUsingDiamondOperator());
-        assertFalse( _mc.hasTypeArguments());
+        assertFalse( _mc.hasTypeArgs());
     }
 }

@@ -14,11 +14,14 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ *
+ */
 public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
         _stmt._controlFlow._branching<DoStmt, _doStmt>,
         _java._node<DoStmt, _doStmt>,
         _java._withCondition<DoStmt,_doStmt>,
-        _body._hasBody<_doStmt> {
+        _body._withBody<_doStmt> {
 
     public static _doStmt of(){
         return new _doStmt( new DoStmt( ));
@@ -132,6 +135,7 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
         }
         return this;
     }
+
 
     public DoStmt ast(){
         return astStmt;

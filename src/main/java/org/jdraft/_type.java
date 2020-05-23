@@ -346,6 +346,22 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return of(javaParser, clazz, _io.IN_DEFAULT);
     }
 
+    default _T setCompanionTypes(List<_type> _cts){
+        List<_type> octs = listCompanionTypes();
+        octs.forEach(ct-> removeCompanionType(ct));
+
+        _cts.forEach(_c -> addCompanionTypes(_c));
+        return (_T)this;
+    }
+
+    default _T setInnerTypes(List<_type> _its){
+        List<_type> oits = listInnerTypes();
+        oits.forEach(ct-> removeCompanionType(ct));
+
+        _its.forEach(_c -> addInnerType(_c));
+        return (_T)this;
+    }
+
     /**
      * If we are a top level _type add the types as companion types
      * (other top level types that are package private) to the CompilationUnit
@@ -1860,7 +1876,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param type the TYPE to add
      * @return
      */
-    default _T addInner(_type type ){
+    default _T addInnerType(_type type ){
         ((TypeDeclaration)this.ast()).addMember( (TypeDeclaration)type.ast() );
         return (_T)this;
     }

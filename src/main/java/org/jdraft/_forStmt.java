@@ -8,9 +8,12 @@ import com.github.javaparser.ast.stmt.*;
 import java.util.*;
 import java.util.function.*;
 
+/**
+ *
+ */
 public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStmt>,
         _java._node<ForStmt, _forStmt>,
-        _stmt._controlFlow._branching<ForStmt,_forStmt>, _body._hasBody<_forStmt> {
+        _stmt._controlFlow._branching<ForStmt,_forStmt>, _body._withBody<_forStmt> {
 
     public static _forStmt of(){
         return new _forStmt( new ForStmt( ));
@@ -64,6 +67,30 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         throw new _jdraftException("No for statement found in lambda");
     }
 
+    public static _feature._one<_forStmt, _body> BODY = new _feature._one<>(_forStmt.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_forStmt a, _body b) -> a.setBody(b));
+
+    public static _feature._one<_forStmt, _expr> COMPARE = new _feature._one<>(_forStmt.class, _expr.class,
+            _feature._id.COMPARE_EXPR,
+            a -> a.getCompare(),
+            (_forStmt a, _expr _e) -> a.setCompare(_e));
+
+    public static _feature._many<_forStmt, _expr> UPDATES = new _feature._many<>(_forStmt.class, _expr.class,
+            _feature._id.UPDATES_EXPRS,
+            _feature._id.UPDATE_EXPR,
+            a -> a.listUpdates(),
+            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e));
+
+    public static _feature._many<_forStmt, _expr> INITS = new _feature._many<>(_forStmt.class, _expr.class,
+            _feature._id.INITS,
+            _feature._id.INIT,
+            a -> a.listInits(),
+            (_forStmt a, List<_expr> _e) -> a.setInits(_e));
+
+    public static _feature._meta<_forStmt> META = _feature._meta.of(_forStmt.class, INITS, COMPARE, UPDATES, BODY);
+
     private ForStmt astStmt;
 
     public _forStmt(ForStmt rs){
@@ -83,8 +110,8 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return false;
     }
 
-    public _forStmt forInitializations(Consumer<_expr> consumer){
-        listInitializations().forEach(consumer);
+    public _forStmt forInits(Consumer<_expr> consumer){
+        listInits().forEach(consumer);
         return this;
     }
 
@@ -93,21 +120,21 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return this;
     }
 
-    public List<_expr> listInitializations(){
+    public List<_expr> listInits(){
         List<_expr>init = new ArrayList<>();
         this.astStmt.getInitialization().forEach(i -> init.add(_expr.of(i)));
         return init;
     }
 
-    public <_E extends _expr> List<_E> listInitializations(Class<_E> expressionClass){
-        return listInitializations( expressionClass, t->true);
+    public <_E extends _expr> List<_E> listInits(Class<_E> expressionClass){
+        return listInits( expressionClass, t->true);
     }
 
-    public List<_expr> listInitializations(Predicate<_expr> matchFn){
-        return listInitializations(_expr.class, matchFn);
+    public List<_expr> listInits(Predicate<_expr> matchFn){
+        return listInits(_expr.class, matchFn);
     }
 
-    public <_E extends _expr> List<_E> listInitializations(Class<_E> expressionClass, Predicate<_E> matchFn){
+    public <_E extends _expr> List<_E> listInits(Class<_E> expressionClass, Predicate<_E> matchFn){
         List<_E> inits = new ArrayList<>();
         this.astStmt.getInitialization().forEach(i -> {
             _expr _e = _expr.of(i);
@@ -118,7 +145,7 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return inits;
     }
 
-    public _forStmt addInitializations( _expr... _es){
+    public _forStmt addInits(_expr... _es){
         Arrays.stream(_es).forEach(_e -> this.astStmt.getInitialization().add(_e.ast()));
         return this;
     }
@@ -224,14 +251,22 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return this;
     }
 
-    public _forStmt setInitialization(_expr... es){
+    public _forStmt setInits(List<_expr> _es){
+        return setInits( _es.toArray(new _expr[0]) );
+    }
+
+    public _forStmt setInits(_expr... es){
         NodeList<Expression> init = new NodeList<>();
         Arrays.stream(es).forEach(e-> init.add(e.ast()));
         this.astStmt.setInitialization(init);
         return this;
     }
 
-    public _forStmt setUpdate(_expr... es){
+    public _forStmt setUpdates(List<_expr> es){
+        return setUpdates( es.toArray(new _expr[0]));
+    }
+
+    public _forStmt setUpdates(_expr... es){
         NodeList<Expression> upd = new NodeList<>();
         Arrays.stream(es).forEach(e-> upd.add(e.ast()));
         this.astStmt.setInitialization(upd);

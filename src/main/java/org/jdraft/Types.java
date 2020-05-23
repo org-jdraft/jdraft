@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * Functionality related to Ast {@link Type} entities
  * (for building hashcodes, testing equality, parsing, etc.)
  */
-public class Types {
+public final class Types {
     private Types(){}
 
 

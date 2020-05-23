@@ -10,7 +10,7 @@ import org.jdraft.text.Text;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class _moduleProvides implements _java._node<ModuleProvidesDirective, _moduleProvides>,
+public final class _moduleProvides implements _java._node<ModuleProvidesDirective, _moduleProvides>,
         _moduleDirective<ModuleProvidesDirective, _moduleProvides> {
 
     public static _moduleProvides of(ModuleProvidesDirective med){

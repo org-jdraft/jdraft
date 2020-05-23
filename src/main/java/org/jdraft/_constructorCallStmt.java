@@ -15,7 +15,7 @@ import java.util.*;
 public final class _constructorCallStmt
         implements _stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _java._node<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _typeArgs._withTypeArguments<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
+        _typeArgs._withTypeArgs<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _args._withArgs<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
 
     public static _constructorCallStmt of(){
@@ -29,6 +29,29 @@ public final class _constructorCallStmt
     public static _constructorCallStmt of(String...code){
         return new _constructorCallStmt(Stmts.constructorCallStmt( code));
     }
+
+    public static _feature._one<_constructorCallStmt, Boolean> IS_THIS = new _feature._one<>(_constructorCallStmt.class, Boolean.class,
+            _feature._id.IS_THIS_CALL,
+            a -> a.isThis(),
+            (_constructorCallStmt a, Boolean b) -> a.setThis(b));
+
+    public static _feature._one<_constructorCallStmt, Boolean> IS_SUPER = new _feature._one<>(_constructorCallStmt.class, Boolean.class,
+            _feature._id.IS_SUPER_CALL,
+            a -> a.isSuper(),
+            (_constructorCallStmt a, Boolean b) -> a.setSuper(b));
+
+    public static _feature._one<_constructorCallStmt, _args> ARGS = new _feature._one<>(_constructorCallStmt.class, _args.class,
+            _feature._id.ARGS_EXPRS,
+            a -> a.getArgs(),
+            (_constructorCallStmt a, _args _e) -> a.setArgs(_e));
+
+    public static _feature._one<_constructorCallStmt, _typeArgs> TYPE_ARGS = new _feature._one<>(_constructorCallStmt.class, _typeArgs.class,
+            _feature._id.TYPE_ARGS,
+            a -> a.getTypeArgs(),
+            (_constructorCallStmt a, _typeArgs _e) -> a.setTypeArgs(_e));
+
+
+    public static _feature._meta<_constructorCallStmt> META = _feature._meta.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, ARGS);
 
     private ExplicitConstructorInvocationStmt astStmt;
 
@@ -69,31 +92,18 @@ public final class _constructorCallStmt
         return !this.astStmt.isThis();
     }
 
-    public boolean isExpression( _expr _e){
-        if( this.astStmt.getExpression().isPresent() ){
-            return Objects.equals( this.astStmt.getExpression().get(), _e.ast());
-        }
-        return _e == null;
+    public _constructorCallStmt setThis(Boolean b){
+        this.astStmt.setThis(b);
+        return this;
     }
 
-    public _expr getExpression(){
-        if( this.astStmt.getExpression().isPresent()){
-            return _expr.of(this.astStmt.getExpression().get());
-        }
-        return null;
-    }
-
-    public _constructorCallStmt setExpression(_expr _e){
-        this.astStmt.setExpression(_e.ast());
+    public _constructorCallStmt setSuper(Boolean b){
+        this.astStmt.setThis( ! b );
         return this;
     }
 
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
-
-        if(astStmt.getExpression().isPresent()) {
-            comps.put(_java.Feature.EXPRESSION, astStmt.getExpression().get());
-        }
 
         comps.put(_java.Feature.IS_THIS_CALL, astStmt.isThis());
         comps.put(_java.Feature.IS_SUPER_CALL, !astStmt.isThis());

@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
 import java.util.HashMap;
@@ -49,6 +50,18 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
     public static _unaryExpr of(String...code){
         return new _unaryExpr(Exprs.unaryExpr( code));
     }
+
+    public static _feature._one<_unaryExpr, UnaryExpr.Operator> OPERATOR = new _feature._one<>(_unaryExpr.class, UnaryExpr.Operator.class,
+            _feature._id.UNARY_OPERATOR,
+            a -> a.getOperator(),
+            (_unaryExpr a, UnaryExpr.Operator o) -> a.setOperator(o));
+
+    public static _feature._one<_unaryExpr, _expr> EXPRESSION = new _feature._one<>(_unaryExpr.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_unaryExpr a, _expr _e) -> a.setExpression(_e));
+
+    public static _feature._meta<_unaryExpr> META = _feature._meta.of(_unaryExpr.class, OPERATOR, EXPRESSION);
 
     public UnaryExpr unaryEx;
 

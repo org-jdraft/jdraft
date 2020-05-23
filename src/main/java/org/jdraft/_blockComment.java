@@ -31,6 +31,14 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
         return new _blockComment( Ast.blockComment( commentContents) );
     }
 
+    public static _feature._one<_blockComment, String> TEXT = new _feature._one<>(_blockComment.class, String.class,
+            _feature._id.TEXT,
+            a -> a.getText(),
+            (_blockComment a, String text) -> a.setText(text));
+
+
+    public static _feature._meta<_blockComment> META = _feature._meta.of(_blockComment.class, TEXT);
+
     public BlockComment astComment;
 
     public _blockComment(BlockComment lc ){

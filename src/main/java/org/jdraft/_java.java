@@ -1,9 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +20,7 @@ import static org.jdraft.Ast.*;
 
 import org.jdraft._annoExprs._withAnnoExprs;
 import org.jdraft._annotation._entry;
-import org.jdraft._body._hasBody;
+import org.jdraft._body._withBody;
 
 import org.jdraft._modifiers.*;
 import org.jdraft._constructor._withConstructors;
@@ -596,7 +594,7 @@ public interface _java {
         Class<_withNameTypeRef> NAMED_TYPE = _withNameTypeRef.class;
 
         Class<_withThrows> HAS_THROWS = _withThrows.class;
-        Class<_hasBody> HAS_BODY = _hasBody.class;
+        Class<_withBody> HAS_BODY = _withBody.class;
         Class<_withAnnoExprs> HAS_ANNOS = _withAnnoExprs.class;
         Class<_withConstructors> HAS_CONSTRUCTORS = _withConstructors.class;
         Class<_withJavadoc> HAS_JAVADOC = _withJavadoc.class;
@@ -1172,6 +1170,11 @@ public interface _java {
              */
         }
 
+        default _S set(List<_EL> els){
+            listAstElements().clear();
+            els.forEach( el -> listAstElements().add((EL)el.ast()));
+            return (_S)this;
+        }
 
         default _EL get(Predicate<_EL> matchFn){
             List<_EL> _els = this.list(matchFn);
@@ -1243,6 +1246,8 @@ public interface _java {
             list().forEach(consumer);
             return (_S)this;
         }
+
+
     }
 
     /**

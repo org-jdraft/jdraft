@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.function.*;
 import java.util.stream.Stream;
 
-public final class _catch implements _java._node<CatchClause, _catch>,_body._hasBody<_catch> {
+public final class _catch implements _java._node<CatchClause, _catch>, _body._withBody<_catch> {
 
     public static _catch of(){
         return new _catch( new CatchClause() );
@@ -92,6 +92,18 @@ public final class _catch implements _java._node<CatchClause, _catch>,_body._has
         throw new _jdraftException("No catch clause found in lambda");
     }
 
+    public static _feature._one<_catch, _param> PARAM = new _feature._one<>(_catch.class, _param.class,
+            _feature._id.PARAM,
+            a -> a.getParam(),
+            (_catch a, _param o) -> a.setParam(o));
+
+    public static _feature._one<_catch, _body> BODY = new _feature._one<>(_catch.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_catch a, _body _b) -> a.setBody(_b));
+
+    public static _feature._meta<_catch> META = _feature._meta.of(_catch.class, PARAM, BODY);
+
     public CatchClause cc;
 
     @Override
@@ -103,17 +115,17 @@ public final class _catch implements _java._node<CatchClause, _catch>,_body._has
         this.cc = cc;
     }
 
-    public _catch addThrownType( Class<? extends Exception>...clazz){
-        Stream.of(clazz).forEach( c -> addThrownType( (ReferenceType)_typeRef.of(c).ast()));
+    public _catch addType(Class<? extends Exception>...clazz){
+        Stream.of(clazz).forEach( c -> addType( (ReferenceType)_typeRef.of(c).ast()));
         return this;
     }
 
-    public _catch addThrownType( _typeRef... _ts){
-        Stream.of(_ts).forEach( _t -> addThrownType( (ReferenceType)_t.ast()));
+    public _catch addType(_typeRef... _ts){
+        Stream.of(_ts).forEach( _t -> addType( (ReferenceType)_t.ast()));
         return this;
     }
 
-    public _catch addThrownType( ReferenceType ts){
+    public _catch addType(ReferenceType ts){
         Type pt = this.cc.getParameter().getType();
         if( pt.isUnionType() ){
             UnionType ut = pt.asUnionType();
@@ -128,17 +140,17 @@ public final class _catch implements _java._node<CatchClause, _catch>,_body._has
         return this;
     }
 
-    public _catch removeThrownType( Class<? extends Exception>...clazz){
-        Stream.of(clazz).forEach( c -> removeThrownType(_typeRef.of(c).ast()));
+    public _catch removeType(Class<? extends Exception>...clazz){
+        Stream.of(clazz).forEach( c -> removeType(_typeRef.of(c).ast()));
         return this;
     }
 
-    public _catch removeThrownType( _typeRef _ts){
-        Stream.of(_ts).forEach( _t -> removeThrownType(_t.ast()));
+    public _catch removeType(_typeRef _ts){
+        Stream.of(_ts).forEach( _t -> removeType(_t.ast()));
         return this;
     }
 
-    public _catch removeThrownType( Type ts){
+    public _catch removeType(Type ts){
         Type pt = this.cc.getParameter().getType();
         if( pt.isUnionType() ){
             UnionType ut = pt.asUnionType();
@@ -192,37 +204,37 @@ public final class _catch implements _java._node<CatchClause, _catch>,_body._has
         return Types.equal(t, caughtExceptionType);
     }
 
-    public _param getParameter(){
+    public _param getParam(){
         return _param.of(this.cc.getParameter());
     }
 
-    public boolean isParameter( Predicate<_param> matchFn){
-        return matchFn.test(this.getParameter());
+    public boolean isParam(Predicate<_param> matchFn){
+        return matchFn.test(this.getParam());
     }
 
-    public _catch setParameter(String... parameter){
-        return setParameter(Ast.parameter( parameter) );
+    public _catch setParam(String... parameter){
+        return setParam(Ast.parameter( parameter) );
     }
 
-    public _catch setParameter(Parameter parameter){
+    public _catch setParam(Parameter parameter){
         this.cc.setParameter(parameter);
         return this;
     }
 
-    public _catch setParameter(_param _p){
+    public _catch setParam(_param _p){
         this.cc.setParameter(_p.ast());
         return this;
     }
 
-    public boolean isParameter(String... parameter){
-        return isParameter(parameter);
+    public boolean isParam(String... parameter){
+        return isParam(parameter);
     }
 
-    public boolean isParameter(Parameter parameter){
+    public boolean isParam(Parameter parameter){
         return Objects.equals(this.cc.getParameter(), parameter);
     }
 
-    public boolean isParameter(_param _p){
+    public boolean isParam(_param _p){
         return Objects.equals(this.cc.getParameter(), _p.ast());
     }
 

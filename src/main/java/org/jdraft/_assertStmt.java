@@ -95,6 +95,18 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         throw new _jdraftException("No binary expression found in lambda");
     }
 
+    public static _feature._one<_assertStmt, _expr> CHECK = new _feature._one<>(_assertStmt.class, _expr.class,
+            _feature._id.CHECK_EXPR,
+            a -> a.getCheck(),
+            (_assertStmt a, _expr _e) -> a.setCheck(_e));
+
+    public static _feature._one<_assertStmt, _expr> MESSAGE = new _feature._one<>(_assertStmt.class, _expr.class,
+            _feature._id.MESSAGE_EXPR,
+            a -> a.getMessage(),
+            (_assertStmt a, _expr _e) -> a.setMessage(_e));
+
+    public static _feature._meta<_assertStmt> META = _feature._meta.of(_assertStmt.class, CHECK, MESSAGE);
+
     private AssertStmt astStmt;
 
     public _assertStmt(AssertStmt astStmt){

@@ -28,7 +28,7 @@ public class _1_classAPITest extends TestCase {
             .addFields("public int i;", "public UUID uuid;")
             .addConstructor("public C(int i){ this.i = i;}")
             .addMethod("public UUID getUUID(){ return this.uuid; }")
-            .addInner( _interface.of("Describable")  //add a nested class (here an interface)
+            .addInnerType( _interface.of("Describable")  //add a nested class (here an interface)
                   .addMethod("String describe();") );
 
     /** We can build a _class from a single String */
@@ -54,7 +54,7 @@ public class _1_classAPITest extends TestCase {
             //.fields("public int i;", "public UUID uuid;") //already added in .body()
             .addConstructor("public C(int i){ this.i = i;}")
             //.method("public UUID getUUID(){ return this.uuid; }") //already added in .body()
-            .addInner( _interface.of("Describable")  //add a nested class (here an interface)
+            .addInnerType( _interface.of("Describable")  //add a nested class (here an interface)
                     .addMethod("String describe();") );
 
     /**

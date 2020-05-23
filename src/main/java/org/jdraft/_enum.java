@@ -303,6 +303,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     @Override
+    public _enum setFields(List<_field> fields) {
+        this.astEnum.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        fields.forEach(f-> addField(f));
+        return this;
+    }
+
+    @Override
     public CompilationUnit astCompilationUnit(){
         //it might be a member class
         if( this.astEnum.findCompilationUnit().isPresent()){

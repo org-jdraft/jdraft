@@ -387,13 +387,13 @@ public interface _diffNode<_PN extends _java._domain> {
          * Return the element with the body that is being compared (left side)
          * @return
          */
-        _body._hasBody leftParent();
+        _body._withBody leftParent();
 
         /**
          *
          * @return
          */
-        _body._hasBody rightParent();
+        _body._withBody rightParent();
     }
 
 }

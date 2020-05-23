@@ -312,8 +312,8 @@ public class $methodCallExprTest extends TestCase {
         assertTrue( $methodCallExpr.of().$and(m-> !m.hasArgs()).matches("m()") );
         assertFalse( $methodCallExpr.of().$and(m-> !m.hasArgs()).matches("m(1)") );
 
-        assertTrue( $methodCallExpr.of().$and(m-> !m.hasTypeArguments()).matches("m()") );
-        assertFalse( $methodCallExpr.of().$and(m-> !m.hasTypeArguments()).matches("<T> m(1)") );
+        assertTrue( $methodCallExpr.of().$and(m-> !m.hasTypeArgs()).matches("m()") );
+        assertFalse( $methodCallExpr.of().$and(m-> !m.hasTypeArgs()).matches("<T> m(1)") );
     }
 
     public void testStencilAny(){

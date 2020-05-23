@@ -4,6 +4,7 @@ import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.expr.Expression;
 import org.jdraft.text.Text;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,6 +52,13 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
     public static _arrayDimension of(_expr _e){
         return new _arrayDimension(new ArrayCreationLevel().setDimension( _e.ast() ));
     }
+
+    public static _feature._one<_arrayDimension, _expr> EXPRESSION = new _feature._one<>(_arrayDimension.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_arrayDimension a, _expr _e) -> a.setExpression(_e));
+
+    public static _feature._meta<_arrayDimension> META = _feature._meta.of(_arrayDimension.class, EXPRESSION );
 
     public final ArrayCreationLevel astNode;
 

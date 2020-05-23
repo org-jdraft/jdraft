@@ -165,7 +165,7 @@ public class $body implements Template<_body>,
             } else {
                 final $stmt $s = $stmt.of(b.ast());
                 //make sure the number of statements is the same AND the top BlockStmt it matches (exactly)
-                $b.$and(_b -> _b.getStatements().size() == b.getStatements().size() && $s.matches(_b.ast()));
+                $b.$and(_b -> _b.getStatementNodeList().size() == b.getStatementNodeList().size() && $s.matches(_b.ast()));
             }
         }
         return $b;
@@ -356,13 +356,13 @@ public class $body implements Template<_body>,
     }
 
     public boolean match( _java _j ){
-        if( _j instanceof _body._hasBody ){
-            return matches( (_body._hasBody)_j );
+        if( _j instanceof _body._withBody){
+            return matches( (_body._withBody)_j );
         }
         return false;
     }
 
-    public boolean matches(_body._hasBody _hb ){ return select( _hb) != null; }
+    public boolean matches(_body._withBody _hb ){ return select( _hb) != null; }
 
     public boolean matches(BlockStmt bs){
         return matches(_body.of(bs));
@@ -571,7 +571,7 @@ public class $body implements Template<_body>,
         return new Tokens();
     }
 
-    public Select select( _body._hasBody _hb ){
+    public Select select( _body._withBody _hb ){
         return select(_hb.getBody());
     }
 

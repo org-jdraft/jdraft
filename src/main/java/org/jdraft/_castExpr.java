@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
@@ -77,6 +78,18 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         }
         throw new _jdraftException("No cast found in lambda");
     }
+
+    public static _feature._one<_castExpr, _typeRef> TYPE = new _feature._one<>(_castExpr.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_castExpr a, _typeRef o) -> a.setType(o));
+
+    public static _feature._one<_castExpr, _expr> EXPRESSION = new _feature._one<>(_castExpr.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_castExpr a, _expr _e) -> a.setExpression(_e));
+
+    public static _feature._meta<_castExpr> META = _feature._meta.of(_castExpr.class, TYPE, EXPRESSION);
 
     public CastExpr ce;
 

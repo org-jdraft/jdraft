@@ -12,7 +12,7 @@ public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt
         _java._node<WhileStmt, _whileStmt>,
         _stmt._controlFlow._loop<WhileStmt, _whileStmt>,
         _java._withCondition<WhileStmt, _whileStmt>,
-        _body._hasBody<_whileStmt>{
+        _body._withBody<_whileStmt> {
 
     public static _whileStmt of(){
         return new _whileStmt( new WhileStmt( ));

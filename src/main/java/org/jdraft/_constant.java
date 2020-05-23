@@ -272,6 +272,13 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return ms;
     }
 
+    @Override
+    public _constant setFields(List<_field> fields) {
+        this.removeFields(t->true);
+        fields.forEach(f-> addField(f));
+        return this;
+    }
+
     public SimpleName getNameNode() { return this.astConstant.getName(); }
 
     @Override

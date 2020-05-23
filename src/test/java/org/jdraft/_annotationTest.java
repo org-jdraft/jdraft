@@ -96,7 +96,7 @@ public class _annotationTest extends TestCase  {
             int[] vs = {1,2,3,4,5};
             String ss = "Some String";
         });
-        assertEquals(5, _a.listElements().size());
+        assertEquals(5, _a.listEntries().size());
         assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getEntry("vs").getDefaultValue()));
         assertTrue($ex.stringLiteralEx("Some String").matches(_a.getEntry("ss").getDefaultValue()));
     }
@@ -161,10 +161,10 @@ public class _annotationTest extends TestCase  {
 
 
         //add NESTS
-        _an.addInner( _class.of("class NC{}") );
-        _an.addInner( _enum.of("enum NE{;}") );
-        _an.addInner( _interface.of("interface NI{}") );
-        _an.addInner( _annotation.of("@interface NA{}") );
+        _an.addInnerType( _class.of("class NC{}") );
+        _an.addInnerType( _enum.of("enum NE{;}") );
+        _an.addInnerType( _interface.of("interface NI{}") );
+        _an.addInnerType( _annotation.of("@interface NA{}") );
 
         //verify they have been added
         assertEquals( 1, _an.listInnerTypes(t-> t instanceof _class && t.getName().equals("NC")).size());

@@ -63,6 +63,14 @@ public final class _textBlockExpr implements _expr._literal<TextBlockLiteralExpr
         throw new _jdraftException("No text block literal found in lambda");
     }
 
+    public static _feature._one<_textBlockExpr, String> LITERAL_VALUE = new _feature._one<>(_textBlockExpr.class, String.class,
+            _feature._id.LITERAL_VALUE,
+            a -> a.valueAsString(),
+            (_textBlockExpr a, String value) -> a.ast().setValue(value));
+
+
+    public static _feature._meta<_textBlockExpr> META = _feature._meta.of(_textBlockExpr.class, LITERAL_VALUE);
+
     public TextBlockLiteralExpr tble;
 
     public _textBlockExpr(TextBlockLiteralExpr tble){

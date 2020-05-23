@@ -437,7 +437,7 @@ public class $annotation
         for(int i=0;i<$protoTypes.size(); i++) {
             final $annotationEntry t = $protoTypes.get(i);
             List<$annotationEntry.Select>matches = new ArrayList<>();
-            _a.listElements().forEach( c ->{
+            _a.listEntries().forEach(c ->{
                 $annotationEntry.Select sel = t.select( c );
                 if( sel != null ){
                     matches.add(sel);

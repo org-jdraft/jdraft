@@ -251,8 +251,8 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         if( _mc.hasArgs() ){
             arguments = $args.of(_mc.getArgs());
         }
-        if( _mc.hasTypeArguments() ){
-            typeArguments = $typeArgs.of( _mc.getTypeArguments() );
+        if( _mc.hasTypeArgs() ){
+            typeArguments = $typeArgs.of( _mc.getTypeArgs() );
         }
     }
 
@@ -357,7 +357,7 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         }
         ts.putAll(s.tokens);
 
-        s = this.typeArguments.select(_mc.getTypeArguments() );
+        s = this.typeArguments.select(_mc.getTypeArgs() );
         if( s == null || !ts.isConsistent(s.tokens)){
             return null;
         }
@@ -373,7 +373,7 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         }
         _mc.setArgs( this.arguments.draft(tr, keyValues));
         try{
-            _mc.setTypeArguments( this.typeArguments.draft(tr, keyValues));
+            _mc.setTypeArgs( this.typeArguments.draft(tr, keyValues));
         } catch(Exception e){
             if( !typeArguments.isMatchAny() ){
                 throw new _jdraftException("Unable to set type arguments ", e);

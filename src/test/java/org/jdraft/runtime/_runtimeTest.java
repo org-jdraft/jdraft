@@ -106,7 +106,7 @@ public class _runtimeTest extends TestCase {
                  }
              }
 
-             public static <_HB extends _body._hasBody> _HB to(_HB _m) {
+             public static <_HB extends _body._withBody> _HB to(_HB _m) {
                  //add this as the first statement of the method
                  _m.add(0, ()-> {long start = System.currentTimeMillis();} );
 

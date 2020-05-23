@@ -5,6 +5,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -73,6 +74,24 @@ public final class _arrayAccessExpr
         System.arraycopy(indexes, 1, left, 0, left.length);
         return of(ae, left);
     }
+
+    /**
+     *
+     */
+    public static _feature._one<_arrayAccessExpr, _expr> NAME = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_arrayAccessExpr a, _expr _e) -> a.setName(_e));
+
+    /**
+     *
+     */
+    public static _feature._one<_arrayAccessExpr, _expr> INDEX = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
+            _feature._id.INDEX_EXPR,
+            a -> a.getIndex(),
+            (_arrayAccessExpr a, _expr _e) -> a.setIndex(_e));
+
+    public static _feature._meta<_arrayAccessExpr> META = _feature._meta.of(_arrayAccessExpr.class, NAME, INDEX);
 
     public ArrayAccessExpr aae;
 

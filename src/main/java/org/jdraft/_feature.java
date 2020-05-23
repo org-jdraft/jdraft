@@ -38,7 +38,7 @@ public interface _feature<_T, _F>{
      * used (i.e. FeatureNames (i.e. FeatureName.NAME) are reused in different entities/contexts
      * @return the FeatureName
      */
-    Id getFeatureId();
+    _id getFeatureId();
 
     /**
      * The disambiguation of where the feature is present (i.e. a Name Feature can exist on a particular Entity)
@@ -81,7 +81,8 @@ public interface _feature<_T, _F>{
      * like (by componentizing things out and comparing or matching on a part by
      * part basis)
      */
-    enum Id {
+    enum _id {
+        IS_TOP_LEVEL("isTopLevel"),
         MODULE_DECLARATION("moduleDeclaration"),
         PACKAGE("package"),
         /** i.e. @Deprecated */
@@ -89,6 +90,11 @@ public interface _feature<_T, _F>{
         /** i.e. @Deprecated @NotNull */
         ANNO_EXPRS("annoExprs"),
 
+        //values like int, float, etc. are stored as string b/c "0b1" & "1" & "0x1"
+        //are mean the same value but represented differently
+        LITERAL_VALUE("literalValue"),
+
+        TEXT("text"),
         CLASS("class"),
         ENUM("enum"),
         INTERFACE("interface"),
@@ -146,6 +152,7 @@ public interface _feature<_T, _F>{
         ARG_EXPR("arg"), //_enum._constant
         ARGS_EXPRS("args"), //_enum._constant
 
+        INITS("inits"), //initializations made on an forStmt "for(int i=0, int j=1; ...)"
         INIT("init"), //field
         IS_FINAL("isFinal"), //_parameter
         IS_VAR_ARG("isVarArg"), //parameter
@@ -176,8 +183,10 @@ public interface _feature<_T, _F>{
         UNARY_OPERATOR( "unaryOperator"), //unaryExpr
         EXPRESSION("expression"), //CastExpr
         CONDITION_EXPR("conditionExpr"), //ternary
-        THEN_EXPR("thenExpr"),    //ternary
-        ELSE_EXPR("else"),   //ternary
+        THEN("then"),
+        //THEN_EXPR("thenExpr"),    //ternary
+        ELSE("else"),
+        //ELSE_EXPR("else"),   //ternary
         INNER_EXPR("innerExpr"), //parenthesizedExpr
         SCOPE_EXPR("scopeExpr"), //fieldAccessExpr
         TYPE_ARGS("typeArgs"), //methodCall
@@ -193,6 +202,7 @@ public interface _feature<_T, _F>{
         ITERABLE_EXPR("iterableExpr"), //forEachStmt
         VARIABLE("variable"), //forEachStmt
         INIT_EXPR("initExpr"), //forStmt
+        UPDATES_EXPRS("updateExprs"), //forStmt
         UPDATE_EXPR("updateExpr"),
         COMPARE_EXPR("compareExpr"),
         STATEMENT("statement"), //labeledStatment
@@ -204,7 +214,7 @@ public interface _feature<_T, _F>{
 
         public final String name;
 
-        private Id(String name){
+        private _id(String name){
             this.name = name;
         }
     }
@@ -218,12 +228,12 @@ public interface _feature<_T, _F>{
         public final Class<_T> targetClass;
         public final Class<_E> featureElementClass;
 
-        public final Id featureId;
-        public final Id featureElementId;
+        public final _id featureId;
+        public final _id featureElementId;
         public final Function<_T, List<_E>> getter;
         public final BiConsumer<_T, List<_E>> setter;
 
-        public _many(Class<_T> targetClass, Class<_E>featureElementClass, Id featureId, Id featureElementId,
+        public _many(Class<_T> targetClass, Class<_E>featureElementClass, _id featureId, _id featureElementId,
                      Function<_T,List<_E>> getter, BiConsumer<_T,List<_E>> setter){
             this.targetClass = targetClass;
             this.featureElementClass = featureElementClass;
@@ -241,7 +251,7 @@ public interface _feature<_T, _F>{
             return featureElementClass;
         }
 
-        public Id getFeatureId(){
+        public _id getFeatureId(){
             return this.featureId;
         }
 
@@ -274,8 +284,16 @@ public interface _feature<_T, _F>{
             return _targetInstance;
         }
 
+        //add
+        //remove
+        //set/replace target index value
+
         public BiConsumer<_T, List<_E>> setter(){
             return this.setter;
+        }
+
+        public String toString(){
+            return this.targetClass.getSimpleName()+"."+featureId;
         }
     }
 
@@ -290,11 +308,11 @@ public interface _feature<_T, _F>{
         public final Class<_T> targetClass;
         public final Class<_F> featureClass;
 
-        public final Id feature;
+        public final _id feature;
         public final Function<_T, _F> getter;
         public final BiConsumer<_T, _F> setter;
 
-        public _one(Class<_T> targetClass, Class<_F>featureClass, Id feature, Function<_T,_F> getter, BiConsumer<_T,_F> setter){
+        public _one(Class<_T> targetClass, Class<_F>featureClass, _id feature, Function<_T,_F> getter, BiConsumer<_T,_F> setter){
             this.targetClass = targetClass;
             this.featureClass = featureClass;
             this.feature = feature;
@@ -310,7 +328,7 @@ public interface _feature<_T, _F>{
             return featureClass;
         }
 
-        public Id getFeatureId(){
+        public _id getFeatureId(){
             return this.feature;
         }
 
@@ -332,18 +350,25 @@ public interface _feature<_T, _F>{
         }
 
         public String toString(){
-            return "feature "+ targetClass.getSimpleName()+"."+ getFeatureId();
+            return targetClass.getSimpleName()+"."+ getFeatureId();
         }
     }
 
     /**
+     * Immutable instance for all {@link _java._node} types: describes the ordered features (i.e. edges to child nodes)
+     * that can be get or set for this node within the AST (this allows programs to be written to automated tree
+     * traversal on each node encounter)
+     *
+     * for example an {@link _annoExpr} has
+     *
+     * @see _annoExpr#META
      *
      * @param <_T>
      */
-    class _ensemble<_T>{
+    class _meta<_T>{
 
-        public static <_T extends Object> _ensemble<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
-            return new _ensemble<>(targetClass, features);
+        public static <_T extends Object> _meta<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
+            return new _meta<>(targetClass, features);
         }
 
         public final Class<_T> targetClass;
@@ -351,7 +376,7 @@ public interface _feature<_T, _F>{
         /** Note: this should be the features IN THE ORDER THEY APPEAR IN THE LANGUAGE */
         public final List<_feature<_T, ?>> featureList;
 
-        private _ensemble(Class<_T> targetClass, _feature<_T, ?>... features ){
+        private _meta(Class<_T> targetClass, _feature<_T, ?>... features ){
             this.targetClass = targetClass;
             this.featureList = Stream.of(features).collect(Collectors.toList());
         }
@@ -366,16 +391,23 @@ public interface _feature<_T, _F>{
             return featureList;
         }
 
+        /** returns an ordered list of features that map to the instances features that pass the matchFn */
         public List<_feature<_T, ?>> list(Predicate<_feature<_T,?>> matchFn){
             return featureList.stream().filter(matchFn).collect(Collectors.toList());
         }
 
-        public _ensemble<_T> forEach(Predicate<_feature<_T, ?>> matchFn, Consumer<_feature<_T,?>> actionFn){
+        /**
+         * Perform some action on all features that match the matchFn
+         * @param matchFn matcher for features
+         * @param actionFn the action to take with the matching features
+         * @return the immutable meta<_T>
+         */
+        public _meta<_T> forEach(Predicate<_feature<_T, ?>> matchFn, Consumer<_feature<_T,?>> actionFn){
             list(matchFn).forEach(actionFn);
             return this;
         }
 
-        public _ensemble<_T> forEach(Consumer<_feature<_T,?>> consumerFn){
+        public _meta<_T> forEach(Consumer<_feature<_T,?>> consumerFn){
             this.featureList.forEach(consumerFn);
             return this;
         }

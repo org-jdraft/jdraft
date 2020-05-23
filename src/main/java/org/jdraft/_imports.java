@@ -53,6 +53,13 @@ public final class _imports implements _java._set<ImportDeclaration, _import, _i
         return new _imports(cu);
     }
 
+    public static _feature._many<_imports, _import> IMPORTS = new _feature._many<>(_imports.class, _import.class,
+            _feature._id.IMPORTS, _feature._id.IMPORT,
+            a->a.list(),
+            (_imports a, List<_import> es)-> a.set(es));
+
+    public static _feature._meta<_imports> META = _feature._meta.of(_imports.class, IMPORTS);
+
     public CompilationUnit astCompilationUnit;
 
     public _imports( CompilationUnit astCu ){

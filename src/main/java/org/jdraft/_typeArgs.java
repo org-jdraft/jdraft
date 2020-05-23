@@ -218,17 +218,17 @@ public final class _typeArgs
      * {@link _newExpr}
      * (order matters list of {@link _typeRef} )
      */
-    public interface _withTypeArguments<N extends Node, _WTA extends _java._node> extends _java._node<N, _WTA> {
+    public interface _withTypeArgs<N extends Node, _WTA extends _java._node> extends _java._node<N, _WTA> {
 
         /**
          * Creates and returns an {@link _typeArgs} to model the whole arguments list
          * @return an _args modelling 0...n arguments in the arguments list)
          */
-        default _typeArgs getTypeArguments(){
+        default _typeArgs getTypeArgs(){
             return of( (NodeWithTypeArguments)ast());
         }
 
-        default _WTA setTypeArguments( _typeArgs _tas){
+        default _WTA setTypeArgs(_typeArgs _tas){
             if( _tas.hasTypeArgs() ) {
                 ((NodeWithTypeArguments) ast()).setTypeArguments(_tas.listAstElements());
             } else{
@@ -237,16 +237,16 @@ public final class _typeArgs
             return (_WTA)this;
         }
 
-        default _typeRef getTypeArgument(int index){
-            if( hasTypeArguments()){
+        default _typeRef getTypeArg(int index){
+            if( hasTypeArgs()){
                 NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
                 return _typeRef.of( tt.get(index) );
             }
             throw new _jdraftException("no type argument at ["+ index+"]");
         }
 
-        default _WTA removeTypeArgument(int index){
-            if( hasTypeArguments()){
+        default _WTA removeTypeArg(int index){
+            if( hasTypeArgs()){
                 NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
                 tt.remove(index);
                 return (_WTA)this;
@@ -254,36 +254,36 @@ public final class _typeArgs
             throw new _jdraftException("no type argument at ["+ index+"]");
         }
 
-        default boolean hasTypeArguments(){
+        default boolean hasTypeArgs(){
             return ((NodeWithTypeArguments)ast()).getTypeArguments().isPresent();
         }
 
-        default List<_typeRef> listTypeArguments(){
-            if( hasTypeArguments()){
+        default List<_typeRef> listTypeArgs(){
+            if( hasTypeArgs()){
                 NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
                 return tt.stream().map( t-> _typeRef.of( t )).collect(Collectors.toList());
             }
             return null;
         }
 
-        default List<_typeRef> listTypeArguments(Predicate<_typeRef> matchFn){
-            List<_typeRef> lts = listTypeArguments();
+        default List<_typeRef> listTypeArgs(Predicate<_typeRef> matchFn){
+            List<_typeRef> lts = listTypeArgs();
             if( lts == null ){
                 return null;
             }
             return lts.stream().filter(matchFn).collect(Collectors.toList());
         }
 
-        default boolean isTypeArguments(Type... es){
+        default boolean isTypeArgs(Type... es){
             _typeRef[] _es = new _typeRef[es.length];
             for(int i=0;i<es.length;i++){
                 _es[i] = _typeRef.of(es[i]);
             }
-            return isTypeArguments(_es);
+            return isTypeArgs(_es);
         }
 
-        default boolean isTypeArguments(_typeRef... _es){
-            List<_typeRef> _tes = listTypeArguments();
+        default boolean isTypeArgs(_typeRef... _es){
+            List<_typeRef> _tes = listTypeArgs();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
                     if( ! Types.equal( _es[i].ast(), _tes.get(i).ast() ) ){
@@ -295,8 +295,8 @@ public final class _typeArgs
             return false;
         }
 
-        default boolean isTypeArguments(Predicate<_typeArgs> matchFn){
-            return matchFn.test( getTypeArguments() );
+        default boolean isTypeArgs(Predicate<_typeArgs> matchFn){
+            return matchFn.test( getTypeArgs() );
         }
 
         /**
@@ -304,84 +304,84 @@ public final class _typeArgs
          * @param matchFn
          * @return
          */
-        default boolean allTypeArguments( Predicate<_typeRef> matchFn){
-            return listTypeArguments().stream().allMatch(matchFn);
+        default boolean allTypeArgs(Predicate<_typeRef> matchFn){
+            return listTypeArgs().stream().allMatch(matchFn);
         }
 
         default boolean isUsingDiamondOperator(){
-            return this.getTypeArguments().isUsingDiamondOperator();
+            return this.getTypeArgs().isUsingDiamondOperator();
         }
 
         default _WTA setUseDiamondOperator(){
-            this.getTypeArguments().setUseDiamondOperator();
+            this.getTypeArgs().setUseDiamondOperator();
             return (_WTA)this;
         }
 
-        default _WTA addTypeArgument(Type e){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA addTypeArg(Type e){
+            _typeArgs _ta = getTypeArgs();
             _ta.add(e);
             return (_WTA)this;
         }
 
-        default _WTA addTypeArguments(Class... clazz){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA addTypeArgs(Class... clazz){
+            _typeArgs _ta = getTypeArgs();
             Arrays.stream(clazz).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
 
-        default _WTA addTypeArguments(String... es){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA addTypeArgs(String... es){
+            _typeArgs _ta = getTypeArgs();
             Arrays.stream(es).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
 
-        default _WTA addTypeArguments(Type... es){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA addTypeArgs(Type... es){
+            _typeArgs _ta = getTypeArgs();
             Arrays.stream(es).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
 
-        default _WTA addTypeArguments(_typeRef... _tr){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA addTypeArgs(_typeRef... _tr){
+            _typeArgs _ta = getTypeArgs();
             Arrays.stream(_tr).forEach(e -> _ta.add(e));
             return (_WTA)this;
         }
 
-        default _WTA removeTypeArguments(){
+        default _WTA removeTypeArgs(){
             ((NodeWithTypeArguments)ast()).removeTypeArguments();
             return (_WTA)this;
         }
 
-        default _WTA removeTypeArguments(Predicate<_typeRef> matchFn){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA removeTypeArgs(Predicate<_typeRef> matchFn){
+            _typeArgs _ta = getTypeArgs();
             _ta.remove(matchFn);
             return (_WTA)this;
         }
 
-        default _WTA removeTypeArguments(_typeRef... es){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA removeTypeArgs(_typeRef... es){
+            _typeArgs _ta = getTypeArgs();
             for(int i=0;i<es.length;i++){
                 _ta.remove(es[i]);
             }
             return (_WTA)this;
         }
 
-        default _WTA removeTypeArguments(Type... es){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA removeTypeArgs(Type... es){
+            _typeArgs _ta = getTypeArgs();
             for(int i=0;i<es.length;i++){
                 _ta.remove(es[i]);
             }
             return (_WTA)this;
         }
 
-        default _WTA forTypeArguments(Consumer<_typeRef> argFn){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA forTypeArgs(Consumer<_typeRef> argFn){
+            _typeArgs _ta = getTypeArgs();
             _ta.forEach(argFn);
             return (_WTA)this;
         }
 
-        default _WTA forTypeArguments(Predicate<_typeRef> matchFn, Consumer<_typeRef> argFn){
-            _typeArgs _ta = getTypeArguments();
+        default _WTA forTypeArgs(Predicate<_typeRef> matchFn, Consumer<_typeRef> argFn){
+            _typeArgs _ta = getTypeArgs();
             _ta.forEach(matchFn, argFn);
             return (_WTA)this;
         }

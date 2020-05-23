@@ -36,10 +36,10 @@ public class _catchTest extends TestCase {
                 System.out.println("1");
             }
         });
-        _c.removeThrownType(FileNotFoundException.class);
+        _c.removeType(FileNotFoundException.class);
         System.out.println( _c );
 
-        _c.addThrownType( FileNotFoundException.class);
+        _c.addType( FileNotFoundException.class);
         System.out.println( _c );
     }
 

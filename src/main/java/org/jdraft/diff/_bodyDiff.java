@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import org.jdraft.*;
-import org.jdraft._body._hasBody;
+import org.jdraft._body._withBody;
 import org.jdraft.diff._diff.*;
 import name.fraser.neil.plaintext.diff_match_patch;
 
@@ -24,7 +24,7 @@ public final class _bodyDiff
         return Objects.equals(left, right);
     }
 
-    public _diff diff( _hasBody left, _hasBody right){
+    public _diff diff(_withBody left, _withBody right){
         return diff( _nodePath.of(),
                 new _diffList((_java._node)left, (_java._node)right),
                 (_java._node)left,
@@ -54,7 +54,7 @@ public final class _bodyDiff
             LinkedList<diff_match_patch.Diff> diffs = BODY_TEXT_DIFF.diff_main(left.toString(), right.toString());
 
             //_path path, _hasBody _leftRoot, _hasBody _rightRoot, LinkedList<Diff> diffs ){
-            ds.addDiff(new _bodyEditNode(path.in(_java.Feature.BODY), (_hasBody) _leftParent, (_hasBody) _rightParent, diffs));
+            ds.addDiff(new _bodyEditNode(path.in(_java.Feature.BODY), (_withBody) _leftParent, (_withBody) _rightParent, diffs));
 
             //dt.addEdit(path.in(_java.Component.BODY), diffs, left, right);
             //_textDiff td = new _textDiff(diffs);
@@ -64,13 +64,13 @@ public final class _bodyDiff
     }
     
     
-    public static class _bodyEditNode implements _diffNode<_hasBody>, _diffNode._edit{
-        final _hasBody leftParent;
-        final _hasBody rightParent;
+    public static class _bodyEditNode implements _diffNode<_withBody>, _diffNode._edit{
+        final _withBody leftParent;
+        final _withBody rightParent;
         final LinkedList<diff_match_patch.Diff> diffs;
         final _nodePath path;
         
-        public _bodyEditNode(_nodePath path, _hasBody leftParent, _hasBody rightParent, LinkedList<diff_match_patch.Diff> diffs ){
+        public _bodyEditNode(_nodePath path, _withBody leftParent, _withBody rightParent, LinkedList<diff_match_patch.Diff> diffs ){
             this.leftParent = leftParent;
             this.rightParent = rightParent;
             this.path = path;
@@ -78,12 +78,12 @@ public final class _bodyDiff
         }
         
          @Override
-        public _hasBody leftParent(){
+        public _withBody leftParent(){
             return leftParent;
         }
         
         @Override
-        public _hasBody rightParent(){
+        public _withBody rightParent(){
             return rightParent;
         }
         

@@ -252,7 +252,7 @@ public class AnonymousShortcutsTest extends TestCase {
             }
         });
         
-        assertEquals( 2, _b.getStatements().size() );
+        assertEquals( 2, _b.getStatementNodeList().size() );
         assertEquals( _b.getStatement(0), Stmts.of("System.out.println(1);") );
         assertEquals( _b.getStatement(1), Stmts.of("assert(1==1);") );
     }

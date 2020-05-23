@@ -22,6 +22,14 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
         return new _javadocComment( Ast.javadocComment( commentContents) );
     }
 
+    public static _feature._one<_javadocComment, String> TEXT = new _feature._one<>(_javadocComment.class, String.class,
+            _feature._id.TEXT,
+            a -> a.getText(),
+            (_javadocComment a, String text) -> a.setText(text));
+
+
+    public static _feature._meta<_javadocComment> META = _feature._meta.of(_javadocComment.class, TEXT);
+
     public JavadocComment astComment;
 
     public _javadocComment(JavadocComment lc ){
@@ -92,6 +100,11 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
          * @return the modified T
          */
         _WJ setJavadoc(JavadocComment astJavadocComment);
+
+
+        default _WJ setJavadoc(_javadocComment _jc){
+            return setJavadoc(_jc.ast());
+        }
 
         /**
          * Does this component have a Javadoc entry?

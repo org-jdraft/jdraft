@@ -5,14 +5,11 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.*;
 
 
-public final class _ifStmt implements _stmt._controlFlow._branching<IfStmt, _ifStmt>, _body._hasBody<_ifStmt>,
+public final class _ifStmt implements _stmt._controlFlow._branching<IfStmt, _ifStmt>, _body._withBody<_ifStmt>,
         _java._withCondition<IfStmt, _ifStmt>,
         _java._node<IfStmt, _ifStmt> {
 
@@ -69,6 +66,26 @@ public final class _ifStmt implements _stmt._controlFlow._branching<IfStmt, _ifS
         }
         throw new _jdraftException("No if statement found in lambda");
     }
+
+    public static _feature._one<_ifStmt, _expr> CONDITION = new _feature._one<>(_ifStmt.class, _expr.class,
+            _feature._id.CONDITION_EXPR,
+            a -> a.getCondition(),
+            (_ifStmt a, _expr _e) -> a.setCondition(_e));
+
+    /** could be a single statement, or a block stmt */
+    public static _feature._one<_ifStmt, _stmt> THEN = new _feature._one<>(_ifStmt.class, _stmt.class,
+            _feature._id.THEN,
+            a -> a.getThen(),
+            (_ifStmt a, _stmt b) -> a.setThen(b));
+
+    /** could be a single statement of a block statement or null */
+    public static _feature._one<_ifStmt, _stmt> ELSE = new _feature._one<>(_ifStmt.class, _stmt.class,
+            _feature._id.ELSE,
+            a -> a.getElse(),
+            (_ifStmt a, _stmt b) -> a.setElse(b));
+
+
+    public static _feature._meta<_ifStmt> META = _feature._meta.of(_ifStmt.class, CONDITION, THEN, ELSE );
 
     private IfStmt astStmt;
 

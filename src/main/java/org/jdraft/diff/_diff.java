@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annoExprs._withAnnoExprs;
-import org.jdraft._body._hasBody;
+import org.jdraft._body._withBody;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._field._withFields;
 import org.jdraft._java.Feature;
@@ -162,7 +162,7 @@ public interface _diff {
     }
 
     static _diff elementsOf(_annotation left, _annotation right) {
-        return _annotationDiff.ANNOTATION_ELEMENTS_DIFF.diff(left.listElements(), right.listElements());
+        return _annotationDiff.ANNOTATION_ELEMENTS_DIFF.diff(left.listEntries(), right.listEntries());
     }
 
     //so if a _hasConstructor has a no arg construstor with no body, it should be 
@@ -191,7 +191,7 @@ public interface _diff {
         return _javadocCommentDiff.INSTANCE.diff(left, right);
     }
 
-    static _diff bodyOf(_hasBody left, _hasBody right) {
+    static _diff bodyOf(_withBody left, _withBody right) {
         return _bodyDiff.INSTANCE.diff(left, right);
     }
 

@@ -29,6 +29,13 @@ import static org.jdraft.Ast.field;
 public final class _annoExprs
         implements _java._set<AnnotationExpr, _annoExpr, _annoExprs> {
 
+    public static _feature._many<_annoExprs, _annoExpr> EXPRS = new _feature._many<>(_annoExprs.class, _annoExpr.class,
+            _feature._id.ANNO_EXPRS, _feature._id.ANNO_EXPR,
+            as->as.list(),
+            (_annoExprs as, List<_annoExpr> anns)-> as.set(anns));
+
+    public static _feature._meta<_annoExprs> META = _feature._meta.of(_annoExprs.class, EXPRS);
+
     /** A reference to the container entity that is being annotated*/
     public final NodeWithAnnotations astAnnNode;
 

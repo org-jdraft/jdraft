@@ -17,6 +17,14 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
         return new _intExpr(Exprs.intExpr( code));
     }
 
+    public static _feature._one<_intExpr, String> LITERAL_VALUE = new _feature._one<>(_intExpr.class, String.class,
+            _feature._id.LITERAL_VALUE,
+            a -> a.valueAsString(),
+            (_intExpr a, String value) -> a.ast().setValue(value));
+
+
+    public static _feature._meta<_intExpr> META = _feature._meta.of(_intExpr.class, LITERAL_VALUE);
+
     public IntegerLiteralExpr ile;
 
     public _intExpr(IntegerLiteralExpr ile){

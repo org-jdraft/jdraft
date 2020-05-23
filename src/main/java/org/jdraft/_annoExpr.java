@@ -111,6 +111,15 @@ public final class _annoExpr
     }
 
     /**
+     * gets the ith _entryPair
+     * @param index
+     * @return
+     */
+    public _entryPair getPair(int index ){
+        return this.listPairs().get(index);
+    }
+
+    /**
      * Is this _anno a "marker" annotation (i.e. with know value / or keyValues)
      * i.e. <PRE>{@code
      * @Deprecated //a "Marker" annotation type
@@ -230,65 +239,43 @@ public final class _annoExpr
         return _mvs;
     }
 
-    /**
-     *
-     */
     public static _feature._one<_annoExpr, String> NAME = new _feature._one<>(_annoExpr.class, String.class,
-            _feature.Id.NAME,
+            _feature._id.NAME,
             a -> a.getName(),
             (_annoExpr a, String name) -> a.setName(name));
 
-    /**
-     *
-     */
     public static _feature._many<_annoExpr, _entryPair> ENTRY_PAIRS = new _feature._many<>(_annoExpr.class, _entryPair.class,
-            _feature.Id.ANNO_EXPR_ENTRY_PAIRS, _feature.Id.ANNO_EXPR_ENTRY_PAIR,
+            _feature._id.ANNO_EXPR_ENTRY_PAIRS, _feature._id.ANNO_EXPR_ENTRY_PAIR,
             a->a.listPairs(),
             (_annoExpr a, List<_entryPair> pairs)-> a.setPairs(pairs));
 
-    public static _feature._ensemble<_annoExpr> SPEC = _feature._ensemble.of(_annoExpr.class, NAME, ENTRY_PAIRS);
+    public static _feature._meta<_annoExpr> META = _feature._meta.of(_annoExpr.class, NAME, ENTRY_PAIRS);
 
-    public boolean isPair(String name, char[] value){
-        return isPair( name, Exprs.of(value));
+    public boolean hasPair(String name, char value){
+        return hasPair( name, Exprs.of(value));
     }
-    public boolean isPair(String name, boolean[] value){
-        return isPair( name, Exprs.of(value));
-    }
-
-    public boolean isPair(String name, double[] value){
-        return isPair( name, Exprs.of(value));
-    }
-    public boolean isPair(String name, float[] value){
-        return isPair( name, Exprs.of(value));
+    public boolean hasPair(String name, boolean value){
+        return hasPair( name, Exprs.of(value));
     }
 
-    public boolean isPair(String name, int[] value){
-        return isPair( name, Exprs.of(value));
+    public boolean hasPair(String name, double value){
+        return hasPair( name, Exprs.of(value));
+    }
+    public boolean hasPair(String name, float value){
+        return hasPair( name, Exprs.of(value));
     }
 
-    public boolean isPair(String name, char value){
-        return isPair( name, Exprs.of(value));
-    }
-    public boolean isPair(String name, boolean value){
-        return isPair( name, Exprs.of(value));
+    public boolean hasPair(String name, String value){
+        return hasPair(name, Exprs.stringExpr(value));
     }
 
-    public boolean isPair(String name, double value){
-        return isPair( name, Exprs.of(value));
+    /*
+    public boolean hasPair(String name, int value){
+        return hasPair( name, Exprs.of(value));
     }
-    public boolean isPair(String name, float value){
-        return isPair( name, Exprs.of(value));
-    }
+     */
 
-    public boolean isPair(String name, String value){
-        return isPair(name, Exprs.stringExpr(value));
-    }
-
-    public boolean isPair(String name, int value){
-        return isPair( name, Exprs.of(value));
-    }
-
-    public boolean isPair(String name, Expression value){
+    public boolean hasPair(String name, Expression value){
         Expression e = this.getPairValue(name);
         if( e != null ){
             return Objects.equals(e, value);
@@ -334,31 +321,22 @@ public final class _annoExpr
         return hasPair( name, Exprs.of(value));
     }
 
-
-    public boolean hasPair(String name, char value){
+    public boolean hasPair(String name, char[] value){
+        return hasPair( name, Exprs.of(value));
+    }
+    public boolean hasPair(String name, boolean[] value){
         return hasPair( name, Exprs.of(value));
     }
 
-    public boolean hasPair(String name, boolean value){
+    public boolean hasPair(String name, double[] value){
+        return hasPair( name, Exprs.of(value));
+    }
+    public boolean hasPair(String name, float[] value){
         return hasPair( name, Exprs.of(value));
     }
 
-    public boolean hasPair(String name, float value){
+    public boolean hasPair(String name, int[] value){
         return hasPair( name, Exprs.of(value));
-    }
-
-    public boolean hasPair(String name, double value){
-        return hasPair( name, Exprs.of(value));
-    }
-
-    /**
-     * does the anno contain an attribute with this name and value?
-     * @param attrName
-     * @param astExpr
-     * @return 
-     */
-    public boolean hasPair(String attrName, Expression astExpr){
-        return !this.listPairs( (_entryPair p)-> Objects.equals(p.getName(), attrName) && Exprs.equal(p.mvp.getValue(), astExpr)).isEmpty();
     }
 
     /**
@@ -462,6 +440,7 @@ public final class _annoExpr
         }
     }
 
+    /*
     public Object get(_java.Feature feature){
         if( feature == _java.Feature.NAME ){
             return this.getName();
@@ -477,7 +456,8 @@ public final class _annoExpr
         }
         return null;
     }
-
+    */
+    /*
     public Map<_java.Feature,Object> features(){
         Map<_java.Feature,Object> m = new HashMap<>();
         m.put(_java.Feature.NAME, this.getName() );
@@ -490,6 +470,7 @@ public final class _annoExpr
         }
         return m;
     }
+     */
 
     public _annoExpr removePairs() {
         if( this.astAnno instanceof MarkerAnnotationExpr ) {
@@ -940,6 +921,24 @@ public final class _annoExpr
                 return _mv;
             }
         }
+
+        /**
+         *
+         */
+        public static _feature._one<_entryPair, String> NAME = new _feature._one<>(_entryPair.class, String.class,
+                _feature._id.NAME,
+                a -> a.getName(),
+                (_entryPair a, String name) -> a.setName(name));
+
+        /**
+         *
+         */
+        public static _feature._one<_entryPair, _expr> VALUE = new _feature._one<>(_entryPair.class, _expr.class,
+                _feature._id.VALUE_EXPR,
+                a->a.getValue(),
+                (_entryPair a, _expr _e)-> a.setValue(_e) );
+
+        public static _feature._meta<_entryPair> META = _feature._meta.of(_entryPair.class, NAME, VALUE);
 
         public boolean isValueOnly = false;
 

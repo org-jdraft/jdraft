@@ -343,9 +343,9 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
 
     public _catch getCatch( Type astType ){
         Optional<_catch> _oc = listCatches().stream().filter( _c->
-            _c.getParameter().isTypeRef(astType)
-            ||  _c.getParameter().getTypeRef().isUnionType() &&
-                    _c.getParameter().getTypeRef().ast().asUnionType().getElements().stream().anyMatch(rt-> Types.equal(rt, astType))
+            _c.getParam().isTypeRef(astType)
+            ||  _c.getParam().getTypeRef().isUnionType() &&
+                    _c.getParam().getTypeRef().ast().asUnionType().getElements().stream().anyMatch(rt-> Types.equal(rt, astType))
         ).findFirst();
         if( _oc.isPresent() ){
             return _oc.get();
@@ -365,9 +365,9 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
         com.github.javaparser.ast.type.ReferenceType astType2 = Types.of(type.getSimpleName()).asReferenceType();
 
         //_c-> _c.getParameter().isType(IOException.class)).findFirst().get()
-        Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParameter().isTypeRef(type)
-                || _c.getParameter().getTypeRef().isUnionType() && _c.getParameter().getTypeRef().ast().asUnionType().getElements().contains(astType)
-                || _c.getParameter().getTypeRef().isUnionType() && _c.getParameter().getTypeRef().ast().asUnionType().getElements().contains(astType2))
+        Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParam().isTypeRef(type)
+                || _c.getParam().getTypeRef().isUnionType() && _c.getParam().getTypeRef().ast().asUnionType().getElements().contains(astType)
+                || _c.getParam().getTypeRef().isUnionType() && _c.getParam().getTypeRef().ast().asUnionType().getElements().contains(astType2))
                 .findFirst();
         if( _oc.isPresent() ){
             return _oc.get();

@@ -20,6 +20,14 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
         return new _charExpr(Exprs.charExpr(Text.combine(code)));
     }
 
+    public static _feature._one<_charExpr, Character> LITERAL_VALUE = new _feature._one<>(_charExpr.class, Character.class,
+            _feature._id.LITERAL_VALUE,
+            a -> a.getValue(),
+            (_charExpr a, Character b) -> a.setValue(b));
+
+
+    public static _feature._meta<_charExpr> META = _feature._meta.of(_charExpr.class, LITERAL_VALUE);
+
     public CharLiteralExpr cle;
 
     public _charExpr(CharLiteralExpr cle){

@@ -77,6 +77,13 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
         throw new _jdraftException("No expression statement found in lambda");
     }
 
+    public static _feature._one<_exprStmt, _expr> EXPRESSION = new _feature._one<>(_exprStmt.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_exprStmt a, _expr _e) -> a.setExpression(_e));
+
+    public static _feature._meta<_exprStmt> META = _feature._meta.of(_exprStmt.class, EXPRESSION);
+
     private ExpressionStmt astStmt;
 
     public _exprStmt(ExpressionStmt rs){

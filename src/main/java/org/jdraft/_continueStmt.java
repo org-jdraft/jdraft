@@ -22,6 +22,13 @@ public final class _continueStmt implements _stmt._controlFlow._signal<ContinueS
         return new _continueStmt(new ContinueStmt(label));
     }
 
+    public static _feature._one<_continueStmt, String> LABEL = new _feature._one<>(_continueStmt.class, String.class,
+            _feature._id.LABEL,
+            a -> a.getLabel(),
+            (_continueStmt a, String s) -> a.setLabel(s));
+
+    public static _feature._meta<_continueStmt> META = _feature._meta.of(_continueStmt.class, LABEL);
+
     private ContinueStmt astStmt;
 
     public _continueStmt(ContinueStmt rs){

@@ -18,6 +18,14 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
         return new _doubleExpr(Exprs.doubleExpr( d));
     }
 
+    public static _feature._one<_doubleExpr, String> LITERAL_VALUE = new _feature._one<>(_doubleExpr.class, String.class,
+            _feature._id.LITERAL_VALUE,
+            a -> a.valueAsString(),
+            (_doubleExpr a, String value) -> a.ast().setValue(value));
+
+
+    public static _feature._meta<_doubleExpr> META = _feature._meta.of(_doubleExpr.class, LITERAL_VALUE);
+
     public DoubleLiteralExpr de;
 
     public _doubleExpr(DoubleLiteralExpr de){

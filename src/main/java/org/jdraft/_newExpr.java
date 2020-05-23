@@ -16,7 +16,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         _typeRef._withTypeRef<ObjectCreationExpr, _newExpr>,
         _java._withScope<ObjectCreationExpr, _newExpr>,
         _args._withArgs<ObjectCreationExpr, _newExpr>,
-        _typeArgs._withTypeArguments<ObjectCreationExpr, _newExpr> {
+        _typeArgs._withTypeArgs<ObjectCreationExpr, _newExpr> {
 
     public static _newExpr of(){
         return new _newExpr( new ObjectCreationExpr() );

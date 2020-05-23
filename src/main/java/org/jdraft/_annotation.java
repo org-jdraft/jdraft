@@ -380,7 +380,7 @@ public final class _annotation
     }
 
     public boolean hasEntries(){
-        return !listElements().isEmpty();
+        return !listEntries().isEmpty();
     }
 
     public _annotation addEntry(){
@@ -401,7 +401,7 @@ public final class _annotation
     }
 
     public _entry getEntry(Predicate<_entry> _ae){
-        List<_entry> lps = listElements(_ae );
+        List<_entry> lps = listEntries(_ae );
         if( lps.isEmpty() ){
             return null;
         }
@@ -409,14 +409,14 @@ public final class _annotation
     }
 
     public _entry getEntry(String name ){
-        List<_entry> lps = listElements(p -> p.getName().equals( name ) );
+        List<_entry> lps = listEntries(p -> p.getName().equals( name ) );
         if( lps.isEmpty() ){
             return null;
         }
         return lps.get(0);
     }
 
-    public List<_entry> listElements(){
+    public List<_entry> listEntries(){
         NodeList<BodyDeclaration<?>> nb  = this.astAnnotation.getMembers();
         List<_entry> ps = new ArrayList<>();
         nb.stream().filter( b -> b instanceof AnnotationMemberDeclaration )
@@ -424,8 +424,8 @@ public final class _annotation
         return ps;
     }
 
-    public List<_entry> listElements(Predicate<_entry> _elementMatchFn ){
-        return listElements().stream().filter( _elementMatchFn ).collect(Collectors.toList());
+    public List<_entry> listEntries(Predicate<_entry> _elementMatchFn ){
+        return listEntries().stream().filter( _elementMatchFn ).collect(Collectors.toList());
     }
 
     @Override
@@ -472,8 +472,8 @@ public final class _annotation
 
         Set<_entry> tp = new HashSet<>();
         Set<_entry> op = new HashSet<>();
-        tp.addAll(this.listElements() );
-        op.addAll(other.listElements() );
+        tp.addAll(this.listEntries() );
+        op.addAll(other.listEntries() );
 
         if( !Objects.equals( tp, op)){
             return false;
@@ -500,12 +500,18 @@ public final class _annotation
     }
 
     public _annotation forEntries(Consumer<_entry> entryConsumer ){
-        listElements().forEach(entryConsumer);
+        listEntries().forEach(entryConsumer);
         return this;
     }
 
     public _annotation forEntries(Predicate<_entry> entryMatchFn, Consumer<_entry> entryConsumer ){
-        listElements(entryMatchFn).forEach(entryConsumer);
+        listEntries(entryMatchFn).forEach(entryConsumer);
+        return this;
+    }
+
+    public _annotation setEntries(List<_entry> entries){
+        this.astAnnotation.getMembers().removeIf(m -> m instanceof AnnotationMemberDeclaration);
+        entries.forEach( e-> this.addEntry(e.ast()) );
         return this;
     }
 
@@ -518,14 +524,79 @@ public final class _annotation
     }
 
     public _annotation removeEntry(_entry _e ){
-        listElements(e -> e.equals(_e)).forEach(e-> e.ast().removeForced() );
+        listEntries(e -> e.equals(_e)).forEach(e-> e.ast().removeForced() );
         return this;
     }
 
     public _annotation removeEntries(Predicate<_entry> _pe ){
-        listElements(_pe).forEach( e -> removeEntry(e));
+        listEntries(_pe).forEach(e -> removeEntry(e));
         return this;
     }
+
+    public static _feature._one<_ifStmt, _expr> CONDITION = new _feature._one<>(_ifStmt.class, _expr.class,
+            _feature._id.CONDITION_EXPR,
+            a -> a.getCondition(),
+            (_ifStmt a, _expr _e) -> a.setCondition(_e));
+
+    /** could be a single statement, or a block stmt */
+    public static _feature._one<_ifStmt, _stmt> THEN = new _feature._one<>(_ifStmt.class, _stmt.class,
+            _feature._id.THEN,
+            a -> a.getThen(),
+            (_ifStmt a, _stmt b) -> a.setThen(b));
+
+
+    public static _feature._one<_annotation, _imports> IMPORTS = new _feature._one<>(_annotation.class, _imports.class,
+            _feature._id.IMPORTS,
+            a -> a.getImports(),
+            (_annotation a, _imports b) -> a.setImports(b));
+
+    public static _feature._one<_annotation, _package> PACKAGE = new _feature._one<>(_annotation.class, _package.class,
+            _feature._id.PACKAGE,
+            a -> a.getPackage(),
+            (_annotation a, _package b) -> a.setPackage(b));
+
+    public static _feature._one<_annotation, _annoExprs> ANNO_EXPRS = new _feature._one<>(_annotation.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_annotation a, _annoExprs b) -> a.setAnnoExprs(b));
+
+    public static _feature._one<_annotation, _javadocComment> JAVADOC = new _feature._one<>(_annotation.class, _javadocComment.class,
+            _feature._id.JAVADOC,
+            a -> a.getJavadoc(),
+            (_annotation a, _javadocComment b) -> a.setJavadoc(b));
+
+    public static _feature._one<_annotation, _modifiers> MODIFIERS = new _feature._one<>(_annotation.class, _modifiers.class,
+            _feature._id.MODIFIERS,
+            a -> a.getModifiers(),
+            (_annotation a, _modifiers b) -> a.setModifiers(b));
+
+    public static _feature._many<_annotation, _annotation._entry> ANNOTATION_ENTRIES = new _feature._many<>(_annotation.class, _annotation._entry.class,
+            _feature._id.ANNOTATION_ENTRIES,
+            _feature._id.ANNOTATION_ENTRY,
+            a -> a.listEntries(),
+            (_annotation a, List<_entry>les) -> a.setEntries(les));
+
+    public static _feature._many<_annotation, _field> FIELDS = new _feature._many<>(_annotation.class, _field.class,
+            _feature._id.FIELDS,
+            _feature._id.FIELD,
+            a -> a.listFields(),
+            (_annotation a, List<_field>les) -> a.setFields(les));
+
+    public static _feature._many<_annotation, _type> INNER_TYPES = new _feature._many<>(_annotation.class, _type.class,
+            _feature._id.INNER_TYPES,
+            _feature._id.INNER_TYPE,
+            a -> a.listInnerTypes(),
+            (_annotation a, List<_type>lit) -> a.setInnerTypes(lit));
+
+    public static _feature._many<_annotation, _type> COMPANION_TYPES = new _feature._many<>(_annotation.class, _type.class,
+            _feature._id.COMPANION_TYPES,
+            _feature._id.COMPANION_TYPE,
+            a -> a.listCompanionTypes(),
+            (_annotation a, List<_type>lit) -> a.setCompanionTypes(lit));
+
+    public static _feature._meta<_annotation> META = _feature._meta.of(_annotation.class,
+            PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, ANNOTATION_ENTRIES, FIELDS,
+            INNER_TYPES, COMPANION_TYPES);
 
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
@@ -534,9 +605,9 @@ public final class _annotation
         parts.put( _java.Feature.IMPORTS, this.getImports().list() );
         parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
         parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Feature.NAME, this.getName() );
         parts.put( _java.Feature.MODIFIERS, this.getModifiers() );
-        parts.put( _java.Feature.ANNOTATION_ENTRIES, this.listElements() );
+        parts.put( _java.Feature.NAME, this.getName() );
+        parts.put( _java.Feature.ANNOTATION_ENTRIES, this.listEntries() );
         parts.put( _java.Feature.FIELDS, this.listFields() );
         parts.put( _java.Feature.INNER_TYPES, this.listInnerTypes() );
         parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes() );
@@ -563,7 +634,7 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( fields );
 
         Set<_entry> elements = new HashSet<>();
-        elements.addAll(this.listElements() );
+        elements.addAll(this.listEntries() );
         hash = 13 * hash + Objects.hashCode( elements );
 
         Set<_type> inners = new HashSet<>();
@@ -575,6 +646,13 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( companionTypes );
 
         return hash;
+    }
+
+    @Override
+    public _annotation setFields(List<_field> fields) {
+        this.astAnnotation.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        fields.forEach(f-> addField(f));
+        return this;
     }
 
     @Override
@@ -617,7 +695,7 @@ public final class _annotation
             return false;
         }
     }
-    
+
     @Override
     public AnnotationDeclaration ast() {
         return this.astAnnotation;

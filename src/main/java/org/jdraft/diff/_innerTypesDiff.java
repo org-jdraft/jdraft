@@ -130,9 +130,9 @@ public final class _innerTypesDiff implements _differ<List<_type>, _java._node> 
         @Override
         public void patchRightToLeft() {
             leftParent.removeInnerType(right);
-            leftParent.addInner(right);
+            leftParent.addInnerType(right);
             rightParent.removeInnerType(right);
-            rightParent.addInner(right);
+            rightParent.addInnerType(right);
         }
 
         @Override
@@ -179,9 +179,9 @@ public final class _innerTypesDiff implements _differ<List<_type>, _java._node> 
         @Override
         public void patchLeftToRight() {
             leftParent.removeInnerType(left);
-            leftParent.addInner(left);
+            leftParent.addInnerType(left);
             rightParent.removeInnerType(left);
-            rightParent.addInner(left);
+            rightParent.addInnerType(left);
         }
 
         @Override

@@ -229,7 +229,7 @@ public class AutoCompleteTest extends TestCase {
         assertTrue(_class.of("C").listAllJavadocComments().isEmpty());
         assertFalse(_charExpr.of('c').is(c->Character.isUpperCase(c.getValue()) ));
 
-        assertTrue(_catch.of("catch(IOException ioe){}").isParameter(p-> p.isTypeRef(IOException.class)));
+        assertTrue(_catch.of("catch(IOException ioe){}").isParam(p-> p.isTypeRef(IOException.class)));
 
         assertTrue(_forStmt.of(()-> {
             for(int i=0;i<100; i++){ } })

@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 
 public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchronizedStmt>,
-        _body._hasBody<_synchronizedStmt>,
+        _body._withBody<_synchronizedStmt>,
         _java._node<SynchronizedStmt, _synchronizedStmt>,
         _java._withExpression<SynchronizedStmt, _synchronizedStmt> {
 

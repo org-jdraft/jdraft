@@ -29,7 +29,7 @@ import org.jdraft.text.Text;
  */
 public final class _constructor implements _annoExprs._withAnnoExprs<_constructor>,
         _javadocComment._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
-    _body._hasBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
+        _body._withBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
         _params._withParams<_constructor>, _typeParams._withTypeParams<_constructor>,
         _receiverParam._withReceiverParam<_constructor>, _java._declared<ConstructorDeclaration, _constructor> {
 

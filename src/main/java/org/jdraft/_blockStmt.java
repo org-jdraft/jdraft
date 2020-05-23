@@ -66,6 +66,16 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         throw new _jdraftException("No block statement found in lambda");
     }
 
+    /**
+     *
+     */
+    public static _feature._many<_blockStmt, _stmt> STATEMENTS = new _feature._many<>(_blockStmt.class, _stmt.class,
+            _feature._id.STATEMENTS, _feature._id.STATEMENT,
+            a->a.list(),
+            (_blockStmt a, List<_stmt> es)-> a.set(es));
+
+    public static _feature._meta<_blockStmt> META = _feature._meta.of(_blockStmt.class, STATEMENTS);
+
     private BlockStmt bs;
 
     public _blockStmt(BlockStmt rs){

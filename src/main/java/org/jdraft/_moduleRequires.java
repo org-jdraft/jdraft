@@ -7,7 +7,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 
-public class _moduleRequires implements _java._node<ModuleRequiresDirective, _moduleRequires>,
+public final class _moduleRequires implements _java._node<ModuleRequiresDirective, _moduleRequires>,
         _moduleDirective<ModuleRequiresDirective, _moduleRequires> {
 
     public static _moduleRequires of(ModuleRequiresDirective med){

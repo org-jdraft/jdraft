@@ -472,6 +472,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return this;
     }
 
+    @Override
+    public _class setFields(List<_field> fields) {
+        this.astClass.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        fields.forEach(f-> addField(f));
+        return this;
+    }
+
     /** Make sure to route this to the correct (default method)
      * @param classToImplement 
      * @return  

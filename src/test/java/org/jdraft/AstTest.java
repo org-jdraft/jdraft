@@ -1180,7 +1180,7 @@ public class AstTest extends TestCase {
         //find any TODO tags within the code
         Tree.in( _class.of(L.class),
         //_class.of(L.class).walk(
-                _body._hasBody.class,
+                _body._withBody.class,
                 m -> Tree.in(m.getBody().ast(),
                         com.github.javaparser.ast.comments.Comment.class,
                         c-> c.getContent().trim().startsWith("TODO"),

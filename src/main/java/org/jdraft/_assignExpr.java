@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.AssignExpr;
+import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
@@ -76,6 +77,23 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         throw new _jdraftException("No assignment expression found in lambda");
     }
 
+    public static _feature._one<_assignExpr, _expr> TARGET = new _feature._one<>(_assignExpr.class, _expr.class,
+            _feature._id.TARGET_EXPR,
+            a -> a.getTarget(),
+            (_assignExpr a, _expr _e) -> a.setTarget(_e));
+
+    public static _feature._one<_assignExpr, AssignExpr.Operator> OPERATOR = new _feature._one<>(_assignExpr.class, AssignExpr.Operator.class,
+            _feature._id.ASSIGN_OPERATOR,
+            a -> a.getOperator(),
+            (_assignExpr a, AssignExpr.Operator o) -> a.setOperator(o));
+
+    public static _feature._one<_assignExpr, _expr> VALUE = new _feature._one<>(_assignExpr.class, _expr.class,
+            _feature._id.VALUE_EXPR,
+            a -> a.getValue(),
+            (_assignExpr a, _expr _e) -> a.setValue(_e));
+
+    public static _feature._meta<_assignExpr> META = _feature._meta.of(_assignExpr.class, TARGET, OPERATOR, VALUE);
+
     public AssignExpr ae;
 
     public _assignExpr(AssignExpr ae) {
@@ -112,6 +130,11 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         comps.put(_java.Feature.VALUE_EXPR, ae.getValue());
         return comps;
     }
+
+    public AssignExpr.Operator getOperator(){
+        return this.ae.getOperator();
+    }
+
     public boolean isOperator(AssignExpr.Operator ao) {
         return Objects.equals(this.ast().getOperator(), ao);
     }
@@ -305,10 +328,6 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     public _assignExpr setBinaryUnsignedRightShiftAssignOperation() {
         return setOperator(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT);
     }
-
-
-
-
 
     public _assignExpr setOperator(String op ){
         setOperator( AssignExpr.Operator.valueOf(op));

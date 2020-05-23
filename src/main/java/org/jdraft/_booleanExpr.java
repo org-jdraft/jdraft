@@ -18,6 +18,14 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
         return new _booleanExpr(Exprs.booleanExpr( code));
     }
 
+    public static _feature._one<_booleanExpr, Boolean> LITERAL_VALUE = new _feature._one<>(_booleanExpr.class, Boolean.class,
+            _feature._id.LITERAL_VALUE,
+            a -> a.getValue(),
+            (_booleanExpr a, Boolean b) -> a.set(b));
+
+
+    public static _feature._meta<_booleanExpr> META = _feature._meta.of(_booleanExpr.class, LITERAL_VALUE);
+
     public BooleanLiteralExpr be;
 
     public _booleanExpr(BooleanLiteralExpr be){

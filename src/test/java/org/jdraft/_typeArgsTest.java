@@ -50,17 +50,17 @@ public class _typeArgsTest extends TestCase {
 
     public void testNew(){
         _newExpr _n = _newExpr.of("A()");
-        assertFalse(_n.hasTypeArguments());
+        assertFalse(_n.hasTypeArgs());
         assertFalse(_n.isUsingDiamondOperator());
         _n.setUseDiamondOperator();
-        assertTrue(_n.hasTypeArguments());
+        assertTrue(_n.hasTypeArgs());
         assertTrue(_n.isUsingDiamondOperator());
-        assertTrue(_n.listTypeArguments(t-> t.is(Integer.class)).isEmpty());
+        assertTrue(_n.listTypeArgs(t-> t.is(Integer.class)).isEmpty());
 
-        _n.addTypeArguments("Integer");
-        assertTrue(_n.hasTypeArguments());
+        _n.addTypeArgs("Integer");
+        assertTrue(_n.hasTypeArgs());
         assertFalse(_n.isUsingDiamondOperator());
-        assertFalse(_n.listTypeArguments(t-> t.is(Integer.class)).isEmpty());
+        assertFalse(_n.listTypeArgs(t-> t.is(Integer.class)).isEmpty());
 
         //_typeArguments _tas = _n.getTypeArguments();
     }

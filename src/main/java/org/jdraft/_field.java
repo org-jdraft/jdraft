@@ -117,6 +117,35 @@ public final class _field
         return new _field(fd.getVariable(0));
     }
 
+    public static _feature._one<_field, _annoExprs> ANNOS = new _feature._one<>(_field.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_field a, _annoExprs _e) -> a.setAnnoExprs(_e));
+
+
+    public static _feature._one<_field, _modifiers> MODIFIERS = new _feature._one<>(_field.class, _modifiers.class,
+            _feature._id.MODIFIERS,
+            a -> a.getModifiers(),
+            (_field a, _modifiers _e) -> a.setModifiers(_e));
+
+    public static _feature._one<_field, _typeRef> TYPE = new _feature._one<>(_field.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_field a, _typeRef _e) -> a.setTypeRef(_e));
+
+    public static _feature._one<_field, String> NAME = new _feature._one<>(_field.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_field a, String s) -> a.setName(s));
+
+    public static _feature._one<_field, _expr> INIT = new _feature._one<>(_field.class, _expr.class,
+            _feature._id.INIT_EXPR,
+            a -> a.getInit(),
+            (_field a, _expr _e) -> a.setInit(_e));
+
+
+    public static _feature._meta<_field> META = _feature._meta.of(_field.class, ANNOS, MODIFIERS, TYPE, NAME, INIT );
+
     /**
      * Gets the (effective modifiers) which is the union of the explicit
      * modifiers (returned from {@link #getModifiers()} and the implied
@@ -628,6 +657,10 @@ public final class _field
         return setInit(sup.getExpressionBody().get());
     }
 
+    public _field setInit(_expr _e ){
+        return setInit(_e.ast());
+    }
+
     public _field setInit(Expression expr) {
         this.astVar.setInitializer(expr);
         return this;
@@ -719,6 +752,8 @@ public final class _field
             }
             return null;
         }
+
+        _WF setFields(List<_field> fields);
 
         _WF addField(VariableDeclarator field);
 

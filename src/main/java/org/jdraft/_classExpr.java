@@ -1,14 +1,13 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.ClassExpr;
-import com.github.javaparser.ast.type.Type;
 import org.jdraft.text.Text;
 
 /**
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
-public final class _classExpr implements _expr<ClassExpr, _classExpr>, _java._node<ClassExpr, _classExpr> {
+public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef._withTypeRef<ClassExpr, _classExpr>, _java._node<ClassExpr, _classExpr> {
 
     public static _classExpr of(){
         return new _classExpr(new ClassExpr());
@@ -25,6 +24,13 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _java._no
     public static _classExpr of(String...code){
         return new _classExpr(Exprs.classExpr( code));
     }
+
+    public static _feature._one<_classExpr, _typeRef> TYPE = new _feature._one<>(_classExpr.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_classExpr a, _typeRef o) -> a.setTypeRef(o));
+
+    public static _feature._meta<_classExpr> META = _feature._meta.of(_classExpr.class, TYPE);
 
     public ClassExpr ce;
 
@@ -49,34 +55,36 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _java._no
         return ce;
     }
 
-    public boolean isType(String type){
-        return isType(Types.of(type));
+    /*
+    public boolean isTypeRef(String type){
+        return isTypeRef(Types.of(type));
     }
 
-    public boolean isType( _typeRef _t){
-        return isType(_t.ast());
+    public boolean isTypeRef(_typeRef _t){
+        return isTypeRef(_t.ast());
     }
 
-    public boolean isType( Type t){
+    public boolean isTypeRef(Type t){
         return Types.equal(this.ce.getType(), t);
     }
 
-    public _typeRef getType(){
+    public _typeRef getTypeRef(){
         return _typeRef.of(this.ce.getType());
     }
 
-    public _classExpr setType(Type t){
+    public _classExpr setTypeRef(Type t){
         this.ce.setType(t);
         return this;
     }
 
-    public _classExpr setType(_typeRef _t){
+    public _classExpr setTypeRef(_typeRef _t){
         this.ce.setType(_t.ast());
         return this;
     }
+    */
 
-    public _classExpr setType(String...type ){
-        return setType( _typeRef.of(Text.combine(type)));
+    public _classExpr setTypeRef(String...type ){
+        return setTypeRef( _typeRef.of(Text.combine(type)));
     }
 
     public boolean equals(Object other){

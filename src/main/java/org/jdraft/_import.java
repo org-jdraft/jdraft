@@ -75,6 +75,24 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
         return new _import(Ast.importDeclaration(clazz)).setWildcard().setStatic();
     }
 
+    public static _feature._one<_import, Boolean> IS_STATIC = new _feature._one<>(_import.class, Boolean.class,
+            _feature._id.IS_STATIC,
+            a -> a.isStatic(),
+            (_import a, Boolean b) -> a.setStatic(b));
+
+    public static _feature._one<_import, Boolean> IS_WILDCARD = new _feature._one<>(_import.class, Boolean.class,
+            _feature._id.IS_WILDCARD,
+            a -> a.isWildcard(),
+            (_import a, Boolean b) -> a.setWildcard(b));
+
+    public static _feature._one<_import, String> NAME = new _feature._one<>(_import.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_import a, String name) -> a.setName(name));
+
+
+    public static _feature._meta<_import> META = _feature._meta.of(_import.class, IS_STATIC, NAME, IS_WILDCARD);
+
     /** the underlying ast import declaration */
     public ImportDeclaration astId;
 

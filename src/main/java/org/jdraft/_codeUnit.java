@@ -266,6 +266,16 @@ public interface _codeUnit<_CU> extends _java._domain {
 
     /**
      * Sets the package name
+     * @param _pkg
+     * @return
+     */
+    default _CU setPackage(_package _pkg){
+        this.astCompilationUnit().setPackageDeclaration(_pkg.astPackage);
+        return (_CU)this;
+    }
+
+    /**
+     * Sets the package name
      * @param packageName
      * @return
      */
@@ -347,6 +357,18 @@ public interface _codeUnit<_CU> extends _java._domain {
             return null;
         }
         return _is.get(0);
+    }
+
+    default _CU setImports(NodeList<ImportDeclaration> id){
+        this.astCompilationUnit().getImports().clear();
+        id.forEach(i -> this.astCompilationUnit().getImports().add(i));
+        return (_CU)this;
+    }
+
+    default _CU setImports(_imports _is){
+        this.astCompilationUnit().getImports().clear();
+        _is.forEach(_i -> this.astCompilationUnit().getImports().add(_i.ast()));
+        return (_CU)this;
     }
 
     /**

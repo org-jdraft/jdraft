@@ -19,7 +19,7 @@ public final class _annotationDiff implements _differ<_annotation, _java._node> 
         _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
         _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _fieldsDiff.INSTANCE.diff(path, ds, left, right, left.listFields(), right.listFields());
-        ANNOTATION_ELEMENTS_DIFF.diff(path, ds, left, right, left.listElements(), right.listElements());
+        ANNOTATION_ELEMENTS_DIFF.diff(path, ds, left, right, left.listEntries(), right.listEntries());
         _innerTypesDiff.INSTANCE.diff(path, ds, left, right, left.listInnerTypes(), right.listInnerTypes());
 
         _companionTypeDiff.INSTANCE.diff(path, ds, left, right, left.listCompanionTypes(), right.listCompanionTypes());
@@ -49,7 +49,7 @@ public final class _annotationDiff implements _differ<_annotation, _java._node> 
         }
 
         public _diff diff( _annotation left, _annotation right ){
-            return diff( _nodePath.of(), new _diffList(left, right), left, right, left.listElements(), right.listElements());
+            return diff( _nodePath.of(), new _diffList(left, right), left, right, left.listEntries(), right.listEntries());
         }
         
         @Override

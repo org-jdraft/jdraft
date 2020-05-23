@@ -76,6 +76,26 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         throw new _jdraftException("No ArrayCreationExpr found in lambda");
     }
 
+    public static _feature._one<_arrayCreateExpr, _typeRef> TYPE = new _feature._one<>(_arrayCreateExpr.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> ((_arrayCreateExpr) a).getElementType(),
+            (_arrayCreateExpr a, _typeRef _t) -> a.setElementType(_t));
+
+
+
+    public static _feature._many<_arrayCreateExpr, _arrayDimension> DIMENSIONS = new _feature._many<>(_arrayCreateExpr.class, _arrayDimension.class,
+            _feature._id.ARRAY_DIMENSIONS,
+            _feature._id.ARRAY_DIMENSION,
+            a -> ((_arrayCreateExpr)a).list(),
+            (_arrayCreateExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads));
+
+    public static _feature._one<_arrayCreateExpr, _arrayInitExpr> INIT = new _feature._one<>(_arrayCreateExpr.class, _arrayInitExpr.class,
+            _feature._id.INIT,
+            a -> a.getInit(),
+            (_arrayCreateExpr a, _arrayInitExpr _t) -> a.setInit(_t));
+
+    public static _feature._meta<_arrayCreateExpr> META = _feature._meta.of(_arrayCreateExpr.class, TYPE, DIMENSIONS, INIT );
+
     public ArrayCreationExpr astNode;
 
     public _arrayCreateExpr(ArrayCreationExpr astNode){
@@ -174,9 +194,9 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         return _ai == null;
     }
 
-    public _expr getInit(){
+    public _arrayInitExpr getInit(){
         if( this.astNode.getInitializer().isPresent()) {
-            return _expr.of(this.astNode.getInitializer().get());
+            return _arrayInitExpr.of(this.astNode.getInitializer().get());
         }
         return null;
     }
@@ -204,6 +224,12 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         List<_arrayDimension> ads = new ArrayList<>();
         this.astNode.getLevels().forEach(d -> ads.add( _arrayDimension.of(d)));
         return ads;
+    }
+
+    public _arrayCreateExpr setArrayDimensions(List<_arrayDimension> ads){
+        NodeList<ArrayCreationLevel> lvls = new NodeList<>();
+        ads.forEach(ad -> lvls.add(ad.astNode));
+        return setArrayDimensions(lvls);
     }
 
     public _arrayCreateExpr setArrayDimensions(String...code){

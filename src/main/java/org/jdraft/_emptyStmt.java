@@ -19,6 +19,8 @@ public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt>, _java._no
         return new _emptyStmt(Stmts.emptyStmt( code));
     }
 
+    public static _feature._meta<_emptyStmt> META = _feature._meta.of(_emptyStmt.class);
+
     private EmptyStmt astStmt;
 
     public _emptyStmt(EmptyStmt rs){

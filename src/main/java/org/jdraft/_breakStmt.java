@@ -29,6 +29,13 @@ public final class _breakStmt
         return new _breakStmt(Stmts.breakStmt( code));
     }
 
+    public static _feature._one<_breakStmt, String> LABEL = new _feature._one<>(_breakStmt.class, String.class,
+            _feature._id.LABEL,
+            a -> a.getLabel(),
+            (_breakStmt a, String s) -> a.setLabel(s));
+
+    public static _feature._meta<_breakStmt> META = _feature._meta.of(_breakStmt.class, LABEL);
+
     private BreakStmt astStmt;
 
     public _breakStmt(BreakStmt rs){

@@ -10,22 +10,27 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Model of a field access expr
+ *
+ */
 public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAccessExpr>,
         _java._node<FieldAccessExpr, _fieldAccessExpr>,
         _java._withName<_fieldAccessExpr>,
-        _typeArgs._withTypeArguments<FieldAccessExpr, _fieldAccessExpr>,
+        _typeArgs._withTypeArgs<FieldAccessExpr, _fieldAccessExpr>,
         _java._withScope<FieldAccessExpr, _fieldAccessExpr> {
 
     public static _fieldAccessExpr of(){
         return new _fieldAccessExpr(new FieldAccessExpr());
     }
+
     public static _fieldAccessExpr of(FieldAccessExpr fae){
         return new _fieldAccessExpr(fae);
     }
+
     public static _fieldAccessExpr of(String...code){
         return new _fieldAccessExpr(Exprs.fieldAccessExpr( code));
     }
-
 
     public static <A extends Object> _fieldAccessExpr of(Exprs.Command c){
         LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
@@ -68,6 +73,25 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
         }
         throw new _jdraftException("No field access expression found in lambda");
     }
+
+    public static _feature._one<_fieldAccessExpr, _expr> SCOPE = new _feature._one<>(_fieldAccessExpr.class, _expr.class,
+            _feature._id.SCOPE_EXPR,
+            a -> a.getScope(),
+            (_fieldAccessExpr a, _expr _e) -> a.setScope(_e));
+
+    public static _feature._one<_fieldAccessExpr, String> NAME = new _feature._one<>(_fieldAccessExpr.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_fieldAccessExpr a, String s) -> a.setName(s));
+
+
+    public static _feature._one<_fieldAccessExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_fieldAccessExpr.class, _typeArgs.class,
+            _feature._id.TYPE_ARGS,
+            a -> a.getTypeArgs(),
+            (_fieldAccessExpr a, _typeArgs _e) -> a.setTypeArgs(_e));
+
+
+    public static _feature._meta<_fieldAccessExpr> META = _feature._meta.of(_fieldAccessExpr.class, SCOPE, TYPE_ARGS, NAME );
 
     public FieldAccessExpr fe;
 

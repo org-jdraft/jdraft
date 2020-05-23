@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * {@link _newExpr}
  * order matters
  *
- * @see org.jdraft.bot.$arguments for a prototype version
+ * @see org.jdraft.bot.$args for a prototype version
  */
 public final class _args
         implements _java._list<Expression, _expr, _args> {
@@ -88,11 +88,16 @@ public final class _args
         return of( Exprs.methodCallExpr("empty"+ sb.toString()));
     }
 
-
-
     public static _args of(NodeWithArguments nwa){
          return new _args(nwa);
     }
+
+    public static _feature._many<_args, _expr> ARGS = new _feature._many<>(_args.class, _expr.class,
+            _feature._id.ARGS_EXPRS, _feature._id.ARG_EXPR,
+            a->a.list(),
+            (_args a, List<_expr> es)-> a.set(es));
+
+    public static _feature._meta<_args> META = _feature._meta.of(_args.class, ARGS);
 
     public NodeWithArguments nwa;
 
