@@ -12,6 +12,14 @@ import junit.framework.TestCase;
  */
 public class _lambdaExprTest extends TestCase {
 
+    public void testExpressionBody(){
+        _lambdaExpr _le = _lambdaExpr.of( (String s)-> "String");
+        //System.out.println( _le.getBody() );
+        System.out.println( _le.ast().getBody() );
+        System.out.println( _le.ast().isEnclosingParameters() );
+        System.out.println( _le.ast().getExpressionBody().get() );
+    }
+
     /**
      * Make sure I can build an empty Lambda from Scratch
      */
@@ -21,7 +29,7 @@ public class _lambdaExprTest extends TestCase {
                 .setBody("System.out.println(a.toString() + b.toString());");
 
         assertEquals("(a, b)", _l.getParams().toString());
-        assertEquals("System.out.println(a.toString() + b.toString());", _l.getBody().toString());
+        assertEquals("System.out.println(a.toString() + b.toString());", _l.getAstStatementBody().toString());
     }
 
     /**
@@ -34,7 +42,7 @@ public class _lambdaExprTest extends TestCase {
                 .setBody("System.out.println(a.length);");
 
         assertEquals("(String... a)", _l.getParams().toString());
-        assertEquals("System.out.println(a.length);", _l.getBody().toString());
+        assertEquals("System.out.println(a.length);", _l.getAstStatementBody().toString());
     }
 
     public void testLambdaAddStatements(){

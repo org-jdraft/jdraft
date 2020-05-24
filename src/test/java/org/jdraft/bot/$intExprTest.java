@@ -103,17 +103,17 @@ public class $intExprTest extends TestCase {
 		class C{	
 			int[] x = {12345, 0xDEAD, 0b10110, 1_000};			
 		}				
-		assertTrue($intExpr.of().$and(i->i.isBinaryFormat()).selectFirstIn(C.class).selection.is("0b10110"));
-		assertTrue($intExpr.of(12345).selectFirstIn(C.class).selection.is(12345));
-		assertTrue($intExpr.of().$and(i->i.has_Separators()).selectFirstIn(C.class).selection.is("1_000"));
-		assertTrue($intExpr.of().$and(i->i.isHexFormat()).selectFirstIn(C.class).selection.is("0xDEAD"));
+		assertTrue($intExpr.of().$and(i->i.isBinaryFormat()).selectFirstIn(C.class).select.is("0b10110"));
+		assertTrue($intExpr.of(12345).selectFirstIn(C.class).select.is(12345));
+		assertTrue($intExpr.of().$and(i->i.has_Separators()).selectFirstIn(C.class).select.is("1_000"));
+		assertTrue($intExpr.of().$and(i->i.isHexFormat()).selectFirstIn(C.class).select.is("0xDEAD"));
 		
 		//now apply the matchFn on the firstIn instead
 		//i.e. refine the query withgout modifying the prototype
-		assertTrue($intExpr.of().selectFirstIn(C.class, i->i.selection.isBinaryFormat()).selection.is("0b10110"));
-		assertTrue($intExpr.of(12345).selectFirstIn(C.class, i->i.selection.is(12345)).selection.is(12345));
-		assertTrue($intExpr.of().selectFirstIn(C.class, i->i.selection.has_Separators()).selection.is("1_000"));
-		assertTrue($intExpr.of().selectFirstIn(C.class, i->i.selection.isHexFormat()).selection.is("0xDEAD"));
+		assertTrue($intExpr.of().selectFirstIn(C.class, i->i.select.isBinaryFormat()).select.is("0b10110"));
+		assertTrue($intExpr.of(12345).selectFirstIn(C.class, i->i.select.is(12345)).select.is(12345));
+		assertTrue($intExpr.of().selectFirstIn(C.class, i->i.select.has_Separators()).select.is("1_000"));
+		assertTrue($intExpr.of().selectFirstIn(C.class, i->i.select.isHexFormat()).select.is("0xDEAD"));
 	}
 	
 	public void testForEachIn() {
@@ -138,7 +138,7 @@ public class $intExprTest extends TestCase {
 			int h = 0X1;			
 		}
 		//find each int value that equals 1
-		_class _c = $intExpr.of().forSelectedIn(C.class, s-> s.selection.setValue(s.selection.getValue()+1));
+		_class _c = $intExpr.of().forSelectedIn(C.class, s-> s.select.setValue(s.select.getValue()+1));
 		
 		//verify there are now (4) 
 		assertTrue( $intExpr.of(2).countIn(_c)==4 );
@@ -189,7 +189,7 @@ public class $intExprTest extends TestCase {
 		}
 		
 		//add 1 to the (2) int literal values equal to 1 {1, 1}
-		_class _c = $intExpr.of(1).replaceSelectedIn(C.class, s-> new IntegerLiteralExpr( s.selection.getValue()+1 ) );
+		_class _c = $intExpr.of(1).replaceSelectedIn(C.class, s-> new IntegerLiteralExpr( s.select.getValue()+1 ) );
 		
 		//verify there are (4) int literals NOW equal to value 2 
 		assertEquals(2,  $intExpr.of(2).countIn(_c));

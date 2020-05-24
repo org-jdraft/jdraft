@@ -2,6 +2,7 @@ package org.jdraft.pattern;
 
 import org.jdraft._method;
 import junit.framework.TestCase;
+import org.jdraft._modifier;
 import org.jdraft._modifiers;
 
 /**
@@ -32,7 +33,7 @@ public class SmodifiersTest extends TestCase {
     }
     public void testAll(){
         assertNull( $modifiers.of(_m).select(_modifiers.of()) );
-        assertNotNull( $modifiers.of(_m).select(_modifiers.of(_modifiers.PUBLIC)) );
+        assertNotNull( $modifiers.of(_m).select(_modifiers.of(_modifier.PUBLIC)) );
         assertNull( $modifiers.of(_m.ast()).select(_modifiers.of()) );
         assertNotNull( $modifiers.of(_m.ast()).select(_modifiers.of().setPublic()) );
     }

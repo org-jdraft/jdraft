@@ -206,7 +206,7 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
      * Refactoring from one {@link _stmt} to another {@link _stmt}
      * @param <_T> the "target" {@link _stmt} type
      */
-    class $refactor<_T extends _stmt> implements $refactorBot {
+    class $refactor<_T extends _stmt> implements $refactoring {
 
         /** Selects the instances to refactor from the target */
         $stmt target$Bot;
@@ -225,7 +225,7 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
         public static $refactor of($stmt $target, $stmt $change){
             return of($target, (s)->{
                 _stmt _drafted = (_stmt)$change.draft( ((Select)s).tokens);
-                _stmt _target = (_stmt) ((Select)s).selection;
+                _stmt _target = (_stmt) ((Select)s).select;
                 _target.replace(_drafted);
             });
         }

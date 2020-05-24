@@ -25,7 +25,7 @@ import java.util.function.Consumer;
  *
  * @author Eric
  */
-public interface $refactorBot {
+public interface $refactoring {
 
     /**
      * perform the refactoring on the source code of this clazz abnd return the modified _type

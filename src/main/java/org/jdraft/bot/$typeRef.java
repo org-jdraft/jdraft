@@ -10,7 +10,6 @@ import org.jdraft.text.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * $bot for searching for, inspecting, drafting, and modifying a {@link _typeRef} or {@link Type} Reference
@@ -451,7 +450,7 @@ public class $typeRef
                 if( sel == null){
                     return null;
                 }
-                sel.selection = _tr;
+                sel.select = _tr;
                 sel.tokens.putAll(ats);
                 return sel;
             }
@@ -500,7 +499,7 @@ public class $typeRef
     public _typeRef firstIn(Node astStartNode, Predicate<_typeRef> _typeRefActionFn){
         Optional<Type> f = astStartNode.findFirst(Type.class, s ->{
             Select<_typeRef> sel = select(s);
-            return sel != null && _typeRefActionFn.test(sel.selection);
+            return sel != null && _typeRefActionFn.test(sel.select);
             });
         if( f.isPresent()){
             return _typeRef.of(f.get());
@@ -652,8 +651,8 @@ public class $typeRef
     public <N extends Node> N forEachIn(N astNode, Predicate<_typeRef>typeRefMatchFn, Consumer<_typeRef> typeRefActionFn){
         astNode.walk(Type.class, t-> {
             Select<_typeRef> select = select(t);
-            if( select != null && typeRefMatchFn.test(select.selection)){
-                typeRefActionFn.accept( select.selection);
+            if( select != null && typeRefMatchFn.test(select.select)){
+                typeRefActionFn.accept( select.select);
             }
         });
         return astNode;

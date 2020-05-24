@@ -20,24 +20,24 @@ import java.util.stream.Stream;
  */
 public class Select<S> {
 
-    public S selection;
+    public S select;
     public Tokens tokens;
 
-    public Select(S selection, Tokens tokens) {
-        this.selection = selection;
+    public Select(S select, Tokens tokens) {
+        this.select = select;
         this.tokens = tokens;
     }
 
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" + System.lineSeparator()
-                + Text.indent(selection.toString()) + System.lineSeparator() +
+                + Text.indent(select.toString()) + System.lineSeparator() +
                 Text.indent("Tokens : " + tokens) + System.lineSeparator()
                 + "}";
     }
 
     public S get() {
-        return this.selection;
+        return this.select;
     }
 
     public String get(String key){
@@ -344,7 +344,7 @@ public class Select<S> {
                         return null;
                     }
                     Select<_F> sel = bot.select(found.get());
-                    leftList.remove(sel.selection);
+                    leftList.remove(sel.select);
                     if( all.isConsistent(sel.tokens) ){
                         all.putAll(sel.tokens);
                     } else{

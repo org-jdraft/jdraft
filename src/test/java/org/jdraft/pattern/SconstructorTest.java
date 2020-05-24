@@ -99,7 +99,7 @@ public class SconstructorTest extends TestCase {
     //if the class is a throwable, add it to ...
     public void testConstructOf(){
         $constructor $ct = $constructor.of($annoRef.of( Deprecated.class ),
-            $modifiers.of( _modifiers.PRIVATE ),
+            $modifiers.of( _modifier.PRIVATE ),
             $name.of("TT"),
             $throws.of( IOException.class ), 
             $body.of("{}"), 

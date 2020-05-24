@@ -115,8 +115,8 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
     public <N extends Node> N forEachIn(N astNode, Predicate<_comment> matchFn, Consumer<_comment> actionFn){
         astNode.getAllContainedComments().stream().forEach(n ->{
             Select<_comment> sel = select(n);
-            if( sel != null && matchFn.test(sel.selection)) {
-                actionFn.accept(sel.selection);
+            if( sel != null && matchFn.test(sel.select)) {
+                actionFn.accept(sel.select);
             }
         });
         return astNode;
@@ -257,7 +257,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         List<_comment> comments = new ArrayList<>();
 
         forSelectedIn(astNode, sel-> {
-            comments.add(sel.selection.matchReplace(matchStencil, replaceStencil));
+            comments.add(sel.select.matchReplace(matchStencil, replaceStencil));
         });
         return comments;
     }

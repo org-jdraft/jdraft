@@ -216,16 +216,16 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
 
         astNode.getAllContainedComments().forEach(n -> {
             Select<_java._node> sel = select(n);
-            if( sel != null && matchFn.test(sel.selection)) {
-                found.add( sel.selection);
+            if( sel != null && matchFn.test(sel.select)) {
+                found.add( sel.select);
             }
         });
 
         astNode.stream().forEach(n ->{
             if( !( n instanceof Comment )) { //we need to NOT do orphaned comments twice
                 Select<_java._node> sel = select(n);
-                if (sel != null && matchFn.test(sel.selection)) {
-                    actionFn.accept(sel.selection);
+                if (sel != null && matchFn.test(sel.select)) {
+                    actionFn.accept(sel.select);
                 }
             }
         });
@@ -237,13 +237,13 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ) {
                 forSelectedIn(((_codeUnit) _j).astCompilationUnit(), t->true, s->{
-                    ((_java._withText)s.selection).replace(this.contains, Text.combine(replacement));
+                    ((_java._withText)s.select).replace(this.contains, Text.combine(replacement));
                 });
                 return _j;
             }
         }
         forSelectedIn(((_codeUnit) _j).astCompilationUnit(), t->true, s->{
-            ((_java._withText)s.selection).replace(this.contains, Text.combine(replacement));
+            ((_java._withText)s.select).replace(this.contains, Text.combine(replacement));
         });
         return _j;
     }

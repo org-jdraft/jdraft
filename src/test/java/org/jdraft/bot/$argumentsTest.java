@@ -49,7 +49,7 @@ public class $argumentsTest extends TestCase {
         assertTrue($args.of("$args$").matches("(i, 'c', (byte)3)"));
 
         assertEquals(_args.of("i, 1"),
-                $args.of("$args$").select("(i, 1)").selection);
+                $args.of("$args$").select("(i, 1)").select);
     }
 
     public void testFromString(){

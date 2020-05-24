@@ -8,7 +8,7 @@ import org.jdraft.pattern.$;
 public class $statementRefactorTest extends TestCase {
 
     public void test$Refactor(){
-        $refactorBot $r = $.refactor("System.out.println($any$);", "Log.debug($any$);");
+        $refactoring $r = $.refactor("System.out.println($any$);", "Log.debug($any$);");
         class C{
             int value = 100;
             void m(){

@@ -20,10 +20,10 @@ public class $expressionRefactorTest extends TestCase {
 
     public void testIndRef(){
         $methodCallExpr $print = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) );
-        $expr.$refactor $toLogDebug = $print.refactorTo("Log.debug($any$);");
+        $expr.$refactor $toLogDebug = $print.refactor("Log.debug($any$);");
 
-        $refactorBot $r = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) ).$and(mc-> mc.isArg(0, _stringExpr.class))
-                .refactorTo("Log.debug($any$)");
+        $refactoring $r = $methodCallExpr.of( (Object $any$)-> System.out.println($any$) ).$and(mc-> mc.isArg(0, _stringExpr.class))
+                .refactor("Log.debug($any$)");
 
         class FF{
             void m(){

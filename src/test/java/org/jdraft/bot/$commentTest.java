@@ -45,7 +45,7 @@ public class $commentTest extends TestCase {
         assertEquals(3, $ct.countIn(CC.class));
 
         _class _c = $ct.forSelectedIn(CC.class, s -> {
-            String content = s.selection.getText();
+            String content = s.select.getText();
             Tokens ts = codeTags.parseFirst(content);
             while (ts != null) {
                 //realize the old version
@@ -54,7 +54,7 @@ public class $commentTest extends TestCase {
                 content = Text.replace(content, match, replacement);
                 ts = codeTags.parseFirst(content);
             }
-            s.selection.setText(content);
+            s.select.setText(content);
         });
 
         System.out.println(_c);

@@ -35,7 +35,7 @@ public class $booleanExprTest extends TestCase {
         assertTrue( $ANY.matches(false) );
         assertFalse( $ANY.matches("blah"));
         Select<_booleanExpr> s = $ANY.select("true");
-        assertEquals(_booleanExpr.of(true), s.selection);
+        assertEquals(_booleanExpr.of(true), s.select);
     }
 
     public void testTrue() {
@@ -90,13 +90,13 @@ public class $booleanExprTest extends TestCase {
 
     public void testAst(){
         Select<_booleanExpr> s = $ANY.select(Exprs.booleanExpr("true"));
-        assertEquals(_booleanExpr.of(true), s.selection);
+        assertEquals(_booleanExpr.of(true), s.select);
     }
 
     public void testPInstance(){
         //assertNotNull(_BP.select(_boolean.of(true)));
         Select<_booleanExpr> bs = $ANY.select(_booleanExpr.of(true));
-        assertEquals( _booleanExpr.of(true), bs.selection);
+        assertEquals( _booleanExpr.of(true), bs.select);
         assertTrue( bs.tokens.isEmpty());
     }
 }

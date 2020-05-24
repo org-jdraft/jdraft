@@ -103,6 +103,15 @@ public class $modifiers
     }
 
     /**
+     *
+     * @param _ms
+     * @return
+     */
+    public static $modifiers of( _modifier..._ms){
+        return of( _modifiers.of(_ms));
+    }
+
+    /**
      * Matches sets of modifiers that have all of these modifiers
      * @param astNwm
      * @return

@@ -351,7 +351,7 @@ public interface $bot<B, _B, $B>
     default _B firstIn(Node astNode, Predicate<_B> matchFn) {
         Select<_B> sel = selectFirstIn(astNode, (s)-> matchFn.test(s.get()));
         if( sel != null ) {
-            return sel.selection;
+            return sel.select;
         }
         return null;
     }
@@ -374,7 +374,7 @@ public interface $bot<B, _B, $B>
     default _B firstIn(_java._node _n, Predicate<_B> matchFn) {
         Select<_B> sel = selectFirstIn(_n, (s)-> matchFn.test(s.get()));
         if( sel != null ) {
-            return sel.selection;
+            return sel.select;
         }
         return null;
     }
@@ -725,8 +725,8 @@ public interface $bot<B, _B, $B>
     default <N extends Node> N forEachIn(N astNode, Predicate<_B> matchFn, Consumer<_B> actionFn){
         astNode.stream().forEach(n ->{
             Select<_B> sel = select(n);
-            if( sel != null && matchFn.test(sel.selection)) {
-                actionFn.accept(sel.selection);
+            if( sel != null && matchFn.test(sel.select)) {
+                actionFn.accept(sel.select);
             }
         });
         return astNode;
@@ -1364,13 +1364,13 @@ public interface $bot<B, _B, $B>
                         Node n = null;
                         try {
                             //assume the replacement will be of the same type
-                            n = _java.node(s.selection.ast().getClass(), drafted);
-                            replaced = s.selection.ast().replace( n );
+                            n = _java.node(s.select.ast().getClass(), drafted);
+                            replaced = s.select.ast().replace( n );
                         }catch(Exception e){
-                            throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.selection.ast().getClass());
+                            throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.select.ast().getClass());
                         }
                         if( ! replaced ){
-                            throw new _jdraftException("could not replace "+s.selection+" with "+ n);
+                            throw new _jdraftException("could not replace "+s.select +" with "+ n);
                         }
                     });
                     return _j;
@@ -1383,13 +1383,13 @@ public interface $bot<B, _B, $B>
                 Node n = null;
                 try {
                     //assume the replacement will be of the same type
-                    n = _java.node(s.selection.ast().getClass(), drafted);
-                    replaced = s.selection.ast().replace( n );
+                    n = _java.node(s.select.ast().getClass(), drafted);
+                    replaced = s.select.ast().replace( n );
                 }catch(Exception e){
-                    throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.selection.ast().getClass());
+                    throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.select.ast().getClass());
                 }
                 if( ! replaced ){
-                    throw new _jdraftException("could not replace "+s.selection+" with "+ n);
+                    throw new _jdraftException("could not replace "+s.select +" with "+ n);
                 }
             });
             return _j;
@@ -1536,14 +1536,14 @@ public interface $bot<B, _B, $B>
 
         default <N extends Node, _N extends _java._node<?, ?>> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Template<_N> nodeTemplate) {
             forSelectedIn(astNode, selectMatchFn, s->{
-                s.selection.ast().replace( nodeTemplate.draft(s.tokens).ast() );
+                s.select.ast().replace( nodeTemplate.draft(s.tokens).ast() );
             });
             return astNode;
         }
 
         default <N extends Node> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
             forSelectedIn(astNode, selectMatchFn, s->{
-                s.selection.ast().replace( replaceDeriver.apply(s ) );
+                s.select.ast().replace( replaceDeriver.apply(s ) );
             });
             return astNode;
         }

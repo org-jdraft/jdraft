@@ -354,7 +354,7 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
         List<_stringExpr> strings = new ArrayList<>();
 
         forSelectedIn(astNode, sel-> {
-            strings.add(sel.selection.matchReplace(matchStencil, replaceStencil));
+            strings.add(sel.select.matchReplace(matchStencil, replaceStencil));
         });
         return strings;
     }

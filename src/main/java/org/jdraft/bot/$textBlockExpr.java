@@ -270,7 +270,7 @@ public class $textBlockExpr implements $bot.$node<TextBlockLiteralExpr, _textBlo
         List<_textBlockExpr> textBlocks = new ArrayList<>();
 
         forSelectedIn(astNode, sel-> {
-            textBlocks.add(sel.selection.matchReplace(matchStencil, replaceStencil));
+            textBlocks.add(sel.select.matchReplace(matchStencil, replaceStencil));
         });
         return textBlocks;
     }
