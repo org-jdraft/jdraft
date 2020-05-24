@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.jdraft.pattern;
+package test.othertools;
 
 import org.jdraft.Exprs;
 import org.jdraft._type;
 import junit.framework.TestCase;
+import org.jdraft.bot.$intExpr;
+import org.jdraft.bot.$refactoring;
 
 /**
  * I wanted to look at tools that do something like $pattern work in other languages
@@ -45,18 +47,27 @@ print(incremented)
  * 
  * @author Eric
  */
-public class vSwiftSyntaxTest extends TestCase {
-    
-    public void testUpdate(){
+public class SwiftSyntaxTest extends TestCase {
+
+    /** This is all the code you need for refactoring */
+    $refactoring $addOneToAllInts =
+            //1) find all int literals
+            $intExpr.of()
+                    // for each selected get its value and update it by 1
+                    .refactor(s-> s.select.setValue( s.select.getValue() + 1));
+
+
+    public void testUseRefactoring(){
+
+        //heres an example with a bunch of ints
         class C{
-           int x=2, y=3_000; 
-           int b = 0b01;
-           int hex = 0xDEAD;
+           int x=2, y=3_000;  //_ separators
+           int b = 0b01; //binary
+           int hex = 0xDEAD; //hex
         }
-        _type _t = $.intLiteral().forEachIn(C.class,
-            //i-> i.setInt( Integer.parseInt(i.getValue().replace("_", "")) +1) );    
-            i-> i.ast().setInt( Exprs.parseInt(i.ast().getValue()) +1) );
-        
+        //here apply the refactoring to all ints in the class
+        _type _t = $addOneToAllInts.in(C.class);
+
         assertTrue( _t.getField("x").is("int x = 3") );
         assertTrue( _t.getField("y").is("int y = 3001") );
         
