@@ -82,6 +82,18 @@ public interface _feature<_T, _F>{
      * part basis)
      */
     enum _id {
+
+        MEMBERS("members"),
+        MEMBER("member"),
+        IS_OPEN("isOpen"),
+        MODULE_DIRECTIVES("moduleDirectives"),
+        MODULE_DIRECTIVE("moduleDirective"),
+        IS_TRANSITIVE("isTransitive"),
+        NAMES("names"), //moduleProvides, moduleOpens, moduleExports
+        //MODULE_NAME("moduleName"), //moduleProvides, moduleOpens, moduleExports
+
+        VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),//annotations places on parameter var args
+
         IS_TOP_LEVEL("isTopLevel"),
         MODULE_DECLARATION("moduleDeclaration"),
         PACKAGE("package"),
@@ -206,6 +218,7 @@ public interface _feature<_T, _F>{
         UPDATE_EXPR("updateExpr"),
         COMPARE_EXPR("compareExpr"),
         STATEMENT("statement"), //labeledStatment
+        IS_PARENTHESIZED_PARAMS("isParenthesizedParams"),
         ARRAY_DIMENSION("arrayDimension"),
         ARRAY_DIMENSIONS("arrayDimensions"), //arrayCreate
         IS_ENCLOSED_PARAMS( "isEnclosedParams"),

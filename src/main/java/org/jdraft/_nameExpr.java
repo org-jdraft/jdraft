@@ -21,6 +21,13 @@ public final class _nameExpr
         return new _nameExpr(Exprs.nameExpr( code));
     }
 
+    public static _feature._one<_nameExpr, SimpleName> NAME = new _feature._one<>(_nameExpr.class, SimpleName.class,
+            _feature._id.NAME,
+            a -> a.getNameNode(),
+            (_nameExpr a, SimpleName sn) -> a.setName(sn));
+
+    public static _feature._meta<_nameExpr> META = _feature._meta.of(_nameExpr.class, NAME);
+
     public NameExpr ne;
 
     public _nameExpr(NameExpr ne){
@@ -54,6 +61,11 @@ public final class _nameExpr
 
     public String toString(){
         return this.ne.toString();
+    }
+
+    public _nameExpr setName( SimpleName sn) {
+        this.ne.setName(sn);
+        return this;
     }
 
     public _nameExpr setName(String name){

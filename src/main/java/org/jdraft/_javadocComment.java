@@ -27,7 +27,6 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
             a -> a.getText(),
             (_javadocComment a, String text) -> a.setText(text));
 
-
     public static _feature._meta<_javadocComment> META = _feature._meta.of(_javadocComment.class, TEXT);
 
     public JavadocComment astComment;

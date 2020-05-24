@@ -1,10 +1,12 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleRequiresDirective;
 import org.jdraft.text.Text;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class _moduleRequires implements _java._node<ModuleRequiresDirective, _moduleRequires>,
@@ -30,6 +32,18 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
         return of( modd );
     }
 
+    public static _feature._one<_moduleRequires, String> MODULE_NAME = new _feature._one<>(_moduleRequires.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_moduleRequires a, String s) -> a.setName(s));
+
+    public static _feature._one<_moduleRequires, Boolean> IS_TRANSITIVE = new _feature._one<>(_moduleRequires.class, Boolean.class,
+            _feature._id.IS_TRANSITIVE,
+            a -> a.isTransitive(),
+            (_moduleRequires a, Boolean b) -> a.setTransitive(b));
+
+    public static _feature._meta<_moduleRequires> META = _feature._meta.of(_moduleRequires.class, IS_TRANSITIVE, MODULE_NAME);
+
     public ModuleRequiresDirective  me;
 
     public _moduleRequires setName(String name){
@@ -37,8 +51,17 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
         return this;
     }
 
-    public boolean isStatic(){
-        return this.me.isStatic();
+    public String getName(){
+        return this.me.getNameAsString();
+    }
+
+    public _moduleRequires setName(_name name){
+        this.me.setName(name.toString());
+        return this;
+    }
+
+    public Name getNameNode(){
+        return this.me.getName();
     }
 
     public _moduleRequires setStatic(boolean st){
@@ -46,31 +69,13 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
         return this;
     }
 
-    public _modifiers getModifiers(){
-        return _modifiers.of(this.me);
-    }
-
-    public _moduleRequires setModifiers( String...mods){
-        this.me.setModifiers(_modifiers.of(mods).ast());
-        return this;
-    }
-
-    public _moduleRequires setModifiers( _modifiers _ms){
-        this.me.setModifiers(_ms.ast());
-        return this;
-    }
-
-    public _moduleRequires setTransitive (boolean isTransitive){
+    public _moduleRequires setTransitive (Boolean isTransitive){
         this.me.setTransitive(isTransitive);
         return this;
     }
 
-    public boolean isTransitive(){
+    public Boolean isTransitive(){
         return this.me.isTransitive();
-    }
-
-    public String getName(){
-        return this.me.getNameAsString();
     }
 
     public _moduleRequires(ModuleRequiresDirective med){

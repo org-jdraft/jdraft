@@ -95,7 +95,7 @@ public final class _initBlock
     }
 
     public static _initBlock of(Exprs.Command lambdaWithBody){
-        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
         }
@@ -103,7 +103,7 @@ public final class _initBlock
     }
 
     public static <A extends Object> _initBlock of (Consumer<A> lambdaWithBody){
-        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
         }
@@ -111,7 +111,7 @@ public final class _initBlock
     }
 
     public static <A extends Object, B extends Object> _initBlock of(BiConsumer<A,B> lambdaWithBody ){
-        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
         }
@@ -119,7 +119,7 @@ public final class _initBlock
     }
 
     public static <A extends Object, B extends Object,C extends Object> _initBlock of(Exprs.TriConsumer<A,B,C> lambdaWithBody ){
-        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
         }
@@ -127,7 +127,7 @@ public final class _initBlock
     }
 
     public static <A extends Object, B extends Object,C extends Object, D extends Object> _initBlock of(Exprs.QuadConsumer<A,B,C,D> lambdaWithBody ){
-        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         if( bdy instanceof BlockStmt ) {
             return of( (BlockStmt)bdy);
         }

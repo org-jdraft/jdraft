@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
@@ -110,44 +111,36 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         return this.oce.getAnonymousClassBody().isPresent();
     }
 
+    public static _feature._one<_newExpr, _expr> SCOPE = new _feature._one<>(_newExpr.class, _expr.class,
+            _feature._id.SCOPE_EXPR,
+            a -> a.getScope(),
+            (_newExpr a, _expr _e) -> a.setScope(_e));
+
+    public static _feature._one<_newExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_newExpr.class, _typeArgs.class,
+            _feature._id.TYPE_ARGS,
+            a -> a.getTypeArgs(),
+            (_newExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta));
+
+    public static _feature._one<_newExpr, _typeRef> TYPE = new _feature._one<>(_newExpr.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_newExpr a, _typeRef _tr) -> a.setTypeRef(_tr));
+
+    public static _feature._one<_newExpr, _args> ARGS = new _feature._one<>(_newExpr.class, _args.class,
+            _feature._id.ARGS_EXPRS,
+            a -> a.getArgs(),
+            (_newExpr a, _args _a) -> a.setArgs(_a));
+
+    public static _feature._many<_newExpr, _java._declared> ANONYMOUS_MEMBER_DECLARATIONS = new _feature._many<>(_newExpr.class, _java._declared.class,
+            _feature._id.MEMBERS,
+            _feature._id.MEMBER,
+            a -> a.listAnonymousDeclarations(),
+            (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousDeclarations(_ms));
+
+    public static _feature._meta<_newExpr> META = _feature._meta.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_MEMBER_DECLARATIONS );
+
+
     /*
-    public _new setType(_typeRef _t){
-        this.oce.setType((ClassOrInterfaceType)_t.ast());
-        return this;
-    }
-
-    public _new setType(Class clazz){
-        this.oce.setType(clazz);
-        return this;
-    }
-
-    public _new setType(ClassOrInterfaceType ct){
-        this.oce.setType(ct);
-        return this;
-    }
-
-    public _new setType(String type){
-        this.oce.setType( (ClassOrInterfaceType)Ast.typeRef(type));
-        return this;
-    }
-
-    public _typeRef getType(){
-        return _typeRef.of(this.oce.getType());
-    }
-
-    public boolean isType(ClassOrInterfaceType coit ){
-        return Ast.typesEqual(this.oce.getType(), coit);
-    }
-
-    public boolean isType(Class clazz ){
-        return Ast.typesEqual( this.oce.getType(), Ast.typeRef(clazz) );
-    }
-
-    public boolean isType(String type){
-        return Ast.typesEqual( this.oce.getType(), Ast.typeRef(type) );
-    }
-    */
-
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
@@ -166,109 +159,22 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         }
         return comps;
     }
+     */
 
-    /*
-    public boolean hasScope(){
-        return this.oce.getScope().isPresent();
-    }
+    /**
+     * replaces all of the Anonymous Class body
+     * @param _dcls
+     * @return
+     */
+    public _newExpr setAnonymousDeclarations(List<_java._declared> _dcls){
+        if( this.oce.getAnonymousClassBody().isPresent()){
+            NodeList<BodyDeclaration<?>> b =  this.oce.getAnonymousClassBody().get();
+            b.clear();
 
-    public boolean isScope(String...expr){
-        if( this.oce.getScope().isPresent()){
-            return Objects.equals( oce.getScope().get(), Ex.of(expr));
         }
-        return false;
-    }
-
-    public boolean isScope(Expression e){
-        if( this.oce.getScope().isPresent()){
-            return Objects.equals( oce.getScope().get(), e);
-        }
-        return e == null;
-    }
-
-    public boolean isScope(_expression _e){
-        if( this.oce.getScope().isPresent()){
-            return Objects.equals( oce.getScope().get(), _e.ast());
-        }
-        return _e == null;
-    }
-
-    public _new removeScope(){
-        this.oce.removeScope();
+        _dcls.forEach(d -> oce.addAnonymousClassBody( (BodyDeclaration)d.ast()));
         return this;
     }
-
-    public _new setScope( _expression _e){
-        return setScope(_e.ast());
-    }
-
-    public _new setScope( Expression e){
-        this.oce.setScope(e);
-        return this;
-    }
-
-    public _new setScope(String... scope){
-        return setScope( Ex.of(scope));
-    }
-
-    public _expression getScope(){
-        if( oce.getScope().isPresent()){
-            return _expression.of(this.oce.getScope().get());
-        }
-        return null;
-    }
-    */
-
-    /*
-    public _expression getArgument( int index){
-        return _expression.of( this.oce.getArgument(index) );
-    }
-
-    public _new setArgument(int index, _expression _e){
-        this.oce.getArguments().set(index, _e.ast());
-        return this;
-    }
-
-    public _new setArgument(int index, Expression e){
-        this.oce.getArguments().set(index, e);
-        return this;
-    }
-
-    public _new setArguments(_expression ... _es){
-        NodeList<Expression> nle = new NodeList<>();
-        Arrays.stream(_es).forEach(n -> nle.add(n.ast()));
-        this.oce.setArguments(nle);
-        return this;
-    }
-
-    public _new setArguments(Expression ... es){
-        NodeList<Expression> nle = new NodeList<>();
-        Arrays.stream(es).forEach(n -> nle.add(n));
-        this.oce.setArguments(nle);
-        return this;
-    }
-
-    public List<_expression> listArguments(){
-        List<_expression> args = new ArrayList<>();
-        this.oce.getArguments().forEach(a -> args.add(_expression.of(a)));
-        return args;
-    }
-
-    public List<_expression> listArguments(Predicate<_expression> matchFn){
-        return listArguments().stream().filter(matchFn).collect(Collectors.toList());
-    }
-
-    public _new forArguments(Consumer<_expression> argFn){
-        this.oce.getArguments().stream().map( a-> _expression.of(a)).forEach(e->  argFn.accept(e) );
-        return this;
-    }
-
-    public _new forArguments(Predicate<_expression> expressionMatchFn, Consumer<_expression> argFn){
-        this.oce.getArguments().stream().map( a-> _expression.of(a))
-                .filter(expressionMatchFn).forEach(e->  argFn.accept(e) );
-        return this;
-    }
-    */
 
     /**
      * Returns a list of declared entities defined in the anonymous body

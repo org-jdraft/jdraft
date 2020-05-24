@@ -25,11 +25,12 @@ public enum _modifier implements _java._node<Modifier, _modifier> {
 
     public final int bitMask;
 
+    public static _feature._meta<_modifier> META = _feature._meta.of(_modifier.class);
+
     _modifier(com.github.javaparser.ast.Modifier mod, int bitMask){
         this.mod = mod;
         this.bitMask = bitMask;
     }
-
 
     @Override
     public _modifier copy() {

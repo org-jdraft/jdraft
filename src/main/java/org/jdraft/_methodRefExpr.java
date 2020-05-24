@@ -22,6 +22,23 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
         return new _methodRefExpr(Exprs.methodReferenceExpr( code));
     }
 
+    public static _feature._one<_methodRefExpr, _expr> SCOPE = new _feature._one<>(_methodRefExpr.class, _expr.class,
+            _feature._id.SCOPE_EXPR,
+            a -> a.getScope(),
+            (_methodRefExpr a, _expr _e) -> a.setScope(_e));
+
+    public static _feature._one<_methodRefExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_methodRefExpr.class, _typeArgs.class,
+            _feature._id.TYPE_ARGS,
+            a -> a.getTypeArgs(),
+            (_methodRefExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta));
+
+    public static _feature._one<_methodRefExpr, String> IDENTIFIER = new _feature._one<>(_methodRefExpr.class, String.class,
+            _feature._id.IDENTIFIER,
+            a -> a.getIdentifier(),
+            (_methodRefExpr a, String s) -> a.setIdentifier(s));
+
+    public static _feature._meta<_methodRefExpr> META = _feature._meta.of(_methodRefExpr.class, SCOPE, TYPE_ARGS, IDENTIFIER );
+
     public MethodReferenceExpr mre;
 
     public _methodRefExpr(MethodReferenceExpr mre){

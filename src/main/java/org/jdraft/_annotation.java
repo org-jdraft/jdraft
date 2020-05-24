@@ -570,6 +570,14 @@ public final class _annotation
             a -> a.getModifiers(),
             (_annotation a, _modifiers b) -> a.setModifiers(b));
 
+    public static _feature._many<_annotation, _java._member> MEMBERS = new _feature._many<>(_annotation.class, _java._member.class,
+            _feature._id.MEMBERS,
+            _feature._id.MEMBER,
+            a -> a.listMembers(),
+            (_annotation a, List<_java._member>mems) -> a.setMembers(mems));
+
+
+    /*
     public static _feature._many<_annotation, _annotation._entry> ANNOTATION_ENTRIES = new _feature._many<>(_annotation.class, _annotation._entry.class,
             _feature._id.ANNOTATION_ENTRIES,
             _feature._id.ANNOTATION_ENTRY,
@@ -593,10 +601,11 @@ public final class _annotation
             _feature._id.COMPANION_TYPE,
             a -> a.listCompanionTypes(),
             (_annotation a, List<_type>lit) -> a.setCompanionTypes(lit));
+    */
 
     public static _feature._meta<_annotation> META = _feature._meta.of(_annotation.class,
-            PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, ANNOTATION_ENTRIES, FIELDS,
-            INNER_TYPES, COMPANION_TYPES);
+            PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, MEMBERS);
+            //ANNOTATION_ENTRIES, FIELDS, INNER_TYPES, COMPANION_TYPES);
 
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();

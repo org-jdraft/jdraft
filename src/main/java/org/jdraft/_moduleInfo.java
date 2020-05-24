@@ -1,10 +1,13 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
+import com.github.javaparser.ast.modules.ModuleDirective;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * "module-info.java" file describing the module dependencies
@@ -12,10 +15,10 @@ import java.util.*;
  */
 public final class _moduleInfo
         implements _codeUnit<_moduleInfo>, _java._node<CompilationUnit, _moduleInfo>,
+        _java._withName<_moduleInfo>,
         _java._withComments<CompilationUnit, _moduleInfo> {
 
     public CompilationUnit astCompUnit;
-    //private final _javadoc.JavadocHolderAdapter javadocHolder;
 
     @Override
     public CompilationUnit astCompilationUnit() {
@@ -87,6 +90,24 @@ public final class _moduleInfo
         return false;
     }
 
+    public static _feature._one<_moduleInfo, Boolean> IS_OPEN = new _feature._one<>(_moduleInfo.class, Boolean.class,
+            _feature._id.IS_OPEN,
+            a -> a.isOpen(),
+            (_moduleInfo a, Boolean b) -> a.setOpen(b));
+
+    public static _feature._one<_moduleInfo, String> NAME = new _feature._one<>(_moduleInfo.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_moduleInfo a, String s) -> a.setName(s));
+
+    public static _feature._many<_moduleInfo, _moduleDirective> MODULE_DIRECTIVES = new _feature._many<>(_moduleInfo.class, _moduleDirective.class,
+            _feature._id.MODULE_DIRECTIVES,
+            _feature._id.MODULE_DIRECTIVES,
+            a -> a.listModuleDirectives(),
+            (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns));
+
+    public static _feature._meta<_moduleInfo> META = _feature._meta.of(_moduleInfo.class, IS_OPEN, NAME, MODULE_DIRECTIVES);
+
     /**
      * Decompose the entity into key-VALUE pairs
      *
@@ -96,9 +117,10 @@ public final class _moduleInfo
 
         Map m = new HashMap();
         m.put(_java.Feature.HEADER_COMMENT, getHeaderComment());
+        //OPEN
         m.put(_java.Feature.NAME, getModuleAst().getNameAsString());
         m.put(_java.Feature.MODULE_DECLARATION, getModuleAst());
-        m.put(_java.Feature.ANNO_EXPRS, _annoExprs.of(getModuleAst()));
+        //m.put(_java.Feature.ANNO_EXPRS, _annoExprs.of(getModuleAst()));
         m.put(_java.Feature.IMPORTS, _imports.of(astCompUnit));
         //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
 
@@ -130,19 +152,37 @@ public final class _moduleInfo
     public _moduleInfo(CompilationUnit cu) {
         this.astCompUnit = cu;
     }
-    /*
-    public _moduleInfo(ModuleDeclaration md ){
-        if( md.findCompilationUnit().isPresent() ){
-            this.astCompUnit = md.findCompilationUnit().get();
-        } else{
-
-        }
-    }
-     */
 
     @Override
     public boolean isTopLevel() {
         return true;
+    }
+
+    public boolean isOpen(){
+        return getModuleAst().isOpen();
+    }
+
+    public _moduleInfo setOpen(Boolean open){
+        this.getModuleAst().setOpen(open);
+        return this;
+    }
+
+    /**
+     * creates and returns a list of moduleDirectives
+     * @return
+     */
+    public List<_moduleDirective> listModuleDirectives(){
+        return this.getModuleAst().getDirectives().stream().map(m -> _moduleDirective.of(m)).collect(Collectors.toList());
+    }
+
+    public List<ModuleDirective> listAstModuleDirectives(){
+        return this.getModuleAst().getDirectives();
+    }
+
+    public _moduleInfo setModuleDirectives(List<_moduleDirective> mds){
+        this.getModuleAst().getDirectives().clear();
+        mds.forEach( md -> this.getModuleAst().getDirectives().add( (ModuleDirective)md.ast() ) );
+        return this;
     }
 
     public ModuleDeclaration getModuleAst() {
@@ -150,5 +190,21 @@ public final class _moduleInfo
             return this.astCompUnit.getModule().get();
         }
         return null;
+    }
+
+    @Override
+    public _moduleInfo setName(String name) {
+        this.getModuleAst().setName(name);
+        return this;
+    }
+
+    @Override
+    public String getName() {
+        return this.getModuleAst().getNameAsString();
+    }
+
+    @Override
+    public Node getNameNode() {
+        return this.getModuleAst().getName();
     }
 }

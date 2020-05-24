@@ -71,6 +71,18 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         throw new _jdraftException("No instance of expression found in lambda");
     }
 
+    public static _feature._one<_instanceOfExpr, _typeRef> TYPE = new _feature._one<>(_instanceOfExpr.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_instanceOfExpr a, _typeRef _t) -> a.setTypeRef(_t));
+
+    public static _feature._one<_instanceOfExpr, _expr> EXPRESSION = new _feature._one<>(_instanceOfExpr.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_instanceOfExpr a, _expr _e) -> a.setExpression(_e));
+
+    public static _feature._meta<_instanceOfExpr> META = _feature._meta.of(_instanceOfExpr.class, TYPE, EXPRESSION );
+
     public InstanceOfExpr ioe;
 
     public _instanceOfExpr(InstanceOfExpr ioe){

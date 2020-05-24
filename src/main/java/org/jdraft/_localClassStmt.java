@@ -66,6 +66,13 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
         throw new _jdraftException("No local class Statement found in lambda");
     }
 
+    public static _feature._one<_localClassStmt, _class> CLASS = new _feature._one<>(_localClassStmt.class, _class.class,
+            _feature._id.CLASS,
+            a -> a.get_class(),
+            (_localClassStmt a, _class _c) -> a.set_class(_c));
+
+    public static _feature._meta<_localClassStmt> META = _feature._meta.of(_localClassStmt.class, CLASS );
+
     private LocalClassDeclarationStmt astStmt;
 
     public _localClassStmt(LocalClassDeclarationStmt rs){
@@ -94,19 +101,12 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
         return this;
     }
 
-    public _localClassStmt setClass(ClassOrInterfaceDeclaration cd){
+    public _localClassStmt set_class(ClassOrInterfaceDeclaration cd){
         this.astStmt.setClassDeclaration(cd);
         return this;
     }
 
-    public boolean isClass( ClassOrInterfaceDeclaration coid ){
-        return Objects.equals( _class.of(coid), _class.of(this.astStmt.getClassDeclaration()));
-    }
-
-    public boolean isClass( _class _c ){
-        return Objects.equals( _c, _class.of(this.astStmt.getClassDeclaration()));
-    }
-
+    //HMM do I want to equals on the _class??
     @Override
     public boolean is(LocalClassDeclarationStmt astNode) {
         return this.astStmt.equals( astNode);

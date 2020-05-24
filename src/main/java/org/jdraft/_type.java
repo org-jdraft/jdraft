@@ -767,6 +767,17 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     }
 
     /**
+     * Set all of the members of this type
+     * @param members all of the members (in the order they appear)
+     * @return
+     */
+    default _T setMembers(List<_java._member> members){
+        this.ast().getMembers().clear();
+        members.forEach(m -> this.ast().addMember( (BodyDeclaration)m.ast()) );
+        return (_T)this;
+    }
+
+    /**
      *
      * @param _matchFn
      * @return

@@ -86,12 +86,26 @@ public final class _name implements _java._node<Node, _name> {
         //return new _name( new SimpleName( Text.combine(name)) );
     }
 
+    public static _feature._one<_name, Node> NAME = new _feature._one<>(_name.class, Node.class,
+            _feature._id.NAME,
+            a -> a.name,
+            (_name a, Node n) -> a.set(n));
+
+    public static _feature._meta<_name> META = _feature._meta.of(_name.class, NAME);
+
     public _name(Node sn){
         this.name = sn;
     }
 
     /** the underlying name */
     public Node name;
+
+    public _name set(Node n){
+        if( n instanceof Name || n instanceof SimpleName || n instanceof MethodReferenceExpr) {
+            this.name = n;
+        }
+        return this;
+    }
 
     @Override
     public _name copy() {
@@ -297,6 +311,8 @@ public final class _name implements _java._node<Node, _name> {
             return this.name();
         }
     }
+
+
 
     public String toString(){
         return this.name.toString();

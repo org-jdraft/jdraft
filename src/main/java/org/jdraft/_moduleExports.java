@@ -8,9 +8,12 @@ import com.github.javaparser.ast.modules.ModuleExportsDirective;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class _moduleExports implements _java._node<ModuleExportsDirective, _moduleExports>,
+        _java._set<Name, _name, _moduleExports>,
         _moduleDirective<ModuleExportsDirective, _moduleExports> {
 
     public static _moduleExports of( ModuleExportsDirective med){
@@ -33,6 +36,19 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
         return of( modd );
     }
 
+    public static _feature._one<_moduleExports, String> NAME = new _feature._one<>(_moduleExports.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_moduleExports a, String s) -> a.setName(s));
+
+    public static _feature._many<_moduleExports, _name> MODULE_NAMES = new _feature._many<>(_moduleExports.class, _name.class,
+            _feature._id.NAMES,
+            _feature._id.NAME,
+            a -> a.list(),
+            (_moduleExports a, List<_name> _ns) -> a.set(_ns));
+
+    public static _feature._meta<_moduleExports> META = _feature._meta.of(_moduleExports.class, NAME, MODULE_NAMES);
+
     public ModuleExportsDirective me;
 
     public _moduleExports setName(String name){
@@ -42,6 +58,14 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
 
     public String getName(){
         return this.me.getNameAsString();
+    }
+
+    public _moduleExports setName(_name name){
+        this.me.setName(name.toString());
+        return this;
+    }
+    public Name getNameNode(){
+        return this.me.getName();
     }
 
     public _moduleExports setModuleNames(String...moduleNames){
@@ -85,6 +109,16 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
     @Override
     public _moduleExports copy() {
         return of( this.me.clone());
+    }
+
+    @Override
+    public List<_name> list() {
+        return this.me.getModuleNames().stream().map(m -> _name.of(m)).collect(Collectors.toList());
+    }
+
+    @Override
+    public NodeList<Name> listAstElements() {
+        return this.me.getModuleNames();
     }
 
     @Override

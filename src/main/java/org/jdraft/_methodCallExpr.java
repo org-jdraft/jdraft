@@ -70,6 +70,28 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         throw new _jdraftException("No method call expression found in lambda");
     }
 
+    public static _feature._one<_methodCallExpr, _expr> SCOPE = new _feature._one<>(_methodCallExpr.class, _expr.class,
+            _feature._id.SCOPE_EXPR,
+            a -> a.getScope(),
+            (_methodCallExpr a, _expr _e) -> a.setScope(_e));
+
+    public static _feature._one<_methodCallExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_methodCallExpr.class, _typeArgs.class,
+            _feature._id.TYPE_ARGS,
+            a -> a.getTypeArgs(),
+            (_methodCallExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta));
+
+    public static _feature._one<_methodCallExpr, String> NAME = new _feature._one<>(_methodCallExpr.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_methodCallExpr a, String s) -> a.setName(s));
+
+    public static _feature._one<_methodCallExpr, _args> ARGS = new _feature._one<>(_methodCallExpr.class, _args.class,
+            _feature._id.ARGS_EXPRS,
+            a -> a.getArgs(),
+            (_methodCallExpr a, _args _a) -> a.setArgs(_a));
+
+    public static _feature._meta<_methodCallExpr> META = _feature._meta.of(_methodCallExpr.class, SCOPE, TYPE_ARGS, NAME, ARGS );
+
     public MethodCallExpr mce;
 
     public _methodCallExpr(MethodCallExpr mce){

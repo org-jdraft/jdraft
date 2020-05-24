@@ -3,6 +3,7 @@ package org.jdraft;
 import java.util.*;
 
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.Type;
 
@@ -63,6 +64,39 @@ public final class _param
         return of( Ast.parameter( parameter ) );
     }
 
+
+    public static _feature._one<_param, _annoExprs> ANNO_EXPRS = new _feature._one<>(_param.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_param p, _annoExprs _ae) -> p.setAnnoExprs(_ae));
+
+    public static _feature._one<_param, Boolean> IS_FINAL = new _feature._one<>(_param.class, Boolean.class,
+            _feature._id.IS_FINAL,
+            a -> a.isFinal(),
+            (_param p, Boolean b) -> p.setFinal(b));
+
+    public static _feature._one<_param, _typeRef> TYPE = new _feature._one<>(_param.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_param p, _typeRef _tr) -> p.setTypeRef(_tr));
+
+    public static _feature._one<_param, Boolean> IS_VAR_ARG = new _feature._one<>(_param.class, Boolean.class,
+            _feature._id.IS_VAR_ARG,
+            a -> a.isVarArg(),
+            (_param p, Boolean b) -> p.setVarArg(b));
+
+    public static _feature._one<_param, _annoExprs> VAR_ARG_ANNO_EXPRS = new _feature._one<>(_param.class, _annoExprs.class,
+            _feature._id.VAR_ARG_ANNO_EXPRS,
+            a -> a.getVarArgAnnoExprs(),
+            (_param p, _annoExprs _aes) -> p.setVarArgAnnoExprs(_aes));
+
+    public static _feature._one<_param, String> NAME = new _feature._one<>(_param.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_param p, String s) -> p.setName(s));
+
+    public static _feature._meta<_param> META = _feature._meta.of(_param.class, ANNO_EXPRS, IS_FINAL, TYPE, IS_VAR_ARG, VAR_ARG_ANNO_EXPRS, NAME);
+
     private final Parameter astParameter;
 
     public _param(Parameter p ) {
@@ -87,6 +121,21 @@ public final class _param
         return this;
     }
 
+    /**
+     *
+     * @return
+     */
+    public _annoExprs getVarArgAnnoExprs(){
+        return _annoExprs.of(this.astParameter.getVarArgsAnnotations());
+    }
+
+    public _param setVarArgAnnoExprs( _annoExprs _aes){
+        this.astParameter.getVarArgsAnnotations().clear();
+        _aes.forEach( a-> this.astParameter.getVarArgsAnnotations().add(a.ast()) );
+        return this;
+    }
+
+    /*
     @Override
     public _typeRef getTypeRef() {
         return _typeRef.of( this.astParameter.getType() );
@@ -97,6 +146,7 @@ public final class _param
         this.astParameter.setType( _tr );
         return this;
     }
+     */
 
     @Override
     public String getName() {

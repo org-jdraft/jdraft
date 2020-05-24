@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleUsesDirective;
 import org.jdraft.text.Text;
@@ -30,17 +31,36 @@ public final class _moduleUses implements _java._node<ModuleUsesDirective, _modu
         return of( modd );
     }
 
+    public static _feature._one<_moduleUses, String> NAME = new _feature._one<>(_moduleUses.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_moduleUses a, String s) -> a.setName(s));
+
+    public static _feature._meta<_moduleUses> META = _feature._meta.of(_moduleUses.class, NAME);
+
     public ModuleUsesDirective mod;
 
     public _moduleUses(ModuleUsesDirective mod){
         this.mod = mod;
     }
 
-
     public _moduleUses setName(String moduleName){
         this.mod.setName(moduleName);
         return this;
     }
+
+    public String getName(){
+        return this.mod.getNameAsString();
+    }
+
+    public _moduleUses setName(_name name){
+        this.mod.setName(name.toString());
+        return this;
+    }
+    public Name getNameNode(){
+        return this.mod.getName();
+    }
+
 
     @Override
     public _moduleUses copy() {

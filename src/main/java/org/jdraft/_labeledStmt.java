@@ -66,6 +66,19 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         throw new _jdraftException("No method call expression found in lambda");
     }
 
+
+    public static _feature._one<_labeledStmt, String> LABEL = new _feature._one<>(_labeledStmt.class, String.class,
+            _feature._id.LABEL,
+            a -> a.getLabel(),
+            (_labeledStmt a, String s) -> a.setLabel(s));
+
+    public static _feature._one<_labeledStmt, _stmt> STATEMENT = new _feature._one<>(_labeledStmt.class, _stmt.class,
+            _feature._id.STATEMENT,
+            a -> a.getStatement(),
+            (_labeledStmt a, _stmt _s) -> a.setStatement(_s));
+
+    public static _feature._meta<_labeledStmt> META = _feature._meta.of(_labeledStmt.class, LABEL, STATEMENT );
+
     private LabeledStmt astStmt;
 
     public _labeledStmt(LabeledStmt rs){

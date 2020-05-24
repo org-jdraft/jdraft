@@ -203,6 +203,24 @@ public final class _lambdaExpr
     public static _lambdaExpr of(LambdaExpr astLambda ){
         return new _lambdaExpr( astLambda );
     }
+
+    public static _feature._one<_lambdaExpr, Boolean> IS_PARENTHESIZED_PARAMS = new _feature._one<>(_lambdaExpr.class, Boolean.class,
+            _feature._id.IS_PARENTHESIZED_PARAMS,
+            a -> a.isParenthesizedParams(),
+            (_lambdaExpr a, Boolean b) -> a.setParenthesizedParams(b));
+
+    public static _feature._one<_lambdaExpr, _params> PARAMS = new _feature._one<>(_lambdaExpr.class, _params.class,
+            _feature._id.PARAMS,
+            a -> a.getParams(),
+            (_lambdaExpr a, _params _ps) -> a.setParams(_ps));
+
+    public static _feature._one<_lambdaExpr, _stmt> BODY = new _feature._one<>(_lambdaExpr.class, _stmt.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_lambdaExpr a, _stmt _s) -> a.setBody(_s));
+
+    public static _feature._meta<_lambdaExpr> META = _feature._meta.of(_lambdaExpr.class, IS_PARENTHESIZED_PARAMS, PARAMS, BODY );
+
     public final LambdaExpr astLambda;
     
     public _lambdaExpr(LambdaExpr astLambda ){
@@ -212,6 +230,12 @@ public final class _lambdaExpr
     @Override
     public _params getParams() {
         return _params.of( astLambda );
+    }
+
+    public _lambdaExpr setParams(_params _ps){
+        this.astLambda.getParameters().clear();
+        _ps.forEach(_p -> this.astLambda.getParameters().add(_p.ast()));
+        return this;
     }
 
     @Override
@@ -237,17 +261,60 @@ public final class _lambdaExpr
     public LambdaExpr ast() {
         return astLambda;
     }
- 
+
     /**
      * 
      * @return 
      */
-    public Statement getBody(){        
+    public Statement getAstStatementBody(){
         return astLambda.getBody();                
+    }
+
+    public _stmt getBody(){
+        return _stmt.of(getAstStatementBody());
+    }
+
+    public _lambdaExpr setBody(_stmt _s ){
+        return setBody(_s.ast());
+    }
+
+    public _lambdaExpr setBody(_expr _e){
+        this.astLambda.setBody( _exprStmt.of(_e).ast());
+        return this;
     }
 
     public _lambdaExpr setBody(String...body){
         return setBody(Ast.statement(body));
+    }
+
+    /**
+     *
+     * @param _b
+     * @return
+     */
+    public _lambdaExpr setBody(_body _b ){
+        if( _b.isImplemented() ){
+            this.astLambda.setBody(_b.ast());
+        }
+        else{
+            this.astLambda.setBody(new EmptyStmt());
+        }
+        return this;
+    }
+
+    /**
+     *
+     * @param body
+     * @return
+     */
+    public _lambdaExpr setBody(Statement body ){
+        this.astLambda.setBody(body);
+        return this;
+    }
+
+    public _lambdaExpr setBody(BlockStmt body) {
+        this.astLambda.setBody(body);
+        return this;
     }
 
     public _lambdaExpr addStatements(String... statements){
@@ -293,18 +360,19 @@ public final class _lambdaExpr
         return this;
     }
 
-    /**
-     * 
-     * @param _b
-     * @return 
-     */
-    public _lambdaExpr setBody(_body _b ){
-        if( _b.isImplemented() ){
-            this.astLambda.setBody(_b.ast());
-        }
-        else{
-            this.astLambda.setBody(new EmptyStmt());
-        }        
+
+
+    public _lambdaExpr clearBody() {
+        this.setBody( _body.empty() );
+        return this;
+    }
+
+    public boolean isParenthesizedParams(){
+        return astLambda.isEnclosingParameters();
+    }
+
+    public _lambdaExpr setParenthesizedParams(boolean toSet){
+        this.astLambda.setEnclosingParameters(toSet);
         return this;
     }
 
@@ -316,37 +384,8 @@ public final class _lambdaExpr
     public _lambdaExpr setParams(String...parameters){
         setParams( Ast.parameters(parameters) );
         if( this.getParams().size() > 1){
-            this.setEnclosingParameters(true);
+            this.setParenthesizedParams(true);
         }
-        return this;
-    }
-
-    /**
-     * 
-     * @param body
-     * @return 
-     */
-    public _lambdaExpr setBody(Statement body ){
-        this.astLambda.setBody(body);
-        return this;
-    }
-    
-    public boolean isEnclosingParameters(){
-        return astLambda.isEnclosingParameters();
-    }
-    
-    public _lambdaExpr setEnclosingParameters(boolean toSet){
-        this.astLambda.setEnclosingParameters(toSet);
-        return this;
-    }
-
-    public _lambdaExpr setBody(BlockStmt body) {
-        this.astLambda.setBody(body);
-        return this;
-    }
-
-    public _lambdaExpr clearBody() {
-        this.setBody( _body.empty() );
         return this;
     }
 

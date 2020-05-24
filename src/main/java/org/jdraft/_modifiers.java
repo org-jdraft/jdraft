@@ -8,7 +8,7 @@ import org.jdraft.text.Text;
 import java.util.*;
 
 /**
- * Representation of the source of a listing of Java Modifiers
+ * Representation of the source of a combination / listing of Java Modifiers
  * i.e.<PRE>
  *     "public static final"
  * </PRE>
@@ -16,19 +16,6 @@ import java.util.*;
  * @author Eric
  */
 public final class _modifiers implements _java._set<Modifier, _modifier, _modifiers> {
-
-    /** Making the internal AST modifiers more accessible */
-    public static final Modifier PUBLIC = Modifier.publicModifier();
-    public static final Modifier PRIVATE = Modifier.privateModifier();
-    public static final Modifier PROTECTED = Modifier.protectedModifier();
-    public static final Modifier STATIC = Modifier.staticModifier();
-    public static final Modifier FINAL = Modifier.finalModifier();
-    public static final Modifier ABSTRACT = Modifier.abstractModifier();
-    public static final Modifier SYNCHRONIZED = Modifier.synchronizedModifier();
-    public static final Modifier STRICT = Modifier.strictfpModifier();
-    public static final Modifier VOLATILE = Modifier.volatileModifier();
-    public static final Modifier TRANSIENT = Modifier.transientModifier();
-    public static final Modifier NATIVE = Modifier.nativeModifier();
 
     private final NodeWithModifiers node;
 
@@ -72,6 +59,15 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         return _ms;
     }
 
+    public static _modifiers of(_modifier... mods ) {
+        _modifiers _ms = new _modifiers();
+
+        for( int i = 0; i < mods.length; i++ ) {
+            _ms.set(mods[i].mod);
+        }
+        return _ms;
+    }
+
     public static _modifiers of(Modifier... mods ) {
         _modifiers _ms = new _modifiers();
 
@@ -84,6 +80,14 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
     public NodeList<Modifier> ast() {
         return node.getModifiers();
     }
+
+    public static _feature._many<_modifiers, _modifier> MODIFIERS = new _feature._many<>(_modifiers.class, _modifier.class,
+            _feature._id.MODIFIERS,
+            _feature._id.MODIFIER,
+            a -> a.list(),
+            (_modifiers a, List<_modifier> _ms) -> a.set(_ms));
+
+    public static _feature._meta<_modifiers> META = _feature._meta.of(_modifiers.class, MODIFIERS );
 
     public _modifiers(NodeWithModifiers nm ) {
         this.node = nm;

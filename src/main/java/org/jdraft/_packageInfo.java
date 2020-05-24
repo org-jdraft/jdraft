@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.Name;
 import org.jdraft.text.Text;
 
 /**
@@ -21,13 +22,13 @@ public final class _packageInfo
         return new _packageInfo(astCu);
     }
 
-    public CompilationUnit astCompUnit;
-    //private final _javadoc.JavadocHolderAdapter javadocHolder;
+    public static _feature._meta<_packageInfo> META = _feature._meta.of(_packageInfo.class );
 
-    
+    public CompilationUnit astCompUnit;
+
+
     public _packageInfo(CompilationUnit astCu) {
         this.astCompUnit = astCu;
-        //this.javadocHolder = new _javadoc.JavadocHolderAdapter(astCu);
     }
 
     @Override

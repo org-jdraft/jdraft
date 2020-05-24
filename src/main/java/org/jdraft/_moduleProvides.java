@@ -8,9 +8,12 @@ import com.github.javaparser.ast.modules.ModuleProvidesDirective;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class _moduleProvides implements _java._node<ModuleProvidesDirective, _moduleProvides>,
+        _java._set<Name, _name, _moduleProvides>,
         _moduleDirective<ModuleProvidesDirective, _moduleProvides> {
 
     public static _moduleProvides of(ModuleProvidesDirective med){
@@ -33,7 +36,29 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
         return of( modd );
     }
 
-    public ModuleProvidesDirective  me;
+    public static _feature._one<_moduleProvides, String> NAME = new _feature._one<>(_moduleProvides.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_moduleProvides a, String s) -> a.setName(s));
+
+    public static _feature._many<_moduleProvides, _name> MODULE_NAMES = new _feature._many<>(_moduleProvides.class, _name.class,
+            _feature._id.NAMES,
+            _feature._id.NAME,
+            a -> a.list(),
+            (_moduleProvides a, List<_name> _ns) -> a.set(_ns));
+
+    public static _feature._meta<_moduleProvides> META = _feature._meta.of(_moduleProvides.class, NAME, MODULE_NAMES);
+
+    public ModuleProvidesDirective me;
+
+    public _moduleProvides setName(_name name){
+        this.me.setName(name.toString());
+        return this;
+    }
+
+    public Name getNameNode(){
+        return this.me.getName();
+    }
 
     public _moduleProvides setName(String name){
         this.me.setName(name);
@@ -42,6 +67,16 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
 
     public String getName(){
         return this.me.getNameAsString();
+    }
+
+    @Override
+    public List<_name> list() {
+        return this.me.getWith().stream().map(m-> _name.of(m)).collect(Collectors.toList());
+    }
+
+    @Override
+    public NodeList<Name> listAstElements() {
+        return this.me.getWith();
     }
 
     public _moduleProvides setModuleNames(String...moduleNames){

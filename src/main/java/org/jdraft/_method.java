@@ -400,7 +400,7 @@ public final class _method
         }
     }
 
-    public static final Token[] TOKENS = Token.values();
+    //public static final Token[] TOKENS = Token.values();
 
     /*
     public Map<Token, Object> tokenMap(){
@@ -410,18 +410,71 @@ public final class _method
     }
      */
 
+    public static _feature._one<_method, _javadocComment> JAVADOC = new _feature._one<>(_method.class, _javadocComment.class,
+            _feature._id.JAVADOC,
+            a -> a.getJavadoc(),
+            (_method a, _javadocComment _jd) -> a.setJavadoc(_jd));
+
+    public static _feature._one<_method, _annoExprs> ANNO_EXPRS = new _feature._one<>(_method.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_method a, _annoExprs _ta) -> a.setAnnoExprs(_ta));
+
+    public static _feature._one<_method, _modifiers> MODIFIERS = new _feature._one<>(_method.class, _modifiers.class,
+            _feature._id.MODIFIERS,
+            a -> a.getModifiers(),
+            (_method a, _modifiers _ms) -> a.setModifiers(_ms));
+
+    public static _feature._one<_method, _typeParams> TYPE_PARAMS = new _feature._one<>(_method.class, _typeParams.class,
+            _feature._id.TYPE_PARAMS,
+            a -> a.getTypeParams(),
+            (_method a, _typeParams _tps) -> a.setTypeParams(_tps));
+
+    public static _feature._one<_method, _typeRef> TYPE = new _feature._one<>(_method.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_method a, _typeRef _tr) -> a.setTypeRef(_tr));
+
+    public static _feature._one<_method, String> NAME = new _feature._one<>(_method.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_method a, String s) -> a.setName(s));
+
+    public static _feature._one<_method, _receiverParam> RECEIVER_PARAM = new _feature._one<>(_method.class, _receiverParam.class,
+            _feature._id.RECEIVER_PARAM,
+            a -> a.getReceiverParam(),
+            (_method a, _receiverParam _r) -> a.setReceiverParam(_r));
+
+    public static _feature._one<_method, _params> PARAMS = new _feature._one<>(_method.class, _params.class,
+            _feature._id.PARAMS,
+            a -> a.getParams(),
+            (_method a, _params _p) -> a.setParams(_p));
+
+    public static _feature._one<_method, _throws> THROWS = new _feature._one<>(_method.class, _throws.class,
+            _feature._id.THROWS,
+            a -> a.getThrows(),
+            (_method a, _throws _t) -> a.setThrows(_t));
+
+    public static _feature._one<_method, _body> BODY = new _feature._one<>(_method.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_method a, _body _b) -> a.setBody(_b));
+
+    public static _feature._meta<_method> META = _feature._meta.of(_method.class,
+            JAVADOC, ANNO_EXPRS, MODIFIERS, TYPE_PARAMS, TYPE, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
+
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
-        parts.put(_java.Feature.BODY, getBody());
-        parts.put(_java.Feature.TYPE, getTypeRef());
-        parts.put(_java.Feature.PARAMS, getParams());
-        parts.put(_java.Feature.MODIFIERS, getEffectiveModifiers());
         parts.put(_java.Feature.JAVADOC, getJavadoc());
-        parts.put(_java.Feature.RECEIVER_PARAM, getReceiverParam());
+        parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
+        parts.put(_java.Feature.MODIFIERS, getEffectiveModifiers());
         parts.put(_java.Feature.TYPE_PARAMS, getTypeParams());
-        parts.put(_java.Feature.THROWS, getThrows());
+        parts.put(_java.Feature.TYPE, getTypeRef());
         parts.put(_java.Feature.NAME, getName());
+        parts.put(_java.Feature.RECEIVER_PARAM, getReceiverParam());
+        parts.put(_java.Feature.PARAMS, getParams());
+        parts.put(_java.Feature.THROWS, getThrows());
+         parts.put(_java.Feature.BODY, getBody());
         return parts;
     }
 
