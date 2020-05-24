@@ -112,7 +112,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
      * @param refactoringPattern the _statement pattern used to replace the target statement
      * @return a new $refactor
      */
-    default $refactor refactorTo(String refactoringPattern){
+    default $refactor refactor(String refactoringPattern){
         return $refactor.of(this, $expr.of(refactoringPattern));
     }
 
@@ -121,7 +121,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
      * @param refactoringPattern the _statement pattern used to replace the target statement
      * @return a new $refactor
      */
-    default $refactor refactorTo($expr refactoringPattern){
+    default $refactor refactor($expr refactoringPattern){
         return $refactor.of(this, refactoringPattern);
     }
 
@@ -130,7 +130,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
      * @param refactorAction the _statement pattern used to replace the target statement
      * @return a new $refactor
      */
-    default $refactor refactorTo(Consumer<Select<? extends _expr>> refactorAction){
+    default $refactor refactor(Consumer<Select<_E>> refactorAction){
         return $refactor.of(this, refactorAction);
     }
 
@@ -158,7 +158,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
      * Refactoring from one {@link _expr} to another {@link _expr}
      * @param <_T> the target {@link _expr} type to be refactored
      */
-    class $refactor<_T extends _expr> implements $refactorBot {
+    class $refactor<_T extends _expr> implements $refactoring {
 
         /** Selects the instances to refactor from the target */
         $expr target$Bot;
@@ -177,17 +177,25 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
         public static $refactor of($expr $target, $expr $change){
             return of($target, (s)->{
                 _expr _drafted = (_expr)$change.draft( ((Select)s).tokens);
-                _expr _target = (_expr) ((Select)s).selection;
+                _expr _target = (_expr) ((Select)s).select;
                 _target.replace(_drafted);
             });
         }
 
+        public static <_T extends _expr> $refactor of($expr $target, Consumer<Select<_T>> refactorAction){
+            $refactor $refact = new $refactor();
+            $refact.target$Bot = $target;
+            $refact.refactorAction = refactorAction;
+            return $refact;
+        }
+        /*
         public static $refactor of($expr $target, Consumer<Select<? extends _expr>> refactorAction){
             $refactor $refact = new $refactor();
             $refact.target$Bot = $target;
             $refact.refactorAction = refactorAction;
             return $refact;
         }
+         */
 
         //private constructor, use of() builders
         private $refactor(){ }
