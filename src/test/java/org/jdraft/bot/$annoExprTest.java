@@ -1,7 +1,6 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
-import org.jdraft._class;
 
 public class $annoExprTest extends TestCase {
 
@@ -11,7 +10,7 @@ public class $annoExprTest extends TestCase {
     }
 
     public void testAnyPair(){
-        $annoExpr.$pair $p = $annoExpr.$pair.of();
+        $entryPair $p = $entryPair.of();
         assertTrue( $p.matches("1") );
         assertTrue( $p.matches("key=1") );
 
@@ -19,9 +18,9 @@ public class $annoExprTest extends TestCase {
             @P(a=1,b=2)
             int i;
         }
-        assertEquals(2, $annoExpr.$pair.of().countIn(C.class));
-        assertEquals(1, $annoExpr.$pair.of("a",1).countIn(C.class));
-        assertEquals(1, $annoExpr.$pair.of("b",2).countIn(C.class));
+        assertEquals(2, $entryPair.of().countIn(C.class));
+        assertEquals(1, $entryPair.of("a",1).countIn(C.class));
+        assertEquals(1, $entryPair.of("b",2).countIn(C.class));
 
         class D{
             @P

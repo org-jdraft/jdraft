@@ -13,8 +13,8 @@ public class $botListSelectTest extends TestCase {
     public void testSingleMemberAnno(){
         Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
-        $annoExpr.$pair $mv = $annoExpr.$pair.of(_entryPair.of("1"));
-        List<$annoExpr.$pair> $mvs = new ArrayList<>();
+        $entryPair $mv = $entryPair.of(_entryPair.of("1"));
+        List<$entryPair> $mvs = new ArrayList<>();
         $mvs.add($mv);
         $bls.setBotList($mvs);
 
@@ -30,8 +30,8 @@ public class $botListSelectTest extends TestCase {
     public void testNormalAnno(){
         Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
-        $annoExpr.$pair $mv = $annoExpr.$pair.of(_entryPair.of("value=1"));
-        List<$annoExpr.$pair> $mvs = new ArrayList<>();
+        $entryPair $mv = $entryPair.of(_entryPair.of("value=1"));
+        List<$entryPair> $mvs = new ArrayList<>();
         $mvs.add($mv);
         $bls.setBotList($mvs);
 
@@ -44,9 +44,9 @@ public class $botListSelectTest extends TestCase {
     public void testOrder(){
         Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
 
-        $annoExpr.$pair $mv1 = $annoExpr.$pair.of(_entryPair.of("key=1"));
-        $annoExpr.$pair $mv2 = $annoExpr.$pair.of(_entryPair.of("val=2"));
-        List<$annoExpr.$pair> $mvs = new ArrayList<>();
+        $entryPair $mv1 = $entryPair.of(_entryPair.of("key=1"));
+        $entryPair $mv2 = $entryPair.of(_entryPair.of("val=2"));
+        List<$entryPair> $mvs = new ArrayList<>();
         $mvs.add($mv1);
         $mvs.add($mv2);
         $bls.setBotList($mvs);
