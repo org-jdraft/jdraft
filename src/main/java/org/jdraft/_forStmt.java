@@ -13,7 +13,7 @@ import java.util.function.*;
  */
 public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStmt>,
         _java._node<ForStmt, _forStmt>,
-        _stmt._controlFlow._branching<ForStmt,_forStmt>, _body._withBody<_forStmt> {
+        _stmt._controlFlow._conditional<ForStmt,_forStmt>, _body._withBody<_forStmt> {
 
     public static _forStmt of(){
         return new _forStmt( new ForStmt( ));

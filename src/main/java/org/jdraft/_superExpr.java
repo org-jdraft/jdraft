@@ -38,6 +38,13 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._no
         //return new _super(Ex.superEx( code));
     }
 
+    public static _feature._one<_superExpr, String> TYPE_NAME = new _feature._one<>(_superExpr.class, String.class,
+            _feature._id.TYPE_NAME,
+            a -> a.getTypeName(),
+            (_superExpr p, String s) -> p.setTypeName(s));
+
+    public static _feature._meta<_superExpr> META = _feature._meta.of(_superExpr.class, TYPE_NAME );
+
     public SuperExpr se;
 
     public _superExpr(SuperExpr se){
@@ -66,7 +73,24 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._no
         return se;
     }
 
-    public String getName(){
+    public _superExpr setTypeName( String name ){
+        this.se.setTypeName(Ast.name(name));
+        return this;
+    }
+
+    public _superExpr setTypeName( Name name ){
+        this.se.setTypeName(name);
+        return this;
+    }
+
+    public Name getTypeNameNode(){
+        if(this.se.getTypeName().isPresent()){
+            return se.getTypeName().get();
+        }
+        return null;
+    }
+
+    public String getTypeName(){
         if(this.se.getTypeName().isPresent()){
             return se.getTypeName().get().asString();
         }

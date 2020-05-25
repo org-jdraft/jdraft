@@ -28,7 +28,7 @@ public enum Nodes {
          ANNO_EXPR_MARKER(_annoExpr.class, MarkerAnnotationExpr.class),
          ANNO_EXPR_SINGLE(_annoExpr.class, SingleMemberAnnotationExpr.class),
          ANNO_EXPR_KEYVALUE(_annoExpr.class, NormalAnnotationExpr.class),
-      ANNO_ENTRY(_annotation._entry.class, AnnotationMemberDeclaration.class),
+      ANNO_ENTRY(_entry.class, AnnotationMemberDeclaration.class),
       ANNOTATION(_annotation.class, AnnotationDeclaration.class),
       ARRAY_ACCESS_EXPR(_arrayAccessExpr.class, ArrayAccessExpr.class),
       ARRAY_CREATE_EXPR(_arrayCreateExpr.class, ArrayCreationExpr.class),

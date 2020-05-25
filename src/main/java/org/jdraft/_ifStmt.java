@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.function.*;
 
 
-public final class _ifStmt implements _stmt._controlFlow._branching<IfStmt, _ifStmt>, _body._withBody<_ifStmt>,
+public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _ifStmt>, _body._withBody<_ifStmt>,
         _java._withCondition<IfStmt, _ifStmt>,
         _java._node<IfStmt, _ifStmt> {
 

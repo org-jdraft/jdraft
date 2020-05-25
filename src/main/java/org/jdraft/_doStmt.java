@@ -18,7 +18,7 @@ import java.util.function.Function;
  *
  */
 public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
-        _stmt._controlFlow._branching<DoStmt, _doStmt>,
+        _stmt._controlFlow._conditional<DoStmt, _doStmt>,
         _java._node<DoStmt, _doStmt>,
         _java._withCondition<DoStmt,_doStmt>,
         _body._withBody<_doStmt> {
@@ -74,6 +74,19 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
         }
         throw new _jdraftException("No do statement found in lambda");
     }
+
+    public static _feature._one<_doStmt, _expr> CONDITION = new _feature._one<>(_doStmt.class, _expr.class,
+            _feature._id.CONDITION_EXPR,
+            a -> a.getCondition(),
+            (_doStmt a, _expr _e) -> a.setCondition(_e));
+
+    /** could be a single statement of a block statement or null */
+    public static _feature._one<_doStmt, _body> BODY = new _feature._one<>(_doStmt.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_doStmt a, _body b) -> a.setBody(b));
+
+    public static _feature._meta<_doStmt> META = _feature._meta.of(_doStmt.class, CONDITION, BODY );
 
     private DoStmt astStmt;
 

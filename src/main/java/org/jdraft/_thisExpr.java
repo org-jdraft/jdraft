@@ -21,6 +21,13 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
         return new _thisExpr(Exprs.thisExpr( code));
     }
 
+    public static _feature._one<_thisExpr, String> TYPE_NAME = new _feature._one<>(_thisExpr.class, String.class,
+            _feature._id.TYPE_NAME,
+            a -> a.getTypeName(),
+            (_thisExpr a, String value) -> a.setTypeName(value));
+
+    public static _feature._meta<_thisExpr> META = _feature._meta.of(_thisExpr.class, TYPE_NAME);
+
     public ThisExpr ile;
 
     public _thisExpr(ThisExpr ile){
@@ -49,7 +56,18 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
         return ile;
     }
 
-    public String getName(){
+
+    public _thisExpr removeTypeName(){
+        this.ile.removeTypeName();
+        return this;
+    }
+
+    public _thisExpr setTypeName(String name){
+        this.ile.setTypeName(Ast.name(name) );
+        return this;
+    }
+
+    public String getTypeName(){
         if(this.ile.getTypeName().isPresent()){
             return ile.getTypeName().get().asString();
         }

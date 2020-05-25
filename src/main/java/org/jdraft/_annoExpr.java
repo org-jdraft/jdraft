@@ -922,17 +922,11 @@ public final class _annoExpr
             }
         }
 
-        /**
-         *
-         */
         public static _feature._one<_entryPair, String> NAME = new _feature._one<>(_entryPair.class, String.class,
                 _feature._id.NAME,
                 a -> a.getName(),
                 (_entryPair a, String name) -> a.setName(name));
 
-        /**
-         *
-         */
         public static _feature._one<_entryPair, _expr> VALUE = new _feature._one<>(_entryPair.class, _expr.class,
                 _feature._id.VALUE_EXPR,
                 a->a.getValue(),

@@ -28,7 +28,7 @@ public final class _enumDiff implements _differ<_enum, _java._node> {
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         _annoExprsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
 
-        _implementsDiff.INSTANCE.diff(path, dt, left, right, left.listImplements(), right.listImplements());
+        _implementsDiff.INSTANCE.diff(path, dt, left, right, left.listAstImplements(), right.listAstImplements());
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _initBlocksDiff.INSTANCE.diff(path, dt, left, right, left.listInitBlocks(), right.listInitBlocks());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());

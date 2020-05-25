@@ -72,7 +72,24 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         }
         throw new _jdraftException("No ternary expression found in lambda");
     }
-    
+
+    public static _feature._one<_ternaryExpr, _expr> CONDITION = new _feature._one<>(_ternaryExpr.class, _expr.class,
+            _feature._id.CONDITION_EXPR,
+            a -> a.getCondition(),
+            (_ternaryExpr p, _expr _es) -> p.setCondition(_es));
+
+    public static _feature._one<_ternaryExpr, _expr> THEN = new _feature._one<>(_ternaryExpr.class, _expr.class,
+            _feature._id.THEN,
+            a -> a.getThen(),
+            (_ternaryExpr p, _expr _es) -> p.setThen(_es));
+
+    public static _feature._one<_ternaryExpr, _expr> ELSE = new _feature._one<>(_ternaryExpr.class, _expr.class,
+            _feature._id.ELSE,
+            a -> a.getElse(),
+            (_ternaryExpr p, _expr _es) -> p.setElse(_es));
+
+    public static _feature._meta<_ternaryExpr> META = _feature._meta.of(_ternaryExpr.class, CONDITION, THEN, ELSE );
+
     public ConditionalExpr ce;
 
     public _ternaryExpr(ConditionalExpr ce){

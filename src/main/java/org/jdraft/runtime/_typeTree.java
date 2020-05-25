@@ -346,7 +346,7 @@ public final class _typeTree {
     private static void mapAncestors(_type _t, List<_typeNode> typeNodes, Map<_typeNode, Set<_typeNode>>parentToChildMap){
         _typeNode cNode = typeNodes.stream().filter(n -> n.isName(_t.getFullName())).findFirst().get();
         if( _t instanceof _type._withExtends){
-            ((_type._withExtends)_t).listExtends().forEach(e-> {
+            ((_type._withExtends)_t).listAstExtends().forEach(e-> {
                 String name = ((ClassOrInterfaceType )e).getNameAsString();
                 //find (or create) the appropriate _typeNode
                 Log.info(" mapping extends for %s", ()->_t.getFullName());
@@ -360,7 +360,7 @@ public final class _typeTree {
             });
         }
         if( _t instanceof _type._withImplements){
-            ((_type._withImplements)_t).listImplements().forEach(e-> {
+            ((_type._withImplements)_t).listAstImplements().forEach(e-> {
                 Log.info(" mapping implements for %s", ()->_t.getFullName());
                 String name = ((ClassOrInterfaceType )e).getNameAsString();
                 //find (or create) the appropriate _typeNode
@@ -385,7 +385,7 @@ public final class _typeTree {
         List<_typeNode> parents = new ArrayList<>();
         if( _t instanceof _type._withExtends){
             _type._withExtends he =((_type._withExtends)_t);
-            List<ClassOrInterfaceType> cit = he.listExtends();
+            List<ClassOrInterfaceType> cit = he.listAstExtends();
 
             List<_typeNode> extendParent = cit.stream().map(e -> _typeNode.findOrCreate(typeNodes, e.getNameAsString(), _t.getImports()))
                     .collect(Collectors.toList());
@@ -400,7 +400,7 @@ public final class _typeTree {
         }
         if( _t instanceof _type._withImplements){
             _type._withImplements he =((_type._withImplements)_t);
-            List<ClassOrInterfaceType> cit = he.listImplements();
+            List<ClassOrInterfaceType> cit = he.listAstImplements();
 
             List<_typeNode> implParent = cit.stream().map(e -> _typeNode.findOrCreate(typeNodes, e.getNameAsString(), _t.getImports()))
                     .collect(Collectors.toList());

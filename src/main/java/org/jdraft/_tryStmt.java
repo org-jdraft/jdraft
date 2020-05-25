@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _tryStmt>,
+public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, _tryStmt>,
         _java._node<TryStmt, _tryStmt>{
 
     public static _tryStmt of(){
@@ -65,6 +65,30 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
         }
         throw new _jdraftException("No Try statement found in lambda");
     }
+
+    public static _feature._one<_tryStmt, _body> TRY_BODY = new _feature._one<>(_tryStmt.class, _body.class,
+            _feature._id.TRY_BODY,
+            a -> a.getTryBody(),
+            (_tryStmt p, _body _b) -> p.setTryBody(_b));
+
+    public static _feature._one<_tryStmt, _body> FINALLY_BODY = new _feature._one<>(_tryStmt.class, _body.class,
+            _feature._id.FINALLY_BODY,
+            a -> a.getFinallyBody(),
+            (_tryStmt p, _body _b) -> p.setFinallyBody(_b));
+
+    public static _feature._many<_tryStmt, _expr> WITH_RESOURCES = new _feature._many<>(_tryStmt.class, _expr.class,
+            _feature._id.WITH_RESOURCES_EXPRS,
+            _feature._id.EXPRESSION,
+            a -> a.listWithResources(),
+            (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses));
+
+    public static _feature._many<_tryStmt, _catch> CATCH_CLAUSES = new _feature._many<>(_tryStmt.class, _catch.class,
+            _feature._id.CATCH_CLAUSES,
+            _feature._id.CATCH,
+            a -> a.listCatches(),
+            (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs));
+
+    public static _feature._meta<_tryStmt> META = _feature._meta.of(_tryStmt.class, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
 
     private TryStmt tryStmt;
 
@@ -271,6 +295,10 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
         return listWithResources(matchFn) != null;
     }
 
+    public _tryStmt setWithResources(List<_expr> _exs){
+        return setWithResources( _exs.toArray(new _expr[0]));
+    }
+
     public _tryStmt setWithResources(_expr... _exs){
         NodeList<Expression> nle = new NodeList<>();
         Arrays.stream(_exs).forEach( _e -> nle.add(_e.ast()));
@@ -381,6 +409,12 @@ public final class _tryStmt implements _stmt._controlFlow._branching<TryStmt, _t
 
     public boolean hasCatch(Predicate<_catch> matchFn){
         return listCatches(matchFn).size() > 0;
+    }
+
+    public _tryStmt setCatchClauses(List<_catch> _ccs){
+        this.ast().getCatchClauses().clear();
+        _ccs.forEach( _cc -> this.ast().getCatchClauses().add( _cc.ast()));
+        return this;
     }
 
     /**

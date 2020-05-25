@@ -28,7 +28,6 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
         return new _parenthesizedExpr(Exprs.parenthesizedExpr( code));
     }
 
-
     public static <A extends Object> _parenthesizedExpr of(Exprs.Command c){
         LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
@@ -70,6 +69,13 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
         }
         throw new _jdraftException("No enclosed expression found in lambda");
     }
+
+    public static _feature._one<_parenthesizedExpr, _expr> EXPRESSION = new _feature._one<>(_parenthesizedExpr.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_parenthesizedExpr p, _expr _e) -> p.setExpression(_e));
+
+    public static _feature._meta<_parenthesizedExpr> META = _feature._meta.of(_parenthesizedExpr.class, EXPRESSION);
 
     public EnclosedExpr ee;
 

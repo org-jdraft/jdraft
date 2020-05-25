@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * note: this is a "virtual" thing
  *
  */
-public final class _switchStmt implements _stmt._controlFlow._branching<SwitchStmt, _switchStmt>,
+public final class _switchStmt implements _stmt._controlFlow._conditional<SwitchStmt, _switchStmt>,
         _java._node<SwitchStmt, _switchStmt>, _switch<_switchStmt> {
 
     public static _switchStmt ofSelector(String selectorExpression){
@@ -123,6 +123,19 @@ public final class _switchStmt implements _stmt._controlFlow._branching<SwitchSt
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
+
+    public static _feature._one<_switchStmt, _expr> EXPRESSION = new _feature._one<>(_switchStmt.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getSwitchSelector(),
+            (_switchStmt p, _expr _es) -> p.setSwitchSelector(_es));
+
+    public static _feature._many<_switchStmt, _switchEntry> SWITCH_ENTRIES = new _feature._many<>(_switchStmt.class, _switchEntry.class,
+            _feature._id.SWITCH_ENTRIES,
+            _feature._id.SWITCH_ENTRY,
+            a -> a.listSwitchEntries(),
+            (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses));
+
+    public static _feature._meta<_switchStmt> META = _feature._meta.of(_switchStmt.class, EXPRESSION, SWITCH_ENTRIES );
 
     public SwitchStmt switchStmt;
 
@@ -228,7 +241,7 @@ public final class _switchStmt implements _stmt._controlFlow._branching<SwitchSt
      * @return
      */
     public _switchEntry getCase(Enum e){
-        return getSwitchEntry(se-> se.isCaseConstant( new NameExpr(e.name()) ) );
+        return getSwitchEntry(se-> se.hasCaseConstant( new NameExpr(e.name()) ) );
     }
 
     /**
@@ -237,19 +250,19 @@ public final class _switchStmt implements _stmt._controlFlow._branching<SwitchSt
      * @return
      */
     public _switchEntry getCase( _expr _e ){
-        return getSwitchEntry(se-> se.isCaseConstant( _e.ast() ) );
+        return getSwitchEntry(se-> se.hasCaseConstant( _e.ast() ) );
     }
 
     public _switchEntry getCase( String caseString){
-        return getSwitchEntry(se-> se.isCaseConstant( new StringLiteralExpr(caseString) ) );
+        return getSwitchEntry(se-> se.hasCaseConstant( new StringLiteralExpr(caseString) ) );
     }
 
     public _switchEntry getCase(char c){
-        return getSwitchEntry(se-> se.isCaseConstant(c) );
+        return getSwitchEntry(se-> se.hasCaseConstant(c) );
     }
 
     public _switchEntry getCase(int i){
-        return getSwitchEntry(se-> se.isCaseConstant(i) );
+        return getSwitchEntry(se-> se.hasCaseConstant(i) );
     }
 
 
@@ -1166,6 +1179,10 @@ public final class _switchStmt implements _stmt._controlFlow._branching<SwitchSt
         List<_switchEntry> _ses = new ArrayList<>();
         this.switchStmt.getEntries().forEach(se -> _ses.add(new _switchEntry(se)));
         return _ses;
+    }
+
+    public _switchStmt setSwitchEntries(List<_switchEntry> ses){
+        return setSwitchEntries( ses.toArray(new _switchEntry[0]));
     }
 
     /**

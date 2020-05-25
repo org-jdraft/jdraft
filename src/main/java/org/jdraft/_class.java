@@ -6,6 +6,8 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
@@ -423,6 +425,63 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return _c;
     }
 
+
+    /** could be a single statement, or a block stmt */
+    public static _feature._one<_class, _imports> IMPORTS = new _feature._one<>(_class.class, _imports.class,
+            _feature._id.IMPORTS,
+            a -> a.getImports(),
+            (_class a, _imports b) -> a.setImports(b));
+
+    public static _feature._one<_class, _package> PACKAGE = new _feature._one<>(_class.class, _package.class,
+            _feature._id.PACKAGE,
+            a -> a.getPackage(),
+            (_class a, _package b) -> a.setPackage(b));
+
+    public static _feature._one<_class, _annoExprs> ANNO_EXPRS = new _feature._one<>(_class.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_class a, _annoExprs b) -> a.setAnnoExprs(b));
+
+    public static _feature._one<_class, _javadocComment> JAVADOC = new _feature._one<>(_class.class, _javadocComment.class,
+            _feature._id.JAVADOC,
+            a -> a.getJavadoc(),
+            (_class a, _javadocComment b) -> a.setJavadoc(b));
+
+    public static _feature._one<_class, _modifiers> MODIFIERS = new _feature._one<>(_class.class, _modifiers.class,
+            _feature._id.MODIFIERS,
+            a -> a.getModifiers(),
+            (_class a, _modifiers b) -> a.setModifiers(b));
+
+    public static _feature._one<_class, String> NAME = new _feature._one<>(_class.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_class a, String s) -> a.setName(s));
+
+    public static _feature._many<_class, _java._member> MEMBERS = new _feature._many<>(_class.class, _java._member.class,
+            _feature._id.MEMBERS,
+            _feature._id.MEMBER,
+            a -> a.listMembers(),
+            (_class a, List<_java._member>mems) -> a.setMembers(mems));
+
+    public static _feature._one<_class, _typeParams> TYPE_PARAMS = new _feature._one<>(_class.class, _typeParams.class,
+            _feature._id.TYPE_PARAMS,
+            a -> a.getTypeParams(),
+            (_class a, _typeParams b) -> a.setTypeParams(b));
+
+    public static _feature._one<_class, _typeRef> EXTENDS = new _feature._one<>(_class.class, _typeRef.class,
+            _feature._id.EXTENDS_TYPES,
+            a -> a.getExtends(),
+            (_class a, _typeRef exts) -> a.setExtends(exts));
+
+    public static _feature._many<_class, _typeRef> IMPLEMENTS = new _feature._many<>(_class.class, _typeRef.class,
+            _feature._id.IMPLEMENTS_TYPES,
+            _feature._id.TYPE,
+            a -> a.listImplements(),
+            (_class a, List<_typeRef>mems) -> a.setImplements(mems));
+
+    public static _feature._meta<_class> META = _feature._meta.of(_class.class,
+            PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);
+
     public _class( ClassOrInterfaceDeclaration astClass ){
         this.astClass = astClass;
     }
@@ -676,11 +735,32 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public NodeList<ClassOrInterfaceType> listExtends(){
+    public NodeList<ClassOrInterfaceType> listAstExtends(){
         return astClass.getExtendedTypes();
     }
 
-    public ClassOrInterfaceType getExtends(){
+    @Override
+    public List<_typeRef> listExtends() {
+        if( hasExtends()) {
+            return Stream.of(getExtends()).collect(Collectors.toList());
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    public _typeRef getExtends( ){
+        if( hasExtends() ) {
+            return _typeRef.of(getExtendsNode());
+        }
+        return null;
+    }
+
+    public _class setExtends( _typeRef _tr){
+        this.astClass.getExtendedTypes().clear();
+        this.astClass.addExtendedType( (ClassOrInterfaceType)_tr.ast());
+        return this;
+    }
+
+    public ClassOrInterfaceType getExtendsNode(){
         List<ClassOrInterfaceType> exts = astClass.getExtendedTypes();
         if( exts.isEmpty() ){
             return null;
@@ -864,16 +944,16 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             Log.trace("Expected name %s got: %s", this::getName, other::getName);
             return false;
         }
-        if( !Types.equal(this.getExtends(), other.getExtends()) ){
-            Log.trace("Expected extends %s got: %s", this::getExtends, other::getExtends);
+        if( !Types.equal(this.getExtendsNode(), other.getExtendsNode()) ){
+            Log.trace("Expected extends %s got: %s", this::getExtendsNode, other::getExtendsNode);
             return false;
         }
         if( !_imports.Compare.importsEqual(this.astClass, other.astClass)){
             Log.trace("Expected imports %s got: %s", this::listImports, other::listImports);
             return false;
         }
-        if( !Types.equal( this.listImplements(), other.listImplements())){
-            Log.trace("Expected implements %s got: %s", this::listImplements, other::listImplements);
+        if( !Types.equal( this.listAstImplements(), other.listAstImplements())){
+            Log.trace("Expected implements %s got: %s", this::listAstImplements, other::listAstImplements);
             return false;
         }
         Set<_initBlock> tsb = new HashSet<>();
@@ -942,7 +1022,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         parts.put( Feature.IMPORTS, this.getImports().list() );
         parts.put( Feature.ANNO_EXPRS, this.listAnnoExprs() );
         parts.put( Feature.EXTENDS_TYPES, this.astClass.getExtendedTypes() );
-        parts.put( Feature.IMPLEMENTS_TYPES, this.listImplements() );
+        parts.put( Feature.IMPLEMENTS_TYPES, this.listAstImplements() );
         parts.put( Feature.JAVADOC, this.getJavadoc() );
         parts.put( Feature.TYPE_PARAMS, this.getTypeParams() );
         parts.put( Feature.INIT_BLOCKS, this.listInitBlocks());
@@ -991,7 +1071,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
         hash = 47 * hash + Objects.hash( this.getPackage(), this.getName(),
                 this.getJavadoc(), this.getAnnoExprs(), this.getModifiers(),
-                this.getTypeParams(), Types.hash(this.getExtends()),
+                this.getTypeParams(), Types.hash(this.getExtendsNode()),
                 sbs, Types.hash( ast().getImplementedTypes() ),
                 Exprs.hashAnnos(astClass),
                 tf, tm, tc, tn, cths);

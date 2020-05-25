@@ -36,6 +36,34 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return new _variablesExpr(Exprs.variablesExpr(code));
     }
 
+    public static _feature._one<_variable, _typeRef> TYPE = new _feature._one<>(_variable.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_variable a, _typeRef _tr) -> a.setTypeRef(_tr));
+
+    public static _feature._one<_variable, String> NAME = new _feature._one<>(_variable.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_variable a, String name) -> a.setName(name));
+
+    public static _feature._one<_variablesExpr, _modifiers> MODIFIERS = new _feature._one<>(_variablesExpr.class, _modifiers.class,
+            _feature._id.MODIFIERS,
+            a -> a.getModifiers(),
+            (_variablesExpr a, _modifiers _m) -> a.setModifiers(_m));
+
+    public static _feature._one<_variablesExpr, _annoExprs> ANNO_EXPRS = new _feature._one<>(_variablesExpr.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_variablesExpr p, _annoExprs _ccs) -> p.setAnnoExprs(_ccs));
+
+    public static _feature._many<_variablesExpr, _variable> VARIABLES = new _feature._many<>(_variablesExpr.class, _variable.class,
+            _feature._id.VARIABLES,
+            _feature._id.VARIABLE,
+            a -> a.list(),
+            (_variablesExpr p, List<_variable> _ccs) -> p.set(_ccs));
+
+    public static _feature._meta<_variablesExpr> META = _feature._meta.of(_variablesExpr.class, ANNO_EXPRS, MODIFIERS, VARIABLES);
+
     public VariableDeclarationExpr varDeclEx;
 
     public _variablesExpr(VariableDeclarationExpr varDeclEx){
@@ -55,6 +83,16 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     @Override
     public NodeList<VariableDeclarator> listAstElements() {
         return this.varDeclEx.getVariables();
+    }
+
+    public _modifiers getModifiers(){
+        return _modifiers.of( this.ast() );
+    }
+
+    public _variablesExpr setModifiers( _modifiers _mods){
+        this.ast().getModifiers().clear();
+        this.ast().setModifiers( _mods.ast() );
+        return this;
     }
 
     @Override

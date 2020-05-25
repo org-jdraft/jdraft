@@ -690,7 +690,16 @@ public final class _body implements _java._domain {
             Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
             return setBody(bdy);            
         }
-        
+
+        /**
+         *
+         * @param _bs
+         * @return
+         */
+        default _WB setBody(_blockStmt _bs) {
+            return setBody(_bs.ast());
+        }
+
         /**
          *
          * @param body

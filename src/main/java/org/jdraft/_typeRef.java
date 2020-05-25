@@ -382,6 +382,14 @@ public final class _typeRef<T extends Type>
         }
     }
 
+    public static _feature._one<_typeRef, Type> TYPE = new _feature._one<>(_typeRef.class, Type.class,
+            _feature._id.TYPE,
+            a -> a.ast(),
+            (_typeRef p, Type t) -> p.setType(t));
+
+
+    public static _feature._meta<_typeRef> META = _feature._meta.of(_typeRef.class, TYPE);
+
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
 
@@ -389,6 +397,11 @@ public final class _typeRef<T extends Type>
         parts.put( _java.Feature.ARRAY_LEVEL, this.astType.getArrayLevel());
         parts.put( _java.Feature.ELEMENT_TYPE, this.astType.getElementType());
         return parts;
+    }
+
+    public _typeRef setType(Type t){
+        this.astType.replace(t);
+        return this;
     }
 
     @Override

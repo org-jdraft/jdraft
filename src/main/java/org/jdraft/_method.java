@@ -377,6 +377,7 @@ public final class _method
         return true;
     }
 
+    /*
     enum Token {
         JAVADOC(1, "javadoc", (_method a)-> a.getJavadoc()),
         ANNOS(2,"annos", (_method a)-> a.getAnnoExprs() ),
@@ -399,7 +400,7 @@ public final class _method
             this.resolver = resolver;
         }
     }
-
+    */
     //public static final Token[] TOKENS = Token.values();
 
     /*

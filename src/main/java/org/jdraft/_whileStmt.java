@@ -8,7 +8,7 @@ import com.github.javaparser.ast.stmt.WhileStmt;
 import java.util.*;
 import java.util.function.*;
 
-public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt, _whileStmt>,
+public final class _whileStmt implements _stmt._controlFlow._conditional<WhileStmt, _whileStmt>,
         _java._node<WhileStmt, _whileStmt>,
         _stmt._controlFlow._loop<WhileStmt, _whileStmt>,
         _java._withCondition<WhileStmt, _whileStmt>,
@@ -66,6 +66,19 @@ public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt
         throw new _jdraftException("No while statement found in lambda");
     }
 
+
+    public static _feature._one<_whileStmt, _expr> CONDITION = new _feature._one<>(_whileStmt.class, _expr.class,
+            _feature._id.CONDITION_EXPR,
+            a -> a.getCondition(),
+            (_whileStmt a, _expr _e) -> a.setCondition(_e));
+
+    public static _feature._one<_whileStmt, _body> BODY = new _feature._one<>(_whileStmt.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_whileStmt a, _body _b) -> a.setBody(_b));
+
+    public static _feature._meta<_whileStmt> META = _feature._meta.of(_whileStmt.class, CONDITION, BODY);
+
     private WhileStmt whileStmt;
 
     public _whileStmt(WhileStmt rs){
@@ -84,46 +97,6 @@ public final class _whileStmt implements _stmt._controlFlow._branching<WhileStmt
         } catch(Exception e){ }
         return false;
     }
-
-    /*
-    public boolean isCondition(String...expression){
-        try{
-            return isCondition(Ex.of(expression));
-        }catch(Exception e){
-            return false;
-        }
-    }
-
-    public boolean isCondition(_expression _ex){
-        return Objects.equals( this.getCondition(), _ex.ast());
-    }
-
-    public boolean isCondition(Predicate<_expression> matchFn){
-        return matchFn.test(getCondition());
-    }
-
-    public boolean isCondition(Expression ex){
-        return Objects.equals( this.getCondition(), ex);
-    }
-
-    public _whileStmt setCondition(String...expression){
-        return setCondition(Ex.of(expression));
-    }
-
-    public _whileStmt setCondition(Expression e){
-        this.ast().setCondition(e);
-        return this;
-    }
-
-    public _whileStmt setCondition(_expression e){
-        this.whileStmt.setCondition(e.ast());
-        return this;
-    }
-
-    public _expression getCondition(){
-        return _expression.of(this.whileStmt.getCondition());
-    }
-    */
 
     public _body getBody(){
         return _body.of( this.whileStmt.getBody() );

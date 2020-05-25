@@ -3,6 +3,7 @@ package org.jdraft;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -67,6 +68,14 @@ public final class _throws
         MethodDeclaration md = Ast.method( "void a() throws " + t + System.lineSeparator() + ";" );
         return new _throws( md );
     }
+
+    public static _feature._many<_throws, _typeRef> THROWS = new _feature._many<>(_throws.class, _typeRef.class,
+            _feature._id.THROWS,
+            _feature._id.THROW,
+            a -> a.list(),
+            (_throws p, List<_typeRef> _ses) -> p.set(_ses));
+
+    public static _feature._meta<_throws> META = _feature._meta.of(_throws.class, THROWS );
 
     public final NodeWithThrownExceptions astNodeWithThrows;
 
@@ -268,6 +277,12 @@ public final class _throws
      */
     public _throws remove( _typeRef<ReferenceType>... elements ) {
         Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().remove( (ReferenceType)t.ast() ) );
+        return this;
+    }
+
+    public _throws set(List<_typeRef> trs ){
+        this.astNodeWithThrows.getThrownExceptions().clear();
+        trs.forEach( t-> this.astNodeWithThrows.addThrownException( (ReferenceType)t.ast()));
         return this;
     }
 

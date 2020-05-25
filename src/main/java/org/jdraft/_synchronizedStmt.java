@@ -6,6 +6,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SynchronizedStmt;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,6 +27,18 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
     public static _synchronizedStmt of(String...code){
         return new _synchronizedStmt(Stmts.synchronizedStmt(code));
     }
+
+    public static _feature._one<_synchronizedStmt, _expr> EXPRESSION = new _feature._one<>(_synchronizedStmt.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_synchronizedStmt p, _expr _es) -> p.setExpression(_es));
+
+    public static _feature._one<_synchronizedStmt, _body> BODY = new _feature._one<>(_synchronizedStmt.class, _body.class,
+            _feature._id.BODY,
+            a -> a.getBody(),
+            (_synchronizedStmt p, _body _bs) -> p.setBody(_bs));
+
+    public static _feature._meta<_synchronizedStmt> META = _feature._meta.of(_synchronizedStmt.class, EXPRESSION, BODY );
 
     private SynchronizedStmt astStmt;
 

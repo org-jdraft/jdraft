@@ -131,10 +131,10 @@ public class $class
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
         _c.getTypeParams().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
-        if( _c.getExtends() != null) {
-            $c.extend = $typeRef.of(_c.getExtends());
+        if( _c.getExtendsNode() != null) {
+            $c.extend = $typeRef.of(_c.getExtendsNode());
         }
-        _c.listImplements().forEach(i -> $c.$implements(i));
+        _c.listAstImplements().forEach(i -> $c.$implements(i));
 
         _c.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
 

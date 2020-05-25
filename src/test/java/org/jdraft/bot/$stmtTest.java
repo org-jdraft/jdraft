@@ -37,7 +37,7 @@ public class $stmtTest extends TestCase {
 		//with interface
 		assertTrue( $s.of( _stmt._controlFlow.class).matches("while(true){}") );
 		assertTrue( $s.of( _stmt._controlFlow._loop.class).matches(Stmts.of("for(int i=0;i<100;i++){}")) );
-		assertTrue( $s.of( _stmt._controlFlow._branching.class).matches(_stmt.of("if(true){}")) );
+		assertTrue( $s.of( _stmt._controlFlow._conditional.class).matches(_stmt.of("if(true){}")) );
 	}
 	
 	public void test$and() {

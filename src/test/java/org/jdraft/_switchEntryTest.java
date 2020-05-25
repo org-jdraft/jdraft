@@ -23,7 +23,7 @@ public class _switchEntryTest extends TestCase {
 
         _sw.getCase(1);
 
-        _sw.getSwitchEntry(s -> s.isCaseConstant(1) );
+        _sw.getSwitchEntry(s -> s.hasCaseConstant(1) );
         assertEquals( 2, _sw.countSwitchEntries());
         System.out.println( _sw );
     }
@@ -39,7 +39,7 @@ public class _switchEntryTest extends TestCase {
         _se.setStatements("System.out.println(1);");
         System.out.println( _se );
         _se.setStatements(()-> System.out.println(2));
-        assertTrue( _se.listStatements().size() == 1);
+        assertTrue( _se.listAstStatements().size() == 1);
         assertEquals(Stmts.of( ()->System.out.println(2)),  _se.getStatement(0));
         Print.tree(_se.ast());
 
@@ -57,12 +57,12 @@ public class _switchEntryTest extends TestCase {
         _se = _switchEntry.of("case 1: return 'a';");
         assertFalse( _se.isDefault() );
 
-        assertTrue( _se.isCaseConstant(1) );
-        assertFalse( _se.isCaseConstant(2));
+        assertTrue( _se.hasCaseConstant(1) );
+        assertFalse( _se.hasCaseConstant(2));
 
         _se.setCaseConstant(2);
-        assertTrue( _se.isCaseConstant(2));
-        assertFalse( _se.isCaseConstant(1));
+        assertTrue( _se.hasCaseConstant(2));
+        assertFalse( _se.hasCaseConstant(1));
         System.out.println( _se );
     }
 

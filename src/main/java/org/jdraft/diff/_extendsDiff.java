@@ -32,10 +32,10 @@ public final class _extendsDiff implements
         List<ClassOrInterfaceType> rts = new ArrayList<>();
         
         if( left instanceof _type._withExtends){
-            lts = ((_withExtends)left).listExtends();
+            lts = ((_withExtends)left).listAstExtends();
         }
         if( right instanceof _type._withExtends){
-            rts = ((_withExtends)right).listExtends();
+            rts = ((_withExtends)right).listAstExtends();
         }
         return diff( lts, rts);
     }

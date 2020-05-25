@@ -18,6 +18,8 @@ import java.util.function.Predicate;
  * _parameters is a container of ELEMENTS
  *
  * @author Eric
+ *
+ *
  */
 public final class _params
         implements _java._list<Parameter, _param, _params> {
@@ -92,6 +94,10 @@ public final class _params
         return new _params( np );
     }
 
+    /**
+     * Does the params list end with a varArg parameter
+     * @return
+     */
     public boolean isVarArg() {
         if( !isEmpty() ) {
             return getAt( size() - 1 ).isVarArg();
@@ -113,6 +119,13 @@ public final class _params
         }
         return false;
     }
+
+    public static _feature._many<_params, _param> PARAMS = new _feature._many<>(_params.class, _param.class,
+            _feature._id.PARAMS, _feature._id.PARAM,
+            a->a.list(),
+            (_params a, List<_param> ps)-> a.set(ps));
+
+    public static _feature._meta<_params> META = _feature._meta.of(_params.class, PARAMS);
 
     /**
      *

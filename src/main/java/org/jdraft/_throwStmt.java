@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.ThrowStmt;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -10,7 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class _throwStmt implements _stmt._controlFlow._signal<ThrowStmt, _throwStmt>,
+public final class _throwStmt implements _stmt._controlFlow._returns<ThrowStmt, _throwStmt>,
         _java._node<ThrowStmt, _throwStmt>, _java._withExpression<ThrowStmt, _throwStmt> {
 
     public static _throwStmt of(){
@@ -64,6 +65,13 @@ public final class _throwStmt implements _stmt._controlFlow._signal<ThrowStmt, _
         }
         throw new _jdraftException("No throw statement found in lambda");
     }
+
+    public static _feature._one<_throwStmt, _expr> EXPRESSION = new _feature._one<>(_throwStmt.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_throwStmt p, _expr _e) -> p.setExpression(_e));
+
+    public static _feature._meta<_throwStmt> META = _feature._meta.of(_throwStmt.class, EXPRESSION );
 
     private ThrowStmt astStmt;
 

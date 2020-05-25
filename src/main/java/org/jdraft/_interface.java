@@ -19,6 +19,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Representation of the source code of a Java interface.<BR>
@@ -225,6 +226,56 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
 
+    /** could be a single statement, or a block stmt */
+    public static _feature._one<_interface, _imports> IMPORTS = new _feature._one<>(_interface.class, _imports.class,
+            _feature._id.IMPORTS,
+            a -> a.getImports(),
+            (_interface a, _imports b) -> a.setImports(b));
+
+    public static _feature._one<_interface, _package> PACKAGE = new _feature._one<>(_interface.class, _package.class,
+            _feature._id.PACKAGE,
+            a -> a.getPackage(),
+            (_interface a, _package b) -> a.setPackage(b));
+
+    public static _feature._one<_interface, _annoExprs> ANNO_EXPRS = new _feature._one<>(_interface.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_interface a, _annoExprs b) -> a.setAnnoExprs(b));
+
+    public static _feature._one<_interface, _javadocComment> JAVADOC = new _feature._one<>(_interface.class, _javadocComment.class,
+            _feature._id.JAVADOC,
+            a -> a.getJavadoc(),
+            (_interface a, _javadocComment b) -> a.setJavadoc(b));
+
+    public static _feature._one<_interface, _modifiers> MODIFIERS = new _feature._one<>(_interface.class, _modifiers.class,
+            _feature._id.MODIFIERS,
+            a -> a.getModifiers(),
+            (_interface a, _modifiers b) -> a.setModifiers(b));
+
+    public static _feature._one<_interface, String> NAME = new _feature._one<>(_interface.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_interface a, String s) -> a.setName(s));
+
+    public static _feature._many<_interface, _java._member> MEMBERS = new _feature._many<>(_interface.class, _java._member.class,
+            _feature._id.MEMBERS,
+            _feature._id.MEMBER,
+            a -> a.listMembers(),
+            (_interface a, List<_java._member>mems) -> a.setMembers(mems));
+
+    public static _feature._one<_interface, _typeParams> TYPE_PARAMS = new _feature._one<>(_interface.class, _typeParams.class,
+            _feature._id.TYPE_PARAMS,
+            a -> a.getTypeParams(),
+            (_interface a, _typeParams b) -> a.setTypeParams(b));
+
+    public static _feature._many<_interface, _typeRef> EXTENDS = new _feature._many<>(_interface.class, _typeRef.class,
+            _feature._id.EXTENDS_TYPES,
+            _feature._id.TYPE,
+            a -> a.listExtends(),
+            (_interface a, List<_typeRef>mems) -> a.setExtends(mems));
+
+    public static _feature._meta<_interface> META = _feature._meta.of(_interface.class,
+            PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, MEMBERS);
 
     public _interface( ClassOrInterfaceDeclaration astClass ){
         this.astInterface = astClass;
@@ -248,6 +299,12 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     @Override
     public boolean isTopLevel(){
         return ast().isTopLevelType();
+    }
+
+    public _interface setExtends(List<_typeRef> _trs){
+        this.astInterface.getExtendedTypes().clear();
+        _trs.forEach( e-> this.astInterface.addExtendedType( (ClassOrInterfaceType)e.ast()));
+        return this;
     }
 
     @Override
@@ -287,10 +344,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public NodeList<ClassOrInterfaceType> listExtends(){
+    public NodeList<ClassOrInterfaceType> listAstExtends(){
         return astInterface.getExtendedTypes();
     }
 
+    public List<_typeRef> listExtends(){
+        return listAstExtends().stream().map(e-> _typeRef.of(e)).collect(Collectors.toList());
+    }
 
     @Override
     public _interface removeExtends( Class toRemove ){
@@ -478,7 +538,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         tf.addAll( this.listFields());
 
         Set<Integer> te = new HashSet<>();
-        this.listExtends().forEach(e-> te.add( Types.hash(e)));
+        this.listAstExtends().forEach(e-> te.add( Types.hash(e)));
 
         Set<_type> inners = new HashSet<>();
         inners.addAll(  this.listInnerTypes() );
@@ -505,7 +565,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         parts.put( _java.Feature.IMPORTS, this.getImports().list() );
         parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
         parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Feature.EXTENDS_TYPES, this.listExtends() );
+        parts.put( _java.Feature.EXTENDS_TYPES, this.listAstExtends() );
         parts.put( _java.Feature.NAME, this.getName() );
 
         parts.put( _java.Feature.MODIFIERS, this.getModifiers() );

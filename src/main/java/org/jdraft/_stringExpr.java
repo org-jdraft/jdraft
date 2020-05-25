@@ -18,6 +18,13 @@ public final class _stringExpr implements _expr._literal<StringLiteralExpr, _str
         return new _stringExpr(Exprs.stringExpr( code));
     }
 
+    public static _feature._one<_stringExpr, String> LITERAL_VALUE = new _feature._one<>(_stringExpr.class, String.class,
+            _feature._id.LITERAL_VALUE,
+            a -> a.valueAsString(),
+            (_stringExpr a, String value) -> a.ast().setValue(value));
+
+    public static _feature._meta<_stringExpr> META = _feature._meta.of(_stringExpr.class, LITERAL_VALUE);
+
     public StringLiteralExpr se;
 
     public _stringExpr(String str){
@@ -50,8 +57,6 @@ public final class _stringExpr implements _expr._literal<StringLiteralExpr, _str
     public boolean isText(Predicate<String> textMatchFn ){
         return textMatchFn.test(this.se.asString());
     }
-
-
 
     /**
      * Gets the text of the String

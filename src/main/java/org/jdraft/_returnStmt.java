@@ -6,7 +6,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public final class _returnStmt implements _stmt._controlFlow._signal<ReturnStmt, _returnStmt>,
+public final class _returnStmt implements _stmt._controlFlow._returns<ReturnStmt, _returnStmt>,
         _java._withExpression<ReturnStmt, _returnStmt>,
         _java._node<ReturnStmt, _returnStmt> {
 
@@ -64,6 +64,13 @@ public final class _returnStmt implements _stmt._controlFlow._signal<ReturnStmt,
     public static _returnStmt of( String...code){
         return new _returnStmt(Stmts.returnStmt( code));
     }
+
+    public static _feature._one<_returnStmt, _expr> EXPRESSION = new _feature._one<>(_returnStmt.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_returnStmt p, _expr _e) -> p.setExpression(_e));
+
+    public static _feature._meta<_returnStmt> META = _feature._meta.of(_returnStmt.class, EXPRESSION );
 
     private ReturnStmt rs;
 

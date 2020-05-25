@@ -44,6 +44,23 @@ public final class _receiverParam
         return new _receiverParam( rp );
     }
 
+    public static _feature._one<_receiverParam, _annoExprs> ANNOS = new _feature._one<>(_receiverParam.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_receiverParam p, _annoExprs _e) -> p.setAnnoExprs(_e));
+
+    public static _feature._one<_receiverParam, _typeRef> TYPE = new _feature._one<>(_receiverParam.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_receiverParam p, _typeRef _t) -> p.setTypeRef(_t));
+
+    public static _feature._one<_receiverParam, String> NAME = new _feature._one<>(_receiverParam.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_receiverParam p, String s) -> p.setName(s));
+
+    public static _feature._meta<_receiverParam> META = _feature._meta.of(_receiverParam.class, ANNOS, TYPE, NAME );
+
     public final ReceiverParameter astReceiverParam;
 
     public _receiverParam(ReceiverParameter rp ) {
@@ -71,6 +88,7 @@ public final class _receiverParam
     public boolean is ( ReceiverParameter astRp ){
         return of( astRp ).equals( this );
     }
+
 
     @Override
     public ReceiverParameter ast() {

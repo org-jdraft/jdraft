@@ -27,10 +27,10 @@ public final class _implementsDiff implements
         List<ClassOrInterfaceType> impls1 = new ArrayList<>();
         List<ClassOrInterfaceType> impls2 = new ArrayList<>();
         if( _t1 instanceof _type._withImplements){
-            impls1 = ((_withImplements)_t1).listImplements();
+            impls1 = ((_withImplements)_t1).listAstImplements();
         }
         if( _t1 instanceof _type._withImplements){
-            impls2 = ((_withImplements)_t2).listImplements();
+            impls2 = ((_withImplements)_t2).listAstImplements();
         }
         return diff( impls1, impls2);
     }

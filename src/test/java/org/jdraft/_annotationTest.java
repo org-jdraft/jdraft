@@ -1,7 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import org.jdraft._annotation._entry;
+
 import java.util.List;
 
 import org.jdraft.pattern.$ex;
@@ -97,8 +97,8 @@ public class _annotationTest extends TestCase  {
             String ss = "Some String";
         });
         assertEquals(5, _a.listEntries().size());
-        assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getEntry("vs").getDefaultValue()));
-        assertTrue($ex.stringLiteralEx("Some String").matches(_a.getEntry("ss").getDefaultValue()));
+        assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getEntry("vs").getDefaultAstValue()));
+        assertTrue($ex.stringLiteralEx("Some String").matches(_a.getEntry("ss").getDefaultAstValue()));
     }
 
     public void testImport(){
@@ -127,7 +127,7 @@ public class _annotationTest extends TestCase  {
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
-        assertEquals( Exprs.stringExpr( "String"), _p.getDefaultValue());
+        assertEquals( Exprs.stringExpr( "String"), _p.getDefaultAstValue());
 
         _p = _an.getEntry("clazz");
         assertFalse( _p.hasJavadoc() );
@@ -136,14 +136,14 @@ public class _annotationTest extends TestCase  {
         assertEquals( _p.getTypeRef(), _typeRef.of(Types.of("Class[]")));
 
         assertTrue( _p.isTypeRef(Class[].class) );
-        assertEquals( Exprs.arrayInitExpr( "{}"),_p.getDefaultValue());
+        assertEquals( Exprs.arrayInitExpr( "{}"),_p.getDefaultAstValue());
 
         _p = _an.getEntry("vval");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
         assertTrue( _p.isTypeRef( int.class) );
-        assertEquals( Exprs.nameExpr("V"),_p.getDefaultValue());
+        assertEquals( Exprs.nameExpr("V"),_p.getDefaultAstValue());
         assertEquals( "ComplexAnnotationType", _an.getName());
 
         assertEquals( 4, _an.listInnerTypes().size());

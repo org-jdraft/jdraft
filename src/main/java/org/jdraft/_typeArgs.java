@@ -69,6 +69,14 @@ public final class _typeArgs
          return new _typeArgs(nwta);
     }
 
+    public static _feature._many<_typeArgs, _typeRef> TYPE_ARGS = new _feature._many<>(_typeArgs.class, _typeRef.class,
+            _feature._id.TYPE_ARGS,
+            _feature._id.TYPE,
+            a -> a.list(),
+            (_typeArgs p, List<_typeRef> _ccs) -> p.set(_ccs));
+
+    public static _feature._meta<_typeArgs> META = _feature._meta.of(_typeArgs.class, TYPE_ARGS );
+
     public NodeWithTypeArguments nwta;
 
     public _typeArgs(NodeWithTypeArguments nwta){

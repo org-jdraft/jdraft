@@ -41,6 +41,18 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return new _constant( ecd);
     }
 
+    public static _feature._one<_constant, String> NAME = new _feature._one<>(_constant.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_constant a, String o) -> a.setName(o));
+
+    public static _feature._one<_constant, _args> ARGS = new _feature._one<>(_constant.class, _args.class,
+            _feature._id.ARGS_EXPRS,
+            a -> a.getArgs(),
+            (_constant a, _args o) -> a.setArgs(o));
+
+    public static _feature._meta<_constant> META = _feature._meta.of(_constant.class, NAME, ARGS);
+
     public _constant( EnumConstantDeclaration ecd ){
         this.astConstant = ecd;
     }

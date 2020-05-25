@@ -705,7 +705,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < $protoTypes.size(); i++) {
             final $typeRef t = $protoTypes.get(i);
             List<$typeRef.Select> matches = new ArrayList<>();
-            _hi.listImplements().forEach(c -> {
+            _hi.listAstImplements().forEach(c -> {
                 $typeRef.Select sel = t.select(_typeRef.of((ClassOrInterfaceType) c));
                 if (sel != null) {
                     matches.add(sel);
@@ -741,7 +741,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < $protoTypes.size(); i++) {
             final $typeRef t = $protoTypes.get(i);
             List<$typeRef.Select> matches = new ArrayList<>();
-            _he.listExtends().forEach(c -> {
+            _he.listAstExtends().forEach(c -> {
                 $typeRef.Select sel = t.select(_typeRef.of((ClassOrInterfaceType) c));
                 if (sel != null) {
                     matches.add(sel);

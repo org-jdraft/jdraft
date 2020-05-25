@@ -120,7 +120,7 @@ public class $interface
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
         _c.getTypeParams().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
-        _c.listExtends().forEach(i -> $c.$extend(i));
+        _c.listAstExtends().forEach(i -> $c.$extend(i));
         _c.forFields(f-> $c.fields.add($field.of(f)));
         _c.forMethods(m -> $c.$methods($method.of(m)));
         _c.forInnerTypes(n -> {

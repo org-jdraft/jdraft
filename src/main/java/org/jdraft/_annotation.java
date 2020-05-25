@@ -14,12 +14,9 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
-import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
-import com.github.javaparser.ast.type.Type;
 
-import com.github.javaparser.utils.Log;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
@@ -533,18 +530,7 @@ public final class _annotation
         return this;
     }
 
-    public static _feature._one<_ifStmt, _expr> CONDITION = new _feature._one<>(_ifStmt.class, _expr.class,
-            _feature._id.CONDITION_EXPR,
-            a -> a.getCondition(),
-            (_ifStmt a, _expr _e) -> a.setCondition(_e));
-
     /** could be a single statement, or a block stmt */
-    public static _feature._one<_ifStmt, _stmt> THEN = new _feature._one<>(_ifStmt.class, _stmt.class,
-            _feature._id.THEN,
-            a -> a.getThen(),
-            (_ifStmt a, _stmt b) -> a.setThen(b));
-
-
     public static _feature._one<_annotation, _imports> IMPORTS = new _feature._one<>(_annotation.class, _imports.class,
             _feature._id.IMPORTS,
             a -> a.getImports(),
@@ -576,6 +562,8 @@ public final class _annotation
             a -> a.listMembers(),
             (_annotation a, List<_java._member>mems) -> a.setMembers(mems));
 
+    public static _feature._meta<_annotation> META = _feature._meta.of(_annotation.class,
+            PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, MEMBERS);
 
     /*
     public static _feature._many<_annotation, _annotation._entry> ANNOTATION_ENTRIES = new _feature._many<>(_annotation.class, _annotation._entry.class,
@@ -602,11 +590,6 @@ public final class _annotation
             a -> a.listCompanionTypes(),
             (_annotation a, List<_type>lit) -> a.setCompanionTypes(lit));
     */
-
-    public static _feature._meta<_annotation> META = _feature._meta.of(_annotation.class,
-            PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, MEMBERS);
-            //ANNOTATION_ENTRIES, FIELDS, INNER_TYPES, COMPANION_TYPES);
-
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
@@ -709,238 +692,5 @@ public final class _annotation
     public AnnotationDeclaration ast() {
         return this.astAnnotation;
     }
-    
-    /**
-     * a property entry added to an annotation
-     * <PRE>
-     * // VALUE is an entry of the Speed annotation
-     * public @interface Speed{
-     *     int VALUE() default 0;
-     * }
-     * </PRE>
-     * NOTE: we called this an entry and NOT a member, because we use the
-     * term "member" to be any member implementation (_field, _method, etc.)
-     * of a type (as it is documented in Java), so we devised the term _element
-     * to mean (specifically) a property of an _annotation
-     * (it is also a _member) and maps to an AnnotationMemberDeclaration
-     */
-    public static class _entry implements _javadocComment._withJavadoc<_entry>,
-            _annoExprs._withAnnoExprs<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration,_entry>,
-            _java._declared<AnnotationMemberDeclaration, _entry> {
 
-        public static _entry of(AnnotationMemberDeclaration astEntry){
-            return new _entry( astEntry );
-        }
-
-        public static _entry of(String...code ){
-            return new _entry( Ast.annotationMemberDecl( code ) );
-        }
-
-        public static _entry of(Type type, String name ){
-            AnnotationMemberDeclaration amd = new AnnotationMemberDeclaration();
-            amd.setName(name);
-            amd.setType(type);
-            return of( amd );
-        }
-
-        public static _entry of(Type type, String name, Expression defaultValue ){
-            AnnotationMemberDeclaration amd = new AnnotationMemberDeclaration();
-            amd.setName(name);
-            amd.setType(type);
-            amd.setDefaultValue(defaultValue);
-            return of( amd );
-        }
-        
-        private final AnnotationMemberDeclaration astAnnMember;
-
-        public _entry(AnnotationMemberDeclaration astAnnMember ){
-            this.astAnnMember = astAnnMember;
-        }
-
-        @Override
-        public _entry copy(){
-            return of( this.astAnnMember.toString() );
-        }
-        
-        @Override
-        public boolean is(String...stringRep){
-            return is(Ast.annotationMemberDecl(stringRep));
-        }
-        
-        @Override
-        public boolean is(AnnotationMemberDeclaration amd ){
-            return _entry.of(amd).equals(this);
-        }
-
-        public Node getNameNode() { return this.astAnnMember.getName(); }
-
-        @Override
-        public _entry setName(String name){
-            this.astAnnMember.setName( name );
-            return this;
-        }
-
-        @Override
-        public AnnotationMemberDeclaration ast(){
-            return this.astAnnMember;
-        }
-        
-        @Override
-        public _entry setTypeRef(Type t){
-            this.astAnnMember.setType( t );
-            return this;
-        }
-
-        @Override
-        public _entry setJavadoc(String... content) {
-            ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
-            return this;
-        }
-
-        @Override
-        public _entry setJavadoc(JavadocComment astJavadocComment) {
-            ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
-            return this;
-        }
-
-        @Override
-        public String getName(){
-            return this.astAnnMember.getNameAsString();
-        }
-
-        @Override
-        public _typeRef getTypeRef(){
-            return _typeRef.of(this.astAnnMember.getType());
-        }
-
-        public boolean hasDefaultValue(){
-            return this.astAnnMember.getDefaultValue().isPresent();
-        }
-
-        public _entry removeDefaultValue(){
-            this.astAnnMember.removeDefaultValue();
-            return this;
-        }
-        
-        public _entry setDefaultValue(int intValue ){
-            this.astAnnMember.setDefaultValue( Exprs.of( intValue ) );
-            return this;
-        }
-        
-        public _entry setDefaultValue(long longValue ){
-            this.astAnnMember.setDefaultValue( Exprs.of( longValue ) );
-            return this;
-        }
-        
-        public _entry setDefaultValue(char charValue ){
-            this.astAnnMember.setDefaultValue( Exprs.of( charValue ) );
-            return this;
-        }
-        
-        public _entry setDefaultValue(boolean booleanValue ){
-            this.astAnnMember.setDefaultValue( Exprs.of( booleanValue ) );
-            return this;
-        }
-        
-        public _entry setDefaultValueNull(){
-            this.astAnnMember.setDefaultValue( Exprs.nullExpr() );
-            return this;
-        }
-        
-        public _entry setDefaultValue(float floatValue ){
-            this.astAnnMember.setDefaultValue( Exprs.of( floatValue ) );
-            return this;
-        }
-        
-        public _entry setDefaultValue(double doubleValue ){
-            this.astAnnMember.setDefaultValue( Exprs.of( doubleValue ) );
-            return this;
-        }
-        
-        public _entry setDefaultValue(String defaultValueExpression){
-            this.astAnnMember.setDefaultValue( Ast.expression( defaultValueExpression) );
-            return this;
-        }
-
-        public _entry setDefaultValue(Expression e){
-            this.astAnnMember.setDefaultValue( e );
-            return this;
-        }
-
-        public Expression getDefaultValue(){
-            if( this.astAnnMember.getDefaultValue().isPresent()){
-                return this.astAnnMember.getDefaultValue().get();
-            }
-            return null;
-        }
-
-        @Override
-        public _annoExprs getAnnoExprs() {
-            return _annoExprs.of(this.astAnnMember );
-        }
-
-        @Override
-        public boolean equals( Object obj ) {
-            if( this == obj ) {
-                return true;
-            }
-            if( obj == null ) {
-                return false;
-            }
-            if( getClass() != obj.getClass() ) {
-                return false;
-            }
-            final _entry other = (_entry)obj;
-            if( this.astAnnMember == other.astAnnMember){
-                return true; //two _element instances pointing to same AstMemberDeclaration
-            }
-            if( ! Exprs.equalAnnos(this.astAnnMember, other.astAnnMember)){
-                return false;
-            }
-            if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
-                Log.trace("expected javadoc %s got %s", this::getJavadoc, other::getJavadoc);
-                return false;
-            }
-            if( !Objects.equals( this.getName(), other.getName() ) ) {
-                Log.trace("expected name %s got %s", this::getName, other::getName);
-                return false;
-            }
-            if( !Types.equal( astAnnMember.getType(), other.astAnnMember.getType())){
-                Log.trace("expected type %s got %s", astAnnMember::getType, other.astAnnMember::getType);
-                return false;
-            }
-            if( !Objects.equals( this.getDefaultValue(), other.getDefaultValue() ) ) {
-                Log.trace("expected name %s got %s", this::getDefaultValue, other::getDefaultValue);
-                return false;
-            }
-            return true;
-        }
-
-        public Map<_java.Feature, Object> features( ) {
-            Map<_java.Feature, Object> parts = new HashMap<>();
-            parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
-            parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
-            parts.put( _java.Feature.NAME, this.getName() );
-            parts.put( _java.Feature.TYPE, this.getTypeRef() );
-            parts.put( _java.Feature.DEFAULT_EXPR, this.getDefaultValue() );
-            return parts;
-        }
-        
-        @Override
-        public int hashCode() {
-            int hash = 7;
-            hash = 97 * hash + Objects.hash(
-                    Exprs.hashAnnos(this.astAnnMember),
-                    this.getJavadoc(),
-                    this.getName(),
-                    Types.hash(this.astAnnMember.getType()),
-                    this.getDefaultValue() );
-            return hash;
-        }
-
-        @Override
-        public String toString(){
-            return this.astAnnMember.toString();
-        }              
-    }
 }

@@ -359,7 +359,7 @@ public class _switchStmtTest extends TestCase {
         System.out.println(_s);
         assertEquals (1, _s.listSwitchEntries(_se -> _se.isDefault() ).size());
 
-        assertFalse( _s.getSwitchEntry(0).isCaseConstant(0));
+        assertFalse( _s.getSwitchEntry(0).hasCaseConstant(0));
     }
 
 }

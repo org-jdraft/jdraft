@@ -83,24 +83,48 @@ public interface _feature<_T, _F>{
      */
     enum _id {
 
-        MEMBERS("members"),
+        ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
+        ANNO_EXPRS("annoExprs"), /** i.e. @Deprecated @NotNull */
+        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair"), //anno
+        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs"), //anno
+
+        ANNOTATION("annotation"),
+        ANNOTATION_ENTRY("annotationEntry"),
+        ANNOTATION_ENTRIES("annotationEntries"),
+
+        ANONYMOUS_CLASS_BODY("anonymousClassBody"),//_new
+
+        ARG_EXPR("arg"), //_enum._constant
+        ARGS_EXPRS("args"), //_enum._constant
+
+        ARRAY_DIMENSION("arrayDimension"),
+        ARRAY_DIMENSIONS("arrayDimensions"), //arrayCreate
+        ARRAY_NAME("arrayName"), //arrayAccess
+
+        ASSIGN_OPERATOR("assignOperator"),
+
+        CODE_UNITS("codeUnits"), //project
+        CODE_UNIT("codeUnit"),
+
+        MEMBERS("members"), //for types (_class, _interface, _enum, _annotation)
         MEMBER("member"),
-        IS_OPEN("isOpen"),
+
+        IS_OPEN("isOpen"), //module-info
+
         MODULE_DIRECTIVES("moduleDirectives"),
         MODULE_DIRECTIVE("moduleDirective"),
-        IS_TRANSITIVE("isTransitive"),
+        IS_TRANSITIVE("isTransitive"), //moduleRequires
         NAMES("names"), //moduleProvides, moduleOpens, moduleExports
-        //MODULE_NAME("moduleName"), //moduleProvides, moduleOpens, moduleExports
 
         VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),//annotations places on parameter var args
 
         IS_TOP_LEVEL("isTopLevel"),
         MODULE_DECLARATION("moduleDeclaration"),
         PACKAGE("package"),
-        /** i.e. @Deprecated */
-        ANNO_EXPR("annoExpr"),
-        /** i.e. @Deprecated @NotNull */
-        ANNO_EXPRS("annoExprs"),
+
+        CATCH_CLAUSES( "catchClauses"), //tryStmt
+        CATCH("catch"), //individual catch clause
+        CASE_EXPRESSIONS("caseExpressions"), // switchEntry i.e. 'a' and 'b' in : case 'A', 'B':
 
         //values like int, float, etc. are stored as string b/c "0b1" & "1" & "0x1"
         //are mean the same value but represented differently
@@ -110,7 +134,7 @@ public interface _feature<_T, _F>{
         CLASS("class"),
         ENUM("enum"),
         INTERFACE("interface"),
-        ANNOTATION("annotation"),
+
         BODY("body"),
         MODIFIER("modifier"),
         MODIFIERS("modifiers"), //List.class, Modifier.class),
@@ -121,20 +145,20 @@ public interface _feature<_T, _F>{
         PARAM("param"),
         PARAMS("params"),
         RECEIVER_PARAM("receiverParam"),
-        TYPE_PARAM("typeParam"), //_typeParameter.class
+        TYPE_PARAM("typeParam"), //_typeParam.class
+        EXTENDS_TYPE_BOUNDS("extendsTypeBounds"), //typeParam
         TYPE_PARAMS("typeParams"),
-        THROWS("throws"),
+        THROWS("throws"), //list of thrown exceptions (method, constructor)
+        THROW("throw"), //individual thrown exception type (method constructor)
         NAME("name"),
-        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair"), //anno
-        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs"), //anno
+
         IMPORT("import"),
         IMPORTS("imports"),
 
         IS_STATIC("isStatic"),
         IS_WILDCARD("isWildcard"),
 
-        ANNOTATION_ENTRY("annotationEntry"),
-        ANNOTATION_ENTRIES("annotationEntries"),
+
         FIELD("field"),
         FIELDS("fields"),
         INNER_TYPE("innerType"),
@@ -161,8 +185,7 @@ public interface _feature<_T, _F>{
         CONSTANT("constant"),
         CONSTANTS("constants"),
 
-        ARG_EXPR("arg"), //_enum._constant
-        ARGS_EXPRS("args"), //_enum._constant
+
 
         INITS("inits"), //initializations made on an forStmt "for(int i=0, int j=1; ...)"
         INIT("init"), //field
@@ -175,16 +198,18 @@ public interface _feature<_T, _F>{
 
         //new stuff for Statements and expressions
         TRY_BODY("tryBody"),
-        CATCH_CLAUSES( "catchClauses"), //tryStmt
+
+
         FINALLY_BODY( "finallyBody"),
         WITH_RESOURCES_EXPRS("withResourcesExpr"), //tryStmt
 
         STATEMENTS("statements"), //statements of a switch entry
         SWITCH_SELECTOR_EXPR("switchSelectorExpr"),
-        SWITCH_ENTRIES("switchEntries"),
+        SWITCH_ENTRIES("switchEntries"), // lists of "cases" within a switchSmt switchExpr
+        SWITCH_ENTRY("switchEntry"), // individual "case"
         SWITCH_BODY_TYPE("switchBodyType"),
         SWITCH_LABEL_EXPRS("switchLabelExprs"),
-        ARRAY_NAME("arrayName"), //arrayAccess
+
         INDEX_EXPR("indexExpr"), //arrayAccess
         VALUE_EXPRS("valueExprs"), //ArrayInit
         TARGET_EXPR("targetExpr"), //assign
@@ -203,7 +228,7 @@ public interface _feature<_T, _F>{
         SCOPE_EXPR("scopeExpr"), //fieldAccessExpr
         TYPE_ARGS("typeArgs"), //methodCall
         IDENTIFIER("identifier"),  //methodReference
-        ANONYMOUS_CLASS_BODY("anonymousClassBody"),//_new
+
         TYPE_NAME("typeName"), //_super superExpr
         VARIABLES("variables"), //VariableDeclarator.class),
         CHECK_EXPR("checkExpr"), //assertStmt
@@ -219,11 +244,10 @@ public interface _feature<_T, _F>{
         COMPARE_EXPR("compareExpr"),
         STATEMENT("statement"), //labeledStatment
         IS_PARENTHESIZED_PARAMS("isParenthesizedParams"),
-        ARRAY_DIMENSION("arrayDimension"),
-        ARRAY_DIMENSIONS("arrayDimensions"), //arrayCreate
+
         IS_ENCLOSED_PARAMS( "isEnclosedParams"),
         LITERAL("literal"), //typeRef, textBlock
-        ASSIGN_OPERATOR("assignOperator");
+        ;
 
         public final String name;
 
@@ -232,6 +256,13 @@ public interface _feature<_T, _F>{
         }
     }
 
+    //TODO multiOrdered
+    //    get(int index)
+    //    set(int index)
+    //    replace(old, new)
+
+    //TODO multiBag
+    //     replace(old, new)
     /**
      *
      * @param <_T>

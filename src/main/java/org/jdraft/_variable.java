@@ -25,6 +25,23 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
         return new _variable( vd );
     }
 
+    public static _feature._one<_variable, _typeRef> TYPE = new _feature._one<>(_variable.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_variable a, _typeRef _tr) -> a.setTypeRef(_tr));
+
+    public static _feature._one<_variable, String> NAME = new _feature._one<>(_variable.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_variable a, String name) -> a.setName(name));
+
+    public static _feature._one<_variable, _expr> INIT = new _feature._one<>(_variable.class, _expr.class,
+            _feature._id.INIT,
+            a -> a.getInit(),
+            (_variable a, _expr _e) -> a.setInit(_e));
+
+    public static _feature._meta<_variable> META = _feature._meta.of(_variable.class, TYPE, NAME, INIT);
+
     public VariableDeclarator vd;
 
     public _variable(VariableDeclarator vd){

@@ -109,7 +109,7 @@ public class $enum
         _e.forAnnoExprs(a-> $e.annos.add($annoRef.of(a)));
         $e.modifiers = $modifiers.of(_e.getModifiers());
         $e.$name(_e.getSimpleName());
-        _e.listImplements().forEach(i -> $e.$implement(i));
+        _e.listAstImplements().forEach(i -> $e.$implement(i));
         _e.forConstants(cn -> $e.$constant($enumConstant.of(cn)));
         _e.forInitBlocks(ib -> $e.initBlocks.add($initBlock.of(ib.ast())));
         _e.forConstructors(ct -> $e.ctors.add($constructor.of(ct)));

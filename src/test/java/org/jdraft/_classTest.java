@@ -789,8 +789,8 @@ public class _classTest extends TestCase {
         assertTrue( _c.listMethods().isEmpty() );
         assertTrue( _c.listFields().isEmpty() );
         assertTrue( _c.listConstructors().isEmpty() );
-        assertNull( _c.getExtends() );
-        assertTrue( _c.listImplements().isEmpty() );
+        assertNull( _c.getExtendsNode() );
+        assertTrue( _c.listAstImplements().isEmpty() );
         assertTrue( _c.listAnnoExprs( ).isEmpty());
     }
     

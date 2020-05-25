@@ -19,7 +19,7 @@ import java.util.function.Function;
 /**
  * for(Object o: objects) { ... }
  */
-public final class _forEachStmt implements _stmt._controlFlow._branching<ForEachStmt, _forEachStmt>,
+public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEachStmt, _forEachStmt>,
         _stmt._controlFlow._loop<ForEachStmt, _forEachStmt>,
         _java._node<ForEachStmt, _forEachStmt>,
         _body._withBody<_forEachStmt> {

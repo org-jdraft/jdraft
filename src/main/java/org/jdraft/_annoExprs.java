@@ -334,7 +334,7 @@ public final class _annoExprs
      * {@link _method}
      * {@link _constructor}
      * {@link _param}
-     * {@link _annotation._entry}
+     * {@link _entry}
      * {@link _constant}
      * </UL>
      *

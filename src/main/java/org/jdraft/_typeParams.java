@@ -37,6 +37,14 @@ public final class _typeParams
         return new _typeParams( tps );
     }
 
+    public static _feature._many<_typeParams, _typeParam> TYPE_PARAMS = new _feature._many<>(_typeParams.class, _typeParam.class,
+            _feature._id.TYPE_PARAMS,
+            _feature._id.TYPE_PARAM,
+            a -> a.list(),
+            (_typeParams p, List<_typeParam> _tps) -> p.setTypeParams(_tps));
+
+    public static _feature._meta<_typeParams> META = _feature._meta.of(_typeParams.class, TYPE_PARAMS);
+
     private final NodeWithTypeParameters astNodeWithTypeParams;
 
     public _typeParams(NodeWithTypeParameters ntp ) {
@@ -45,6 +53,12 @@ public final class _typeParams
 
     public _typeParams clear() {
         astNodeWithTypeParams.getTypeParameters().clear();
+        return this;
+    }
+
+    public _typeParams setTypeParams(List<_typeParam> typeParams){
+        this.astNodeWithTypeParams.getTypeParameters().clear();
+        typeParams.forEach(tp-> this.astNodeWithTypeParams.getTypeParameters().add( tp.ast()));
         return this;
     }
 

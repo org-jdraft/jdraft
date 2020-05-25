@@ -8,75 +8,93 @@ import java.util.function.Consumer;
 public interface _stmt<S extends Statement, _S extends _stmt> extends _java._node<S, _S>, _java._withComments<S, _S> {
 
     /**
-     * Refine the ast() method to be more strict (only return Statements)
-     * @return
+     * Return the AST for the _stmt implementation
+     * @return the JavaParser AST
      */
     S ast();
 
     interface _controlFlow<S extends Statement, _S extends _stmt> extends _stmt<S, _S> {
 
         /**
-         *
-         * @param <S>
-         * @param <_S>
-         * @see _doStmt
-         * @see _forStmt
-         * @see _forEachStmt
-         * @see _whileStmt
-         *
-         */
-        interface _loop <S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
-
-        /**
+         * stmt categorization of a statement that goes to (a label) or "breaks"/ to the parent
          * @param <S> the Ast Node type
          * @param <_S> the _statement type
          * @see _breakStmt
          * @see _continueStmt
+         */
+        interface _goto<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
+
+        /**
+         * categorization that returns control to the caller
+         * (useful for analyzing {@link _switch} statements wrt fall-thorough)
          * @see _returnStmt
          * @see _throwStmt
          * @see _yieldStmt
-         */
-        interface _signal<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
-
-        /**
-         * Connditional
          * @param <S>
          * @param <_S>
+         */
+        interface _returns <S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
+
+        /**
+         * Conditional statement (contains a condition) that effects the control flow
+         * @param <S>
+         * @param <_S>
+         *
+         * //conditional NON-LOOPING
          * @see _ifStmt
+         * @see _switchStmt
+         * @see _tryStmt
+         *
+         * //conditional LOOPING (i.e. implements {@link _controlFlow._loop})
          * @see _forStmt
          * @see _doStmt
          * @see _forEachStmt
          * @see _whileStmt
-         * @see _switchStmt
-         * @see _tryStmt
          */
-        interface _branching<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
+        interface _conditional<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
+
+        /**
+         *
+         * @param <S>
+         * @param <_S>
+         * @see _doStmt
+         * @see _forStmt
+         * @see _forEachStmt
+         * @see _whileStmt
+         */
+        interface _loop <S extends Statement, _S extends _stmt> extends _controlFlow._conditional<S, _S>{}
     }
 
-    Class<_assertStmt> ASSERT = _assertStmt.class;
-    Class<_blockStmt> BLOCK = _blockStmt.class;          //scope
-    Class<_breakStmt> BREAK = _breakStmt.class;          //signal
-    Class<_continueStmt> CONTINUE = _continueStmt.class; //signal
-    Class<_doStmt> DO = _doStmt.class;                   //branch //loop //scope
-    Class<_emptyStmt> EMPTY = _emptyStmt.class;
-    Class<_constructorCallStmt> CONSTRUCTOR_CALL = _constructorCallStmt.class;
-    Class<_exprStmt> EXPRESSION_STMT = _exprStmt.class;
-    Class<_forEachStmt> FOR_EACH = _forEachStmt.class; //branching //loop //scope
-    Class<_forStmt> FOR = _forStmt.class;              //branching //loop //scope
-    Class<_ifStmt> IF = _ifStmt.class;                 //branching //loop //scope
-    Class<_labeledStmt> LABELED = _labeledStmt.class;
-    Class<_localClassStmt> LOCAL_CLASS = _localClassStmt.class;
-    Class<_returnStmt> RETURN = _returnStmt.class;     //signal
-    Class<_switchStmt> SWITCH = _switchStmt.class;    //branching
-    Class<_synchronizedStmt> SYNCHRONIZED = _synchronizedStmt.class; //scope
-    Class<_throwStmt> THROW = _throwStmt.class;     //signal
-    Class<_tryStmt> TRY = _tryStmt.class;           //branching
-    Class<_whileStmt> WHILE = _whileStmt.class;     //branching //loop
-    Class<_yieldStmt> YIELD = _yieldStmt.class;     //signal
+    /**
+     * categories all of the available classes
+     */
+    class Classes {
 
-    Class<? extends _stmt>[] ALL = new Class[]{
-            ASSERT, BLOCK, BREAK, CONTINUE, DO, EMPTY, CONSTRUCTOR_CALL, EXPRESSION_STMT, FOR_EACH,
-            FOR, IF, LABELED, LOCAL_CLASS, RETURN, SYNCHRONIZED, SWITCH, THROW, TRY, WHILE, YIELD};
+        Class<_assertStmt> ASSERT = _assertStmt.class;
+        Class<_blockStmt> BLOCK = _blockStmt.class;          //scope
+        Class<_breakStmt> BREAK = _breakStmt.class;          //signal
+        Class<_continueStmt> CONTINUE = _continueStmt.class; //signal
+        Class<_doStmt> DO = _doStmt.class;                   //branch //loop //scope
+        Class<_emptyStmt> EMPTY = _emptyStmt.class;
+        Class<_constructorCallStmt> CONSTRUCTOR_CALL = _constructorCallStmt.class;
+        Class<_exprStmt> EXPRESSION_STMT = _exprStmt.class;
+        Class<_forEachStmt> FOR_EACH = _forEachStmt.class; //branching //loop //scope
+        Class<_forStmt> FOR = _forStmt.class;              //branching //loop //scope
+        Class<_ifStmt> IF = _ifStmt.class;                 //branching //loop //scope
+        Class<_labeledStmt> LABELED = _labeledStmt.class;
+        Class<_localClassStmt> LOCAL_CLASS = _localClassStmt.class;
+        Class<_returnStmt> RETURN = _returnStmt.class;     //signal
+        Class<_switchStmt> SWITCH = _switchStmt.class;    //branching
+        Class<_synchronizedStmt> SYNCHRONIZED = _synchronizedStmt.class; //scope
+        Class<_throwStmt> THROW = _throwStmt.class;     //signal
+        Class<_tryStmt> TRY = _tryStmt.class;           //branching
+        Class<_whileStmt> WHILE = _whileStmt.class;     //branching //loop
+        Class<_yieldStmt> YIELD = _yieldStmt.class;     //signal
+
+        Class<? extends _stmt>[] ALL = new Class[]{
+                ASSERT, BLOCK, BREAK, CONTINUE, DO, EMPTY, CONSTRUCTOR_CALL, EXPRESSION_STMT, FOR_EACH,
+                FOR, IF, LABELED, LOCAL_CLASS, RETURN, SYNCHRONIZED, SWITCH, THROW, TRY, WHILE, YIELD};
+    }
 
     /**
      * Resolves and returns the AST Statement representing the body of the

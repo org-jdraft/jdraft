@@ -298,7 +298,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _annotation._entry
+     * @see _entry
      *
      * @param clazz
      * @param line
@@ -337,7 +337,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _annotation._entry
+     * @see _entry
      *
      * @param top the top node
      * @param line a 1-based line number (we start with line 1)
@@ -366,7 +366,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _annotation._entry
+     * @see _entry
      *
      * @param clazz the runtime Class
      * @param line a 1-based line number (we start with line 1)
@@ -390,7 +390,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _annotation._entry
+     * @see _entry
      *
      * @param _mem
      * @param line
@@ -414,7 +414,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _annotation._entry
+     * @see _entry
      *
      * @param top the top node
      * @param line a 1-based line number (we start with line 1)

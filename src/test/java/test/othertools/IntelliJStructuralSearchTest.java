@@ -90,7 +90,7 @@ public class IntelliJStructuralSearchTest{
         __( $.constructor() );
 
         //Class implementing (exactly 2) interfaces
-        __( $class.of(c-> c.listImplements().size() ==2) );
+        __( $class.of(c-> c.listAstImplements().size() ==2) );
 
         //All Classes
         __( $class.of() );

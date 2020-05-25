@@ -252,6 +252,53 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return of(signature, anonymousBody, ste);
     }
 
+
+    /** could be a single statement, or a block stmt */
+    public static _feature._one<_enum, _imports> IMPORTS = new _feature._one<>(_enum.class, _imports.class,
+            _feature._id.IMPORTS,
+            a -> a.getImports(),
+            (_enum a, _imports b) -> a.setImports(b));
+
+    public static _feature._one<_enum, _package> PACKAGE = new _feature._one<>(_enum.class, _package.class,
+            _feature._id.PACKAGE,
+            a -> a.getPackage(),
+            (_enum a, _package b) -> a.setPackage(b));
+
+    public static _feature._one<_enum, _annoExprs> ANNO_EXPRS = new _feature._one<>(_enum.class, _annoExprs.class,
+            _feature._id.ANNO_EXPRS,
+            a -> a.getAnnoExprs(),
+            (_enum a, _annoExprs b) -> a.setAnnoExprs(b));
+
+    public static _feature._one<_enum, _javadocComment> JAVADOC = new _feature._one<>(_enum.class, _javadocComment.class,
+            _feature._id.JAVADOC,
+            a -> a.getJavadoc(),
+            (_enum a, _javadocComment b) -> a.setJavadoc(b));
+
+    public static _feature._one<_enum, _modifiers> MODIFIERS = new _feature._one<>(_enum.class, _modifiers.class,
+            _feature._id.MODIFIERS,
+            a -> a.getModifiers(),
+            (_enum a, _modifiers b) -> a.setModifiers(b));
+
+    public static _feature._one<_enum, String> NAME = new _feature._one<>(_enum.class, String.class,
+            _feature._id.NAME,
+            a -> a.getName(),
+            (_enum a, String s) -> a.setName(s));
+
+    public static _feature._many<_enum, _java._member> MEMBERS = new _feature._many<>(_enum.class, _java._member.class,
+            _feature._id.MEMBERS,
+            _feature._id.MEMBER,
+            a -> a.listMembers(),
+            (_enum a, List<_java._member>mems) -> a.setMembers(mems));
+
+    public static _feature._many<_enum, _typeRef> IMPLEMENTS = new _feature._many<>(_enum.class, _typeRef.class,
+            _feature._id.IMPLEMENTS_TYPES,
+            _feature._id.TYPE,
+            a -> a.listImplements(),
+            (_enum a, List<_typeRef>mems) -> a.setImplements(mems));
+
+    public static _feature._meta<_enum> META = _feature._meta.of(_enum.class,
+            PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, IMPLEMENTS, MEMBERS);
+
     public _enum( EnumDeclaration astClass ){
         this.astEnum = astClass;
     }
@@ -537,7 +584,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             return false;
         }
 
-        if( !Types.equal( this.listImplements(), other.listImplements())){
+        if( !Types.equal( this.listAstImplements(), other.listAstImplements())){
             return false;
         }
 
@@ -646,7 +693,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         parts.put( _java.Feature.PACKAGE, this.getPackage() );
         parts.put( _java.Feature.IMPORTS, this.getImports().list() );
         parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
-        parts.put( _java.Feature.IMPLEMENTS_TYPES, this.listImplements() );
+        parts.put( _java.Feature.IMPLEMENTS_TYPES, this.listAstImplements() );
         parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
         parts.put( _java.Feature.CONSTANTS, this.listConstants());
         parts.put( _java.Feature.INIT_BLOCKS, this.listInitBlocks());

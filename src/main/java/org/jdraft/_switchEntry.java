@@ -11,6 +11,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry> {
 
@@ -36,6 +37,24 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         return new _switchEntry(se);
     }
 
+    public static _feature._many<_switchEntry, _expr> CASE_EXPRESSIONS = new _feature._many<>(_switchEntry.class, _expr.class,
+            _feature._id.CASE_EXPRESSIONS,
+            _feature._id.EXPRESSION,
+            a -> a.listCaseExpressions(),
+            (_switchEntry p, List<_expr> _es) -> p.setCaseExpressions(_es));
+
+    public static _feature._one<_switchEntry, SwitchEntry.Type> SWITCH_BODY_TYPE = new _feature._one<>(_switchEntry.class, SwitchEntry.Type.class,
+            _feature._id.SWITCH_BODY_TYPE,
+            a -> a.getBodyType(),
+            (_switchEntry p, SwitchEntry.Type t) -> p.ast().setType(t));
+
+    public static _feature._many<_switchEntry, _stmt> STATEMENTS = new _feature._many<>(_switchEntry.class, _stmt.class,
+            _feature._id.STATEMENTS,
+            _feature._id.STATEMENT,
+            a -> a.listStatements(),
+            (_switchEntry p, List<_stmt> _st) -> p.setStatements(_st));
+
+    public static _feature._meta<_switchEntry> META = _feature._meta.of(_switchEntry.class, CASE_EXPRESSIONS, SWITCH_BODY_TYPE, STATEMENTS );
 
     public SwitchEntry switchEntry;
 
@@ -43,12 +62,23 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         this.switchEntry = se;
     }
 
-
-    public boolean isCaseConstant(_expr _e){
-        return isCaseConstant(_e.ast());
+    public  _switchEntry setCaseExpressions(List<_expr> _es){
+        this.switchEntry.getLabels().clear();
+        _es.forEach( ce -> this.switchEntry.getLabels().add( ce.ast()));
+        return this;
     }
 
-    public boolean isCaseConstant(Expression caseLabel){
+    public List<_expr> listCaseExpressions(){
+        List<_expr> caseExpressions = new ArrayList<>();
+        this.switchEntry.getLabels().forEach( ce -> caseExpressions.add( _expr.of(ce)));
+        return caseExpressions;
+    }
+
+    public boolean hasCaseConstant(_expr _e){
+        return hasCaseConstant(_e.ast());
+    }
+
+    public boolean hasCaseConstant(Expression caseLabel){
         return this.switchEntry.getLabels().stream().anyMatch( c-> c.equals(caseLabel) );
     }
 
@@ -65,24 +95,33 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         return this.switchEntry.getStatements().isEmpty();
     }
 
-    public boolean isCaseConstant(int i){
-        return isCaseConstant( new IntegerLiteralExpr(i) );
+    public SwitchEntry.Type getBodyType(){
+        return this.ast().getType();
     }
 
-    public boolean isCaseConstant(long l){
-        return isCaseConstant( new LongLiteralExpr(l) );
+    public _switchEntry setBodyType( SwitchEntry.Type bodyType ){
+        this.ast().setType(bodyType);
+        return this;
     }
 
-    public boolean isCaseConstant(char c){
-        return isCaseConstant( new CharLiteralExpr(c) );
+    public boolean hasCaseConstant(int i){
+        return hasCaseConstant( new IntegerLiteralExpr(i) );
     }
 
-    public boolean isCaseConstant(float f){
-        return isCaseConstant(new DoubleLiteralExpr(f));
+    public boolean hasCaseConstant(long l){
+        return hasCaseConstant( new LongLiteralExpr(l) );
     }
 
-    public boolean isCaseConstant(double d){
-        return isCaseConstant(new DoubleLiteralExpr(d));
+    public boolean hasCaseConstant(char c){
+        return hasCaseConstant( new CharLiteralExpr(c) );
+    }
+
+    public boolean hasCaseConstant(float f){
+        return hasCaseConstant(new DoubleLiteralExpr(f));
+    }
+
+    public boolean hasCaseConstant(double d){
+        return hasCaseConstant(new DoubleLiteralExpr(d));
     }
 
     public _switchEntry setCaseConstant(int i){
@@ -220,7 +259,12 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         return this.switchEntry.getStatement(index);
     }
 
-    public List<Statement> listStatements(){
+
+    public List<_stmt> listStatements(){
+        return this.switchEntry.getStatements().stream().map(s-> _stmt.of(s)).collect(Collectors.toList());
+    }
+
+    public List<Statement> listAstStatements(){
         return this.switchEntry.getStatements();
     }
 
@@ -303,6 +347,10 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         BlockStmt bs = Ast.blockStmt(sts);
         bs.getStatements().forEach(s -> this.switchEntry.addStatement(s));
         return this;
+    }
+
+    public _switchEntry setStatements(List<_stmt> sts){
+        return setStatements( sts.toArray(new _stmt[0]));
     }
 
     public _switchEntry setStatements(_stmt...st){

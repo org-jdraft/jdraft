@@ -21,6 +21,13 @@ public final class _typeExpr
         return new _typeExpr(Exprs.typeExpr( code));
     }
 
+    public static _feature._one<_typeExpr, _typeRef> TYPE = new _feature._one<>(_typeExpr.class, _typeRef.class,
+            _feature._id.TYPE,
+            a -> a.getTypeRef(),
+            (_typeExpr a, _typeRef value) -> a.setTypeRef(value));
+
+    public static _feature._meta<_typeExpr> META = _feature._meta.of(_typeExpr.class, TYPE);
+
     public TypeExpr te;
 
     public _typeExpr(TypeExpr te){

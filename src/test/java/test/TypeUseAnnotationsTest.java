@@ -118,11 +118,11 @@ public class TypeUseAnnotationsTest
         assertEquals( _annoExpr.of(TypeAnno.class), _tp.getAnnoExpr(0) );
         assertEquals( _annoExpr.of(TA2.class), _tp.getAnnoExpr(1) );
         
-        ClassOrInterfaceType coit = _c.getExtends();
+        ClassOrInterfaceType coit = _c.getExtendsNode();
         assertEquals(_annoExpr.of(TypeAnno.class).ast(), coit.getAnnotation(0));
         assertEquals(_annoExpr.of(TA2.class).ast(), coit.getAnnotation(1));
         
-        List<ClassOrInterfaceType> impls = _c.listImplements();
+        List<ClassOrInterfaceType> impls = _c.listAstImplements();
         coit = impls.get(0);
         assertEquals(_annoExpr.of(TypeAnno.class).ast(), coit.getAnnotation(0));
         assertEquals(_annoExpr.of(TA2.class).ast(), coit.getAnnotation(1));

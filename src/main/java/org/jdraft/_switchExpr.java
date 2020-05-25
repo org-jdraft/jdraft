@@ -111,6 +111,20 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return of( _l.astLambda);
     }
 
+    public static _feature._one<_switchExpr, _expr> EXPRESSION = new _feature._one<>(_switchExpr.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getSwitchSelector(),
+            (_switchExpr p, _expr _es) -> p.setSwitchSelector(_es));
+
+    public static _feature._many<_switchExpr, _switchEntry> SWITCH_ENTRIES = new _feature._many<>(_switchExpr.class, _switchEntry.class,
+            _feature._id.SWITCH_ENTRIES,
+            _feature._id.SWITCH_ENTRY,
+            a -> a.listSwitchEntries(),
+            (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses));
+
+    public static _feature._meta<_switchExpr> META = _feature._meta.of(_switchExpr.class, EXPRESSION, SWITCH_ENTRIES );
+
+
     public SwitchExpr switchExpr;
 
     public _switchExpr(SwitchExpr stt){
@@ -142,7 +156,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     }
 
     public _switchEntry getCase(int i){
-        return getSwitchEntry(se-> se.isCaseConstant(i) );
+        return getSwitchEntry(se-> se.hasCaseConstant(i) );
     }
 
     /**
@@ -374,6 +388,10 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         SwitchExpr ss = Ast.switchEx( "switch(key){"+comb+"}");
         ss.getEntries().forEach(se -> addSwitchEntries(se));
         return this;
+    }
+
+    public _switchExpr setSwitchEntries(List<_switchEntry> ses){
+        return setSwitchEntries( ses.toArray(new _switchEntry[0]));
     }
 
     public _switchExpr setSwitchEntries(_switchEntry...ses){

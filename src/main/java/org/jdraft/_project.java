@@ -75,6 +75,13 @@ public final class _project {
         return _p;
     }
 
+    public static _feature._many<_project, _codeUnit> CODE_UNITS = new _feature._many<>(_project.class, _codeUnit.class,
+            _feature._id.CODE_UNITS, _feature._id.CODE_UNIT,
+            a->a.list(),
+            (_project a, List<_codeUnit> ps)-> a.set(ps));
+
+    public static _feature._meta<_project> META = _feature._meta.of(_project.class, CODE_UNITS);
+
     public _project(){
         this.cache = new ArrayList<>();
     }
@@ -570,7 +577,6 @@ public final class _project {
         return _cs;
     }
 
-
     /**
      * Apply this consumer to all methods and return the modified _project
      * @param _fieldActionFn
@@ -677,6 +683,12 @@ public final class _project {
         Arrays.stream( cuss).forEach( cus -> {
             add(cus.list());
         } );
+        return this;
+    }
+
+    public _project set(List<_codeUnit> cus){
+        this.cache.clear();
+        add(cus);
         return this;
     }
 

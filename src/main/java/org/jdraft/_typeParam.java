@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
@@ -30,6 +31,19 @@ public final class _typeParam
         return new _typeParam( typeParameter );
     }
 
+    public static _feature._one<_typeParam, String> NAME = new _feature._one<>(_typeParam.class, String.class,
+            _feature._id.TYPE_PARAM,
+            a -> a.getName(),
+            (_typeParam a, String name) -> a.setName(name));
+
+    public static _feature._many<_typeParam, _typeRef> EXTENDS_TYPE_BOUND = new _feature._many<>(_typeParam.class, _typeRef.class,
+            _feature._id.EXTENDS_TYPE_BOUNDS,
+            _feature._id.TYPE,
+            a -> a.listExtendsTypeBound(),
+            (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs));
+
+    public static _feature._meta<_typeParam> META = _feature._meta.of(_typeParam.class, NAME, EXTENDS_TYPE_BOUND);
+
     private final TypeParameter typeParam;
 
     /**
@@ -58,6 +72,19 @@ public final class _typeParam
      */
     public boolean hasTypeBound(){
         return this.typeParam.getTypeBound().isNonEmpty();
+    }
+
+    public List<_typeRef> listExtendsTypeBound(){
+        return this.ast().getTypeBound().stream().map( t-> _typeRef.of(t)).collect(Collectors.toList());
+    }
+
+    /**
+     *
+     * @param typeBound
+     * @return
+     */
+    public _typeParam setExtendsTypeBound(List<_typeRef> typeBound){
+        return setExtendsTypeBound(typeBound.toArray(new _typeRef[0]));
     }
 
     /**

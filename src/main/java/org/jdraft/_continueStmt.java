@@ -5,7 +5,7 @@ import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.Objects;
 
-public final class _continueStmt implements _stmt._controlFlow._signal<ContinueStmt, _continueStmt>,
+public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStmt, _continueStmt>,
         _java._node<ContinueStmt, _continueStmt> {
 
     public static _continueStmt of(){
