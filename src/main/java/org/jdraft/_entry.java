@@ -27,7 +27,7 @@ import java.util.Objects;
  * to mean (specifically) a property of an {@link _annotation}
  * (it is also a _member) and maps to an AnnotationMemberDeclaration
  */
-public class _entry implements _javadocComment._withJavadoc<_entry>,
+public final class _entry implements _javadocComment._withJavadoc<_entry>,
         _annoExprs._withAnnoExprs<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration, _entry>,
         _java._declared<AnnotationMemberDeclaration, _entry> {
 

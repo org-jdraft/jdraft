@@ -11,7 +11,7 @@ import com.github.javaparser.ast.type.Type;
 import org.jdraft.pattern.$annoRef;
 import org.jdraft.pattern.$ex;
 import org.jdraft.pattern.$stmt;
-import org.jdraft._annoExpr.*;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.annotation.ElementType;
@@ -19,8 +19,6 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import junit.framework.TestCase;
 import org.jdraft.text.Tokens;
@@ -223,7 +221,7 @@ public class _annoExprTest extends TestCase {
     public void testRemovePair(){
         _annoExpr _ae = _annoExpr.of("@A(1)");
         assertTrue( _ae.isSingleMember() );
-        _ae.removePair(_annoExpr._entryPair.of("value", 1));
+        _ae.removePair(_entryPair.of("value", 1));
         assertTrue( _ae.isMarker() );
 
         System.out.println( _ae );
@@ -255,12 +253,12 @@ public class _annoExprTest extends TestCase {
         System.out.println(_annoExpr.of("A").addPair("i", 1L, 2L));
 
 
-        System.out.println( _annoExpr.of("A").addPair(_annoExpr._entryPair.of("i", 1,2,3,4)) );
+        System.out.println( _annoExpr.of("A").addPair(_entryPair.of("i", 1,2,3,4)) );
 
         _annoExpr.of("A").addPair("f", 1.0f);
         _annoExpr.of("A").addPair("f", 1.0f, 2.0f);
-        _annoExpr.of("A").addPair(_annoExpr._entryPair.of("fs", 1.0f));
-        _annoExpr.of("A").addPair(_annoExpr._entryPair.of("fs", 1.0f,2.0f,3.0f,4.0f));
+        _annoExpr.of("A").addPair(_entryPair.of("fs", 1.0f));
+        _annoExpr.of("A").addPair(_entryPair.of("fs", 1.0f,2.0f,3.0f,4.0f));
 
         @AI
         class C{ }
@@ -275,7 +273,7 @@ public class _annoExprTest extends TestCase {
         //System.out.println( mvp.getNameAsString() );
         //System.out.println( mvp.getValue() );
 
-        _annoExpr._entryPair _mv = _annoExpr._entryPair.of("value");
+        _entryPair _mv = _entryPair.of("value");
         assertTrue( _mv.isValueOnly() );
         assertEquals("value", _mv.getName());
         assertEquals("value", _mv.getValue().toString());
@@ -285,12 +283,12 @@ public class _annoExprTest extends TestCase {
         assertTrue( _mv.isValue("value") );
 
         //key & value
-        _mv = _annoExpr._entryPair.of("value=3");
+        _mv = _entryPair.of("value=3");
         assertTrue( _mv.isNamed("value") );
         assertTrue( _mv.isValue("3") );
         assertTrue( _mv.isValue(3) );
 
-        _mv = _annoExpr._entryPair.of("value='c'");
+        _mv = _entryPair.of("value='c'");
         assertTrue( _mv.isValue("'c'") );
         assertTrue( _mv.isValue('c') );
     }

@@ -327,7 +327,7 @@ public interface _java {
             return _moduleRequires.of( (ModuleRequiresDirective)astNode);
         }
         if( astNode instanceof MemberValuePair){
-            return _annoExpr._entryPair.of( (MemberValuePair)astNode);
+            return _entryPair.of( (MemberValuePair)astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
