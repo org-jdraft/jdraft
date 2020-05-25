@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * syntax prototype for the model of the int types
@@ -78,6 +79,10 @@ public class $intExpr implements $bot.$node<IntegerLiteralExpr, _intExpr, $intEx
     public $intExpr $and(Predicate<_intExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
+    }
+
+    public $intExpr $not( $intExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $intExpr $not(Predicate<_intExpr> _matchFn) {

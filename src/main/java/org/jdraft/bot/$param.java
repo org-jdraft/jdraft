@@ -10,6 +10,7 @@ import org.jdraft.text.Translator;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * $bot for inspecting, drafting and mutating {@link _param}s / {@link Parameter}s
@@ -107,6 +108,10 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
                 .$annoRefs($annoExprs.as(_p.ast()))
                 .$isVarArg(_p.isVarArg())
                 .$isFinal(_p.isFinal());
+    }
+
+    public $param $not( $param... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     /**

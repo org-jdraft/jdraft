@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
@@ -207,6 +208,10 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         }
     }
 
+    public $methodCallExpr $not( $methodCallExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
+    }
+
     private static $methodCallExpr addParts($methodCallExpr $mc, $part...parts ){
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $name){
@@ -249,7 +254,7 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
             scope = $expr.of(_mc.getScope());
         }
         if( _mc.hasArgs() ){
-            arguments = $args.of(_mc.getArgs());
+            arguments = $args.as(_mc.getArgs());
         }
         if( _mc.hasTypeArgs() ){
             typeArguments = $typeArgs.of( _mc.getTypeArgs() );
@@ -470,12 +475,12 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     }
 
     public $methodCallExpr $arguments(String args){
-        this.arguments = $args.of(args);
+        this.arguments = $args.as(args);
         return this;
     }
 
     public $methodCallExpr $arguments(String...args){
-        this.arguments = $args.of(args);
+        this.arguments = $args.as(args);
         return this;
     }
 
@@ -485,12 +490,12 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     }
 
     public $methodCallExpr $arguments($expr...args){
-        this.arguments = $args.of(args);
+        this.arguments = $args.as(args);
         return this;
     }
 
     public $methodCallExpr $arguments(_expr...args){
-        this.arguments = $args.of(args);
+        this.arguments = $args.as(args);
         return this;
     }
 

@@ -11,6 +11,7 @@ import org.jdraft.text.Translator;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class $typeArgs<N extends Node & NodeWithTypeArguments>
         implements $bot<N, _typeArgs, $typeArgs>, $methodCallExpr.$part {
@@ -83,6 +84,10 @@ public class $typeArgs<N extends Node & NodeWithTypeArguments>
     public $typeArgs setPredicate(Predicate<_typeArgs> predicate){
         this.predicate = predicate;
         return this;
+    }
+
+    public $typeArgs $not( $typeArgs... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     /**

@@ -10,6 +10,7 @@ import org.jdraft.text.Translator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class $parenthesizedExpr implements $bot.$node<EnclosedExpr, _parenthesizedExpr, $parenthesizedExpr>,
         $selector.$node<_parenthesizedExpr, $parenthesizedExpr>,
@@ -111,6 +112,10 @@ public class $parenthesizedExpr implements $bot.$node<EnclosedExpr, _parenthesiz
     public $parenthesizedExpr $and(Predicate<_parenthesizedExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
+    }
+
+    public $parenthesizedExpr $not( $parenthesizedExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $parenthesizedExpr $not(Predicate<_parenthesizedExpr> _matchFn) {

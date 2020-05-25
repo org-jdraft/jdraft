@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * $bot for inspecting and mutating {@link _exprStmt}s / {@link com.github.javaparser.ast.stmt.ExpressionStmt}s
@@ -98,6 +99,10 @@ public class $exprStmt implements $bot.$node<ExpressionStmt, _exprStmt, $exprStm
     @Override
     public $comment get$Comment() {
         return comment;
+    }
+
+    public $exprStmt $not( $exprStmt... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     @Override

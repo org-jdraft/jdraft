@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * syntax prototype for the model of the int types
@@ -64,6 +65,10 @@ public class $nullExpr implements $bot.$node<NullLiteralExpr, _nullExpr, $nullEx
     public $nullExpr $and(Predicate<_nullExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
+    }
+
+    public $nullExpr $not( $nullExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $nullExpr $not(Predicate<_nullExpr> _matchFn) {

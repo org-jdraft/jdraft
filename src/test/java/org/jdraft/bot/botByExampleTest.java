@@ -221,7 +221,7 @@ public class botByExampleTest extends TestCase {
             }
         }
 
-        assertTrue($args.of("($any$)").select("(1)").is("any", "1"));
+        assertTrue($args.as("($any$)").select("(1)").is("any", "1"));
 
         assertTrue( $print.get$arguments().select("(1)").is("any", "1"));
         assertTrue( $print.select("System.out.print(1);").is("any", "1") );

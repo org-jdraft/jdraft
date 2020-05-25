@@ -9,6 +9,7 @@ import org.jdraft.text.Translator;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Prototype for "ANY" expression implementation
@@ -68,6 +69,10 @@ public class $s
 			this.stencil = this.stencil.$hardcode(translator, kvs);
 		}
 		return this;
+	}
+
+	public $s $not( $s... $sels ){
+		return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
 	}
 
 	public $s $and(Class<? extends _stmt>...sClasses) {

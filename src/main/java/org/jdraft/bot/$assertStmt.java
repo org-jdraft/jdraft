@@ -233,6 +233,10 @@ public class $assertStmt extends $baseBot<_assertStmt, $assertStmt>
         return $copy;
     }
 
+    public $assertStmt $not( $assertStmt... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
+    }
+
     public Predicate<_assertStmt> getPredicate(){
         return this.predicate;
     }

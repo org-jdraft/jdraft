@@ -11,6 +11,7 @@ import org.jdraft.text.Translator;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * bot for argument Lists used in:
@@ -45,20 +46,49 @@ public class $args<N extends Node & NodeWithArguments>
         return of().$and( a-> ! ((_args)a).isEmpty() );
     }
 
-    public static $args of (_args args){
+    /**
+     * MUST HAVE EXACTLY all of the args in _args, in order, (an no extra trailing args)
+     * @param args
+     * @return
+     */
+    public static $args as(_args args){
         return new $args(args);
     }
 
-    public static $args of (_expr... args){
+    /**
+     * MUST HAVE EXACTLY all of the args in _args, in order, (an no extra trailing args)
+     * @param args
+     * @return
+     */
+    public static $args as(_expr... args){
         return new $args(args);
     }
 
-    public static $args of(String...args){
-        return of( _args.of(args));
+    /**
+     * MUST HAVE EXACTLY all of the args in _args, in order, (an no extra trailing args)
+     * @param args
+     * @return
+     */
+    public static $args as(String...args){
+        return as( _args.of(args));
     }
 
-    public static $args of($expr...$es){
+    /**
+     * MUST HAVE EXACTLY all of the $exprs in order, (an no extra trailing args)
+     * @param $es
+     * @return the args
+     */
+    public static $args as($expr...$es){
         return new $args($es);
+    }
+
+    /**
+     * matches all args list that has any arguments that match these expression classes
+     * @param expressionClasses
+     * @return
+     */
+    public static $args any(Class<? extends _expr>...expressionClasses ){
+        return of().$any(expressionClasses);
     }
 
     public static $args.Or or($args...$as){
@@ -115,7 +145,6 @@ public class $args<N extends Node & NodeWithArguments>
         return $and( ps );
     }
 
-
     /**
      * Do ANY of the arguments match this expression predicate
      * @param _exMatchFn
@@ -141,6 +170,10 @@ public class $args<N extends Node & NodeWithArguments>
      */
     public $args $all(Class<? extends _expr>...ecs){
         return $and( es->es.allMatch(e-> Arrays.stream(ecs).anyMatch( ec-> ec.isAssignableFrom(e.getClass()))));
+    }
+
+    public $args $not( $args... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public boolean matches(_args _args){

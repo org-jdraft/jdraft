@@ -41,15 +41,15 @@ public class $argumentsTest extends TestCase {
 
         //assertNotNull($e.of("$args$").select("(i, 'c')"));
 
-        assertTrue($args.of("$args$").matches("()"));
-        assertTrue($args.of("$args$").matches("(i)"));
-        assertTrue($args.of("$args$").matches("(i)"));
-        assertTrue($args.of("$args$").matches("(i, 'c')"));
-        assertTrue($args.of("$args$").matches("(i, 'c', (short)22)"));
-        assertTrue($args.of("$args$").matches("(i, 'c', (byte)3)"));
+        assertTrue($args.as("$args$").matches("()"));
+        assertTrue($args.as("$args$").matches("(i)"));
+        assertTrue($args.as("$args$").matches("(i)"));
+        assertTrue($args.as("$args$").matches("(i, 'c')"));
+        assertTrue($args.as("$args$").matches("(i, 'c', (short)22)"));
+        assertTrue($args.as("$args$").matches("(i, 'c', (byte)3)"));
 
         assertEquals(_args.of("i, 1"),
-                $args.of("$args$").select("(i, 1)").select);
+                $args.as("$args$").select("(i, 1)").select);
     }
 
     public void testFromString(){
@@ -59,25 +59,25 @@ public class $argumentsTest extends TestCase {
 
         assertEquals( _args.of("()"), _args.of(""));
 
-        assertTrue($args.of("").matches(_args.of()));
-        assertTrue($args.of("()").matches(_args.of()));
-        assertTrue($args.of("()").matches(_args.of("1")));
+        assertTrue($args.as("").matches(_args.of()));
+        assertTrue($args.as("()").matches(_args.of()));
+        assertTrue($args.as("()").matches(_args.of("1")));
     }
 
     public void testIndv(){
-        assertEquals(1, $args.of( $intExpr.of() ).countIn(E.class));
+        assertEquals(1, $args.as( $intExpr.of() ).countIn(E.class));
     }
 
     public void testIndividualArgs(){
 
-        assertEquals(1, $args.of( $e.of(_intExpr.class) ).countIn(E.class));
-        assertEquals(1, $args.of( $e.of(_binaryExpr.class) ).countIn(E.class));
+        assertEquals(1, $args.as( $e.of(_intExpr.class) ).countIn(E.class));
+        assertEquals(1, $args.as( $e.of(_binaryExpr.class) ).countIn(E.class));
 
         $args $oneExpr = $args.of().$and(a->((_args)a).size() ==1 );
         assertEquals(1, $oneExpr.countIn(C.class));
-        $args $twoExprs = $args.of( $expr.of(), $expr.of() );
+        $args $twoExprs = $args.as( $expr.of(), $expr.of() );
         assertEquals(1, $twoExprs.countIn(C.class));
-        $args $strAny = $args.of( $stringExpr.of(), $expr.of() );
+        $args $strAny = $args.as( $stringExpr.of(), $expr.of() );
         assertEquals(1, $strAny.countIn(C.class));
 
     }
@@ -89,8 +89,8 @@ public class $argumentsTest extends TestCase {
     }
 
     public void testDraft(){
-        assertEquals( _args.of("1,2"), $args.of("$a$,$b$").draft("a", 1, "b",2));
-        assertEquals( _args.of("1,'a','b',2"), $args.of("1, $a$,$b$,2").draft("a", 'a', "b",'b'));
+        assertEquals( _args.of("1,2"), $args.as("$a$,$b$").draft("a", 1, "b",2));
+        assertEquals( _args.of("1,'a','b',2"), $args.as("1, $a$,$b$,2").draft("a", 'a', "b",'b'));
     }
 
     public void testPredicate(){
@@ -100,19 +100,19 @@ public class $argumentsTest extends TestCase {
     }
 
     public void testToString(){
-        $args $as = $args.of("1, 'c'");
+        $args $as = $args.as("1, 'c'");
         System.out.println( $as );
     }
 
     public void testOr(){
-        $args $anyInt = $args.of($intExpr.of()); //.$and( a-> ((_arguments)a).isEmpty());
-        $args $i = $args.of("i");
+        $args $anyInt = $args.as($intExpr.of()); //.$and( a-> ((_arguments)a).isEmpty());
+        $args $i = $args.as("i");
 
         assertNull($i.select("3.12f"));
         assertNull($anyInt.select("3.12f"));
 
         //match single arguments that are the variable i or (any int literal)
-        $args aor = $args.or( $args.of("i"), $args.of($intExpr.of()) );
+        $args aor = $args.or( $args.as("i"), $args.as($intExpr.of()) );
 
 
         assertNull(aor.select( _args.of("3.12f") ));

@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Unifies entities which are representations of Strings or contain Strings
@@ -161,6 +162,10 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
         all.addAll(this.string.$list());
         all.addAll(this.textBlock.$list());
         return all;
+    }
+
+    public $withText $not( $withText... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     @Override

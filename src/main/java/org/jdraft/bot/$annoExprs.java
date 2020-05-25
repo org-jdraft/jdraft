@@ -156,6 +156,10 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
         return copy;
     }
 
+    public $annoExprs $not( $annoExprs... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
+    }
+
     /*
     @Override
     public $annoExprs $hardcode(Translator translator, Tokens kvs) {

@@ -15,6 +15,7 @@ import org.jdraft.text.Translator;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Bot useful for looking for "references" to a specific Class or group of classes.
@@ -238,6 +239,10 @@ public class $ref implements $bot<Node, _java._node, $ref>,
     public $ref $and( _name.Use...nameUses){
         this.excludedUses = _name.Use.allExcept(nameUses);
         return this;
+    }
+
+    public $ref $not( $ref... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public boolean matches( Node n){

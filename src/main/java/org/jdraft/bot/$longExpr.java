@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * syntax prototype for the model of the long types
@@ -77,6 +78,10 @@ public class $longExpr implements $bot.$node<LongLiteralExpr, _longExpr, $longEx
     public $longExpr $and(Predicate<_longExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
+    }
+
+    public $longExpr $not( $longExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $longExpr $not(Predicate<_longExpr> _matchFn) {

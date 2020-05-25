@@ -127,6 +127,10 @@ public class $entryPair extends $baseBot<_entryPair, $entryPair>
         this.value.setBot($expr.of(value));
     }
 
+    public $entryPair $not( $entryPair... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
+    }
+
 
     @Override
     public _entryPair draft(Translator translator, Map<String, Object> keyValues) {

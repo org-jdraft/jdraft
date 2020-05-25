@@ -10,6 +10,7 @@ import org.jdraft.text.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * $bot for searching for, inspecting, drafting, and modifying a {@link _typeRef} or {@link Type} Reference
@@ -173,6 +174,10 @@ public class $typeRef
 
     private Stencil typePattern(){
         return Stencil.of(this.type.toString());
+    }
+
+    public $typeRef $not( $typeRef... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     /**

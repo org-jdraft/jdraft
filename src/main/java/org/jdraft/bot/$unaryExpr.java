@@ -13,6 +13,7 @@ import org.jdraft.text.Translator;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * $bot for matching/selecting/inspecting and modifying {@link _unaryExpr}s/ {@link UnaryExpr}s
@@ -139,6 +140,10 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
     public $unaryExpr $and(UnaryExpr.Operator...operators) {
         this.operator.include(operators);
         return this;
+    }
+
+    public $unaryExpr $not( $unaryExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $unaryExpr $not(UnaryExpr.Operator...operators) {

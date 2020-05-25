@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * $bot for selecting, inspecting, drafting & mutating {@link _returnStmt}s / {@link ReturnStmt}s
@@ -155,6 +156,10 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
     public $returnStmt $(String target, String $Name) {
         this.expression.$(target, $Name);
         return this;
+    }
+
+    public $returnStmt $not( $returnStmt... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     @Override

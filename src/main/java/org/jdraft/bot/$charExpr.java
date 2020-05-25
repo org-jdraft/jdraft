@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * syntax prototype for the model of the char types
@@ -77,6 +78,10 @@ public class $charExpr  implements $bot.$node<CharLiteralExpr, _charExpr, $charE
     public $charExpr $and(Predicate<_charExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
+    }
+
+    public $charExpr $not( $charExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $charExpr $not(Predicate<_charExpr> _matchFn) {

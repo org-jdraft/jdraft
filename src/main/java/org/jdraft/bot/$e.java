@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import com.github.javaparser.ast.expr.*;
 import org.jdraft._jdraftException;
@@ -111,6 +112,10 @@ public class $e
 	
 	public $e(String...ex) {
 		this.stencil = Stencil.of((Object[])ex);
+	}
+
+	public $e $not( $e... $sels ){
+		return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
 	}
 
 	public boolean matches(Expression e){

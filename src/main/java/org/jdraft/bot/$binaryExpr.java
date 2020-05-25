@@ -12,6 +12,7 @@ import org.jdraft.text.Translator;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * $bot for matching/selecting/inspecting and modifying {@link _binaryExpr}s/ {@link BinaryExpr}s
@@ -148,6 +149,10 @@ public class $binaryExpr extends $baseBot<_binaryExpr, $binaryExpr> implements $
     public $binaryExpr $and(BinaryExpr.Operator...operators) {
         this.operator.include(operators);
         return this;
+    }
+
+    public $binaryExpr $not( $binaryExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $binaryExpr $not(BinaryExpr.Operator...operators) {

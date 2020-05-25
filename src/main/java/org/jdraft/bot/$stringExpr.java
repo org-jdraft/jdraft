@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * {@link $expr} $bot for selecting, inspecting, drafting & mutating {@link _stringExpr}s / {@link StringLiteralExpr}s
@@ -89,6 +90,10 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
     public $stringExpr $and(Predicate<_stringExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
+    }
+
+    public $stringExpr $not( $stringExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $stringExpr $not(Predicate<_stringExpr> _matchFn) {

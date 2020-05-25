@@ -12,6 +12,7 @@ import org.jdraft.text.Translator;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class $comment implements $bot.$node<Comment, _comment, $comment> {
 
@@ -95,6 +96,10 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
     public $comment(Stencil stencil, Predicate<_comment> predicate){
         this.stencil = stencil;
         this.predicate = predicate;
+    }
+
+    public $comment $not( $comment... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $comment $isAttributed( ){

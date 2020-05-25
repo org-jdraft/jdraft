@@ -10,6 +10,7 @@ import org.jdraft.text.*;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * $bot for inspecting or mutating an {@link ArrayAccessExpr} or {@link _arrayAccessExpr}
@@ -165,6 +166,10 @@ public class $arrayAccessExpr
             }
         }
         return false;
+    }
+
+    public $arrayAccessExpr $not( $arrayAccessExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $arrayAccessExpr $(String target, String $name){

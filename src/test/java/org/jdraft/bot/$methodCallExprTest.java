@@ -243,8 +243,8 @@ public class $methodCallExprTest extends TestCase {
 
         //what about static imported System or System.out
         //                      here just match the name "print" (not the fully qualified Scope "System.out.println")
-        $print = $methodCallExpr.of("print", $args.of("$any$").$and(a-> ((_args)a).size() == 1));
-        $println = $methodCallExpr.of("println", $args.of("$any$").$and(a-> ((_args)a).size() == 1));
+        $print = $methodCallExpr.of("print", $args.as("$any$").$and(a-> ((_args)a).size() == 1));
+        $println = $methodCallExpr.of("println", $args.as("$any$").$and(a-> ((_args)a).size() == 1));
 
         $printOrPrintln = $methodCallExpr.or($print, $println);
         class FFG{

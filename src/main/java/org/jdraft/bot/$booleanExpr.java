@@ -12,6 +12,7 @@ import org.jdraft.text.Translator;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * models the Ast code/use for boolean literals
@@ -58,6 +59,10 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
         $booleanExpr $copy = of( ).$and(this.predicate.and(t->true) );
         $copy.bool = this.bool.copy();
         return $copy;
+    }
+
+    public $booleanExpr $not( $booleanExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     @Override

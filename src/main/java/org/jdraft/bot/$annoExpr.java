@@ -131,6 +131,10 @@ public class $annoExpr
         return $copy;
     }
 
+    public $annoExpr $not( $annoExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
+    }
+
     /**
      * @param name
      * @param mvs

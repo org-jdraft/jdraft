@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * syntax prototype for the model of the double types
@@ -77,6 +78,10 @@ public class $doubleExpr implements $bot.$node<DoubleLiteralExpr, _doubleExpr, $
     public $doubleExpr $and(Predicate<_doubleExpr> _matchFn) {
         this.predicate = this.predicate.and(_matchFn);
         return this;
+    }
+
+    public $doubleExpr $not( $doubleExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     public $doubleExpr $not(Predicate<_doubleExpr> _matchFn) {

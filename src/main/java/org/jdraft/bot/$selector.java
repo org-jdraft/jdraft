@@ -115,10 +115,9 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      *
      * @param $sel a $S instance selector for describing matches to NOT be selected
      * @return the modified $S
-     */
-    default $S $not( $S $sel ){
-        return $not( (_S t) -> (($bot)$sel).matches(t) );
-    }
+
+    $S $not( $S $sel );
+    */
 
     /**
      * Specify many like-kind of $S (selectors) that to exclude from selection
@@ -131,9 +130,10 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * @param $sels a list of $S instance selector for describing matches to be excluded
      * @return the modified $S
      */
-    default $S $not( $S... $sels ){
-        return $not( t-> Stream.of($sels).anyMatch( $s -> (($bot)$s).matches(t) ) );
-    }
+    public $S $not( $S... $sels );
+    //{
+    //    return $not( t-> Stream.of($sels).anyMatch( $s -> (($bot)$s).matches(t) ) );
+    //}
 
     /*--------------------------- Position/Range(Row, Column) Aware Criteria-----------------------------------------*/
 

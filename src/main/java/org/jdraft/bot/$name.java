@@ -11,6 +11,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class $name implements $bot<Node, _name, $name>,
         $selector<_name, $name>, Template<_name>, $methodCallExpr.$part {
@@ -99,6 +100,10 @@ public class $name implements $bot<Node, _name, $name>,
     public $name $exclude(_name.Use... usages ){
         Arrays.stream(usages).forEach(e -> this.excludedUses.add( e ) );
         return this;
+    }
+
+    public $name $not( $name... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     /**

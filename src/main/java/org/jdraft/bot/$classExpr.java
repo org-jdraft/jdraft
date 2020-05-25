@@ -14,6 +14,7 @@ import org.jdraft.text.Translator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>,
         $selector.$node<_classExpr, $classExpr>,
@@ -42,6 +43,10 @@ public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>
     public $classExpr setPredicate(Predicate<_classExpr> predicate){
         this.predicate = predicate;
         return this;
+    }
+
+    public $classExpr $not( $classExpr... $sels ){
+        return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
     @Override
