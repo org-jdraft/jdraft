@@ -230,12 +230,11 @@ public class $charExpr  implements $bot.$node<CharLiteralExpr, _charExpr, $charE
         return "$char{" + this.predicate + "}";
     }
 
-    public Predicate<_charExpr> predicate = d -> true;
+    public Predicate<_charExpr> predicate = c -> true;
 
     public Stencil stencil = null;
 
-    public $charExpr() {
-    }
+    public $charExpr() { }
 
     public $charExpr(_charExpr _i) {
         this.stencil = Stencil.of(_i.toString());

@@ -36,7 +36,7 @@ public class $annoExprTest extends TestCase {
         assertTrue( $ar.matches( "@A(2)"));
         $ar.$hardcode("value", 1);
 
-        assertNull( $ar.pairs.getMatchAllName() );
+        assertNull( $ar.entryPairs.getMatchAllName() );
 
         assertTrue( $ar.matches( "@A(1)"));
         assertFalse( $ar.matches( "@A(2)"));
@@ -106,7 +106,7 @@ public class $annoExprTest extends TestCase {
         $annoExpr $ar = $annoExpr.as("A(1)");
        // assertTrue($ar.$mvs.get(0).matches("1"));
         //assertTrue($ar.$mvs.get(0).matches("value=1"));
-        assertFalse($ar.pairs.get(0).matches("key=1"));
+        assertFalse($ar.entryPairs.get(0).matches("key=1"));
 
     }
     public void testAs(){
@@ -117,9 +117,9 @@ public class $annoExprTest extends TestCase {
         assertFalse( $ar.matches("@A(key=1,value=2)") );
 
         $ar = $annoExpr.as("A(key=1)");
-        assertTrue($ar.pairs.get(0).matches("key=1"));
-        assertFalse($ar.pairs.get(0).matches("key=2"));
-        assertFalse($ar.pairs.get(0).matches("value=1"));
+        assertTrue($ar.entryPairs.get(0).matches("key=1"));
+        assertFalse($ar.entryPairs.get(0).matches("key=2"));
+        assertFalse($ar.entryPairs.get(0).matches("value=1"));
 
 
         $ar = $annoExpr.as("A(1)");

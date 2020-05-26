@@ -7,7 +7,7 @@ import org.jdraft._stringExpr;
 import org.jdraft._type;
 import org.jdraft.pattern.$;
 
-public class $expressionRefactorTest extends TestCase {
+public class $exprRefactorTest extends TestCase {
 
     public void test$Refactor(){
         class MyClass{

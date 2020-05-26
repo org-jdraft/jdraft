@@ -161,10 +161,10 @@ public class $methodCallExprTest extends TestCase {
     }
     public void testMatchAny(){
         assertTrue($methodCallExpr.of().isMatchAny());
-        assertNotNull($methodCallExpr.of().get$name());
-        assertNotNull($methodCallExpr.of().get$scope());
-        assertNotNull($methodCallExpr.of().get$arguments());
-        assertNotNull($methodCallExpr.of().get$typeArguments());
+        assertNotNull($methodCallExpr.of().name);
+        assertNotNull($methodCallExpr.of().scope);
+        assertNotNull($methodCallExpr.of().args);
+        assertNotNull($methodCallExpr.of().typeArgs);
     }
 
 

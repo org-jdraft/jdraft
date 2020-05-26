@@ -5,7 +5,7 @@ import org.jdraft.Print;
 import org.jdraft._type;
 import org.jdraft.pattern.$;
 
-public class $statementRefactorTest extends TestCase {
+public class $stmtRefactorTest extends TestCase {
 
     public void test$Refactor(){
         $refactoring $r = $.refactor("System.out.println($any$);", "Log.debug($any$);");

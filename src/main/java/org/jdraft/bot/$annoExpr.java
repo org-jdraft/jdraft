@@ -121,13 +121,13 @@ public class $annoExpr
     /**
      * the pairs of key values of the annotation (i.e. @A(key=1) )
      */
-    public Select.$botSetSelect<$entryPair, _annoExpr, _entryPair> pairs =
-            new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
+    public Select.$botSetSelect<$entryPair, _annoExpr, _entryPair> entryPairs =
+            new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "entryPairs", _ae -> ((_annoExpr) _ae).listPairs());
 
     public $annoExpr copy() {
         $annoExpr $copy = of(this.predicate.and(t -> true));
         $copy.name = this.name.copy();
-        $copy.pairs = this.pairs.copy();
+        $copy.entryPairs = this.entryPairs.copy();
         return $copy;
     }
 
@@ -141,7 +141,7 @@ public class $annoExpr
      */
     private $annoExpr($name name, $entryPair... mvs) {
         this.name.setBot(name);
-        this.pairs.setBotList(Stream.of(mvs).collect(Collectors.toList()));
+        this.entryPairs.setBotList(Stream.of(mvs).collect(Collectors.toList()));
     }
 
     //internal (or) constructor
@@ -157,15 +157,15 @@ public class $annoExpr
         if (astAnn instanceof NormalAnnotationExpr) {
             NormalAnnotationExpr na = (NormalAnnotationExpr) astAnn;
 
-            na.getPairs().forEach(mv -> pairs.add($entryPair.of(mv.getNameAsString(), mv.getValue())));
+            na.getPairs().forEach(mv -> entryPairs.add($entryPair.of(mv.getNameAsString(), mv.getValue())));
         } else if (astAnn instanceof SingleMemberAnnotationExpr) {
 
             SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr) astAnn;
             Stencil st = Stencil.of(sa.getMemberValue().toString());
             if (st.isMatchAny()) { //i.e. @A($any$) which matches @A, @A(1), @A(k=1), @A(k=1v=2)...
-                pairs.setMatchAll(st.$list().get(0));
+                entryPairs.setMatchAll(st.$list().get(0));
             } else {
-                pairs.add($entryPair.of(sa.getMemberValue()));
+                entryPairs.add($entryPair.of(sa.getMemberValue()));
             }
         }
     }
@@ -200,8 +200,8 @@ public class $annoExpr
         return this;
     }
 
-    public $annoExpr $pairs(List<$entryPair> $keyValuePairs) {
-        this.pairs.add($keyValuePairs.toArray(new $entryPair[0]));
+    public $annoExpr $entryPairs(List<$entryPair> $keyValuePairs) {
+        this.entryPairs.add($keyValuePairs.toArray(new $entryPair[0]));
         return this;
     }
 
@@ -216,8 +216,8 @@ public class $annoExpr
      * @param $keyValuePair
      * @return
      */
-    public $annoExpr $pair($entryPair $keyValuePair) {
-        this.pairs.add($keyValuePair);
+    public $annoExpr $entryPair($entryPair $keyValuePair) {
+        this.entryPairs.add($keyValuePair);
         return this;
     }
 
@@ -226,8 +226,8 @@ public class $annoExpr
      * @param value
      * @return
      */
-    public $annoExpr $pair(String key, Expression value) {
-        this.pairs.add(new $entryPair(key, value));
+    public $annoExpr $entryPair(String key, Expression value) {
+        this.entryPairs.add(new $entryPair(key, value));
         return this;
     }
 
@@ -236,8 +236,8 @@ public class $annoExpr
      * @param value
      * @return
      */
-    public $annoExpr $pair(String key, String value) {
-        this.pairs.add(new $entryPair(key, value));
+    public $annoExpr $entryPair(String key, String value) {
+        this.entryPairs.add(new $entryPair(key, value));
         return this;
     }
 
@@ -246,18 +246,18 @@ public class $annoExpr
 
         this.name.$hardcode(translator, kvs);
 
-        Object val = kvs.get(this.pairs.getMatchAllName());
+        Object val = kvs.get(this.entryPairs.getMatchAllName());
         if (val != null) {
-            this.pairs.add($entryPair.of(Exprs.of(val.toString())));
-            this.pairs.setMatchAll(false);
+            this.entryPairs.add($entryPair.of(Exprs.of(val.toString())));
+            this.entryPairs.setMatchAll(false);
         }
-        this.pairs.$hardcode(translator, kvs);
+        this.entryPairs.$hardcode(translator, kvs);
         return this;
     }
 
     @Override
     public List<Select.$feature<_annoExpr, ?>> $listSelectors() {
-        return Stream.of(this.name, this.pairs).collect(Collectors.toList());
+        return Stream.of(this.name, this.entryPairs).collect(Collectors.toList());
     }
 
     public Tokens parse(_annoExpr _a) {
@@ -291,7 +291,7 @@ public class $annoExpr
         }
         _annoExpr _a = _annoExpr.of();
         _a.setName(name.draft(translator, keyValues).toString());
-        _a.setPairs(pairs.draft(translator, keyValues));
+        _a.setPairs(entryPairs.draft(translator, keyValues));
         return _a.toString();
     }
 
@@ -380,10 +380,10 @@ public class $annoExpr
         StringBuilder sb = new StringBuilder();
         sb.append("@");
         sb.append(this.name.getBot().stencil);
-        if (this.pairs.botList.isEmpty()) {
+        if (this.entryPairs.botList.isEmpty()) {
             return "$annoExpr{ " + sb.toString() + " }";
         }
-        sb.append("( " + this.pairs.toString() + ")");
+        sb.append("( " + this.entryPairs.toString() + ")");
         return "$annoExpr{" + System.lineSeparator() + sb.toString() + "}";
     }
 
@@ -398,7 +398,7 @@ public class $annoExpr
         public Or($annoExpr... $as) {
             super();
             this.name.setBot(null);
-            this.pairs = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
+            this.entryPairs = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
             Arrays.stream($as).forEach($a -> $annoExprBots.add($a));
         }
 
@@ -415,7 +415,7 @@ public class $annoExpr
             //now copy the predicate and all underlying bots on the baseBot
             theCopy.predicate = this.predicate.and(t -> true);
             theCopy.name = this.name.copy();
-            theCopy.pairs = this.pairs.copy();
+            theCopy.entryPairs = this.entryPairs.copy();
             return theCopy;
         }
 

@@ -139,18 +139,18 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
     //public Predicate<_annoExprs> predicate = t-> true;
 
     /** the member values of the annotation */
-    public Select.$botSetSelect<$annoExpr, _annoExprs, _annoExpr> $annos =
+    public Select.$botSetSelect<$annoExpr, _annoExprs, _annoExpr> $annoExprsList =
             new Select.$botSetSelect(_annoExprs.class, _annoExpr.class, "annos", _aes-> ((_annoExprs)_aes).list());
     //public Set<$annoExpr> $annos = new HashSet<>();
 
     public $annoExprs($annoExpr...$ars){
-        Arrays.stream($ars).forEach($a -> $annos.add($a));
+        Arrays.stream($ars).forEach($a -> $annoExprsList.add($a));
     }
 
     @Override
     public $annoExprs copy() {
         $annoExprs copy = of();
-        copy.$annos = $annos.copy();
+        copy.$annoExprsList = $annoExprsList.copy();
         //this.$annos.forEach($a -> copy.$annos.add($a.copy()));
         copy.predicate = predicate.and(t->true);
         return copy;
@@ -258,7 +258,7 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
     @Override
     public boolean isMatchAny() {
         try {
-            return this.$annos.isMatchAny() && this.predicate.test(null);
+            return this.$annoExprsList.isMatchAny() && this.predicate.test(null);
         }catch(Exception e){
             return false;
         }
@@ -266,12 +266,12 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
 
     @Override
     public List<Select.$feature<_annoExprs, ?>> $listSelectors() {
-        return Stream.of(this.$annos).collect(Collectors.toList());
+        return Stream.of(this.$annoExprsList).collect(Collectors.toList());
     }
 
     @Override
     public _annoExprs draft(Translator translator, Map<String, Object> keyValues) {
-        List<_annoExpr> _as = $annos.draft(translator, keyValues);
+        List<_annoExpr> _as = $annoExprsList.draft(translator, keyValues);
         _annoExprs _ars = _annoExprs.of( _as.toArray(new _annoExpr[0]));
         /*
         $annoExpr[] arr = this.$annos.toArray(new $annoExpr[0]);

@@ -5,7 +5,7 @@ import org.jdraft._class;
 import org.jdraft._method;
 import org.jdraft.pattern.$class;
 
-public class _SParameterizeTest extends TestCase {
+public class _SParameterizeMacroTest extends TestCase {
 
     public void testNest(){
         _class _c = _class.of("C", new Object(){

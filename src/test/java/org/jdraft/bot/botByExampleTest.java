@@ -148,17 +148,17 @@ public class botByExampleTest extends TestCase {
         assertEquals(4, $mc.countIn(C.class));
 
         //here we access the embedded $bot ($emptyArgs) and test
-        assertTrue($mc.get$arguments().matches("()"));
+        assertTrue($mc.args.matches("()"));
 
         //the $mc $bot can be thought of as a parent $bot which uses embedded $bots
         //you can get each embedded $bot with get$XXX()
         //by default, the embedded $bots are "matchAny()" meaning they will match any candidate (or null)
-        assertTrue( $mc.get$name().isMatchAny() );
-        assertTrue( $mc.get$scope().isMatchAny() );
-        assertTrue( $mc.get$typeArguments().isMatchAny() );
+        assertTrue( $mc.name.isMatchAny() );
+        assertTrue( $mc.scope.isMatchAny() );
+        assertTrue( $mc.typeArgs.isMatchAny() );
 
         //even though we didnt specify the $name bot on $mc it exists (matches any name)
-        assertTrue($mc.get$name().matches("any"));
+        assertTrue($mc.name.matches("any"));
 
         //create a new bot that matches the name "m"
         $name $n = $name.of("m");
@@ -223,7 +223,7 @@ public class botByExampleTest extends TestCase {
 
         assertTrue($args.as("($any$)").select("(1)").is("any", "1"));
 
-        assertTrue( $print.get$arguments().select("(1)").is("any", "1"));
+        assertTrue( $print.args.select("(1)").is("any", "1"));
         assertTrue( $print.select("System.out.print(1);").is("any", "1") );
 
         System.out.println( "SFI "+ $print.selectFirstIn(C.class) );

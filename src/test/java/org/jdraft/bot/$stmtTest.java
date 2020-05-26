@@ -87,8 +87,6 @@ public class $stmtTest extends TestCase {
 		assertTrue($stmt.of(_returnStmt.of("return;")).matches("return;"));
 		assertTrue($s.of().$and(e-> e instanceof _returnStmt).matches("return;"));
 		assertFalse($stmt.of(_returnStmt.of(1)).matches("return null;"));
-		
-		
 	}
 
 }

@@ -187,7 +187,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
              Or or = new Or(cp.toArray(new $param[0]));
              or.$and( this.predicate.and(t->true) );
              //I need to port over all of the common things
-             or.annoRefs = this.annoRefs.copy();
+             or.annoExprs = this.annoExprs.copy();
              or.name = this.name.copy();
              or.type = this.type.copy();
              or.isFinal = this.isFinal.copy();
@@ -239,7 +239,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public Predicate<_param> predicate = d -> true;
 
-    public Select.$botSelect<$annoExprs, _param, _annoExprs> annoRefs =
+    public Select.$botSelect<$annoExprs, _param, _annoExprs> annoExprs =
             Select.$botSelect.of(_param.class, _annoExprs.class, "annoRefs", p-> p.getAnnoExprs() );
 
     public Select.$botSelect<$typeRef, _param, _typeRef> type =
@@ -258,7 +258,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public $param(_param _p){
         if( _p.hasAnnoExprs() ) {
-            annoRefs.setBot( $annoExprs.of(_p.ast()) );
+            annoExprs.setBot( $annoExprs.of(_p.ast()) );
         }
         name.setBot( $name.of(_p.getName()) );
         type.setBot( $typeRef.of(_p.getTypeRef()));
@@ -277,7 +277,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
      */
     public $param copy(){
         $param $p = of().$and( this.predicate.and(t->true) );
-        $p.annoRefs = this.annoRefs.copy();
+        $p.annoExprs = this.annoExprs.copy();
         $p.name = this.name.copy();
         $p.type = this.type.copy();
 
@@ -308,7 +308,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public List<Select.$feature<_param, ?>> $listFeatureSelectors(){
         List<Select.$feature<_param, ?>> mss = new ArrayList<>();
-        mss.add(this.annoRefs);
+        mss.add(this.annoExprs);
         mss.add(this.isFinal);
         mss.add(this.type);
         mss.add(this.name);
@@ -369,7 +369,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public _param draft(Translator tr, Map<String,Object> keyValues){
         _param _p = _param.of();
-        _p.setAnnoExprs( this.annoRefs.draft(tr, keyValues) );
+        _p.setAnnoExprs( this.annoExprs.draft(tr, keyValues) );
         _p.setName(this.name.draft(tr, keyValues).name.toString());
         _p.setTypeRef(this.type.draft(tr, keyValues));
         if( this.isFinal.getExpected() ){
@@ -402,17 +402,17 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
     }
 
     public $param $annoRefs(){
-        this.annoRefs.setBot(null);
+        this.annoExprs.setBot(null);
         return this;
     }
 
     public $param $annoRefs($annoExprs $arfs){
-        this.annoRefs.setBot($arfs);
+        this.annoExprs.setBot($arfs);
         return this;
     }
 
     public $param $annoRefs($annoExpr...$ars){
-        this.annoRefs.setBot( $annoExprs.of($ars));
+        this.annoExprs.setBot( $annoExprs.of($ars));
         return this;
     }
 

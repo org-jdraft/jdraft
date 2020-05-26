@@ -31,6 +31,43 @@ public class $args<N extends Node & NodeWithArguments>
     }
 
     /**
+     * MUST HAVE EXACTLY all of the args in _args, in order, (an no extra trailing args)
+     * @param args
+     * @return
+     */
+    public static $args of(_args args){
+        return new $args(false, args);
+    }
+
+    /**
+     * MUST HAVE EXACTLY all of the args in _args, in order, (an no extra trailing args)
+     * @param args
+     * @return
+     */
+    public static $args of(_expr... args){
+        return new $args(false, args);
+    }
+
+    /**
+     * MUST HAVE EXACTLY all of the args in _args, in order, (an no extra trailing args)
+     * @param args
+     * @return
+     */
+    public static $args of(String...args){
+        return of( _args.of(args));
+    }
+
+    /**
+     * MUST HAVE EXACTLY all of the $exprs in order, (an no extra trailing args)
+     * @param $es
+     * @return the args
+     */
+    public static $args of($expr...$es){
+        return new $args(false, $es);
+    }
+
+
+    /**
      * Build and return a $arguments bot matching empty arguments lists
      * @return $arguments bot that matches empty arguments lists
      */
@@ -52,7 +89,7 @@ public class $args<N extends Node & NodeWithArguments>
      * @return
      */
     public static $args as(_args args){
-        return new $args(args);
+        return new $args(true, args);
     }
 
     /**
@@ -61,7 +98,7 @@ public class $args<N extends Node & NodeWithArguments>
      * @return
      */
     public static $args as(_expr... args){
-        return new $args(args);
+        return new $args(true, args);
     }
 
     /**
@@ -79,7 +116,7 @@ public class $args<N extends Node & NodeWithArguments>
      * @return the args
      */
     public static $args as($expr...$es){
-        return new $args($es);
+        return new $args(true, $es);
     }
 
     /**
@@ -95,7 +132,31 @@ public class $args<N extends Node & NodeWithArguments>
         return new $args.Or($as);
     }
 
-    public List<$expr> argumentList = new ArrayList<>();
+    /**
+     *
+     * IF TRUE (as used in $args.as(...)):
+     * This means that we ONLY match args that have exactly the same number (and order)
+     * as the initial args supplied to the $args
+     *
+     * assertTrue( $args.as(1).matches("1"));
+     * assertFalse( $args.of(1).matches("1, 2")); //we matched the $expr.of("1"), but count (2) is not equal
+     * assertFalse( $args.of(1).matches("a, b, 1, 2")); //we matched the $expr.of("1"), but count (4) is not equal
+     *
+     * IF FALSE/ NULL (as used in $args.of(...))
+     * this means that any arguments list that MATCHES/CONTAINS ALL of the $exprs in the argumentsList
+     * will match
+     *
+     * for example:
+     * assertTrue( $args.of(1).matches("1"));
+     * assertTrue( $args.of(1).matches("1, 2")); //we matched the $expr.of("1")
+     * assertTrue( $args.of(1).matches("a, b, 1, 2")); //we matched the $expr.of("1")
+     *
+     * ...so $args.of()
+     */
+    public Boolean matchExactCount = true;
+
+    public List<$expr> argsList = new ArrayList<>();
+
     public Predicate<_args> predicate = p->true;
 
     /**
@@ -103,34 +164,38 @@ public class $args<N extends Node & NodeWithArguments>
      * @return
      */
     public $args copy(){
-        $args $args = of( ).$and(this.predicate.and(t->true) );
-        this.argumentList.forEach( a -> $args.argumentList.add( a.copy()));
-        return $args;
+        $args $copy = of( ).$and(this.predicate.and(t->true) );
+        this.argsList.forEach(a -> $copy.argsList.add( a.copy()));
+        $copy.matchExactCount = this.matchExactCount;
+        return $copy;
     }
 
     @Override
     public $args $hardcode(Translator translator, Tokens kvs) {
-        this.argumentList.forEach( a -> a.$hardcode(translator, kvs));
+        this.argsList.forEach(a -> a.$hardcode(translator, kvs));
         return this;
     }
 
     public $args(){ }
 
-    public $args(_args args){
+    public $args(Boolean matchExactCount, _args args){
+        this.matchExactCount = matchExactCount;
         for(int i=0;i<args.size(); i++){
-            argumentList.add( $expr.of(args.getAt(i)));
+            argsList.add( $expr.of(args.getAt(i)));
         }
     }
 
-    public $args(_expr..._exs){
+    public $args(Boolean matchExactCount, _expr ... _exs) {
+        this.matchExactCount = matchExactCount;
         for(int i=0;i<_exs.length; i++){
-            argumentList.add( $expr.of(_exs[i]));
+            argsList.add( $expr.of(_exs[i]));
         }
     }
 
-    public $args($expr...$exs){
+    public $args(Boolean matchExactCount, $expr...$exs){
+        this.matchExactCount = matchExactCount;
         for(int i=0;i<$exs.length; i++){
-            argumentList.add( $exs[i]);
+            argsList.add( $exs[i]);
         }
     }
 
@@ -246,15 +311,16 @@ public class $args<N extends Node & NodeWithArguments>
 
     @Override
     public Select<_args> select(_args candidate) {
+
         if( isMatchAny()){
             return new Select(candidate, new Tokens());
         }
         if( this.predicate.test(candidate)){
-            if( !this.argumentList.isEmpty()) { //they have spelled out individual arguments
-                if( this.argumentList.size() == candidate.size() ){
+            if( !this.argsList.isEmpty()) { //they have spelled out individual arguments
+                if( this.argsList.size() == candidate.size() ){
                     Tokens ts = new Tokens();
-                    for( int i=0;i<this.argumentList.size(); i++){
-                        Select s = argumentList.get(i).select(candidate.getAt(i));
+                    for(int i = 0; i<this.argsList.size(); i++){
+                        Select s = argsList.get(i).select(candidate.getAt(i));
                         if( s == null || !ts.isConsistent(s.tokens)){
                             return null;
                         }
@@ -265,8 +331,8 @@ public class $args<N extends Node & NodeWithArguments>
                 //if the only argument is a "matchAny $e" argument,(this means a MATCH ANY EXPRESSION),
                 // (not just a matchAny SPECIFIC EXPRESSION like "$int $matchAnyInt = $int.of();" )
                 // that means we can match the entire argument list as a token
-                else if( this.argumentList.size() == 1 && this.argumentList.get(0).isMatchAny() && this.argumentList.get(0) instanceof $e ){
-                    if( this.argumentList.get(0).$list().size() == 0 ){
+                else if( this.argsList.size() == 1 && this.argsList.get(0).isMatchAny() && this.argsList.get(0) instanceof $e ){
+                    if( this.argsList.get(0).$list().size() == 0 ){
                         return new Select<>(candidate, new Tokens());
                     }
                     //we are doing this because we want to be able to match
@@ -284,13 +350,44 @@ public class $args<N extends Node & NodeWithArguments>
                     // $arguments $oneParam = $arguments.of("$any$").$and(a-> a.size() == 1)
 
                     //we need to make the entire parameter list
-                    this.argumentList.get(0).$list().get(0);
+                    this.argsList.get(0).$list().get(0);
                     Tokens ts = new Tokens();
-                    ts.put(this.argumentList.get(0).$list().get(0).toString(), candidate.toString());
+                    ts.put(this.argsList.get(0).$list().get(0).toString(), candidate.toString());
                     return new Select<>(candidate, ts);
-                } else {
+                } else if( this.argsList.size() > candidate.size()) {
+                    return null;
+                } else if( this.argsList.size() < candidate.size() ){
+                    if( this.matchExactCount){ //I have more _expr s than $expr s, but I have exactMatch on
+                        return null;
+                    }
+                    //System.out.println( "CHECKING HERE ");
+                    //here we want to find matches
+                    List<$expr> unmatched = new ArrayList<>();
+                    unmatched.addAll(this.argsList);
+                    Set<$expr> matched = new HashSet<>();
+                    Tokens ts = new Tokens();
+                    for(int i=0;i<candidate.size(); i++){
+                        final _expr _e = candidate.getAt(i);
+                        Optional<$expr> oe =
+                                unmatched.stream().filter(u -> u.matches(_e) ).findFirst();
+                        if( oe.isPresent() ){
+                            Select sel = oe.get().select(_e);
+                            if( !ts.isConsistent(sel.tokens )){
+                                return null;
+                            }
+                            matched.add( oe.get() );
+                            unmatched.remove(oe.get());
+                            ts.putAll( sel.tokens);
+                        }
+                    }
+                    if( unmatched.isEmpty()){
+                        return new Select<>(candidate, ts);
+                    }
                     return null;
                 }
+                //else{
+                //    return null;
+                //}
             }
             //if the argument list is empty, means anything passing predicate will do
             return new Select(candidate, new Tokens());
@@ -300,7 +397,7 @@ public class $args<N extends Node & NodeWithArguments>
 
     @Override
     public boolean isMatchAny() {
-        if( this.argumentList.isEmpty() ){
+        if( this.argsList.isEmpty() ){
                 //|| (this.argumentList.size() == 1
                 //&& this.argumentList.get(0) instanceof $e
                 //&& this.argumentList.get(0).isMatchAny())){
@@ -321,16 +418,16 @@ public class $args<N extends Node & NodeWithArguments>
         if( this.isMatchAny() ){
             return "$arguments( $ANY$ )";
         }
-        if( this.argumentList.isEmpty() ){
+        if( this.argsList.isEmpty() ){
             return "$arguments() {#"+this.hashCode()+"}";
         }
         StringBuilder sb = new StringBuilder();
         sb.append( "$arguments(").append(System.lineSeparator());
-        for(int i=0;i<this.argumentList.size();i++){
+        for(int i = 0; i<this.argsList.size(); i++){
             //if( i > 0 ){
             //    sb.append(System.lineSeparator());
             //}
-            sb.append( Text.indent( this.argumentList.get(i).toString()) );
+            sb.append( Text.indent( this.argsList.get(i).toString()) );
         }
         sb.append(")");
         return sb.toString();
@@ -339,8 +436,8 @@ public class $args<N extends Node & NodeWithArguments>
     @Override
     public _args draft(Translator translator, Map<String, Object> keyValues) {
         _args _as = _args.of();
-        for(int i=0;i<this.argumentList.size(); i++){
-            _as.add( (_expr)this.argumentList.get(i).draft(translator, keyValues) );
+        for(int i = 0; i<this.argsList.size(); i++){
+            _as.add( (_expr)this.argsList.get(i).draft(translator, keyValues) );
         }
         if( this.predicate.test(_as) ){
             return _as;
@@ -350,21 +447,21 @@ public class $args<N extends Node & NodeWithArguments>
 
     @Override
     public $args $(String target, String $Name) {
-        this.argumentList.forEach(e -> e.$(target, $Name));
+        this.argsList.forEach(e -> e.$(target, $Name));
         return this;
     }
 
     @Override
     public List<String> $list() {
         List<String> sts = new ArrayList<>();
-        this.argumentList.forEach(a -> sts.addAll( a.$list()));
+        this.argsList.forEach(a -> sts.addAll( a.$list()));
         return sts;
     }
 
     @Override
     public List<String> $listNormalized() {
         List<String> sts = new ArrayList<>();
-        this.argumentList.forEach(a -> sts.addAll( a.$listNormalized()));
+        this.argsList.forEach(a -> sts.addAll( a.$listNormalized()));
         return sts.stream().distinct().collect(Collectors.toList());
     }
 
@@ -425,7 +522,7 @@ public class $args<N extends Node & NodeWithArguments>
         public $args.Or copy(){
             $args.Or $copy = $args.or();
             $copy.$and(this.predicate);
-            this.argumentList.forEach( ($a)-> $copy.argumentList.add( (($expr)$a).copy()));
+            this.argsList.forEach( ($a)-> $copy.argsList.add( (($expr)$a).copy()));
             this.$argsBots.forEach( ($a) -> $copy.$argsBots.add($a.copy()));
             return $copy;
         }

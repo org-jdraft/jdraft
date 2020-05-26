@@ -258,10 +258,6 @@ public class $exprStmt implements $bot.$node<ExpressionStmt, _exprStmt, $exprStm
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
-    public $expr get$expression(){
-        return this.expression;
-    }
-
     public $exprStmt $expression( ){
         this.expression = $expr.of();
         return this;

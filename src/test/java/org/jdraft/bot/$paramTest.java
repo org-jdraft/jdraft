@@ -5,7 +5,7 @@ import org.jdraft._param;
 
 import java.util.Map;
 
-public class $parameterTest extends TestCase {
+public class $paramTest extends TestCase {
 
     public void testMatchAny(){
         assertTrue($param.of().matches("int i"));

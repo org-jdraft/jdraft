@@ -38,9 +38,9 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
     public Predicate<_java._node>predicate = t->true;
 
     public String contains;
-    public $stringExpr string;
-    public $textBlockExpr textBlock;
-    public $comment comment;
+    private $stringExpr string;
+    private $textBlockExpr textBlock;
+    private $comment comment;
 
     private $withText(String contains, $stringExpr string, $textBlockExpr textBlock, $comment comment){
         this.contains = contains;

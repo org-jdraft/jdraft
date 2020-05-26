@@ -160,9 +160,9 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
              or.$and( this.predicate.and(t->true) );
              //I need to port over all of the common things
              or.scope = ($expr)this.scope.copy();
-             or.typeArguments = this.typeArguments.copy();
+             or.typeArgs = this.typeArgs.copy();
              or.name = this.name.copy();
-             or.arguments = this.arguments.copy();
+             or.args = this.args.copy();
              return or;
          }
 
@@ -221,10 +221,10 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
                 $mc.scope = ($expr)parts[i];
             }
             if( parts[i] instanceof $args){
-                $mc.arguments = ($args)parts[i];
+                $mc.args = ($args)parts[i];
             }
             if( parts[i] instanceof $typeArgs){
-                $mc.typeArguments = ($typeArgs)parts[i];
+                $mc.typeArgs = ($typeArgs)parts[i];
             }
         }
         return $mc;
@@ -233,18 +233,18 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     public List<$bot> $listBots(){
         List<$bot> bots = new ArrayList();
         bots.add( this.scope );
-        bots.add( this.typeArguments );
+        bots.add( this.typeArgs);
         bots.add( this.name );
-        bots.add( this.arguments );
+        bots.add( this.args);
         return bots;
     }
 
     public Predicate<_methodCallExpr> predicate = d -> true;
 
     public $expr scope = $expr.of();
-    public $typeArgs typeArguments = $typeArgs.of();
+    public $typeArgs typeArgs = $typeArgs.of();
     public $name name = $name.of();
-    public $args arguments = $args.of();
+    public $args args = $args.of();
 
     public $methodCallExpr() { }
 
@@ -254,10 +254,10 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
             scope = $expr.of(_mc.getScope());
         }
         if( _mc.hasArgs() ){
-            arguments = $args.as(_mc.getArgs());
+            args = $args.as(_mc.getArgs());
         }
         if( _mc.hasTypeArgs() ){
-            typeArguments = $typeArgs.of( _mc.getTypeArgs() );
+            typeArgs = $typeArgs.of( _mc.getTypeArgs() );
         }
     }
 
@@ -267,8 +267,8 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
      */
     public $methodCallExpr copy(){
         $methodCallExpr $mc = of().$and( this.predicate.and(t->true) );
-        $mc.typeArguments = this.typeArguments.copy();
-        $mc.arguments = this.arguments.copy();
+        $mc.typeArgs = this.typeArgs.copy();
+        $mc.args = this.args.copy();
         $mc.name = this.name.copy();
         $mc.scope = ($expr)this.scope.copy();
         return $mc;
@@ -276,8 +276,8 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
 
     @Override
     public $methodCallExpr $hardcode(Translator translator, Tokens kvs) {
-        typeArguments.$hardcode(translator, kvs);
-        arguments.$hardcode(translator, kvs);
+        typeArgs.$hardcode(translator, kvs);
+        args.$hardcode(translator, kvs);
         scope.$hardcode(translator, kvs);
         name.$hardcode(translator, kvs);
         return this;
@@ -293,7 +293,7 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     }
 
     public boolean isMatchAny(){
-        if( this.name.isMatchAny() && this.scope.isMatchAny() && arguments.isMatchAny() && typeArguments.isMatchAny()){
+        if( this.name.isMatchAny() && this.scope.isMatchAny() && args.isMatchAny() && typeArgs.isMatchAny()){
             try {
                 return this.predicate.test(null);
             } catch(Exception e){ }
@@ -356,13 +356,13 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         }
         ts.putAll(s.tokens);
 
-        s = this.arguments.select(_mc.getArgs() );
+        s = this.args.select(_mc.getArgs() );
         if( s == null || !ts.isConsistent(s.tokens)){
             return null;
         }
         ts.putAll(s.tokens);
 
-        s = this.typeArguments.select(_mc.getTypeArgs() );
+        s = this.typeArgs.select(_mc.getTypeArgs() );
         if( s == null || !ts.isConsistent(s.tokens)){
             return null;
         }
@@ -376,11 +376,11 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         if( !this.scope.isMatchAny() ){
             _mc.setScope( (_expr)this.scope.draft(tr, keyValues));
         }
-        _mc.setArgs( this.arguments.draft(tr, keyValues));
+        _mc.setArgs( this.args.draft(tr, keyValues));
         try{
-            _mc.setTypeArgs( this.typeArguments.draft(tr, keyValues));
+            _mc.setTypeArgs( this.typeArgs.draft(tr, keyValues));
         } catch(Exception e){
-            if( !typeArguments.isMatchAny() ){
+            if( !typeArgs.isMatchAny() ){
                 throw new _jdraftException("Unable to set type arguments ", e);
             }
         }
@@ -394,8 +394,8 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     public $methodCallExpr $(String target, String $Name) {
         this.name.$(target, $Name);
         this.scope.$(target, $Name);
-        this.arguments.$(target, $Name);
-        this.typeArguments.$(target, $Name);
+        this.args.$(target, $Name);
+        this.typeArgs.$(target, $Name);
         return this;
     }
 
@@ -403,9 +403,9 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     public List<String> $list() {
         List<String> ps = new ArrayList<>();
         ps.addAll( this.scope.$list());
-        ps.addAll( this.typeArguments.$list());
+        ps.addAll( this.typeArgs.$list());
         ps.addAll( this.name.$list());
-        ps.addAll(this.arguments.$list());
+        ps.addAll(this.args.$list());
         return ps;
     }
 
@@ -413,96 +413,102 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
     public List<String> $listNormalized() {
         List<String> ps = new ArrayList<>();
         ps.addAll( this.scope.$listNormalized());
-        ps.addAll( this.typeArguments.$listNormalized());
+        ps.addAll( this.typeArgs.$listNormalized());
         ps.addAll( this.name.$listNormalized());
-        ps.addAll( this.arguments.$listNormalized());
+        ps.addAll( this.args.$listNormalized());
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
+    /*
     //$withTypeArguments
     public $typeArgs get$typeArguments(){
-        return this.typeArguments;
+        return this.typeArgs;
     }
+     */
 
-    public $methodCallExpr $typeArguments(){
-        this.typeArguments = $typeArgs.of();
+    public $methodCallExpr $typeArgs(){
+        this.typeArgs = $typeArgs.of();
         return this;
     }
 
-    public $methodCallExpr $typeArguments(Predicate<_typeArgs> predicate){
-        this.typeArguments.$and(predicate);
+    public $methodCallExpr $typeArgs(Predicate<_typeArgs> predicate){
+        this.typeArgs.$and(predicate);
         return this;
     }
 
-    public $methodCallExpr $typeArguments($typeArgs $as){
-        this.typeArguments = $as;
+    public $methodCallExpr $typeArgs($typeArgs $as){
+        this.typeArgs = $as;
         return this;
     }
 
-    public $methodCallExpr $typeArguments(String ts){
-        this.typeArguments = $typeArgs.of(ts);
+    public $methodCallExpr $typeArgs(String ts){
+        this.typeArgs = $typeArgs.of(ts);
         return this;
     }
 
-    public $methodCallExpr $typeArguments(String... ts){
-        this.typeArguments = $typeArgs.of(ts);
+    public $methodCallExpr $typeArgs(String... ts){
+        this.typeArgs = $typeArgs.of(ts);
         return this;
     }
 
-    public $methodCallExpr $typeArguments($typeRef...tas){
-        this.typeArguments = $typeArgs.of(tas);
+    public $methodCallExpr $typeArgs($typeRef...tas){
+        this.typeArgs = $typeArgs.of(tas);
         return this;
     }
 
-    public $methodCallExpr $typeArguments(_typeRef...args){
-        this.typeArguments = $typeArgs.of(args);
+    public $methodCallExpr $typeArgs(_typeRef...args){
+        this.typeArgs = $typeArgs.of(args);
         return this;
     }
 
+    /*
     //$withArguments
-    public $args get$arguments(){
-        return this.arguments;
+    public $args get$args(){
+        return this.args;
     }
+     */
 
-    public $methodCallExpr $arguments(){
-        this.arguments = $args.of();
+    public $methodCallExpr $args(){
+        this.args = $args.of();
         return this;
     }
 
-    public $methodCallExpr $arguments(Predicate<_args> predicate){
-        this.arguments.$and(predicate);
+    public $methodCallExpr $args(Predicate<_args> predicate){
+        this.args.$and(predicate);
         return this;
     }
 
-    public $methodCallExpr $arguments(String args){
-        this.arguments = $args.as(args);
+    public $methodCallExpr $args(String args){
+        this.args = $args.as(args);
         return this;
     }
 
-    public $methodCallExpr $arguments(String...args){
-        this.arguments = $args.as(args);
+    public $methodCallExpr $args(String...args){
+        this.args = $args.as(args);
         return this;
     }
 
-    public $methodCallExpr $arguments($args $as){
-        this.arguments = $as;
+    public $methodCallExpr $args($args $as){
+        this.args = $as;
         return this;
     }
 
-    public $methodCallExpr $arguments($expr...args){
-        this.arguments = $args.as(args);
+    public $methodCallExpr $args($expr...args){
+        this.args = $args.as(args);
         return this;
     }
 
-    public $methodCallExpr $arguments(_expr...args){
-        this.arguments = $args.as(args);
+    public $methodCallExpr $args(_expr...args){
+        this.args = $args.as(args);
         return this;
     }
 
+    /*
     //$withName
     public $name get$name(){
         return this.name;
     }
+     */
 
     public $methodCallExpr $name(){
         this.name = $name.of();
@@ -524,10 +530,12 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         return this;
     }
 
+    /*
     //$withScope interface
     public $expr get$scope(){
         return this.scope;
     }
+     */
 
     public $methodCallExpr $scope( ){
         this.scope = $expr.of();

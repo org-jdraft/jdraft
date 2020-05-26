@@ -176,11 +176,6 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
         return ps.stream().distinct().collect(Collectors.toList());
     }
 
-    //$withExpression interface
-    public $expr get$expression(){
-        return this.expression;
-    }
-
     public $returnStmt $expression( ){
         this.expression = $expr.of();
         return this;
