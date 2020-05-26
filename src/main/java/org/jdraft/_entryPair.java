@@ -100,7 +100,7 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
     }
 
     public static _entryPair of (String...str ){
-        AnnotationExpr ae = StaticJavaParser.parseAnnotation( "@A("+ Text.combine( str)+")" );
+        AnnotationExpr ae = StaticJavaParser.parseAnnotation( "@UNKNOWN("+ Text.combine( str)+")" );
         if( ae.isNormalAnnotationExpr() ){
             return new _entryPair(ae.asNormalAnnotationExpr().getPairs().get(0));
         }

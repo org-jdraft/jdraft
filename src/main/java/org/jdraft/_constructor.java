@@ -113,8 +113,6 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         return new _constructor( ctorDecl );
     }
 
-
-
     public static _feature._one<_constructor, _javadocComment> JAVADOC = new _feature._one<>(_constructor.class, _javadocComment.class,
             _feature._id.JAVADOC,
             a -> a.getJavadoc(),

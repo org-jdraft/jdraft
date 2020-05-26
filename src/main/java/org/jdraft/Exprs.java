@@ -582,7 +582,7 @@ public enum Exprs {
         if( str.startsWith("{") && (str.endsWith( "}" ) ) ){
 
             //it could be an arrayInitialationExpresssion
-            Statement st = Stmts.of("Object[] arr = "+str+";");
+            Statement st = Stmts.of("Object[] unknown = "+str+";");
             ArrayInitializerExpr aie = (ArrayInitializerExpr)
                 st.asExpressionStmt().getExpression().asVariableDeclarationExpr().getVariable(0).getInitializer().get();
             aie.removeForced();
@@ -649,12 +649,12 @@ public enum Exprs {
     public static final Class<ArrayCreationLevel> ARRAY_CREATION_LEVEL = ArrayCreationLevel.class;
 
     public static NodeList<ArrayCreationLevel> arrayCreationLevels(String...code){
-        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" empty ");
+        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
         return aae.getLevels();
     }
 
     public static ArrayCreationLevel arrayCreationLevel(String...code){
-        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" empty ");
+        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
         return aae.getLevels().get(0);
     }
 
@@ -1246,7 +1246,7 @@ public enum Exprs {
     public static MethodCallExpr methodCallExpr(String... code ) {
         String str = Text.combine(code);
         if( str.startsWith("<")){ //
-            String s = "Object t = "+ str +";";
+            String s = "Object UNKNOWN = "+ str +";";
             //Box <String> box = new Box <String> ("Jack");
             //System.out.println( s );
             VariableDeclarationExpr vde =  Exprs.variablesExpr(s);
@@ -1356,7 +1356,7 @@ public enum Exprs {
      */
     public static MethodReferenceExpr methodReferenceExpr(String... code ) {
         String r = Text.combine(code);
-        r = "o -> "+ r;
+        r = "UNKNOWN -> "+ r;
         //System.out.println( r );
         LambdaExpr rs = lambdaExpr(r);
         MethodReferenceExpr mre = rs.getExpressionBody().get().asMethodReferenceExpr();
@@ -1544,7 +1544,7 @@ public enum Exprs {
     public static TypeExpr typeExpr(String... code ) {
         //World::greet
         String str = Text.combine(code);
-        str = str + "::method";
+        str = str + "::UNKNOWNmethod";
         TypeExpr te =  of( str ).asMethodReferenceExpr().getScope().asTypeExpr();
         te.removeForced(); //DISCONNECT
         return te;

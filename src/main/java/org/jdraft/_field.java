@@ -56,7 +56,7 @@ public final class _field
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 
         //add the field to a class so I can run
-        _class _c = _class.of("Unknown").add(_field.of(fd.clone().getVariable(0)));
+        _class _c = _class.of("UNKNOWN").add(_field.of(fd.clone().getVariable(0)));
         macro.to(anonymousObjectWithField.getClass(), _c);
 
         //I NEED TO DISSOCIATE THE FIELD FROM THE OTHER ??? (I think clone does that)

@@ -137,6 +137,7 @@ public interface _feature<_T, _F>{
         MODULE_DIRECTIVES("moduleDirectives"),
         MODULE_DIRECTIVE("moduleDirective"),
         IS_TRANSITIVE("isTransitive"), //moduleRequires
+        IS_IMPLEMENTED( "isImplemented"), //for implemented bodies (i.e. "void m(){}" IMPLEMENTED vs "void m();" NOT IMPLEMENTED)
         NAMES("names"), //moduleProvides, moduleOpens, moduleExports
 
         VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),//annotations places on parameter var args

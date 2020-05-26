@@ -68,7 +68,6 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         throw new _jdraftException("No method call expression found in lambda");
     }
 
-
     public static _feature._one<_labeledStmt, String> LABEL = new _feature._one<>(_labeledStmt.class, String.class,
             _feature._id.LABEL,
             a -> a.getLabel(),
@@ -179,8 +178,6 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
     public int hashCode(){
         return 31 * this.ast().hashCode();
     }
-
-
 
     /**
      * Find all labeled statements that match the label "labelName"

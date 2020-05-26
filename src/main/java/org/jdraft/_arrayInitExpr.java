@@ -137,9 +137,6 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
         return of(aie);
     }
 
-    /**
-     *
-     */
     public static _feature._many<_arrayInitExpr, _expr> INIT_EXPRS = new _feature._many<>(_arrayInitExpr.class, _expr.class,
             _feature._id.INIT, _feature._id.INIT_EXPR,
             a->a.list(),

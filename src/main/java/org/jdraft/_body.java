@@ -155,10 +155,10 @@ public final class _body implements _java._domain {
         }
         //they COULD be
         if( statement instanceof BlockStmt ){
-            return of( _constructor.of("EMPTY(){}").setBody((BlockStmt)statement).ast());
+            return of( _constructor.of("UNKNOWN(){}").setBody((BlockStmt)statement).ast());
             //return of( _method.of("void __BODYHOLDER();").setBody((BlockStmt)statement).ast());
         }
-        return of( _constructor.of("EMPTY(){}").add(statement).ast());
+        return of( _constructor.of("UNKNOWN(){}").add(statement).ast());
         //return of( _method.of("void __BODYHOLDER();").add(statement).ast());
     }
 
@@ -243,15 +243,17 @@ public final class _body implements _java._domain {
         return new _body(astNodeWithOptionalBlock);
     }
 
-    /**
-     *
-     */
+    public static _feature._one<_body, Boolean> IS_IMPLEMENTED = new _feature._one<>(_body.class, Boolean.class,
+            _feature._id.IS_IMPLEMENTED,
+            a -> a.isImplemented(),
+            (_body a, Boolean b) -> a.setImplemented(b), PARSER);
+
     public static _feature._many<_body, _stmt> STATEMENTS = new _feature._many<>(_body.class, _stmt.class,
             _feature._id.STATEMENTS, _feature._id.STATEMENT,
             a->a.list(),
             (_body a, List<_stmt> es)-> a.set(es), PARSER);
 
-    public static _feature._meta<_body> META = _feature._meta.of(_body.class, STATEMENTS);
+    public static _feature._meta<_body> META = _feature._meta.of(_body.class, IS_IMPLEMENTED, STATEMENTS);
 
     /**
      * Private constructor, lets not confuse everyone by having a single Object
@@ -274,6 +276,25 @@ public final class _body implements _java._domain {
             return nobs.getBody().isPresent();
         }
         return true;
+    }
+
+
+    public _body setImplemented(Boolean implement){
+        if( ! implement ){
+            if( isImplemented() ){ //the only time I need to change
+                NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
+                nobs.removeBody();
+            } else{
+                //this means CLEAR
+                this.clear();
+            }
+        } else{ //here io want to replace "void m();" with "void m(){}"
+            if( ! isImplemented() ){
+                NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
+                nobs.createBody();
+            }
+        }
+        return this;
     }
 
     /**

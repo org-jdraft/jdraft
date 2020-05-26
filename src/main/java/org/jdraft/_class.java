@@ -671,7 +671,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         ObjectCreationExpr oce = Exprs.newExpr(ste);
 
         //create a temp _class to add these to so I can run _macro ANNOTATIONS on them        
-        _class _temp = _class.of("temp");
+        _class _temp = _class.of("UNKNOWN");
         if( oce != null && oce.getAnonymousClassBody().isPresent() ){
             //add the anonymous class members to the temp class
             oce.getAnonymousClassBody().get().forEach(b-> _temp.ast().addMember(b));

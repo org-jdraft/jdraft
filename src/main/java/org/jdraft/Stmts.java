@@ -586,7 +586,7 @@ public enum Stmts {
 
         if( combined.contains("super") || combined.contains("this")){
 
-            combined = "C()"+ combined;
+            combined = "UNKNOWN()"+ combined;
             //System.out.println( ">>>>BBB>>>  "+combined);
             ConstructorDeclaration bd = (ConstructorDeclaration)StaticJavaParser.parseBodyDeclaration(combined);
             BlockStmt bs = bd.getBody();
@@ -851,7 +851,7 @@ public enum Stmts {
         if( Text.combine(code).equals(";")) {
             return new EmptyStmt();
         }
-        throw new _jdraftException("Invliad characters to represent EmptyStmt: "+Text.combine(code));
+        throw new _jdraftException("Invalid characters to represent EmptyStmt: "+Text.combine(code));
     }
 
     public static ExpressionStmt exprStmt(Exprs.Command command ){
@@ -1508,7 +1508,7 @@ public enum Stmts {
      */
     public static YieldStmt yieldStmt( String... code ) {
 
-        String str = "switch(e){ case 1: "+Text.combine(code)+" }";
+        String str = "switch(unknown){ case UNKNOWN: "+Text.combine(code)+" }";
         SwitchExpr se = Exprs.switchExpr(str);
         YieldStmt ys = (YieldStmt)se.getEntry(0).getStatement(0);
         ys.getParentNode().get().remove(ys);
