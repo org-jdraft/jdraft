@@ -2,7 +2,11 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 
+import java.util.function.Function;
+
 public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _booleanExpr> {
+
+    public static final Function<String, _booleanExpr> PARSER = s-> _booleanExpr.of(s);
 
     public static _booleanExpr of( ){
         return new _booleanExpr(new BooleanLiteralExpr());
@@ -21,7 +25,7 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
     public static _feature._one<_booleanExpr, Boolean> LITERAL_VALUE = new _feature._one<>(_booleanExpr.class, Boolean.class,
             _feature._id.LITERAL_VALUE,
             a -> a.getValue(),
-            (_booleanExpr a, Boolean b) -> a.set(b));
+            (_booleanExpr a, Boolean b) -> a.set(b), PARSER);
 
 
     public static _feature._meta<_booleanExpr> META = _feature._meta.of(_booleanExpr.class, LITERAL_VALUE);

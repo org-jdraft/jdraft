@@ -3,6 +3,7 @@ package org.jdraft;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -28,10 +29,21 @@ import java.util.stream.Stream;
  * public static final _feature field on _methodCall that will implement the feature, so we can just say:
  * _method.NAME... which provides the get() and set() methods appropriate for getting and setting the name
  *
+ * TODO: add a lambda for converting between a String... and a _T (using the of() methods) maybe that is on each class
+ * i.e. a PARSE Function that is on each class that calls the of(....) method to create an instance
+ * _methodCallExpr.PARSE = (String...code)-> _methodCallExpr.of(code);
+ * TODO: matches function takes in a String
+ *
  * @param <_T> the target Type  (i.e. the "container of the feature")
  * @param <_F> the feature Type (the underlying feature... could be a single node or list, etc.)
  */
 public interface _feature<_T, _F>{
+
+    /**
+     * The disambiguation of where the feature is present (i.e. a Name Feature can exist on a particular Entity)
+     * @return
+     */
+    Class<_T> getTargetClass();
 
     /**
      * All features associated with Names, FeatureName delineates all possible names
@@ -41,14 +53,8 @@ public interface _feature<_T, _F>{
     _id getFeatureId();
 
     /**
-     * The disambiguation of where the feature is present (i.e. a Name Feature can exist on a particular Entity)
-     * @return
-     */
-    Class<_T> getTargetClass();
-
-    /**
-     * A getter function for retrieving the Feature from the instance
-     * @return
+     * A getter function for retrieving the Feature from the target class instance
+     * @return function for retrieving the feature instance from the target instance
      */
     Function<_T, _F> getter();
 
@@ -59,6 +65,23 @@ public interface _feature<_T, _F>{
     BiConsumer<_T, _F> setter();
 
     /**
+     * Return the parsers and creates an instance of the target (container) class of the feature from a String
+     * @return a Parser for parsing a Target instance from a String
+     */
+    Function<String, _T> getTargetParser();
+
+    /**
+     * Base function for determining if these features are (semantically) the same
+     *
+     * @param left the left feature
+     * @param right the right feature
+     * @return true if these features are the same, false otherwise
+     */
+    default boolean equal(_F left, _F right){
+        return Objects.equals(left, right);
+    }
+
+    /**
      *
      * @param _targetInstance the target instance to obtain the feature from
      * @return the feature from the targetInstance
@@ -66,10 +89,10 @@ public interface _feature<_T, _F>{
     _F get(_T _targetInstance);
 
     /**
-     * Set the value of the feature with the new featureValue
-     * @param _targetInstance
-     * @param featureValue
-     * @return
+     * Set the value of the feature on the targetInstance with the new featureValue
+     * @param _targetInstance the instance to update
+     * @param featureValue the value to set
+     * @return the modified targetInstance
      */
     _T set(_T _targetInstance, _F featureValue);
 
@@ -185,8 +208,6 @@ public interface _feature<_T, _F>{
         CONSTANT("constant"),
         CONSTANTS("constants"),
 
-
-
         INITS("inits"), //initializations made on an forStmt "for(int i=0, int j=1; ...)"
         INIT("init"), //field
         IS_FINAL("isFinal"), //_parameter
@@ -277,15 +298,20 @@ public interface _feature<_T, _F>{
         public final Function<_T, List<_E>> getter;
         public final BiConsumer<_T, List<_E>> setter;
 
+        public final Function<String, _T> targetParser;
+
         public _many(Class<_T> targetClass, Class<_E>featureElementClass, _id featureId, _id featureElementId,
-                     Function<_T,List<_E>> getter, BiConsumer<_T,List<_E>> setter){
+                     Function<_T,List<_E>> getter, BiConsumer<_T,List<_E>> setter, Function<String,_T> targetParser){
             this.targetClass = targetClass;
             this.featureElementClass = featureElementClass;
             this.featureId = featureId;
             this.featureElementId = featureElementId;
             this.getter = getter;
             this.setter = setter;
+            this.targetParser = targetParser;
         }
+
+        public Function<String, _T> getTargetParser(){ return this.targetParser; }
 
         public Class<_T> getTargetClass(){
             return targetClass;
@@ -355,13 +381,15 @@ public interface _feature<_T, _F>{
         public final _id feature;
         public final Function<_T, _F> getter;
         public final BiConsumer<_T, _F> setter;
+        public final Function<String,_T> targetParser;
 
-        public _one(Class<_T> targetClass, Class<_F>featureClass, _id feature, Function<_T,_F> getter, BiConsumer<_T,_F> setter){
+        public _one(Class<_T> targetClass, Class<_F>featureClass, _id feature, Function<_T,_F> getter, BiConsumer<_T,_F> setter, Function<String, _T> targetParser){
             this.targetClass = targetClass;
             this.featureClass = featureClass;
             this.feature = feature;
             this.getter = getter;
             this.setter = setter;
+            this.targetParser = targetParser;
         }
 
         public Class<_T> getTargetClass(){
@@ -371,6 +399,8 @@ public interface _feature<_T, _F>{
         public Class<_F> getFeatureClass(){
             return featureClass;
         }
+
+        public Function<String, _T> getTargetParser() { return this.targetParser; }
 
         public _id getFeatureId(){
             return this.feature;

@@ -22,6 +22,8 @@ import java.util.function.*;
 public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<CastExpr, _castExpr>,
         _typeRef._withTypeRef<CastExpr, _castExpr>, _java._withExpression<CastExpr, _castExpr> {
 
+    public static final Function<String, _castExpr> PARSER = s-> _castExpr.of(s);
+
     public static _castExpr of(){
         return new _castExpr( new CastExpr());
     }
@@ -82,12 +84,12 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
     public static _feature._one<_castExpr, _typeRef> TYPE = new _feature._one<>(_castExpr.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_castExpr a, _typeRef o) -> a.setType(o));
+            (_castExpr a, _typeRef o) -> a.setType(o), PARSER);
 
     public static _feature._one<_castExpr, _expr> EXPRESSION = new _feature._one<>(_castExpr.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_castExpr a, _expr _e) -> a.setExpression(_e));
+            (_castExpr a, _expr _e) -> a.setExpression(_e), PARSER);
 
     public static _feature._meta<_castExpr> META = _feature._meta.of(_castExpr.class, TYPE, EXPRESSION);
 

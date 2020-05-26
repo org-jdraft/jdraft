@@ -8,9 +8,12 @@ import org.jdraft.text.Text;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _moduleRequires implements _java._node<ModuleRequiresDirective, _moduleRequires>,
         _moduleDirective<ModuleRequiresDirective, _moduleRequires> {
+
+    public static final Function<String, _moduleRequires> PARSER = s-> _moduleRequires.of(s);
 
     public static _moduleRequires of(ModuleRequiresDirective med){
         return new _moduleRequires(med);
@@ -35,12 +38,12 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
     public static _feature._one<_moduleRequires, String> MODULE_NAME = new _feature._one<>(_moduleRequires.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_moduleRequires a, String s) -> a.setName(s));
+            (_moduleRequires a, String s) -> a.setName(s), PARSER);
 
     public static _feature._one<_moduleRequires, Boolean> IS_TRANSITIVE = new _feature._one<>(_moduleRequires.class, Boolean.class,
             _feature._id.IS_TRANSITIVE,
             a -> a.isTransitive(),
-            (_moduleRequires a, Boolean b) -> a.setTransitive(b));
+            (_moduleRequires a, Boolean b) -> a.setTransitive(b), PARSER);
 
     public static _feature._meta<_moduleRequires> META = _feature._meta.of(_moduleRequires.class, IS_TRANSITIVE, MODULE_NAME);
 

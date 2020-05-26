@@ -7,9 +7,12 @@ import com.github.javaparser.ast.modules.ModuleUsesDirective;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _moduleUses implements _java._node<ModuleUsesDirective, _moduleUses>,
         _moduleDirective<ModuleUsesDirective, _moduleUses> {
+
+    public static final Function<String, _moduleUses> PARSER = s-> _moduleUses.of(s);
 
     public static _moduleUses of(ModuleUsesDirective mod){
         return new _moduleUses(mod);
@@ -34,7 +37,7 @@ public final class _moduleUses implements _java._node<ModuleUsesDirective, _modu
     public static _feature._one<_moduleUses, String> NAME = new _feature._one<>(_moduleUses.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_moduleUses a, String s) -> a.setName(s));
+            (_moduleUses a, String s) -> a.setName(s), PARSER);
 
     public static _feature._meta<_moduleUses> META = _feature._meta.of(_moduleUses.class, NAME);
 

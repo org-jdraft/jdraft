@@ -6,6 +6,7 @@ import org.jdraft.text.Text;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * An expression representing a single Array dimension
@@ -20,6 +21,8 @@ import java.util.Objects;
  */
 public final class _arrayDimension implements _java._node<ArrayCreationLevel, _arrayDimension>,
         _java._withExpression<ArrayCreationLevel, _arrayDimension> {
+
+    public static final Function<String, _arrayDimension> PARSER = s-> _arrayDimension.of(s);
 
     public static _arrayDimension of(ArrayCreationLevel acl){
         return new _arrayDimension(acl);
@@ -56,7 +59,7 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
     public static _feature._one<_arrayDimension, _expr> EXPRESSION = new _feature._one<>(_arrayDimension.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_arrayDimension a, _expr _e) -> a.setExpression(_e));
+            (_arrayDimension a, _expr _e) -> a.setExpression(_e), PARSER);
 
     public static _feature._meta<_arrayDimension> META = _feature._meta.of(_arrayDimension.class, EXPRESSION );
 

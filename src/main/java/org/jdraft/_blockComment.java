@@ -5,6 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Representation of a block comment within code
@@ -14,6 +15,8 @@ import java.util.Objects;
  * </CODE>
  */
 public final class _blockComment implements _comment<BlockComment, _blockComment>, _java._node<BlockComment, _blockComment> {
+
+    public static final Function<String, _blockComment> PARSER = s-> _blockComment.of(s);
 
     public static _blockComment of(BlockComment bc ){
         return new _blockComment( bc );
@@ -34,7 +37,7 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
     public static _feature._one<_blockComment, String> TEXT = new _feature._one<>(_blockComment.class, String.class,
             _feature._id.TEXT,
             a -> a.getText(),
-            (_blockComment a, String text) -> a.setText(text));
+            (_blockComment a, String text) -> a.setText(text), PARSER);
 
 
     public static _feature._meta<_blockComment> META = _feature._meta.of(_blockComment.class, TEXT);

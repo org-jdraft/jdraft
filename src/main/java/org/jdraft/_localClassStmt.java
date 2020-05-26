@@ -14,6 +14,8 @@ import java.util.function.Function;
 public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _localClassStmt>,
         _java._node<LocalClassDeclarationStmt, _localClassStmt> {
 
+    public static final Function<String, _localClassStmt> PARSER = s-> _localClassStmt.of(s);
+
     public static _localClassStmt of(){
         return new _localClassStmt( new LocalClassDeclarationStmt( ));
     }
@@ -69,7 +71,7 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
     public static _feature._one<_localClassStmt, _class> CLASS = new _feature._one<>(_localClassStmt.class, _class.class,
             _feature._id.CLASS,
             a -> a.get_class(),
-            (_localClassStmt a, _class _c) -> a.set_class(_c));
+            (_localClassStmt a, _class _c) -> a.set_class(_c), PARSER);
 
     public static _feature._meta<_localClassStmt> META = _feature._meta.of(_localClassStmt.class, CLASS );
 

@@ -3,9 +3,12 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.CharLiteralExpr;
 import org.jdraft.text.Text;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExpr> {
+
+    public static final Function<String, _charExpr> PARSER = s-> _charExpr.of(s);
 
     public static _charExpr of(){
         return new _charExpr(new CharLiteralExpr());
@@ -23,7 +26,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
     public static _feature._one<_charExpr, Character> LITERAL_VALUE = new _feature._one<>(_charExpr.class, Character.class,
             _feature._id.LITERAL_VALUE,
             a -> a.getValue(),
-            (_charExpr a, Character b) -> a.setValue(b));
+            (_charExpr a, Character b) -> a.setValue(b), PARSER);
 
 
     public static _feature._meta<_charExpr> META = _feature._meta.of(_charExpr.class, LITERAL_VALUE);

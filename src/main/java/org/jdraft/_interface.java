@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,8 @@ import java.util.stream.Collectors;
 public final class _interface implements _type<ClassOrInterfaceDeclaration, _interface>,
         _method._withMethods<_interface>, _typeParams._withTypeParams<_interface>,
         _type._withExtends<_interface> {
+
+    public static final Function<String, _interface> PARSER = s-> _interface.of(s);
 
     public static _interface of(){
         return of( new ClassOrInterfaceDeclaration() );
@@ -230,49 +233,49 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     public static _feature._one<_interface, _imports> IMPORTS = new _feature._one<>(_interface.class, _imports.class,
             _feature._id.IMPORTS,
             a -> a.getImports(),
-            (_interface a, _imports b) -> a.setImports(b));
+            (_interface a, _imports b) -> a.setImports(b), PARSER);
 
     public static _feature._one<_interface, _package> PACKAGE = new _feature._one<>(_interface.class, _package.class,
             _feature._id.PACKAGE,
             a -> a.getPackage(),
-            (_interface a, _package b) -> a.setPackage(b));
+            (_interface a, _package b) -> a.setPackage(b), PARSER);
 
     public static _feature._one<_interface, _annoExprs> ANNO_EXPRS = new _feature._one<>(_interface.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_interface a, _annoExprs b) -> a.setAnnoExprs(b));
+            (_interface a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_interface, _javadocComment> JAVADOC = new _feature._one<>(_interface.class, _javadocComment.class,
             _feature._id.JAVADOC,
             a -> a.getJavadoc(),
-            (_interface a, _javadocComment b) -> a.setJavadoc(b));
+            (_interface a, _javadocComment b) -> a.setJavadoc(b), PARSER);
 
     public static _feature._one<_interface, _modifiers> MODIFIERS = new _feature._one<>(_interface.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a -> a.getModifiers(),
-            (_interface a, _modifiers b) -> a.setModifiers(b));
+            (_interface a, _modifiers b) -> a.setModifiers(b), PARSER);
 
     public static _feature._one<_interface, String> NAME = new _feature._one<>(_interface.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_interface a, String s) -> a.setName(s));
+            (_interface a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_interface, _java._member> MEMBERS = new _feature._many<>(_interface.class, _java._member.class,
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_interface a, List<_java._member>mems) -> a.setMembers(mems));
+            (_interface a, List<_java._member>mems) -> a.setMembers(mems), PARSER);
 
     public static _feature._one<_interface, _typeParams> TYPE_PARAMS = new _feature._one<>(_interface.class, _typeParams.class,
             _feature._id.TYPE_PARAMS,
             a -> a.getTypeParams(),
-            (_interface a, _typeParams b) -> a.setTypeParams(b));
+            (_interface a, _typeParams b) -> a.setTypeParams(b), PARSER);
 
     public static _feature._many<_interface, _typeRef> EXTENDS = new _feature._many<>(_interface.class, _typeRef.class,
             _feature._id.EXTENDS_TYPES,
             _feature._id.TYPE,
             a -> a.listExtends(),
-            (_interface a, List<_typeRef>mems) -> a.setExtends(mems));
+            (_interface a, List<_typeRef>mems) -> a.setExtends(mems), PARSER);
 
     public static _feature._meta<_interface> META = _feature._meta.of(_interface.class,
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, MEMBERS);

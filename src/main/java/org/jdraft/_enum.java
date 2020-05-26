@@ -39,6 +39,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         _constructor._withConstructors<_enum, EnumDeclaration>, _initBlock._withInitBlocks<_enum>,
         _type._withImplements<_enum> {
 
+    public static final Function<String, _enum> PARSER = s-> _enum.of(s);
+
     public static _enum of(){
         return of( new EnumDeclaration());
     }
@@ -257,44 +259,44 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     public static _feature._one<_enum, _imports> IMPORTS = new _feature._one<>(_enum.class, _imports.class,
             _feature._id.IMPORTS,
             a -> a.getImports(),
-            (_enum a, _imports b) -> a.setImports(b));
+            (_enum a, _imports b) -> a.setImports(b), PARSER);
 
     public static _feature._one<_enum, _package> PACKAGE = new _feature._one<>(_enum.class, _package.class,
             _feature._id.PACKAGE,
             a -> a.getPackage(),
-            (_enum a, _package b) -> a.setPackage(b));
+            (_enum a, _package b) -> a.setPackage(b), PARSER);
 
     public static _feature._one<_enum, _annoExprs> ANNO_EXPRS = new _feature._one<>(_enum.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_enum a, _annoExprs b) -> a.setAnnoExprs(b));
+            (_enum a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_enum, _javadocComment> JAVADOC = new _feature._one<>(_enum.class, _javadocComment.class,
             _feature._id.JAVADOC,
             a -> a.getJavadoc(),
-            (_enum a, _javadocComment b) -> a.setJavadoc(b));
+            (_enum a, _javadocComment b) -> a.setJavadoc(b), PARSER);
 
     public static _feature._one<_enum, _modifiers> MODIFIERS = new _feature._one<>(_enum.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a -> a.getModifiers(),
-            (_enum a, _modifiers b) -> a.setModifiers(b));
+            (_enum a, _modifiers b) -> a.setModifiers(b), PARSER);
 
     public static _feature._one<_enum, String> NAME = new _feature._one<>(_enum.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_enum a, String s) -> a.setName(s));
+            (_enum a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_enum, _java._member> MEMBERS = new _feature._many<>(_enum.class, _java._member.class,
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_enum a, List<_java._member>mems) -> a.setMembers(mems));
+            (_enum a, List<_java._member>mems) -> a.setMembers(mems), PARSER);
 
     public static _feature._many<_enum, _typeRef> IMPLEMENTS = new _feature._many<>(_enum.class, _typeRef.class,
             _feature._id.IMPLEMENTS_TYPES,
             _feature._id.TYPE,
             a -> a.listImplements(),
-            (_enum a, List<_typeRef>mems) -> a.setImplements(mems));
+            (_enum a, List<_typeRef>mems) -> a.setImplements(mems), PARSER);
 
     public static _feature._meta<_enum> META = _feature._meta.of(_enum.class,
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, IMPLEMENTS, MEMBERS);

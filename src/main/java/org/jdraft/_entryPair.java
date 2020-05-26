@@ -7,6 +7,7 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * each name-value pair within an {@link _annoExpr}
@@ -18,6 +19,8 @@ import java.util.Objects;
  */
 public final class _entryPair implements _java._node<MemberValuePair, _entryPair>,
         _java._withName<_entryPair>{
+
+    public static final Function<String, _entryPair> PARSER = s-> _entryPair.of(s);
 
     public static _entryPair of(MemberValuePair mvp){
         return new _entryPair( mvp);
@@ -115,12 +118,12 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
     public static _feature._one<_entryPair, String> NAME = new _feature._one<>(_entryPair.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_entryPair a, String name) -> a.setName(name));
+            (_entryPair a, String name) -> a.setName(name), PARSER);
 
     public static _feature._one<_entryPair, _expr> VALUE = new _feature._one<>(_entryPair.class, _expr.class,
             _feature._id.VALUE_EXPR,
             a->a.getValue(),
-            (_entryPair a, _expr _e)-> a.setValue(_e) );
+            (_entryPair a, _expr _e)-> a.setValue(_e), PARSER );
 
     public static _feature._meta<_entryPair> META = _feature._meta.of(_entryPair.class, NAME, VALUE);
 

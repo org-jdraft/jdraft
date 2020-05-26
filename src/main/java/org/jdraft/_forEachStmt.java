@@ -24,6 +24,8 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
         _java._node<ForEachStmt, _forEachStmt>,
         _body._withBody<_forEachStmt> {
 
+    public static final Function<String, _forEachStmt> PARSER = s-> _forEachStmt.of(s);
+
     public static _forEachStmt of(){
         return new _forEachStmt( new ForEachStmt( ));
     }
@@ -79,17 +81,17 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
     public static _feature._one<_forEachStmt, _body> BODY = new _feature._one<>(_forEachStmt.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_forEachStmt a, _body b) -> a.setBody(b));
+            (_forEachStmt a, _body b) -> a.setBody(b), PARSER);
 
     public static _feature._one<_forEachStmt, _expr> ITERABLE = new _feature._one<>(_forEachStmt.class, _expr.class,
             _feature._id.ITERABLE_EXPR,
             a -> a.getIterable(),
-            (_forEachStmt a, _expr _e) -> a.setIterable(_e));
+            (_forEachStmt a, _expr _e) -> a.setIterable(_e), PARSER);
 
     public static _feature._one<_forEachStmt, _variablesExpr> VARIABLES = new _feature._one<>(_forEachStmt.class, _variablesExpr.class,
             _feature._id.VARIABLES,
             a -> a.getVariables(),
-            (_forEachStmt a, _variablesExpr _e) -> a.setVariable(_e));
+            (_forEachStmt a, _variablesExpr _e) -> a.setVariable(_e), PARSER);
 
     public static _feature._meta<_forEachStmt> META = _feature._meta.of(_forEachStmt.class, VARIABLES, ITERABLE, BODY);
 

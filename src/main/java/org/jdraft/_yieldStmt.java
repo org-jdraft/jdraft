@@ -5,10 +5,13 @@ import com.github.javaparser.ast.stmt.YieldStmt;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _yieldStmt implements _stmt._controlFlow._returns<YieldStmt, _yieldStmt>,
         _java._node<YieldStmt, _yieldStmt>,
         _java._withExpression<YieldStmt, _yieldStmt>{
+
+    public static final Function<String, _yieldStmt> PARSER = s-> _yieldStmt.of(s);
 
     public static _yieldStmt of(){
         return new _yieldStmt( new YieldStmt( ));
@@ -38,7 +41,7 @@ public final class _yieldStmt implements _stmt._controlFlow._returns<YieldStmt, 
     public static _feature._one<_yieldStmt, _expr> EXPRESSION = new _feature._one<>(_yieldStmt.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_yieldStmt a, _expr _e) -> a.setExpression(_e));
+            (_yieldStmt a, _expr _e) -> a.setExpression(_e), PARSER);
 
     public static _feature._meta<_yieldStmt> META = _feature._meta.of(_yieldStmt.class, EXPRESSION);
 

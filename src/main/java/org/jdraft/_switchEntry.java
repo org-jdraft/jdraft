@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry> {
 
+    public static final Function<String, _switchEntry> PARSER = s-> _switchEntry.of(s);
+
     public static _switchEntry of(){
         return new _switchEntry(new SwitchEntry());
     }
@@ -41,18 +43,18 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
             _feature._id.CASE_EXPRESSIONS,
             _feature._id.EXPRESSION,
             a -> a.listCaseExpressions(),
-            (_switchEntry p, List<_expr> _es) -> p.setCaseExpressions(_es));
+            (_switchEntry p, List<_expr> _es) -> p.setCaseExpressions(_es), PARSER);
 
     public static _feature._one<_switchEntry, SwitchEntry.Type> SWITCH_BODY_TYPE = new _feature._one<>(_switchEntry.class, SwitchEntry.Type.class,
             _feature._id.SWITCH_BODY_TYPE,
             a -> a.getBodyType(),
-            (_switchEntry p, SwitchEntry.Type t) -> p.ast().setType(t));
+            (_switchEntry p, SwitchEntry.Type t) -> p.ast().setType(t), PARSER);
 
     public static _feature._many<_switchEntry, _stmt> STATEMENTS = new _feature._many<>(_switchEntry.class, _stmt.class,
             _feature._id.STATEMENTS,
             _feature._id.STATEMENT,
             a -> a.listStatements(),
-            (_switchEntry p, List<_stmt> _st) -> p.setStatements(_st));
+            (_switchEntry p, List<_stmt> _st) -> p.setStatements(_st), PARSER);
 
     public static _feature._meta<_switchEntry> META = _feature._meta.of(_switchEntry.class, CASE_EXPRESSIONS, SWITCH_BODY_TYPE, STATEMENTS );
 

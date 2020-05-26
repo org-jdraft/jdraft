@@ -43,6 +43,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _modifiers._withStatic<_class>, _type._withImplements<_class>,
         _type._withExtends<_class> {
 
+    public static final Function<String, _class> PARSER = s-> _class.of(s);
+
     public static _class of(){
         return of( new ClassOrInterfaceDeclaration());
     }
@@ -430,54 +432,54 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     public static _feature._one<_class, _imports> IMPORTS = new _feature._one<>(_class.class, _imports.class,
             _feature._id.IMPORTS,
             a -> a.getImports(),
-            (_class a, _imports b) -> a.setImports(b));
+            (_class a, _imports b) -> a.setImports(b), PARSER);
 
     public static _feature._one<_class, _package> PACKAGE = new _feature._one<>(_class.class, _package.class,
             _feature._id.PACKAGE,
             a -> a.getPackage(),
-            (_class a, _package b) -> a.setPackage(b));
+            (_class a, _package b) -> a.setPackage(b), PARSER);
 
     public static _feature._one<_class, _annoExprs> ANNO_EXPRS = new _feature._one<>(_class.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_class a, _annoExprs b) -> a.setAnnoExprs(b));
+            (_class a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_class, _javadocComment> JAVADOC = new _feature._one<>(_class.class, _javadocComment.class,
             _feature._id.JAVADOC,
             a -> a.getJavadoc(),
-            (_class a, _javadocComment b) -> a.setJavadoc(b));
+            (_class a, _javadocComment b) -> a.setJavadoc(b), PARSER);
 
     public static _feature._one<_class, _modifiers> MODIFIERS = new _feature._one<>(_class.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a -> a.getModifiers(),
-            (_class a, _modifiers b) -> a.setModifiers(b));
+            (_class a, _modifiers b) -> a.setModifiers(b), PARSER);
 
     public static _feature._one<_class, String> NAME = new _feature._one<>(_class.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_class a, String s) -> a.setName(s));
+            (_class a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_class, _java._member> MEMBERS = new _feature._many<>(_class.class, _java._member.class,
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_class a, List<_java._member>mems) -> a.setMembers(mems));
+            (_class a, List<_java._member>mems) -> a.setMembers(mems), PARSER);
 
     public static _feature._one<_class, _typeParams> TYPE_PARAMS = new _feature._one<>(_class.class, _typeParams.class,
             _feature._id.TYPE_PARAMS,
             a -> a.getTypeParams(),
-            (_class a, _typeParams b) -> a.setTypeParams(b));
+            (_class a, _typeParams b) -> a.setTypeParams(b), PARSER);
 
     public static _feature._one<_class, _typeRef> EXTENDS = new _feature._one<>(_class.class, _typeRef.class,
             _feature._id.EXTENDS_TYPES,
             a -> a.getExtends(),
-            (_class a, _typeRef exts) -> a.setExtends(exts));
+            (_class a, _typeRef exts) -> a.setExtends(exts), PARSER);
 
     public static _feature._many<_class, _typeRef> IMPLEMENTS = new _feature._many<>(_class.class, _typeRef.class,
             _feature._id.IMPLEMENTS_TYPES,
             _feature._id.TYPE,
             a -> a.listImplements(),
-            (_class a, List<_typeRef>mems) -> a.setImplements(mems));
+            (_class a, List<_typeRef>mems) -> a.setImplements(mems), PARSER);
 
     public static _feature._meta<_class> META = _feature._meta.of(_class.class,
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);

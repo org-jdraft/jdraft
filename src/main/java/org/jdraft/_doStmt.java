@@ -23,6 +23,8 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
         _java._withCondition<DoStmt,_doStmt>,
         _body._withBody<_doStmt> {
 
+    public static final Function<String, _doStmt> PARSER = s-> _doStmt.of(s);
+
     public static _doStmt of(){
         return new _doStmt( new DoStmt( ));
     }
@@ -78,13 +80,13 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
     public static _feature._one<_doStmt, _expr> CONDITION = new _feature._one<>(_doStmt.class, _expr.class,
             _feature._id.CONDITION_EXPR,
             a -> a.getCondition(),
-            (_doStmt a, _expr _e) -> a.setCondition(_e));
+            (_doStmt a, _expr _e) -> a.setCondition(_e), PARSER);
 
     /** could be a single statement of a block statement or null */
     public static _feature._one<_doStmt, _body> BODY = new _feature._one<>(_doStmt.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_doStmt a, _body b) -> a.setBody(b));
+            (_doStmt a, _body b) -> a.setBody(b), PARSER);
 
     public static _feature._meta<_doStmt> META = _feature._meta.of(_doStmt.class, CONDITION, BODY );
 

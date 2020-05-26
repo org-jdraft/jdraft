@@ -14,6 +14,8 @@ import java.util.function.*;
 public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         _java._node<LabeledStmt, _labeledStmt> {
 
+    public static final Function<String, _labeledStmt> PARSER = s-> _labeledStmt.of(s);
+
     public static _labeledStmt of(){
         return new _labeledStmt( new LabeledStmt( ));
     }
@@ -70,12 +72,12 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
     public static _feature._one<_labeledStmt, String> LABEL = new _feature._one<>(_labeledStmt.class, String.class,
             _feature._id.LABEL,
             a -> a.getLabel(),
-            (_labeledStmt a, String s) -> a.setLabel(s));
+            (_labeledStmt a, String s) -> a.setLabel(s), PARSER);
 
     public static _feature._one<_labeledStmt, _stmt> STATEMENT = new _feature._one<>(_labeledStmt.class, _stmt.class,
             _feature._id.STATEMENT,
             a -> a.getStatement(),
-            (_labeledStmt a, _stmt _s) -> a.setStatement(_s));
+            (_labeledStmt a, _stmt _s) -> a.setStatement(_s), PARSER);
 
     public static _feature._meta<_labeledStmt> META = _feature._meta.of(_labeledStmt.class, LABEL, STATEMENT );
 

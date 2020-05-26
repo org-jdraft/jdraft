@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * @param <N>
  */
 public class $args<N extends Node & NodeWithArguments>
-        implements $bot<N, _args, $args>, $methodCallExpr.$part {
+        implements $bot<_args, $args>, $methodCallExpr.$part {
 
     public static $args of(){
         return new $args();

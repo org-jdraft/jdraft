@@ -5,8 +5,11 @@ import com.github.javaparser.ast.expr.Name;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _package implements _java._node<PackageDeclaration, _package> {
+
+    public static final Function<String, _package> PARSER = s-> _package.of(s);
 
     public static _package of(){
         return of( new PackageDeclaration());
@@ -25,7 +28,7 @@ public final class _package implements _java._node<PackageDeclaration, _package>
     public static _feature._one<_package, Name> NAME = new _feature._one<>(_package.class, Name.class,
             _feature._id.NAME,
             a -> a.getNameNode(),
-            (_package p, Name s) -> p.setName(s));
+            (_package p, Name s) -> p.setName(s), PARSER);
 
     public static _feature._meta<_package> META = _feature._meta.of(_package.class, NAME);
 

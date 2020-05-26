@@ -2,7 +2,11 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.DoubleLiteralExpr;
 
+import java.util.function.Function;
+
 public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _doubleExpr> {
+
+    public static final Function<String, _doubleExpr> PARSER = s-> _doubleExpr.of(s);
 
     public static _doubleExpr of(){
         return new _doubleExpr( new DoubleLiteralExpr());
@@ -21,7 +25,7 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
     public static _feature._one<_doubleExpr, String> LITERAL_VALUE = new _feature._one<>(_doubleExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_doubleExpr a, String value) -> a.ast().setValue(value));
+            (_doubleExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
     public static _feature._meta<_doubleExpr> META = _feature._meta.of(_doubleExpr.class, LITERAL_VALUE);

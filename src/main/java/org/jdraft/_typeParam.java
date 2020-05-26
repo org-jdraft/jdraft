@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.github.javaparser.StaticJavaParser;
@@ -19,6 +20,8 @@ public final class _typeParam
         implements _java._node<TypeParameter, _typeParam>,
         _java._withName<_typeParam>, _annoExprs._withAnnoExprs<_typeParam> {
 
+    public static final Function<String, _typeParam> PARSER = s-> _typeParam.of(s);
+
     public static _typeParam of() {
         return of( new TypeParameter());
     }
@@ -34,13 +37,13 @@ public final class _typeParam
     public static _feature._one<_typeParam, String> NAME = new _feature._one<>(_typeParam.class, String.class,
             _feature._id.TYPE_PARAM,
             a -> a.getName(),
-            (_typeParam a, String name) -> a.setName(name));
+            (_typeParam a, String name) -> a.setName(name), PARSER);
 
     public static _feature._many<_typeParam, _typeRef> EXTENDS_TYPE_BOUND = new _feature._many<>(_typeParam.class, _typeRef.class,
             _feature._id.EXTENDS_TYPE_BOUNDS,
             _feature._id.TYPE,
             a -> a.listExtendsTypeBound(),
-            (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs));
+            (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs), PARSER);
 
     public static _feature._meta<_typeParam> META = _feature._meta.of(_typeParam.class, NAME, EXTENDS_TYPE_BOUND);
 

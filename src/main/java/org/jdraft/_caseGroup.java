@@ -37,6 +37,8 @@ import java.util.stream.Collectors;
  */
 public final class _caseGroup implements _java._domain{
 
+    public static final Function<String, _caseGroup> PARSER = s-> _caseGroup.of(s);
+
     public static _caseGroup of(){
         return new _caseGroup(new SwitchStmt());
     }

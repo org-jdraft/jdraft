@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 public final class _args
         implements _java._list<Expression, _expr, _args> {
 
+    public static final Function<String, _args> PARSER = s-> _args.of(s);
+
     public static _args of(){
         return of( Exprs.methodCallExpr("empty()"));
     }
@@ -95,7 +97,7 @@ public final class _args
     public static _feature._many<_args, _expr> ARGS = new _feature._many<>(_args.class, _expr.class,
             _feature._id.ARGS_EXPRS, _feature._id.ARG_EXPR,
             a->a.list(),
-            (_args a, List<_expr> es)-> a.set(es));
+            (_args a, List<_expr> es)-> a.set(es), PARSER);
 
     public static _feature._meta<_args> META = _feature._meta.of(_args.class, ARGS);
 

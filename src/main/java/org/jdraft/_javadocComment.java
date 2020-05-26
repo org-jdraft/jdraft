@@ -4,8 +4,11 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _javadocComment implements _comment<JavadocComment, _javadocComment>, _java._node<JavadocComment, _javadocComment> {
+
+    public static final Function<String, _javadocComment> PARSER = s-> _javadocComment.of(s);
 
     public static _javadocComment of(){
         return of(new JavadocComment());
@@ -25,7 +28,7 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
     public static _feature._one<_javadocComment, String> TEXT = new _feature._one<>(_javadocComment.class, String.class,
             _feature._id.TEXT,
             a -> a.getText(),
-            (_javadocComment a, String text) -> a.setText(text));
+            (_javadocComment a, String text) -> a.setText(text), PARSER);
 
     public static _feature._meta<_javadocComment> META = _feature._meta.of(_javadocComment.class, TEXT);
 

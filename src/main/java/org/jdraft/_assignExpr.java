@@ -22,6 +22,8 @@ import java.util.function.Function;
  */
 public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java._node<AssignExpr, _assignExpr> {
 
+    public static final Function<String, _assignExpr> PARSER = s-> _assignExpr.of(s);
+
     public static _assignExpr of() {
         return new _assignExpr(new AssignExpr());
     }
@@ -80,17 +82,17 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     public static _feature._one<_assignExpr, _expr> TARGET = new _feature._one<>(_assignExpr.class, _expr.class,
             _feature._id.TARGET_EXPR,
             a -> a.getTarget(),
-            (_assignExpr a, _expr _e) -> a.setTarget(_e));
+            (_assignExpr a, _expr _e) -> a.setTarget(_e), PARSER);
 
     public static _feature._one<_assignExpr, AssignExpr.Operator> OPERATOR = new _feature._one<>(_assignExpr.class, AssignExpr.Operator.class,
             _feature._id.ASSIGN_OPERATOR,
             a -> a.getOperator(),
-            (_assignExpr a, AssignExpr.Operator o) -> a.setOperator(o));
+            (_assignExpr a, AssignExpr.Operator o) -> a.setOperator(o), PARSER);
 
     public static _feature._one<_assignExpr, _expr> VALUE = new _feature._one<>(_assignExpr.class, _expr.class,
             _feature._id.VALUE_EXPR,
             a -> a.getValue(),
-            (_assignExpr a, _expr _e) -> a.setValue(_e));
+            (_assignExpr a, _expr _e) -> a.setValue(_e), PARSER);
 
     public static _feature._meta<_assignExpr> META = _feature._meta.of(_assignExpr.class, TARGET, OPERATOR, VALUE);
 

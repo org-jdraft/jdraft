@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * i.e. @A(key="value")
  */
 public class $entryPair extends $baseBot<_entryPair, $entryPair>
-        implements $bot<MemberValuePair, _entryPair, $entryPair> {
+        implements $bot<_entryPair, $entryPair> {
 
     /** key of the key/value pair*/
     public Select.$botSelect<$name, _entryPair, _name> key =

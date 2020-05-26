@@ -12,6 +12,7 @@ import org.jdraft.text.Text;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * a property entry added to an annotation
@@ -30,6 +31,8 @@ import java.util.Objects;
 public final class _entry implements _javadocComment._withJavadoc<_entry>,
         _annoExprs._withAnnoExprs<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration, _entry>,
         _java._declared<AnnotationMemberDeclaration, _entry> {
+
+    public static final Function<String, _entry> PARSER = s-> _entry.of(s);
 
     public static _entry of(AnnotationMemberDeclaration astEntry){
         return new _entry( astEntry );
@@ -57,22 +60,22 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
     public static _feature._one<_entry, _modifiers> MODIFIERS = new _feature._one<>(_entry.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a->a.getModifiers(),
-            (_entry a, _modifiers _m)-> a.setModifiers(_m) );
+            (_entry a, _modifiers _m)-> a.setModifiers(_m) , PARSER);
 
     public static _feature._one<_entry, _typeRef> TYPE = new _feature._one<>(_entry.class, _typeRef.class,
             _feature._id.TYPE,
             a->a.getTypeRef(),
-            (_entry a, _typeRef _e)-> a.setTypeRef(_e) );
+            (_entry a, _typeRef _e)-> a.setTypeRef(_e) , PARSER);
 
     public static _feature._one<_entry, String> NAME = new _feature._one<>(_entry.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_entry a, String name) -> a.setName(name));
+            (_entry a, String name) -> a.setName(name), PARSER);
 
     public static _feature._one<_entry, _expr> DEFAULT = new _feature._one<>(_entry.class, _expr.class,
             _feature._id.DEFAULT_EXPR,
             a->a.getDefaultValue(),
-            (_entry a, _expr _e)-> a.setDefaultValue(_e) );
+            (_entry a, _expr _e)-> a.setDefaultValue(_e), PARSER );
 
     public static _feature._meta<_entry> META = _feature._meta.of(_entry.class, MODIFIERS, TYPE, NAME, DEFAULT);
 

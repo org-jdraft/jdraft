@@ -18,6 +18,8 @@ import java.util.function.Function;
 public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayInitExpr>,
         _java._list<Expression, _expr, _arrayInitExpr> {
 
+    public static final Function<String, _arrayInitExpr> PARSER = s-> _arrayInitExpr.of(s);
+
     public static _arrayInitExpr of( ){
         return new _arrayInitExpr(new ArrayInitializerExpr());
     }
@@ -141,7 +143,7 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
     public static _feature._many<_arrayInitExpr, _expr> INIT_EXPRS = new _feature._many<>(_arrayInitExpr.class, _expr.class,
             _feature._id.INIT, _feature._id.INIT_EXPR,
             a->a.list(),
-            (_arrayInitExpr a, List<_expr> es)-> a.set(es));
+            (_arrayInitExpr a, List<_expr> es)-> a.set(es), PARSER);
 
     public static _feature._meta<_arrayInitExpr> META = _feature._meta.of(_arrayInitExpr.class, INIT_EXPRS);
 

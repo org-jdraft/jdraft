@@ -3,9 +3,12 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import org.jdraft.text.Stencil;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class _stringExpr implements _expr._literal<StringLiteralExpr, _stringExpr>, _java._withText<_stringExpr> {
+
+    public static final Function<String, _stringExpr> PARSER = s-> _stringExpr.of(s);
 
     public static _stringExpr of(){
         return new _stringExpr( new StringLiteralExpr());
@@ -21,7 +24,7 @@ public final class _stringExpr implements _expr._literal<StringLiteralExpr, _str
     public static _feature._one<_stringExpr, String> LITERAL_VALUE = new _feature._one<>(_stringExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_stringExpr a, String value) -> a.ast().setValue(value));
+            (_stringExpr a, String value) -> a.ast().setValue(value), PARSER);
 
     public static _feature._meta<_stringExpr> META = _feature._meta.of(_stringExpr.class, LITERAL_VALUE);
 

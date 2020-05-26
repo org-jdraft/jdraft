@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.Function;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
@@ -32,6 +33,8 @@ public final class _receiverParam
         implements _java._node<ReceiverParameter, _receiverParam>,
         _java._withNameTypeRef<ReceiverParameter, _receiverParam>, _annoExprs._withAnnoExprs<_receiverParam> {
 
+    public static final Function<String, _receiverParam> PARSER = s-> _receiverParam.of(s);
+
     public static _receiverParam of(){
         return of( new ReceiverParameter());
     }
@@ -47,17 +50,17 @@ public final class _receiverParam
     public static _feature._one<_receiverParam, _annoExprs> ANNOS = new _feature._one<>(_receiverParam.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_receiverParam p, _annoExprs _e) -> p.setAnnoExprs(_e));
+            (_receiverParam p, _annoExprs _e) -> p.setAnnoExprs(_e), PARSER);
 
     public static _feature._one<_receiverParam, _typeRef> TYPE = new _feature._one<>(_receiverParam.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_receiverParam p, _typeRef _t) -> p.setTypeRef(_t));
+            (_receiverParam p, _typeRef _t) -> p.setTypeRef(_t), PARSER);
 
     public static _feature._one<_receiverParam, String> NAME = new _feature._one<>(_receiverParam.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_receiverParam p, String s) -> p.setName(s));
+            (_receiverParam p, String s) -> p.setName(s), PARSER);
 
     public static _feature._meta<_receiverParam> META = _feature._meta.of(_receiverParam.class, ANNOS, TYPE, NAME );
 

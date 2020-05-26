@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.Function;
 
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
@@ -13,6 +14,8 @@ import org.jdraft.text.Text;
  */
 public final class _packageInfo
         implements _codeUnit<_packageInfo>, _annoExprs._withAnnoExprs<_packageInfo>, _java._node<CompilationUnit, _packageInfo> {
+
+    public static final Function<String, _packageInfo> PARSER = s-> _packageInfo.of(s);
 
     public static _packageInfo of(String... pkgInfo) {
         return new _packageInfo(StaticJavaParser.parse(Text.combine(pkgInfo)));

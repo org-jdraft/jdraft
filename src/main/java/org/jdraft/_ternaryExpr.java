@@ -21,6 +21,8 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         _java._withCondition<ConditionalExpr, _ternaryExpr>,
         _java._node<ConditionalExpr, _ternaryExpr> {
 
+    public static final Function<String, _ternaryExpr> PARSER = s-> _ternaryExpr.of(s);
+
     public static _ternaryExpr of(){
         return new _ternaryExpr( new ConditionalExpr( ));
     }
@@ -76,17 +78,17 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     public static _feature._one<_ternaryExpr, _expr> CONDITION = new _feature._one<>(_ternaryExpr.class, _expr.class,
             _feature._id.CONDITION_EXPR,
             a -> a.getCondition(),
-            (_ternaryExpr p, _expr _es) -> p.setCondition(_es));
+            (_ternaryExpr p, _expr _es) -> p.setCondition(_es), PARSER);
 
     public static _feature._one<_ternaryExpr, _expr> THEN = new _feature._one<>(_ternaryExpr.class, _expr.class,
             _feature._id.THEN,
             a -> a.getThen(),
-            (_ternaryExpr p, _expr _es) -> p.setThen(_es));
+            (_ternaryExpr p, _expr _es) -> p.setThen(_es), PARSER);
 
     public static _feature._one<_ternaryExpr, _expr> ELSE = new _feature._one<>(_ternaryExpr.class, _expr.class,
             _feature._id.ELSE,
             a -> a.getElse(),
-            (_ternaryExpr p, _expr _es) -> p.setElse(_es));
+            (_ternaryExpr p, _expr _es) -> p.setElse(_es), PARSER);
 
     public static _feature._meta<_ternaryExpr> META = _feature._meta.of(_ternaryExpr.class, CONDITION, THEN, ELSE );
 

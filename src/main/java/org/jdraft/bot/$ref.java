@@ -71,7 +71,7 @@ import java.util.stream.Stream;
  * </PRE>
  *
  */
-public class $ref implements $bot<Node, _java._node, $ref>,
+public class $ref implements $bot<_java._node, $ref>,
         $selector<_java._node, $ref>, Template<_java._node>{
 
     public static final _name.Use ANNO_ENTRY_PAIR_NAME = _name.Use.ANNO_ENTRY_PAIR_NAME;

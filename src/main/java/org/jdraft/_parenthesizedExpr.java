@@ -18,6 +18,8 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
         _java._node<EnclosedExpr, _parenthesizedExpr>,
         _java._withExpression<EnclosedExpr, _parenthesizedExpr>{
 
+    public static final Function<String, _parenthesizedExpr> PARSER = s-> _parenthesizedExpr.of(s);
+
     public static _parenthesizedExpr of( ){
         return new _parenthesizedExpr(new EnclosedExpr( ));
     }
@@ -73,7 +75,7 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
     public static _feature._one<_parenthesizedExpr, _expr> EXPRESSION = new _feature._one<>(_parenthesizedExpr.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_parenthesizedExpr p, _expr _e) -> p.setExpression(_e));
+            (_parenthesizedExpr p, _expr _e) -> p.setExpression(_e), PARSER);
 
     public static _feature._meta<_parenthesizedExpr> META = _feature._meta.of(_parenthesizedExpr.class, EXPRESSION);
 

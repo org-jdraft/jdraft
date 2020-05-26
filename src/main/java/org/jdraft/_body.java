@@ -26,6 +26,8 @@ import org.jdraft.macro._remove;
  */
 public final class _body implements _java._domain {
 
+    public static final Function<String, _body> PARSER = s-> _body.of(s);
+
     /**
      * NOTE: this is an Object, because it can EITHER be a {@link NodeWithBlockStmt}
      * or {@link NodeWithOptionalBlockStmt} implementation (i.e. for method which can 
@@ -49,7 +51,7 @@ public final class _body implements _java._domain {
      */
     public static _body of( String body ){
         if( body.trim().equals(";")){
-            return of(_method.of("void EMPTY();").ast());
+            return of(_method.of("void UNKNOWN();").ast());
         }
         // "we" need to put the body inside a parent... lets make it a 
         // method
@@ -57,10 +59,10 @@ public final class _body implements _java._domain {
         //_method _m = _method.of("void __BODYHOLDER();");
         //the INTENT was to give the body (braces and all)
         if( body.startsWith("{") && body.endsWith("}")){
-            _constructor _c = _constructor.of("EMPTY()" + body);
+            _constructor _c = _constructor.of("UNKNOWN()" + body);
             return of(_c.ast());
         } else {
-            _constructor _c = _constructor.of("EMPTY(){" + System.lineSeparator() + body + System.lineSeparator() + "}");
+            _constructor _c = _constructor.of("UNKNOWN(){" + System.lineSeparator() + body + System.lineSeparator() + "}");
             //_c.add(body);
             return of(_c.ast());
         }
@@ -132,7 +134,7 @@ public final class _body implements _java._domain {
             //return of( _constructor.of("C (){}").ast());
         //    return of( _method.of("void __BODYHOLDER();").ast());
         //}
-        return of( _constructor.of("EMPTY(){}").add(body).ast() );
+        return of( _constructor.of("UNKNOWN(){}").add(body).ast() );
         //return of( _method.of("void __BODYHOLDER();").add(body).ast() );
     }
     
@@ -247,7 +249,7 @@ public final class _body implements _java._domain {
     public static _feature._many<_body, _stmt> STATEMENTS = new _feature._many<>(_body.class, _stmt.class,
             _feature._id.STATEMENTS, _feature._id.STATEMENT,
             a->a.list(),
-            (_body a, List<_stmt> es)-> a.set(es));
+            (_body a, List<_stmt> es)-> a.set(es), PARSER);
 
     public static _feature._meta<_body> META = _feature._meta.of(_body.class, STATEMENTS);
 

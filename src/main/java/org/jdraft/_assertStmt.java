@@ -20,6 +20,8 @@ import java.util.function.Function;
  */
 public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java._node<AssertStmt,_assertStmt> {
 
+    public static final Function<String, _assertStmt> PARSER = s-> _assertStmt.of(s);
+
     public static _assertStmt of(){
         return new _assertStmt( new AssertStmt( ));
     }
@@ -98,12 +100,12 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     public static _feature._one<_assertStmt, _expr> CHECK = new _feature._one<>(_assertStmt.class, _expr.class,
             _feature._id.CHECK_EXPR,
             a -> a.getCheck(),
-            (_assertStmt a, _expr _e) -> a.setCheck(_e));
+            (_assertStmt a, _expr _e) -> a.setCheck(_e), PARSER);
 
     public static _feature._one<_assertStmt, _expr> MESSAGE = new _feature._one<>(_assertStmt.class, _expr.class,
             _feature._id.MESSAGE_EXPR,
             a -> a.getMessage(),
-            (_assertStmt a, _expr _e) -> a.setMessage(_e));
+            (_assertStmt a, _expr _e) -> a.setMessage(_e), PARSER);
 
     public static _feature._meta<_assertStmt> META = _feature._meta.of(_assertStmt.class, CHECK, MESSAGE);
 

@@ -2,7 +2,11 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
+import java.util.function.Function;
+
 public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intExpr> {
+
+    public static final Function<String, _intExpr> PARSER = s-> _intExpr.of(s);
 
     public static _intExpr of(){
         return new _intExpr(new IntegerLiteralExpr( ));
@@ -20,7 +24,7 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
     public static _feature._one<_intExpr, String> LITERAL_VALUE = new _feature._one<>(_intExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_intExpr a, String value) -> a.ast().setValue(value));
+            (_intExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
     public static _feature._meta<_intExpr> META = _feature._meta.of(_intExpr.class, LITERAL_VALUE);

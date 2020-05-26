@@ -4,9 +4,12 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStmt, _continueStmt>,
         _java._node<ContinueStmt, _continueStmt> {
+
+    public static final Function<String, _continueStmt> PARSER = s-> _continueStmt.of(s);
 
     public static _continueStmt of(){
         return new _continueStmt( new ContinueStmt( ));
@@ -25,7 +28,7 @@ public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStm
     public static _feature._one<_continueStmt, String> LABEL = new _feature._one<>(_continueStmt.class, String.class,
             _feature._id.LABEL,
             a -> a.getLabel(),
-            (_continueStmt a, String s) -> a.setLabel(s));
+            (_continueStmt a, String s) -> a.setLabel(s), PARSER);
 
     public static _feature._meta<_continueStmt> META = _feature._meta.of(_continueStmt.class, LABEL);
 

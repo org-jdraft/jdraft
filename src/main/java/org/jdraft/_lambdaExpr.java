@@ -21,6 +21,8 @@ public final class _lambdaExpr
         _java._node<LambdaExpr, _lambdaExpr>,
         _withParams<_lambdaExpr> {
 
+    public static final Function<String, _lambdaExpr> PARSER = s-> _lambdaExpr.of(s);
+
     /**
      * create a _lambda based on the code (as String)
      * @param code
@@ -207,17 +209,17 @@ public final class _lambdaExpr
     public static _feature._one<_lambdaExpr, Boolean> IS_PARENTHESIZED_PARAMS = new _feature._one<>(_lambdaExpr.class, Boolean.class,
             _feature._id.IS_PARENTHESIZED_PARAMS,
             a -> a.isParenthesizedParams(),
-            (_lambdaExpr a, Boolean b) -> a.setParenthesizedParams(b));
+            (_lambdaExpr a, Boolean b) -> a.setParenthesizedParams(b), PARSER);
 
     public static _feature._one<_lambdaExpr, _params> PARAMS = new _feature._one<>(_lambdaExpr.class, _params.class,
             _feature._id.PARAMS,
             a -> a.getParams(),
-            (_lambdaExpr a, _params _ps) -> a.setParams(_ps));
+            (_lambdaExpr a, _params _ps) -> a.setParams(_ps), PARSER);
 
     public static _feature._one<_lambdaExpr, _stmt> BODY = new _feature._one<>(_lambdaExpr.class, _stmt.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_lambdaExpr a, _stmt _s) -> a.setBody(_s));
+            (_lambdaExpr a, _stmt _s) -> a.setBody(_s), PARSER);
 
     public static _feature._meta<_lambdaExpr> META = _feature._meta.of(_lambdaExpr.class, IS_PARENTHESIZED_PARAMS, PARAMS, BODY );
 

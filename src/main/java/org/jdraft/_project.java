@@ -6,6 +6,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import org.jdraft.io._batch;
 import org.jdraft.io._io;
+import org.jdraft.io._path;
 
 import java.util.*;
 import java.util.function.*;
@@ -45,6 +46,14 @@ public final class _project {
         return this.origin;
     }
 
+    public static _project of( String source ){
+        if(source.startsWith("<path>")){
+            return _project.of(_path.of(source));
+        }
+        //TODO: make this work for github, etc. etc.
+        return null;
+    }
+
     public static _project of(){
         return new _project();
     }
@@ -75,10 +84,12 @@ public final class _project {
         return _p;
     }
 
+    public static final Function<String, _project> PARSER = s-> _project.of(s);
+
     public static _feature._many<_project, _codeUnit> CODE_UNITS = new _feature._many<>(_project.class, _codeUnit.class,
             _feature._id.CODE_UNITS, _feature._id.CODE_UNIT,
             a->a.list(),
-            (_project a, List<_codeUnit> ps)-> a.set(ps));
+            (_project a, List<_codeUnit> ps)-> a.set(ps), PARSER);
 
     public static _feature._meta<_project> META = _feature._meta.of(_project.class, CODE_UNITS);
 

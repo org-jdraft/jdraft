@@ -14,6 +14,8 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         _args._withArgs<MethodCallExpr, _methodCallExpr>,
         _typeArgs._withTypeArgs<MethodCallExpr, _methodCallExpr> {
 
+    public static final Function<String, _methodCallExpr> PARSER = s-> _methodCallExpr.of(s);
+
     public static _methodCallExpr of(){
         return new _methodCallExpr( new MethodCallExpr( ));
     }
@@ -73,22 +75,22 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
     public static _feature._one<_methodCallExpr, _expr> SCOPE = new _feature._one<>(_methodCallExpr.class, _expr.class,
             _feature._id.SCOPE_EXPR,
             a -> a.getScope(),
-            (_methodCallExpr a, _expr _e) -> a.setScope(_e));
+            (_methodCallExpr a, _expr _e) -> a.setScope(_e), PARSER);
 
     public static _feature._one<_methodCallExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_methodCallExpr.class, _typeArgs.class,
             _feature._id.TYPE_ARGS,
             a -> a.getTypeArgs(),
-            (_methodCallExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta));
+            (_methodCallExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta), PARSER);
 
     public static _feature._one<_methodCallExpr, String> NAME = new _feature._one<>(_methodCallExpr.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_methodCallExpr a, String s) -> a.setName(s));
+            (_methodCallExpr a, String s) -> a.setName(s), PARSER);
 
     public static _feature._one<_methodCallExpr, _args> ARGS = new _feature._one<>(_methodCallExpr.class, _args.class,
             _feature._id.ARGS_EXPRS,
             a -> a.getArgs(),
-            (_methodCallExpr a, _args _a) -> a.setArgs(_a));
+            (_methodCallExpr a, _args _a) -> a.setArgs(_a), PARSER);
 
     public static _feature._meta<_methodCallExpr> META = _feature._meta.of(_methodCallExpr.class, SCOPE, TYPE_ARGS, NAME, ARGS );
 

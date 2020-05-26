@@ -13,6 +13,8 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
         _java._withCondition<IfStmt, _ifStmt>,
         _java._node<IfStmt, _ifStmt> {
 
+    public static final Function<String, _ifStmt> PARSER = s-> _ifStmt.of(s);
+
     public static _ifStmt of(){
         return new _ifStmt( new IfStmt( ));
     }
@@ -70,19 +72,19 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
     public static _feature._one<_ifStmt, _expr> CONDITION = new _feature._one<>(_ifStmt.class, _expr.class,
             _feature._id.CONDITION_EXPR,
             a -> a.getCondition(),
-            (_ifStmt a, _expr _e) -> a.setCondition(_e));
+            (_ifStmt a, _expr _e) -> a.setCondition(_e), PARSER);
 
     /** could be a single statement, or a block stmt */
     public static _feature._one<_ifStmt, _stmt> THEN = new _feature._one<>(_ifStmt.class, _stmt.class,
             _feature._id.THEN,
             a -> a.getThen(),
-            (_ifStmt a, _stmt b) -> a.setThen(b));
+            (_ifStmt a, _stmt b) -> a.setThen(b), PARSER);
 
     /** could be a single statement of a block statement or null */
     public static _feature._one<_ifStmt, _stmt> ELSE = new _feature._one<>(_ifStmt.class, _stmt.class,
             _feature._id.ELSE,
             a -> a.getElse(),
-            (_ifStmt a, _stmt b) -> a.setElse(b));
+            (_ifStmt a, _stmt b) -> a.setElse(b), PARSER);
 
 
     public static _feature._meta<_ifStmt> META = _feature._meta.of(_ifStmt.class, CONDITION, THEN, ELSE );

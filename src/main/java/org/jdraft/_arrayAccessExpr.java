@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -20,6 +21,8 @@ import java.util.function.Predicate;
 public final class _arrayAccessExpr
         implements _expr<ArrayAccessExpr, _arrayAccessExpr>,
         _java._node<ArrayAccessExpr, _arrayAccessExpr> {
+
+    public static final Function<String, _arrayAccessExpr> PARSER = s-> _arrayAccessExpr.of(s);
 
     public static _arrayAccessExpr of(){
         return new _arrayAccessExpr(new ArrayAccessExpr());
@@ -81,7 +84,7 @@ public final class _arrayAccessExpr
     public static _feature._one<_arrayAccessExpr, _expr> NAME = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_arrayAccessExpr a, _expr _e) -> a.setName(_e));
+            (_arrayAccessExpr a, _expr _e) -> a.setName(_e), PARSER);
 
     /**
      *
@@ -89,7 +92,7 @@ public final class _arrayAccessExpr
     public static _feature._one<_arrayAccessExpr, _expr> INDEX = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
             _feature._id.INDEX_EXPR,
             a -> a.getIndex(),
-            (_arrayAccessExpr a, _expr _e) -> a.setIndex(_e));
+            (_arrayAccessExpr a, _expr _e) -> a.setIndex(_e), PARSER);
 
     public static _feature._meta<_arrayAccessExpr> META = _feature._meta.of(_arrayAccessExpr.class, NAME, INDEX);
 

@@ -10,11 +10,14 @@ import org.jdraft.text.Text;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class _moduleOpens implements _java._node<ModuleOpensDirective, _moduleOpens>,
         _java._set<Name, _name, _moduleOpens>,
         _moduleDirective<ModuleOpensDirective, _moduleOpens> {
+
+    public static final Function<String, _moduleOpens> PARSER = s-> _moduleOpens.of(s);
 
     public static _moduleOpens of(ModuleOpensDirective mod){
         return new _moduleOpens(mod);
@@ -39,13 +42,13 @@ public final class _moduleOpens implements _java._node<ModuleOpensDirective, _mo
     public static _feature._one<_moduleOpens, String> NAME = new _feature._one<>(_moduleOpens.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_moduleOpens a, String s) -> a.setName(s));
+            (_moduleOpens a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleOpens, _name> MODULE_NAMES = new _feature._many<>(_moduleOpens.class, _name.class,
             _feature._id.NAMES,
             _feature._id.NAME,
             a -> a.list(),
-            (_moduleOpens a, List<_name> _ns) -> a.set(_ns));
+            (_moduleOpens a, List<_name> _ns) -> a.set(_ns), PARSER);
 
     public static _feature._meta<_moduleOpens> META = _feature._meta.of(_moduleOpens.class, NAME, MODULE_NAMES);
 

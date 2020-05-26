@@ -7,6 +7,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,8 @@ import org.jdraft.text.Text;
  */
 public final class _annotation
         implements _type<AnnotationDeclaration, _annotation> {
+
+    public static final Function<String, _annotation> PARSER = s-> _annotation.of(s);
 
     public static _annotation of( Path p) {
         return of( Ast.JAVAPARSER, p);
@@ -534,33 +537,33 @@ public final class _annotation
     public static _feature._one<_annotation, _imports> IMPORTS = new _feature._one<>(_annotation.class, _imports.class,
             _feature._id.IMPORTS,
             a -> a.getImports(),
-            (_annotation a, _imports b) -> a.setImports(b));
+            (_annotation a, _imports b) -> a.setImports(b), PARSER);
 
     public static _feature._one<_annotation, _package> PACKAGE = new _feature._one<>(_annotation.class, _package.class,
             _feature._id.PACKAGE,
             a -> a.getPackage(),
-            (_annotation a, _package b) -> a.setPackage(b));
+            (_annotation a, _package b) -> a.setPackage(b), PARSER);
 
     public static _feature._one<_annotation, _annoExprs> ANNO_EXPRS = new _feature._one<>(_annotation.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_annotation a, _annoExprs b) -> a.setAnnoExprs(b));
+            (_annotation a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_annotation, _javadocComment> JAVADOC = new _feature._one<>(_annotation.class, _javadocComment.class,
             _feature._id.JAVADOC,
             a -> a.getJavadoc(),
-            (_annotation a, _javadocComment b) -> a.setJavadoc(b));
+            (_annotation a, _javadocComment b) -> a.setJavadoc(b), PARSER);
 
     public static _feature._one<_annotation, _modifiers> MODIFIERS = new _feature._one<>(_annotation.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a -> a.getModifiers(),
-            (_annotation a, _modifiers b) -> a.setModifiers(b));
+            (_annotation a, _modifiers b) -> a.setModifiers(b), PARSER);
 
     public static _feature._many<_annotation, _java._member> MEMBERS = new _feature._many<>(_annotation.class, _java._member.class,
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_annotation a, List<_java._member>mems) -> a.setMembers(mems));
+            (_annotation a, List<_java._member>mems) -> a.setMembers(mems), PARSER);
 
     public static _feature._meta<_annotation> META = _feature._meta.of(_annotation.class,
             PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, MEMBERS);

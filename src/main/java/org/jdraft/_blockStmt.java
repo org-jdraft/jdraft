@@ -14,6 +14,8 @@ import java.util.function.Function;
 public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         _java._list<Statement, _stmt, _blockStmt> {
 
+    public static final Function<String, _blockStmt> PARSER = s-> _blockStmt.of(s);
+
     public static _blockStmt of(){
         return new _blockStmt( new BlockStmt( ));
     }
@@ -72,7 +74,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
     public static _feature._many<_blockStmt, _stmt> STATEMENTS = new _feature._many<>(_blockStmt.class, _stmt.class,
             _feature._id.STATEMENTS, _feature._id.STATEMENT,
             a->a.list(),
-            (_blockStmt a, List<_stmt> es)-> a.set(es));
+            (_blockStmt a, List<_stmt> es)-> a.set(es), PARSER);
 
     public static _feature._meta<_blockStmt> META = _feature._meta.of(_blockStmt.class, STATEMENTS);
 

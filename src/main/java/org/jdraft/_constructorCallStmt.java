@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * A call to "super" or "this" in a constructor or initializer.
@@ -17,6 +18,8 @@ public final class _constructorCallStmt
         _java._node<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _typeArgs._withTypeArgs<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _args._withArgs<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
+
+    public static final Function<String, _constructorCallStmt> PARSER = s-> _constructorCallStmt.of(s);
 
     public static _constructorCallStmt of(){
         return new _constructorCallStmt( new ExplicitConstructorInvocationStmt( ));
@@ -33,22 +36,22 @@ public final class _constructorCallStmt
     public static _feature._one<_constructorCallStmt, Boolean> IS_THIS = new _feature._one<>(_constructorCallStmt.class, Boolean.class,
             _feature._id.IS_THIS_CALL,
             a -> a.isThis(),
-            (_constructorCallStmt a, Boolean b) -> a.setThis(b));
+            (_constructorCallStmt a, Boolean b) -> a.setThis(b), PARSER);
 
     public static _feature._one<_constructorCallStmt, Boolean> IS_SUPER = new _feature._one<>(_constructorCallStmt.class, Boolean.class,
             _feature._id.IS_SUPER_CALL,
             a -> a.isSuper(),
-            (_constructorCallStmt a, Boolean b) -> a.setSuper(b));
+            (_constructorCallStmt a, Boolean b) -> a.setSuper(b), PARSER);
 
     public static _feature._one<_constructorCallStmt, _args> ARGS = new _feature._one<>(_constructorCallStmt.class, _args.class,
             _feature._id.ARGS_EXPRS,
             a -> a.getArgs(),
-            (_constructorCallStmt a, _args _e) -> a.setArgs(_e));
+            (_constructorCallStmt a, _args _e) -> a.setArgs(_e), PARSER);
 
     public static _feature._one<_constructorCallStmt, _typeArgs> TYPE_ARGS = new _feature._one<>(_constructorCallStmt.class, _typeArgs.class,
             _feature._id.TYPE_ARGS,
             a -> a.getTypeArgs(),
-            (_constructorCallStmt a, _typeArgs _e) -> a.setTypeArgs(_e));
+            (_constructorCallStmt a, _typeArgs _e) -> a.setTypeArgs(_e), PARSER);
 
 
     public static _feature._meta<_constructorCallStmt> META = _feature._meta.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, ARGS);

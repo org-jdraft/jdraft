@@ -34,6 +34,8 @@ public final class _initBlock
         implements _body._withBody<_initBlock>, _javadocComment._withJavadoc<_initBlock>,
         _java._member<InitializerDeclaration, _initBlock> {
 
+    public static final Function<String, _initBlock> PARSER = s-> _initBlock.of(s);
+
     /**
      *
      *
@@ -150,12 +152,12 @@ public final class _initBlock
     public static _feature._one<_initBlock, Boolean> IS_STATIC = new _feature._one<>(_initBlock.class, Boolean.class,
             _feature._id.IS_STATIC,
             a -> a.isStatic(),
-            (_initBlock a, Boolean b) -> a.setStatic(b));
+            (_initBlock a, Boolean b) -> a.setStatic(b), PARSER);
 
     public static _feature._one<_initBlock, _body> BODY = new _feature._one<>(_initBlock.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_initBlock a, _body b) -> a.setBody(b));
+            (_initBlock a, _body b) -> a.setBody(b), PARSER);
 
     public static _feature._meta<_initBlock> META = _feature._meta.of(_initBlock.class, IS_STATIC, BODY);
 

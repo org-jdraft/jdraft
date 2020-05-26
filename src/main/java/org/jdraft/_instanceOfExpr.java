@@ -18,6 +18,8 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         _typeRef._withTypeRef<InstanceOfExpr, _instanceOfExpr>,
         _java._withExpression<InstanceOfExpr, _instanceOfExpr>{
 
+    public static final Function<String, _instanceOfExpr> PARSER = s-> _instanceOfExpr.of(s);
+
     public static _instanceOfExpr of(){
         return new _instanceOfExpr(new InstanceOfExpr( ));
     }
@@ -74,12 +76,12 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
     public static _feature._one<_instanceOfExpr, _typeRef> TYPE = new _feature._one<>(_instanceOfExpr.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_instanceOfExpr a, _typeRef _t) -> a.setTypeRef(_t));
+            (_instanceOfExpr a, _typeRef _t) -> a.setTypeRef(_t), PARSER);
 
     public static _feature._one<_instanceOfExpr, _expr> EXPRESSION = new _feature._one<>(_instanceOfExpr.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_instanceOfExpr a, _expr _e) -> a.setExpression(_e));
+            (_instanceOfExpr a, _expr _e) -> a.setExpression(_e), PARSER);
 
     public static _feature._meta<_instanceOfExpr> META = _feature._meta.of(_instanceOfExpr.class, TYPE, EXPRESSION );
 

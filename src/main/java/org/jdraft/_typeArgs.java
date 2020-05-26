@@ -9,6 +9,7 @@ import com.github.javaparser.ast.type.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
  */
 public final class _typeArgs
         implements _java._set<Type, _typeRef, _typeArgs> {
+
+    public static final Function<String, _typeArgs> PARSER = s-> _typeArgs.of(s);
 
     public static _typeArgs of(){
         return of( Exprs.newExpr("new empty()"));
@@ -73,7 +76,7 @@ public final class _typeArgs
             _feature._id.TYPE_ARGS,
             _feature._id.TYPE,
             a -> a.list(),
-            (_typeArgs p, List<_typeRef> _ccs) -> p.set(_ccs));
+            (_typeArgs p, List<_typeRef> _ccs) -> p.set(_ccs), PARSER);
 
     public static _feature._meta<_typeArgs> META = _feature._meta.of(_typeArgs.class, TYPE_ARGS );
 

@@ -3,6 +3,8 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.ThisExpr;
 
+import java.util.function.Function;
+
 /**
  * An occurrence of the "this" keyword. <br/>
  * <code>World.this.greet()</code> is a MethodCallExpr of method name greet,
@@ -21,10 +23,12 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
         return new _thisExpr(Exprs.thisExpr( code));
     }
 
+    public static final Function<String, _thisExpr> PARSER = s-> _thisExpr.of(s);
+
     public static _feature._one<_thisExpr, String> TYPE_NAME = new _feature._one<>(_thisExpr.class, String.class,
             _feature._id.TYPE_NAME,
             a -> a.getTypeName(),
-            (_thisExpr a, String value) -> a.setTypeName(value));
+            (_thisExpr a, String value) -> a.setTypeName(value), PARSER);
 
     public static _feature._meta<_thisExpr> META = _feature._meta.of(_thisExpr.class, TYPE_NAME);
 

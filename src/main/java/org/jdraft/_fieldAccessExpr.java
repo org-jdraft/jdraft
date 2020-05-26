@@ -20,6 +20,8 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
         _typeArgs._withTypeArgs<FieldAccessExpr, _fieldAccessExpr>,
         _java._withScope<FieldAccessExpr, _fieldAccessExpr> {
 
+    public static final Function<String, _fieldAccessExpr> PARSER = s-> _fieldAccessExpr.of(s);
+
     public static _fieldAccessExpr of(){
         return new _fieldAccessExpr(new FieldAccessExpr());
     }
@@ -77,18 +79,18 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
     public static _feature._one<_fieldAccessExpr, _expr> SCOPE = new _feature._one<>(_fieldAccessExpr.class, _expr.class,
             _feature._id.SCOPE_EXPR,
             a -> a.getScope(),
-            (_fieldAccessExpr a, _expr _e) -> a.setScope(_e));
+            (_fieldAccessExpr a, _expr _e) -> a.setScope(_e), PARSER);
 
     public static _feature._one<_fieldAccessExpr, String> NAME = new _feature._one<>(_fieldAccessExpr.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_fieldAccessExpr a, String s) -> a.setName(s));
+            (_fieldAccessExpr a, String s) -> a.setName(s), PARSER);
 
 
     public static _feature._one<_fieldAccessExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_fieldAccessExpr.class, _typeArgs.class,
             _feature._id.TYPE_ARGS,
             a -> a.getTypeArgs(),
-            (_fieldAccessExpr a, _typeArgs _e) -> a.setTypeArgs(_e));
+            (_fieldAccessExpr a, _typeArgs _e) -> a.setTypeArgs(_e), PARSER);
 
 
     public static _feature._meta<_fieldAccessExpr> META = _feature._meta.of(_fieldAccessExpr.class, SCOPE, TYPE_ARGS, NAME );

@@ -17,6 +17,8 @@ import java.util.function.Function;
 public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
         _java._node<ExpressionStmt, _exprStmt>, _java._withExpression<ExpressionStmt, _exprStmt> {
 
+    public static final Function<String, _exprStmt> PARSER = s-> _exprStmt.of(s);
+
     public static _exprStmt of(){
         return new _exprStmt( new ExpressionStmt( ));
     }
@@ -80,7 +82,7 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
     public static _feature._one<_exprStmt, _expr> EXPRESSION = new _feature._one<>(_exprStmt.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_exprStmt a, _expr _e) -> a.setExpression(_e));
+            (_exprStmt a, _expr _e) -> a.setExpression(_e), PARSER);
 
     public static _feature._meta<_exprStmt> META = _feature._meta.of(_exprStmt.class, EXPRESSION);
 

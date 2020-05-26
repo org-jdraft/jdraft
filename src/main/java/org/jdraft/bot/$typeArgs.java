@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class $typeArgs<N extends Node & NodeWithTypeArguments>
-        implements $bot<N, _typeArgs, $typeArgs>, $methodCallExpr.$part {
+        implements $bot<_typeArgs, $typeArgs>, $methodCallExpr.$part {
 
     public static $typeArgs of(){
         return new $typeArgs();

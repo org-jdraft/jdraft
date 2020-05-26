@@ -5,6 +5,7 @@ import org.jdraft.text.Text;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Single line comment
@@ -15,6 +16,8 @@ import java.util.Objects;
  * </CODE>
  */
 public final class _lineComment implements _comment<LineComment, _lineComment>, _java._node<LineComment, _lineComment> {
+
+    public static final Function<String, _lineComment> PARSER = s-> _lineComment.of(s);
 
     public static _lineComment of(LineComment lc ){
         return new _lineComment( lc );
@@ -28,11 +31,10 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
         return new _lineComment( Ast.lineComment(commentContents) );
     }
 
-
     public static _feature._one<_lineComment, String> TEXT = new _feature._one<>(_lineComment.class, String.class,
             _feature._id.TEXT,
             a -> a.getText(),
-            (_lineComment a, String text) -> a.setText(text));
+            (_lineComment a, String text) -> a.setText(text), PARSER);
 
 
     public static _feature._meta<_lineComment> META = _feature._meta.of(_lineComment.class, TEXT);

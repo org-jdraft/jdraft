@@ -16,6 +16,7 @@ import org.jdraft.text.Text;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -32,6 +33,8 @@ import java.util.function.Predicate;
  *
  */
 public final class _name implements _java._node<Node, _name> {
+
+    public static final Function<String, _name> PARSER = s-> _name.of(s);
 
     public static _name of(){
         return of( new Name() );
@@ -89,7 +92,7 @@ public final class _name implements _java._node<Node, _name> {
     public static _feature._one<_name, Node> NAME = new _feature._one<>(_name.class, Node.class,
             _feature._id.NAME,
             a -> a.name,
-            (_name a, Node n) -> a.set(n));
+            (_name a, Node n) -> a.set(n), PARSER);
 
     public static _feature._meta<_name> META = _feature._meta.of(_name.class, NAME);
 

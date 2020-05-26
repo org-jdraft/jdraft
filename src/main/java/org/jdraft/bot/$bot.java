@@ -26,7 +26,7 @@ import java.util.stream.Stream;
  * @param <_B> the _java.domain type the _jdraft domain type
  * @param <$B> the $bot type the bot type (used to return itself or a copy of the same type from default methods)
  */
-public interface $bot<B, _B, $B>
+public interface $bot<_B, $B>
         extends $selector<_B, $B>, Template<_B> {
 
     /**
@@ -1244,7 +1244,7 @@ public interface $bot<B, _B, $B>
      * @param <$P>
      */
     interface $node<P extends Node, _P extends _java._node, $P extends $node<P,_P,$P>>
-            extends $bot<P, _P, $P> {
+            extends $bot<_P, $P> {
 
         /** does this individual Ast node match the prototype? */
         Select<_P> select(Node n);

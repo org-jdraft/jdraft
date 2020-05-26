@@ -9,6 +9,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,8 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         _field._withFields<_constant>,
         _args._withArgs<EnumConstantDeclaration, _constant> {
 
+    public static final Function<String, _constant> PARSER = s-> _constant.of(s);
+
     public static _constant of(){
         return of( new EnumConstantDeclaration());
     }
@@ -44,14 +47,21 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     public static _feature._one<_constant, String> NAME = new _feature._one<>(_constant.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_constant a, String o) -> a.setName(o));
+            (_constant a, String o) -> a.setName(o), PARSER);
 
     public static _feature._one<_constant, _args> ARGS = new _feature._one<>(_constant.class, _args.class,
             _feature._id.ARGS_EXPRS,
             a -> a.getArgs(),
-            (_constant a, _args o) -> a.setArgs(o));
+            (_constant a, _args o) -> a.setArgs(o), PARSER);
 
-    public static _feature._meta<_constant> META = _feature._meta.of(_constant.class, NAME, ARGS);
+    public static _feature._many<_constant, _java._member> MEMBERS = new _feature._many<>(_constant.class, _java._member.class,
+            _feature._id.MEMBERS,
+            _feature._id.MEMBER,
+            a -> a.listMembers(),
+            (_constant a, List<_java._member> mems) -> a.setMembers(mems), PARSER);
+
+
+    public static _feature._meta<_constant> META = _feature._meta.of(_constant.class, NAME, ARGS, MEMBERS);
 
     public _constant( EnumConstantDeclaration ecd ){
         this.astConstant = ecd;
@@ -165,6 +175,16 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     public _constant setBody(String...bodyCode){
         EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ A{"+Text.combine(bodyCode)+" }; }");
         ed.getEntry(0).getClassBody().forEach(bd -> this.add(bd));
+        return this;
+    }
+
+    public List<_java._member> listMembers(){
+        return this.astConstant.getClassBody().stream().map(m-> (_java._member)_java.of(m)).collect(Collectors.toList());
+    }
+
+    public _constant setMembers(List<_java._member> mems){
+        this.astConstant.getClassBody().clear();
+        mems.forEach( m -> this.astConstant.getClassBody().add( (BodyDeclaration)m.ast()));
         return this;
     }
 

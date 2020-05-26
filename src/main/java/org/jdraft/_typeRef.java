@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.github.javaparser.ast.Node;
@@ -21,6 +22,8 @@ import static org.jdraft.Types.of;
  */
 public final class _typeRef<T extends Type>
         implements _java._node<Type, _typeRef>, _annoExprs._withAnnoExprs<_typeRef> {
+
+    public static final Function<String, _typeRef> PARSER = s-> _typeRef.of(s);
 
     /** Void type used in */
     public static _typeRef VOID = of( new VoidType() );
@@ -385,7 +388,7 @@ public final class _typeRef<T extends Type>
     public static _feature._one<_typeRef, Type> TYPE = new _feature._one<>(_typeRef.class, Type.class,
             _feature._id.TYPE,
             a -> a.ast(),
-            (_typeRef p, Type t) -> p.setType(t));
+            (_typeRef p, Type t) -> p.setType(t), PARSER);
 
 
     public static _feature._meta<_typeRef> META = _feature._meta.of(_typeRef.class, TYPE);

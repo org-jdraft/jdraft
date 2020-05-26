@@ -23,6 +23,8 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         _java._node<ArrayCreationExpr, _arrayCreateExpr>,
         _java._list<ArrayCreationLevel, _arrayDimension, _arrayCreateExpr> {
 
+    public static final Function<String, _arrayCreateExpr> PARSER = s-> _arrayCreateExpr.of(s);
+
     public static _arrayCreateExpr of( ){
         return new _arrayCreateExpr(new ArrayCreationExpr());
     }
@@ -79,7 +81,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     public static _feature._one<_arrayCreateExpr, _typeRef> TYPE = new _feature._one<>(_arrayCreateExpr.class, _typeRef.class,
             _feature._id.TYPE,
             a -> ((_arrayCreateExpr) a).getElementType(),
-            (_arrayCreateExpr a, _typeRef _t) -> a.setElementType(_t));
+            (_arrayCreateExpr a, _typeRef _t) -> a.setElementType(_t), PARSER);
 
 
 
@@ -87,12 +89,12 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
             _feature._id.ARRAY_DIMENSIONS,
             _feature._id.ARRAY_DIMENSION,
             a -> ((_arrayCreateExpr)a).list(),
-            (_arrayCreateExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads));
+            (_arrayCreateExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads), PARSER);
 
     public static _feature._one<_arrayCreateExpr, _arrayInitExpr> INIT = new _feature._one<>(_arrayCreateExpr.class, _arrayInitExpr.class,
             _feature._id.INIT,
             a -> a.getInit(),
-            (_arrayCreateExpr a, _arrayInitExpr _t) -> a.setInit(_t));
+            (_arrayCreateExpr a, _arrayInitExpr _t) -> a.setInit(_t), PARSER);
 
     public static _feature._meta<_arrayCreateExpr> META = _feature._meta.of(_arrayCreateExpr.class, TYPE, DIMENSIONS, INIT );
 

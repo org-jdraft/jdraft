@@ -4,8 +4,11 @@ import com.github.javaparser.ast.Modifier;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.function.Function;
 
 public enum _modifier implements _java._node<Modifier, _modifier> {
+
+
 
     /** Making the internal AST modifiers more accessible */
     PUBLIC( com.github.javaparser.ast.Modifier.publicModifier(), java.lang.reflect.Modifier.PUBLIC ),
@@ -23,9 +26,12 @@ public enum _modifier implements _java._node<Modifier, _modifier> {
 
     public final com.github.javaparser.ast.Modifier mod;
 
-    public final int bitMask;
+    public static final Function<String, _modifier> PARSER = s-> _modifier.of(s);
 
     public static _feature._meta<_modifier> META = _feature._meta.of(_modifier.class);
+
+    public final int bitMask;
+
 
     _modifier(com.github.javaparser.ast.Modifier mod, int bitMask){
         this.mod = mod;

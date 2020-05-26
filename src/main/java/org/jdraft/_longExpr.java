@@ -2,7 +2,11 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.LongLiteralExpr;
 
+import java.util.function.Function;
+
 public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExpr> {
+
+    public static final Function<String, _longExpr> PARSER = s-> _longExpr.of(s);
 
     public static _longExpr of( ){
         return new _longExpr( new LongLiteralExpr());
@@ -23,7 +27,7 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
     public static _feature._one<_longExpr, String> LITERAL_VALUE = new _feature._one<>(_longExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_longExpr a, String value) -> a.ast().setValue(value));
+            (_longExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
     public static _feature._meta<_longExpr> META = _feature._meta.of(_longExpr.class, LITERAL_VALUE);

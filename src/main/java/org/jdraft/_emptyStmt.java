@@ -3,11 +3,14 @@ package org.jdraft;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * just ";" (i.e. "for(int i=0;;;)")
  */
 public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt>, _java._node<EmptyStmt, _emptyStmt> {
+
+    public static final Function<String, _emptyStmt> PARSER = s-> _emptyStmt.of();
 
     public static _emptyStmt of(){
         return new _emptyStmt( new EmptyStmt( ));

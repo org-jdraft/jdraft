@@ -15,6 +15,8 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         _java._node<ForStmt, _forStmt>,
         _stmt._controlFlow._conditional<ForStmt,_forStmt>, _body._withBody<_forStmt> {
 
+    public static final Function<String, _forStmt> PARSER = s-> _forStmt.of(s);
+
     public static _forStmt of(){
         return new _forStmt( new ForStmt( ));
     }
@@ -70,24 +72,24 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
     public static _feature._one<_forStmt, _body> BODY = new _feature._one<>(_forStmt.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_forStmt a, _body b) -> a.setBody(b));
+            (_forStmt a, _body b) -> a.setBody(b), PARSER);
 
     public static _feature._one<_forStmt, _expr> COMPARE = new _feature._one<>(_forStmt.class, _expr.class,
             _feature._id.COMPARE_EXPR,
             a -> a.getCompare(),
-            (_forStmt a, _expr _e) -> a.setCompare(_e));
+            (_forStmt a, _expr _e) -> a.setCompare(_e), PARSER);
 
     public static _feature._many<_forStmt, _expr> UPDATES = new _feature._many<>(_forStmt.class, _expr.class,
             _feature._id.UPDATES_EXPRS,
             _feature._id.UPDATE_EXPR,
             a -> a.listUpdates(),
-            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e));
+            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER);
 
     public static _feature._many<_forStmt, _expr> INITS = new _feature._many<>(_forStmt.class, _expr.class,
             _feature._id.INITS,
             _feature._id.INIT,
             a -> a.listInits(),
-            (_forStmt a, List<_expr> _e) -> a.setInits(_e));
+            (_forStmt a, List<_expr> _e) -> a.setInits(_e), PARSER);
 
     public static _feature._meta<_forStmt> META = _feature._meta.of(_forStmt.class, INITS, COMPARE, UPDATES, BODY);
 

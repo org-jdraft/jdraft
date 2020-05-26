@@ -6,6 +6,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * Representation of the source of a combination / listing of Java Modifiers
@@ -16,6 +17,8 @@ import java.util.*;
  * @author Eric
  */
 public final class _modifiers implements _java._set<Modifier, _modifier, _modifiers> {
+
+    public static final Function<String, _modifiers> PARSER = s-> _modifiers.of(s);
 
     private final NodeWithModifiers node;
 
@@ -85,7 +88,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
             _feature._id.MODIFIERS,
             _feature._id.MODIFIER,
             a -> a.list(),
-            (_modifiers a, List<_modifier> _ms) -> a.set(_ms));
+            (_modifiers a, List<_modifier> _ms) -> a.set(_ms), PARSER);
 
     public static _feature._meta<_modifiers> META = _feature._meta.of(_modifiers.class, MODIFIERS );
 

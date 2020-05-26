@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.ImportDeclaration;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Function;
 
 import com.github.javaparser.ast.expr.Name;
 import org.jdraft.macro._remove;
@@ -17,6 +18,8 @@ import org.jdraft.text.Text;
  */
 public final class _import implements _java._node<ImportDeclaration, _import>,
         _java._withName<_import> {
+
+    public static final Function<String, _import> PARSER = s-> _import.of(s);
 
     /** return a copy of this import */
     @Override
@@ -78,17 +81,17 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
     public static _feature._one<_import, Boolean> IS_STATIC = new _feature._one<>(_import.class, Boolean.class,
             _feature._id.IS_STATIC,
             a -> a.isStatic(),
-            (_import a, Boolean b) -> a.setStatic(b));
+            (_import a, Boolean b) -> a.setStatic(b), PARSER);
 
     public static _feature._one<_import, Boolean> IS_WILDCARD = new _feature._one<>(_import.class, Boolean.class,
             _feature._id.IS_WILDCARD,
             a -> a.isWildcard(),
-            (_import a, Boolean b) -> a.setWildcard(b));
+            (_import a, Boolean b) -> a.setWildcard(b), PARSER);
 
     public static _feature._one<_import, String> NAME = new _feature._one<>(_import.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_import a, String name) -> a.setName(name));
+            (_import a, String name) -> a.setName(name), PARSER);
 
 
     public static _feature._meta<_import> META = _feature._meta.of(_import.class, IS_STATIC, NAME, IS_WILDCARD);

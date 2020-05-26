@@ -9,6 +9,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -23,6 +24,8 @@ import java.util.function.Predicate;
  */
 public final class _params
         implements _java._list<Parameter, _param, _params> {
+
+    public static final Function<String, _params> PARSER = s-> _params.of(s);
 
     public static <T extends Object> _params of(Consumer<T> c){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
@@ -123,7 +126,7 @@ public final class _params
     public static _feature._many<_params, _param> PARAMS = new _feature._many<>(_params.class, _param.class,
             _feature._id.PARAMS, _feature._id.PARAM,
             a->a.list(),
-            (_params a, List<_param> ps)-> a.set(ps));
+            (_params a, List<_param> ps)-> a.set(ps), PARSER);
 
     public static _feature._meta<_params> META = _feature._meta.of(_params.class, PARAMS);
 

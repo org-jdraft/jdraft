@@ -19,6 +19,8 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         _args._withArgs<ObjectCreationExpr, _newExpr>,
         _typeArgs._withTypeArgs<ObjectCreationExpr, _newExpr> {
 
+    public static final Function<String, _newExpr> PARSER = s-> _newExpr.of(s);
+
     public static _newExpr of(){
         return new _newExpr( new ObjectCreationExpr() );
     }
@@ -114,28 +116,28 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
     public static _feature._one<_newExpr, _expr> SCOPE = new _feature._one<>(_newExpr.class, _expr.class,
             _feature._id.SCOPE_EXPR,
             a -> a.getScope(),
-            (_newExpr a, _expr _e) -> a.setScope(_e));
+            (_newExpr a, _expr _e) -> a.setScope(_e), PARSER);
 
     public static _feature._one<_newExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_newExpr.class, _typeArgs.class,
             _feature._id.TYPE_ARGS,
             a -> a.getTypeArgs(),
-            (_newExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta));
+            (_newExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta), PARSER);
 
     public static _feature._one<_newExpr, _typeRef> TYPE = new _feature._one<>(_newExpr.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_newExpr a, _typeRef _tr) -> a.setTypeRef(_tr));
+            (_newExpr a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
 
     public static _feature._one<_newExpr, _args> ARGS = new _feature._one<>(_newExpr.class, _args.class,
             _feature._id.ARGS_EXPRS,
             a -> a.getArgs(),
-            (_newExpr a, _args _a) -> a.setArgs(_a));
+            (_newExpr a, _args _a) -> a.setArgs(_a), PARSER);
 
     public static _feature._many<_newExpr, _java._declared> ANONYMOUS_MEMBER_DECLARATIONS = new _feature._many<>(_newExpr.class, _java._declared.class,
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listAnonymousDeclarations(),
-            (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousDeclarations(_ms));
+            (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousDeclarations(_ms), PARSER);
 
     public static _feature._meta<_newExpr> META = _feature._meta.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_MEMBER_DECLARATIONS );
 

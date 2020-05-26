@@ -20,6 +20,8 @@ import java.util.stream.Stream;
 
 public final class _catch implements _java._node<CatchClause, _catch>, _body._withBody<_catch> {
 
+    public static final Function<String, _catch> PARSER = s-> _catch.of(s);
+
     public static _catch of(){
         return new _catch( new CatchClause() );
     }
@@ -95,12 +97,12 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
     public static _feature._one<_catch, _param> PARAM = new _feature._one<>(_catch.class, _param.class,
             _feature._id.PARAM,
             a -> a.getParam(),
-            (_catch a, _param o) -> a.setParam(o));
+            (_catch a, _param o) -> a.setParam(o), PARSER);
 
     public static _feature._one<_catch, _body> BODY = new _feature._one<>(_catch.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_catch a, _body _b) -> a.setBody(_b));
+            (_catch a, _body _b) -> a.setBody(_b), PARSER);
 
     public static _feature._meta<_catch> META = _feature._meta.of(_catch.class, PARAM, BODY);
 

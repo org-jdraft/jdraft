@@ -237,15 +237,19 @@ public final class _annoExpr
         return _mvs;
     }
 
+    public static final Function<String, _annoExpr> PARSER = s-> _annoExpr.of(s);
+
     public static _feature._one<_annoExpr, String> NAME = new _feature._one<>(_annoExpr.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_annoExpr a, String name) -> a.setName(name));
+            (_annoExpr a, String name) -> a.setName(name),
+            PARSER );
 
     public static _feature._many<_annoExpr, _entryPair> ENTRY_PAIRS = new _feature._many<>(_annoExpr.class, _entryPair.class,
             _feature._id.ANNO_EXPR_ENTRY_PAIRS, _feature._id.ANNO_EXPR_ENTRY_PAIR,
             a->a.listPairs(),
-            (_annoExpr a, List<_entryPair> pairs)-> a.setPairs(pairs));
+            (_annoExpr a, List<_entryPair> pairs)-> a.setPairs(pairs),
+            PARSER );
 
     public static _feature._meta<_annoExpr> META = _feature._meta.of(_annoExpr.class, NAME, ENTRY_PAIRS);
 

@@ -6,9 +6,12 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _variable implements _java._node<VariableDeclarator, _variable>,
         _java._withNameTypeRef<VariableDeclarator, _variable> {
+
+    public static final Function<String, _variable> PARSER = s-> _variable.of(s);
 
     public static _variable of(){
         return of( new VariableDeclarator());
@@ -28,17 +31,17 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
     public static _feature._one<_variable, _typeRef> TYPE = new _feature._one<>(_variable.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_variable a, _typeRef _tr) -> a.setTypeRef(_tr));
+            (_variable a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
 
     public static _feature._one<_variable, String> NAME = new _feature._one<>(_variable.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_variable a, String name) -> a.setName(name));
+            (_variable a, String name) -> a.setName(name), PARSER);
 
     public static _feature._one<_variable, _expr> INIT = new _feature._one<>(_variable.class, _expr.class,
             _feature._id.INIT,
             a -> a.getInit(),
-            (_variable a, _expr _e) -> a.setInit(_e));
+            (_variable a, _expr _e) -> a.setInit(_e), PARSER);
 
     public static _feature._meta<_variable> META = _feature._meta.of(_variable.class, TYPE, NAME, INIT);
 

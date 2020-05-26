@@ -4,6 +4,8 @@ import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SuperExpr;
 import org.jdraft.text.Text;
 
+import java.util.function.Function;
+
 /**
  * Usage of the super keyword
  *
@@ -19,6 +21,8 @@ import org.jdraft.text.Text;
  * @see _constructorCallStmt
  */
 public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._node<SuperExpr, _superExpr> {
+
+    public static final Function<String, _superExpr> PARSER = s-> _superExpr.of(s);
 
     public static _superExpr of(){
         return new _superExpr( new SuperExpr());
@@ -41,7 +45,7 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._no
     public static _feature._one<_superExpr, String> TYPE_NAME = new _feature._one<>(_superExpr.class, String.class,
             _feature._id.TYPE_NAME,
             a -> a.getTypeName(),
-            (_superExpr p, String s) -> p.setTypeName(s));
+            (_superExpr p, String s) -> p.setTypeName(s), PARSER);
 
     public static _feature._meta<_superExpr> META = _feature._meta.of(_superExpr.class, TYPE_NAME );
 

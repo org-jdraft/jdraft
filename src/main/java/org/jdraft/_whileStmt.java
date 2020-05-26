@@ -14,6 +14,8 @@ public final class _whileStmt implements _stmt._controlFlow._conditional<WhileSt
         _java._withCondition<WhileStmt, _whileStmt>,
         _body._withBody<_whileStmt> {
 
+    public static final Function<String, _whileStmt> PARSER = s-> _whileStmt.of(s);
+
     public static _whileStmt of(){
         return new _whileStmt( new WhileStmt( ));
     }
@@ -70,12 +72,12 @@ public final class _whileStmt implements _stmt._controlFlow._conditional<WhileSt
     public static _feature._one<_whileStmt, _expr> CONDITION = new _feature._one<>(_whileStmt.class, _expr.class,
             _feature._id.CONDITION_EXPR,
             a -> a.getCondition(),
-            (_whileStmt a, _expr _e) -> a.setCondition(_e));
+            (_whileStmt a, _expr _e) -> a.setCondition(_e), PARSER);
 
     public static _feature._one<_whileStmt, _body> BODY = new _feature._one<>(_whileStmt.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_whileStmt a, _body _b) -> a.setBody(_b));
+            (_whileStmt a, _body _b) -> a.setBody(_b), PARSER);
 
     public static _feature._meta<_whileStmt> META = _feature._meta.of(_whileStmt.class, CONDITION, BODY);
 

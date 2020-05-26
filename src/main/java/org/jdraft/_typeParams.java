@@ -7,6 +7,7 @@ import com.github.javaparser.ast.type.TypeParameter;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
  */
 public final class _typeParams
         implements _java._set<TypeParameter, _typeParam, _typeParams> {
+
+    public static final Function<String, _typeParams> PARSER = s-> _typeParams.of(s);
 
     public static _typeParams of(){
         return of( (ClassOrInterfaceDeclaration)Ast.typeDecl("class Dummy{}" ));
@@ -41,7 +44,7 @@ public final class _typeParams
             _feature._id.TYPE_PARAMS,
             _feature._id.TYPE_PARAM,
             a -> a.list(),
-            (_typeParams p, List<_typeParam> _tps) -> p.setTypeParams(_tps));
+            (_typeParams p, List<_typeParam> _tps) -> p.setTypeParams(_tps), PARSER);
 
     public static _feature._meta<_typeParams> META = _feature._meta.of(_typeParams.class, TYPE_PARAMS);
 

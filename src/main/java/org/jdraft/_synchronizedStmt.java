@@ -11,12 +11,15 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchronizedStmt>,
         _body._withBody<_synchronizedStmt>,
         _java._node<SynchronizedStmt, _synchronizedStmt>,
         _java._withExpression<SynchronizedStmt, _synchronizedStmt> {
+
+    public static final Function<String, _synchronizedStmt> PARSER = s-> _synchronizedStmt.of(s);
 
     public static _synchronizedStmt of(){
         return new _synchronizedStmt( new SynchronizedStmt( ));
@@ -31,12 +34,12 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
     public static _feature._one<_synchronizedStmt, _expr> EXPRESSION = new _feature._one<>(_synchronizedStmt.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_synchronizedStmt p, _expr _es) -> p.setExpression(_es));
+            (_synchronizedStmt p, _expr _es) -> p.setExpression(_es), PARSER);
 
     public static _feature._one<_synchronizedStmt, _body> BODY = new _feature._one<>(_synchronizedStmt.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_synchronizedStmt p, _body _bs) -> p.setBody(_bs));
+            (_synchronizedStmt p, _body _bs) -> p.setBody(_bs), PARSER);
 
     public static _feature._meta<_synchronizedStmt> META = _feature._meta.of(_synchronizedStmt.class, EXPRESSION, BODY );
 

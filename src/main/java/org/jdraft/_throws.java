@@ -2,6 +2,7 @@ package org.jdraft;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,8 @@ import org.jdraft.text.Text;
  */
 public final class _throws
         implements _java._set<ReferenceType, _typeRef, _throws> {
+
+    public static final Function<String, _throws> PARSER = s-> _throws.of(s);
 
     /**
      *
@@ -73,7 +76,7 @@ public final class _throws
             _feature._id.THROWS,
             _feature._id.THROW,
             a -> a.list(),
-            (_throws p, List<_typeRef> _ses) -> p.set(_ses));
+            (_throws p, List<_typeRef> _ses) -> p.set(_ses), PARSER);
 
     public static _feature._meta<_throws> META = _feature._meta.of(_throws.class, THROWS );
 

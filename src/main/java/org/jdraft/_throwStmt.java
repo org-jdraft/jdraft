@@ -14,6 +14,8 @@ import java.util.function.Function;
 public final class _throwStmt implements _stmt._controlFlow._returns<ThrowStmt, _throwStmt>,
         _java._node<ThrowStmt, _throwStmt>, _java._withExpression<ThrowStmt, _throwStmt> {
 
+    public static final Function<String, _throwStmt> PARSER = s-> _throwStmt.of(s);
+
     public static _throwStmt of(){
         return new _throwStmt( new ThrowStmt( ));
     }
@@ -69,7 +71,7 @@ public final class _throwStmt implements _stmt._controlFlow._returns<ThrowStmt, 
     public static _feature._one<_throwStmt, _expr> EXPRESSION = new _feature._one<>(_throwStmt.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_throwStmt p, _expr _e) -> p.setExpression(_e));
+            (_throwStmt p, _expr _e) -> p.setExpression(_e), PARSER);
 
     public static _feature._meta<_throwStmt> META = _feature._meta.of(_throwStmt.class, EXPRESSION );
 

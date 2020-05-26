@@ -10,11 +10,14 @@ import org.jdraft.text.Text;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class _moduleProvides implements _java._node<ModuleProvidesDirective, _moduleProvides>,
         _java._set<Name, _name, _moduleProvides>,
         _moduleDirective<ModuleProvidesDirective, _moduleProvides> {
+
+    public static final Function<String, _moduleProvides> PARSER = s-> _moduleProvides.of(s);
 
     public static _moduleProvides of(ModuleProvidesDirective med){
         return new _moduleProvides(med);
@@ -39,13 +42,13 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
     public static _feature._one<_moduleProvides, String> NAME = new _feature._one<>(_moduleProvides.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_moduleProvides a, String s) -> a.setName(s));
+            (_moduleProvides a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleProvides, _name> MODULE_NAMES = new _feature._many<>(_moduleProvides.class, _name.class,
             _feature._id.NAMES,
             _feature._id.NAME,
             a -> a.list(),
-            (_moduleProvides a, List<_name> _ns) -> a.set(_ns));
+            (_moduleProvides a, List<_name> _ns) -> a.set(_ns), PARSER);
 
     public static _feature._meta<_moduleProvides> META = _feature._meta.of(_moduleProvides.class, NAME, MODULE_NAMES);
 

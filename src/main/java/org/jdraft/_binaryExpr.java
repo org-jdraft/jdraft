@@ -17,6 +17,8 @@ import java.util.function.*;
 public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         _java._node<BinaryExpr, _binaryExpr> {
 
+    public static final Function<String, _binaryExpr> PARSER = s-> _binaryExpr.of(s);
+
     /** ALL OPERATORS */
 
     public static final BinaryExpr.Operator AND = BinaryExpr.Operator.AND;
@@ -224,17 +226,17 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     public static _feature._one<_binaryExpr, _expr> LEFT = new _feature._one<>(_binaryExpr.class, _expr.class,
             _feature._id.LEFT_EXPR,
             a -> a.getLeft(),
-            (_binaryExpr a, _expr _e) -> a.setLeft(_e));
+            (_binaryExpr a, _expr _e) -> a.setLeft(_e), PARSER);
 
     public static _feature._one<_binaryExpr, BinaryExpr.Operator> OPERATOR = new _feature._one<>(_binaryExpr.class, BinaryExpr.Operator.class,
             _feature._id.BINARY_OPERATOR,
             a -> a.getOperator(),
-            (_binaryExpr a, BinaryExpr.Operator o) -> a.setOperator(o));
+            (_binaryExpr a, BinaryExpr.Operator o) -> a.setOperator(o), PARSER);
 
     public static _feature._one<_binaryExpr, _expr> RIGHT = new _feature._one<>(_binaryExpr.class, _expr.class,
             _feature._id.RIGHT_EXPR,
             a -> a.getRight(),
-            (_binaryExpr a, _expr _e) -> a.setRight(_e));
+            (_binaryExpr a, _expr _e) -> a.setRight(_e), PARSER);
 
     public static _feature._meta<_binaryExpr> META = _feature._meta.of(_binaryExpr.class, LEFT, OPERATOR, RIGHT);
 

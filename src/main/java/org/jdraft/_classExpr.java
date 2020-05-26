@@ -3,11 +3,15 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.ClassExpr;
 import org.jdraft.text.Text;
 
+import java.util.function.Function;
+
 /**
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
 public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef._withTypeRef<ClassExpr, _classExpr>, _java._node<ClassExpr, _classExpr> {
+
+    public static final Function<String, _classExpr> PARSER = s-> _classExpr.of(s);
 
     public static _classExpr of(){
         return new _classExpr(new ClassExpr());
@@ -28,7 +32,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
     public static _feature._one<_classExpr, _typeRef> TYPE = new _feature._one<>(_classExpr.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_classExpr a, _typeRef o) -> a.setTypeRef(o));
+            (_classExpr a, _typeRef o) -> a.setTypeRef(o), PARSER);
 
     public static _feature._meta<_classExpr> META = _feature._meta.of(_classExpr.class, TYPE);
 

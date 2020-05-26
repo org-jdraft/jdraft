@@ -30,6 +30,8 @@ import java.util.stream.Collectors;
 public final class _switchStmt implements _stmt._controlFlow._conditional<SwitchStmt, _switchStmt>,
         _java._node<SwitchStmt, _switchStmt>, _switch<_switchStmt> {
 
+    public static final Function<String, _switchStmt> PARSER = s-> _switchStmt.of(s);
+
     public static _switchStmt ofSelector(String selectorExpression){
         return ofSelector(Exprs.of(selectorExpression));
     }
@@ -127,13 +129,13 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
     public static _feature._one<_switchStmt, _expr> EXPRESSION = new _feature._one<>(_switchStmt.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getSwitchSelector(),
-            (_switchStmt p, _expr _es) -> p.setSwitchSelector(_es));
+            (_switchStmt p, _expr _es) -> p.setSwitchSelector(_es), PARSER);
 
     public static _feature._many<_switchStmt, _switchEntry> SWITCH_ENTRIES = new _feature._many<>(_switchStmt.class, _switchEntry.class,
             _feature._id.SWITCH_ENTRIES,
             _feature._id.SWITCH_ENTRY,
             a -> a.listSwitchEntries(),
-            (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses));
+            (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER);
 
     public static _feature._meta<_switchStmt> META = _feature._meta.of(_switchStmt.class, EXPRESSION, SWITCH_ENTRIES );
 

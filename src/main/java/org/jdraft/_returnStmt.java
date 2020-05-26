@@ -4,11 +4,14 @@ import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class _returnStmt implements _stmt._controlFlow._returns<ReturnStmt, _returnStmt>,
         _java._withExpression<ReturnStmt, _returnStmt>,
         _java._node<ReturnStmt, _returnStmt> {
+
+    public static final Function<String, _returnStmt> PARSER = s-> _returnStmt.of(s);
 
     public static _returnStmt of(){
         return new _returnStmt( new ReturnStmt( ));
@@ -68,7 +71,7 @@ public final class _returnStmt implements _stmt._controlFlow._returns<ReturnStmt
     public static _feature._one<_returnStmt, _expr> EXPRESSION = new _feature._one<>(_returnStmt.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_returnStmt p, _expr _e) -> p.setExpression(_e));
+            (_returnStmt p, _expr _e) -> p.setExpression(_e), PARSER);
 
     public static _feature._meta<_returnStmt> META = _feature._meta.of(_returnStmt.class, EXPRESSION );
 

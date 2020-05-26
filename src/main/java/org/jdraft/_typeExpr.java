@@ -2,6 +2,8 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.TypeExpr;
 
+import java.util.function.Function;
+
 /**
  * For example:
  * In {@code World::greet} the ClassOrInterfaceType "World" is a _typeEx
@@ -10,6 +12,8 @@ public final class _typeExpr
         implements _expr<TypeExpr, _typeExpr>,
         _java._node<TypeExpr, _typeExpr>,
         _typeRef._withTypeRef<TypeExpr, _typeExpr> {
+
+    public static final Function<String, _typeExpr> PARSER = s-> _typeExpr.of(s);
 
     public static _typeExpr of(){
         return new _typeExpr( new TypeExpr());
@@ -24,7 +28,7 @@ public final class _typeExpr
     public static _feature._one<_typeExpr, _typeRef> TYPE = new _feature._one<>(_typeExpr.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_typeExpr a, _typeRef value) -> a.setTypeRef(value));
+            (_typeExpr a, _typeRef value) -> a.setTypeRef(value), PARSER);
 
     public static _feature._meta<_typeExpr> META = _feature._meta.of(_typeExpr.class, TYPE);
 

@@ -3,12 +3,15 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodRefExpr>,
         _java._node<MethodReferenceExpr, _methodRefExpr>,
         _java._withScope<MethodReferenceExpr, _methodRefExpr>,
         _typeArgs._withTypeArgs<MethodReferenceExpr, _methodRefExpr> {
+
+    public static final Function<String, _methodRefExpr> PARSER = s-> _methodRefExpr.of(s);
 
     public static _methodRefExpr of(){
         return new _methodRefExpr( new MethodReferenceExpr());
@@ -25,17 +28,17 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
     public static _feature._one<_methodRefExpr, _expr> SCOPE = new _feature._one<>(_methodRefExpr.class, _expr.class,
             _feature._id.SCOPE_EXPR,
             a -> a.getScope(),
-            (_methodRefExpr a, _expr _e) -> a.setScope(_e));
+            (_methodRefExpr a, _expr _e) -> a.setScope(_e), PARSER);
 
     public static _feature._one<_methodRefExpr, _typeArgs> TYPE_ARGS = new _feature._one<>(_methodRefExpr.class, _typeArgs.class,
             _feature._id.TYPE_ARGS,
             a -> a.getTypeArgs(),
-            (_methodRefExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta));
+            (_methodRefExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta), PARSER);
 
     public static _feature._one<_methodRefExpr, String> IDENTIFIER = new _feature._one<>(_methodRefExpr.class, String.class,
             _feature._id.IDENTIFIER,
             a -> a.getIdentifier(),
-            (_methodRefExpr a, String s) -> a.setIdentifier(s));
+            (_methodRefExpr a, String s) -> a.setIdentifier(s), PARSER);
 
     public static _feature._meta<_methodRefExpr> META = _feature._meta.of(_methodRefExpr.class, SCOPE, TYPE_ARGS, IDENTIFIER );
 

@@ -10,11 +10,14 @@ import org.jdraft.text.Text;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class _moduleExports implements _java._node<ModuleExportsDirective, _moduleExports>,
         _java._set<Name, _name, _moduleExports>,
         _moduleDirective<ModuleExportsDirective, _moduleExports> {
+
+    public static final Function<String, _moduleExports> PARSER = s-> _moduleExports.of(s);
 
     public static _moduleExports of( ModuleExportsDirective med){
         return new _moduleExports(med);
@@ -39,13 +42,13 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
     public static _feature._one<_moduleExports, String> NAME = new _feature._one<>(_moduleExports.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_moduleExports a, String s) -> a.setName(s));
+            (_moduleExports a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleExports, _name> MODULE_NAMES = new _feature._many<>(_moduleExports.class, _name.class,
             _feature._id.NAMES,
             _feature._id.NAME,
             a -> a.list(),
-            (_moduleExports a, List<_name> _ns) -> a.set(_ns));
+            (_moduleExports a, List<_name> _ns) -> a.set(_ns), PARSER);
 
     public static _feature._meta<_moduleExports> META = _feature._meta.of(_moduleExports.class, NAME, MODULE_NAMES);
 

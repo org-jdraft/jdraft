@@ -10,6 +10,8 @@ import java.util.function.*;
 
 public final class _textBlockExpr implements _expr._literal<TextBlockLiteralExpr, _textBlockExpr>, _java._withText<_textBlockExpr> {
 
+    public static final Function<String, _textBlockExpr> PARSER = s-> _textBlockExpr.of(s);
+
     public static _textBlockExpr of(){
         return new _textBlockExpr( new TextBlockLiteralExpr());
     }
@@ -66,7 +68,7 @@ public final class _textBlockExpr implements _expr._literal<TextBlockLiteralExpr
     public static _feature._one<_textBlockExpr, String> LITERAL_VALUE = new _feature._one<>(_textBlockExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_textBlockExpr a, String value) -> a.ast().setValue(value));
+            (_textBlockExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
     public static _feature._meta<_textBlockExpr> META = _feature._meta.of(_textBlockExpr.class, LITERAL_VALUE);

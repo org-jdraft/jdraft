@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import java.util.*;
+import java.util.function.Function;
 
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.Name;
@@ -17,6 +18,8 @@ import org.jdraft.text.Text;
 public final class _param
     implements _java._withNameTypeRef<Parameter, _param>, _annoExprs._withAnnoExprs<_param>,
         _modifiers._withFinal<_param>, _java._node<Parameter, _param> {
+
+    public static final Function<String, _param> PARSER = s-> _param.of(s);
 
     public static _param from (StackTraceElement ste ){
         _param _p = _lambdaExpr.from(ste).getParam(0);
@@ -68,32 +71,32 @@ public final class _param
     public static _feature._one<_param, _annoExprs> ANNO_EXPRS = new _feature._one<>(_param.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_param p, _annoExprs _ae) -> p.setAnnoExprs(_ae));
+            (_param p, _annoExprs _ae) -> p.setAnnoExprs(_ae), PARSER);
 
     public static _feature._one<_param, Boolean> IS_FINAL = new _feature._one<>(_param.class, Boolean.class,
             _feature._id.IS_FINAL,
             a -> a.isFinal(),
-            (_param p, Boolean b) -> p.setFinal(b));
+            (_param p, Boolean b) -> p.setFinal(b), PARSER);
 
     public static _feature._one<_param, _typeRef> TYPE = new _feature._one<>(_param.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_param p, _typeRef _tr) -> p.setTypeRef(_tr));
+            (_param p, _typeRef _tr) -> p.setTypeRef(_tr), PARSER);
 
     public static _feature._one<_param, Boolean> IS_VAR_ARG = new _feature._one<>(_param.class, Boolean.class,
             _feature._id.IS_VAR_ARG,
             a -> a.isVarArg(),
-            (_param p, Boolean b) -> p.setVarArg(b));
+            (_param p, Boolean b) -> p.setVarArg(b), PARSER);
 
     public static _feature._one<_param, _annoExprs> VAR_ARG_ANNO_EXPRS = new _feature._one<>(_param.class, _annoExprs.class,
             _feature._id.VAR_ARG_ANNO_EXPRS,
             a -> a.getVarArgAnnoExprs(),
-            (_param p, _annoExprs _aes) -> p.setVarArgAnnoExprs(_aes));
+            (_param p, _annoExprs _aes) -> p.setVarArgAnnoExprs(_aes), PARSER);
 
     public static _feature._one<_param, String> NAME = new _feature._one<>(_param.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_param p, String s) -> p.setName(s));
+            (_param p, String s) -> p.setName(s), PARSER);
 
     public static _feature._meta<_param> META = _feature._meta.of(_param.class, ANNO_EXPRS, IS_FINAL, TYPE, IS_VAR_ARG, VAR_ARG_ANNO_EXPRS, NAME);
 

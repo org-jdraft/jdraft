@@ -8,6 +8,7 @@ import org.jdraft.text.Text;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
  * @author Eric
  */
 public final class _imports implements _java._set<ImportDeclaration, _import, _imports> {
+
+    public static final Function<String, _imports> PARSER = s-> _imports.of(s);
 
     public static _imports of(Class...clazzes){
         CompilationUnit cu = new CompilationUnit();
@@ -56,7 +59,7 @@ public final class _imports implements _java._set<ImportDeclaration, _import, _i
     public static _feature._many<_imports, _import> IMPORTS = new _feature._many<>(_imports.class, _import.class,
             _feature._id.IMPORTS, _feature._id.IMPORT,
             a->a.list(),
-            (_imports a, List<_import> es)-> a.set(es));
+            (_imports a, List<_import> es)-> a.set(es), PARSER);
 
     public static _feature._meta<_imports> META = _feature._meta.of(_imports.class, IMPORTS);
 

@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, _tryStmt>,
         _java._node<TryStmt, _tryStmt>{
 
+    public static final Function<String, _tryStmt> PARSER = s-> _tryStmt.of(s);
+
     public static _tryStmt of(){
         return new _tryStmt( new TryStmt( ));
     }
@@ -69,24 +71,24 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
     public static _feature._one<_tryStmt, _body> TRY_BODY = new _feature._one<>(_tryStmt.class, _body.class,
             _feature._id.TRY_BODY,
             a -> a.getTryBody(),
-            (_tryStmt p, _body _b) -> p.setTryBody(_b));
+            (_tryStmt p, _body _b) -> p.setTryBody(_b), PARSER);
 
     public static _feature._one<_tryStmt, _body> FINALLY_BODY = new _feature._one<>(_tryStmt.class, _body.class,
             _feature._id.FINALLY_BODY,
             a -> a.getFinallyBody(),
-            (_tryStmt p, _body _b) -> p.setFinallyBody(_b));
+            (_tryStmt p, _body _b) -> p.setFinallyBody(_b), PARSER);
 
     public static _feature._many<_tryStmt, _expr> WITH_RESOURCES = new _feature._many<>(_tryStmt.class, _expr.class,
             _feature._id.WITH_RESOURCES_EXPRS,
             _feature._id.EXPRESSION,
             a -> a.listWithResources(),
-            (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses));
+            (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses), PARSER);
 
     public static _feature._many<_tryStmt, _catch> CATCH_CLAUSES = new _feature._many<>(_tryStmt.class, _catch.class,
             _feature._id.CATCH_CLAUSES,
             _feature._id.CATCH,
             a -> a.listCatches(),
-            (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs));
+            (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs), PARSER);
 
     public static _feature._meta<_tryStmt> META = _feature._meta.of(_tryStmt.class, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
 

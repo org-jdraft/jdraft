@@ -5,11 +5,14 @@ import com.github.javaparser.ast.expr.SimpleName;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _nameExpr
         implements _expr<NameExpr, _nameExpr>,
         _java._node<NameExpr, _nameExpr>,
         _java._withName<_nameExpr> {
+
+    public static final Function<String, _nameExpr> PARSER = s-> _nameExpr.of(s);
 
     public static _nameExpr of(){
         return new _nameExpr( new NameExpr( ));
@@ -24,7 +27,7 @@ public final class _nameExpr
     public static _feature._one<_nameExpr, SimpleName> NAME = new _feature._one<>(_nameExpr.class, SimpleName.class,
             _feature._id.NAME,
             a -> a.getNameNode(),
-            (_nameExpr a, SimpleName sn) -> a.setName(sn));
+            (_nameExpr a, SimpleName sn) -> a.setName(sn), PARSER);
 
     public static _feature._meta<_nameExpr> META = _feature._meta.of(_nameExpr.class, NAME);
 

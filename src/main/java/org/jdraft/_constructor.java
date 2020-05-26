@@ -33,6 +33,8 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         _params._withParams<_constructor>, _typeParams._withTypeParams<_constructor>,
         _receiverParam._withReceiverParam<_constructor>, _java._declared<ConstructorDeclaration, _constructor> {
 
+    public static final Function<String, _constructor> PARSER = s-> _constructor.of(s);
+
     public static _constructor of( String signature ){
         return of( new String[]{signature});
     }
@@ -116,47 +118,47 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     public static _feature._one<_constructor, _javadocComment> JAVADOC = new _feature._one<>(_constructor.class, _javadocComment.class,
             _feature._id.JAVADOC,
             a -> a.getJavadoc(),
-            (_constructor a, _javadocComment _jd) -> a.setJavadoc(_jd));
+            (_constructor a, _javadocComment _jd) -> a.setJavadoc(_jd), PARSER);
 
     public static _feature._one<_constructor, _annoExprs> ANNO_EXPRS = new _feature._one<>(_constructor.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_constructor a, _annoExprs _ta) -> a.setAnnoExprs(_ta));
+            (_constructor a, _annoExprs _ta) -> a.setAnnoExprs(_ta), PARSER);
 
     public static _feature._one<_constructor, _modifiers> MODIFIERS = new _feature._one<>(_constructor.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a -> a.getModifiers(),
-            (_constructor a, _modifiers _ms) -> a.setModifiers(_ms));
+            (_constructor a, _modifiers _ms) -> a.setModifiers(_ms), PARSER);
 
     public static _feature._one<_constructor, _typeParams> TYPE_PARAMS = new _feature._one<>(_constructor.class, _typeParams.class,
             _feature._id.TYPE_PARAMS,
             a -> a.getTypeParams(),
-            (_constructor a, _typeParams _tps) -> a.setTypeParams(_tps));
+            (_constructor a, _typeParams _tps) -> a.setTypeParams(_tps), PARSER);
 
     public static _feature._one<_constructor, String> NAME = new _feature._one<>(_constructor.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_constructor a, String s) -> a.setName(s));
+            (_constructor a, String s) -> a.setName(s), PARSER);
 
     public static _feature._one<_constructor, _receiverParam> RECEIVER_PARAM = new _feature._one<>(_constructor.class, _receiverParam.class,
             _feature._id.RECEIVER_PARAM,
             a -> a.getReceiverParam(),
-            (_constructor a, _receiverParam _r) -> a.setReceiverParam(_r));
+            (_constructor a, _receiverParam _r) -> a.setReceiverParam(_r), PARSER);
 
     public static _feature._one<_constructor, _params> PARAMS = new _feature._one<>(_constructor.class, _params.class,
             _feature._id.PARAMS,
             a -> a.getParams(),
-            (_constructor a, _params _p) -> a.setParams(_p));
+            (_constructor a, _params _p) -> a.setParams(_p), PARSER);
 
     public static _feature._one<_constructor, _throws> THROWS = new _feature._one<>(_constructor.class, _throws.class,
             _feature._id.THROWS,
             a -> a.getThrows(),
-            (_constructor a, _throws _t) -> a.setThrows(_t));
+            (_constructor a, _throws _t) -> a.setThrows(_t), PARSER);
 
     public static _feature._one<_constructor, _body> BODY = new _feature._one<>(_constructor.class, _body.class,
             _feature._id.BODY,
             a -> a.getBody(),
-            (_constructor a, _body _b) -> a.setBody(_b));
+            (_constructor a, _body _b) -> a.setBody(_b), PARSER);
 
     public static _feature._meta<_constructor> META = _feature._meta.of(_constructor.class,
             JAVADOC, ANNO_EXPRS, MODIFIERS, TYPE_PARAMS, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );

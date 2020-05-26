@@ -24,7 +24,7 @@ import java.util.stream.Stream;
  * of() these match (can be other annotations)
  */
 public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
-        implements $bot<NodeWithAnnotations, _annoExprs, $annoExprs>{
+        implements $bot<_annoExprs, $annoExprs>{
 
     public static $annoExprs of(){
         return new $annoExprs();

@@ -13,6 +13,7 @@ import org.jdraft.text.Text;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static org.jdraft.Ast.field;
@@ -29,10 +30,13 @@ import static org.jdraft.Ast.field;
 public final class _annoExprs
         implements _java._set<AnnotationExpr, _annoExpr, _annoExprs> {
 
+    public static final Function<String, _annoExprs> PARSER = s-> _annoExprs.of(s);
+
     public static _feature._many<_annoExprs, _annoExpr> EXPRS = new _feature._many<>(_annoExprs.class, _annoExpr.class,
             _feature._id.ANNO_EXPRS, _feature._id.ANNO_EXPR,
             as->as.list(),
-            (_annoExprs as, List<_annoExpr> anns)-> as.set(anns));
+            (_annoExprs as, List<_annoExpr> anns)-> as.set(anns),
+            PARSER);
 
     public static _feature._meta<_annoExprs> META = _feature._meta.of(_annoExprs.class, EXPRS);
 
@@ -44,7 +48,8 @@ public final class _annoExprs
     }
 
     public static _annoExprs of(String... anns ) {
-        String f = Text.combine( anns ) + System.lineSeparator() + "NOT_A_REAL_FIELD AST_ANNO_HOLDER;";
+        //String f = Text.combine( anns ) + System.lineSeparator() + "NOT_A_REAL_FIELD AST_ANNO_HOLDER;";
+        String f = Text.combine( anns ) + System.lineSeparator() + "UNKNOWN unknown;";
         FieldDeclaration fd = field( f );
         _annoExprs _as = new _annoExprs( fd );
         return _as;
@@ -74,7 +79,7 @@ public final class _annoExprs
     }
 
     public static _annoExprs of(){
-        return new _annoExprs(field( "NOT_A_REAL_FIELD AST_ANNO_HOLDER;") );
+        return new _annoExprs(field( "UNKNOWN unknown;") );
     }
 
     public static _annoExprs of(String annos){

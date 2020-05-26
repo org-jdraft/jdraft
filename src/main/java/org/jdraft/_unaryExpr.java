@@ -1,11 +1,11 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 /**
@@ -16,6 +16,8 @@ import java.util.function.Predicate;
  */
 public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._node<UnaryExpr, _unaryExpr>,
         _java._withExpression<UnaryExpr, _unaryExpr> {
+
+    public static final Function<String, _unaryExpr> PARSER = s-> _unaryExpr.of(s);
 
     public static final UnaryExpr.Operator BITWISE_COMPLEMENT = UnaryExpr.Operator.BITWISE_COMPLEMENT;
     public static final UnaryExpr.Operator LOGICAL_COMPLEMENT = UnaryExpr.Operator.LOGICAL_COMPLEMENT;
@@ -54,12 +56,12 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
     public static _feature._one<_unaryExpr, UnaryExpr.Operator> OPERATOR = new _feature._one<>(_unaryExpr.class, UnaryExpr.Operator.class,
             _feature._id.UNARY_OPERATOR,
             a -> a.getOperator(),
-            (_unaryExpr a, UnaryExpr.Operator o) -> a.setOperator(o));
+            (_unaryExpr a, UnaryExpr.Operator o) -> a.setOperator(o), PARSER);
 
     public static _feature._one<_unaryExpr, _expr> EXPRESSION = new _feature._one<>(_unaryExpr.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getExpression(),
-            (_unaryExpr a, _expr _e) -> a.setExpression(_e));
+            (_unaryExpr a, _expr _e) -> a.setExpression(_e), PARSER);
 
     public static _feature._meta<_unaryExpr> META = _feature._meta.of(_unaryExpr.class, OPERATOR, EXPRESSION);
 

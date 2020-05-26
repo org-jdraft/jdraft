@@ -4,6 +4,7 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BreakStmt;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * <PRE>
@@ -19,6 +20,8 @@ import java.util.Objects;
 public final class _breakStmt
         implements _stmt._controlFlow._goto<BreakStmt, _breakStmt>, _java._node<BreakStmt, _breakStmt> {
 
+    public static final Function<String, _breakStmt> PARSER = s-> _breakStmt.of(s);
+
     public static _breakStmt of(){
         return new _breakStmt( new BreakStmt( ).removeLabel());
     }
@@ -32,7 +35,7 @@ public final class _breakStmt
     public static _feature._one<_breakStmt, String> LABEL = new _feature._one<>(_breakStmt.class, String.class,
             _feature._id.LABEL,
             a -> a.getLabel(),
-            (_breakStmt a, String s) -> a.setLabel(s));
+            (_breakStmt a, String s) -> a.setLabel(s), PARSER);
 
     public static _feature._meta<_breakStmt> META = _feature._meta.of(_breakStmt.class, LABEL);
 

@@ -42,6 +42,8 @@ import java.util.stream.Collectors;
 public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         _java._node<SwitchExpr, _switchExpr>, _switch<_switchExpr> {
 
+    public static final Function<String, _switchExpr> PARSER = s-> _switchExpr.of(s);
+
     public static _switchExpr of(){
         return new _switchExpr(new SwitchExpr());
     }
@@ -114,13 +116,13 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     public static _feature._one<_switchExpr, _expr> EXPRESSION = new _feature._one<>(_switchExpr.class, _expr.class,
             _feature._id.EXPRESSION,
             a -> a.getSwitchSelector(),
-            (_switchExpr p, _expr _es) -> p.setSwitchSelector(_es));
+            (_switchExpr p, _expr _es) -> p.setSwitchSelector(_es), PARSER);
 
     public static _feature._many<_switchExpr, _switchEntry> SWITCH_ENTRIES = new _feature._many<>(_switchExpr.class, _switchEntry.class,
             _feature._id.SWITCH_ENTRIES,
             _feature._id.SWITCH_ENTRY,
             a -> a.listSwitchEntries(),
-            (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses));
+            (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER);
 
     public static _feature._meta<_switchExpr> META = _feature._meta.of(_switchExpr.class, EXPRESSION, SWITCH_ENTRIES );
 

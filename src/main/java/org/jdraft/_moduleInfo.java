@@ -7,6 +7,7 @@ import com.github.javaparser.ast.modules.ModuleDirective;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +18,8 @@ public final class _moduleInfo
         implements _codeUnit<_moduleInfo>, _java._node<CompilationUnit, _moduleInfo>,
         _java._withName<_moduleInfo>,
         _java._withComments<CompilationUnit, _moduleInfo> {
+
+    public static final Function<String, _moduleInfo> PARSER = s-> _moduleInfo.of(s);
 
     public CompilationUnit astCompUnit;
 
@@ -93,18 +96,18 @@ public final class _moduleInfo
     public static _feature._one<_moduleInfo, Boolean> IS_OPEN = new _feature._one<>(_moduleInfo.class, Boolean.class,
             _feature._id.IS_OPEN,
             a -> a.isOpen(),
-            (_moduleInfo a, Boolean b) -> a.setOpen(b));
+            (_moduleInfo a, Boolean b) -> a.setOpen(b), PARSER);
 
     public static _feature._one<_moduleInfo, String> NAME = new _feature._one<>(_moduleInfo.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_moduleInfo a, String s) -> a.setName(s));
+            (_moduleInfo a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleInfo, _moduleDirective> MODULE_DIRECTIVES = new _feature._many<>(_moduleInfo.class, _moduleDirective.class,
             _feature._id.MODULE_DIRECTIVES,
             _feature._id.MODULE_DIRECTIVES,
             a -> a.listModuleDirectives(),
-            (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns));
+            (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER);
 
     public static _feature._meta<_moduleInfo> META = _feature._meta.of(_moduleInfo.class, IS_OPEN, NAME, MODULE_DIRECTIVES);
 

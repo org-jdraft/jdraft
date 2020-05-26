@@ -36,6 +36,8 @@ public final class _field
         _modifiers._withFinal<_field>, _modifiers._withStatic<_field>, _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
         _java._withNameTypeRef<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
 
+    public static final Function<String, _field> PARSER = s-> _field.of(s);
+
     private final VariableDeclarator astVar;
 
     public static _field of( Class clazz, String name){
@@ -120,28 +122,28 @@ public final class _field
     public static _feature._one<_field, _annoExprs> ANNOS = new _feature._one<>(_field.class, _annoExprs.class,
             _feature._id.ANNO_EXPRS,
             a -> a.getAnnoExprs(),
-            (_field a, _annoExprs _e) -> a.setAnnoExprs(_e));
+            (_field a, _annoExprs _e) -> a.setAnnoExprs(_e), PARSER);
 
 
     public static _feature._one<_field, _modifiers> MODIFIERS = new _feature._one<>(_field.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a -> a.getModifiers(),
-            (_field a, _modifiers _e) -> a.setModifiers(_e));
+            (_field a, _modifiers _e) -> a.setModifiers(_e), PARSER);
 
     public static _feature._one<_field, _typeRef> TYPE = new _feature._one<>(_field.class, _typeRef.class,
             _feature._id.TYPE,
             a -> a.getTypeRef(),
-            (_field a, _typeRef _e) -> a.setTypeRef(_e));
+            (_field a, _typeRef _e) -> a.setTypeRef(_e), PARSER);
 
     public static _feature._one<_field, String> NAME = new _feature._one<>(_field.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_field a, String s) -> a.setName(s));
+            (_field a, String s) -> a.setName(s), PARSER);
 
     public static _feature._one<_field, _expr> INIT = new _feature._one<>(_field.class, _expr.class,
             _feature._id.INIT_EXPR,
             a -> a.getInit(),
-            (_field a, _expr _e) -> a.setInit(_e));
+            (_field a, _expr _e) -> a.setInit(_e), PARSER);
 
 
     public static _feature._meta<_field> META = _feature._meta.of(_field.class, ANNOS, MODIFIERS, TYPE, NAME, INIT );

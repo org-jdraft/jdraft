@@ -4,8 +4,11 @@ import com.github.javaparser.ast.expr.NullLiteralExpr;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExpr> {
+
+    public static final Function<String, _newExpr> PARSER = s-> _newExpr.of(s);
 
     public static _nullExpr of(){
         return new _nullExpr(new NullLiteralExpr());

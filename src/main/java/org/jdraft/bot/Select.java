@@ -1,6 +1,7 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
+import org.jdraft._feature;
 import org.jdraft._jdraftException;
 import org.jdraft.text.*;
 
@@ -121,7 +122,7 @@ public class Select<S> {
          */
         public Function<_T, _F> featureResolver;
 
-        public $feature(Class<_T>targetClass, Class<_F> featureClass, String featureName, Function<_T, _F> featureResolver){
+        public  $feature(Class<_T>targetClass, Class<_F> featureClass, String featureName, Function<_T, _F> featureResolver){
             this.targetClass = targetClass;
             this.featureClass = featureClass;
             this.featureName = featureName;
@@ -681,8 +682,8 @@ public class Select<S> {
      * <LI>true means I match ONLY resolved features values that are true</LI>
      * <LI>false means I match ONLY resolved feature values that are false</LI>
      * </UL>
-     * @see $parameter#isVarArg
-     * @see $parameter#isFinal
+     * @see $param#isVarArg
+     * @see $param#isFinal
      */
     public static class $BooleanSelect<_T> extends $feature<_T, Boolean> {
 
