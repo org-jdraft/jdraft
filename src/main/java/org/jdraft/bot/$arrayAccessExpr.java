@@ -177,6 +177,11 @@ public class $arrayAccessExpr
         return this;
     }
 
+    @Override
+    public $arrayAccessExpr $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
     public List<String> $list(){
         List<String> strs = new ArrayList<>();
         $listBots().forEach(b -> strs.addAll( b.$list() ));

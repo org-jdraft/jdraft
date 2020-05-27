@@ -20,6 +20,10 @@ public class $name implements $bot<_name, $name>,
         return new $name();
     }
 
+    public static $name of(_name _n){
+        return $name.of( _n.toString() );
+    }
+
     public static $name of(Expression e) {
         return new $name(e.toString());
     }
@@ -148,7 +152,7 @@ public class $name implements $bot<_name, $name>,
                 //        && this.matchPackageNames && this.matchParameterNames && this.matchTypeDeclarationNames
                 //        && this.matchTypeRefNames && this.matchVariableNames && matchEnumConstantNames;
             } catch(Exception e){
-                System.out.println( "Failed predicate test ");
+                //System.out.println( "Failed predicate test ");
                 return false;
             }
         }
@@ -656,6 +660,11 @@ public class $name implements $bot<_name, $name>,
             this.stencil = this.stencil.$(target, $Name);
         }
         return this;
+    }
+
+    @Override
+    public $name $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

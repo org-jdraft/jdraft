@@ -82,13 +82,13 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
             _feature._id.WITH_RESOURCES_EXPRS,
             _feature._id.EXPRESSION,
             a -> a.listWithResources(),
-            (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses), PARSER);
+            (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses), PARSER, s->_expr.of(s));
 
     public static _feature._many<_tryStmt, _catch> CATCH_CLAUSES = new _feature._many<>(_tryStmt.class, _catch.class,
             _feature._id.CATCH_CLAUSES,
             _feature._id.CATCH,
             a -> a.listCatches(),
-            (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs), PARSER);
+            (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs), PARSER, s->_catch.of(s));
 
     public static _feature._meta<_tryStmt> META = _feature._meta.of(_tryStmt.class, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
 

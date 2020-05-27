@@ -5,6 +5,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.NullLiteralExpr;
 import org.jdraft.*;
 import org.jdraft._java._domain;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -153,6 +154,11 @@ public class $nullExpr implements $bot.$node<NullLiteralExpr, _nullExpr, $nullEx
         //    this.stencil = this.stencil.$(target, $Name);
         //}
         return this;
+    }
+
+    @Override
+    public $nullExpr $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

@@ -140,7 +140,7 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
     public static _feature._many<_arrayInitExpr, _expr> INIT_EXPRS = new _feature._many<>(_arrayInitExpr.class, _expr.class,
             _feature._id.INIT, _feature._id.INIT_EXPR,
             a->a.list(),
-            (_arrayInitExpr a, List<_expr> es)-> a.set(es), PARSER);
+            (_arrayInitExpr a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s));
 
     public static _feature._meta<_arrayInitExpr> META = _feature._meta.of(_arrayInitExpr.class, INIT_EXPRS);
 

@@ -28,6 +28,11 @@ public abstract class $baseBot<_T,$B extends $baseBot> {
         return ($B)this;
     }
 
+    /**
+     * Given a
+     * @param _p
+     * @return
+     */
     public Select<_T> select(_T _p){
         try{
             if( this.predicate.test(_p)) {
@@ -70,12 +75,18 @@ public abstract class $baseBot<_T,$B extends $baseBot> {
     }
 
     public $B $hardcode(Translator translator, Map<String,Object> map){
-        $forFeatureSelectors($fs-> $fs.$hardcode(translator, map) );
+        $forFeatureSelectors($fs-> {
+            $fs = $fs.$hardcode(translator, map);
+        } );
         return ($B)this;
     }
 
     public $B $hardcode(Translator translator, Tokens ts){
-        $forFeatureSelectors($fs-> $fs.$hardcode(translator, ts) );
+        $forFeatureSelectors($fs-> {
+            //System.out.println( "Calling HARDCODE "+ $fs);
+            $fs = $fs.$hardcode(translator, ts);
+            //System.out.println( "DONE"+ $fs);
+        } );
         return ($B)this;
     }
 

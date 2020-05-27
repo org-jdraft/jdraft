@@ -159,6 +159,11 @@ public class $parameters implements Template<_params>,
     }
 
     @Override
+    public Template<_params> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
+    @Override
     public $parameters $hardcode(Translator translator, Tokens kvs) {
         $params.forEach(p-> p.$hardcode(translator, kvs));
         return this;

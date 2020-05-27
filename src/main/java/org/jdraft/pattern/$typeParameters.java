@@ -376,6 +376,11 @@ public class $typeParameters
         return this;
     }
 
+    @Override
+    public Template<_typeParams> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      * 
      * @param translator

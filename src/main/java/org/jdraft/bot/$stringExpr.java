@@ -7,6 +7,7 @@ import org.jdraft.*;
 import org.jdraft._java._domain;
 import org.jdraft.io._batch;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -206,6 +207,11 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
             this.stencil = this.stencil.$(target, $Name);
         }
         return this;
+    }
+
+    @Override
+    public $stringExpr $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return $hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

@@ -1094,6 +1094,11 @@ public class $method
         return this;
     }
 
+    @Override
+    public Template<_method> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
     /**
      * 
      * @param astExpr

@@ -1109,6 +1109,11 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     }
 
     @Override
+    public $field $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return $hardcode(translator, Tokens.of(keyValues));
+    }
+
+    @Override
     public List<String> $list() {
         List<String> vars = new ArrayList<>();
         if( !javadoc.isMatchAny() ) {

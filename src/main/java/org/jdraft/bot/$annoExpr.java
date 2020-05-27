@@ -21,7 +21,7 @@ import java.util.stream.Stream;
  * @author Eric
  */
 public class $annoExpr
-        extends $baseBot<_annoExpr, $annoExpr>
+        extends $botEnsemble<_annoExpr, $annoExpr>
         implements Template<_annoExpr>,
         $bot.$node<AnnotationExpr, _annoExpr, $annoExpr>,
         $selector.$node<_annoExpr, $annoExpr>,
@@ -30,10 +30,10 @@ public class $annoExpr
         $enumConstant.$part, $type.$part {
 
     public static $annoExpr of() {
-        return new $annoExpr($name.of());
+        return new $annoExpr($id.of());
     }
 
-    public static $annoExpr of($name name, $entryPair... memberValues) {
+    public static $annoExpr of($id name, $entryPair... memberValues) {
         return new $annoExpr(name, memberValues);
     }
 
@@ -112,17 +112,26 @@ public class $annoExpr
         return $a;
     }
 
+    public $featureBot<_annoExpr, String, $id> name =
+            $featureBot.of(_annoExpr.NAME);
+
+    public $featureBotList<_annoExpr, _entryPair, $entryPair> entryPairs =
+            $featureBotList.of(_annoExpr.ENTRY_PAIRS); //, _entryPair.class, "entryPairs", _ae -> ((_annoExpr) _ae).listPairs());
+
+
     /**
      * the id / name of the annotation
-     */
+
     public Select.$botSelect<$name, _annoExpr, _name> name =
             Select.$botSelect.of(_annoExpr.class, _name.class, "name", b -> _name.of(b.getNameNode()));
+    */
 
     /**
      * the pairs of key values of the annotation (i.e. @A(key=1) )
-     */
+
     public Select.$botSetSelect<$entryPair, _annoExpr, _entryPair> entryPairs =
             new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "entryPairs", _ae -> ((_annoExpr) _ae).listPairs());
+    */
 
     public $annoExpr copy() {
         $annoExpr $copy = of(this.predicate.and(t -> true));
@@ -139,7 +148,7 @@ public class $annoExpr
      * @param name
      * @param mvs
      */
-    private $annoExpr($name name, $entryPair... mvs) {
+    private $annoExpr($id name, $entryPair... mvs) {
         this.name.setBot(name);
         this.entryPairs.setBotList(Stream.of(mvs).collect(Collectors.toList()));
     }
@@ -152,7 +161,7 @@ public class $annoExpr
      * @param proto
      */
     public $annoExpr(_annoExpr proto) {
-        this.name.setBot($name.of(proto.getName()));
+        this.name.setBot($id.of(proto.getName()));
         AnnotationExpr astAnn = proto.ast();
         if (astAnn instanceof NormalAnnotationExpr) {
             NormalAnnotationExpr na = (NormalAnnotationExpr) astAnn;
@@ -163,6 +172,7 @@ public class $annoExpr
             SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr) astAnn;
             Stencil st = Stencil.of(sa.getMemberValue().toString());
             if (st.isMatchAny()) { //i.e. @A($any$) which matches @A, @A(1), @A(k=1), @A(k=1v=2)...
+                //System.out.println( "Setting match ALL to :\""+st.$list().get(0)+"\"");
                 entryPairs.setMatchAll(st.$list().get(0));
             } else {
                 entryPairs.add($entryPair.of(sa.getMemberValue()));
@@ -174,7 +184,7 @@ public class $annoExpr
      * @return
      */
     public $annoExpr $name() {
-        this.name.setBot($name.of());
+        this.name.setBot(null);
         return this;
     }
 
@@ -184,7 +194,7 @@ public class $annoExpr
      * @param name
      * @return
      */
-    public $annoExpr $name($name name) {
+    public $annoExpr $name($id name) {
         this.name.setBot(name);
         return this;
     }
@@ -196,12 +206,13 @@ public class $annoExpr
      * @return
      */
     public $annoExpr $name(String name) {
-        this.name.setBot($name.of(name));
+        this.name.setBot($id.of(name));
         return this;
     }
 
     public $annoExpr $entryPairs(List<$entryPair> $keyValuePairs) {
-        this.entryPairs.add($keyValuePairs.toArray(new $entryPair[0]));
+        this.entryPairs.setBotList($keyValuePairs);
+        //this.entryPairs.add($keyValuePairs.toArray(new $entryPair[0]));
         return this;
     }
 
@@ -256,13 +267,23 @@ public class $annoExpr
     }
 
     @Override
-    public List<Select.$feature<_annoExpr, ?>> $listSelectors() {
+    public List<$feature<_annoExpr, ?, ?>> $listFeatures() {
         return Stream.of(this.name, this.entryPairs).collect(Collectors.toList());
     }
 
+    /*
+    @Override
+    public List<Select.$feature<_annoExpr, ?>> $listSelectors() {
+        return Stream.of(this.name, this.entryPairs).collect(Collectors.toList());
+    }
+     */
+
+    /*
     public Tokens parse(_annoExpr _a) {
+        return select(_a).tokens;
         return Select.tokensFrom(_a, this.$listSelectors());
     }
+     */
 
     public boolean matches(AnnotationExpr astAnno) {
         return select(astAnno) != null;
@@ -379,7 +400,7 @@ public class $annoExpr
         }
         StringBuilder sb = new StringBuilder();
         sb.append("@");
-        sb.append(this.name.getBot().stencil);
+        sb.append(this.name.bot.stencil);
         if (this.entryPairs.botList.isEmpty()) {
             return "$annoExpr{ " + sb.toString() + " }";
         }
@@ -398,7 +419,7 @@ public class $annoExpr
         public Or($annoExpr... $as) {
             super();
             this.name.setBot(null);
-            this.entryPairs = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
+            //this.entryPairs = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
             Arrays.stream($as).forEach($a -> $annoExprBots.add($a));
         }
 
@@ -525,6 +546,7 @@ public class $annoExpr
             return null;
         }
 
+        /*
         public Tokens parse(_annoExpr _a) {
             $annoExpr $a = whichMatch(_a);
             if ($a != null) {
@@ -532,5 +554,6 @@ public class $annoExpr
             }
             return null;
         }
+         */
     }
 }

@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
+import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -397,6 +398,11 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
         this.args.$(target, $Name);
         this.typeArgs.$(target, $Name);
         return this;
+    }
+
+    @Override
+    public $methodCallExpr $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

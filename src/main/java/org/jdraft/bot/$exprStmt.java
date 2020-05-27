@@ -5,6 +5,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -235,6 +236,11 @@ public class $exprStmt implements $bot.$node<ExpressionStmt, _exprStmt, $exprStm
             this.comment.$(target, $Name);
         }
         return this;
+    }
+
+    @Override
+    public $exprStmt $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

@@ -132,6 +132,11 @@ public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>
         return this;
     }
 
+    @Override
+    public $classExpr $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
     public List<String> $list() {
         return this.type.$list();
     }

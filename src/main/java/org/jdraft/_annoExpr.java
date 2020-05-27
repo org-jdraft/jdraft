@@ -98,7 +98,7 @@ public final class _annoExpr
     public Name getNameNode(){ return this.astAnno.getName(); }
 
     public _annoExpr setName(_name _n){
-        this.astAnno.setName( (Name)_n.ast());
+        this.astAnno.setName( _n.toString() );
         return this;
     }
 
@@ -249,7 +249,7 @@ public final class _annoExpr
             _feature._id.ANNO_EXPR_ENTRY_PAIRS, _feature._id.ANNO_EXPR_ENTRY_PAIR,
             a->a.listPairs(),
             (_annoExpr a, List<_entryPair> pairs)-> a.setPairs(pairs),
-            PARSER );
+            PARSER, s-> _entryPair.of(s));
 
     public static _feature._meta<_annoExpr> META = _feature._meta.of(_annoExpr.class, NAME, ENTRY_PAIRS);
 

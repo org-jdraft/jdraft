@@ -6,6 +6,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft.io._batch;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -391,6 +392,11 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
             this.stencil = this.stencil.$(target, $Name);
         }
         return this;
+    }
+
+    @Override
+    public Template<_comment> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
     }
 
     @Override

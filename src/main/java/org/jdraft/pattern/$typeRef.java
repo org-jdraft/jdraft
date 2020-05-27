@@ -203,6 +203,11 @@ public class $typeRef
         return this;
     }
 
+    @Override
+    public Template<_typeRef> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      * 
      * @param astExpr

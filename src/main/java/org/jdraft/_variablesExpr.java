@@ -53,7 +53,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
             _feature._id.VARIABLES,
             _feature._id.VARIABLE,
             a -> a.list(),
-            (_variablesExpr p, List<_variable> _ccs) -> p.set(_ccs), PARSER);
+            (_variablesExpr p, List<_variable> _ccs) -> p.set(_ccs), PARSER, s-> _variable.of(s));
 
     public static _feature._meta<_variablesExpr> META = _feature._meta.of(_variablesExpr.class, ANNO_EXPRS, MODIFIERS, VARIABLES);
 

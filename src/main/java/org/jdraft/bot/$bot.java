@@ -22,12 +22,34 @@ import java.util.stream.Stream;
  * _B is the _java.domain wrapper for the syntax entity
  * $B the bot type
  *
- * @param <B> the underlying syntax type (most often a JavaParser {@link Node})
  * @param <_B> the _java.domain type the _jdraft domain type
  * @param <$B> the $bot type the bot type (used to return itself or a copy of the same type from default methods)
  */
 public interface $bot<_B, $B>
         extends $selector<_B, $B>, Template<_B> {
+
+    static $bot of( _java._domain _n ){
+        if( _n instanceof _stmt ){
+            return $stmt.of( (_stmt)_n);
+        }
+        if( _n instanceof _expr ){
+            return $expr.of( (_expr)_n);
+        }
+        if( _n instanceof _args){
+            return $args.of( (_args)_n);
+        }
+        if(_n instanceof _comment){
+            return $comment.of( (_comment)_n);
+        }
+        if(_n instanceof  _name){
+            return $name.of( (_name)_n);
+        }
+        if( _n instanceof _entryPair ){
+            return $entryPair.of( (_entryPair)_n);
+        }
+        /* TODO FILL THIS OUT */
+        return null;
+    }
 
     /**
      * The quintessential bot function. look at an entity and verify that it matches
@@ -99,8 +121,9 @@ public interface $bot<_B, $B>
      * @param translator
      * @param kvs
      * @return
-     */
+    */
     $B $hardcode(Translator translator, Tokens kvs );
+
 
     /**
      * Parameterizes (2) targets and parameters

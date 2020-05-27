@@ -58,7 +58,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_constant a, List<_java._member> mems) -> a.setMembers(mems), PARSER);
+            (_constant a, List<_java._member> mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_constant.class, s));
 
 
     public static _feature._meta<_constant> META = _feature._meta.of(_constant.class, NAME, ARGS, MEMBERS);

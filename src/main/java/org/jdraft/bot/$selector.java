@@ -29,6 +29,9 @@ import java.util.stream.Stream;
  */
 public interface $selector<_S, $S> extends Function<_S, Tokens> {
 
+    /** return a copy*/
+    $S copy();
+
     /** matching function to match against a candidate (usually defaults to (t)->true to match all) */
     Predicate<_S> getPredicate();
 

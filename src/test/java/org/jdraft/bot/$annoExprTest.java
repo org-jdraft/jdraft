@@ -1,6 +1,7 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
+import org.jdraft._annoExpr;
 
 public class $annoExprTest extends TestCase {
 
@@ -31,6 +32,8 @@ public class $annoExprTest extends TestCase {
 
     public void testHardCode(){
         $annoExpr $ar = $annoExpr.of("@A($value$)");
+
+        assertNotNull($ar.name.selectFrom(_annoExpr.of("@A")));
 
         assertTrue( $ar.matches( "@A(1)"));
         assertTrue( $ar.matches( "@A(2)"));
@@ -65,6 +68,12 @@ public class $annoExprTest extends TestCase {
 
     public void testSimple(){
         $annoExpr $ar = $annoExpr.of("A");
+
+        _annoExpr _ae = _annoExpr.of("A");
+        assertNotNull( $ar.name.selectFrom(_ae));
+        assertNotNull( $ar.entryPairs.selectFrom(_ae));
+        assertTrue( $ar.name.bot.matches("A"));
+        assertTrue( $ar.entryPairs.selectFrom(_annoExpr.of("@A")) != null);
         assertTrue( $ar.matches("@A") );
         assertTrue( $ar.matches("@A(1)") );
         assertTrue( $ar.matches("@A(key=1)") );
@@ -106,7 +115,7 @@ public class $annoExprTest extends TestCase {
         $annoExpr $ar = $annoExpr.as("A(1)");
        // assertTrue($ar.$mvs.get(0).matches("1"));
         //assertTrue($ar.$mvs.get(0).matches("value=1"));
-        assertFalse($ar.entryPairs.get(0).matches("key=1"));
+        assertFalse($ar.entryPairs.getBot(0).matches("key=1"));
 
     }
     public void testAs(){
@@ -117,9 +126,9 @@ public class $annoExprTest extends TestCase {
         assertFalse( $ar.matches("@A(key=1,value=2)") );
 
         $ar = $annoExpr.as("A(key=1)");
-        assertTrue($ar.entryPairs.get(0).matches("key=1"));
-        assertFalse($ar.entryPairs.get(0).matches("key=2"));
-        assertFalse($ar.entryPairs.get(0).matches("value=1"));
+        assertTrue($ar.entryPairs.getBot(0).matches("key=1"));
+        assertFalse($ar.entryPairs.getBot(0).matches("key=2"));
+        assertFalse($ar.entryPairs.getBot(0).matches("value=1"));
 
 
         $ar = $annoExpr.as("A(1)");

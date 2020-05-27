@@ -283,6 +283,11 @@ public class $package implements $pattern<PackageDeclaration, $package>, Templat
     }
 
     @Override
+    public Template<PackageDeclaration> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
+    @Override
     public List<String> $list() {
         List<String> strs = this.annos.$list();
         strs.addAll( this.name.$list());

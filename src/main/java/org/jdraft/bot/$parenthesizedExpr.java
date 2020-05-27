@@ -128,6 +128,11 @@ public class $parenthesizedExpr implements $bot.$node<EnclosedExpr, _parenthesiz
         return this;
     }
 
+    @Override
+    public $parenthesizedExpr $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return $hardcode(translator, Tokens.of(keyValues));
+    }
+
     public List<String> $list() {
         return this.expression.$list();
     }

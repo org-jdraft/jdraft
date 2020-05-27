@@ -290,13 +290,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_enum a, List<_java._member>mems) -> a.setMembers(mems), PARSER);
+            (_enum a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_enum.class, s));
 
     public static _feature._many<_enum, _typeRef> IMPLEMENTS = new _feature._many<>(_enum.class, _typeRef.class,
             _feature._id.IMPLEMENTS_TYPES,
             _feature._id.TYPE,
             a -> a.listImplements(),
-            (_enum a, List<_typeRef>mems) -> a.setImplements(mems), PARSER);
+            (_enum a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s-> _typeRef.of(s));
 
     public static _feature._meta<_enum> META = _feature._meta.of(_enum.class,
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, IMPLEMENTS, MEMBERS);

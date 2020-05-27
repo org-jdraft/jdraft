@@ -662,6 +662,11 @@ public class $body implements Template<_body>,
         return this;
     }
 
+    @Override
+    public Template<_body> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      *
      * @param st

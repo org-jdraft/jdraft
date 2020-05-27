@@ -918,6 +918,11 @@ public class $constructor
         return this;
     }
 
+    @Override
+    public Template<_constructor> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      * 
      * @param astExpr

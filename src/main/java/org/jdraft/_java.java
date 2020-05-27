@@ -703,6 +703,74 @@ public interface _java {
             extends _withComments<N, _N> { //_multiPart<N, _N>,
 
         /**
+         *
+         * @param code
+         * @return
+
+        public static _member of( String code){
+            if( code.contains(" default ")){
+                //MUST be a
+
+            }
+            if( code.endsWith(";")){
+                //field
+            }
+        }
+        */
+
+        /**
+         * Given the "container class" and a String representing the member, build and return
+         * the type
+         * @param containerClass
+         * @param code
+         * @return
+         */
+        static _member of( Class<? extends _member> containerClass, String code){
+            if( containerClass.isAssignableFrom(_type.class)) {
+                if (containerClass == _class.class) {
+                    _class _c = _class.of("class UNKNOWN{ " + System.lineSeparator() + code + "}");
+                    _member _m = _c.listMembers().get(0);
+                    _m.ast().remove();
+                    return _m;
+                }
+                if (containerClass == _annotation.class) {
+                    _enum _c = _enum.of("@interface UNKNOWN{ " + System.lineSeparator() + code + "}");
+                    _member _m = _c.listMembers().get(0);
+                    _m.ast().remove();
+                    return _m;
+                }
+                if (containerClass == _enum.class) {
+                    _enum _c = _enum.of("enum UNKNOWN{ " + System.lineSeparator() + code + "}");
+                    _member _m = _c.listMembers().get(0);
+                    _m.ast().remove();
+                    return _m;
+                }
+                if (containerClass == _interface.class) {
+                    _interface _c = _interface.of("interface UNKNOWN{ " + System.lineSeparator() + code + "}");
+                    _member _m = _c.listMembers().get(0);
+                    _m.ast().remove();
+                    return _m;
+                }
+            }
+
+            if( containerClass == _constant.class){
+                _constant _cs = _constant.of("A(){"+ System.lineSeparator()+ code + "}");
+                _member _m = _cs.listMembers().get(0);
+                _m.ast().remove();
+                return _m;
+            }
+            throw new _jdraftException("cannot create member for "+ containerClass );
+            /*
+            if( containerClass == _moduleInfo.class ){
+                _moduleInfo _mi = _moduleInfo.of("UNKNOWN{"+ System.lineSeparator() + code + "}");
+                ModuleDirective md = _mi.listAstModuleDirectives().get(0);
+                _member _m = _mi.ast().listMembers().get(0);
+                _m.ast().remove();
+                return _m;
+            }
+             */
+        }
+        /**
          * Returns the parent _member for this _member (if it exists)
          * (traverses up through the parents to the
          *
@@ -725,13 +793,13 @@ public interface _java {
                 }
                 BodyDeclaration bd = Tree.first(Tree.PARENTS, fd, BodyDeclaration.class);
                 if( bd != null ) {
-                    return (_M) of(bd);
+                    return (_M) _java.of(bd);
                 }
                 return null; //we didnt find a parent that was a BodyDeclaration
             } else{
                 BodyDeclaration bd = Tree.first(Tree.PARENTS, ast(), BodyDeclaration.class);
                 if( bd != null ) {
-                    return (_M) of(bd);
+                    return (_M) _java.of(bd);
                 }
                 return null; //we didnt find a parent that was a BodyDeclaration
             }

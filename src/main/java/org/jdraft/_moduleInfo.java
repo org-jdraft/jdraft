@@ -107,7 +107,7 @@ public final class _moduleInfo
             _feature._id.MODULE_DIRECTIVES,
             _feature._id.MODULE_DIRECTIVES,
             a -> a.listModuleDirectives(),
-            (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER);
+            (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER, s-> _moduleDirective.of(s));
 
     public static _feature._meta<_moduleInfo> META = _feature._meta.of(_moduleInfo.class, IS_OPEN, NAME, MODULE_DIRECTIVES);
 

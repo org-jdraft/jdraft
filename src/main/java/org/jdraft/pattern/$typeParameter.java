@@ -287,6 +287,11 @@ public class $typeParameter
     }
 
     @Override
+    public $typeParameter $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
+    @Override
     public List<String> $list() {
         List<String> found = new ArrayList<>();
         found.addAll(this.anns.$list());

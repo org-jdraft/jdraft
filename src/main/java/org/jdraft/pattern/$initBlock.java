@@ -433,6 +433,11 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
     }
 
     @Override
+    public Template<_initBlock> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
+    @Override
     public List<String> $list() {
         List<String> strs = this.body.$list();
         strs.addAll( this.body.$list());

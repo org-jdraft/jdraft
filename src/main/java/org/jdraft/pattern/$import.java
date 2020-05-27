@@ -329,6 +329,11 @@ public class $import
         return this;
     }
 
+    @Override
+    public Template<_import> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      * 
      * @param translator

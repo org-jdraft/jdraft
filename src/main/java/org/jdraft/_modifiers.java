@@ -88,7 +88,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
             _feature._id.MODIFIERS,
             _feature._id.MODIFIER,
             a -> a.list(),
-            (_modifiers a, List<_modifier> _ms) -> a.set(_ms), PARSER);
+            (_modifiers a, List<_modifier> _ms) -> a.set(_ms), PARSER, s->_modifier.of(s));
 
     public static _feature._meta<_modifiers> META = _feature._meta.of(_modifiers.class, MODIFIERS );
 

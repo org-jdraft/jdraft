@@ -16,6 +16,7 @@ import org.jdraft.pattern.$field;
  */
 public class STest extends TestCase {
 
+    /*
     public void testGetParentMember(){
         class C{
             void m(){
@@ -31,6 +32,7 @@ public class STest extends TestCase {
         assertTrue( _f.getParentMember().getParentMember().getParentMember() instanceof _class);
         assertNull( _f.getParentMember().getParentMember().getParentMember().getParentMember() );
     }
+     */
 
     public void testQueryCount(){
         class MyClass{

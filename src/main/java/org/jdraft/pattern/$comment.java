@@ -756,6 +756,11 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     }
 
     @Override
+    public Template<C> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
+    @Override
     public List<String> $list() {
         return this.contentsStencil.$list();
     }

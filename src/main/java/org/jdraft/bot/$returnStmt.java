@@ -5,6 +5,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -156,6 +157,11 @@ public class $returnStmt implements $bot.$node<ReturnStmt, _returnStmt, $returnS
     public $returnStmt $(String target, String $Name) {
         this.expression.$(target, $Name);
         return this;
+    }
+
+    @Override
+    public $returnStmt $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     public $returnStmt $not( $returnStmt... $sels ){

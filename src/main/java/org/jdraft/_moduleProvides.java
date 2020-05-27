@@ -48,7 +48,7 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
             _feature._id.NAMES,
             _feature._id.NAME,
             a -> a.list(),
-            (_moduleProvides a, List<_name> _ns) -> a.set(_ns), PARSER);
+            (_moduleProvides a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s));
 
     public static _feature._meta<_moduleProvides> META = _feature._meta.of(_moduleProvides.class, NAME, MODULE_NAMES);
 

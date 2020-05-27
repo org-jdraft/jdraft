@@ -8,6 +8,7 @@ import org.jdraft._expr;
 import org.jdraft._java._domain;
 import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -194,6 +195,11 @@ public class $doubleExpr implements $bot.$node<DoubleLiteralExpr, _doubleExpr, $
             this.stencil = this.stencil.$(target, $Name);
         }
         return this;
+    }
+
+    @Override
+    public Template<_doubleExpr> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

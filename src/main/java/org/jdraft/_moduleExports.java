@@ -48,7 +48,7 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
             _feature._id.NAMES,
             _feature._id.NAME,
             a -> a.list(),
-            (_moduleExports a, List<_name> _ns) -> a.set(_ns), PARSER);
+            (_moduleExports a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s));
 
     public static _feature._meta<_moduleExports> META = _feature._meta.of(_moduleExports.class, NAME, MODULE_NAMES);
 

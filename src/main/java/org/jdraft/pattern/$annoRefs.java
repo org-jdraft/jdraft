@@ -282,6 +282,11 @@ public class $annoRefs
         return this;
     }
 
+    @Override
+    public Template<_annoExprs> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      *
      * @param tr

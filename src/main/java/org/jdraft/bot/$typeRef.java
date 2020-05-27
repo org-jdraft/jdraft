@@ -240,6 +240,11 @@ public class $typeRef
         return this;
     }
 
+    @Override
+    public $typeRef $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
     /**
      *
      * @param astExpr

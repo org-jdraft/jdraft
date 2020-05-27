@@ -5,10 +5,7 @@ import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import org.jdraft.*;
 import org.jdraft._java._domain;
-import org.jdraft.text.Stencil;
-import org.jdraft.text.Text;
-import org.jdraft.text.Tokens;
-import org.jdraft.text.Translator;
+import org.jdraft.text.*;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -162,6 +159,11 @@ public class $booleanExpr implements $bot.$node<BooleanLiteralExpr, _booleanExpr
     @Override
     public $booleanExpr $(String target, String $Name) {
         return this;
+    }
+
+    @Override
+    public Template<_booleanExpr> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
     }
 
     @Override

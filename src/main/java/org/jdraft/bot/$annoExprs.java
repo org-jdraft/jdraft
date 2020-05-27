@@ -160,14 +160,6 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
         return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
-    /*
-    @Override
-    public $annoExprs $hardcode(Translator translator, Tokens kvs) {
-        this.$annos.forEach($a -> $a.$hardcode(translator, kvs));
-        return this;
-    }
-     */
-
     @Override
     public Select<_annoExprs> selectFirstIn(Node astNode, Predicate<Select<_annoExprs>> predicate) {
         Optional<Node>on = astNode.stream().filter( nwa -> {

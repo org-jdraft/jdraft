@@ -509,6 +509,11 @@ public class $switchEntry
     }
 
     @Override
+    public $switchEntry $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
+    @Override
     public $switchEntry $hardcode(Translator translator, Tokens kvs) {
         this.label = this.label.$hardcode(translator, kvs);
         List<$stmt> sts = new ArrayList<>();

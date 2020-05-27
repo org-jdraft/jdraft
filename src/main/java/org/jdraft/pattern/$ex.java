@@ -1959,6 +1959,11 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
         return ($E)this;
     }
 
+    @Override
+    public Template<_E> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      * 
      * @param astExpr

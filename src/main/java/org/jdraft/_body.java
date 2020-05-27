@@ -251,7 +251,7 @@ public final class _body implements _java._domain {
     public static _feature._many<_body, _stmt> STATEMENTS = new _feature._many<>(_body.class, _stmt.class,
             _feature._id.STATEMENTS, _feature._id.STATEMENT,
             a->a.list(),
-            (_body a, List<_stmt> es)-> a.set(es), PARSER);
+            (_body a, List<_stmt> es)-> a.set(es), PARSER, s-> _stmt.of(s));
 
     public static _feature._meta<_body> META = _feature._meta.of(_body.class, IS_IMPLEMENTED, STATEMENTS);
 

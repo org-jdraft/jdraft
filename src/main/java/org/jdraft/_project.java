@@ -89,7 +89,7 @@ public final class _project {
     public static _feature._many<_project, _codeUnit> CODE_UNITS = new _feature._many<>(_project.class, _codeUnit.class,
             _feature._id.CODE_UNITS, _feature._id.CODE_UNIT,
             a->a.list(),
-            (_project a, List<_codeUnit> ps)-> a.set(ps), PARSER);
+            (_project a, List<_codeUnit> ps)-> a.set(ps), PARSER, s-> _codeUnit.of(s));
 
     public static _feature._meta<_project> META = _feature._meta.of(_project.class, CODE_UNITS);
 

@@ -540,6 +540,11 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
     }
 
     @Override
+    public Template<_param> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
+    @Override
     public $parameter $hardcode(Translator translator, Tokens kvs) {
         this.annos = this.annos.$hardcode(translator, kvs);
         this.type = this.type.$hardcode(translator, kvs);

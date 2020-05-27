@@ -547,7 +547,12 @@ public class $var
         this.init.$(target, $paramName);
         return this;
     }
-    
+
+    @Override
+    public Template<VariableDeclarator> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     @Override
     public VariableDeclarator fill(Translator translator, Object... values) {
         List<String> vars = this.type.$listNormalized();

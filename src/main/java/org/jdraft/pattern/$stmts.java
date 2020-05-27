@@ -206,6 +206,11 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
     }
 
     @Override
+    public Template<List<Statement>> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
+    @Override
     public List<String> $listNormalized(){
         List<String>normalized$ = new ArrayList<>();
         $sts.forEach(s -> {

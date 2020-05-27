@@ -422,6 +422,11 @@ public class $annoRef
         return this;
     }
 
+    @Override
+    public Template<_annoExpr> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     public boolean match( Node node ){
         if( node instanceof AnnotationExpr ){
             return matches( (AnnotationExpr)node);

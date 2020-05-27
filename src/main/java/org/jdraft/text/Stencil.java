@@ -567,6 +567,11 @@ public final class Stencil implements Template<String>{
     }
 
     @Override
+    public Stencil $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return $hardcode(translator, Tokens.of(keyValues));
+    }
+
+    @Override
     public String draft(Translator translator, Map<String, Object> $nameValues ){
 
         //Map<String, Object> combinedParams = new HashMap<>($nameValues);
@@ -1016,7 +1021,7 @@ public final class Stencil implements Template<String>{
                 Stencil newStencil = Stencil.of( translator.translate(stencilValue));
                 this.stencil = newStencil;
             }
-            this.stencil = this.stencil.$hardcode(translator, keyValues);
+            this.stencil = (Stencil)this.stencil.$hardcode(translator, keyValues);
             return this;
         }
 

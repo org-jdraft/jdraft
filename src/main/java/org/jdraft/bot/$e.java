@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import com.github.javaparser.ast.expr.*;
 import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 import org.jdraft.Exprs;
@@ -268,6 +269,11 @@ public class $e
 			this.stencil = this.stencil.$(target, $Name);
 		}
 		return this; 
+	}
+
+	@Override
+	public Template<_expr> $hardcode(Translator translator, Map<String, Object> keyValues) {
+		return null;
 	}
 
 	@Override

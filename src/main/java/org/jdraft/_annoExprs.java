@@ -36,7 +36,7 @@ public final class _annoExprs
             _feature._id.ANNO_EXPRS, _feature._id.ANNO_EXPR,
             as->as.list(),
             (_annoExprs as, List<_annoExpr> anns)-> as.set(anns),
-            PARSER);
+            PARSER, s-> _annoExpr.of(s));
 
     public static _feature._meta<_annoExprs> META = _feature._meta.of(_annoExprs.class, EXPRS);
 

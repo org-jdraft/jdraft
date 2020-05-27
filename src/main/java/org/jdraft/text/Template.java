@@ -19,7 +19,6 @@ import java.util.*;
  */
 public interface Template<T> {
 
-
     /**
      * Construct and return the T given the {@link Translator}
      * (for converting objects to text) and a map of key VALUE pairs
@@ -152,6 +151,8 @@ public interface Template<T> {
      * @return the modified Template
      */
     Template<T> $( String target, String $Name );
+
+    Template<T> $hardcode(Translator translator, Map<String,Object>keyValues);
 
     /**
      *

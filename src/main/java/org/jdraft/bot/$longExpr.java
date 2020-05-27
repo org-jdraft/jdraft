@@ -8,6 +8,7 @@ import org.jdraft._java._domain;
 import org.jdraft._jdraftException;
 import org.jdraft._longExpr;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -194,6 +195,11 @@ public class $longExpr implements $bot.$node<LongLiteralExpr, _longExpr, $longEx
             this.stencil = this.stencil.$(target, $Name);
         }
         return this;
+    }
+
+    @Override
+    public $longExpr $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

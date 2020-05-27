@@ -3,6 +3,7 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.Parameter;
 import org.jdraft.*;
+import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -385,6 +386,11 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
     public $param $(String target, String $Name) {
         $forFeatureSelectors($ms -> $ms.$(target, $Name) );
         return this;
+    }
+
+    @Override
+    public $param $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

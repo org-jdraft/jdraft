@@ -662,6 +662,11 @@ public class $ref implements $bot<_java._node, $ref>,
     }
 
     @Override
+    public $ref $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
+    @Override
     public List<String> $list() {
         if( this.stencil != null ){
             return this.stencil.$list();

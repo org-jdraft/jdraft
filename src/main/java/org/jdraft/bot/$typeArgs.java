@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.Type;
 import org.jdraft.*;
+import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -245,6 +246,11 @@ public class $typeArgs<N extends Node & NodeWithTypeArguments>
     public $typeArgs $(String target, String $Name) {
         this.list.forEach(e -> e.$(target, $Name));
         return this;
+    }
+
+    @Override
+    public $typeArgs $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.jdraft._intExpr;
 import org.jdraft._java._domain;
 import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -205,6 +206,11 @@ public class $intExpr implements $bot.$node<IntegerLiteralExpr, _intExpr, $intEx
             this.stencil = this.stencil.$(target, $Name);
         }
         return this;
+    }
+
+    @Override
+    public Template<_intExpr> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
     }
 
     @Override

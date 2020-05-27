@@ -3,6 +3,7 @@ package org.jdraft.bot;
 import junit.framework.TestCase;
 import org.jdraft._annoExpr;
 import org.jdraft._annoExprs;
+import org.jdraft.text.Tokens;
 
 public class $annoExprsTest extends TestCase {
 
@@ -106,6 +107,40 @@ public class $annoExprsTest extends TestCase {
         //$annoRefs.of(A.class, B.class, C.class);
     }
 
+    public void testHardCodeInd() {
+        $annoExpr $ae = $annoExpr.of("@A($value$)");
+        assertTrue($ae.entryPairs.isMatchAll());
+        assertTrue($ae.matches("@A(1)"));
+        assertTrue($ae.matches("@A(2)"));
+        assertTrue($ae.matches("@A('f')"));
+        $ae.$hardcode("value", 1);
+        assertFalse($ae.entryPairs.isMatchAll());
+        assertTrue($ae.matches("@A(1)"));
+        assertFalse($ae.matches("@A('c')"));
+        assertFalse($ae.matches("@A(2)"));
+    }
+
+
+    public void testExprs(){
+        $annoExprs $aes = $annoExprs.of( $annoExpr.of("@A($value$)") );
+        assertTrue($aes.$annoExprsList.get(0).entryPairs.isMatchAll());
+
+        assertTrue($aes.matches("@A(1)"));
+        assertTrue($aes.matches("@A(2)"));
+        assertTrue($aes.matches("@A('f')"));
+
+        $aes.$hardcode(Tokens.of("value", 1));
+        assertNotNull( $aes.$annoExprsList.get(0).entryPairs.selectFrom(_annoExpr.of("A(1)")) );
+        //System.out.println( "LIST BOTS"+ $aes.$annoExprsList );
+        //System.out.println( "FIRST BOT"+ $aes.$annoExprsList.get(0) );
+        //System.out.println("BOTTTTTT"+( $aes.$annoExprsList.get(0).entryPairs.getBot(0)) );
+        assertNull( $aes.$annoExprsList.get(0).entryPairs.selectFrom(_annoExpr.of("A(2)")) );
+        assertFalse($aes.$annoExprsList.get(0).entryPairs.isMatchAll());
+        assertTrue($aes.matches("@A(1)"));
+        assertFalse($aes.matches("@A('c')"));
+        assertFalse($aes.matches("@A(2)"));
+
+    }
     public void testHardCode(){
         $annoExprs $ars = $annoExprs.or( $annoExprs.of("@A($value$)"), $annoExprs.of("@my$name$($key$=2)") );
 

@@ -148,11 +148,16 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
     }
 
     @Override
-    public Template<_java._node> $(String target, String $Name) {
+    public $withText $(String target, String $Name) {
         this.comment.$(target, $Name);
         this.string.$(target, $Name);
         this.textBlock.$(target, $Name);
         return this;
+    }
+
+    @Override
+    public $withText $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return $hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

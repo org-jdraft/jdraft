@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
 import org.jdraft.*;
+import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -449,6 +450,11 @@ public class $args<N extends Node & NodeWithArguments>
     public $args $(String target, String $Name) {
         this.argsList.forEach(e -> e.$(target, $Name));
         return this;
+    }
+
+    @Override
+    public $args $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
     }
 
     @Override

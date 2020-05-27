@@ -83,13 +83,13 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
             _feature._id.UPDATES_EXPRS,
             _feature._id.UPDATE_EXPR,
             a -> a.listUpdates(),
-            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER);
+            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER, s-> _expr.of(s));
 
     public static _feature._many<_forStmt, _expr> INITS = new _feature._many<>(_forStmt.class, _expr.class,
             _feature._id.INITS,
             _feature._id.INIT,
             a -> a.listInits(),
-            (_forStmt a, List<_expr> _e) -> a.setInits(_e), PARSER);
+            (_forStmt a, List<_expr> _e) -> a.setInits(_e), PARSER, s-> _expr.of(s));
 
     public static _feature._meta<_forStmt> META = _feature._meta.of(_forStmt.class, INITS, COMPARE, UPDATES, BODY);
 

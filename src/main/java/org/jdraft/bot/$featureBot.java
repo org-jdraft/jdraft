@@ -1,6 +1,9 @@
 package org.jdraft.bot;
 
 import org.jdraft._feature;
+import org.jdraft.text.Template;
+import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
 import java.util.Collections;
@@ -18,7 +21,7 @@ import java.util.Map;
  * @param <_F> the feature Type
  * @param <$B> the bot type
  */
-public class $featureBot<_T, _F, $B extends $bot<_F, $B>> {
+public class $featureBot<_T, _F, $B extends $selector<_F, $B> & Template<_F>> implements $feature<_T, _F, $B> {
 
     public static <_T, _F> $featureBot of( _feature<_T, _F> _f){
           return new $featureBot(_f);
@@ -26,10 +29,14 @@ public class $featureBot<_T, _F, $B extends $bot<_F, $B>> {
 
     public _feature<_T, _F> feature;
 
-    public  $B bot;
+    public $B bot;
 
     public $featureBot(_feature<_T, _F> _f){
         this.feature = _f;
+    }
+
+    public _feature getFeature(){
+        return this.feature;
     }
 
     /**
@@ -38,6 +45,15 @@ public class $featureBot<_T, _F, $B extends $bot<_F, $B>> {
      */
     public boolean isMatchAny(){
         return bot == null || bot.isMatchAny();
+    }
+
+    @Override
+    public _T draftTo(_T instance, Translator tr, Map<String, Object> memberValues) {
+        if( this.bot != null ){ //only build it if the bot is not null
+            _F featureInstance = this.bot.draft(tr, memberValues);
+            this.feature.set(instance, featureInstance);
+        }
+        return instance;
     }
 
     public $featureBot<_T, _F, $B> setBot($B bot){
@@ -86,5 +102,17 @@ public class $featureBot<_T, _F, $B extends $bot<_F, $B>> {
      */
     public $featureBot<_T, _F, $B> copy(){
         return of( this.feature).setBot(this.bot.copy());
+    }
+
+    public Select<_F> selectFrom(_T targetInstance){
+        _F featureInstance = this.feature.get(targetInstance);
+        if( this.bot == null ){
+            return new Select<_F>(featureInstance, new Tokens());
+        }
+        return this.bot.select(featureInstance);
+    }
+
+    public String toString(){
+        return this.feature+System.lineSeparator()+ this.bot;
     }
 }

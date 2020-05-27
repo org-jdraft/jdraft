@@ -371,6 +371,11 @@ public class $throws
         return this;
     }
 
+    @Override
+    public Template<_throws> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      * 
      * @param translator

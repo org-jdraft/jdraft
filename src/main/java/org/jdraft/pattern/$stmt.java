@@ -1061,6 +1061,11 @@ public class $stmt<S extends Statement, _S extends _stmt>
         return this;
     }
 
+    @Override
+    public Template<_S> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
+    }
+
     /**
      * Convert (normalize) the expr to an Expression, then to a String
      * @param expr

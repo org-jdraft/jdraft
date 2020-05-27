@@ -315,14 +315,12 @@ public final class _name implements _java._node<Node, _name> {
         }
     }
 
-
-
     public String toString(){
         return this.name.toString();
     }
 
     public int hashCode(){
-        return 31 * this.name.hashCode();
+        return 31 * this.name.toString().hashCode();
     }
 
     public boolean equals( Object o){

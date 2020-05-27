@@ -300,9 +300,11 @@ public interface _feature<_T, _F>{
         public final BiConsumer<_T, List<_E>> setter;
 
         public final Function<String, _T> targetParser;
+        public final Function<String,_E>elementParser;
 
         public _many(Class<_T> targetClass, Class<_E>featureElementClass, _id featureId, _id featureElementId,
-                     Function<_T,List<_E>> getter, BiConsumer<_T,List<_E>> setter, Function<String,_T> targetParser){
+                     Function<_T,List<_E>> getter, BiConsumer<_T,List<_E>> setter, Function<String,_T> targetParser,
+                     Function<String, _E>elementParser){
             this.targetClass = targetClass;
             this.featureElementClass = featureElementClass;
             this.featureId = featureId;
@@ -310,6 +312,7 @@ public interface _feature<_T, _F>{
             this.getter = getter;
             this.setter = setter;
             this.targetParser = targetParser;
+            this.elementParser = elementParser;
         }
 
         public Function<String, _T> getTargetParser(){ return this.targetParser; }

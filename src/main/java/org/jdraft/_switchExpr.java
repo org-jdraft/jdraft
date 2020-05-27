@@ -122,7 +122,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             _feature._id.SWITCH_ENTRIES,
             _feature._id.SWITCH_ENTRY,
             a -> a.listSwitchEntries(),
-            (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER);
+            (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s));
 
     public static _feature._meta<_switchExpr> META = _feature._meta.of(_switchExpr.class, EXPRESSION, SWITCH_ENTRIES );
 

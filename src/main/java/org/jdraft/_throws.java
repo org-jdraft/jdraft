@@ -76,7 +76,7 @@ public final class _throws
             _feature._id.THROWS,
             _feature._id.THROW,
             a -> a.list(),
-            (_throws p, List<_typeRef> _ses) -> p.set(_ses), PARSER);
+            (_throws p, List<_typeRef> _ses) -> p.set(_ses), PARSER, s->_typeRef.of(s));
 
     public static _feature._meta<_throws> META = _feature._meta.of(_throws.class, THROWS );
 

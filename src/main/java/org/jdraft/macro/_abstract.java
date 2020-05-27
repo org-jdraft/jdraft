@@ -7,6 +7,7 @@ import org.jdraft._class;
 import org.jdraft._jdraftException;
 import org.jdraft._method;
 
+import java.io.Serializable;
 import java.lang.annotation.*;
 
 /**

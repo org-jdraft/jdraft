@@ -409,6 +409,11 @@ public class $class
     }
 
     @Override
+    public $class $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return this.$hardcode(translator, Tokens.of(keyValues));
+    }
+
+    @Override
     public List<String> $list() {
         return null;
     }

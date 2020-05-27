@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.UnaryExpr;
 import org.jdraft._expr;
 import org.jdraft._java._domain;
 import org.jdraft._unaryExpr;
+import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -254,6 +255,11 @@ public class $unaryExpr implements $bot.$node<UnaryExpr, _unaryExpr, $unaryExpr>
     public $unaryExpr $(String target, String $Name) {
         this.expression.$(target, $Name);
         return this;
+    }
+
+    @Override
+    public Template<_unaryExpr> $hardcode(Translator translator, Map<String, Object> keyValues) {
+        return null;
     }
 
     @Override
