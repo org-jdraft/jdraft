@@ -116,22 +116,7 @@ public class $annoExpr
             $featureBot.of(_annoExpr.NAME);
 
     public $featureBotList<_annoExpr, _entryPair, $entryPair> entryPairs =
-            $featureBotList.of(_annoExpr.ENTRY_PAIRS); //, _entryPair.class, "entryPairs", _ae -> ((_annoExpr) _ae).listPairs());
-
-
-    /**
-     * the id / name of the annotation
-
-    public Select.$botSelect<$name, _annoExpr, _name> name =
-            Select.$botSelect.of(_annoExpr.class, _name.class, "name", b -> _name.of(b.getNameNode()));
-    */
-
-    /**
-     * the pairs of key values of the annotation (i.e. @A(key=1) )
-
-    public Select.$botSetSelect<$entryPair, _annoExpr, _entryPair> entryPairs =
-            new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "entryPairs", _ae -> ((_annoExpr) _ae).listPairs());
-    */
+            $featureBotList.of(_annoExpr.ENTRY_PAIRS);
 
     public $annoExpr copy() {
         $annoExpr $copy = of(this.predicate.and(t -> true));
@@ -154,8 +139,7 @@ public class $annoExpr
     }
 
     //internal (or) constructor
-    protected $annoExpr() {
-    }
+    protected $annoExpr() { }
 
     /**
      * @param proto
@@ -212,12 +196,11 @@ public class $annoExpr
 
     public $annoExpr $entryPairs(List<$entryPair> $keyValuePairs) {
         this.entryPairs.setBotList($keyValuePairs);
-        //this.entryPairs.add($keyValuePairs.toArray(new $entryPair[0]));
         return this;
     }
 
     /**
-     * Adds a member value to the annotation (A KeyValue pair)
+     * Adds an entryPair to the annotation (A KeyValue pair)
      * i.e.
      * <PRE>
      * $anno $a = $anno.of("A"); // @A
@@ -270,20 +253,6 @@ public class $annoExpr
     public List<$feature<_annoExpr, ?, ?>> $listFeatures() {
         return Stream.of(this.name, this.entryPairs).collect(Collectors.toList());
     }
-
-    /*
-    @Override
-    public List<Select.$feature<_annoExpr, ?>> $listSelectors() {
-        return Stream.of(this.name, this.entryPairs).collect(Collectors.toList());
-    }
-     */
-
-    /*
-    public Tokens parse(_annoExpr _a) {
-        return select(_a).tokens;
-        return Select.tokensFrom(_a, this.$listSelectors());
-    }
-     */
 
     public boolean matches(AnnotationExpr astAnno) {
         return select(astAnno) != null;
@@ -391,7 +360,7 @@ public class $annoExpr
     }
 
     /**
-     * builds and returns a toString representation of the $anno
+     * builds and returns a toString representation of the $annoExpr
      */
     @Override
     public String toString() {
@@ -401,9 +370,13 @@ public class $annoExpr
         StringBuilder sb = new StringBuilder();
         sb.append("@");
         sb.append(this.name.bot.stencil);
+        if (this.entryPairs.isMatchAll()) {
+            return "$annoExpr{ " + sb.toString() + "([MATCH ALL]) }";
+        }
         if (this.entryPairs.botList.isEmpty()) {
             return "$annoExpr{ " + sb.toString() + " }";
         }
+
         sb.append("( " + this.entryPairs.toString() + ")");
         return "$annoExpr{" + System.lineSeparator() + sb.toString() + "}";
     }
