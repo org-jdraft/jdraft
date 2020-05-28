@@ -56,6 +56,10 @@ public class $featureBot<_T, _F, $B extends $selector<_F, $B> & Template<_F>> im
         return instance;
     }
 
+    public $B getBot(){
+        return this.bot;
+    }
+
     public $featureBot<_T, _F, $B> setBot($B bot){
         this.bot = bot;
         return this;

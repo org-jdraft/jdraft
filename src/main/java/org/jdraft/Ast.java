@@ -1510,7 +1510,7 @@ public enum Ast {
      * @param code the code of the declaration
      * @return the BodyDeclaration
      */
-    public static BodyDeclaration declaration(String... code) {
+    public static BodyDeclaration bodyDeclaration(String... code) {
         try {
             return StaticJavaParser.parseBodyDeclaration(Text.combine(code));
         } catch (Exception e) {
@@ -1527,7 +1527,7 @@ public enum Ast {
      * @return the JavaParser {@link MethodDeclaration}
      */
     public static MethodDeclaration method(String... code) {
-        MethodDeclaration md = (MethodDeclaration) declaration(code);
+        MethodDeclaration md = (MethodDeclaration) bodyDeclaration(code);
 
         if (md.getType().getBegin().isPresent()) {
             //now I need to reconcile the Javadoc
@@ -1562,7 +1562,7 @@ public enum Ast {
      */
     public static ConstructorDeclaration constructor(String... code) {
 
-        ConstructorDeclaration cd = (ConstructorDeclaration) declaration(code);
+        ConstructorDeclaration cd = (ConstructorDeclaration) bodyDeclaration(code);
 
         if (cd.getName().getBegin().isPresent()) {
             //now I need to reconcile the Javadoc

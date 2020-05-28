@@ -7,6 +7,7 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.UnionType;
@@ -72,13 +73,17 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
             return of( cc );
         }
         if( classes.length == 1 ){
-            cc.setParameter( new Parameter(StaticJavaParser.parseClassOrInterfaceType(classes[0].getCanonicalName()), "e"));
+            cc.setParameter( new Parameter(
+                    Types.of(classes[0].getCanonicalName()), "e"));
+                    //StaticJavaParser.parseClassOrInterfaceType(classes[0].getCanonicalName()), "e"));
         }
         else {
             UnionType ut = new UnionType();
             NodeList<ReferenceType> types = new NodeList<>();
             for(int i=0;i<classes.length;i++){
-                types.add(StaticJavaParser.parseClassOrInterfaceType(classes[i].getCanonicalName() ));
+                types.add(
+                        (ClassOrInterfaceType)Types.of(classes[i].getCanonicalName()));
+                        //StaticJavaParser.parseClassOrInterfaceType(classes[i].getCanonicalName() ));
             }
             ut.setElements(types);
             cc.setParameter( new Parameter(ut, "e"));
@@ -115,6 +120,22 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
 
     public _catch(CatchClause cc){
         this.cc = cc;
+    }
+
+    public boolean isCatch(Class<? extends Throwable> caughtException){
+        //UnionType ut = new UnionType();
+        //ut.getElements()
+        //Type ce = Types.of(caughtException);
+        return this.getParam().getTypeRef().is(caughtException) ||
+                this.getParam().getTypeRef().isUnionType( caughtException); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
+    }
+
+    public boolean isCatch(_typeRef caughtException){
+        //UnionType ut = new UnionType();
+        //ut.getElements()
+        //Type ce = Types.of(caughtException);
+        return this.getParam().getTypeRef().is(caughtException.ast()) ||
+                this.getParam().getTypeRef().isUnionType( caughtException.ast()); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
     }
 
     public _catch addType(Class<? extends Exception>...clazz){
@@ -190,7 +211,9 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
      * @return
      */
     public boolean hasType( Class<? extends Throwable> caughtExceptionType ){
-        return hasType( StaticJavaParser.parseType(caughtExceptionType.getCanonicalName()) );
+        return hasType(
+                //Types.of(caughtExceptionType.getCanonicalName()));
+                StaticJavaParser.parseType(caughtExceptionType.getCanonicalName()) );
     }
 
     public boolean hasType( _typeRef _t ){

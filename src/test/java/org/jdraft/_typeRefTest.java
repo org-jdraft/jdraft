@@ -3,11 +3,14 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.github.javaparser.ast.type.PrimitiveType;
 import com.github.javaparser.ast.type.Type;
 import junit.framework.TestCase;
 
 import java.io.Closeable;
 import java.io.DataInput;
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +21,47 @@ import java.util.Map;
  */
 public class _typeRefTest extends TestCase {
 
+    public void testTypePrim(){
+        _typeRef _t = _typeRef.of(int.class);
+        assertTrue(_t.isPrimitive());
+        assertFalse(_t.isArrayType());
+        assertTrue( _t.is(int.class));
+        assertTrue( Types.equal( _t.getElementType(), Types.of(int.class) ) );
+
+        assertTrue(_t.isPrimitive(PrimitiveType.intType()));
+
+        //array of primitives
+        _t = _typeRef.of(int[].class);
+        assertTrue(_t.getElementType().isPrimitiveType());
+        System.out.println( _t );
+        assertTrue(_t.ast().isArrayType());
+        assertTrue(_t.isArrayType());
+        assertTrue( _t.is(int[].class));
+
+        //2d array
+        _t = _typeRef.of(int[][].class);
+        assertTrue(_t.getElementType().getElementType().isPrimitiveType());
+        System.out.println( _t );
+        assertTrue(_t.ast().isArrayType());
+        assertTrue(_t.isArrayType());
+        assertTrue( _t.is(int[][].class));
+    }
+
+    public void testUnionTypes(){
+        _typeRef _t = _typeRef.of("URISyntaxException | FileNotFoundException");
+        assertTrue( _t.isUnionType());
+        assertTrue( _t.is("URISyntaxException | FileNotFoundException"));
+        assertTrue( _t.is("FileNotFoundException | URISyntaxException"));
+
+        assertTrue( _t.is(FileNotFoundException.class.getCanonicalName()+" | URISyntaxException"));
+
+        assertTrue( Types.equal( Types.of(FileNotFoundException.class.getCanonicalName()+" | URISyntaxException"),
+                _typeRef.of("URISyntaxException | FileNotFoundException").ast()) );
+
+        assertTrue( _t.isUnionType(URISyntaxException.class));
+        assertTrue( _t.isUnionType(FileNotFoundException.class));
+
+    }
     public void testTypesEquals(){
         Type astT = Types.of("void");
         assertTrue(astT.isVoidType());

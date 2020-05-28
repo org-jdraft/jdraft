@@ -5,7 +5,6 @@
  */
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.comments.Comment;
 import java.util.List;
@@ -23,9 +22,9 @@ public class _packageInfoTest extends TestCase {
     }
     public void testPI(){
         //you can have a completely empty compilation Unit (i.e. packageinfo)
-        CompilationUnit ast = StaticJavaParser.parse("");
+        CompilationUnit ast = Ast.of("");
         
-        ast = StaticJavaParser.parse("package aaaa.bbbb;");
+        ast = Ast.of("package aaaa.bbbb;");
         
         List<Comment> comms = ast.getComments();
     }

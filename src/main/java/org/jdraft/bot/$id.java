@@ -6,6 +6,7 @@ import org.jdraft.text.*;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class $id implements $selector<String, $id>, Template<String>{
@@ -38,6 +39,12 @@ public class $id implements $selector<String, $id>, Template<String>{
         return new $id(stencil);
     }
 
+    public static $id or($id...ids){
+        return new Or(ids);
+    }
+    public static $id of(String...ids){
+        return or( Arrays.stream(ids).map(i-> $id.of(i)).collect(Collectors.toList()).toArray(new $id[0]) );
+    }
     /** the pattern of the name*/
     public Stencil stencil = null;
 

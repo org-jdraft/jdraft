@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.*;
@@ -422,7 +421,7 @@ public class _annoExprTest extends TestCase {
     }
     
     public void testMissingTypeUseAnnotationOnObjectCreationExpr(){
-        ExpressionStmt es = (ExpressionStmt)StaticJavaParser.parseStatement("N n = new @Test N();");        
+        ExpressionStmt es = (ExpressionStmt)Stmts.exprStmt("N n = new @Test N();");
         VariableDeclarationExpr vd = es.getExpression().asVariableDeclarationExpr();
         VariableDeclarator var = vd.getVariable(0);
         ObjectCreationExpr init = (ObjectCreationExpr)var.getInitializer().get();

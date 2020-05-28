@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
@@ -157,7 +156,7 @@ public final class _typeParam
      * @return
      */
     public _typeParam addExtendsTypeBound(String...types){
-        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add(StaticJavaParser.parseClassOrInterfaceType(t)));
+        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add((ClassOrInterfaceType)Types.of(t))); //StaticJavaParser.parseClassOrInterfaceType(t)));
         return this;
     }
 

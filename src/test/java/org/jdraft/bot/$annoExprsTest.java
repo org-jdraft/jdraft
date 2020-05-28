@@ -115,6 +115,8 @@ public class $annoExprsTest extends TestCase {
         assertTrue($ae.matches("@A('f')"));
         $ae.$hardcode("value", 1);
         assertFalse($ae.entryPairs.isMatchAll());
+        System.out.println( $ae.entryPairs.getBot(0) );
+        assertTrue( $ae.entryPairs.getBot(0).matches("1"));
         assertTrue($ae.matches("@A(1)"));
         assertFalse($ae.matches("@A('c')"));
         assertFalse($ae.matches("@A(2)"));

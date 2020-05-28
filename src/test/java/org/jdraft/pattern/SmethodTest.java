@@ -468,7 +468,7 @@ public class SmethodTest extends TestCase {
         $method $get = $method.of("public $type$ get$Name$(){ return this.$name$; }");
         
         
-        BodyDeclaration bd = Ast.declaration( "public java.lang.String getEric ()" + System.lineSeparator() +
+        BodyDeclaration bd = Ast.bodyDeclaration( "public java.lang.String getEric ()" + System.lineSeparator() +
                 "{"+ System.lineSeparator()+
                 "    return this.eric;"+ System.lineSeparator() +
                 "}");

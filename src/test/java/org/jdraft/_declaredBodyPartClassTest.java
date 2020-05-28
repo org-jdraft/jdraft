@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.utils.Log;
 import org.jdraft.diff._diff;
@@ -19,7 +18,7 @@ import java.util.*;
 public class _declaredBodyPartClassTest extends TestCase {
 
     public void testJ(){
-        CompilationUnit cu = StaticJavaParser.parse(
+        CompilationUnit cu = Ast.of(
                 "/**\n"+
                 "*/\n"+
                  "public class SomeClass {\n"+

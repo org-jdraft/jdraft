@@ -3,7 +3,6 @@ package org.jdraft;
 import java.util.*;
 import java.util.function.Function;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.Name;
 import org.jdraft.text.Text;
@@ -18,7 +17,8 @@ public final class _packageInfo
     public static final Function<String, _packageInfo> PARSER = s-> _packageInfo.of(s);
 
     public static _packageInfo of(String... pkgInfo) {
-        return new _packageInfo(StaticJavaParser.parse(Text.combine(pkgInfo)));
+        return new _packageInfo(Ast.of(Text.combine(pkgInfo)));
+                //StaticJavaParser.parse(Text.combine(pkgInfo)));
     }
 
     public static _packageInfo of(CompilationUnit astCu) {

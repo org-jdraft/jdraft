@@ -409,6 +409,15 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return ! this.ast().getCatchClauses().isEmpty();
     }
 
+    /**
+     * does this try statement have a catch block with this
+     * @param thrown
+     * @return
+     */
+    public boolean hasCatch(Class<? extends Throwable> thrown){
+        return !listCatches(c-> c.isCatch(thrown) ).isEmpty();
+    }
+
     public boolean hasCatch(Predicate<_catch> matchFn){
         return listCatches(matchFn).size() > 0;
     }

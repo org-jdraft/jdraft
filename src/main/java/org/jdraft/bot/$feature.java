@@ -3,11 +3,10 @@ package org.jdraft.bot;
 import org.jdraft._feature;
 import org.jdraft.text.Translator;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public interface $feature <_T, _F, $B extends $selector<_F, $B>> {
+public interface $feature <_T, _F, $B extends $selector<? extends _F, $B>> {
 
     /**
      * Returns the feature ("edge" class and name) for the feature associated with the bot

@@ -1,12 +1,12 @@
 package com.github.javaparser.printer;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
+import org.jdraft.Exprs;
 import org.jdraft._class;
 import org.jdraft.macro._final;
 import org.jdraft.macro._public;
@@ -19,7 +19,7 @@ public class ASCIITreePrinterTest extends TestCase {
 
     public void testPrintRecalc(){
         //create AST from String
-        CompilationUnit cu = StaticJavaParser.parse("public class G{\n"+
+        CompilationUnit cu = Ast.of("public class G{\n"+
                 "    static public final int i = 0;\n"+
                 "}");
 
@@ -48,7 +48,7 @@ public class ASCIITreePrinterTest extends TestCase {
     }
 
     public void testPrint(){
-        ObjectCreationExpr oce = StaticJavaParser.parseExpression(
+        ObjectCreationExpr oce = Exprs.newExpr(
                 "new Object(){\n"+
                 "    int i;\n"+
                 "}");
@@ -65,7 +65,7 @@ public class ASCIITreePrinterTest extends TestCase {
     }
 
     public void testPrintCustomPrintFn(){
-        ObjectCreationExpr oce = StaticJavaParser.parseExpression( "new Object(){"+System.lineSeparator()+"int i;"+System.lineSeparator()+"}");
+        ObjectCreationExpr oce = Exprs.newExpr( "new Object(){"+System.lineSeparator()+"int i;"+System.lineSeparator()+"}");
 
         //here we pass in a Function to tell how each node is printed (here uses the ClassSimpleName and Range)
         ASCIITreePrinter.print(oce, n-> "["+ ASCIITreePrinter.nodeSummary(n)+"] "+n.getClass().getSimpleName()+" : " +n.getRange().get() );

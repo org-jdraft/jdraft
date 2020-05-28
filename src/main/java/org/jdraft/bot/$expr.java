@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * @param <_E>
  * @param <$E>
  */
-public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$node<E, _E, $E>>
+public interface $expr<E extends Expression, _E extends _expr, $E extends $expr<E, _E, $E>>
     extends $bot.$node<E, _E, $E>, $selector.$node<_E, $E>, Template<_E> {
 
     static $expr of() {
@@ -36,7 +36,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
         return of( Exprs.of(code));
     }
 
-    static $expr of(_expr<?,?> _e) {
+    static <$E extends $expr> $E of(_expr _e) {
         return of( _e.ast() );
     }
 
@@ -171,7 +171,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $bot.$
         }
 
         public static $refactor of(_expr _target, _expr _change){
-            return of( $expr.of(_target), $expr.of(_change));
+            return of( ($expr)$expr.of(_target), ($expr)$expr.of(_change));
         }
 
         public static $refactor of($expr $target, $expr $change){

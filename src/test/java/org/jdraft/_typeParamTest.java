@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -30,7 +24,7 @@ public class _typeParamTest extends TestCase {
     public void testBuildFromScratch(){
         _typeParam _tp = _typeParam.of();
         NodeList<ClassOrInterfaceType> tb = new NodeList<>();
-        tb.add(StaticJavaParser.parseClassOrInterfaceType("Map<Integer,String>"));
+        tb.add(Types.classOrInterfaceType("Map<Integer,String>"));
         _tp.setExtendsTypeBound(tb);
 
         _tp.addExtendsTypeBound("String");

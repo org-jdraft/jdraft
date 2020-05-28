@@ -5,10 +5,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.CatchClause;
-import com.github.javaparser.ast.type.PrimitiveType;
-import com.github.javaparser.ast.type.Type;
-import com.github.javaparser.ast.type.TypeParameter;
-import com.github.javaparser.ast.type.UnionType;
+import com.github.javaparser.ast.type.*;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.*;
@@ -121,6 +118,10 @@ public final class Types {
             return of(tr);
         }
         return of(clazz.getCanonicalName());
+    }
+
+    public static ClassOrInterfaceType classOrInterfaceType( String code){
+        return (ClassOrInterfaceType)of( code);
     }
 
     public static Type of(String code) {
@@ -315,6 +316,16 @@ public final class Types {
         }
         if( r1.getClass() != r2.getClass() ){
             return false;
+        }
+        if( r1.isUnionType() && r2.isUnionType() ){ //UnionTypes "A | B" == "B | A"
+            UnionType ut1 = r1.asUnionType();
+            UnionType ut2 = r2.asUnionType();
+            NodeList<ReferenceType> rts1 = ut1.getElements();
+            NodeList<ReferenceType> rts2 = ut2.getElements();
+            if( rts1.size() != rts2.size() ){
+                return false;
+            }
+            return rts1.stream().allMatch( r-> rts2.stream().anyMatch(a-> equal(a, r)));
         }
         //if ONE or the OTHER is fully
         boolean r1FullyQualified = r1.asString().contains(".");

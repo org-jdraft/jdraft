@@ -16,7 +16,11 @@ public class _catchTest extends TestCase {
 
         _ts.addCatch( _catch.of(IOException.class, URISyntaxException.class));
 
+        assertTrue(_ts.hasCatch(IOException.class));
+
         _catch _c = _catch.of( IOException.class, URISyntaxException.class);
+        System.out.println( _c );
+
         assertTrue( _c.hasType(IOException.class) );
         assertTrue( _c.hasType(URISyntaxException.class) );
 

@@ -3,7 +3,9 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MemberValuePair;
+import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import org.jdraft.*;
+import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -18,16 +20,27 @@ import java.util.stream.Stream;
  * bot for inspecting and mutating a member values pair (i.e. the key values inside the annotation)
  * i.e. @A(key="value")
  */
-public class $entryPair extends $baseBot<_entryPair, $entryPair>
+public class $entryPair
+        //extends $baseBot<_entryPair, $entryPair>
+        extends $botEnsemble<_entryPair, $entryPair>
         implements $bot<_entryPair, $entryPair> {
 
-    /** key of the key/value pair*/
+    /** key of the key/value pair
     public Select.$botSelect<$name, _entryPair, _name> key =
             Select.$botSelect.of(_entryPair.class, _name.class, "key", p -> _name.of(p.getNameNode()));
 
-    /** value of the key/value pair */
+    /** value of the key/value pair
     public Select.$botSelect<$expr, _entryPair, _expr> value =
             Select.$botSelect.of(_entryPair.class, _expr.class, "value", p -> p.getValue());
+    */
+
+    /** key of the key/value pair*/
+    public $featureBot<_entryPair, String, $id> key =
+            $featureBot.of(_entryPair.NAME);
+
+    /** value of the key/value pair */
+    public $featureBot<_entryPair, _expr, ? extends $expr> value =
+            $featureBot.of(_entryPair.VALUE);
 
     public static $entryPair of(_entryPair _mv) {
         return new $entryPair(_mv.getName(), _mv.getValue().ast());
@@ -105,32 +118,35 @@ public class $entryPair extends $baseBot<_entryPair, $entryPair>
         return k + "=" + v;
     }
 
-    @Override
-    public List<Select.$feature<_entryPair, ?>> $listSelectors() {
-        return Stream.of(this.key, this.value).collect(Collectors.toList());
-    }
-
-    private $entryPair() {
-    }
+    private $entryPair() { }
 
     public $entryPair(String name, String value) {
         this(name, Exprs.of(value));
     }
 
     public $entryPair(String name, Expression value) {
-        this.key.setBot($name.of(name));
-        this.value.setBot($expr.of(value));
+        if( name == null || name.length() == 0 ){
+            this.key.setBot($id.or( $id.of("value"), $id.of().$and(n-> n== null) ) );
+            this.value.setBot($expr.of(value));
+        } else {
+            this.key.setBot($id.of(name));
+            this.value.setBot($expr.of(value));
+        }
     }
 
     public $entryPair(String name, _expr value) {
-        this.key.setBot($name.of(name));
-        this.value.setBot($expr.of(value));
+        if( name == null || name.length() == 0 ){
+            this.key.setBot($id.or( $id.of("value"), $id.of().$and(n-> n== null) ) );
+            this.value.setBot($expr.of(value));
+        }else {
+            this.key.setBot($id.of(name));
+            this.value.setBot($expr.of(value));
+        }
     }
 
     public $entryPair $not( $entryPair... $sels ){
         return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
-
 
     @Override
     public _entryPair draft(Translator translator, Map<String, Object> keyValues) {
@@ -157,7 +173,17 @@ public class $entryPair extends $baseBot<_entryPair, $entryPair>
         if (node instanceof MemberValuePair) {
             return matches((MemberValuePair) node);
         }
+        if( node instanceof Expression && node.getParentNode().isPresent() && node.getParentNode().get() instanceof SingleMemberAnnotationExpr ){
+            return matches( _entryPair.of( (SingleMemberAnnotationExpr) node.getParentNode().get() ));
+        }
         return false;
+    }
+
+    public String toString(){
+        return "$entryPair{" + System.lineSeparator()+
+                Text.indent(this.key.toString())+ System.lineSeparator()+
+                Text.indent(this.value.toString())+System.lineSeparator()+
+                "}";
     }
 
     @Override
@@ -247,5 +273,10 @@ public class $entryPair extends $baseBot<_entryPair, $entryPair>
     @Override
     public boolean matches(String candidate) {
         return matches(_entryPair.of(candidate));
+    }
+
+    @Override
+    public List<$feature<_entryPair, ?, ?>> $listFeatures() {
+        return Stream.of(this.key, this.value).collect(Collectors.toList());
     }
 }

@@ -64,6 +64,10 @@ public class $name implements $bot<_name, $name>,
         return new $name(stencil);
     }
 
+    public static $name or( $name...$nms){
+        return new Or($nms);
+    }
+
     /** the pattern of the name*/
     public Stencil stencil = null;
 

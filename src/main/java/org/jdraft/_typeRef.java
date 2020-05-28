@@ -183,7 +183,6 @@ public final class _typeRef<T extends Type>
     }
 
     public boolean isReferenceType(){
-
         return astType.isReferenceType();
     }
     public boolean isClassOrInterfaceType(){
@@ -198,6 +197,22 @@ public final class _typeRef<T extends Type>
         return astType.isPrimitiveType();
     }
 
+    public boolean isPrimitive(PrimitiveType pt){
+        if( isPrimitive() ){
+            PrimitiveType prim = astType.asPrimitiveType();
+            return Types.equal( pt, prim);
+        }
+        return false;
+    }
+
+    public boolean isPrimitive(Predicate<PrimitiveType> pt){
+        if( isPrimitive() ){
+            PrimitiveType prim = astType.asPrimitiveType();
+            return pt.test(prim);
+        }
+        return false;
+    }
+
     public Type getElementType(){
         return this.astType.getElementType();
     }
@@ -206,8 +221,67 @@ public final class _typeRef<T extends Type>
         return astType.isWildcardType();
     }
 
+    public boolean isWildcard(Predicate<WildcardType> wcPred){
+        if( isWildcard() ){
+            return wcPred.test( (WildcardType)this.astType );
+        }
+        return false;
+    }
+
+    public boolean isIntersectionType(_typeRef _tr){
+        return isIntersectionType( it-> it.getElements().stream().anyMatch(t-> Types.equal(t, _tr.ast())) );
+    }
+
+    /**
+     * Is this class one of the type
+     * @param c
+     * @return
+     */
+    public boolean isIntersectionType(Class c){
+        Type targ = Types.of(c);
+        return isIntersectionType( it-> it.getElements().stream().anyMatch(t-> Types.equal(t, targ)) );
+    }
+
     public boolean isIntersectionType() {
         return astType.isIntersectionType();
+    }
+
+    public boolean isIntersectionType(Predicate<IntersectionType> pit){
+        if( isIntersectionType() ){
+            IntersectionType it = astType.asIntersectionType();
+            return pit.test(it);
+        }
+        return false;
+    }
+
+    public boolean isUnionType( Predicate<UnionType> put ){
+        if( isUnionType() ){
+            UnionType ut = astType.asUnionType();
+            return put.test(ut);
+        }
+        return false;
+    }
+
+    public boolean isUnionType(_typeRef _tr){
+        return isUnionType( ut-> ut.getElements().stream().anyMatch(t-> Types.equal(t, _tr.ast())) );
+    }
+
+    /**
+     * Is this class one of the type
+     * @param targ
+     * @return
+     */
+    public boolean isUnionType(Type targ){
+        return isUnionType( ut-> ut.getElements().stream().anyMatch(t-> Types.equal(t, targ)) );
+    }
+
+    /**
+     * Is this class one of the type
+     * @param c
+     * @return
+     */
+    public boolean isUnionType(Class c){
+        return isUnionType(Types.of(c));
     }
 
     public boolean isUnionType() {
@@ -421,6 +495,18 @@ public final class _typeRef<T extends Type>
         final _typeRef<?> other = (_typeRef<?>)obj;
         if( this.astType == other.astType){
             return true; // two _typeRef s pointing to the same ast Type
+        }
+        //union types can equal one another (
+        if( this.astType instanceof UnionType && other.astType instanceof UnionType){
+            Set<ReferenceType> rts = new HashSet<>();
+            rts.addAll( ((UnionType) this.astType).getElements());
+            Set<ReferenceType> ots = new HashSet<>();
+            ots.addAll( ((UnionType) other.astType).getElements());
+            if( rts.size() != ots.size() ){
+                return false;
+            }
+            return  rts.stream().allMatch(r -> ots.stream().anyMatch(o-> Types.equal( o, r) ) );
+            //return rts.equals(ots);
         }
         if( this.isPrimitive() && other.isPrimitive() ) {
             return Objects.equals(this.astType, other.astType );
