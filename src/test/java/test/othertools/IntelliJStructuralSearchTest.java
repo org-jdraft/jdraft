@@ -284,7 +284,7 @@ public class IntelliJStructuralSearchTest{
         __( $.literal() );
 
         //all primitives
-        __( $typeRef.of(t-> t.isPrimitive() ) );
+        __( $typeRef.of(t-> t.isPrimitiveType() ) );
         //$typeRef $primitive = $typeRef.or(int.class, boolean.class, long.class, double.class, float.class, char.class, short.class, byte.class);
 
         // boxed (primitive) types

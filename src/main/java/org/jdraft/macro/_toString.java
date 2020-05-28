@@ -80,7 +80,7 @@ public @interface _toString {
             //build the body of the toString method based on the fields
             _fs.stream().filter(TO_STRING_FIELDS).forEach( _f  -> {
                 if( _f.isArray() ){
-                    if( _f.getElementType().isPrimitive() ){
+                    if( _f.getElementType().isPrimitiveType() ){
                         body.addStatement( Stmts.of($arrayOfPrimitives.fill(_f.getName()) ) );
                     }else{
                         body.addStatement( Stmts.of($arrayOfObjects.fill(_f.getName())) );

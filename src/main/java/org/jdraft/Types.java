@@ -133,6 +133,15 @@ public final class Types {
             cc.getParameter().walk(UnionType.class, u -> ut.add(u));
             return ut.get(0);
         }
+        if( code.startsWith("?")){
+            //need to parse a WildcardType
+            Type t = of("List<"+code+">");
+            Optional<WildcardType> on = t.findFirst(WildcardType.class);
+            if( on.isPresent()){
+                return on.get();
+            }
+            throw new _jdraftException("Unable to parse \""+ code+" as wildcard type");
+        }
         if (PATTERN_LOCAL_CLASS.matcher(code).find()) {
             //lets remove all the local stuff... return a type without package
             code = code.replaceAll(LOCAL_CLASS_NAME_PACKAGE_PATTERN, ".");

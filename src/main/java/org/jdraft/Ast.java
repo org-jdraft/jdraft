@@ -1512,7 +1512,8 @@ public enum Ast {
      */
     public static BodyDeclaration bodyDeclaration(String... code) {
         try {
-            return StaticJavaParser.parseBodyDeclaration(Text.combine(code));
+            return
+                    StaticJavaParser.parseBodyDeclaration(Text.combine(code));
         } catch (Exception e) {
             throw new _jdraftException("Invalid Body Definition : "
                     + System.lineSeparator() + Text.indent(Text.combine(code)));

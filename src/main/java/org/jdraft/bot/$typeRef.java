@@ -406,7 +406,7 @@ public class $typeRef
             if( _tr.isGenericType() && !(this.type.isClassOrInterfaceType() && this.type.asClassOrInterfaceType().getTypeArguments().isPresent()) ){
                 return select( _tr.getErasedType() );
             }
-            if( _tr.isWildcard() ){
+            if( _tr.isWildcardType() ){
                 if( this.type.isWildcardType() ){
                     WildcardType wct = this.type.asWildcardType();
                     /** TODO THIS IS A BROKEN MESS... I NEED AN INNER IMPL SPECIFICALLY FOR WILDCARD CLASSES

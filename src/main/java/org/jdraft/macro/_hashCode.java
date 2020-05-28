@@ -90,7 +90,7 @@ public @interface _hashCode {
                  }
                  return Stmts.of($arrayOfObject.draft("name", _f.getName(), "type", _f.getTypeRef()));
              }
-             if( _f.getTypeRef().isPrimitive()){
+             if( _f.getTypeRef().isPrimitiveType()){
                  if( _f.isTypeRef(boolean.class)){
                      return Stmts.of($boolean.draft("name", _f.getName(), "type", _f.getTypeRef()));
                  }

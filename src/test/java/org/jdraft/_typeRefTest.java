@@ -2,15 +2,15 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import com.github.javaparser.ast.type.PrimitiveType;
-import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.ast.type.*;
 import junit.framework.TestCase;
 
 import java.io.Closeable;
 import java.io.DataInput;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +23,12 @@ public class _typeRefTest extends TestCase {
 
     public void testTypePrim(){
         _typeRef _t = _typeRef.of(int.class);
-        assertTrue(_t.isPrimitive());
+        assertTrue(_t.isPrimitiveType());
         assertFalse(_t.isArrayType());
         assertTrue( _t.is(int.class));
         assertTrue( Types.equal( _t.getElementType(), Types.of(int.class) ) );
 
-        assertTrue(_t.isPrimitive(PrimitiveType.intType()));
+        assertTrue(_t.isPrimitiveType(PrimitiveType.intType()));
 
         //array of primitives
         _t = _typeRef.of(int[].class);
@@ -47,6 +47,7 @@ public class _typeRefTest extends TestCase {
         assertTrue( _t.is(int[][].class));
     }
 
+
     public void testUnionTypes(){
         _typeRef _t = _typeRef.of("URISyntaxException | FileNotFoundException");
         assertTrue( _t.isUnionType());
@@ -60,7 +61,51 @@ public class _typeRefTest extends TestCase {
 
         assertTrue( _t.isUnionType(URISyntaxException.class));
         assertTrue( _t.isUnionType(FileNotFoundException.class));
+    }
 
+    public void testWildcardTypes() {
+
+        class C<T extends Serializable & Cloneable> {
+            void m() {
+                List<? extends Serializable> l = new ArrayList<>();
+            }
+        }
+        Print.tree(C.class);
+
+        WildcardType wct = (WildcardType) Types.of("?");
+        Print.tree(wct);
+        wct = (WildcardType) Types.of("? extends T");
+        Print.tree(wct);
+        wct = (WildcardType) Types.of("? super T");
+        Print.tree(wct);
+    }
+
+    public void testWildcardExtendsSuper(){
+        _typeRef _wct = _typeRef.of("?");
+        assertTrue( _wct.isWildcardType() );
+        assertFalse( _wct.isWildcardSuper(Serializable.class) );
+        assertFalse( _wct.isWildcardExtends(Serializable.class) );
+
+        _wct = _typeRef.of("? super Serializable");
+        //System.out.println( _wct );
+        assertTrue( _wct.isWildcardType() );
+        assertTrue( _wct.isWildcardSuper(Serializable.class) );
+        assertFalse( _wct.isWildcardExtends(Serializable.class) );
+
+        _wct = _typeRef.of("? extends Serializable");
+        //System.out.println( _wct );
+        assertTrue( _wct.isWildcardType() );
+        assertFalse( _wct.isWildcardSuper(Serializable.class) );
+        assertTrue( _wct.isWildcardExtends(Serializable.class) );
+
+
+
+        //StaticJavaParser.parseType("?");
+        //StaticJavaParser.parseType("? extends T");
+        //StaticJavaParser.parseType("? super V");
+
+        //Print.tree( t.ast());
+        //assertTrue( t.isWildcard() );
     }
     public void testTypesEquals(){
         Type astT = Types.of("void");
@@ -298,7 +343,7 @@ public class _typeRefTest extends TestCase {
    public void testArr(){
 
       _typeRef _t = _typeRef.of("int");
-      assertTrue( _t.isPrimitive());
+      assertTrue( _t.isPrimitiveType());
 
       _t = _typeRef.of("int[]");
       assertTrue( _t.isArrayType());

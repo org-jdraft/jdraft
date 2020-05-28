@@ -193,20 +193,20 @@ public final class _typeRef<T extends Type>
         return astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().isBoxedType();
     }
 
-    public boolean isPrimitive() {
+    public boolean isPrimitiveType() {
         return astType.isPrimitiveType();
     }
 
-    public boolean isPrimitive(PrimitiveType pt){
-        if( isPrimitive() ){
+    public boolean isPrimitiveType(PrimitiveType pt){
+        if( isPrimitiveType() ){
             PrimitiveType prim = astType.asPrimitiveType();
             return Types.equal( pt, prim);
         }
         return false;
     }
 
-    public boolean isPrimitive(Predicate<PrimitiveType> pt){
-        if( isPrimitive() ){
+    public boolean isPrimitiveType(Predicate<PrimitiveType> pt){
+        if( isPrimitiveType() ){
             PrimitiveType prim = astType.asPrimitiveType();
             return pt.test(prim);
         }
@@ -217,13 +217,84 @@ public final class _typeRef<T extends Type>
         return this.astType.getElementType();
     }
 
-    public boolean isWildcard() {
+    /**
+     * <UL>
+     * <LI>"?" as in "List<?>"
+     * <LI>"? extends T" as in "List<? extends T>"
+     * <LI>"? super T" as in "List<? super T>"
+     * </UL>
+     * @return
+     */
+    public boolean isWildcardType() {
         return astType.isWildcardType();
     }
 
-    public boolean isWildcard(Predicate<WildcardType> wcPred){
-        if( isWildcard() ){
-            return wcPred.test( (WildcardType)this.astType );
+    /**
+     * i.e.
+     * <CODE>
+     * _typeRef _tr = _typeRef.of("? extends Serializable");
+     * assertTrue( _tr.isWildcardExtendsType(Serializable.class));
+     * </CODE>
+     * @param wildcardExtendsClass
+     * @return
+     */
+    public boolean isWildcardExtends( Class wildcardExtendsClass ){
+        return isWildcardExtends( t-> Types.equal(t, Types.of(wildcardExtendsClass)));
+    }
+
+    /**
+     * i.e.
+     * "? extends Serializable"
+     *
+     * @param wildcardExtendsType
+     * @return
+     */
+    public boolean isWildcardExtends( Predicate<ReferenceType> wildcardExtendsType){
+        if( isWildcardType() && this.astType.asWildcardType().getExtendedType().isPresent()){
+            return wildcardExtendsType.test( this.astType.asWildcardType().getExtendedType().get() );
+        }
+        return false;
+    }
+
+    /**
+     * i.e.
+     * <CODE>
+     * _typeRef _tr = _typeRef.of("? super Serializable");
+     * assertTrue( _tr.isWildcardSuperType(Serializable.class));
+     * </CODE>
+     * @param wildcardSuperClass
+     * @return
+     */
+    public boolean isWildcardSuper( Class wildcardSuperClass ){
+        return isWildcardSuper( t-> Types.equal(t, Types.of(wildcardSuperClass)));
+    }
+
+    /**
+     * i.e.
+     * "? extends Serializable"
+     *
+     * @param wildcardSuperType
+     * @return
+     */
+    public boolean isWildcardSuper( Predicate<ReferenceType> wildcardSuperType){
+        if( isWildcardType() && this.astType.asWildcardType().getSuperType().isPresent()){
+            return wildcardSuperType.test( this.astType.asWildcardType().getSuperType().get() );
+        }
+        return false;
+    }
+
+    /**
+     * <UL>
+     * <LI>"?" as in "List<?>"
+     * <LI>"? extends T" as in "List<? extends T>"
+     * <LI>"? super T" as in "List<? super T>"
+     * </UL>
+     * @return
+     */
+    public boolean isWildcardType(Predicate<WildcardType> wtp){
+        if( isWildcardType() ){
+           WildcardType wct = astType.asWildcardType();
+            return wtp.test(wct);
         }
         return false;
     }
@@ -508,7 +579,7 @@ public final class _typeRef<T extends Type>
             return  rts.stream().allMatch(r -> ots.stream().anyMatch(o-> Types.equal( o, r) ) );
             //return rts.equals(ots);
         }
-        if( this.isPrimitive() && other.isPrimitive() ) {
+        if( this.isPrimitiveType() && other.isPrimitiveType() ) {
             return Objects.equals(this.astType, other.astType );
         }
         Deconstructed td = Deconstructed.of(this.astType.toString() );
