@@ -256,10 +256,10 @@ public class GoogleErrorProneTest extends TestCase {
         //$isInRange(startLine, endLine)
 
 
-        BodyDeclaration bd = Ast.method("int i(){return 3;}");
+        BodyDeclaration bd = Ast.methodDeclaration("int i(){return 3;}");
         assertTrue( searchRange.strictlyContains( bd.getRange().get() ) );
         assertTrue(
-                $node.of(BodyDeclaration.class).match(Ast.method("int i(){return 1;}")) );
+                $node.of(BodyDeclaration.class).match(Ast.methodDeclaration("int i(){return 1;}")) );
     }
 
 }

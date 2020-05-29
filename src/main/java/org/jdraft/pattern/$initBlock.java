@@ -53,7 +53,7 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
     }
 
     public static $initBlock of(String... bodyPattern ){
-        InitializerDeclaration id = Ast.initBlock(bodyPattern);
+        InitializerDeclaration id = Ast.initializerDeclaration(bodyPattern);
         $initBlock $ib = new $initBlock( $body.of( id ), id.isStatic(), t->true );
         return $ib;
     }
@@ -136,7 +136,7 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
     }
 
     public static $initBlock as(String... bodyPattern ){
-        InitializerDeclaration id = Ast.initBlock(bodyPattern);
+        InitializerDeclaration id = Ast.initializerDeclaration(bodyPattern);
         return as(id);
     }
 

@@ -36,10 +36,10 @@ public class _enumTest extends TestCase {
                 //you can add a field this way
                 .addField("public int F = 1;")
                 .addField(_field.of("String nm;")) //or this way
-                .addField( Ast.field("float ff = 10.2f") ) //or this way (AST)
+                .addField( Ast.fieldDeclaration("float ff = 10.2f") ) //or this way (AST)
                 .addMethod("public int rr() { return 3; }") //this way
                 .addMethod(_method.of("int g(){ return 12345;}")) //or this way
-                .addMethod(Ast.method("double dd(){ return 3.45d;}")); //or this way
+                .addMethod(Ast.methodDeclaration("double dd(){ return 3.45d;}")); //or this way
 
         System.out.println( _c );
     }
@@ -116,7 +116,7 @@ public class _enumTest extends TestCase {
     }
 
     public void testEnum(){
-        Ast.constantDecl("A(1)");
+        Ast.constantDeclaration("A(1)");
         _enum _e = _enum.of("E")
                 .addConstant("A(1)")
                 .addField("private int i;")

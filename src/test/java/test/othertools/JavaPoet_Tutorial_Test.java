@@ -341,7 +341,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
 
         // alternatively
         /** the anonymous class can be built via code using the Ast.anonymousClass or Ex.anonymousClass */
-        ObjectCreationExpr oce = Ast.anonymousClassEx(new Comparator<String>(){
+        ObjectCreationExpr oce = Ast.anonymousClassExpr(new Comparator<String>(){
             @Override
             public int compare(String a, String b) {
                 return a.length() - b.length();

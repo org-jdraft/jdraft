@@ -36,7 +36,7 @@ public class _annoExprsTest extends TestCase {
     /** verify changes to the copy dont effect the original */
     public void testCopy(){
         //the FieldDeclaration is the "parent"
-        FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
+        FieldDeclaration fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
 
         _annoExprs _as = _annoExprs.of( fd  );
 
@@ -44,9 +44,9 @@ public class _annoExprsTest extends TestCase {
         //make sure this DOESNT effect the Fields ANNOTATIONS
         _cp.clear();
 
-        assertTrue( Ast.anno(  "@a(1)").equals( fd.getAnnotation( 0 ) ));
+        assertTrue( Ast.annotationExpr(  "@a(1)").equals( fd.getAnnotation( 0 ) ));
         _cp.add("@b(1)", "@c(2)");
-        assertTrue( Ast.anno(  "@a(1)").equals( fd.getAnnotation( 0 ) ));
+        assertTrue( Ast.annotationExpr(  "@a(1)").equals( fd.getAnnotation( 0 ) ));
 
         _as.add( "@o(4)" );
         //make sure changes to the original are NOT reflected in the copy
@@ -55,7 +55,7 @@ public class _annoExprsTest extends TestCase {
     }
     public void testAddRemove(){
         //the FieldDeclaration is the "parent"
-        FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
+        FieldDeclaration fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
 
         //we _2_template the ANNOTATIONS through the _annos and _anno interface
         _annoExprs _as = _annoExprs.of(fd );
@@ -85,14 +85,14 @@ public class _annoExprsTest extends TestCase {
     }
 
     public void testChildParent(){
-        FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
+        FieldDeclaration fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
         _annoExprs _as = new _annoExprs( fd );
         _as.getAt( 0 ).addPair( "Key", 1000 );
 
         assertTrue( _as.getAt(0).is("@a(Key=1000)"));
 
         //parent child
-        fd = Ast.field( "@a(1) public int i=100;");
+        fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
 
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         //System.out.println( ae.getParentNode().isPresent() );

@@ -81,6 +81,8 @@ public enum Ast {
      */    
     public static final JavaParser JAVAPARSER = 
         new JavaParser(JAVAPARSER_CONFIG);
+
+
     
     /*---------------------------------------------------------
        the point of having all of these JavaParser Classes in a
@@ -666,7 +668,7 @@ public enum Ast {
      */
     public static Node nodeOf(Class nodeClass, String... code) {
         if (nodeClass.isAssignableFrom( AnnotationExpr.class)) {
-            return anno(code);
+            return annotationExpr(code);
         }
         if (ImportDeclaration.class == nodeClass) {
             return importDeclaration(Text.combine(code));
@@ -681,16 +683,16 @@ public enum Ast {
             return catchClause(code);
         }
         if (MethodDeclaration.class == nodeClass) {
-            return method(code);
+            return methodDeclaration(code);
         }
         if (ConstructorDeclaration.class == nodeClass) {
-            return constructor(code);
+            return constructorDeclaration(code);
         }        
         if (InitializerDeclaration.class == nodeClass) {
             return staticBlock(code);
         }
         if (TypeDeclaration.class.isAssignableFrom(nodeClass)) {
-            return typeDecl(code);
+            return typeDeclaration(code);
         }
         if (Parameter.class == nodeClass) {
             return parameter(code);
@@ -702,13 +704,13 @@ public enum Ast {
             return packageDeclaration(Text.combine(code));
         }
         if (VariableDeclarator.class == nodeClass) {
-            return varDecl(code);
+            return variableDeclarator(code);
         }
         if (FieldDeclaration.class == nodeClass) {
-            return field(code);
+            return fieldDeclaration(code);
         }
         if (EnumConstantDeclaration.class == nodeClass) {
-            return constantDecl(code);
+            return constantDeclaration(code);
         }
         if (CompilationUnit.class == nodeClass) {
             return of(code);
@@ -717,10 +719,10 @@ public enum Ast {
             return comment(code);
         }
         if (AnnotationMemberDeclaration.class == nodeClass) {
-            return annotationMemberDecl(code);
+            return annotationMemberDeclaration(code);
         }
         if (MethodDeclaration.class == nodeClass) {
-            return method(code);
+            return methodDeclaration(code);
         }
         if( SimpleName.class == nodeClass){
             return new SimpleName(Text.combine(code) );
@@ -746,8 +748,8 @@ public enum Ast {
      * @param clazz the runtime class to acquire the
      * @return
      */
-    public static TypeDeclaration typeDecl(Class clazz) {
-        return Ast.typeDecl(clazz, _io.IN_DEFAULT);
+    public static TypeDeclaration typeDeclaration(Class clazz) {
+        return Ast.typeDeclaration(clazz, _io.IN_DEFAULT);
     }
 
     /**
@@ -759,8 +761,8 @@ public enum Ast {
      * @param clazz the runtime class to acquire the
      * @return
      */
-    public static TypeDeclaration typeDecl(JavaParser javaParser, Class clazz) {
-        return Ast.typeDecl(javaParser, clazz, _io.IN_DEFAULT);
+    public static TypeDeclaration typeDeclaration(JavaParser javaParser, Class clazz) {
+        return Ast.typeDeclaration(javaParser, clazz, _io.IN_DEFAULT);
     }
 
     /**
@@ -772,8 +774,8 @@ public enum Ast {
      * @param resolver how to look up the source code
      * @return the typeDeclaration or an exception
      */
-    public static TypeDeclaration typeDecl(Class clazz, _in._resolver resolver) {
-        return typeDecl(JAVAPARSER, clazz, resolver);
+    public static TypeDeclaration typeDeclaration(Class clazz, _in._resolver resolver) {
+        return typeDeclaration(JAVAPARSER, clazz, resolver);
     }
 
     /**
@@ -785,7 +787,7 @@ public enum Ast {
      * @param resolver how to look up the source code
      * @return the typeDeclaration or an exception
      */
-    public static TypeDeclaration typeDecl(JavaParser javaParser, Class clazz, _in._resolver resolver) {
+    public static TypeDeclaration typeDeclaration(JavaParser javaParser, Class clazz, _in._resolver resolver) {
         TypeDeclaration cached = AST_CACHE_MAP.get(clazz);
         if (cached != null) {
             return cached.clone();
@@ -829,7 +831,7 @@ public enum Ast {
             //get the enclosing class
             List<TypeDeclaration> tds = new ArrayList<>();
 
-            TypeDeclaration td = typeDecl( _i );
+            TypeDeclaration td = typeDeclaration( _i );
             td.walk(TypeDeclaration.class, t -> {
                 if (t.getName().asString().equals(clazz.getEnclosingClass().getSimpleName())) {
                     tds.add(t);
@@ -1234,7 +1236,7 @@ public enum Ast {
      * @return the compilationUnit
      */
     public static CompilationUnit of(JavaParser javaParser, Class clazz) throws _jdraftException {
-        Node n = typeDecl(javaParser, clazz);
+        Node n = typeDeclaration(javaParser, clazz);
         if (n instanceof CompilationUnit) {
             return (CompilationUnit) n;
         }
@@ -1457,8 +1459,8 @@ public enum Ast {
         return pr.getResult().get();
     }
 
-    public static TypeDeclaration typeDecl(_in in ){
-        TypeDeclaration td = typeDecl(in.getInputStream() );
+    public static TypeDeclaration typeDeclaration(_in in ){
+        TypeDeclaration td = typeDeclaration(in.getInputStream() );
         if( td.findCompilationUnit().isPresent() ){
             td.findCompilationUnit().get().setStorage(in.getPath() );
         }
@@ -1469,7 +1471,7 @@ public enum Ast {
      * @param is the input Stream walk
      * @return the Top Level Ast Node (CompilationUnit, TypeDeclaration)
      */
-    public static TypeDeclaration typeDecl(InputStream is) {
+    public static TypeDeclaration typeDeclaration(InputStream is) {
         CompilationUnit cu = parse(is);
         if( cu.getPrimaryType().isPresent()){
             return cu.getPrimaryType().get();
@@ -1532,7 +1534,7 @@ public enum Ast {
      * annotations)
      * @return the JavaParser {@link MethodDeclaration}
      */
-    public static MethodDeclaration method(String... code) {
+    public static MethodDeclaration methodDeclaration(String... code) {
         MethodDeclaration md = (MethodDeclaration) bodyDeclaration(code);
 
         if (md.getType().getBegin().isPresent()) {
@@ -1566,7 +1568,7 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static ConstructorDeclaration constructor(String... code) {
+    public static ConstructorDeclaration constructorDeclaration(String... code) {
 
         ConstructorDeclaration cd = (ConstructorDeclaration) bodyDeclaration(code);
 
@@ -1787,7 +1789,7 @@ public enum Ast {
         return Stmts.whileStmt(  code );
     }
 
-    public static MethodCallExpr methodCallEx(String... code) {
+    public static MethodCallExpr methodCallExpr(String... code) {
         return Exprs.methodCallExpr(code);
     }
 
@@ -1846,7 +1848,7 @@ public enum Ast {
      * @param code the lines of code
      * @return a List of FieldDeclarations
      */
-    public static List<FieldDeclaration> fields(String... code) {
+    public static List<FieldDeclaration> fieldDeclarations(String... code) {
 
         String str = Text.combine(code);
         if (str.length() == 0) {
@@ -1869,7 +1871,7 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static FieldDeclaration field(String... code) {
+    public static FieldDeclaration fieldDeclaration(String... code) {
         String str = Text.combine(code);
         if (!str.endsWith(";")) {
             str = str + ";";
@@ -1898,7 +1900,7 @@ public enum Ast {
      * @param code the code comprising the variable
      * @return
      */
-    public static VariableDeclarationExpr varLocalEx(String...code ){
+    public static VariableDeclarationExpr variableDeclarationExpr(String...code ){
         return Exprs.variablesExpr(code);
     }
 
@@ -1908,14 +1910,14 @@ public enum Ast {
      * {@link VariableDeclarationExpr} variables defined with code bodies
      *
      *
-     * @see #varLocalEx(String...)
-     * @see #field(String...)
+     * @see #variableDeclarationExpr(String...)
+     * @see #fieldDeclaration(String...)
      *
      * @param code
      * @return
      */
-    public static VariableDeclarator varDecl(String... code) {
-        VariableDeclarator vd = field(code).getVariable(0);
+    public static VariableDeclarator variableDeclarator(String... code) {
+        VariableDeclarator vd = fieldDeclaration(code).getVariable(0);
         vd.removeForced();
         return vd;
     }
@@ -1926,10 +1928,10 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static AnnotationMemberDeclaration annotationMemberDecl(String... code) {
+    public static AnnotationMemberDeclaration annotationMemberDeclaration(String... code) {
         String str = Text.combine(code);
-        str = "@interface $$$$$${" + System.lineSeparator() + str + System.lineSeparator() + "}";
-        AnnotationDeclaration ad = (AnnotationDeclaration)Ast.typeDecl(str);
+        str = "@interface UNKNOWN{" + System.lineSeparator() + str + System.lineSeparator() + "}";
+        AnnotationDeclaration ad = (AnnotationDeclaration)Ast.typeDeclaration(str);
         AnnotationMemberDeclaration amd = (AnnotationMemberDeclaration) ad.getMember(0);
         ad.remove(amd); //disconnect
         return amd;
@@ -1942,8 +1944,8 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static TypeDeclaration typeDecl(String... code) {
-        return typeDecl( Ast.JAVAPARSER, code);
+    public static TypeDeclaration typeDeclaration(String... code) {
+        return typeDeclaration( Ast.JAVAPARSER, code);
     }
 
     /**
@@ -1952,7 +1954,7 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static TypeDeclaration typeDecl(JavaParser javaParser, String... code) {
+    public static TypeDeclaration typeDeclaration(JavaParser javaParser, String... code) {
         CompilationUnit cu = Ast.of(javaParser, code);
         
         List<Comment> jdc = new ArrayList<>();
@@ -1992,41 +1994,7 @@ public enum Ast {
         });
     }
 
-    /*
-    public static EnumDeclaration enumDecl(Class clazz) {
-        return (EnumDeclaration) Ast.typeDecl(clazz);
-    }
-
-    public static EnumDeclaration enumDecl(String... code) {
-        return (EnumDeclaration) typeDecl(code);
-    }
-
-    public static ClassOrInterfaceDeclaration classDecl(Class clazz) {
-        return (ClassOrInterfaceDeclaration) Ast.typeDecl(clazz);
-    }
-
-    public static ClassOrInterfaceDeclaration classDecl(String... code) {
-        return (ClassOrInterfaceDeclaration) typeDecl(code);
-    }
-
-    public static ClassOrInterfaceDeclaration interfaceDecl(Class clazz) {
-        return (ClassOrInterfaceDeclaration) Ast.typeDecl(clazz);
-    }
-
-    public static ClassOrInterfaceDeclaration interfaceDecl(String... code) {
-        return (ClassOrInterfaceDeclaration) typeDecl(code);
-    }
-
-    public static AnnotationDeclaration annotationDecl(Class clazz) {
-        return (AnnotationDeclaration) Ast.typeDecl(clazz);
-    }
-
-    public static AnnotationDeclaration annotationDecl(String... code) {
-        return (AnnotationDeclaration) typeDecl(code);
-    }
-    */
-
-    public static NullLiteralExpr nullEx() {
+    public static NullLiteralExpr nullLiteralExpr() {
         return Exprs.nullExpr();
     }
 
@@ -2040,27 +2008,27 @@ public enum Ast {
         return Exprs.of(code);
     }
 
-    public static IntegerLiteralExpr expression(int intValue) {
+    public static IntegerLiteralExpr intLiteralExpr(int intValue) {
         return Exprs.of(intValue);
     }
 
-    public static BooleanLiteralExpr expression(boolean booleanValue) {
+    public static BooleanLiteralExpr booleanLiteralExpr(boolean booleanValue) {
         return Exprs.of(booleanValue);
     }
 
-    public static CharLiteralExpr expression(char charValue) {
+    public static CharLiteralExpr charLiteralExpr(char charValue) {
         return Exprs.of(charValue);
     }
 
-    public static LongLiteralExpr expression(long longValue) {
+    public static LongLiteralExpr longLiteralExpr(long longValue) {
         return Exprs.of(longValue);
     }
 
-    public static DoubleLiteralExpr expression(float floatValue) {
+    public static DoubleLiteralExpr doubleLiteralExpr(float floatValue) {
         return Exprs.of(floatValue);
     }
 
-    public static DoubleLiteralExpr expression(double doubleValue) {
+    public static DoubleLiteralExpr doubleLiteralExpr(double doubleValue) {
         return Exprs.of(doubleValue);
     }
 
@@ -2072,7 +2040,7 @@ public enum Ast {
      * @param switchExpr
      * @return 
      */
-    public static SwitchExpr switchEx(String... switchExpr ){
+    public static SwitchExpr switchExpr(String... switchExpr ){
         return (SwitchExpr)PARSER.parseExpression( Text.combine(switchExpr) ).getResult().get();
     }
     
@@ -2101,7 +2069,7 @@ public enum Ast {
      * @param anonymousClassImplementation
      * @return the ObjectCreationExpr model instance of the runtime instance
      */
-    public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
+    public static ObjectCreationExpr anonymousClassExpr(Object anonymousClassImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return Exprs.newExpr(ste, _io.IN_DEFAULT);
     }
@@ -2139,17 +2107,6 @@ public enum Ast {
             return ses;
         }
         throw new _jdraftException("Unable to parse SwitchEntry \""+ se+ "\""+System.lineSeparator()+ pn.getProblems());
-        /*
-        try {
-            SwitchStmt ss = (SwitchStmt) StaticJavaParser.parseStatement(
-                    "switch (a){" + se + System.lineSeparator() + "}");
-            SwitchEntry swe = ss.getEntry(0);
-            ss.remove(swe);
-            return swe;
-        } catch(Exception e){
-            throw new _jdraftException("could not parse \""+se+"\"" );
-        }
-         */
     }
     
     private static final String TRY_HARDCODED = "try{ assert(true); }";
@@ -2196,9 +2153,9 @@ public enum Ast {
      * @param code the code that is an annotation
      * @return NodeList of {@link AnnotationExpr}s
      */
-    public static NodeList<AnnotationExpr> annos(String... code) {
+    public static NodeList<AnnotationExpr> annotationExprs(String... code) {
         String f = Text.combine(code) + System.lineSeparator() + "int f;";
-        FieldDeclaration fd = field(f);
+        FieldDeclaration fd = fieldDeclaration(f);
         NodeList<AnnotationExpr> anns = fd.getAnnotations();
         NodeList<AnnotationExpr> cpy = new NodeList<>();
         anns.forEach(a -> cpy.add(a));
@@ -2211,7 +2168,7 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static AnnotationExpr anno(String... code) {
+    public static AnnotationExpr annotationExpr(String... code) {
         String s = Text.combine(code);
 
         if(!s.startsWith("@")) {
@@ -2231,21 +2188,21 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static EnumConstantDeclaration constantDecl(String... code) {
+    public static EnumConstantDeclaration constantDeclaration(String... code) {
         String comb = Text.combine(code).trim();
         if (comb.endsWith(";")) {
-            EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ " + System.lineSeparator() + comb + System.lineSeparator() + " }");
+            EnumDeclaration ed = (EnumDeclaration)Ast.typeDeclaration("enum E{ " + System.lineSeparator() + comb + System.lineSeparator() + " }");
             EnumConstantDeclaration ecd = ed.getEntry(0);
             ecd.removeForced(); //disconnect
             return ecd;
         }
         if (comb.endsWith(",")) {
-            EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ " + System.lineSeparator() + comb.substring(0, comb.length() - 1) + ";" + System.lineSeparator() + " }");
+            EnumDeclaration ed = (EnumDeclaration)Ast.typeDeclaration("enum E{ " + System.lineSeparator() + comb.substring(0, comb.length() - 1) + ";" + System.lineSeparator() + " }");
             EnumConstantDeclaration ecd = ed.getEntry(0);
             ecd.removeForced(); //disconnet
             return ecd;
         }
-        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ " + System.lineSeparator() + comb + ";" + System.lineSeparator() + " }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDeclaration("enum E{ " + System.lineSeparator() + comb + ";" + System.lineSeparator() + " }");
         EnumConstantDeclaration ecd = ed.getEntry(0);
         ecd.removeForced(); //disconnet
         return ecd;
@@ -2253,13 +2210,13 @@ public enum Ast {
 
     public static ReceiverParameter receiverParameter(String str) {
         String rp = "void blah(" + str + "){}";
-        MethodDeclaration md = method(rp);
+        MethodDeclaration md = methodDeclaration(rp);
         ReceiverParameter rep = md.getReceiverParameter().get();
         rep.removeForced(); //disconnect
         return rep;
     }
 
-    public static InitializerDeclaration initBlock(String...code ){
+    public static InitializerDeclaration initializerDeclaration(String...code ){
         String st = Text.combine(code);
         String str = "";
         if( st.startsWith("/*") ){ //if they start with a comment... then they MUST provide the static{} or {} braces
@@ -2273,7 +2230,7 @@ public enum Ast {
                     + st
                     + System.lineSeparator() + "} }";
         }
-        InitializerDeclaration id = (InitializerDeclaration) Ast.typeDecl(str).getMembers().get(0);
+        InitializerDeclaration id = (InitializerDeclaration) Ast.typeDeclaration(str).getMembers().get(0);
         id.removeForced(); //disconnect
         return id;
     }
@@ -2288,7 +2245,7 @@ public enum Ast {
      * @return
      */
     public static InitializerDeclaration staticBlock(String... code) {
-        InitializerDeclaration id = initBlock(code);
+        InitializerDeclaration id = initializerDeclaration(code);
         id.setStatic(true);
         return id;
     }

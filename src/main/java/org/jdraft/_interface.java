@@ -81,7 +81,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     public static _interface of( JavaParser javaParser, Class clazz ){
-        Node n = Ast.typeDecl( javaParser, clazz );
+        Node n = Ast.typeDeclaration( javaParser, clazz );
         if( n instanceof CompilationUnit ){
             return macro.to(clazz, of( (CompilationUnit)n));
         } 

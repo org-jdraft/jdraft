@@ -101,7 +101,7 @@ public class $var
      * @return
      */
     public static $var of(String...pattern){
-        return new $var( Ast.varDecl(pattern ) );
+        return new $var( Ast.variableDeclarator(pattern ) );
     }
 
     /**
@@ -150,7 +150,7 @@ public class $var
     }
 
     public static $var as(String...pattern){
-        return as( Ast.varDecl(pattern ) );
+        return as( Ast.variableDeclarator(pattern ) );
     }
 
     public static $var as(VariableDeclarator proto ) {
@@ -447,7 +447,7 @@ public class $var
      * @return 
      */
     public boolean matches( String...var ){
-        return matches(Ast.varDecl(var));
+        return matches(Ast.variableDeclarator(var));
     }
 
     /**
@@ -515,9 +515,9 @@ public class $var
         
         String in = init.draft(translator, base).toString();
         if( in != null ){
-            return Ast.varDecl(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+" = "+in+";");
+            return Ast.variableDeclarator(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+" = "+in+";");
         }        
-        return Ast.varDecl(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+";");
+        return Ast.variableDeclarator(this.type.draft(translator, base)+ " "+ this.name.draft(translator, base)+";");
     }
    
     @Override
@@ -576,7 +576,7 @@ public class $var
             for(int i=0;i<vars.size();i++){
                 toCompose.put(allVars.get(i), values[i]);
             }
-            return Ast.varDecl( type.draft(translator, toCompose) + " "+ name.draft(translator, toCompose) );
+            return Ast.variableDeclarator( type.draft(translator, toCompose) + " "+ name.draft(translator, toCompose) );
         }
         throw new _jdraftException("Expected fill fields of size ("+allVars.size()+") or ("+vars.size()+") got ("+values.length+")");
     }

@@ -68,7 +68,7 @@ public class SclassTest extends TestCase {
         assertTrue( $c.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($c.match(Ast.typeDecl("public class A{}") ));
+        assertTrue($c.match(Ast.typeDeclaration("public class A{}") ));
         assertTrue($c.match(Ast.of("public class A{}").getType(0) ));
         assertTrue($c.match(_class.of("A") ));
         assertTrue($c.match(_class.of(SclassTest.class) ));

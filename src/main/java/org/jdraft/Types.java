@@ -1,6 +1,6 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -60,7 +60,7 @@ public final class Types {
         //if (!param.endsWith(">")) {
         //    param = param + ">";
         //}
-        MethodDeclaration md = Ast.method(param + " void a(){}");
+        MethodDeclaration md = Ast.methodDeclaration(param + " void a(){}");
 
         TypeParameter tp = md.getTypeParameters().get(0);
         tp.removeForced(); //DISCONNECT
@@ -83,7 +83,7 @@ public final class Types {
         if (!code.endsWith(">")) {
             code = code + ">";
         }
-        MethodDeclaration md = Ast.method(code + " void a(){}");
+        MethodDeclaration md = Ast.methodDeclaration(code + " void a(){}");
 
         NodeList<TypeParameter> ntp = md.getTypeParameters();
         NodeList<TypeParameter> cpy = new NodeList<>(); //Disconnected copy
@@ -150,11 +150,19 @@ public final class Types {
             code = code.replaceAll(LOCAL_CLASS_NAME_PACKAGE_PATTERN, ".");
             return of(code.substring(code.lastIndexOf('.') + 1));
         }
+        ParseResult<Type> prt = Ast.JAVAPARSER.parseType(code);
+        if( prt.isSuccessful() ){
+            return prt.getResult().get();
+        }
+        throw new _jdraftException("Unable to parse type :\""+code+"\""+System.lineSeparator()+prt.getProblems());
+        /*
         try {
+
             return StaticJavaParser.parseType(code);
         }catch(Exception e){
             throw new _jdraftException("Unable to parse type :\""+code+"\"", e);
         }
+         */
     }
 
     public static List<String> normalizeTypeParam(TypeParameter tp) {

@@ -26,11 +26,11 @@ public class SbodyTest extends TestCase {
         }) ));
 
         $b = $body.as(); //not implemented body
-        assertTrue( $b.matches( Ast.method("void m();")));
-        assertFalse( $b.matches( Ast.method("void m(){}"))); //it DOENST match an Empty body
+        assertTrue( $b.matches( Ast.methodDeclaration("void m();")));
+        assertFalse( $b.matches( Ast.methodDeclaration("void m(){}"))); //it DOENST match an Empty body
 
-        assertTrue( $body.as("{}").matches( Ast.method("void m(){}"))); //THIS matches an Empty body
-        assertFalse( $body.as("{}").matches( Ast.method("void m();"))); //Doesnt match unimplemented
+        assertTrue( $body.as("{}").matches( Ast.methodDeclaration("void m(){}"))); //THIS matches an Empty body
+        assertFalse( $body.as("{}").matches( Ast.methodDeclaration("void m();"))); //Doesnt match unimplemented
 
         $b = $body.as( ()-> System.out.println( 1) );
         assertTrue( $b.matches(_body.of(()->System.out.println(1) )));

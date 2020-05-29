@@ -138,7 +138,7 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
 
     public boolean isVariables(String...expression){
         try {
-            return Objects.equals(this.astStmt.getVariable(), Ast.varLocalEx(expression));
+            return Objects.equals(this.astStmt.getVariable(), Ast.variableDeclarationExpr(expression));
         }
         catch(Exception e){
             return false;
@@ -183,7 +183,7 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
     }
 
     public _forEachStmt setVariable(String... var){
-        this.astStmt.setVariable(Ast.varLocalEx(var));
+        this.astStmt.setVariable(Ast.variableDeclarationExpr(var));
         return this;
     }
 

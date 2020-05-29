@@ -103,13 +103,13 @@ public interface _java {
             return importDeclaration(Text.combine(code) );
         }
         if (_annoExpr.class == nodeClass) {
-            return anno(code);
+            return annotationExpr(code);
         }
         if (_method.class == nodeClass) {
-            return method(code);
+            return methodDeclaration(code);
         }
         if (_constructor.class == nodeClass) {
-            return constructor(code);
+            return constructorDeclaration(code);
         }
         if (_typeRef.class == nodeClass) {
             return Types.of(Text.combine(code).trim());
@@ -118,7 +118,7 @@ public interface _java {
             return staticBlock(code);
         }
         if (_type.class.isAssignableFrom(nodeClass)) {
-            return Ast.typeDecl(code);
+            return Ast.typeDeclaration(code);
         }
         if (_param.class == nodeClass) {
             return parameter(code);
@@ -132,16 +132,16 @@ public interface _java {
         }
          */
         if (_field.class == nodeClass) {
-            return field(code);
+            return fieldDeclaration(code);
         }
         if (_constant.class == nodeClass) {
-            return constantDecl(code);
+            return constantDeclaration(code);
         }
         if (_entry.class == nodeClass) {
-            return annotationMemberDecl(code);
+            return annotationMemberDeclaration(code);
         }
         if (_method.class == nodeClass) {
-            return method(code);
+            return methodDeclaration(code);
         }
         throw new _jdraftException("Could not parse Node " + nodeClass);
     }

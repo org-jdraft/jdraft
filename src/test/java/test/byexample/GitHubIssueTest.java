@@ -70,7 +70,7 @@ public class GitHubIssueTest extends TestCase {
     }
 
     public void testMethodsWithName(){
-        MethodDeclaration md = Ast.method(
+        MethodDeclaration md = Ast.methodDeclaration(
                 "        public static ContactComponent convertContactComponent(ContactComponent src) throws FHIRException {\n" +
                         "            if (src == null || src.isEmpty())\n" +
                         "                return null;\n" +

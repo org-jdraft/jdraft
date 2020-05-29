@@ -37,8 +37,8 @@ public class SpackageTest extends TestCase {
 
         //add annotations to the package declaration
         cu.getPackageDeclaration().get().addAnnotation("A");
-        cu.getPackageDeclaration().get().addAnnotation(Ast.anno("B(1)"));
-        cu.getPackageDeclaration().get().addAnnotation(Ast.anno("C(key1=1,value=3)"));
+        cu.getPackageDeclaration().get().addAnnotation(Ast.annotationExpr("B(1)"));
+        cu.getPackageDeclaration().get().addAnnotation(Ast.annotationExpr("C(key1=1,value=3)"));
 
         assertTrue( $package.of().matches(cu) ); //works wth any package with annotations
 

@@ -36,7 +36,7 @@ public class SfTest extends TestCase {
         //System.out.println( $.typeRef().listIn(D.class) );
 
         //_class _c = _class.of(D.class);
-        Ast.varDecl("int c");
+        Ast.variableDeclarator("int c");
         assertEquals( Exprs.variablesExpr("String c"), $.localVariables().firstIn(D.class).ast() ); //int c
 
         assertEquals(2, $.variable().countIn(D.class));

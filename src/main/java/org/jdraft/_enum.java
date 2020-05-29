@@ -69,7 +69,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return of(Ast.JAVAPARSER, clazz);
     }
     public static _enum of( JavaParser javaParser, Class<? extends Enum> clazz ){
-        Node n = Ast.typeDecl(javaParser, clazz );
+        Node n = Ast.typeDeclaration(javaParser, clazz );
         if( n instanceof CompilationUnit ){
             return macro.to(clazz, of( (CompilationUnit)n));
         }
@@ -485,7 +485,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
     
     public _enum addConstant(String...constantDecl ) {
-        return addConstant( Ast.constantDecl( constantDecl ));
+        return addConstant( Ast.constantDeclaration( constantDecl ));
     }
 
     /**
@@ -517,7 +517,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     public _enum addConstant(String signature, Object anonymousBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Exprs.newExpr(ste);
-        _constant _ct = _constant.of( Ast.constantDecl(signature));
+        _constant _ct = _constant.of( Ast.constantDeclaration(signature));
         if( oce.getAnonymousClassBody().isPresent()){
             // here, I'm putting the BODY into a temp _class, so that I can apply
             // annotation macros to it

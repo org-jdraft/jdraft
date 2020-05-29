@@ -1,7 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ParseProblemException;
-import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.body.ConstructorDeclaration;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
@@ -435,7 +435,13 @@ public enum Stmts {
             return blockStmt( str ).getStatement(0);
         }
         if( (str.startsWith("this") || str.startsWith("super")) && !str.startsWith("this.") ){
-            return StaticJavaParser.parseExplicitConstructorInvocationStmt(str);
+            ParseResult<ExplicitConstructorInvocationStmt> pre =
+                    Ast.JAVAPARSER.parseExplicitConstructorInvocationStmt(str);
+            if( pre.isSuccessful() ){
+                return pre.getResult().get();
+            }
+            throw new _jdraftException("unable to parse ExplicitConstructor :\""+ str+"\""+ System.lineSeparator()+ pre.getProblems());
+            //return StaticJavaParser.parseExplicitConstructorInvocationStmt(str);
         }
         if( str.startsWith("{") ){
             return blockStmt(str);
@@ -457,7 +463,12 @@ public enum Stmts {
         }
          */
         //System.out.println("THE STRING "+ str );
-        return StaticJavaParser.parseStatement( str );
+        ParseResult<Statement> pr = Ast.JAVAPARSER.parseStatement(str);
+        if( pr.isSuccessful() ){
+            return pr.getResult().get();
+        }
+        throw new _jdraftException("unable to parse Statement \""+str+"\""+System.lineSeparator()+" "+pr.getProblems());
+        //return StaticJavaParser.parseStatement( str );
     }
 
     public static final Class<AssertStmt> ASSERT = AssertStmt.class;
@@ -558,7 +569,14 @@ public enum Stmts {
 
             String comb = combined.substring(0, endCommentIndex+2)+startM;
             //System.out.println( comb );
-            return StaticJavaParser.parseBlock( comb );
+            ParseResult<BlockStmt> pbs = Ast.JAVAPARSER.parseBlock(comb );
+            if( pbs.isSuccessful() ){
+                return pbs.getResult().get();
+            }
+            throw new _jdraftException("unable to parse block : "+System.lineSeparator()+
+                    Text.indent(comb)+System.lineSeparator()+
+                    pbs.getProblems() );
+            //return StaticJavaParser.parseBlock( comb );
         }
         if( !combined.startsWith("{") ){
             combined = "{"+ combined;
@@ -587,13 +605,22 @@ public enum Stmts {
         if( combined.contains("super") || combined.contains("this")){
 
             combined = "UNKNOWN()"+ combined;
-            //System.out.println( ">>>>BBB>>>  "+combined);
-            ConstructorDeclaration bd = (ConstructorDeclaration)StaticJavaParser.parseBodyDeclaration(combined);
-            BlockStmt bs = bd.getBody();
-            bs.remove();
-            return bs;
+            ParseResult<ConstructorDeclaration> cbd = Ast.JAVAPARSER.parseBodyDeclaration(combined);
+            if( cbd.isSuccessful() ){
+                BlockStmt bs = cbd.getResult().get().getBody();
+                bs.remove();
+                return bs;
+            }
+
+            //ConstructorDeclaration bd = (ConstructorDeclaration)StaticJavaParser.parseBodyDeclaration(combined);
+
         }
-        return StaticJavaParser.parseBlock( combined );
+        ParseResult<BlockStmt> pbs = Ast.JAVAPARSER.parseBlock(combined);
+        if( pbs.isSuccessful() ){
+            return pbs.getResult().get();
+        }
+        throw new _jdraftException("Unable to parse blockStmt :"+System.lineSeparator()+ Text.indent(combined) +System.lineSeparator()+ pbs.getProblems());
+        //return StaticJavaParser.parseBlock( combined );
     }
 
     /**
@@ -759,7 +786,12 @@ public enum Stmts {
      */
     public static ExplicitConstructorInvocationStmt constructorCallStmt(String... code ) {
         String cd = Text.combine(code);
-        return StaticJavaParser.parseExplicitConstructorInvocationStmt(cd);
+        ParseResult<ExplicitConstructorInvocationStmt> eps = Ast.JAVAPARSER.parseExplicitConstructorInvocationStmt(cd);
+        if( eps.isSuccessful() ){
+            return eps.getResult().get();
+        }
+        throw new _jdraftException("unable to parse constructor call \""+cd+"\""+System.lineSeparator()+eps.getProblems());
+        //return StaticJavaParser.parseExplicitConstructorInvocationStmt(cd);
         /*
         if( cd.startsWith("this")|| cd.startsWith("super") ){
             return of( cd ).asExplicitConstructorInvocationStmt();

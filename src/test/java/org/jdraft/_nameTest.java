@@ -77,13 +77,13 @@ public class _nameTest extends TestCase {
 
         assertTrue( _name.of( _methodRefExpr.of("A::B").ast() ).isMethodReferenceName());
         assertTrue( _name.of( Ast.packageDeclaration("package aaaa.bbbb").getName() ).isPackageName() );
-        assertTrue( _name.of( Ast.typeDecl("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeDeclarationName() );
+        assertTrue( _name.of( Ast.typeDeclaration("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeDeclarationName() );
         //assertTrue( _name.of( Types.of("C").asClassOrInterfaceType().getName() ).isTypeRefName() );
 
-        assertTrue( _name.of( Ast.varDecl("int i").getName() ).isVariableName() );
+        assertTrue( _name.of( Ast.variableDeclarator("int i").getName() ).isVariableName() );
         assertTrue( _name.of( Ast.parameter("int i").getName() ).isParamName() );
-        assertTrue( _name.of( Ast.anno("@A").getName() ).isAnnoExprName() );
-        assertTrue( _name.of( Ast.anno("@A(k=1)").asNormalAnnotationExpr().getPairs().get(0).getName() ).isAnnoEntryPairName() );
+        assertTrue( _name.of( Ast.annotationExpr("@A").getName() ).isAnnoExprName() );
+        assertTrue( _name.of( Ast.annotationExpr("@A(k=1)").asNormalAnnotationExpr().getPairs().get(0).getName() ).isAnnoEntryPairName() );
     }
 
 }

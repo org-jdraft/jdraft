@@ -114,12 +114,12 @@ public final class _method
                 if (!m.endsWith(")")) {
                     m = m + "()";
                 }
-                return new _method(Ast.method("public void " + m + ";"));
+                return new _method(Ast.methodDeclaration("public void " + m + ";"));
             } else {
-                return new _method(Ast.method("public void " + m));
+                return new _method(Ast.methodDeclaration("public void " + m));
             }
         }
-        return new _method(Ast.method(methodDecl));
+        return new _method(Ast.methodDeclaration(methodDecl));
     }
 
     /**
@@ -843,7 +843,7 @@ public final class _method
         _WM addMethod(MethodDeclaration method);
 
         default _WM addMethod(String... method) {
-            return addMethod(Ast.method(method));
+            return addMethod(Ast.methodDeclaration(method));
         }
 
         default _WM addMethod(_method _m) {

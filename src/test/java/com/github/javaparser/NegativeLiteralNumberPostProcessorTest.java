@@ -2,6 +2,7 @@ package com.github.javaparser;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.printer.ASCIITreePrinter;
 import junit.framework.TestCase;
 import org.jdraft.*;
@@ -10,6 +11,11 @@ import org.jdraft.bot.$intExpr;
 
 public class NegativeLiteralNumberPostProcessorTest extends TestCase {
 
+    public void testP(){
+        ParseResult<BlockStmt> pbs = Ast.JAVAPARSER.parseBlock("{}");
+        System.out.println( pbs.getProblems() );
+        assertTrue( pbs.isSuccessful() );
+    }
     public void testSimpleNegInt(){
         NegativeLiteralNumberPostProcessor nnp = new NegativeLiteralNumberPostProcessor();
         JavaParser jp = new JavaParser();
@@ -144,6 +150,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         }
 
         _class _c = _class.of(C.class);
+        Print.tree( _c.ast());
         //verify that we should NOT have UnaryExprs, only Int, Long, & Double literals
         assertFalse(_c.ast().findFirst(UnaryExpr.class).isPresent());
 

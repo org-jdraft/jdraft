@@ -135,7 +135,7 @@ public class _interfaceTest extends TestCase {
     }
 
     public void testG(){
-        FieldDeclaration fd = Ast.field( "int i;");        
+        FieldDeclaration fd = Ast.fieldDeclaration( "int i;");
     }
     
     public void testCompose(){

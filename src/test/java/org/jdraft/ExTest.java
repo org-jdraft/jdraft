@@ -56,7 +56,10 @@ public class ExTest extends TestCase {
         StaticJavaParser.parseExpression("1_000");
         StaticJavaParser.parseExpression("0xDEADBEEF");
         StaticJavaParser.parseExpression("0b110100111");
-        
+
+        assertTrue( Exprs.JAVAPARSER.parseExpression("1_000").isSuccessful());
+        assertTrue( Exprs.JAVAPARSER.parseExpression("0xDEADBEEF").isSuccessful());
+        assertTrue( Exprs.JAVAPARSER.parseExpression("0b110100111").isSuccessful());
         Ast.expression("1_000");
         Ast.expression("0xDEADBEEF");
         Ast.expression("0b110100111");

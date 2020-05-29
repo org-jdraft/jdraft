@@ -203,14 +203,14 @@ public class AstTest extends TestCase {
     }
 
     public void testParseNewCode(){
-        SwitchExpr se = Ast.switchEx("switch(s) { default : yield 1; }");
+        SwitchExpr se = Ast.switchExpr("switch(s) { default : yield 1; }");
         assertTrue(se.getEntry(0).getLabels().isEmpty());
-        se = Ast.switchEx("switch(s) { default -> 1; }");
+        se = Ast.switchExpr("switch(s) { default -> 1; }");
         assertTrue(se.getEntry(0).getLabels().isEmpty());
-        se = Ast.switchEx("switch(s) { default : 1; }");
+        se = Ast.switchExpr("switch(s) { default : 1; }");
         assertTrue(se.getEntry(0).getLabels().isEmpty());
 
-        se = Ast.switchEx("switch(s) { case 1: 1; }");
+        se = Ast.switchExpr("switch(s) { case 1: 1; }");
         assertTrue(se.getEntry(0).getLabels().get(0).isIntegerLiteralExpr());
     }
 
@@ -672,7 +672,7 @@ public class AstTest extends TestCase {
     */
     
     public void testParseStaticClass(){
-        TypeDeclaration td = Ast.typeDecl("public static class F{}");
+        TypeDeclaration td = Ast.typeDeclaration("public static class F{}");
         assertTrue( td.isStatic() );        
     }
     
@@ -680,7 +680,7 @@ public class AstTest extends TestCase {
         class C{
             
         }
-        TypeDeclaration td = Ast.typeDecl(C.class);
+        TypeDeclaration td = Ast.typeDeclaration(C.class);
         
     }
     /**
@@ -833,7 +833,7 @@ public class AstTest extends TestCase {
 
     public void testEnumConstructor(){
         //_constructor _ct = _constructor.of("E(int i){this.i = i;}");
-        ConstructorDeclaration cd = Ast.constructor( "E(int i){this.i = i;}");
+        ConstructorDeclaration cd = Ast.constructorDeclaration( "E(int i){this.i = i;}");
     }
 
     public void testAstCache(){
@@ -843,7 +843,7 @@ public class AstTest extends TestCase {
         }
 
         assertFalse(Ast.AST_CACHE_MAP.containsKey(L.class));
-        Node n = Ast.typeDecl(L.class);
+        Node n = Ast.typeDeclaration(L.class);
         assertTrue( n instanceof ClassOrInterfaceDeclaration );
         ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)n;
         //verify that the AST DOESNT have the Ast.cache annotation
@@ -855,9 +855,9 @@ public class AstTest extends TestCase {
         assertFalse(Ast.AST_CACHE_MAP.containsKey(L.class));
     }
     public void testAstWalkList(){
-        System.out.println( Comments.list( Ast.typeDecl( Ex.class) ));
+        System.out.println( Comments.list( Ast.typeDeclaration( Ex.class) ));
 
-        Tree.in(Ast.typeDecl( Ex.class ), com.github.javaparser.ast.comments.Comment.class, c-> System.out.println(c.getClass()) );
+        Tree.in(Ast.typeDeclaration( Ex.class ), com.github.javaparser.ast.comments.Comment.class, c-> System.out.println(c.getClass()) );
         //Ast.walk( Ast.type( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
 
     }
@@ -884,15 +884,15 @@ public class AstTest extends TestCase {
     }
 
     public void testParseAnno(){
-        AnnotationExpr ae = Ast.anno( "@a");
+        AnnotationExpr ae = Ast.annotationExpr( "@a");
         assertTrue( ae instanceof MarkerAnnotationExpr );
 
-        ae = Ast.anno( "@a(1)");
+        ae = Ast.annotationExpr( "@a(1)");
         assertTrue( ae instanceof SingleMemberAnnotationExpr );
         SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr)ae;
         assertEquals(Exprs.of( 1 ), sa.getMemberValue());
 
-        ae = Ast.anno( "@a(k=1,v=2)");
+        ae = Ast.annotationExpr( "@a(k=1,v=2)");
         NormalAnnotationExpr na = (NormalAnnotationExpr)ae;
 
         assertEquals("k", na.getPairs().get( 0 ).getNameAsString());
@@ -902,24 +902,24 @@ public class AstTest extends TestCase {
     }
 
     public void testParseAnnos(){
-        NodeList<AnnotationExpr> ae = Ast.annos( "");
+        NodeList<AnnotationExpr> ae = Ast.annotationExprs( "");
         assertTrue( ae.size() == 0 );
-        ae = Ast.annos( "@ann");
+        ae = Ast.annotationExprs( "@ann");
         assertTrue( ae.size() == 1 );
-        ae = Ast.annos( "@ann @ann2");
+        ae = Ast.annotationExprs( "@ann @ann2");
         assertTrue( ae.size() == 2 );
-        ae = Ast.annos( "@ann(100)");
+        ae = Ast.annotationExprs( "@ann(100)");
         assertTrue( ae.size() == 1 );
-        ae = Ast.annos( "@ann(k=1,g=100)");
+        ae = Ast.annotationExprs( "@ann(k=1,g=100)");
         assertTrue( ae.size() == 1 );
-        ae = Ast.annos( "@ann(k=1,g=100) @ann2");
+        ae = Ast.annotationExprs( "@ann(k=1,g=100) @ann2");
         assertTrue( ae.size() == 2 );
     }
 
     public void testParseAnnotation(){
-        AnnotationDeclaration ad = (AnnotationDeclaration)Ast.typeDecl( "@interface A{}");
+        AnnotationDeclaration ad = (AnnotationDeclaration)Ast.typeDeclaration( "@interface A{}");
 
-        ad = (AnnotationDeclaration)Ast.typeDecl( "/** JAVADOC*/ @ann @interface A{ }");
+        ad = (AnnotationDeclaration)Ast.typeDeclaration( "/** JAVADOC*/ @ann @interface A{ }");
         assertTrue( ad.getAnnotations().isNonEmpty() );
         assertTrue( ad.getJavadocComment().isPresent());
     }
@@ -927,47 +927,47 @@ public class AstTest extends TestCase {
 
 
     public void testParseAnnotationMember(){
-        Ast.annotationMemberDecl( "int VALUE();" );
+        Ast.annotationMemberDeclaration( "int VALUE();" );
 
         AnnotationMemberDeclaration amd =
-                Ast.annotationMemberDecl( "/** JAVADOC*/ @ann int VALUE();" );
+                Ast.annotationMemberDeclaration( "/** JAVADOC*/ @ann int VALUE();" );
 
-        amd = Ast.annotationMemberDecl( "/** JAVADOC*/ @ann int VALUE() default 100;" );
+        amd = Ast.annotationMemberDeclaration( "/** JAVADOC*/ @ann int VALUE() default 100;" );
         assertTrue( amd.hasJavaDocComment() );
         assertTrue( amd.getAnnotations().isNonEmpty());
 
     }
     public void testParseClass(){
         //ClassOrInterfaceDeclaration cd = Ast.classDecl( "class C{}");
-        ClassOrInterfaceDeclaration cd  = (ClassOrInterfaceDeclaration)Ast.typeDecl( "/** Javadoc */ @ann class C{}");
+        ClassOrInterfaceDeclaration cd  = (ClassOrInterfaceDeclaration)Ast.typeDeclaration( "/** Javadoc */ @ann class C{}");
         assertTrue( cd.getAnnotations().isNonEmpty());
         assertTrue( cd.getJavadocComment().isPresent());
     }
 
     public void testParseConstructor(){
-        ConstructorDeclaration cd = Ast.constructor( "C(){}");
-        cd = Ast.constructor( "/** Javadoc */ @ann C(){}");
+        ConstructorDeclaration cd = Ast.constructorDeclaration( "C(){}");
+        cd = Ast.constructorDeclaration( "/** Javadoc */ @ann C(){}");
         assertTrue( cd.getAnnotations().isNonEmpty());
         assertTrue( cd.getJavadocComment().isPresent());
     }
 
     public void testParseEnum(){
-        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl( "enum E { ; }");
-        ed = (EnumDeclaration)Ast.typeDecl( "/** JAVADOC */ @ann enum E { ; }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDeclaration( "enum E { ; }");
+        ed = (EnumDeclaration)Ast.typeDeclaration( "/** JAVADOC */ @ann enum E { ; }");
         assertTrue( ed.getAnnotations().isNonEmpty());
         assertTrue( ed.getJavadocComment().isPresent());
     }
 
     public void testField(){
-        FieldDeclaration fd = Ast.field( "int a;");
-        fd = Ast.field("/** JAVADOC */ @ann int f = 1002;");
+        FieldDeclaration fd = Ast.fieldDeclaration( "int a;");
+        fd = Ast.fieldDeclaration("/** JAVADOC */ @ann int f = 1002;");
         assertTrue( fd.getAnnotations().isNonEmpty());
         assertTrue( fd.getJavadocComment().isPresent());
     }
 
     public void testInterface(){
-        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDecl( "interface I{}" );
-        coid = (ClassOrInterfaceDeclaration)Ast.typeDecl( "/** JAVADOC*/ @ann interface I {}");
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration( "interface I{}" );
+        coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration( "/** JAVADOC*/ @ann interface I {}");
         assertTrue( coid.isInterface());
         assertTrue( coid.getAnnotations().isNonEmpty());
         assertTrue( coid.getJavadocComment().isPresent());
@@ -986,11 +986,11 @@ public class AstTest extends TestCase {
 
     public void testMethod(){
         //no BODY
-        MethodDeclaration md = Ast.method( "void m();");
+        MethodDeclaration md = Ast.methodDeclaration( "void m();");
         assertFalse(md.getBody().isPresent());
 
         //no BODY &
-        md = Ast.method( "/** JAVADOC*/ @ann void m();");
+        md = Ast.methodDeclaration( "/** JAVADOC*/ @ann void m();");
         assertFalse(md.getBody().isPresent());
         assertTrue( md.getJavadocComment().isPresent());
         assertTrue(md.getAnnotationByClass( ann.class ).isPresent());
@@ -1277,14 +1277,14 @@ public class AstTest extends TestCase {
         //we should test Statements verses other statements, not do String comparisons (because of spaces and indentation
         assertEquals( Ast.statement("System.out.println(3);"), Ast.statement("System.out.println( "," 3 "," );" ));
 
-        assertEquals( Ast.anno("@ann(key=1,key2=\"Er\")"), Ast.anno("@ann( key = 1 , key2 = \"Er\" )"));
+        assertEquals( Ast.annotationExpr("@ann(key=1,key2=\"Er\")"), Ast.annotationExpr("@ann( key = 1 , key2 = \"Er\" )"));
 
         assertEquals( Ast.blockStmt("{", "assert(true); assert(false);", "}"), Ast.blockStmt("{assert(true); assert(false);}"));
 
-        assertEquals( Ast.typeDecl("interface i{}"), Ast.typeDecl("interface i", "{", "}"));
-        assertEquals( Ast.typeDecl("enum e{}"), Ast.typeDecl("enum e", "{", "}"));
-        assertEquals( Ast.typeDecl("class c{}"), Ast.typeDecl("class c", "{", "}"));
-        assertEquals( Ast.typeDecl("@interface at{}"), Ast.typeDecl("@interface at", "{", "}"));
+        assertEquals( Ast.typeDeclaration("interface i{}"), Ast.typeDeclaration("interface i", "{", "}"));
+        assertEquals( Ast.typeDeclaration("enum e{}"), Ast.typeDeclaration("enum e", "{", "}"));
+        assertEquals( Ast.typeDeclaration("class c{}"), Ast.typeDeclaration("class c", "{", "}"));
+        assertEquals( Ast.typeDeclaration("@interface at{}"), Ast.typeDeclaration("@interface at", "{", "}"));
 
         assertEquals( Ast.of( "package h;", "import java.util.*;", "public class V{", "}"),
                 Ast.of("package h;", "import java.util.*;", "", "public class V", "{}" ) );
@@ -1295,12 +1295,12 @@ public class AstTest extends TestCase {
         assertEquals( Ast.of("public class MyClass<T> extends BaseClass implements IClass{} "),
                 Ast.of("public class MyClass<T>","    extends BaseClass","     implements IClass","{", "}"));
 
-        assertEquals( Ast.method("void b(){}"), Ast.method("void b ()", "{", "}"));
-        assertEquals( Ast.constructor("@ann", "public Ctor()", "{", "System.out.println(1);", "}" ),
-                Ast.constructor("@ann public Ctor() { System.out.println(1); }" ));
+        assertEquals( Ast.methodDeclaration("void b(){}"), Ast.methodDeclaration("void b ()", "{", "}"));
+        assertEquals( Ast.constructorDeclaration("@ann", "public Ctor()", "{", "System.out.println(1);", "}" ),
+                Ast.constructorDeclaration("@ann public Ctor() { System.out.println(1); }" ));
 
-        assertEquals( Ast.field("public static final int V = 1;"), Ast.field("public static final int V=1;") );
-        assertEquals( Ast.anno("@d(key=1,key1=100)"),Ast.anno("@d( key = 1 , key1 = 100 )") );
+        assertEquals( Ast.fieldDeclaration("public static final int V = 1;"), Ast.fieldDeclaration("public static final int V=1;") );
+        assertEquals( Ast.annotationExpr("@d(key=1,key1=100)"),Ast.annotationExpr("@d( key = 1 , key1 = 100 )") );
 
 
         //assertEquals( AST.enumConstant("E()"), AST.enumConstant("E()"));

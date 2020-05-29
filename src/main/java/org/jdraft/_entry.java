@@ -39,7 +39,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
     }
 
     public static _entry of(String...code ){
-        return new _entry( Ast.annotationMemberDecl( code ) );
+        return new _entry( Ast.annotationMemberDeclaration( code ) );
     }
 
     public static _entry of(Type type, String name ){
@@ -92,7 +92,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
 
     @Override
     public boolean is(String...stringRep){
-        return is(Ast.annotationMemberDecl(stringRep));
+        return is(Ast.annotationMemberDeclaration(stringRep));
     }
 
     @Override

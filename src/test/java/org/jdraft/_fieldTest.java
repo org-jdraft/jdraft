@@ -104,7 +104,7 @@ public class _fieldTest extends TestCase {
         FieldDeclaration fd = _f.getFieldDeclaration();
         assertEquals(1, fd.getVariables().size());
 
-        List<_field> _fs = _field.of( Ast.field("int x,y;"));
+        List<_field> _fs = _field.of( Ast.fieldDeclaration("int x,y;"));
         assertEquals( 2, _fs.size());
         assertEquals( _fs.get(0).getFieldDeclaration(), _fs.get(1).getFieldDeclaration());
         assertNotSame(_fs.get(0), _fs.get(1));

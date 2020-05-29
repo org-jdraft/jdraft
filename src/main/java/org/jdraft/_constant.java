@@ -37,7 +37,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     }
 
     public static _constant of( String... ecd ){
-        return of(Ast.constantDecl(ecd));
+        return of(Ast.constantDeclaration(ecd));
     }
 
     public static _constant of( EnumConstantDeclaration ecd ){
@@ -131,7 +131,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     @Override
     public boolean is(String...stringRep){
         try{
-            return is(Ast.constantDecl(stringRep));
+            return is(Ast.constantDeclaration(stringRep));
         }
         catch(Exception e){
             return false;
@@ -166,14 +166,14 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         if( args.startsWith("(") && args.endsWith(")") ){
             args = args.substring(1, args.length() -1);
         }
-        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ A("+args+"); }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDeclaration("enum E{ A("+args+"); }");
         NodeList<Expression> argsList = ed.getEntry(0).getArguments();
         argsList.forEach(a-> addArg(a));
         return this;
     }
 
     public _constant setBody(String...bodyCode){
-        EnumDeclaration ed = (EnumDeclaration)Ast.typeDecl("enum E{ A{"+Text.combine(bodyCode)+" }; }");
+        EnumDeclaration ed = (EnumDeclaration)Ast.typeDeclaration("enum E{ A{"+Text.combine(bodyCode)+" }; }");
         ed.getEntry(0).getClassBody().forEach(bd -> this.add(bd));
         return this;
     }

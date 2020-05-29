@@ -21,7 +21,7 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
         if( var.length == 0){
             return of( );
         }
-        return new _variable( Ast.varDecl(var) );
+        return new _variable( Ast.variableDeclarator(var) );
     }
 
     public static _variable of( VariableDeclarator vd ){
@@ -209,7 +209,7 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
 
     @Override
     public boolean is(String... stringRep) {
-        return of( Ast.varDecl(stringRep)).equals(this);
+        return of( Ast.variableDeclarator(stringRep)).equals(this);
     }
 
     @Override

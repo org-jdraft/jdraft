@@ -56,7 +56,7 @@ public class _1_WhatIs$PatternTest extends TestCase {
         // AST representation(FieldDeclaration), or meta-representation (_field) matches the
         // pattern instance by using match(...) or matches(...)
         assertTrue( $f.matches("int i;")); //the string representation matches the pattern
-        FieldDeclaration astField = Ast.field("int i;"); //Ast representation
+        FieldDeclaration astField = Ast.fieldDeclaration("int i;"); //Ast representation
         assertTrue( $f.matches( astField)); //the AST representation matches the pattern
         assertTrue( $f.matches(_f) ); //the meta-representation matches the pattern
 
@@ -73,7 +73,7 @@ public class _1_WhatIs$PatternTest extends TestCase {
         //while _f (the meta representation) will only match fields that are EXACTLY name "i" & type "int"
         //(meta-representation perform matching (to String representations) using the is(...) method
         assertTrue( _f.is("int i;")); //string exact matches
-        assertTrue( _f.is(Ast.field("int i;"))); //FieldDeclaration exact matches
+        assertTrue( _f.is(Ast.fieldDeclaration("int i;"))); //FieldDeclaration exact matches
         assertTrue( _f.equals(_field.of("int i;"))); //another _field exact matches
         //... (AND NOTHING ELSE)
         assertFalse( _f.is("int i = 0;"));

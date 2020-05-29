@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static org.jdraft.Ast.field;
+import static org.jdraft.Ast.fieldDeclaration;
 
 /**
  * Representation of the Java source code of a grouping of {@link _annoExpr} (s)
@@ -50,7 +50,7 @@ public final class _annoExprs
     public static _annoExprs of(String... anns ) {
         //String f = Text.combine( anns ) + System.lineSeparator() + "NOT_A_REAL_FIELD AST_ANNO_HOLDER;";
         String f = Text.combine( anns ) + System.lineSeparator() + "UNKNOWN unknown;";
-        FieldDeclaration fd = field( f );
+        FieldDeclaration fd = fieldDeclaration( f );
         _annoExprs _as = new _annoExprs( fd );
         return _as;
     }
@@ -79,7 +79,7 @@ public final class _annoExprs
     }
 
     public static _annoExprs of(){
-        return new _annoExprs(field( "UNKNOWN unknown;") );
+        return new _annoExprs(fieldDeclaration( "UNKNOWN unknown;") );
     }
 
     public static _annoExprs of(String annos){
@@ -125,14 +125,14 @@ public final class _annoExprs
 
     public _annoExprs add(String... annos ) {
         for( String anno : annos ) {
-            this.astAnnNode.addAnnotation(Ast.anno(anno ) );
+            this.astAnnNode.addAnnotation(Ast.annotationExpr(anno ) );
         }
         return this;
     }
 
     public _annoExprs add(Class<? extends Annotation>... anns ) {
         for( Class<? extends Annotation> ann : anns ) {
-            this.astAnnNode.addAnnotation( Ast.anno( "@" + ann.getSimpleName() ) );
+            this.astAnnNode.addAnnotation( Ast.annotationExpr( "@" + ann.getSimpleName() ) );
         }
         return this;
     }
@@ -325,7 +325,7 @@ public final class _annoExprs
     }
 
     public _annoExprs copy() {
-        FieldDeclaration fd = Ast.field( "NOT_A_REAL_FIELD AST_ANNO_PARENT;" );
+        FieldDeclaration fd = Ast.fieldDeclaration( "NOT_A_REAL_FIELD AST_ANNO_PARENT;" );
         this.astAnnNode.getAnnotations().forEach( a -> fd.addAnnotation( ((AnnotationExpr)a).clone() ) );
         return new _annoExprs( fd );
     }

@@ -21,7 +21,7 @@ public final class _typeParams
     public static final Function<String, _typeParams> PARSER = s-> _typeParams.of(s);
 
     public static _typeParams of(){
-        return of( (ClassOrInterfaceDeclaration)Ast.typeDecl("class Dummy{}" ));
+        return of( (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Dummy{}" ));
     }
 
     public static _typeParams of(String...tps){
@@ -32,7 +32,7 @@ public final class _typeParams
         if( !typeParams.startsWith("<") ){
             typeParams = "<"+ typeParams +">";
         }
-        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDecl("class Dummy"+ typeParams +"{}");
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Dummy"+ typeParams +"{}");
         return of( coid );
     }
 

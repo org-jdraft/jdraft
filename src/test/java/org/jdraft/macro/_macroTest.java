@@ -70,7 +70,7 @@ public class _macroTest extends TestCase {
             }
 
             public void expand(TypeDeclaration t) {
-                t.addMember(Ast.field( "public static String ID=\""+ UUID.randomUUID()+"\";"));
+                t.addMember(Ast.fieldDeclaration( "public static String ID=\""+ UUID.randomUUID()+"\";"));
             }
         }
     }

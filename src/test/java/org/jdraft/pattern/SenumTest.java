@@ -75,7 +75,7 @@ public class SenumTest extends TestCase {
         assertTrue( $e.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($e.match(Ast.typeDecl("public enum A{}") ));
+        assertTrue($e.match(Ast.typeDeclaration("public enum A{}") ));
         assertTrue($e.match(Ast.of("public enum A{}") ));
         assertTrue($e.match(_enum.of("A") ));
 

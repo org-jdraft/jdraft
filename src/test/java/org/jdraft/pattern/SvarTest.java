@@ -166,7 +166,7 @@ public class SvarTest extends TestCase {
         $var $anyString = $var.of("String $name$");
         $var $anyInit = $var.of("$type$ $name$", v-> v.getInitializer().isPresent() );
         
-        VariableDeclarator v = Ast.varDecl("int count");
+        VariableDeclarator v = Ast.variableDeclarator("int count");
         assertEquals( $anyInt.fill("count"), v );
         
         _class _c = _class.of("C", new Object(){

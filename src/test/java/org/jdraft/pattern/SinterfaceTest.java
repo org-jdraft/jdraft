@@ -56,7 +56,7 @@ public class SinterfaceTest extends TestCase {
         assertTrue( $i.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($i.match(Ast.typeDecl("public interface A{}") ));
+        assertTrue($i.match(Ast.typeDeclaration("public interface A{}") ));
         assertTrue($i.match(Ast.of("public interface A{}") ));
         assertTrue($i.match(_interface.of("A") ));
 

@@ -40,8 +40,8 @@ public class SannoRefTest extends TestCase {
             }
         }
 
-        assertTrue($aor.match(Ast.anno("@Deprecated")));
-        assertTrue($aor.match(Ast.anno("@Override")));
+        assertTrue($aor.match(Ast.annotationExpr("@Deprecated")));
+        assertTrue($aor.match(Ast.annotationExpr("@Override")));
         assertEquals(2, $aor.countIn(C.class));
         assertNotNull($aor.firstIn(C.class));
         assertNotNull($aor.firstIn(C.class, a -> a.isInstance(Override.class)));

@@ -91,7 +91,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     }
 
     public static <_T extends _type> _T to(Class clazz ) {
-        TypeDeclaration td = Ast.typeDecl(clazz);
+        TypeDeclaration td = Ast.typeDeclaration(clazz);
         return to(clazz, td);
     }
 

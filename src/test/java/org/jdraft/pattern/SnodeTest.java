@@ -378,8 +378,8 @@ public class SnodeTest extends TestCase {
     
     /** */
     public void testAstParseAnnotationOnMethod(){
-        AnnotationExpr as = Ast.anno("@$dollar");
-        as = Ast.anno("@$dollar.bills");
+        AnnotationExpr as = Ast.annotationExpr("@$dollar");
+        as = Ast.annotationExpr("@$dollar.bills");
         
     }
     

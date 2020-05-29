@@ -150,7 +150,7 @@ public class _modifiersTest extends TestCase {
     */
 
     public void testAccess(){
-        FieldDeclaration fd = Ast.field("public static final int E = 1002;");
+        FieldDeclaration fd = Ast.fieldDeclaration("public static final int E = 1002;");
         assertTrue( fd.isPublic() );
         fd.setPrivate( true );
         

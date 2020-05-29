@@ -54,7 +54,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
 
     public static _switchExpr of(String...code){
         try{
-            return of( Ast.switchEx(code) );
+            return of( Ast.switchExpr(code) );
         }catch(Exception e){
             throw new _jdraftException("invalid representation of switch expression"+System.lineSeparator()+ Text.combine(code), e);
         }
@@ -387,7 +387,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      */
     public _switchExpr setSwitchEntries(String...ses){
         String comb = Text.combine(ses);
-        SwitchExpr ss = Ast.switchEx( "switch(key){"+comb+"}");
+        SwitchExpr ss = Ast.switchExpr( "switch(key){"+comb+"}");
         ss.getEntries().forEach(se -> addSwitchEntries(se));
         return this;
     }

@@ -148,7 +148,7 @@ public class _bodyTest extends TestCase {
         
         assertTrue( _c.getInitBlock(0).ast().getJavadocComment().get().getContent().contains( "A JAVADOC"));
         
-        _c.getInitBlock(0).ast().addAnnotation( Ast.anno( "@ann"));
+        _c.getInitBlock(0).ast().addAnnotation( Ast.annotationExpr( "@ann"));
         
         _c.getInitBlock(0).ast().getJavadocComment().get().setContent( "Different Javadoc");
         

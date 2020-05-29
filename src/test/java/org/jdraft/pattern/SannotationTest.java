@@ -44,7 +44,7 @@ public class SannotationTest extends TestCase {
         assertTrue( $c.isMatchAny());
 
         //its matches ANY Class
-        assertTrue($c.match(Ast.typeDecl( "public @interface A{}") ));
+        assertTrue($c.match(Ast.typeDeclaration( "public @interface A{}") ));
         assertTrue($c.match(Ast.of("public @interface A{}") ));
         assertTrue($c.match(_annotation.of("A") ));
         $annotation.Select sel = $c.select(_annotation.of("aaaa.bbbb.C"));

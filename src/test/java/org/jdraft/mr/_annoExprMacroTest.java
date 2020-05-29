@@ -116,7 +116,7 @@ public class _annoExprMacroTest extends TestCase {
         //CompilationUnit cu = StaticJavaParser.parse("class MRT{ public @_str int a(){ return 2; } }");
 
         //OK, manually add an annotation and process it
-        _c.getMethod("a").getTypeRef().ast().getAnnotations().add(Ast.anno("@_str"));
+        _c.getMethod("a").getTypeRef().ast().getAnnotations().add(Ast.annotationExpr("@_str"));
         //System.out.println( cu );
 
         //System.out.println( _c );

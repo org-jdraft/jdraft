@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
@@ -43,13 +42,13 @@ public final class _throws
      * @return
      */
     public static _throws of( Class<? extends Throwable>...clazzes ){
-        MethodDeclaration md = Ast.method( "void $$(){}");
+        MethodDeclaration md = Ast.methodDeclaration( "void $$(){}");
         Arrays.stream( clazzes ).forEach(c -> md.addThrownException(c) );
         return new _throws( md );
     }
 
     public static _throws of(){
-        MethodDeclaration md = Ast.method( "void $$(){}");
+        MethodDeclaration md = Ast.methodDeclaration( "void $$(){}");
         return of( md );
     }
 
@@ -63,12 +62,12 @@ public final class _throws
     public static _throws of( String... throwsClause ) {
         String t = Text.combine( throwsClause ).trim();
         if( t.length() == 0 ) {
-            return of(Ast.method( "void a(){}"));
+            return of(Ast.methodDeclaration( "void a(){}"));
         }
         if( t.startsWith( "throws " ) ) {
             t = t.substring( "throws ".length() );
         }
-        MethodDeclaration md = Ast.method( "void a() throws " + t + System.lineSeparator() + ";" );
+        MethodDeclaration md = Ast.methodDeclaration( "void a() throws " + t + System.lineSeparator() + ";" );
         return new _throws( md );
     }
 
@@ -83,7 +82,7 @@ public final class _throws
     public final NodeWithThrownExceptions astNodeWithThrows;
 
     public _throws(){
-        this( Ast.method("void m(){}") );
+        this( Ast.methodDeclaration("void m(){}") );
     }
 
     public _throws( NodeWithThrownExceptions th ) {

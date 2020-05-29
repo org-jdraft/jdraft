@@ -70,12 +70,12 @@ public final class _initBlock
     }
 
     public static _initBlock of(String body ) {
-        InitializerDeclaration id = Ast.initBlock( body );
+        InitializerDeclaration id = Ast.initializerDeclaration( body );
         return of( id );
     }
 
     public static _initBlock of(String... body ) {
-        InitializerDeclaration id = Ast.initBlock( body );
+        InitializerDeclaration id = Ast.initializerDeclaration( body );
         return of( id );
     }
 

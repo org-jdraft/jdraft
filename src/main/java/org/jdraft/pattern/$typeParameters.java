@@ -198,7 +198,7 @@ public class $typeParameters
      */
     public boolean matches(NodeList<TypeParameter> ntps){
         //this sucks... but ohh well
-        MethodDeclaration dummy = Ast.method("void $DUMMY_TYPE_PARAMETER_HOLDER$(){}");
+        MethodDeclaration dummy = Ast.methodDeclaration("void $DUMMY_TYPE_PARAMETER_HOLDER$(){}");
         ntps.forEach(tp -> dummy.addTypeParameter(tp) );
         return matches(_typeParams.of(dummy));
     }

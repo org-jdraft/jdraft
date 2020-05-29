@@ -51,11 +51,11 @@ public class _ioTest extends TestCase {
     }
     public void testDefaultReadThisSourceCode(){
         //I SHOULD be able to read this from
-        TypeDeclaration td = Ast.typeDecl(_ioTest.class);
+        TypeDeclaration td = Ast.typeDeclaration(_ioTest.class);
         assertEquals( "_ioTest", td.getNameAsString());
 
         //explicitly use the project to read the .java source code
-        td = Ast.typeDecl(_ioTest.class, new _inProject());
+        td = Ast.typeDeclaration(_ioTest.class, new _inProject());
         assertEquals( "_ioTest", td.getNameAsString());
 
         String cn = _ioTest.class.getCanonicalName().replace(".", "/")+".class";

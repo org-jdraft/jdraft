@@ -61,7 +61,7 @@ public final class _annotation
     }
 
     public static _annotation of( JavaParser javaParser, Class<? extends Annotation> clazz ){
-        TypeDeclaration n = Ast.typeDecl( javaParser, clazz );
+        TypeDeclaration n = Ast.typeDeclaration( javaParser, clazz );
         //not a compilation
         Set<Class> imps = _import.inferImportsFrom(clazz);
         _annotation _a = of( (AnnotationDeclaration)n);
@@ -387,7 +387,7 @@ public final class _annotation
         return addEntry( new AnnotationMemberDeclaration( ));
     }
     public _annotation addEntry(String... entryDeclaration ){
-        return addEntry( Ast.annotationMemberDecl( entryDeclaration ));
+        return addEntry( Ast.annotationMemberDeclaration( entryDeclaration ));
     }
 
     public _annotation addEntry(_entry _ae){
@@ -670,7 +670,7 @@ public final class _annotation
     @Override
     public boolean is( String...annotationDeclaration){
         try {
-            return is( (AnnotationDeclaration)Ast.typeDecl(annotationDeclaration));
+            return is( (AnnotationDeclaration)Ast.typeDeclaration(annotationDeclaration));
         }catch(Exception e){
             return false;
         }

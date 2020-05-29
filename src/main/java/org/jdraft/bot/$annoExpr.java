@@ -307,7 +307,7 @@ public class $annoExpr
 
     public Select<_annoExpr> select(String str) {
         try {
-            return select(Ast.anno(str));
+            return select(Ast.annotationExpr(str));
         } catch (Exception e) {
             return null;
         }

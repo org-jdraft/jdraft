@@ -97,7 +97,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
     }
 
     private _modifiers() {
-        this.node = Ast.field( "int dummyParent;" );
+        this.node = Ast.fieldDeclaration( "int dummyParent;" );
     }
 
     public _modifiers set(String... keywords ) {

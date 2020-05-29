@@ -175,7 +175,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * {@link _class} {@link _enum} {@link _interface}, {@link _annotation}
      */
     static <_T extends _type> _T of(JavaParser javaParser, String... code) {
-        return of(Ast.typeDecl(javaParser, code));
+        return of(Ast.typeDeclaration(javaParser, code));
     }
 
     /**
@@ -299,7 +299,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     static <_T extends _type> _T of(JavaParser jp, Class clazz, _in._resolver resolver) {
-        Node n = Ast.typeDecl( jp, clazz, resolver );
+        Node n = Ast.typeDeclaration( jp, clazz, resolver );
         TypeDeclaration td = null;
         if( n instanceof CompilationUnit) { //top level TYPE
             CompilationUnit cu = (CompilationUnit) n;

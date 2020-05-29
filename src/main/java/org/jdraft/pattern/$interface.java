@@ -301,7 +301,7 @@ public class $interface
 
     public boolean matches( Class clazz){
         try {
-            return matches((ClassOrInterfaceDeclaration)Ast.typeDecl(clazz));
+            return matches((ClassOrInterfaceDeclaration)Ast.typeDeclaration(clazz));
         }catch(Exception e){
             return false;
         }

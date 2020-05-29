@@ -98,15 +98,15 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
             if( toks.length == 1){
                 String token = toks[0];
                 if( token.endsWith("}")){
-                    return new _constructor( Ast.constructor(toks[0]));
+                    return new _constructor( Ast.constructorDeclaration(toks[0]));
                 }
                 if( token.endsWith(")")){
-                    return new _constructor( Ast.constructor(toks[0]+"{}"));
+                    return new _constructor( Ast.constructorDeclaration(toks[0]+"{}"));
                 }
-                return new _constructor( Ast.constructor("public "+toks[0]+"(){}"));
+                return new _constructor( Ast.constructorDeclaration("public "+toks[0]+"(){}"));
             }
         }
-        return new _constructor( Ast.constructor( ctorDecl ) );
+        return new _constructor( Ast.constructorDeclaration( ctorDecl ) );
     }
 
     public static _constructor of( ConstructorDeclaration ctorDecl ) {
@@ -695,7 +695,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
                 return addConstructor(_ct);
             }
 
-            return addConstructor( Ast.constructor( constructor ) );
+            return addConstructor( Ast.constructorDeclaration( constructor ) );
         }
         
         /**

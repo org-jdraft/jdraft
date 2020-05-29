@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
@@ -213,7 +212,8 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
     public boolean hasType( Class<? extends Throwable> caughtExceptionType ){
         return hasType(
                 //Types.of(caughtExceptionType.getCanonicalName()));
-                StaticJavaParser.parseType(caughtExceptionType.getCanonicalName()) );
+                Types.of(caughtExceptionType.getCanonicalName()));
+                //StaticJavaParser.parseType(caughtExceptionType.getCanonicalName()) );
     }
 
     public boolean hasType( _typeRef _t ){

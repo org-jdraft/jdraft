@@ -672,8 +672,8 @@ public class _annoExprTest extends TestCase {
     }
 
     public void testAnnAst(){
-        AnnotationExpr ae1 = Ast.anno( "@ann(k1=1,k2=2)");
-        AnnotationExpr ae2 = Ast.anno( "@ann(k2=2,k1=1)");
+        AnnotationExpr ae1 = Ast.annotationExpr( "@ann(k1=1,k2=2)");
+        AnnotationExpr ae2 = Ast.annotationExpr( "@ann(k2=2,k1=1)");
         //THIS SHOULD PRODUCE THE SAME HASHCODE (it does)
 
         assertEquals( ae1.hashCode(), ae2.hashCode());
@@ -711,7 +711,7 @@ public class _annoExprTest extends TestCase {
     }
 
     public void testExcalateImplementation(){
-        FieldDeclaration fd = Ast.field( "@ann int f;");
+        FieldDeclaration fd = Ast.fieldDeclaration( "@ann int f;");
         //go from a MarkerAnnotation
         _annoExpr _a = new _annoExpr(fd.getAnnotation( 0 ));
 
@@ -744,14 +744,14 @@ public class _annoExprTest extends TestCase {
 
     public void testChildParent(){
         //the underlying field has to change the implementation from
-        FieldDeclaration fd = Ast.field( "@a(1) public int i=100;");
+        FieldDeclaration fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
         _annoExpr _a = new _annoExpr(fd.getAnnotation( 0 ));
         _a.addPair( "Key", 1000 );
 
         assertTrue( _a.is("@a(Key=1000)"));
 
         //parent child
-        fd = Ast.field( "@a(1) public int i=100;");
+        fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
 
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         System.out.println( ae.getParentNode().isPresent() );

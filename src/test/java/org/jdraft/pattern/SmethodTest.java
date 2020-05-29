@@ -36,7 +36,7 @@ public class SmethodTest extends TestCase {
 
 
         System.out.println(_m);
-        List<_field> _fs = _field.of(Ast.field("int x,y;"));
+        List<_field> _fs = _field.of(Ast.fieldDeclaration("int x,y;"));
     }
 
     public void testMethodAsMatch(){
@@ -424,7 +424,7 @@ public class SmethodTest extends TestCase {
             "return this;",
             "}") );
         
-        MethodDeclaration astMd = Ast.method("public Loc setX(int x) {",
+        MethodDeclaration astMd = Ast.methodDeclaration("public Loc setX(int x) {",
             "this.x = x;",
             "return this;",
             "}");

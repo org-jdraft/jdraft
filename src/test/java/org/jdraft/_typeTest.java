@@ -1,6 +1,6 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
+//import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.Comment;
@@ -178,12 +178,12 @@ public class _typeTest extends TestCase {
     }
     
     public void testAddCompanionType(){
-        CompilationUnit cu = StaticJavaParser.parse(
+        CompilationUnit cu = Ast.of(
                 "package aaaa.vvvvv;"+System.lineSeparator()+
                 "public class C{"+System.lineSeparator()+
                 "}");
         //assertTrue( cu.getPrimaryType().isPresent() );
-        cu = cu.addType( Ast.typeDecl("enum E{}") );
+        cu = cu.addType( Ast.typeDeclaration("enum E{}") );
         
         System.out.println( cu );
         

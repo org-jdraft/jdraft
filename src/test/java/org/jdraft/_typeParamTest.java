@@ -121,7 +121,7 @@ public class _typeParamTest extends TestCase {
         
         _tp.getAstExtendsTypeBound().forEach(t->System.out.println( "TB "+ t));
         
-        assertEquals( Ast.anno("@Test"), _tp.getAstExtendsTypeBound().get(0).getAnnotation(0) );
+        assertEquals( Ast.annotationExpr("@Test"), _tp.getAstExtendsTypeBound().get(0).getAnnotation(0) );
         System.out.println( _tp );
     }
     
@@ -235,13 +235,13 @@ public class _typeParamTest extends TestCase {
     }
 
     public void testParseTypeParams(){
-        MethodDeclaration md = Ast.method(
+        MethodDeclaration md = Ast.methodDeclaration(
                 "default <N extends Node> _hasBlock walkAST( Class<N> astNodeClass, Predicate<N> astNodeMatchFn, Consumer<N> astNodeActionFn ){}");
         NodeList<TypeParameter> tps =  md.getTypeParameters();
         System.out.println( tps );
 
         ClassOrInterfaceDeclaration coid =
-                (ClassOrInterfaceDeclaration)Ast.typeDecl( "class D <T extends A & B & C, X> { }" );
+                (ClassOrInterfaceDeclaration)Ast.typeDeclaration( "class D <T extends A & B & C, X> { }" );
         tps = coid.getTypeParameters();
 
         System.out.println( tps );

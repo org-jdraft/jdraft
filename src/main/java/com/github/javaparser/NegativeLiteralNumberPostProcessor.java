@@ -3,6 +3,9 @@ package com.github.javaparser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.*;
+import org.jdraft._jdraftException;
+
+import java.util.Objects;
 
 /**
  * A Post processor attached to the JavaParser to condense negative UnaryExpr + Number literals
@@ -62,9 +65,23 @@ public class NegativeLiteralNumberPostProcessor implements ParseResult.PostProce
                     return; //we cant process empty Modules (there are no nodes)
                 }
             }
-            top.stream(Node.TreeTraversal.POSTORDER) //process post order (or "bottom up")
-                    .filter(n -> n instanceof UnaryExpr)
-                    .forEach(e -> replaceUnaryWithNegativeLiteral((UnaryExpr) e));
+            //
+            if(top instanceof UnaryExpr ) {
+                //we cant modify the results if its a UnaryExpr, so skip
+            }
+            else{
+                if( top.getChildNodes().isEmpty() ){
+                    //this throws an
+                } else {
+                    try {
+                        top.stream(Node.TreeTraversal.POSTORDER) //process post order (or "bottom up")
+                                .filter(n -> n instanceof UnaryExpr)
+                                .forEach(e -> replaceUnaryWithNegativeLiteral((UnaryExpr) e));
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
+                }
+            }
         }
     }
 

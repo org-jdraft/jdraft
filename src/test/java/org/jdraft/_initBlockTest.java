@@ -17,7 +17,7 @@ public class _initBlockTest extends TestCase {
         _initBlock _ib = _initBlock.of();
         _ib.setStatic();
         assertEquals( _initBlock.of("static{}"), _ib);
-        assertEquals( Ast.initBlock( "static {}"), _ib.astInit);
+        assertEquals( Ast.initializerDeclaration( "static {}"), _ib.astInit);
     }
     
     @interface T{
@@ -140,7 +140,7 @@ public class _initBlockTest extends TestCase {
         assertFalse( sb.is( "System.out.println(1);") );
         System.out.println( sb );
 
-        InitializerDeclaration id = Ast.initBlock( "/**",
+        InitializerDeclaration id = Ast.initializerDeclaration( "/**",
                 " * Javadoc",
                 " */",
                 "static {",

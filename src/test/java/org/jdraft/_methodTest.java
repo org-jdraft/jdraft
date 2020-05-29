@@ -762,7 +762,7 @@ public class _methodTest extends TestCase {
             "   System.out.println(1);",
             "   return null;",
             "}"}; 
-        MethodDeclaration md = Ast.method( body );         
+        MethodDeclaration md = Ast.methodDeclaration( body );
         assertTrue(md.getJavadoc().isPresent());        
         //System.out.println( md );        
     }

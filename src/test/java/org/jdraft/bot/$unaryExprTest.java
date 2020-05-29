@@ -2,6 +2,7 @@ package org.jdraft.bot;
 
 import junit.framework.TestCase;
 import org.jdraft._expr;
+import org.jdraft._parenthesizedExpr;
 import org.jdraft._unaryExpr;
 
 public class $unaryExprTest extends TestCase {
@@ -66,14 +67,14 @@ public class $unaryExprTest extends TestCase {
 
     public void testOrPostIT(){
         $unaryExpr $plusMinusLiteral =
-                $unaryExpr.or( $unaryExpr.plus(), $unaryExpr.minus() ).$expression(_expr._literal.class);
+                $unaryExpr.or( $unaryExpr.plus(), $unaryExpr.minus() ).$expression(_parenthesizedExpr.class);
 
-        assertTrue( $plusMinusLiteral.matches("+1") );
-        assertTrue( $plusMinusLiteral.matches("-1") );
+        assertTrue( $plusMinusLiteral.matches("+(1)") );
+        assertTrue( $plusMinusLiteral.matches("-(1)") );
         assertFalse( $plusMinusLiteral.matches("~1") );
 
         //the
-        assertFalse( $plusMinusLiteral.matches("+a") );
-        assertFalse( $plusMinusLiteral.matches("-a") );
+        assertTrue( $plusMinusLiteral.matches("+(a)") );
+        assertTrue( $plusMinusLiteral.matches("-(a)") );
     }
 }

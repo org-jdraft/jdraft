@@ -91,7 +91,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of( JavaParser javaParser, Class clazz) {
-        TypeDeclaration n = Ast.typeDecl( javaParser, clazz );
+        TypeDeclaration n = Ast.typeDeclaration( javaParser, clazz );
         if( n instanceof ClassOrInterfaceDeclaration){
             _class _c = of(n);
             

@@ -211,7 +211,7 @@ public class TreeTest extends TestCase {
         //_class _c = _class.of("C");
         //_c.field(_field.of("int i=1;").annotate(_a, _b));
 
-        Node ast = Ast.typeDecl(WalkThis.class);
+        Node ast = Ast.typeDeclaration(WalkThis.class);
         //_walk.list(_a, StringLiteralExpr.class);
         List<StringLiteralExpr> l = new ArrayList<>();
         //Ast.walk(Node.TreeTraversal.POSTORDER, ast, Ast.STRING_LITERAL_EXPR, n->true, n-> l.add(n));
@@ -226,7 +226,7 @@ public class TreeTest extends TestCase {
     }
 
     public void testWalkPreorderOrPostOrder(){
-        Node ast = Ast.typeDecl(WalkThis.class);
+        Node ast = Ast.typeDeclaration(WalkThis.class);
 
         List<Integer> i = new ArrayList<>();
 

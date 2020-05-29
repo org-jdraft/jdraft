@@ -112,7 +112,7 @@ public final class _field
 
     public static _field of(String... fieldDeclaration) {
         String str = Text.combine(fieldDeclaration);
-        FieldDeclaration fd = Ast.field(str);
+        FieldDeclaration fd = Ast.fieldDeclaration(str);
         if (fd.getVariables().size() != 1) {
             throw new _jdraftException("unable to create a singular field from " + str);
         }
@@ -760,7 +760,7 @@ public final class _field
         _WF addField(VariableDeclarator field);
 
         default _WF addField(String... field) {
-            return addField(Ast.field(field).getVariable(0));
+            return addField(Ast.fieldDeclaration(field).getVariable(0));
         }
 
         default _WF addField(_field _f) {
@@ -773,7 +773,7 @@ public final class _field
         }
 
         default _WF addFields(String... fieldDeclarations) {
-            List<FieldDeclaration> fs = Ast.fields(fieldDeclarations);
+            List<FieldDeclaration> fs = Ast.fieldDeclarations(fieldDeclarations);
             fs.forEach(f -> addFields(f));
             return (_WF) this;
         }

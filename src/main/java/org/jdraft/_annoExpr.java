@@ -55,7 +55,7 @@ public final class _annoExpr
     }
 
     public static _annoExpr of(String... annotation ) {
-        return new _annoExpr( Ast.anno( annotation ) );
+        return new _annoExpr( Ast.annotationExpr( annotation ) );
     }
 
     /**

@@ -34,6 +34,13 @@ public enum Exprs {
     ;
 
     /**
+     * A unique JAVAPARSER implementation that DOES NOT use the postProcessor for expressions
+     *
+     */
+    protected static final JavaParser JAVAPARSER =
+            new JavaParser(new ParserConfiguration().setLanguageLevel( ParserConfiguration.LanguageLevel.BLEEDING_EDGE));
+
+    /**
      * Functional interface for no input, no return lambda function
      * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(Command)} operation
      * in order to get the LamdbaExpr AST from the Runtime to a 
@@ -563,9 +570,12 @@ public enum Exprs {
         if( str.equals("super") ){
             return new SuperExpr();
         }
+        /* TEMP REMOVED
         if( str.startsWith("@")){
-            return StaticJavaParser.parseAnnotation( str );
+            return Ast.annotationExpr(str);
+            //return StaticJavaParser.parseAnnotation( str );
         }
+        */
         String comment = null;
         int endComment = str.indexOf("*/");
         if( str.startsWith("/*") && endComment > 0 ) {
@@ -589,8 +599,33 @@ public enum Exprs {
             return aie;
         }
 
-        try{
-            Expression e = StaticJavaParser.parseExpression( str );
+        //try{
+            ParseResult<Expression> pe = JAVAPARSER.parseExpression( str );
+            Expression e = null;
+            if( pe.isSuccessful() ){
+                e = pe.getResult().get();
+            } else{
+                //System.out.println("GOT HERE -- so it's either a VariableDeclarationExpr or an annotation Expr");
+                ParseResult<AnnotationExpr> pa = JAVAPARSER.parseAnnotation(str);
+                if( pa.isSuccessful() ){
+                    e = pa.getResult().get();
+                    return e;
+                }
+                /*
+                else {
+                    System.out.println("GOT HERE 2");
+                    throw new _jdraftException("Unable to parse Expression \"" + str + "\" " + System.lineSeparator() + pe.getProblems());
+                }
+                */
+                ParseResult<VariableDeclarationExpr> pvd = JAVAPARSER.parseVariableDeclarationExpr( str );
+                if( pvd.isSuccessful() ){
+                    e = pvd.getResult().get();
+                } else {
+                    System.out.println("GOT HERE 2");
+                    throw new _jdraftException("Unable to parse Expression \"" + str + "\" " + System.lineSeparator() + pe.getProblems());
+                }
+            }
+                    //StaticJavaParser.parseExpression( str );
             if( comment != null ){
                 if( comment.startsWith("/**") ){
                     JavadocComment jdc = new JavadocComment( comment.replace("/**", "" ).replace("*/", ""));    
@@ -600,16 +635,19 @@ public enum Exprs {
                     e.setComment(bc);
                 }                
             }
-            return e;
-        }
-        catch(ParseProblemException ppe){
-            try {
-                //normal parsing of Variable Declarations fails, we need to call a special parse method
-                return StaticJavaParser.parseVariableDeclarationExpr(str);
-            } catch(Exception e ) {
-                throw new _jdraftException("Unable to parse Expression \"" + str + "\" ", ppe);
+            if( e instanceof UnaryExpr ){
+                return NegativeLiteralNumberPostProcessor.replaceUnaryWithNegativeLiteral( (UnaryExpr)e);
             }
-        }
+            return e;
+        //}
+       // catch(ParseProblemException ppe){
+       //     try {
+                //normal parsing of Variable Declarations fails, we need to call a special parse method
+       //         return StaticJavaParser.parseVariableDeclarationExpr(str);
+       //     } catch(Exception e ) {
+        //        throw new _jdraftException("Unable to parse Expression \"" + str + "\" ", ppe);
+        //    }
+        //}
     }
 
     public static final Class<Expression> EXPRESSION = Expression.class;
@@ -1029,15 +1067,15 @@ public enum Exprs {
     public static final Class<IntegerLiteralExpr> INT_LITERAL = IntegerLiteralExpr.class;
 
     public static IntegerLiteralExpr of(int i) {
-        return intExpr( ""+i);
-        //IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
-        //return ile;
+        //return intExpr( ""+i);
+        IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
+        return ile;
     }
 
     public static IntegerLiteralExpr intExpr(int i) {
-        return intExpr(""+i);
-        //IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
-        //return ile;
+        //return intExpr(""+i);
+        IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
+        return ile;
     }
 
 
@@ -1462,6 +1500,14 @@ public enum Exprs {
     public static final Class<StringLiteralExpr> STRING_LITERAL = StringLiteralExpr.class;
 
     public static StringLiteralExpr stringExpr(String code ){
+        if( code.startsWith("\"")){
+            code = code.substring(1);
+            if( code.endsWith("\"")){
+                code = code.substring(0, code.length() -1);
+            }
+        }
+        return new StringLiteralExpr(code);
+        /*
         String str = code;
         if(! str.startsWith("\"") ){
             str = "\""+str;
@@ -1469,7 +1515,9 @@ public enum Exprs {
         if(! str.endsWith("\"") ){
             str = str+"\"";
         }
-        return of( str ).asStringLiteralExpr();
+        return new StringLiteralExpr(str);
+        //return of( str ).asStringLiteralExpr();
+         */
     }
     
     public static StringLiteralExpr stringExpr(String... code ) {
@@ -1505,7 +1553,8 @@ public enum Exprs {
     }
     
     public static SuperExpr superExpr(String... expr ){
-        return (SuperExpr)StaticJavaParser.parseExpression(Text.combine(expr));
+        return (SuperExpr)Exprs.of( expr);
+        //return (SuperExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
     /** "int res = switch(s){ case 'a': yield 2; default: yield 3; }" */
@@ -1536,7 +1585,8 @@ public enum Exprs {
     }
     
     public static ThisExpr thisExpr(String... expr ){
-        return (ThisExpr)StaticJavaParser.parseExpression(Text.combine(expr));
+        return (ThisExpr)Exprs.of(expr);
+        //return (ThisExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
     public static final Class<TypeExpr> TYPE = TypeExpr.class;
@@ -1595,7 +1645,8 @@ public enum Exprs {
      * @return 
      */
     public static VariableDeclarationExpr variablesExpr(String... code ) {
-        return StaticJavaParser.parseVariableDeclarationExpr( Text.combine( code ));
+        return (VariableDeclarationExpr)Exprs.of(code);
+        //return StaticJavaParser.parseVariableDeclarationExpr( Text.combine( code ));
     }    
     
     /**

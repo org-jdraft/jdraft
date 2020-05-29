@@ -237,9 +237,9 @@ public class $refTest extends TestCase {
     }
 
     public void testPrint(){
-        _java._node _jn = $ref.of(JavaParser.class).firstIn(Ast.field("com.github.javaparser.JavaParser i;"));
+        _java._node _jn = $ref.of(JavaParser.class).firstIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;"));
         System.out.println( _jn.getClass());
-        Print.tree($ref.of(JavaParser.class).firstIn(Ast.field("com.github.javaparser.JavaParser i;")));
+        Print.tree($ref.of(JavaParser.class).firstIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;")));
         assertTrue(_name.Use.TYPE_REF_NAME.is(_jn.ast()));
         System.out.println(_name.Use.of(_jn.ast()));
     }
@@ -270,16 +270,16 @@ public class $refTest extends TestCase {
         //explicitly omit imports
         assertEquals(0, $ref.of(JavaParser.class).$matchImports(false).countIn(_import.of(JavaParser.class) ));
 
-        Print.tree(Ast.field("com.github.javaparser.JavaParser i;"));
+        Print.tree(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;"));
 
         //type name
         assertEquals(1, $ref.of(JavaParser.class.getCanonicalName())
-                .countIn(Ast.field("com.github.javaparser.JavaParser i;") ));
+                .countIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;") ));
 
 
 
         assertEquals(1, $ref.of(JavaParser.class)
-                .countIn(Ast.field("com.github.javaparser.JavaParser i;") ));
+                .countIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;") ));
 
         assertEquals(1, $ref.of(JavaParser.class)
                 .countIn(_field.of(JavaParser.class, "i") ));
