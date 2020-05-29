@@ -176,7 +176,7 @@ public class _annotationTest extends TestCase  {
 
         //find every int literal in the code and return it
         List<IntegerLiteralExpr> ls =
-                Tree.list(_an, Exprs.INT_LITERAL, i-> i.asInt() > 0 );
+                Tree.list(_an, Exprs.Classes.INT_LITERAL, i-> i.asInt() > 0 );
 
         System.out.println( ls );
 

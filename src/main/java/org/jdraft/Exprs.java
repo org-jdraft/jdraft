@@ -650,15 +650,6 @@ public enum Exprs {
         //}
     }
 
-    public static final Class<Expression> EXPRESSION = Expression.class;
-
-    /**
-     * i.e. "arr[3]"
-     * "arr[n]"
-     * "arr[size - 1]"
-     */
-    public static final Class<ArrayAccessExpr> ARRAY_ACCESS = ArrayAccessExpr.class;
-
     /**
      * i.e. "arr[3]"
      * @param code
@@ -672,19 +663,11 @@ public enum Exprs {
         return ee.asArrayAccessExpr();
     }
 
-    /**
-     * i.e. "int[][] matrix "
-     */
-    public static final Class<ArrayCreationExpr> ARRAY_CREATION = ArrayCreationExpr.class;
 
     public static ArrayCreationExpr arrayCreationExpr(String... code ) {
         return of( code ).asArrayCreationExpr();
     }
 
-    /**
-     *
-     */
-    public static final Class<ArrayCreationLevel> ARRAY_CREATION_LEVEL = ArrayCreationLevel.class;
 
     public static NodeList<ArrayCreationLevel> arrayCreationLevels(String...code){
         ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
@@ -699,11 +682,6 @@ public enum Exprs {
     /**
      * i.e. "{1,2,3,4,5}"
      */
-    public static final Class<ArrayInitializerExpr> ARRAY_INITIALIZER = ArrayInitializerExpr.class;
-
-    /**
-     * i.e. "{1,2,3,4,5}"
-     */
     public static ArrayInitializerExpr arrayInitExpr(String... code ) {
         String ai = Text.combine(code);
         ai = "new Object[] "+ai;
@@ -713,22 +691,15 @@ public enum Exprs {
     }
 
     /** i.e. "a = 1", "a = 4" */
-    public static final Class<AssignExpr> ASSIGN = AssignExpr.class;
-
-    /** i.e. "a = 1", "a = 4" */
     public static AssignExpr assignExpr(String... code ) {
         return of( code ).asAssignExpr();
     }
 
-    /** i.e. "a || b"*/
-    public static final Class<BinaryExpr> BINARY = BinaryExpr.class;
 
     /** i.e. "a + b"*/
     public static BinaryExpr binaryExpr(String... code ) {
         return of( code ).asBinaryExpr();
     }
-
-    public static final Class<BooleanLiteralExpr> BOOLEAN_LITERAL = BooleanLiteralExpr.class;
 
     public static BooleanLiteralExpr of( boolean b ){
         return new BooleanLiteralExpr( b );
@@ -747,7 +718,6 @@ public enum Exprs {
         return of( code ).asBooleanLiteralExpr();
     }
 
-    public static final Class<CastExpr> CAST = CastExpr.class;
 
     /** (String)o */
     public static CastExpr castExpr(String... code ) {
@@ -773,9 +743,6 @@ public enum Exprs {
         return ce;
     }
 
-    /** 'c' */
-    public static final Class<CharLiteralExpr> CHAR_LITERAL = CharLiteralExpr.class;
-
     public static CharLiteralExpr of( char c ){
         return new CharLiteralExpr( c );
     }
@@ -795,8 +762,6 @@ public enum Exprs {
     }
      */
 
-    /** String.class */
-    public static final Class<ClassExpr> CLASS = ClassExpr.class;
 
     public static ClassExpr classExpr(Class clazz){
         return new ClassExpr(_typeRef.of(clazz).ast());
@@ -807,19 +772,13 @@ public enum Exprs {
         return of( code ).asClassExpr();
     }
 
-    /**
-     * saved ? return true;
-     */
-    public static final Class<ConditionalExpr> TERNARY = ConditionalExpr.class;
+
 
     /** saved ? return true; */
     public static ConditionalExpr ternaryExpr(String... code ) {
         return of( code ).asConditionalExpr();
     }
 
-
-    /** 3.14d */
-    public static final Class<DoubleLiteralExpr> DOUBLE_LITERAL = DoubleLiteralExpr.class;
 
     public static DoubleLiteralExpr of( double d ){
         return new DoubleLiteralExpr( d );
@@ -979,7 +938,6 @@ public enum Exprs {
         return of( code ).asDoubleLiteralExpr();
     }
 
-    public static final Class<EnclosedExpr> PARENTHESIZED = EnclosedExpr.class;
 
     /** i.e. ( 4 + 5 ) */
     public static EnclosedExpr parenthesizedExpr(String... code ) {
@@ -1005,10 +963,7 @@ public enum Exprs {
         return astLambda.getBody().findFirst(EnclosedExpr.class).get();
     }
 
-    /**
-     * person.NAME
-     */
-    public static final Class<FieldAccessExpr> FIELD_ACCESS = FieldAccessExpr.class;
+
 
     /**
      * i.e. System.out
@@ -1038,11 +993,6 @@ public enum Exprs {
         LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(FieldAccessExpr.class).get();
     }
-    
-    /**
-     * <PRE>"v instanceof Serializable"</PRE>
-     */
-    public static final Class<InstanceOfExpr> INSTANCEOF = InstanceOfExpr.class;
 
     /**
      * i.e. v instanceof Serializable
@@ -1064,7 +1014,7 @@ public enum Exprs {
         return le.getBody().findFirst(InstanceOfExpr.class).get();
     }
 
-    public static final Class<IntegerLiteralExpr> INT_LITERAL = IntegerLiteralExpr.class;
+
 
     public static IntegerLiteralExpr of(int i) {
         //return intExpr( ""+i);
@@ -1104,7 +1054,6 @@ public enum Exprs {
         return of( code ).asIntegerLiteralExpr();
     }
 
-    public static final Class<LambdaExpr> LAMBDA = LambdaExpr.class;
 
     /**
      * parses and returns a lambda expression from the code
@@ -1256,14 +1205,10 @@ public enum Exprs {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return lambdaExpr( ste );
     }
-    
-    public static final Class<LongLiteralExpr> LONG_LITERAL = LongLiteralExpr.class;
 
     public static LongLiteralExpr of(long l) {
         return new LongLiteralExpr(l);
     }
-
-
 
     public static LongLiteralExpr longExpr(long l ) {
         return new LongLiteralExpr(l);
@@ -1273,7 +1218,6 @@ public enum Exprs {
         return new LongLiteralExpr(Text.combine(code));
     }
 
-    public static final Class<MethodCallExpr> METHOD_CALL = MethodCallExpr.class;
 
     /**
      * i.e. out.println(1)
@@ -1382,9 +1326,6 @@ public enum Exprs {
         LambdaExpr astLambda = Exprs.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
-    
-    /** i.e. "String:toString" */
-    public static final Class<MethodReferenceExpr> METHOD_REFERENCE = MethodReferenceExpr.class;
 
     /** 
      * i.e."String:toString" 
@@ -1403,50 +1344,31 @@ public enum Exprs {
         //return AST.expr( code ).asMethodReferenceExpr();
     }
 
-    public static final Class<NameExpr> NAME = NameExpr.class;
 
     public static NameExpr nameExpr(String... code ) {
         return of( code ).asNameExpr();
     }
 
-    /**
-     * Any implementation {@link AnnotationExpr}
-     * ({@link MarkerAnnotationExpr}, {@link SingleMemberAnnotationExpr}, {@link NormalAnnotationExpr})
-     */
-    public static final Class<AnnotationExpr> ANNOTATION_ANY = AnnotationExpr.class;
-
-    /**
-     * i.e. {@code @Deprecated }
-     */
-    public static final Class<MarkerAnnotationExpr> ANNOTATION_MARKER = MarkerAnnotationExpr.class;
-    
-    /**
-     * @Generated("2/14/1985")
-     */
-    public static final Class<SingleMemberAnnotationExpr> ANNOTATION_SINGLE_MEMBER = SingleMemberAnnotationExpr.class;
-    
-    /**
-     * @KeyValue(key1="string",key2=12)
-     */
-    public static final Class<NormalAnnotationExpr> ANNOTATION_NORMAL = NormalAnnotationExpr.class;
 
     public static AnnotationExpr annoExpr(String... code ) {
         return of( code ).asAnnotationExpr();
     }
 
-    public static final Class<NullLiteralExpr> NULL = NullLiteralExpr.class;
+
+
 
     /** i.e. null */
     public static NullLiteralExpr nullExpr(){
         return new NullLiteralExpr();
     }
 
-    public static final Class<ObjectCreationExpr> OBJECT_CREATION = ObjectCreationExpr.class;
+
 
     public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return newExpr(ste, _io.IN_DEFAULT);
     }
+
 
     /**
      * @return the ObjectCreationExpr model instance of the runtime instance
@@ -1497,8 +1419,6 @@ public enum Exprs {
         return le.getBody().findFirst(ObjectCreationExpr.class).get();        
     }
 
-    public static final Class<StringLiteralExpr> STRING_LITERAL = StringLiteralExpr.class;
-
     public static StringLiteralExpr stringExpr(String code ){
         if( code.startsWith("\"")){
             code = code.substring(1);
@@ -1540,8 +1460,6 @@ public enum Exprs {
         return new TextBlockLiteralExpr(str);
     }
 
-    /** "super" */
-    public static final Class<SuperExpr> SUPER = SuperExpr.class;
 
     /** 
      * "super" 
@@ -1557,8 +1475,6 @@ public enum Exprs {
         //return (SuperExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
-    /** "int res = switch(s){ case 'a': yield 2; default: yield 3; }" */
-    public static final Class<SwitchExpr> SWITCH = SwitchExpr.class;
 
     /**
      * "int res = switch(s){ case 'a': yield 2; default: yield 3; }"
@@ -1578,7 +1494,6 @@ public enum Exprs {
         return (SwitchExpr)Ast.PARSER.parseExpression(Text.combine(expr)).getResult().get();
     }
 
-    public static final Class<ThisExpr> THIS = ThisExpr.class;
 
     public static ThisExpr thisExpr(  ) {
         return new ThisExpr();
@@ -1589,7 +1504,7 @@ public enum Exprs {
         //return (ThisExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
-    public static final Class<TypeExpr> TYPE = TypeExpr.class;
+
 
     public static TypeExpr typeExpr(String... code ) {
         //World::greet
@@ -1600,7 +1515,6 @@ public enum Exprs {
         return te;
     }
 
-    public static final Class<UnaryExpr> UNARY = UnaryExpr.class;
 
     /**
      * i.e. !isTrue()
@@ -1630,11 +1544,7 @@ public enum Exprs {
     public static UnaryExpr unaryExpr(String... code ) {
         return of( code ).asUnaryExpr();
     }
-    
-    /**
-     * int i = 1
-     */
-    public static final Class<VariableDeclarationExpr> VARIABLE_LOCAL_EXPR = VariableDeclarationExpr.class;
+
 
     /**
      * i.e. "int i=1"
@@ -2122,5 +2032,147 @@ public enum Exprs {
         }catch( Exception e){
             throw new RuntimeException(""+e);
         }
+    }
+
+    public static class Classes {
+
+        public static final Class<Expression> EXPRESSION = Expression.class;
+
+        /**
+         * i.e. "arr[3]"
+         * "arr[n]"
+         * "arr[size - 1]"
+         */
+        public static final Class<ArrayAccessExpr> ARRAY_ACCESS = ArrayAccessExpr.class;
+
+        /**
+         * i.e. "int[][] matrix "
+         */
+        public static final Class<ArrayCreationExpr> ARRAY_CREATION = ArrayCreationExpr.class;
+
+        /**
+         *
+         */
+        public static final Class<ArrayCreationLevel> ARRAY_CREATION_LEVEL = ArrayCreationLevel.class;
+
+        /**
+         * i.e. "{1,2,3,4,5}"
+         */
+        public static final Class<ArrayInitializerExpr> ARRAY_INITIALIZER = ArrayInitializerExpr.class;
+
+        /** i.e. "a = 1", "a = 4" */
+        public static final Class<AssignExpr> ASSIGN = AssignExpr.class;
+
+        /** i.e. "a || b"*/
+        public static final Class<BinaryExpr> BINARY = BinaryExpr.class;
+
+        public static final Class<BooleanLiteralExpr> BOOLEAN_LITERAL = BooleanLiteralExpr.class;
+
+        public static final Class<CastExpr> CAST = CastExpr.class;
+
+
+        /** 'c' */
+        public static final Class<CharLiteralExpr> CHAR_LITERAL = CharLiteralExpr.class;
+
+        /** String.class */
+        public static final Class<ClassExpr> CLASS = ClassExpr.class;
+
+
+        /**
+         * saved ? return true;
+         */
+        public static final Class<ConditionalExpr> TERNARY = ConditionalExpr.class;
+
+
+        /** 3.14d */
+        public static final Class<DoubleLiteralExpr> DOUBLE_LITERAL = DoubleLiteralExpr.class;
+
+
+        public static final Class<EnclosedExpr> PARENTHESIZED = EnclosedExpr.class;
+        /**
+         * person.NAME
+         */
+        public static final Class<FieldAccessExpr> FIELD_ACCESS = FieldAccessExpr.class;
+
+
+
+        public static final Class<NullLiteralExpr> NULL = NullLiteralExpr.class;
+
+        public static final Class<ObjectCreationExpr> OBJECT_CREATION = ObjectCreationExpr.class;
+        /**
+         * <PRE>"v instanceof Serializable"</PRE>
+         */
+        public static final Class<InstanceOfExpr> INSTANCEOF = InstanceOfExpr.class;
+
+        public static final Class<IntegerLiteralExpr> INT_LITERAL = IntegerLiteralExpr.class;
+
+        public static final Class<LambdaExpr> LAMBDA = LambdaExpr.class;
+
+
+        public static final Class<LongLiteralExpr> LONG_LITERAL = LongLiteralExpr.class;
+
+
+        public static final Class<MethodCallExpr> METHOD_CALL = MethodCallExpr.class;
+
+
+        /** i.e. "String:toString" */
+        public static final Class<MethodReferenceExpr> METHOD_REFERENCE = MethodReferenceExpr.class;
+
+
+        public static final Class<NameExpr> NAME = NameExpr.class;
+
+        /**
+         * Any implementation {@link AnnotationExpr}
+         * ({@link MarkerAnnotationExpr}, {@link SingleMemberAnnotationExpr}, {@link NormalAnnotationExpr})
+         */
+        public static final Class<AnnotationExpr> ANNOTATION_ANY = AnnotationExpr.class;
+
+        /**
+         * i.e. {@code @Deprecated }
+         */
+        public static final Class<MarkerAnnotationExpr> ANNOTATION_MARKER = MarkerAnnotationExpr.class;
+
+        /**
+         * @Generated("2/14/1985")
+         */
+        public static final Class<SingleMemberAnnotationExpr> ANNOTATION_SINGLE_MEMBER = SingleMemberAnnotationExpr.class;
+
+        /**
+         * @KeyValue(key1="string",key2=12)
+         */
+        public static final Class<NormalAnnotationExpr> ANNOTATION_NORMAL = NormalAnnotationExpr.class;
+
+
+        public static final Class<StringLiteralExpr> STRING_LITERAL = StringLiteralExpr.class;
+
+
+        /**
+         * """
+         * textBlock
+         *    on
+         *    multiple
+         *    lines
+         * """
+         */
+        public static final Class<TextBlockLiteralExpr> TEXT_BLOCK = TextBlockLiteralExpr.class;
+
+
+        /** "super" */
+        public static final Class<SuperExpr> SUPER = SuperExpr.class;
+
+
+        /** "int res = switch(s){ case 'a': yield 2; default: yield 3; }" */
+        public static final Class<SwitchExpr> SWITCH = SwitchExpr.class;
+
+        public static final Class<ThisExpr> THIS = ThisExpr.class;
+        public static final Class<TypeExpr> TYPE = TypeExpr.class;
+
+        public static final Class<UnaryExpr> UNARY = UnaryExpr.class;
+
+        /**
+         * int i = 1
+         */
+        public static final Class<VariableDeclarationExpr> VARIABLE_LOCAL_EXPR = VariableDeclarationExpr.class;
+
     }
 }

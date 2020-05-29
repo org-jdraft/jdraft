@@ -131,7 +131,7 @@ public class _methodTest extends TestCase {
         });
         
         //verify that I 
-        assertEquals( Tree.first( _m.getBody(), Exprs.STRING_LITERAL), Exprs.stringExpr("mr") );
+        assertEquals( Tree.first( _m.getBody(), Exprs.Classes.STRING_LITERAL), Exprs.stringExpr("mr") );
         /*
         //for All exprs and statements
         _m.forExprs(e-> System.out.println( e + " | " + e.getClass() ) );
