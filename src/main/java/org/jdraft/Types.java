@@ -18,18 +18,18 @@ import java.util.regex.Pattern;
 public final class Types {
     private Types(){}
 
+    public static class Classes {
+        public static Class<PrimitiveType> PRIMITIVE_TYPE = PrimitiveType.class;
 
-    public static Class<PrimitiveType> PRIMITIVE_TYPE = PrimitiveType.class;
-
-    public static PrimitiveType BOOLEAN_TYPE = PrimitiveType.booleanType();
-    public static PrimitiveType BYTE_TYPE = PrimitiveType.byteType();
-    public static PrimitiveType SHORT_TYPE = PrimitiveType.shortType();
-    public static PrimitiveType CHAR_TYPE = PrimitiveType.charType();
-    public static PrimitiveType INT_TYPE = PrimitiveType.intType();
-    public static PrimitiveType FLOAT_TYPE = PrimitiveType.floatType();
-    public static PrimitiveType DOUBLE_TYPE = PrimitiveType.doubleType();
-    public static PrimitiveType LONG_TYPE = PrimitiveType.longType();
-
+        public static PrimitiveType BOOLEAN_TYPE = PrimitiveType.booleanType();
+        public static PrimitiveType BYTE_TYPE = PrimitiveType.byteType();
+        public static PrimitiveType SHORT_TYPE = PrimitiveType.shortType();
+        public static PrimitiveType CHAR_TYPE = PrimitiveType.charType();
+        public static PrimitiveType INT_TYPE = PrimitiveType.intType();
+        public static PrimitiveType FLOAT_TYPE = PrimitiveType.floatType();
+        public static PrimitiveType DOUBLE_TYPE = PrimitiveType.doubleType();
+        public static PrimitiveType LONG_TYPE = PrimitiveType.longType();
+    }
     /**
      * When we create an anonymous Local Class and ask for it's name, it will
      * have this weird "$#$" qualifier, where # is some number... Here is an

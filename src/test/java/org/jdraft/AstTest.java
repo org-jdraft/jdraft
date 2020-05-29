@@ -541,7 +541,7 @@ public class AstTest extends TestCase {
         Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c).ast();
 
         Node commonAncestor = Tree.commonAncestor(s5, s1);
-        assertTrue( Tree.isParent( commonAncestor, Ast.METHOD_DECLARATION));
+        assertTrue( Tree.isParent( commonAncestor, Ast.Classes.METHOD_DECLARATION));
         //assertTrue( $.of().$hasParent($method.of()).match(commonAncestor) );
 
         assertTrue( commonAncestor instanceof BlockStmt );

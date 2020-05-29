@@ -274,7 +274,7 @@ public class _methodTest extends TestCase {
         //assertTrue(_m.hasParametersOfType());
 
         assertNotNull( Tree.first(_m, StringLiteralExpr.class));
-        assertNotNull( Tree.first(_m, Ast.STRING_LITERAL_EXPR));
+        assertNotNull( Tree.first(_m, Ast.Classes.STRING_LITERAL_EXPR));
         //assertNotNull( _m.firstExpr(StringLiteralExpr.class) );
         //assertNotNull( _m.firstExpr(Ex.STRING_LITERAL) );
         //assertNotNull( _m.findFirst(_anno.class) );

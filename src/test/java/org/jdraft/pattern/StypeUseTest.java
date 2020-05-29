@@ -46,7 +46,7 @@ public class StypeUseTest extends TestCase {
         //System.out.println( "Hello");
         //$.of().forEachIn(F.class, System.out::println);
         $.of( $method.of(m-> m.isPublic()), $var.of().$local() ).forEachIn(F.class, System.out::println);
-        $.of(Ast.METHOD_CALL_EXPR).forEachIn(F.class, System.out::println);
+        $.of(Ast.Classes.METHOD_CALL_EXPR).forEachIn(F.class, System.out::println);
 
 
         $node typeUse =

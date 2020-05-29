@@ -129,8 +129,8 @@ public class TreeTest extends TestCase {
         
         //these arent TOO interesting, just some simple tests
         //do some stuff with ASTs...
-        assertEquals(3, Tree.list(_c, Ast.FIELD_DECLARATION).size());
-        assertEquals(2, Tree.list(_c, Ast.FIELD_DECLARATION, fd->fd.getVariable(0).getType().isPrimitiveType() ).size());
+        assertEquals(3, Tree.list(_c, Ast.Classes.FIELD_DECLARATION).size());
+        assertEquals(2, Tree.list(_c, Ast.Classes.FIELD_DECLARATION, fd->fd.getVariable(0).getType().isPrimitiveType() ).size());
 
 
         //using draft classes can also walk, a little more concise IMHO
@@ -151,7 +151,7 @@ public class TreeTest extends TestCase {
         Tree.in(_c, TypeDeclaration.class, td->at.incrementAndGet() );
         assertTrue(at.intValue() ==1);
         
-        assertTrue( Tree.list(_c, Ast.ENUM_DECLARATION).isEmpty());
+        assertTrue( Tree.list(_c, Ast.Classes.ENUM_DECLARATION).isEmpty());
         //_walk.in(_c, Ast.NODE_WITH_ABSTRACT_MOD, td->System.out.println(td) );
         //_walk.in(_c, Ast.IMPORT_DECLARATION, td->System.out.println(td) );
 
@@ -215,7 +215,7 @@ public class TreeTest extends TestCase {
         //_walk.list(_a, StringLiteralExpr.class);
         List<StringLiteralExpr> l = new ArrayList<>();
         //Ast.walk(Node.TreeTraversal.POSTORDER, ast, Ast.STRING_LITERAL_EXPR, n->true, n-> l.add(n));
-        Tree.in(Tree.POST_ORDER, ast, Ast.STRING_LITERAL_EXPR, n-> true, n-> l.add(n));
+        Tree.in(Tree.POST_ORDER, ast, Ast.Classes.STRING_LITERAL_EXPR, n-> true, n-> l.add(n));
         assertEquals(6, l.size());
         assertEquals( "class", l.get(0).asString());
         assertEquals( "field", l.get(1).asString());
@@ -232,7 +232,7 @@ public class TreeTest extends TestCase {
 
         //Preorder postorder not really different when dealing with leaf nodes
         //_java.walk(Node.TreeTraversal.PREORDER, ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
-        Tree.preOrder(ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
+        Tree.preOrder(ast, Ast.Classes.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
         assertEquals(i.size(), 3);
         assertEquals( (Integer)100, i.get(0) );
         assertEquals( (Integer)1023, i.get(1) );
@@ -240,7 +240,7 @@ public class TreeTest extends TestCase {
 
         i.clear();
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
-        Tree.postOrder(ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
+        Tree.postOrder(ast, Ast.Classes.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
         assertEquals(i.size(), 3);
         assertEquals( (Integer)100, i.get(0) );
         assertEquals( (Integer) 1023, i.get(1) );

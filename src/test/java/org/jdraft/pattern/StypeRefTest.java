@@ -198,7 +198,7 @@ public class StypeRefTest extends TestCase {
         $typeRef $t = $typeRef.of("OldT");
         $t.replaceIn(_c, _typeRef.of("NewT"));
         
-        List<MethodCallExpr> ms = Tree.list(_c, Ast.METHOD_CALL_EXPR );
+        List<MethodCallExpr> ms = Tree.list(_c, Ast.Classes.METHOD_CALL_EXPR );
         ms.forEach(m -> System.out.println( "METHOD SCOPE " + m.getScope().get().toString() ));
         
         Tree.in(_c, MethodCallExpr.class, mc -> {
@@ -212,7 +212,7 @@ public class StypeRefTest extends TestCase {
             }
         });
         
-        Tree.in(_c, Ast.FIELD_ACCESS_EXPR, mc -> {
+        Tree.in(_c, Ast.Classes.FIELD_ACCESS_EXPR, mc -> {
             if(mc.getScope().toString().equals("draft.java.proto.$typeRefTest.OldT")){
                 mc.setScope(Exprs.of("draft.java.proto.$typeRefTest.NewT"));
             }
@@ -223,18 +223,18 @@ public class StypeRefTest extends TestCase {
         
         System.out.println( _c );
         
-        System.out.println("FOUND FIELDS + " + Tree.in(_c, Ast.FIELD_ACCESS_EXPR, f-> f.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
-        System.out.println("FOUND FIELDS + " + Tree.in(_c, Ast.FIELD_ACCESS_EXPR, f-> f.toString().equals( "OldT" ) ) );
-        System.out.println("FOUND METHODS 1+ " + Tree.in(_c, Ast.METHOD_CALL_EXPR, m-> m.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
+        System.out.println("FOUND FIELDS + " + Tree.in(_c, Ast.Classes.FIELD_ACCESS_EXPR, f-> f.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
+        System.out.println("FOUND FIELDS + " + Tree.in(_c, Ast.Classes.FIELD_ACCESS_EXPR, f-> f.toString().equals( "OldT" ) ) );
+        System.out.println("FOUND METHODS 1+ " + Tree.in(_c, Ast.Classes.METHOD_CALL_EXPR, m-> m.toString().equals( "draft.java.proto.$typeRefTest.OldT" ) ) );
         
-        Tree.in( _c, Ast.METHOD_CALL_EXPR, mc -> mc.getScope().isPresent() && mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT"),
+        Tree.in( _c, Ast.Classes.METHOD_CALL_EXPR, mc -> mc.getScope().isPresent() && mc.getScope().get().toString().equals("draft.java.proto.$typeRefTest.OldT"),
                 mc -> mc.setScope(Exprs.of("draft.java.proto.$typeRefTest.OldT")));
         
         System.out.println( _c );
         
         
         
-        System.out.println(Tree.list(_c, Ast.FIELD_ACCESS_EXPR, f->{
+        System.out.println(Tree.list(_c, Ast.Classes.FIELD_ACCESS_EXPR, f->{
                     Expression s = f.getScope(); 
                     System.out.println( "SCOPE CLASS " + s.getClass()+ " "+ f.getScope() );
                     return s != null; }) );
@@ -279,8 +279,8 @@ public class StypeRefTest extends TestCase {
         $typeRef $t = $typeRef.of(int.class);
         assertEquals(_typeRef.of(int.class), $t.draft());
 
-        assertNotNull( $t.select(Types.INT_TYPE));
-        assertNull( $t.select(Types.FLOAT_TYPE));
+        assertNotNull( $t.select(Types.Classes.INT_TYPE));
+        assertNull( $t.select(Types.Classes.FLOAT_TYPE));
         class F{
             int a;
             public F( int b ){

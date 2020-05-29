@@ -432,7 +432,7 @@ public class _annoExprTest extends TestCase {
     public void testTypeAnn(){
         Statement st = Stmts.of("@Test List<@Test String> emails = new @Test ArrayList();");
         AtomicInteger ai = new AtomicInteger(0);
-        st.walk(Ast.ANNOTATION_EXPR, a-> ai.incrementAndGet() );
+        st.walk(Ast.Classes.ANNOTATION_EXPR, a-> ai.incrementAndGet() );
         System.out.println( st );
         //lost the new $Test Array...
         assertEquals( 3, ai.get());

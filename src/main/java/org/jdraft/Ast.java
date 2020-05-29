@@ -69,7 +69,7 @@ public enum Ast {
      *  </PRE>
      *  (we replace the UnaryExpr parent with an IntegerLiteralExpr containing a negative number literal)
      */
-    public static final ParserConfiguration JAVAPARSER_CONFIG = new ParserConfiguration().setLanguageLevel( LanguageLevel.BLEEDING_EDGE);
+    private static final ParserConfiguration JAVAPARSER_CONFIG = new ParserConfiguration().setLanguageLevel( LanguageLevel.BLEEDING_EDGE);
     static{
         JAVAPARSER_CONFIG.getPostProcessors().add(new NegativeLiteralNumberPostProcessor());
     }
@@ -111,6 +111,7 @@ public enum Ast {
      */
 
 
+    public static class Classes{
     /* ------------------NODES----------------------------*/
  /* ( in com.github.javaparser.ast ) */
     public static final Class<Node> NODE = Node.class;
@@ -508,6 +509,7 @@ public enum Ast {
     public static final Class<VarType> VAR_TYPE = VarType.class;
     public static final Class<VoidType> VOID_TYPE = VoidType.class;
     public static final Class<WildcardType> WILDCARD_TYPE = WildcardType.class;
+    }
 
     /**
      * cache for ASTs based on a Class (could be a top level class, an Inner

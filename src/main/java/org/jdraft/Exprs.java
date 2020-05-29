@@ -348,7 +348,7 @@ public enum Exprs {
         List<MethodCallExpr> ln = //Ast.listAll(_walk.BREADTH_FIRST,
             Tree.list(Tree.BREADTH_FIRST,
             _t.ast(),
-            Ast.METHOD_CALL_EXPR,
+            Ast.Classes.METHOD_CALL_EXPR,
             mce-> mce.getRange().isPresent() && mce.getRange().get().begin.line <= lineNumber
                 && mce.getRange().get().end.line >= lineNumber
                 && mce.getArguments().stream().filter(a-> a instanceof LambdaExpr).findFirst().isPresent()                
@@ -533,7 +533,7 @@ public enum Exprs {
         //mentioned in the stack trace based on the line numbers 
         List<MethodCallExpr> mces = Tree.list(Tree.POST_ORDER,
                 _t.ast(),
-                Ast.METHOD_CALL_EXPR,
+                Ast.Classes.METHOD_CALL_EXPR,
                 (MethodCallExpr mce) -> ((MethodCallExpr)mce).getRange().get().begin.line <= ste.getLineNumber() &&
                         ((MethodCallExpr)mce).getRange().get().end.line >= ste.getLineNumber() &&
                         mce.getArguments().stream().filter( e-> e.isObjectCreationExpr() && e.asObjectCreationExpr().getAnonymousClassBody().isPresent() ).findFirst().isPresent()

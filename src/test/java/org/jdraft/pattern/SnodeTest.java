@@ -303,13 +303,13 @@ public class SnodeTest extends TestCase {
         //$node.of().forEachIn(C.class, e-> System.out.println(  e.getClass() ));
 
 
-        $node.of(Ast.SIMPLE_NAME).$isParent( $method.of(m-> m.isPackagePrivate())).forEachIn(C.class, e ->System.out.println("found " + e));
+        $node.of(Ast.Classes.SIMPLE_NAME).$isParent( $method.of(m-> m.isPackagePrivate())).forEachIn(C.class, e ->System.out.println("found " + e));
 
         //find all synchronized statements that are ancestors (within) a public class in C
-        $node.of(Ast.SYNCHRONIZED_STMT).$hasAncestor( $method.of(m->m.isPublic()) ).forEachIn( C.class, s -> System.out.println( s) );
+        $node.of(Ast.Classes.SYNCHRONIZED_STMT).$hasAncestor( $method.of(m->m.isPublic()) ).forEachIn( C.class, s -> System.out.println( s) );
 
         //find and return all types that have synchronized statements
-        $node.of(Ast.TYPE_DECLARATION).$hasDescendant( $.synchronizedStmt() ).forEachIn( C.class, s-> System.out.println(s));
+        $node.of(Ast.Classes.TYPE_DECLARATION).$hasDescendant( $.synchronizedStmt() ).forEachIn( C.class, s-> System.out.println(s));
 
         //$node.of(Ast.NODE_WITH_CONSTRUCTORS).forEachIn( C.class, e-> System.out.println( e.getClass()));
         //$node.of(Ast.NODE_WITH_ANNOTATIONS).forEachIn( C.class, e-> System.out.println( e.getClass()));

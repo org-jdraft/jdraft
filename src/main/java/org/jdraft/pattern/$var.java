@@ -336,7 +336,7 @@ public class $var
     }
 
     public $var $local(){
-        return $and(v-> Tree.isParent(v, Ast.VAR_DECLARATION_EXPR));
+        return $and(v-> Tree.isParent(v, Ast.Classes.VAR_DECLARATION_EXPR));
     }
 
     /**
@@ -344,7 +344,7 @@ public class $var
      * @return
      */
     public $var $member(){
-        return $and(v-> Tree.isParent(v, Ast.FIELD_DECLARATION));
+        return $and(v-> Tree.isParent(v, Ast.Classes.FIELD_DECLARATION));
     }
 
     public $var $name( String name ){
