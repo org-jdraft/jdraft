@@ -151,7 +151,7 @@ public enum Ast {
 
     /* -------------------------- EXPRESSIONS -----------------------------------*/
     /**
-     * See also {@link Exprs}
+     * See also {@link Expr}
      */
     /* ( in com.github.javaparser.ast.expr ) */
     public static final Class<Expression> EXPR = Expression.class;
@@ -364,7 +364,7 @@ public enum Ast {
 
     /* ------------------STATEMENTS ----------------------------*/
     /**
-     * See also {@link Stmts}
+     * See also {@link Stmt}
      */
     /* ( in com.github.javaparser.ast.stmt ) */
     public static final Class<Statement> STMT = Statement.class;
@@ -676,10 +676,10 @@ public enum Ast {
             return importDeclaration(Text.combine(code));
         }
         if (Statement.class.isAssignableFrom(nodeClass)) {
-            return Stmts.of(code);
+            return Stmt.of(code);
         }
         if (Expression.class.isAssignableFrom(nodeClass)) {
-            return Exprs.of(code);
+            return Expr.of(code);
         }
         if (CatchClause.class.isAssignableFrom(nodeClass)) {
             return catchClause(code);
@@ -1604,7 +1604,7 @@ public enum Ast {
      * @param code
      * @return
      */
-    public static AssertStmt assertStmt(String... code ){ return Stmts.assertStmt(code); }
+    public static AssertStmt assertStmt(String... code ){ return Stmt.assertStmt(code); }
 
     /**
      * convert the String code into a single Stmt AST BlockStmt
@@ -1613,7 +1613,7 @@ public enum Ast {
      * @return the BlockStmt
      */
     public static BlockStmt blockStmt(String... code) {
-        return Stmts.blockStmt(code);
+        return Stmt.blockStmt(code);
     }
 
     /**
@@ -1634,7 +1634,7 @@ public enum Ast {
      * @return the breakStmt
      */
     public static BreakStmt breakStmt(String... code ) {
-        return Stmts.breakStmt( code );
+        return Stmt.breakStmt( code );
     }
 
     /**
@@ -1644,7 +1644,7 @@ public enum Ast {
      * @return
      */
     public static ContinueStmt continueStmt(String... code ) {
-        return Stmts.continueStmt( code );
+        return Stmt.continueStmt( code );
     }
 
     /**
@@ -1653,7 +1653,7 @@ public enum Ast {
      * @return
      */
     public static DoStmt doStmt(String... code ) {
-        return Stmts.doStmt(  code );
+        return Stmt.doStmt(  code );
     }
 
     /**
@@ -1663,7 +1663,7 @@ public enum Ast {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt constructorCallStmt(String... code ) {
-        return Stmts.constructorCallStmt(  code );
+        return Stmt.constructorCallStmt(  code );
     }
 
     /**
@@ -1673,7 +1673,7 @@ public enum Ast {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt thisCallStmt(String... code ) {
-        return Stmts.constructorCallStmt(  code );
+        return Stmt.constructorCallStmt(  code );
     }
 
     /**
@@ -1683,7 +1683,7 @@ public enum Ast {
      * @return an ExplicitConstructorInvocationStmt based on the code
      */
     public static ExplicitConstructorInvocationStmt superCallStmt(String... code ) {
-        return Stmts.constructorCallStmt(  code );
+        return Stmt.constructorCallStmt(  code );
     }
 
     /**
@@ -1693,7 +1693,7 @@ public enum Ast {
      * @return
      */
     public static ExpressionStmt expressionStmt( String... code ) {
-        return Stmts.exprStmt(code);
+        return Stmt.exprStmt(code);
     }
 
     /**
@@ -1702,7 +1702,7 @@ public enum Ast {
      * @return
      */
     public static ForStmt forStmt( String... code ) {
-        return Stmts.forStmt( code );
+        return Stmt.forStmt( code );
     }
 
     /**
@@ -1712,7 +1712,7 @@ public enum Ast {
      * @return
      */
     public static ForEachStmt forEachStmt( String... code ) {
-        return Stmts.forEachStmt( code );
+        return Stmt.forEachStmt( code );
     }
 
     /**
@@ -1721,7 +1721,7 @@ public enum Ast {
      * @return
      */
     public static IfStmt ifStmt( String... code ) {
-        return Stmts.ifStmt(  code );
+        return Stmt.ifStmt(  code );
     }
 
     /**
@@ -1730,7 +1730,7 @@ public enum Ast {
      * @return
      */
     public static LabeledStmt labeledStmt( String... code ) {
-        return Stmts.labeledStmt( code );
+        return Stmt.labeledStmt( code );
     }
 
     /**
@@ -1740,7 +1740,7 @@ public enum Ast {
      * @return
      */
     public static ReturnStmt returnStmt( String... code ) {
-        return Stmts.returnStmt(  code );
+        return Stmt.returnStmt(  code );
     }
 
     /**
@@ -1750,7 +1750,7 @@ public enum Ast {
      * @return
      */
     public static SwitchStmt switchStmt( String... code ) {
-        return Stmts.switchStmt(code);
+        return Stmt.switchStmt(code);
     }
 
     /**
@@ -1759,7 +1759,7 @@ public enum Ast {
      * @return
      */
     public static SynchronizedStmt synchronizedStmt( String... code ) {
-        return Stmts.synchronizedStmt( code );
+        return Stmt.synchronizedStmt( code );
     }
 
     /**
@@ -1769,7 +1769,7 @@ public enum Ast {
      * @return
      */
     public static ThrowStmt throwStmt( String... code ) {
-        return Stmts.throwStmt(  code );
+        return Stmt.throwStmt(  code );
     }
 
     /**
@@ -1778,7 +1778,7 @@ public enum Ast {
      * @return
      */
     public static TryStmt tryStmt( String... code ) {
-        return Stmts.tryStmt(  code );
+        return Stmt.tryStmt(  code );
     }
 
     /**
@@ -1788,11 +1788,11 @@ public enum Ast {
      * @return
      */
     public static WhileStmt whileStmt( String... code ) {
-        return Stmts.whileStmt(  code );
+        return Stmt.whileStmt(  code );
     }
 
     public static MethodCallExpr methodCallExpr(String... code) {
-        return Exprs.methodCallExpr(code);
+        return Expr.methodCallExpr(code);
     }
 
     public static Name name(String code) {
@@ -1827,7 +1827,7 @@ public enum Ast {
         if (!pa.endsWith(")")) {
             pa = pa + ")";
         }
-        LambdaExpr le = Exprs.lambdaExpr( pa +"->{return 1;}");
+        LambdaExpr le = Expr.lambdaExpr( pa +"->{return 1;}");
 
         NodeList<Parameter> nps = le.getParameters();
         if (nps.getParentNode().isPresent()) {
@@ -1903,7 +1903,7 @@ public enum Ast {
      * @return
      */
     public static VariableDeclarationExpr variableDeclarationExpr(String...code ){
-        return Exprs.variablesExpr(code);
+        return Expr.variablesExpr(code);
     }
 
     /**
@@ -1997,7 +1997,7 @@ public enum Ast {
     }
 
     public static NullLiteralExpr nullLiteralExpr() {
-        return Exprs.nullExpr();
+        return Expr.nullExpr();
     }
 
     /**
@@ -2007,31 +2007,31 @@ public enum Ast {
      * @return
      */
     public static Expression expression(String... code) {
-        return Exprs.of(code);
+        return Expr.of(code);
     }
 
     public static IntegerLiteralExpr intLiteralExpr(int intValue) {
-        return Exprs.of(intValue);
+        return Expr.of(intValue);
     }
 
     public static BooleanLiteralExpr booleanLiteralExpr(boolean booleanValue) {
-        return Exprs.of(booleanValue);
+        return Expr.of(booleanValue);
     }
 
     public static CharLiteralExpr charLiteralExpr(char charValue) {
-        return Exprs.of(charValue);
+        return Expr.of(charValue);
     }
 
     public static LongLiteralExpr longLiteralExpr(long longValue) {
-        return Exprs.of(longValue);
+        return Expr.of(longValue);
     }
 
     public static DoubleLiteralExpr doubleLiteralExpr(float floatValue) {
-        return Exprs.of(floatValue);
+        return Expr.of(floatValue);
     }
 
     public static DoubleLiteralExpr doubleLiteralExpr(double doubleValue) {
-        return Exprs.of(doubleValue);
+        return Expr.of(doubleValue);
     }
 
     public static JavaParser PARSER = new JavaParser( new ParserConfiguration().setLanguageLevel(LanguageLevel.BLEEDING_EDGE));
@@ -2073,7 +2073,7 @@ public enum Ast {
      */
     public static ObjectCreationExpr anonymousClassExpr(Object anonymousClassImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return Exprs.newExpr(ste, _io.IN_DEFAULT);
+        return Expr.newExpr(ste, _io.IN_DEFAULT);
     }
     
     /**
@@ -2146,7 +2146,7 @@ public enum Ast {
      * @return a Stmt
      */
     public static Statement statement(String... code) {
-        return Stmts.of(code);
+        return Stmt.of(code);
     }
 
     /**

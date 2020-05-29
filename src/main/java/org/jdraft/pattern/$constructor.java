@@ -224,7 +224,7 @@ public class $constructor
     }
 
     private static _constructor from( StackTraceElement ste, Object anonymousObjectContainingMethod ){
-        ObjectCreationExpr oce = Exprs.newExpr( ste );
+        ObjectCreationExpr oce = Expr.newExpr( ste );
 
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -845,7 +845,7 @@ public class $constructor
     }
     */
 
-    public static final BlockStmt EMPTY = Stmts.blockStmt("{}");
+    public static final BlockStmt EMPTY = Stmt.blockStmt("{}");
 
     /**
      * 

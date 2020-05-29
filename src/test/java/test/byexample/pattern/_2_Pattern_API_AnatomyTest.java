@@ -1,9 +1,8 @@
 package test.byexample.pattern;
 
 import junit.framework.TestCase;
-import org.jdraft.Exprs;
+import org.jdraft.Expr;
 import org.jdraft._ifStmt;
-import org.jdraft._java;
 import org.jdraft._method;
 import org.jdraft.pattern.*;
 import org.jdraft.pattern.$node.Select;
@@ -144,7 +143,7 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         List<Select> sel = $.of( $stmt.of("if($cond$){ thenDo(); }"), $stmt.of("if($cond$) thenDo();") ).listSelectedIn(exampleClass.class);
 
         assertEquals( 2, sel.size());
-        sel.get(0).is("cond", Exprs.of("a==0"));
-        sel.get(1).is("cond", Exprs.of("a>1"));
+        sel.get(0).is("cond", Expr.of("a==0"));
+        sel.get(1).is("cond", Expr.of("a>1"));
     }
 }

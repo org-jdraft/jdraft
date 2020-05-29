@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.AssignExpr;
-import com.github.javaparser.ast.expr.BinaryExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
@@ -33,42 +32,42 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public static _assignExpr of(String... code) {
-        return new _assignExpr(Exprs.assignExpr(code));
+        return new _assignExpr(Expr.assignExpr(code));
     }
 
 
-    public static <A extends Object> _assignExpr of(Exprs.Command c) {
-        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _assignExpr of(Expr.Command c) {
+        LambdaExpr le = Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _assignExpr of(Consumer<A> c) {
-        LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _assignExpr of(BiConsumer<A, B> command) {
-        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _assignExpr of(Exprs.TriConsumer<A, B, C> command) {
-        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _assignExpr of(Expr.TriConsumer<A, B, C> command) {
+        return from(Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assignExpr of(Exprs.QuadConsumer<A, B, C, D> command) {
-        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assignExpr of(Expr.QuadConsumer<A, B, C, D> command) {
+        return from(Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _assignExpr of(Function<A, B> command) {
-        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _assignExpr of(BiFunction<A, B, C> command) {
-        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assignExpr of(Exprs.TriFunction<A, B, C, D> command) {
-        return from(Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assignExpr of(Expr.TriFunction<A, B, C, D> command) {
+        return from(Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _assignExpr from(LambdaExpr le) {
@@ -110,7 +109,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     @Override
     public boolean is(String... stringRep) {
         try {
-            return is(Exprs.assignExpr(stringRep));
+            return is(Expr.assignExpr(stringRep));
         } catch (Exception e) {
         }
         return false;
@@ -342,7 +341,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public boolean isValue(String str){
-        return Objects.equals( this.ae.getValue(), Exprs.of(str));
+        return Objects.equals( this.ae.getValue(), Expr.of(str));
     }
     public boolean isValue(Expression e){
         return Objects.equals( this.ae.getValue(), e);
@@ -352,7 +351,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public boolean isTarget(String str){
-        return Objects.equals( this.ae.getTarget(), Exprs.of(str));
+        return Objects.equals( this.ae.getTarget(), Expr.of(str));
     }
     public boolean isTarget(Expression e){
         return Objects.equals( this.ae.getTarget(), e);
@@ -362,7 +361,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public _assignExpr setTarget(String...target){
-        this.ae.setTarget(Exprs.of(target));
+        this.ae.setTarget(Expr.of(target));
         return this;
     }
 
@@ -377,57 +376,57 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public _assignExpr setValue(int value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(float value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(boolean value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(char value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(long value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(int... value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(float... value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(boolean... value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(char... value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(long... value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(String...value){
-        this.ae.setValue(Exprs.of(value));
+        this.ae.setValue(Expr.of(value));
         return this;
     }
 

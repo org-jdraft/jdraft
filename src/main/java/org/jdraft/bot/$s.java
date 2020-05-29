@@ -4,7 +4,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
 import org.jdraft.text.Stencil;
-import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -166,7 +165,7 @@ public class $s
 	@Override
 	public Select<_stmt> select(String code) {
 		try {
-			Statement e = Stmts.of(code);
+			Statement e = Stmt.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;
@@ -176,7 +175,7 @@ public class $s
 	@Override
 	public Select<_stmt> select(String... code) {
 		try {
-			Statement e = Stmts.of(code);
+			Statement e = Stmt.of(code);
 			return select(e);
 		}catch(Exception e) {
 			return null;

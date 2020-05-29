@@ -47,7 +47,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
      */
     public static _constructor of(Object anonymousObjectBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr( ste );
+        ObjectCreationExpr oce = Expr.newExpr( ste );
         
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
@@ -201,7 +201,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         if( this.astCtor == other.astCtor ) {
             return true; //two _constructor instances pointing to same ConstructorDeclaration instance
         }        
-        if( ! Exprs.equalAnnos(this.astCtor, other.astCtor)){
+        if( ! Expr.equalAnnos(this.astCtor, other.astCtor)){
             return false;
         }
         if( !Objects.equals( this.getBody(), other.getBody() ) ) {
@@ -255,7 +255,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hash(
-            Exprs.hashAnnos(astCtor),
+            Expr.hashAnnos(astCtor),
             this.getBody(), 
             this.getJavadoc(),
             this.getEffectiveModifiers(),
@@ -601,7 +601,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
          */
         default _WC addConstructor(Object anonymousObjectContainingConstructor ){
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Exprs.newExpr(ste);
+            ObjectCreationExpr oce = Expr.newExpr(ste);
             MethodDeclaration theMethod = (MethodDeclaration)
                     oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
                             !m.isAnnotationPresent(_remove.class) ).findFirst().get();

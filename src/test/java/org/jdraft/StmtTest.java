@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 
 
 @Ast.cache
-public class StmtsTest extends TestCase {
+public class StmtTest extends TestCase {
 
     public void testPreviousStmtNextStmt(){
 
@@ -27,13 +27,13 @@ public class StmtsTest extends TestCase {
         _class _c = _class.of(C.class);
         _method _m = _c.getMethod("m");
 
-        assertEquals( null, Stmts.previous( _m.getStatement(0)));
-        assertEquals( Stmts.of("assert(1==1);"), Stmts.previous( _m.getStatement(1)));
-        assertEquals( Stmts.of("assert(2==2);"), Stmts.previous( _m.getStatement(2)));
+        assertEquals( null, Stmt.previous( _m.getStatement(0)));
+        assertEquals( Stmt.of("assert(1==1);"), Stmt.previous( _m.getStatement(1)));
+        assertEquals( Stmt.of("assert(2==2);"), Stmt.previous( _m.getStatement(2)));
 
-        assertEquals( Stmts.of("assert(2==2);"), Stmts.next( _m.getStatement(0)));
-        assertEquals( Stmts.of("assert(3==3);"), Stmts.next( _m.getStatement(1)));
-        assertEquals( null, Stmts.next( _m.getStatement(2)));
+        assertEquals( Stmt.of("assert(2==2);"), Stmt.next( _m.getStatement(0)));
+        assertEquals( Stmt.of("assert(3==3);"), Stmt.next( _m.getStatement(1)));
+        assertEquals( null, Stmt.next( _m.getStatement(2)));
 
     }
 
@@ -52,20 +52,20 @@ public class StmtsTest extends TestCase {
 
         LabeledStmt first = (LabeledStmt) ((_labeledStmt) ($.labeledStmt().firstIn(_c))).ast();
 
-        Stmts.addStatementsBefore(first, Stmts.of( ()->System.out.println(1) ) );
-        Stmts.addStatementsAfter(first, Stmts.of( ()->System.out.println(2)));
-        assertEquals( Stmts.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
-        assertEquals( Stmts.of("firstStmt:{}"), _c.getMethod("m").getStatement(1));
-        assertEquals( Stmts.of(()->System.out.println(2)), _c.getMethod("m").getStatement(2));
+        Stmt.addStatementsBefore(first, Stmt.of( ()->System.out.println(1) ) );
+        Stmt.addStatementsAfter(first, Stmt.of( ()->System.out.println(2)));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getStatement(1));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getStatement(2));
 
         LabeledStmt second = (LabeledStmt) ((_labeledStmt)$.labeledStmt("secondStmt:{}").firstIn(_c)).ast();
-        Stmts.addStatementsBefore(second, Stmts.of( ()->System.out.println(1) ) );
-        Stmts.addStatementsAfter(second, Stmts.of( ()->System.out.println(2)));
+        Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ) );
+        Stmt.addStatementsAfter(second, Stmt.of( ()->System.out.println(2)));
 
-        assertEquals( Stmts.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
-        assertEquals( Stmts.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
-        assertEquals( Stmts.of("secondStmt:{}"), _c.getMethod("m2").getStatement(2));
-        assertEquals( Stmts.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(3));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
+        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getStatement(2));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(3));
     }
 
     public void testAddBeforeAfterMulti(){
@@ -84,100 +84,100 @@ public class StmtsTest extends TestCase {
         LabeledStmt first = ((_labeledStmt)$.labeledStmt().firstIn(_c)).ast();
 
         //NOTE: we cant create/initialize more than one Statement *via Lambda) on the same line because of how stack traces work
-        Stmts.addStatementsBefore(first, Stmts.of( ()->System.out.println(1) ),
-                Stmts.of( ()->System.out.println(2) ) );
-        Stmts.addStatementsAfter(first, Stmts.of( ()->System.out.println(3)),
-                Stmts.of( ()->System.out.println(4)) );
+        Stmt.addStatementsBefore(first, Stmt.of( ()->System.out.println(1) ),
+                Stmt.of( ()->System.out.println(2) ) );
+        Stmt.addStatementsAfter(first, Stmt.of( ()->System.out.println(3)),
+                Stmt.of( ()->System.out.println(4)) );
 
         //System.out.println( _c );
 
-        assertEquals( Stmts.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
-        assertEquals( Stmts.of(()->System.out.println(2)), _c.getMethod("m").getStatement(1));
-        assertEquals( Stmts.of("firstStmt:{}"), _c.getMethod("m").getStatement(2));
-        assertEquals( Stmts.of(()->System.out.println(3)), _c.getMethod("m").getStatement(3));
-        assertEquals( Stmts.of(()->System.out.println(4)), _c.getMethod("m").getStatement(4));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getStatement(1));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getStatement(2));
+        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m").getStatement(3));
+        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m").getStatement(4));
 
         LabeledStmt second = (LabeledStmt) ((_labeledStmt)$.labeledStmt("secondStmt:{}").firstIn(_c)).ast();
-        Stmts.addStatementsBefore(second, Stmts.of( ()->System.out.println(1) ),
-                Stmts.of( ()->System.out.println(2)));
+        Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ),
+                Stmt.of( ()->System.out.println(2)));
 
-        Stmts.addStatementsAfter(second, Stmts.of( ()->System.out.println(3)),
-                Stmts.of( ()->System.out.println(4)));
+        Stmt.addStatementsAfter(second, Stmt.of( ()->System.out.println(3)),
+                Stmt.of( ()->System.out.println(4)));
 
-        assertEquals( Stmts.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
-        assertEquals( Stmts.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
-        assertEquals( Stmts.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(2));
-        assertEquals( Stmts.of("secondStmt:{}"), _c.getMethod("m2").getStatement(3));
-        assertEquals( Stmts.of(()->System.out.println(3)), _c.getMethod("m2").getStatement(4));
-        assertEquals( Stmts.of(()->System.out.println(4)), _c.getMethod("m2").getStatement(5));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(2));
+        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getStatement(3));
+        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m2").getStatement(4));
+        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m2").getStatement(5));
     }
 
     public void testReturnStmtLambda(){
-        assertEquals( Stmts.of("return 1;") , Stmts.returnStmt(()-> 1));
-        assertEquals( Stmts.of("return \"String\";"), Stmts.returnStmt(()-> "String"));
-        assertEquals( Stmts.of("return $name$;"), Stmts.returnStmt((String $name$)-> {
+        assertEquals( Stmt.of("return 1;") , Stmt.returnStmt(()-> 1));
+        assertEquals( Stmt.of("return \"String\";"), Stmt.returnStmt(()-> "String"));
+        assertEquals( Stmt.of("return $name$;"), Stmt.returnStmt((String $name$)-> {
             return $name$;
         }));
     }
 
     public void testDoStmtLambda(){
-        DoStmt ds = Stmts.doStmt( ()->{
+        DoStmt ds = Stmt.doStmt( ()->{
             do{
                 System.out.println(1);
             }while(true);
         });
 
-        assertEquals( Stmts.of( ()->System.out.println(1)), ds.getBody().asBlockStmt().getStatement(0));
+        assertEquals( Stmt.of( ()->System.out.println(1)), ds.getBody().asBlockStmt().getStatement(0));
         assertTrue( ds.getCondition().asBooleanLiteralExpr().getValue());
 
-        ds = Stmts.doStmt( (Integer a) ->{
+        ds = Stmt.doStmt( (Integer a) ->{
             do{
                 System.out.println(a);
             } while( a != null );
         });
 
-        assertEquals( Stmts.of( (a)->System.out.println(a)), ds.getBody().asBlockStmt().getStatement(0));
+        assertEquals( Stmt.of( (a)->System.out.println(a)), ds.getBody().asBlockStmt().getStatement(0));
         assertEquals(BinaryExpr.Operator.NOT_EQUALS, ds.getCondition().asBinaryExpr().getOperator());
     }
     //Predicate<_field>, $snip
 
     public void testBlock(){
         //single stmt
-        BlockStmt bs = Stmts.blockStmt( ()-> System.out.println(1));
+        BlockStmt bs = Stmt.blockStmt( ()-> System.out.println(1));
 
         assertEquals(1, bs.getStatements().size());
-        bs = Stmts.blockStmt( ()-> {
+        bs = Stmt.blockStmt( ()-> {
             System.out.println(1);
             System.out.println(2);
         });
         assertEquals(2, bs.getStatements().size());
 
         //ananoymous TYPE var
-        bs = Stmts.blockStmt( (o)->System.out.println(o));
+        bs = Stmt.blockStmt( (o)->System.out.println(o));
 
         //typed var
-        bs = Stmts.blockStmt( (Integer i)->System.out.println(i));
-        assertEquals(Stmts.of( (Integer i)->System.out.println(i)), bs.getStatement(0) );
+        bs = Stmt.blockStmt( (Integer i)->System.out.println(i));
+        assertEquals(Stmt.of( (Integer i)->System.out.println(i)), bs.getStatement(0) );
 
         //typed vars
-        bs = Stmts.blockStmt( (Integer i, String s)->{
+        bs = Stmt.blockStmt( (Integer i, String s)->{
             System.out.println(i);
             System.out.println(s);
         });
-        assertEquals(Stmts.of( (Integer i)->System.out.println(i)), bs.getStatement(0) );
-        assertEquals(Stmts.of( (Integer s)->System.out.println(s)), bs.getStatement(1) );
+        assertEquals(Stmt.of( (Integer i)->System.out.println(i)), bs.getStatement(0) );
+        assertEquals(Stmt.of( (Integer s)->System.out.println(s)), bs.getStatement(1) );
 
         //untyped vars
-        bs = Stmts.blockStmt( (a, b, c, d)->{
+        bs = Stmt.blockStmt( (a, b, c, d)->{
             System.out.println(a);
             System.out.println(b);
             System.out.println(c);
             System.out.println(d);
         } );
-        assertEquals(Stmts.of( (a)->System.out.println(a)), bs.getStatement(0) );
-        assertEquals(Stmts.of( (b)->System.out.println(b)), bs.getStatement(1) );
-        assertEquals(Stmts.of( (c)->System.out.println(c)), bs.getStatement(2) );
-        assertEquals(Stmts.of( (d)->System.out.println(d)), bs.getStatement(3) );
+        assertEquals(Stmt.of( (a)->System.out.println(a)), bs.getStatement(0) );
+        assertEquals(Stmt.of( (b)->System.out.println(b)), bs.getStatement(1) );
+        assertEquals(Stmt.of( (c)->System.out.println(c)), bs.getStatement(2) );
+        assertEquals(Stmt.of( (d)->System.out.println(d)), bs.getStatement(3) );
 
         //what about a list of
         Predicate<_field> pf = (f)-> f.isPublic();
@@ -186,122 +186,122 @@ public class StmtsTest extends TestCase {
 
     public void testAllStmtsLambdaWithComments() {
         //make sure we can create statements with comments
-        Statement st = Stmts.of(() -> { /** Comment */assert true;
+        Statement st = Stmt.of(() -> { /** Comment */assert true;
         });
         assertEquals(new JavadocComment(" Comment "), st.getComment().get());
-        assertEquals(Stmts.of("assert true;"), st.removeComment());
+        assertEquals(Stmt.of("assert true;"), st.removeComment());
 
-        st = Stmts.of(() -> { /* Comment */
+        st = Stmt.of(() -> { /* Comment */
             assert true;
         });
         assertEquals(new BlockComment(" Comment "), st.getComment().get());
-        assertEquals(Stmts.of("assert true;"), st.removeComment());
+        assertEquals(Stmt.of("assert true;"), st.removeComment());
 
         //System.out.println(st);
-        st = Stmts.of(() -> { // Comment
+        st = Stmt.of(() -> { // Comment
             assert true;
         });
         assertEquals(new LineComment(" Comment"), st.getComment().get());
-        assertEquals(Stmts.of("assert true;"), st.removeComment());
+        assertEquals(Stmt.of("assert true;"), st.removeComment());
         //System.out.println(st);
     }
 
     public void testSuperCtorBody(){
-        BlockStmt bs = Stmts.blockStmt("{ super(); }");
+        BlockStmt bs = Stmt.blockStmt("{ super(); }");
         //System.out.println( bs );
 
         //StaticJavaParser.parseStatement( "{ super(); }" );
     }
     public void testBody(){
-        Statement st = Stmts.of("this.name = name;");
+        Statement st = Stmt.of("this.name = name;");
         System.out.println( st );
     }
     public void testStmtTypesWithLambda(){
-        AssertStmt as = Stmts.assertStmt("assert 1==1;");
-        as = (AssertStmt) Stmts.of(() -> {
+        AssertStmt as = Stmt.assertStmt("assert 1==1;");
+        as = (AssertStmt) Stmt.of(() -> {
             assert (1 == 1);
         });
 
-        BlockStmt bs = Stmts.blockStmt("{ block(); }");
-        bs = (BlockStmt) Stmts.of(() -> {
+        BlockStmt bs = Stmt.blockStmt("{ block(); }");
+        bs = (BlockStmt) Stmt.of(() -> {
             System.out.println(1);
             System.out.println(2);
         });
 
-        Statement st = Stmts.of(() -> System.out.println(1));
+        Statement st = Stmt.of(() -> System.out.println(1));
         assertTrue(st.isExpressionStmt());
-        assertEquals(Stmts.of("System.out.println(1);"), st);
+        assertEquals(Stmt.of("System.out.println(1);"), st);
 
-        BreakStmt bss = Stmts.breakStmt("break;");
+        BreakStmt bss = Stmt.breakStmt("break;");
         //bss = Stmt.of( ()-> { break; }  );
         //bss = Stmt.of( ()-> { continue; }  );
 
-        Stmts.breakStmt("break outer;");
-        Stmts.continueStmt("continue;");
-        Stmts.continueStmt("continue outer;");
+        Stmt.breakStmt("break outer;");
+        Stmt.continueStmt("continue;");
+        Stmt.continueStmt("continue outer;");
 
-        Stmts.constructorCallStmt("this(1);");
-        st = Stmts.of((Integer n) -> {
+        Stmt.constructorCallStmt("this(1);");
+        st = Stmt.of((Integer n) -> {
             do {
                 assert (1 == 1);
             }
             while (n > 2);
         });
 
-        assertEquals(st, Stmts.doStmt("do{ assert(1==1); }while(n>2);"));
+        assertEquals(st, Stmt.doStmt("do{ assert(1==1); }while(n>2);"));
 
-        assertEquals(Stmts.of((Integer a) -> a = 2 + 45), Stmts.exprStmt("a = 2 + 45;"));
+        assertEquals(Stmt.of((Integer a) -> a = 2 + 45), Stmt.exprStmt("a = 2 + 45;"));
 
 
         //Stmt.expressionStmt("a = 2 + 45;");
-        assertEquals(Stmts.of((Integer[] aas) -> {
+        assertEquals(Stmt.of((Integer[] aas) -> {
                     for (int a : aas) {
                         System.out.println(a);
                     }
                 }),
-                Stmts.forEachStmt("for(int a : aas){ System.out.println(a); }"));
+                Stmt.forEachStmt("for(int a : aas){ System.out.println(a); }"));
 
-        assertEquals(Stmts.of(() -> {
+        assertEquals(Stmt.of(() -> {
                     for (int i = 0; i < 100; i++) {
                         System.out.println(i);
                     }
                 }),
 
-                Stmts.forStmt("for(int i=0;i<100;i++){ System.out.println(i);}"));
+                Stmt.forStmt("for(int i=0;i<100;i++){ System.out.println(i);}"));
 
         assertEquals(
-                Stmts.of((Boolean isReady) -> {
+                Stmt.of((Boolean isReady) -> {
                     if (isReady) {
                         System.out.println("Its ready");
                     }
                 }),
-                Stmts.ifStmt("if( isReady ){",
+                Stmt.ifStmt("if( isReady ){",
                         "System.out.println(\"Its ready\");",
                         "}"));
 
 
         assertEquals(
-                Stmts.of(() -> {
+                Stmt.of(() -> {
                     class F {
                         int i;
                     }
                 }),
-                Stmts.localClassStmt("class F{ int i; }"));
+                Stmt.localClassStmt("class F{ int i; }"));
 
-        assertEquals(Stmts.of(() -> {
+        assertEquals(Stmt.of(() -> {
                     label:
                     System.out.println(1);
                 }),
-                Stmts.labeledStmt("label: System.out.println(1);"));
+                Stmt.labeledStmt("label: System.out.println(1);"));
 
-        Stmts.returnStmt("return 1;");
+        Stmt.returnStmt("return 1;");
 
         //Stmt.switchCaseStmt("case 1: System.out.println(1); break;");
 
-        assertEquals(Stmts.switchStmt("switch(x){",
+        assertEquals(Stmt.switchStmt("switch(x){",
                 "default: System.out.println(1);",
                 "break;",
-                "}"), Stmts.of((Integer x) -> {
+                "}"), Stmt.of((Integer x) -> {
             switch (x) {
                 default:
                     System.out.println(1);
@@ -310,16 +310,16 @@ public class StmtsTest extends TestCase {
         }));
 
         assertEquals(
-                Stmts.synchronizedStmt("synchronized(s){ s++; }"),
-                Stmts.of((Integer s) -> {
+                Stmt.synchronizedStmt("synchronized(s){ s++; }"),
+                Stmt.of((Integer s) -> {
                     synchronized (s) {
                         s++;
                     }
                 }));
 
         assertEquals(
-                Stmts.tryStmt("try{ f.writeExternal(oos); } catch(IOException ioe){}"),
-                Stmts.of((Externalizable f, ObjectOutputStream oos) -> {
+                Stmt.tryStmt("try{ f.writeExternal(oos); } catch(IOException ioe){}"),
+                Stmt.of((Externalizable f, ObjectOutputStream oos) -> {
                     try {
                         f.writeExternal(oos);
                     } catch (IOException ioe) {
@@ -328,20 +328,20 @@ public class StmtsTest extends TestCase {
                 }));
 
         assertEquals(
-                Stmts.throwStmt("throw new RuntimeException();"),
-                Stmts.of(() -> {
+                Stmt.throwStmt("throw new RuntimeException();"),
+                Stmt.of(() -> {
                     throw new RuntimeException();
                 }));
 
-        assertEquals(Stmts.whileStmt("while(b){",
+        assertEquals(Stmt.whileStmt("while(b){",
                 "System.out.println(1);",
-                "}"), Stmts.of((Boolean b) -> {
+                "}"), Stmt.of((Boolean b) -> {
             while (b) {
                 System.out.println(1);
             }
         }));
 
-        as = Stmts.assertStmt("/**",
+        as = Stmt.assertStmt("/**",
                 " * Javadoc Comment",
                 " */",
                 "assert (true);");
@@ -389,15 +389,15 @@ public class StmtsTest extends TestCase {
      * which correctly puts the Comment BEFORE the statement
      */
     public void testWithComments(){
-        Statement st = Stmts.of("// Line Comment", "assert (true);");
+        Statement st = Stmt.of("// Line Comment", "assert (true);");
         assertEquals( "// Line Comment"+System.lineSeparator()+"assert (true);", st.toString());
 
         //System.out.println( st );
-        st = Stmts.of("/* Block Comment */", "assert (true);");
+        st = Stmt.of("/* Block Comment */", "assert (true);");
         assertEquals( "/* Block Comment */"+System.lineSeparator()+"assert (true);", st.toString());
         //System.out.println( st );
 
-        st = Stmts.of("/**",
+        st = Stmt.of("/**",
                 " * Javadoc Comment",
                 " */",
                 "assert (true);");

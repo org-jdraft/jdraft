@@ -5,7 +5,6 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -33,16 +32,16 @@ public final class _arrayAccessExpr
     }
 
     public static _arrayAccessExpr of(String code){
-        return new _arrayAccessExpr(Exprs.arrayAccessExpr( code));
+        return new _arrayAccessExpr(Expr.arrayAccessExpr( code));
     }
 
     public static _arrayAccessExpr of(String...code){
-        return new _arrayAccessExpr(Exprs.arrayAccessExpr( code));
+        return new _arrayAccessExpr(Expr.arrayAccessExpr( code));
     }
 
     //a simple literal name[3]
     public static _arrayAccessExpr of(String name, int index){
-        return of( Exprs.nameExpr(name), index);
+        return of( Expr.nameExpr(name), index);
     }
 
     /**
@@ -52,7 +51,7 @@ public final class _arrayAccessExpr
      * @return
      */
     public static _arrayAccessExpr of(String name, int... indexes){
-        return of( Exprs.nameExpr(name), indexes);
+        return of( Expr.nameExpr(name), indexes);
     }
 
     /**
@@ -163,7 +162,7 @@ public final class _arrayAccessExpr
     }
 
     public _arrayAccessExpr setIndex(String index){
-        return setIndex( Exprs.of(index));
+        return setIndex( Expr.of(index));
     }
 
     public _arrayAccessExpr setIndex(Expression e){
@@ -177,7 +176,7 @@ public final class _arrayAccessExpr
     }
 
     public _arrayAccessExpr setName(String name){
-        return setName( Exprs.of(name));
+        return setName( Expr.of(name));
     }
 
     public _arrayAccessExpr setName(Expression e){

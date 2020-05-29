@@ -1093,39 +1093,39 @@ public class $var
         }
         
         public boolean isInit(String init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(byte init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(short init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(long init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(char init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(double init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(float init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(boolean init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(int init){
-            return Objects.equals( getInit(), Exprs.of(init));
+            return Objects.equals( getInit(), Expr.of(init));
         }
         
         public boolean isInit(Expression init){

@@ -103,7 +103,7 @@ public final class _qualifiedName implements _java._node<Node, _qualifiedName> {
         String str = Text.combine(name);
 
         if( str.contains("::")){
-            return of( Exprs.methodReferenceExpr(str));
+            return of( Expr.methodReferenceExpr(str));
         }
         return of( new Name(str) );
 

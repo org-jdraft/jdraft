@@ -396,7 +396,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             _c.addExtend(theClass.getSuperclass());
         }
         //
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
 
         if( oce.getAnonymousClassBody().isPresent() ) {
             //System.err.println("Got here" + oce);
@@ -524,7 +524,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             addImplements( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]} );
             addImports( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]});
         }
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         if( oce.getAnonymousClassBody().isPresent()){
             oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
         }
@@ -627,7 +627,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         Class sup = anonymousImplementationBody.getClass().getSuperclass();
         addExtend(sup);
         addImports( new Class[]{sup} );
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         if( oce.getAnonymousClassBody().isPresent()){
             oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
         }
@@ -668,7 +668,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      */
     public _class addBodyMembers(Object anonymousClassBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
 
         //create a temp _class to add these to so I can run _macro ANNOTATIONS on them        
         _class _temp = _class.of("UNKNOWN");
@@ -930,7 +930,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             Log.trace("Expected javadoc %s got: %s", this::getJavadoc, other::getJavadoc);
             return false;
         }
-        if( ! Exprs.equalAnnos(this.astClass, other.astClass)){
+        if( ! Expr.equalAnnos(this.astClass, other.astClass)){
             Log.trace("Expected annos %s got: %s", this.astClass::getAnnotations, other.astClass::getAnnotations);
             return false;
         }
@@ -1075,7 +1075,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                 this.getJavadoc(), this.getAnnoExprs(), this.getModifiers(),
                 this.getTypeParams(), Types.hash(this.getExtendsNode()),
                 sbs, Types.hash( ast().getImplementedTypes() ),
-                Exprs.hashAnnos(astClass),
+                Expr.hashAnnos(astClass),
                 tf, tm, tc, tn, cths);
 
         return hash;

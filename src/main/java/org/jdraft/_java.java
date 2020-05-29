@@ -1643,21 +1643,21 @@ public interface _java {
 
         default boolean isScope(String...expr){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Exprs.equal( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Exprs.of(expr));
+                return Expr.equal( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Expr.of(expr));
             }
             return false;
         }
 
         default boolean isScope(Expression e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Exprs.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
+                return Expr.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
             }
             return e == null;
         }
 
         default boolean isScope(_expr _e){
             if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Exprs.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
+                return Expr.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
             }
             return _e == null;
         }
@@ -1668,7 +1668,7 @@ public interface _java {
         }
 
         default _WS setScope(String scope ){
-            ((NodeWithOptionalScope)ast()).setScope(Exprs.of(scope));
+            ((NodeWithOptionalScope)ast()).setScope(Expr.of(scope));
             return (_WS)this;
         }
 
@@ -1683,7 +1683,7 @@ public interface _java {
         }
 
         default _WS setScope(String... scope){
-            return setScope( Exprs.of(scope));
+            return setScope( Expr.of(scope));
         }
 
         default _expr getScope(){
@@ -1710,18 +1710,18 @@ public interface _java {
 
         default boolean isCondition(String...expression){
             try{
-                return isCondition(Exprs.of(expression));
+                return isCondition(Expr.of(expression));
             }catch(Exception e){
                 return false;
             }
         }
 
         default boolean isCondition(_expr _ex){
-            return Exprs.equal(  this.getCondition().ast(), _ex.ast());
+            return Expr.equal(  this.getCondition().ast(), _ex.ast());
         }
 
         default boolean isCondition(Expression ex){
-            return Exprs.equal( this.getCondition().ast(), ex);
+            return Expr.equal( this.getCondition().ast(), ex);
         }
 
         default boolean isCondition(Predicate<_expr> matchFn){
@@ -1729,7 +1729,7 @@ public interface _java {
         }
 
         default _WC setCondition(String...expression){
-            return setCondition(Exprs.of(expression));
+            return setCondition(Expr.of(expression));
         }
 
         default _WC setCondition(_expr e){
@@ -1755,18 +1755,18 @@ public interface _java {
 
         default boolean isExpression(String...expression){
             try{
-                return isExpression(Exprs.of(expression));
+                return isExpression(Expr.of(expression));
             }catch(Exception e){
                 return false;
             }
         }
 
         default boolean isExpression(_expr _ex){
-            return Exprs.equal( this.getExpression().ast(), _ex.ast());
+            return Expr.equal( this.getExpression().ast(), _ex.ast());
         }
 
         default boolean isExpression(Expression ex){
-            return Exprs.equal( this.getExpression().ast(), ex);
+            return Expr.equal( this.getExpression().ast(), ex);
         }
 
         default boolean isExpression(Predicate<_expr> matchFn){
@@ -1774,55 +1774,55 @@ public interface _java {
         }
 
         default boolean isExpression( int i){
-            return isExpression( Exprs.of(i) );
+            return isExpression( Expr.of(i) );
         }
 
         default boolean isExpression( boolean b){
-            return isExpression( Exprs.of(b) );
+            return isExpression( Expr.of(b) );
         }
 
         default boolean isExpression( float f){
-            return isExpression( Exprs.of(f) );
+            return isExpression( Expr.of(f) );
         }
 
         default boolean isExpression( long l){
-            return isExpression( Exprs.of(l) );
+            return isExpression( Expr.of(l) );
         }
 
         default boolean isExpression( double d){
-            return isExpression( Exprs.of(d) );
+            return isExpression( Expr.of(d) );
         }
 
         default boolean isExpression( char c){
-            return isExpression( Exprs.of(c) );
+            return isExpression( Expr.of(c) );
         }
 
         default boolean isExpression( int... i){
-            return isExpression( Exprs.of(i) );
+            return isExpression( Expr.of(i) );
         }
 
         default boolean isExpression( boolean... b){
-            return isExpression( Exprs.of(b) );
+            return isExpression( Expr.of(b) );
         }
 
         default boolean isExpression( float... f){
-            return isExpression( Exprs.of(f) );
+            return isExpression( Expr.of(f) );
         }
 
         default boolean isExpression( long... l){
-            return isExpression( Exprs.of(l) );
+            return isExpression( Expr.of(l) );
         }
 
         default boolean isExpression( double... d){
-            return isExpression( Exprs.of(d) );
+            return isExpression( Expr.of(d) );
         }
 
         default boolean isExpression( char... c){
-            return isExpression( Exprs.of(c) );
+            return isExpression( Expr.of(c) );
         }
 
         default _WE setExpression(String...expression){
-            return setExpression(Exprs.of(expression));
+            return setExpression(Expr.of(expression));
         }
 
         default _WE setExpression(_expr e){

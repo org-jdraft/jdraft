@@ -19,7 +19,7 @@ public class $stmtTest extends TestCase {
 		assertTrue( $stmt.of(_stmt.of("return;")).matches("return;"));
 		
 		//with Statement
-		assertTrue( $stmt.of(Stmts.of("return;")).matches("return;"));
+		assertTrue( $stmt.of(Stmt.of("return;")).matches("return;"));
 		
 		//with Lambda
 		assertTrue( $s.of(). $and(e-> e instanceof _returnStmt).matches("return null;"));
@@ -36,7 +36,7 @@ public class $stmtTest extends TestCase {
 		
 		//with interface
 		assertTrue( $s.of( _stmt._controlFlow.class).matches("while(true){}") );
-		assertTrue( $s.of( _stmt._controlFlow._loop.class).matches(Stmts.of("for(int i=0;i<100;i++){}")) );
+		assertTrue( $s.of( _stmt._controlFlow._loop.class).matches(Stmt.of("for(int i=0;i<100;i++){}")) );
 		assertTrue( $s.of( _stmt._controlFlow._conditional.class).matches(_stmt.of("if(true){}")) );
 	}
 	
@@ -47,7 +47,7 @@ public class $stmtTest extends TestCase {
 		//assertTrue( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100"));
 		//IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		//ile.setComment(new BlockComment("Hello"));
-		WhileStmt ws = Stmts.whileStmt("while(true){}");
+		WhileStmt ws = Stmt.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
 		assertFalse( $s.of().$and(e -> !e.ast().getComment().isPresent()).matches(ws));
 		//assertFalse( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches(ile));
@@ -58,7 +58,7 @@ public class $stmtTest extends TestCase {
 		//assertFalse( $e.of().$not( e -> !e.ast().getComment().isPresent()).matches("100"));
 		//IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		//ile.setComment(new BlockComment("Hello"));
-		WhileStmt ws = Stmts.whileStmt("while(true){}");
+		WhileStmt ws = Stmt.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
 		assertTrue( $s.not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ws));
 		//assertTrue( $e.of().$not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ile));

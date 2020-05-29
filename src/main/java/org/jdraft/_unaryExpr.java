@@ -50,7 +50,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
     }
 
     public static _unaryExpr of(String...code){
-        return new _unaryExpr(Exprs.unaryExpr( code));
+        return new _unaryExpr(Expr.unaryExpr( code));
     }
 
     public static _feature._one<_unaryExpr, UnaryExpr.Operator> OPERATOR = new _feature._one<>(_unaryExpr.class, UnaryExpr.Operator.class,
@@ -79,7 +79,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.unaryExpr(stringRep));
+            return is( Expr.unaryExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

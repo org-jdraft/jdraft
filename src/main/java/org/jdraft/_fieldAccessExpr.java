@@ -31,41 +31,41 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
     }
 
     public static _fieldAccessExpr of(String...code){
-        return new _fieldAccessExpr(Exprs.fieldAccessExpr( code));
+        return new _fieldAccessExpr(Expr.fieldAccessExpr( code));
     }
 
-    public static <A extends Object> _fieldAccessExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _fieldAccessExpr of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _fieldAccessExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _fieldAccessExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _fieldAccessExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _fieldAccessExpr of(Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _fieldAccessExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _fieldAccessExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _fieldAccessExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _fieldAccessExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _fieldAccessExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _fieldAccessExpr of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _fieldAccessExpr from(LambdaExpr le){

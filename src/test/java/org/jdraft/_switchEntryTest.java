@@ -40,7 +40,7 @@ public class _switchEntryTest extends TestCase {
         System.out.println( _se );
         _se.setStatements(()-> System.out.println(2));
         assertTrue( _se.listAstStatements().size() == 1);
-        assertEquals(Stmts.of( ()->System.out.println(2)),  _se.getStatement(0));
+        assertEquals(Stmt.of( ()->System.out.println(2)),  _se.getStatement(0));
         Print.tree(_se.ast());
 
         _se.addStatements("System.out.println(2);", "System.out.println(3);");

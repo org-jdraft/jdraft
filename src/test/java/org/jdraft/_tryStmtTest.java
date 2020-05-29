@@ -145,7 +145,7 @@ public class _tryStmtTest extends TestCase {
         //_ts.ast().setResources()
         //_ts.ast().setFinallyBlock( );
 
-        _ts.ast().setTryBlock( Stmts.blockStmt(()->{
+        _ts.ast().setTryBlock( Stmt.blockStmt(()->{
             System.out.println(1);
         }));
     }

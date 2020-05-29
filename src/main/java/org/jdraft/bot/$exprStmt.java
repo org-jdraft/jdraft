@@ -5,7 +5,6 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import org.jdraft.*;
-import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -45,7 +44,7 @@ public class $exprStmt implements $bot.$node<ExpressionStmt, _exprStmt, $exprStm
         return of(_exprStmt.of(code));
     }
 
-    public static $exprStmt of(Exprs.Command lambdaWithMethodCall ){
+    public static $exprStmt of(Expr.Command lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -61,11 +60,11 @@ public class $exprStmt implements $bot.$node<ExpressionStmt, _exprStmt, $exprStm
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $exprStmt of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Expr.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $exprStmt of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Expr.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -77,11 +76,11 @@ public class $exprStmt implements $bot.$node<ExpressionStmt, _exprStmt, $exprStm
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $exprStmt of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Expr.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $exprStmt of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $exprStmt of(Expr.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 

@@ -239,7 +239,7 @@ public class SnodeTest extends TestCase {
         _class _c = _class.of(C.class);
         _c.astCompilationUnit().addImport(new ImportDeclaration("java.lang.System", false, false));
 
-        Expression scope = Exprs.fieldAccessExpr("System.out" ).asFieldAccessExpr().getScope();
+        Expression scope = Expr.fieldAccessExpr("System.out" ).asFieldAccessExpr().getScope();
         Tree.isParent(scope, FieldAccessExpr.class);
 
         Print.tree( ((_java._node)$.stmt("System.out.println(1);").firstIn(_c)).ast() );

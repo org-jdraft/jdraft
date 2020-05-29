@@ -18,7 +18,7 @@ public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStm
         return new _continueStmt( cs);
     }
     public static _continueStmt of(String...code){
-        return new _continueStmt(Stmts.continueStmt( code));
+        return new _continueStmt(Stmt.continueStmt( code));
     }
 
     public static _continueStmt to(String label){
@@ -46,7 +46,7 @@ public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStm
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.continueStmt(stringRep));
+            return is( Stmt.continueStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

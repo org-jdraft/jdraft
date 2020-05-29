@@ -15,7 +15,7 @@ public class ParseCommentTest extends TestCase {
     
     public void testParseCommentsOnExpressions(){
         
-        Exprs.lambdaExpr("/** */()->blah");
+        Expr.lambdaExpr("/** */()->blah");
         
         Statement st = StaticJavaParser.parseStatement(
             "class L{" 
@@ -32,7 +32,7 @@ public class ParseCommentTest extends TestCase {
     }
     
     public void testParseStmtComment(){
-        Statement st = Stmts.of("/** comment */ assert(true);");
+        Statement st = Stmt.of("/** comment */ assert(true);");
         assertTrue( st.getComment().isPresent());
         assertTrue( st.getComment().get().getContent().equals(" comment ") );
     }

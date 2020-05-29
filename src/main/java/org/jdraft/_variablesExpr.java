@@ -36,7 +36,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     public static _variablesExpr of(String...code){
-        return new _variablesExpr(Exprs.variablesExpr(code));
+        return new _variablesExpr(Expr.variablesExpr(code));
     }
 
     public static _feature._one<_variablesExpr, _modifiers> MODIFIERS = new _feature._one<>(_variablesExpr.class, _modifiers.class,
@@ -91,7 +91,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.variablesExpr(stringRep));
+            return is( Expr.variablesExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

@@ -30,7 +30,7 @@ import org.jdraft.text.Text;
  * Simplify the mediation between different representations of the same thing.
  * @author M. Eric DeFazio
  */
-public enum Exprs {
+public enum Expr {
     ;
 
     /**
@@ -42,7 +42,7 @@ public enum Exprs {
 
     /**
      * Functional interface for no input, no return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(Command)} operation
+     * (Used when we pass in Lambdas to the {@link Expr#lambdaExpr(Command)} operation
      * in order to get the LamdbaExpr AST from the Runtime to a 
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      */
@@ -53,7 +53,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (3) input, (1) return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(TriFunction)}
+     * (Used when we pass in Lambdas to the {@link Expr#lambdaExpr(TriFunction)}
      * operation
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <A>
@@ -68,7 +68,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (4) input PARAMETERS, (1) return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(QuadFunction)}
+     * (Used when we pass in Lambdas to the {@link Expr#lambdaExpr(QuadFunction)}
      * operation)
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <A>
@@ -84,7 +84,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (3) input PARAMETERS, no return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(TriConsumer)}
+     * (Used when we pass in Lambdas to the {@link Expr#lambdaExpr(TriConsumer)}
      * operation)
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <T>
@@ -98,7 +98,7 @@ public enum Exprs {
 
     /**
      * Functional interface for (4) input PARAMETERS, no return lambda function
-     * (Used when we pass in Lambdas to the {@link Exprs#lambdaExpr(QuadConsumer)}
+     * (Used when we pass in Lambdas to the {@link Expr#lambdaExpr(QuadConsumer)}
      * operation
      * {@link com.github.javaparser.ast.expr.LambdaExpr}
      * @param <T> any type
@@ -124,7 +124,7 @@ public enum Exprs {
      * @param c the runtime Lambda Expression
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    public static LambdaExpr of( Exprs.Command c ){
+    public static LambdaExpr of( Expr.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return lambdaExpr( ste );
     }
@@ -592,7 +592,7 @@ public enum Exprs {
         if( str.startsWith("{") && (str.endsWith( "}" ) ) ){
 
             //it could be an arrayInitialationExpresssion
-            Statement st = Stmts.of("Object[] unknown = "+str+";");
+            Statement st = Stmt.of("Object[] unknown = "+str+";");
             ArrayInitializerExpr aie = (ArrayInitializerExpr)
                 st.asExpressionStmt().getExpression().asVariableDeclarationExpr().getVariable(0).getInitializer().get();
             aie.removeForced();
@@ -670,12 +670,12 @@ public enum Exprs {
 
 
     public static NodeList<ArrayCreationLevel> arrayCreationLevels(String...code){
-        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
+        ArrayCreationExpr aae = Expr.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
         return aae.getLevels();
     }
 
     public static ArrayCreationLevel arrayCreationLevel(String...code){
-        ArrayCreationExpr aae = Exprs.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
+        ArrayCreationExpr aae = Expr.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
         return aae.getLevels().get(0);
     }
 
@@ -906,7 +906,7 @@ public enum Exprs {
      */
     public static ArrayInitializerExpr stringArrayInitExpr(String...strs ){
         ArrayInitializerExpr ae = new ArrayInitializerExpr();
-        Arrays.stream(strs).forEach( s -> ae.getValues().add( Exprs.stringExpr(s)));
+        Arrays.stream(strs).forEach( s -> ae.getValues().add( Expr.stringExpr(s)));
         return ae;
     }
 
@@ -959,7 +959,7 @@ public enum Exprs {
      */
     public static EnclosedExpr parenthesizedExpr(Function<? extends Object,? extends Object> lambdaWithFieldAccessInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
+        LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(EnclosedExpr.class).get();
     }
 
@@ -990,7 +990,7 @@ public enum Exprs {
      */
     public static FieldAccessExpr fieldAccessExpr(Function<? extends Object,? extends Object> lambdaWithFieldAccessInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
+        LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(FieldAccessExpr.class).get();
     }
 
@@ -1073,7 +1073,7 @@ public enum Exprs {
      * @param c a "command" or no arg, no return lambda implementation
      * @return the LambdaExpr instance
      */
-    public static LambdaExpr lambdaExpr(Exprs.Command c ){
+    public static LambdaExpr lambdaExpr(Expr.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return lambdaExpr( ste );
     }
@@ -1184,7 +1184,7 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object, U extends Object, V extends Object> LambdaExpr lambdaExpr(Exprs.TriConsumer<T, U, V> c ){
+    public static <T extends Object, U extends Object, V extends Object> LambdaExpr lambdaExpr(Expr.TriConsumer<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return lambdaExpr( ste );
     }
@@ -1201,7 +1201,7 @@ public enum Exprs {
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> LambdaExpr lambdaExpr(Exprs.QuadConsumer<A,B,C,D> c ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> LambdaExpr lambdaExpr(Expr.QuadConsumer<A,B,C,D> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return lambdaExpr( ste );
     }
@@ -1231,7 +1231,7 @@ public enum Exprs {
             String s = "Object UNKNOWN = "+ str +";";
             //Box <String> box = new Box <String> ("Jack");
             //System.out.println( s );
-            VariableDeclarationExpr vde =  Exprs.variablesExpr(s);
+            VariableDeclarationExpr vde =  Expr.variablesExpr(s);
             return (MethodCallExpr) vde.getVariable(0).getInitializer().get();
         }
         return of( code ).asMethodCallExpr();
@@ -1249,9 +1249,9 @@ public enum Exprs {
      * @return the MethodCallExpr Ast Node representing the first method call
      * in the lambda body
      */
-    public static MethodCallExpr methodCallExpr(Exprs.Command lambdaWithMethodCallInSource ){
+    public static MethodCallExpr methodCallExpr(Expr.Command lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
+        LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
 
@@ -1269,7 +1269,7 @@ public enum Exprs {
      */
     public static MethodCallExpr methodCallExpr(Consumer<? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
+        LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }    
     
@@ -1287,7 +1287,7 @@ public enum Exprs {
      */
     public static MethodCallExpr methodCallExpr(BiConsumer<? extends Object,? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
+        LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }  
     
@@ -1305,7 +1305,7 @@ public enum Exprs {
      */
     public static MethodCallExpr methodCallExpr(TriConsumer<? extends Object,? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
+        LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
     
@@ -1323,7 +1323,7 @@ public enum Exprs {
      */
     public static MethodCallExpr methodCallExpr(QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCallInSource ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        LambdaExpr astLambda = Exprs.lambdaExpr(ste);
+        LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(MethodCallExpr.class).get();
     }
 
@@ -1374,7 +1374,7 @@ public enum Exprs {
      * @return the ObjectCreationExpr model instance of the runtime instance
      */
     public static ObjectCreationExpr newExpr(Class clazz) {
-        return Exprs.newExpr("new "+clazz.getCanonicalName()+"()");
+        return Expr.newExpr("new "+clazz.getCanonicalName()+"()");
     }
 
     /**
@@ -1471,7 +1471,7 @@ public enum Exprs {
     }
     
     public static SuperExpr superExpr(String... expr ){
-        return (SuperExpr)Exprs.of( expr);
+        return (SuperExpr) Expr.of( expr);
         //return (SuperExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
@@ -1500,7 +1500,7 @@ public enum Exprs {
     }
     
     public static ThisExpr thisExpr(String... expr ){
-        return (ThisExpr)Exprs.of(expr);
+        return (ThisExpr) Expr.of(expr);
         //return (ThisExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
 
@@ -1555,7 +1555,7 @@ public enum Exprs {
      * @return 
      */
     public static VariableDeclarationExpr variablesExpr(String... code ) {
-        return (VariableDeclarationExpr)Exprs.of(code);
+        return (VariableDeclarationExpr) Expr.of(code);
         //return StaticJavaParser.parseVariableDeclarationExpr( Text.combine( code ));
     }    
     
@@ -1750,39 +1750,39 @@ public enum Exprs {
         }
         else if( o instanceof String ){
             try{
-                Expression e = Exprs.of( (String)o);
+                Expression e = Expr.of( (String)o);
                 return equal(exp , e );
             }catch(Exception e){
                 if( exp instanceof StringLiteralExpr ){
-                    return equal( exp, Exprs.stringExpr(o.toString()) );
+                    return equal( exp, Expr.stringExpr(o.toString()) );
                 }
             }
         }
         //handle All Wrapper types
         else if( o instanceof Number ||  o instanceof Boolean ){ //Int Float, etc.
-            return equal( Exprs.of(o.toString()), exp );
+            return equal( Expr.of(o.toString()), exp );
         }
         else if(o instanceof Character ){
-            return Objects.equals( Exprs.charExpr( (Character)o), exp );
+            return Objects.equals( Expr.charExpr( (Character)o), exp );
         }
         //arrays?
         else if( o.getClass().isArray() ){
             if( o.getClass().getComponentType().isPrimitive() ){
                 Class ct = o.getClass().getComponentType();
                 if( ct == int.class ){
-                    return equal(exp, Exprs.of( (int[])o) );
+                    return equal(exp, Expr.of( (int[])o) );
                 }
                 if( ct == float.class ){
-                    return equal(exp, Exprs.of( (float[])o) );
+                    return equal(exp, Expr.of( (float[])o) );
                 }
                 if( ct == double.class ){
-                    return equal(exp, Exprs.of( (double[])o) );
+                    return equal(exp, Expr.of( (double[])o) );
                 }
                 if( ct == boolean.class ){
-                    return equal(exp, Exprs.of( (boolean[])o) );
+                    return equal(exp, Expr.of( (boolean[])o) );
                 }
                 if( ct == char.class ){
-                    return equal(exp, Exprs.of( (char[])o) );
+                    return equal(exp, Expr.of( (char[])o) );
                 }
                 throw new _jdraftException("Only simple primitive types supported");
             } 

@@ -2,7 +2,7 @@ package test.byexample.pattern;
 
 import junit.framework.TestCase;
 import org.jdraft.text.Stencil;
-import org.jdraft.Stmts;
+import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft.pattern.*;
 
@@ -26,7 +26,7 @@ public class PatternQueryTest extends TestCase {
 
     public void testMatches(){
         assertTrue( $printOne.matches("System.out.print(1);") );
-        assertTrue($printOne.matches( Stmts.of(()->System.out.print(1)) ));
+        assertTrue($printOne.matches( Stmt.of(()->System.out.print(1)) ));
 
         assertFalse($printOne.matches("System.out.print(2);") );
     }

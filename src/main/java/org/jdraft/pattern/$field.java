@@ -92,7 +92,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
     }
 
     public static _field from( StackTraceElement ste, Object anonymousObjectWithField ){
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         FieldDeclaration fd = (FieldDeclaration) oce.getAnonymousClassBody().get().stream().filter(bd -> bd instanceof FieldDeclaration
                 && !bd.getAnnotationByClass(_remove.class).isPresent()).findFirst().get();
 
@@ -542,7 +542,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @return
      */
     public $field $init( String initPattern ){
-        this.init.exprStencil = Stencil.of(Exprs.of(initPattern).toString() );
+        this.init.exprStencil = Stencil.of(Expr.of(initPattern).toString() );
         return this;
     }
 

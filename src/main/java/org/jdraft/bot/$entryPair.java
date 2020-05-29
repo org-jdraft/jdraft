@@ -121,7 +121,7 @@ public class $entryPair
     private $entryPair() { }
 
     public $entryPair(String name, String value) {
-        this(name, Exprs.of(value));
+        this(name, Expr.of(value));
     }
 
     public $entryPair(String name, Expression value) {

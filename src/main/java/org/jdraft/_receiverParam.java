@@ -147,7 +147,7 @@ public final class _receiverParam
         if( this.astReceiverParam == other.astReceiverParam ) {
             return true; //two _receiverParameter s pointing to the same ReceiverParameter
         }
-        if( ! Exprs.equalAnnos(this.astReceiverParam, other.astReceiverParam)){
+        if( ! Expr.equalAnnos(this.astReceiverParam, other.astReceiverParam)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {
@@ -171,7 +171,7 @@ public final class _receiverParam
     public int hashCode() {
         int hash = 7;
         //hash = 97 * hash + Ast.annotationsHash( astReceiverParam ); //Objects.hashCode( this.getAnnos() );
-        hash = 97 * hash + Exprs.hashAnnos(astReceiverParam);
+        hash = 97 * hash + Expr.hashAnnos(astReceiverParam);
         hash = 97 * hash + Objects.hashCode( this.getName() );
         hash = 97 * hash + Types.hash( astReceiverParam.getType()); //Objects.hashCode( this.getType() );
         return hash;

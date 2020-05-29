@@ -64,7 +64,7 @@ public class _switchStmtTest extends TestCase {
     }
 
     public void testEE(){
-        Expression ee = Exprs.of("com.github.javaparser.ast.expr.LongLiteralExpr");
+        Expression ee = Expr.of("com.github.javaparser.ast.expr.LongLiteralExpr");
         System.out.println( ee.getClass() );
         System.out.println( ee );
     }
@@ -233,7 +233,7 @@ public class _switchStmtTest extends TestCase {
            throw new RuntimeException("Bad key "+a);
         });
 
-        assertEquals( _ss.getDefault().getStatement(0), Stmts.of( (String a)->{ throw new RuntimeException("Bad key "+ a);}) );
+        assertEquals( _ss.getDefault().getStatement(0), Stmt.of( (String a)->{ throw new RuntimeException("Bad key "+ a);}) );
         System.out.println( _ss );
     }
 

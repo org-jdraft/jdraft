@@ -23,45 +23,45 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         return new _methodCallExpr(mce);
     }
     public static _methodCallExpr of(String...code){
-        return new _methodCallExpr(Exprs.methodCallExpr( code));
+        return new _methodCallExpr(Expr.methodCallExpr( code));
     }
 
-    public static <A extends Object> _methodCallExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _methodCallExpr of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _methodCallExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _methodCallExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _methodCallExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _methodCallExpr of(Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _methodCallExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _methodCallExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _methodCallExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _methodCallExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _methodCallExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _methodCallExpr of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static _methodCallExpr from (StackTraceElement ste ){
-        return from(Exprs.lambdaExpr( ste ));
+        return from(Expr.lambdaExpr( ste ));
     }
 
     public static _methodCallExpr from(LambdaExpr le){

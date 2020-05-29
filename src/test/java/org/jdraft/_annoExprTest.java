@@ -421,7 +421,7 @@ public class _annoExprTest extends TestCase {
     }
     
     public void testMissingTypeUseAnnotationOnObjectCreationExpr(){
-        ExpressionStmt es = (ExpressionStmt)Stmts.exprStmt("N n = new @Test N();");
+        ExpressionStmt es = (ExpressionStmt) Stmt.exprStmt("N n = new @Test N();");
         VariableDeclarationExpr vd = es.getExpression().asVariableDeclarationExpr();
         VariableDeclarator var = vd.getVariable(0);
         ObjectCreationExpr init = (ObjectCreationExpr)var.getInitializer().get();
@@ -430,7 +430,7 @@ public class _annoExprTest extends TestCase {
     }
     
     public void testTypeAnn(){
-        Statement st = Stmts.of("@Test List<@Test String> emails = new @Test ArrayList();");
+        Statement st = Stmt.of("@Test List<@Test String> emails = new @Test ArrayList();");
         AtomicInteger ai = new AtomicInteger(0);
         st.walk(Ast.Classes.ANNOTATION_EXPR, a-> ai.incrementAndGet() );
         System.out.println( st );
@@ -446,24 +446,24 @@ public class _annoExprTest extends TestCase {
     /** Fix not merged yet */
     public void testObjectConstructionAnno(){
         //Statement st = Stmt.of( () -> {Integer i = new @Test Integer(100);} );
-        Statement st = Stmts.of( "Integer i = new @Test Integer(100);");
+        Statement st = Stmt.of( "Integer i = new @Test Integer(100);");
         System.out.println( st );
         assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testCastAnno(){
-        Statement st = Stmts.of( () -> {Integer i = (@Test Integer)100;} );
+        Statement st = Stmt.of( () -> {Integer i = (@Test Integer)100;} );
         assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testInstanceOfAnno(){        
         Integer i = 0;        
-        Statement st = Stmts.of( () ->{boolean b = i instanceof @Test Number;});
+        Statement st = Stmt.of( () ->{boolean b = i instanceof @Test Number;});
         assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
     public void testVar(){
-        Statement st = Stmts.of( () ->{ @Test boolean b = false;});
+        Statement st = Stmt.of( () ->{ @Test boolean b = false;});
         assertEquals(1, $annoRef.of(Test.class).countIn(st));//verify we can find the anno
     }
     
@@ -480,7 +480,7 @@ public class _annoExprTest extends TestCase {
     
     public void testNestedClassAnno(){
         NestedClass nc = new _annoExprTest. @Test NestedClass();
-        Statement st = Stmts.of("NestedClass nc = new _annoTest. @Test NestedClass();");
+        Statement st = Stmt.of("NestedClass nc = new _annoTest. @Test NestedClass();");
         System.out.println( st );
         assertEquals(1, $annoRef.of(Test.class).countIn( st ));
     }
@@ -513,7 +513,7 @@ public class _annoExprTest extends TestCase {
     
     
     public void testT(){
-        Statement st = Stmts.of("new  @Test  MyObject();");
+        Statement st = Stmt.of("new  @Test  MyObject();");
         assertEquals( 1, $annoRef.of(Test.class).countIn( st ));
         System.out.println( st );
     }
@@ -603,9 +603,9 @@ public class _annoExprTest extends TestCase {
     public void testAnnoHasAttr(){
         _annoExpr _a = _annoExpr.of("a(1)");
         _annoExpr _b = _annoExpr.of("a(x=1)");
-        assertTrue( _a.hasPair("value", Exprs.of(1)) );
+        assertTrue( _a.hasPair("value", Expr.of(1)) );
         assertTrue( _a.hasPair("value", 1) );
-        assertTrue( _b.hasPair("x", Exprs.of(1)) );
+        assertTrue( _b.hasPair("x", Expr.of(1)) );
         assertTrue( _b.hasPair("x", 1) );
         
         assertTrue( _b.hasPair("x=1") );
@@ -638,11 +638,11 @@ public class _annoExprTest extends TestCase {
         assertTrue( _a.hasPair("value", 1) );
         assertTrue( _a.hasPair("value", 1));
 
-        Exprs.of(new int[]{1,2,3});
+        Expr.of(new int[]{1,2,3});
         _annoExpr _b = _annoExpr.of("B(k=1,v={'a','b'})");
         assertTrue( _b.hasPair("k", 1) );
         assertTrue( _b.hasPair("v", new char[]{'a', 'b'}) );
-        assertTrue( _b.hasPair("v", Exprs.of('a', 'b')) );
+        assertTrue( _b.hasPair("v", Expr.of('a', 'b')) );
     }
 
     public void test23Draft(){
@@ -717,16 +717,16 @@ public class _annoExprTest extends TestCase {
 
         //to a Single Value Annotation
         _a.setPairValue( 0, 100 );
-        assertEquals( _a.getPairValue( 0 ), Exprs.of(100) );
+        assertEquals( _a.getPairValue( 0 ), Expr.of(100) );
 
         //to a Normal Annotation
         _a.addPair( "k", 200 );
-        assertEquals( _a.getPairValue( 0 ), Exprs.of(200) );
-        assertEquals( _a.getPairValue( "k" ), Exprs.of(200) );
+        assertEquals( _a.getPairValue( 0 ), Expr.of(200) );
+        assertEquals( _a.getPairValue( "k" ), Expr.of(200) );
 
         _a.addPair( "v", 300 );
-        assertEquals( _a.getPairValue( 1 ), Exprs.of(300) );
-        assertEquals( _a.getPairValue( "v" ), Exprs.of(300) );
+        assertEquals( _a.getPairValue( 1 ), Expr.of(300) );
+        assertEquals( _a.getPairValue( "v" ), Expr.of(300) );
 
         assertEquals( 2, _a.listPairs().size());
 

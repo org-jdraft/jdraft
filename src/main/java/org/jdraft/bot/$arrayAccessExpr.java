@@ -227,7 +227,7 @@ public class $arrayAccessExpr
 
     public Select<_arrayAccessExpr> select(String... str){
         try{
-            return select(Exprs.arrayAccessExpr(Text.combine(str)));
+            return select(Expr.arrayAccessExpr(Text.combine(str)));
         } catch(Exception e){
             return null;
         }

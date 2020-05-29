@@ -5,7 +5,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
-import org.jdraft.Exprs;
+import org.jdraft.Expr;
 import org.jdraft._annoExpr;
 import org.jdraft._annoExprs;
 import org.jdraft._jdraftException;
@@ -85,7 +85,7 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
      */
     public static $annoExprs of(Object anonymousObjectWithAnnotations ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr( ste );
+        ObjectCreationExpr oce = Expr.newExpr( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( _annoExprs.of(bd) );
@@ -117,7 +117,7 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
      */
     public static $annoExprs as(Object anonymousObjectWitAnnotations ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr( ste );
+        ObjectCreationExpr oce = Expr.newExpr( ste );
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return as( bd );

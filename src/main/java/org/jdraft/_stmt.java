@@ -114,9 +114,9 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    static _stmt of(Exprs.Command c ){
+    static _stmt of(Expr.Command c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return of(Stmts.from( ste ));
+        return of(Stmt.from( ste ));
     }
 
     /**
@@ -136,7 +136,7 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
      */
     static <T extends Object> _stmt of(Consumer<T> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return of(Stmts.from( ste ));
+        return of(Stmt.from( ste ));
     }
 
     /**
@@ -157,7 +157,7 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
      */
     static <T extends Object, U extends Object> _stmt of(BiConsumer<T, U> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return of( Stmts.from( ste ));
+        return of( Stmt.from( ste ));
     }
 
     /**
@@ -177,9 +177,9 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    static <T extends Object, U extends Object, V extends Object> _stmt of(Exprs.TriConsumer<T, U, V> c ){
+    static <T extends Object, U extends Object, V extends Object> _stmt of(Expr.TriConsumer<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return of( Stmts.from( ste ));
+        return of( Stmt.from( ste ));
     }
 
     /**
@@ -200,13 +200,13 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
      * @param c the lambda
      * @return the AST LambdaExpr representation for the runtime Command
      */
-    static <T extends Object, U extends Object, V extends Object, W extends Object> _stmt of(Exprs.QuadConsumer<T, U, V, W> c ){
+    static <T extends Object, U extends Object, V extends Object, W extends Object> _stmt of(Expr.QuadConsumer<T, U, V, W> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        return of( Stmts.from(ste) );
+        return of( Stmt.from(ste) );
     }
 
     static _stmt of(String...stmtCode ){
-        return of(Stmts.of(stmtCode));
+        return of(Stmt.of(stmtCode));
     }
 
     static _stmt of(Statement astStatement){

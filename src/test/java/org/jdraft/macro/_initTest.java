@@ -1,6 +1,6 @@
 package org.jdraft.macro;
 
-import org.jdraft.Exprs;
+import org.jdraft.Expr;
 import org.jdraft._class;
 import org.jdraft._field;
 import junit.framework.TestCase;
@@ -9,8 +9,8 @@ public class _initTest extends TestCase {
 
     public void testF(){
         _field _f = _field.of( "int i" );
-        _init.Act.to(_f.ast(), Exprs.of(100));
-        assertEquals( Exprs.of(100), _f.getInitNode() );
+        _init.Act.to(_f.ast(), Expr.of(100));
+        assertEquals( Expr.of(100), _f.getInitNode() );
     }
 
     public void testAnno(){
@@ -19,6 +19,6 @@ public class _initTest extends TestCase {
                 @_init("1") int f;
             //}
         });
-        assertEquals( Exprs.of(1), _c.getField("f").getInitNode());
+        assertEquals( Expr.of(1), _c.getField("f").getInitNode());
     }
 }

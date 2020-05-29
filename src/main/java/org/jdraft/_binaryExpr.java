@@ -49,7 +49,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public static _binaryExpr of(String...code){
-        return new _binaryExpr(Exprs.binaryExpr( code));
+        return new _binaryExpr(Expr.binaryExpr( code));
     }
 
     public static _binaryExpr of(Expression left, BinaryExpr.Operator operator, Expression right ){
@@ -61,42 +61,42 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public static <A extends Object> _binaryExpr of(Supplier s){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object> _binaryExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _binaryExpr of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _binaryExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _binaryExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _binaryExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _binaryExpr of(Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _binaryExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _binaryExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _binaryExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _binaryExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _binaryExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _binaryExpr of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _binaryExpr from(LambdaExpr le){
@@ -108,61 +108,61 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public static _binaryExpr or(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.OR));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.OR));
     }
     public static _binaryExpr and(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.AND));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.AND));
     }
     public static _binaryExpr bitwiseOr(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.BINARY_OR));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.BINARY_OR));
     }
     public static _binaryExpr bitwiseAnd(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.BINARY_AND));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.BINARY_AND));
     }
     public static _binaryExpr xor(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.XOR));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.XOR));
     }
     public static _binaryExpr equal(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.EQUALS));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.EQUALS));
     }
     public static _binaryExpr notEqual(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.NOT_EQUALS));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.NOT_EQUALS));
     }
     public static _binaryExpr less(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.LESS));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.LESS));
     }
     public static _binaryExpr greater(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.GREATER));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.GREATER));
     }
     public static _binaryExpr lessOrEqual(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.LESS_EQUALS));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.LESS_EQUALS));
     }
     public static _binaryExpr greaterOrEqual(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.GREATER_EQUALS));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.GREATER_EQUALS));
     }
     public static _binaryExpr leftShift(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.LEFT_SHIFT));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.LEFT_SHIFT));
     }
     public static _binaryExpr rightShiftSigned(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.SIGNED_RIGHT_SHIFT));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.SIGNED_RIGHT_SHIFT));
     }
     public static _binaryExpr rightShiftUnsigned(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.UNSIGNED_RIGHT_SHIFT));
     }
     public static _binaryExpr plus(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.PLUS));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.PLUS));
     }
     public static _binaryExpr minus(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.MINUS));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.MINUS));
     }
     public static _binaryExpr multiply(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.MULTIPLY));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.MULTIPLY));
     }
     public static _binaryExpr divide(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.DIVIDE));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.DIVIDE));
     }
     public static _binaryExpr remainder(String left, String right){
-        return new _binaryExpr( new BinaryExpr(Exprs.of(left), Exprs.of(right), BinaryExpr.Operator.REMAINDER));
+        return new _binaryExpr( new BinaryExpr(Expr.of(left), Expr.of(right), BinaryExpr.Operator.REMAINDER));
     }
 
     public static _binaryExpr or(Expression left, Expression right){
@@ -254,7 +254,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.binaryExpr(stringRep));
+            return is( Expr.binaryExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -283,7 +283,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
 
     public boolean isLeft(String... left){
         try{
-            return isLeft(Exprs.of(left));
+            return isLeft(Expr.of(left));
         }catch(Exception e){
             return false;
         }
@@ -307,7 +307,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
 
     public boolean isRight(String... right){
         try{
-            return isRight(Exprs.of(right));
+            return isRight(Expr.of(right));
         }catch(Exception e){
             return false;
         }
@@ -479,7 +479,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public _binaryExpr setLeft(String... code){
-        return setLeft( Exprs.of(code));
+        return setLeft( Expr.of(code));
     }
 
     public _binaryExpr setRight(Expression e){
@@ -492,7 +492,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public _binaryExpr setRight(String... code){
-        return setRight( Exprs.of(code));
+        return setRight( Expr.of(code));
     }
 
     public boolean equals(Object other){

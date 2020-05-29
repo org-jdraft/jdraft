@@ -30,46 +30,46 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         return new _castExpr(ce);
     }
     public static _castExpr of(String...code){
-        return new _castExpr(Exprs.castExpr( code));
+        return new _castExpr(Expr.castExpr( code));
     }
 
-    public static <A extends Object> _castExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _castExpr of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _castExpr of(Supplier<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _castExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _castExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _castExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _castExpr of(Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _castExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _castExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _castExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _castExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _castExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _castExpr of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _castExpr from(LambdaExpr le){
@@ -106,7 +106,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.castExpr(stringRep));
+            return is( Expr.castExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -180,11 +180,11 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
     }
 
     public boolean isExpression( Expression e){
-        return Exprs.equal(e, this.ce.getExpression());
+        return Expr.equal(e, this.ce.getExpression());
     }
 
     public boolean isExpression( _expr _e){
-        return Exprs.equal(_e.ast(), this.ce.getExpression());
+        return Expr.equal(_e.ast(), this.ce.getExpression());
     }
 
     public int hashCode(){

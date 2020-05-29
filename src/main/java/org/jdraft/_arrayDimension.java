@@ -4,7 +4,6 @@ import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.expr.Expression;
 import org.jdraft.text.Text;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -29,7 +28,7 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
     }
 
     public static _arrayDimension of(int index){
-        return new _arrayDimension(new ArrayCreationLevel().setDimension( Exprs.of(index) ));
+        return new _arrayDimension(new ArrayCreationLevel().setDimension( Expr.of(index) ));
     }
 
     public static _arrayDimension of(){
@@ -45,7 +44,7 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
         if( s.startsWith("[") ){
             s = s.substring(1, s.length() - 1);
         }
-        return of( Exprs.of(s));
+        return of( Expr.of(s));
     }
 
     public static _arrayDimension of(Expression e){
@@ -77,7 +76,7 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.arrayCreationLevel(stringRep));
+            return is( Expr.arrayCreationLevel(stringRep));
         } catch(Exception e){
             return false;
         }
@@ -90,7 +89,7 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
         return null;
     }
     public _arrayDimension setExpression(String... dimension){
-        this.astNode.setDimension(Exprs.of(dimension));
+        this.astNode.setDimension(Expr.of(dimension));
         return this;
     }
 

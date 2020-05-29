@@ -6,7 +6,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import junit.framework.TestCase;
 import org.jdraft.Ast;
-import org.jdraft.Exprs;
+import org.jdraft.Expr;
 import org.jdraft._class;
 import org.jdraft.macro._final;
 import org.jdraft.macro._public;
@@ -48,7 +48,7 @@ public class ASCIITreePrinterTest extends TestCase {
     }
 
     public void testPrint(){
-        ObjectCreationExpr oce = Exprs.newExpr(
+        ObjectCreationExpr oce = Expr.newExpr(
                 "new Object(){\n"+
                 "    int i;\n"+
                 "}");
@@ -65,7 +65,7 @@ public class ASCIITreePrinterTest extends TestCase {
     }
 
     public void testPrintCustomPrintFn(){
-        ObjectCreationExpr oce = Exprs.newExpr( "new Object(){"+System.lineSeparator()+"int i;"+System.lineSeparator()+"}");
+        ObjectCreationExpr oce = Expr.newExpr( "new Object(){"+System.lineSeparator()+"int i;"+System.lineSeparator()+"}");
 
         //here we pass in a Function to tell how each node is printed (here uses the ClassSimpleName and Range)
         ASCIITreePrinter.print(oce, n-> "["+ ASCIITreePrinter.nodeSummary(n)+"] "+n.getClass().getSimpleName()+" : " +n.getRange().get() );

@@ -75,7 +75,7 @@ public class $annoExpr
      */
     public static $annoExpr of(Object anonymousObjectWithAnnotation) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty()).findFirst().get();
         return of(_annoExpr.of(bd.getAnnotation(0)));
@@ -242,7 +242,7 @@ public class $annoExpr
 
         Object val = kvs.get(this.entryPairs.getMatchAllName());
         if (val != null) {
-            this.entryPairs.add($entryPair.of(Exprs.of(val.toString())));
+            this.entryPairs.add($entryPair.of(Expr.of(val.toString())));
             this.entryPairs.setMatchAll(false);
         }
         this.entryPairs.$hardcode(translator, kvs);

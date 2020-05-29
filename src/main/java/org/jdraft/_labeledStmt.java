@@ -23,41 +23,41 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         return new _labeledStmt(ls);
     }
     public static _labeledStmt of(String...code){
-        return new _labeledStmt(Stmts.labeledStmt( code));
+        return new _labeledStmt(Stmt.labeledStmt( code));
     }
 
-    public static <A extends Object> _labeledStmt of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _labeledStmt of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _labeledStmt of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _labeledStmt of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _labeledStmt of( Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _labeledStmt of( Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _labeledStmt of( Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _labeledStmt of( BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _labeledStmt of( Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _labeledStmt from( LambdaExpr le){
@@ -95,7 +95,7 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.labeledStmt(stringRep));
+            return is( Stmt.labeledStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -123,7 +123,7 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
 
 
     public _labeledStmt setStatement(String...st){
-        return setStatement( Stmts.of(st) );
+        return setStatement( Stmt.of(st) );
     }
 
     public _labeledStmt setStatement(_stmt _st){

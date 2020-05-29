@@ -5,7 +5,7 @@
  */
 package test.othertools;
 
-import org.jdraft.Exprs;
+import org.jdraft.Expr;
 import org.jdraft._type;
 import junit.framework.TestCase;
 import org.jdraft.bot.$intExpr;
@@ -72,7 +72,7 @@ public class SwiftSyntaxTest extends TestCase {
         assertTrue( _t.getField("y").is("int y = 3001") );
         
         assertTrue( _t.getField("b").is("int b = 2") );
-        assertEquals( Exprs.parseInt( _t.getField("hex").getInitNode().asIntegerLiteralExpr().getValue() ),
+        assertEquals( Expr.parseInt( _t.getField("hex").getInitNode().asIntegerLiteralExpr().getValue() ),
             new Integer(0xDEAE) );
     }
     

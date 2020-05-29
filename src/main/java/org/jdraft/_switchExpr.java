@@ -68,7 +68,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         throw new _jdraftException("No switch expression in lambdaExpr"+System.lineSeparator()+ le);
     }
 
-    public static _switchExpr of(Exprs.Command lambdaContainer){
+    public static _switchExpr of(Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -88,12 +88,12 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchExpr of (Exprs.TriFunction<A,B,C, D> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchExpr of (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchExpr of (Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchExpr of (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -103,12 +103,12 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object> _switchExpr of(Exprs.TriConsumer<A,B,C> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object> _switchExpr of(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchExpr of(Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchExpr of(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -141,7 +141,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     @Override
     public boolean is(String... stringRep) {
         try {
-            return is(Exprs.switchExpr(stringRep));
+            return is(Expr.switchExpr(stringRep));
         }catch(Exception e){ //string could be invalid
             return false;
         }
@@ -210,7 +210,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     }
 
     public boolean isSwitchSelector(String... selector){
-        return Objects.equals( this.switchExpr.getSelector(), Exprs.of(selector));
+        return Objects.equals( this.switchExpr.getSelector(), Expr.of(selector));
     }
 
     public boolean isSwitchSelector(_expr e){
@@ -253,7 +253,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public _switchExpr setSwitchSelector(String... switchSelector){
-        this.switchExpr.setSelector(Exprs.of(switchSelector));
+        this.switchExpr.setSelector(Expr.of(switchSelector));
         return this;
     }
 
@@ -332,7 +332,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     public _switchExpr setDefault(String...code){
         //the code COULD be an expression or a statement or a group of statements
         try {
-            Expression e = Exprs.of(code);
+            Expression e = Expr.of(code);
             setDefault(e);
             return this;
         }catch(Exception ex){

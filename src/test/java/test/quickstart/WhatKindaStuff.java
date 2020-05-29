@@ -2,7 +2,7 @@ package test.quickstart;
 
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import junit.framework.TestCase;
-import org.jdraft.Stmts;
+import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft._project;
 import org.jdraft.io._path;
@@ -121,7 +121,7 @@ public class WhatKindaStuff extends TestCase {
         _class _c = _class.of(C.class);
         $stmt $println = $stmt.of("System.out.println($any$);");
         $stmt.of("return $any$;").forSelectedIn(_c,
-                s-> Stmts.addStatementsBefore( s.ast(), $println.draft( "any", s.get("any")).ast()) );
+                s-> Stmt.addStatementsBefore( s.ast(), $println.draft( "any", s.get("any")).ast()) );
 
         _runtime _r  = _runtime.of(_c);
         assertEquals( 100, _r.eval("new C().m()"));

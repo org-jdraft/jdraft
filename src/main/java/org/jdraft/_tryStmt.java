@@ -22,41 +22,41 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return new _tryStmt(ts);
     }
     public static _tryStmt of(String...code){
-        return new _tryStmt(Stmts.tryStmt(code));
+        return new _tryStmt(Stmt.tryStmt(code));
     }
 
-    public static <A extends Object> _tryStmt of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _tryStmt of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _tryStmt of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _tryStmt of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _tryStmt of( Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _tryStmt of( Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _tryStmt of( Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _tryStmt of( BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _tryStmt of( Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
 
@@ -144,7 +144,7 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return this;
     }
 
-    public  <A extends Object> _tryStmt setTryBody(Exprs.Command lambdaWithBody){
+    public  <A extends Object> _tryStmt setTryBody(Expr.Command lambdaWithBody){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return setTryBody(bdy);
     }
@@ -164,12 +164,12 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Exprs.TriFunction<A,B,C,D> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Expr.TriFunction<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt setTryBody(Exprs.QuadFunction<A,B,C,D,E> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt setTryBody(Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return setTryBody(bdy);
     }
@@ -179,12 +179,12 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object>  _tryStmt setTryBody(Exprs.TriConsumer<A,B,C> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object>  _tryStmt setTryBody(Expr.TriConsumer<A,B,C> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return setTryBody(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Exprs.QuadConsumer<A,B,C,D> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt setTryBody(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return setTryBody(bdy);
     }
@@ -210,7 +210,7 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return this;
     }
 
-    public  <A extends Object> _tryStmt addTry(Exprs.Command lambdaWithBody){
+    public  <A extends Object> _tryStmt addTry(Expr.Command lambdaWithBody){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return addTry(bdy);
     }
@@ -230,12 +230,12 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Exprs.TriFunction<A,B,C,D> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Expr.TriFunction<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt addTry(Exprs.QuadFunction<A,B,C,D,E> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object, E extends Object>  _tryStmt addTry(Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return addTry(bdy);
     }
@@ -245,12 +245,12 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object>  _tryStmt addTry(Exprs.TriConsumer<A,B,C> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object>  _tryStmt addTry(Expr.TriConsumer<A,B,C> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return addTry(bdy);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Exprs.QuadConsumer<A,B,C,D> lambdaWithBody ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object>  _tryStmt addTry(Expr.QuadConsumer<A,B,C,D> lambdaWithBody ){
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return addTry(bdy);
     }
@@ -309,7 +309,7 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
     }
 
     public _tryStmt addWithResources(String...exs){
-        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(Exprs.of(e)));
+        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(Expr.of(e)));
         return this;
     }
 

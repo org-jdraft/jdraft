@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.Function;
 
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.Type;
 
@@ -215,7 +214,7 @@ public final class _param
         int hash = 7;
         hash = 71 * hash +
                 Objects.hash( 
-                        Exprs.hashAnnos(astParameter),
+                        Expr.hashAnnos(astParameter),
                         this.getName(),
                         Types.hash(astParameter.getType()),
                         this.isVarArg(),
@@ -248,7 +247,7 @@ public final class _param
         if( left.isFinal() != right.isFinal()){
             return false;
         }
-        if( ! Exprs.equalAnnos(left, right)){
+        if( ! Expr.equalAnnos(left, right)){
             return false;
         }
         if( ! Types.equal(left.getType(), right.getType())){
@@ -281,7 +280,7 @@ public final class _param
         if( !Types.equal(astParameter.getType(), other.astParameter.getType())){
             return false;
         }
-        if( !Exprs.equalAnnos(astParameter, other.astParameter)){
+        if( !Expr.equalAnnos(astParameter, other.astParameter)){
             return false;
         }
         return true;

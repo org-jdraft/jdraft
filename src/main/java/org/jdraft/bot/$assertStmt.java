@@ -41,7 +41,7 @@ public class $assertStmt extends $baseBot<_assertStmt, $assertStmt>
         return of(_assertStmt.of(code));
     }
 
-    public static $assertStmt of(Exprs.Command lambdaWithMethodCall ){
+    public static $assertStmt of(Expr.Command lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -57,11 +57,11 @@ public class $assertStmt extends $baseBot<_assertStmt, $assertStmt>
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Expr.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Expr.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -73,11 +73,11 @@ public class $assertStmt extends $baseBot<_assertStmt, $assertStmt>
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Expr.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $assertStmt of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
+    public static $assertStmt of(Expr.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithMethodCall ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 

@@ -3,8 +3,8 @@ package org.jdraft.pattern;
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
 import com.github.javaparser.ast.stmt.WhileStmt;
 import junit.framework.TestCase;
-import org.jdraft.Exprs;
-import org.jdraft.Stmts;
+import org.jdraft.Expr;
+import org.jdraft.Stmt;
 import org.jdraft._booleanExpr;
 import org.jdraft._jdraftException;
 
@@ -45,7 +45,7 @@ public class $booleanTest extends TestCase {
                             b.ast().getParentNode().get().getClass() == WhileStmt.class);
 
     public void testChildOfWhile() {
-        WhileStmt ws = (WhileStmt) Stmts.of("while(true){ }");
+        WhileStmt ws = (WhileStmt) Stmt.of("while(true){ }");
         assertTrue($CHILDOFWHILE.match(ws.getCondition()));
     }
 
@@ -79,7 +79,7 @@ public class $booleanTest extends TestCase {
 
 
     public void testAst() {
-        $ex.Select s = $ANY.select(Exprs.booleanExpr("true"));
+        $ex.Select s = $ANY.select(Expr.booleanExpr("true"));
         assertEquals(_booleanExpr.of(true), s._ex);
     }
 

@@ -2,7 +2,7 @@ package org.jdraft.pattern;
 
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import junit.framework.TestCase;
-import org.jdraft.Stmts;
+import org.jdraft.Stmt;
 import org.jdraft._class;
 import org.jdraft._labeledStmt;
 
@@ -41,9 +41,9 @@ public class SpatternBlockBodyTest extends TestCase {
          $stmt $println = $stmt.of( (Object $any$)-> System.out.println($any$) );
 
          assertEquals( 3, $pattern.BlockScope.listAllBefore(ls, $println ).size() );
-         assertEquals( Stmts.of(()->System.out.println(5) ), $pattern.BlockScope.findPrevious(ls, $println ) );
+         assertEquals( Stmt.of(()->System.out.println(5) ), $pattern.BlockScope.findPrevious(ls, $println ) );
          assertEquals( 2, $pattern.BlockScope.listAllAfter(ls, $println ).size() );
-         assertEquals( Stmts.of(()->System.out.println(7) ), $pattern.BlockScope.findNext(ls, $println ) );
+         assertEquals( Stmt.of(()->System.out.println(7) ), $pattern.BlockScope.findNext(ls, $println ) );
 
          //System.out.println( "BEFORE   " + $pattern.BlockScope.listAllBefore(ls, $println ) );
          //System.out.println( "PREVIOUS " + $pattern.BlockScope.findPrevious(ls, $println ) );
@@ -84,12 +84,12 @@ public class SpatternBlockBodyTest extends TestCase {
         $stmt $println = $stmt.of( (Object $any$)-> System.out.println($any$) );
 
         assertEquals( 5, $pattern.BodyScope.listAllBefore(ls, $println ).size() );
-        assertEquals( Stmts.of(()->System.out.println(5) ), $pattern.BodyScope.findPrevious(ls, $println ) );
+        assertEquals( Stmt.of(()->System.out.println(5) ), $pattern.BodyScope.findPrevious(ls, $println ) );
 
         System.out.println( $pattern.BodyScope.listAllAfter(ls, $println) );
 
         assertEquals( 3, $pattern.BodyScope.listAllAfter(ls, $println ).size() );
-        assertEquals( Stmts.of(()->System.out.println(7) ), $pattern.BodyScope.findNext(ls, $println ) );
+        assertEquals( Stmt.of(()->System.out.println(7) ), $pattern.BodyScope.findNext(ls, $println ) );
 
         //System.out.println( "BEFORE   " + $pattern.BlockScope.listAllBefore(ls, $println ) );
         //System.out.println( "PREVIOUS " + $pattern.BlockScope.findPrevious(ls, $println ) );

@@ -27,42 +27,42 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         return new _instanceOfExpr(ie);
     }
     public static _instanceOfExpr of(String...code){
-        return new _instanceOfExpr(Exprs.instanceOfExpr( code));
+        return new _instanceOfExpr(Expr.instanceOfExpr( code));
     }
 
 
-    public static <A extends Object> _instanceOfExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _instanceOfExpr of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _instanceOfExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _instanceOfExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _instanceOfExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _instanceOfExpr of(Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOfExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOfExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _instanceOfExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _instanceOfExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOfExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _instanceOfExpr of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _instanceOfExpr from(LambdaExpr le){
@@ -99,7 +99,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.instanceOfExpr(stringRep));
+            return is( Expr.instanceOfExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -159,7 +159,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
     }
 
     public _instanceOfExpr setExpression(String...expr){
-        this.ioe.setExpression(Exprs.of(expr) );
+        this.ioe.setExpression(Expr.of(expr) );
         return this;
     }
 

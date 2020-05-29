@@ -38,11 +38,6 @@ public enum Comments {
         return found;
     }
 
-    /*
-    public static void forEachIn( _java._node _node, Consumer<com.github.javaparser.ast.comments.Comment> commentActionFn) {
-
-    }
-     */
     /**
      * Given an AST node, walk check its comments (in order)
      *
@@ -215,5 +210,10 @@ public enum Comments {
             }
             return 1;
         }
+    }
+    public static class Classes{
+        public static final Class<LineComment> LINE_COMMENT = LineComment.class;
+        public static final Class<BlockComment> BLOCK_COMMENT = BlockComment.class;
+        public static final Class<JavadocComment> JAVADOC_COMMENT = JavadocComment.class;
     }
 }

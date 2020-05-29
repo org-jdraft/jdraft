@@ -34,11 +34,11 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
     }
 
     static $stmt of(String code) {
-        return of( Stmts.of(code));
+        return of( Stmt.of(code));
     }
 
     static $stmt of(String... code) {
-        return of( Stmts.of(code));
+        return of( Stmt.of(code));
     }
 
     static $stmt of(_stmt<?, ?> _e) {
@@ -52,53 +52,53 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
         return new $s().$and(expressionClasses);
     }
 
-    static $stmt of(Exprs.Command lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+    static $stmt of(Expr.Command lambdaWithStatement){
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
     static $stmt of(Supplier<? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
     static $stmt of(Consumer<? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
     static $stmt of(BiConsumer<? extends Object, ? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
-    static $stmt of(Exprs.TriConsumer<? extends Object, ? extends Object,? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+    static $stmt of(Expr.TriConsumer<? extends Object, ? extends Object,? extends Object> lambdaWithStatement){
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
-    static $stmt of(Exprs.QuadConsumer<? extends Object, ? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+    static $stmt of(Expr.QuadConsumer<? extends Object, ? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
     static $stmt of(Function<? extends Object, ? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
     static $stmt of(BiFunction<? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
-    static $stmt of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+    static $stmt of(Expr.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 
-    static $stmt of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
-        Statement st = Stmts.from(Thread.currentThread().getStackTrace()[2]);
+    static $stmt of(Expr.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithStatement){
+        Statement st = Stmt.from(Thread.currentThread().getStackTrace()[2]);
         return of(st);
     }
 

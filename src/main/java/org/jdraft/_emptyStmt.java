@@ -19,7 +19,7 @@ public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt>, _java._no
         return new _emptyStmt( es);
     }
     public static _emptyStmt of(String...code){
-        return new _emptyStmt(Stmts.emptyStmt( code));
+        return new _emptyStmt(Stmt.emptyStmt( code));
     }
 
     public static _feature._meta<_emptyStmt> META = _feature._meta.of(_emptyStmt.class);
@@ -38,7 +38,7 @@ public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt>, _java._no
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.emptyStmt(stringRep));
+            return is( Stmt.emptyStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

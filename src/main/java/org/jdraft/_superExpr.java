@@ -63,7 +63,7 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._no
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.superExpr(stringRep));
+            return is( Expr.superExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

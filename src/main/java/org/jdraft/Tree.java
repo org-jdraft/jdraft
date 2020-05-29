@@ -46,13 +46,13 @@ import java.util.stream.Stream;
  * //... we can traverse the node graph looking for entities that are Node implementations
  *
  * // to find all Integer literals within the code:
- * Walk.in(_c, {@link Exprs#INT_LITERAL}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Expr#INT_LITERAL}, i-> System.out.println(i));
  * // prints:
  * //    1
  * //    2
  *
  * // to find all types within the code:
- * Walk.in(_c, {@link Exprs#TYPE}, i-> System.out.println(i));
+ * Walk.in(_c, {@link Expr#TYPE}, i-> System.out.println(i));
  *  // prints:
  *  //    "int"
  *  //    "int"

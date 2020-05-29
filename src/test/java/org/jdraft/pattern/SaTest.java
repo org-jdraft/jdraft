@@ -49,7 +49,7 @@ public class SaTest extends TestCase {
         $.anno("A").matches("@A(1)");
         
         
-        $annoRef $a = $annoRef.of( $id.of("A"), $annoRef.$memberValue.of(Exprs.of(1)));
+        $annoRef $a = $annoRef.of( $id.of("A"), $annoRef.$memberValue.of(Expr.of(1)));
         assertTrue( $a.matches("@A(1)") );        
     }
     
@@ -172,24 +172,24 @@ public class SaTest extends TestCase {
     
     public void testS(){
         $annoRef.$memberValue.of().matches(new MemberValuePair());
-        $annoRef.$memberValue.of().matches(new MemberValuePair("a", Exprs.of(1)));
+        $annoRef.$memberValue.of().matches(new MemberValuePair("a", Expr.of(1)));
         
         //static  membervalues
-        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Exprs.stringExpr("100")));
-        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Exprs.of("100")));
+        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expr.stringExpr("100")));
+        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expr.of("100")));
         
         //dynamic value
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.of("100")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.of("1")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.stringExpr("Blah")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Exprs.of(new int[]{1,2,3,4})));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.of("100")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.of("1")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.stringExpr("Blah")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.of(new int[]{1,2,3,4})));
         
         
     }
     
     public void testSingleValueAnno(){
-       MemberValuePair mvp = new MemberValuePair().setValue(Exprs.of(1));
-       assertTrue($annoRef.$memberValue.of(Exprs.of(1)).matches(mvp));
+       MemberValuePair mvp = new MemberValuePair().setValue(Expr.of(1));
+       assertTrue($annoRef.$memberValue.of(Expr.of(1)).matches(mvp));
     }
  
     
@@ -351,7 +351,7 @@ public class SaTest extends TestCase {
         assertNotNull( a.select( _annoExpr.of("@name(prefix=\"1\")") ));
 
         System.out.println( "GOTTEN " + a.select(_annoExpr.of("@name(prefix=\"1\")") ).tokens);
-        assertTrue( a.select(_annoExpr.of("@name(prefix=\"1\")") ).is("any", Exprs.stringExpr("1")) );
+        assertTrue( a.select(_annoExpr.of("@name(prefix=\"1\")") ).is("any", Expr.stringExpr("1")) );
 
         assertTrue( a.select(_annoExpr.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
         assertTrue( a.$list().contains("any"));

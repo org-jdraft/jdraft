@@ -75,7 +75,7 @@ public class $parenthesizedExpr implements $bot.$node<EnclosedExpr, _parenthesiz
 
     public Select<_parenthesizedExpr> select(String str) {
         try {
-            return select(Exprs.classExpr(str));
+            return select(Expr.classExpr(str));
         } catch (Exception e) {
             return null;
         }

@@ -33,7 +33,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
     public static final Function<String, _switchStmt> PARSER = s-> _switchStmt.of(s);
 
     public static _switchStmt ofSelector(String selectorExpression){
-        return ofSelector(Exprs.of(selectorExpression));
+        return ofSelector(Expr.of(selectorExpression));
     }
 
     public static _switchStmt ofSelector(Expression switchSelector){
@@ -81,7 +81,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         throw new _jdraftException("No switch statement in lambdaExpr"+System.lineSeparator()+ le);
     }
 
-    public static _switchStmt of(Exprs.Command lambdaContainer){
+    public static _switchStmt of(Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -101,12 +101,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt of (Exprs.TriFunction<A,B,C, D> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt of (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt of (Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt of (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -116,12 +116,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object> _switchStmt of(Exprs.TriConsumer<A,B,C> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object> _switchStmt of(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
 
-    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt of(Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt of(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return of( _l.astLambda);
     }
@@ -181,7 +181,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
     @Override
     public boolean is(String... stringRep) {
         try {
-            return is(Stmts.switchStmt(stringRep));
+            return is(Stmt.switchStmt(stringRep));
         }catch(Exception e){ //string could be invalid
             return false;
         }
@@ -313,7 +313,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return this.switchStmt.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
     }
 
-    public _switchStmt mapCode( char c, Exprs.Command lambdaContainer){
+    public _switchStmt mapCode( char c, Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(c, _l.astLambda);
     }
@@ -333,12 +333,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(c, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (char c, Exprs.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (char c, Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(c, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (char c, Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (char c, Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(c, _l.astLambda);
     }
@@ -348,12 +348,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(c, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (char c, Exprs.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (char c, Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(c, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (char c, Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (char c, Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(c, _l.astLambda);
     }
@@ -367,7 +367,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(c, le.getBody());
     }
 
-    public _switchStmt mapCode( String s, Exprs.Command lambdaContainer){
+    public _switchStmt mapCode( String s, Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(s, _l.astLambda);
     }
@@ -387,12 +387,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(s, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (String s, Exprs.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (String s, Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(s, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (String s, Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (String s, Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(s, _l.astLambda);
     }
@@ -402,12 +402,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(s, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (String s, Exprs.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (String s, Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(s, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (String s, Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (String s, Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(s, _l.astLambda);
     }
@@ -422,7 +422,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
     }
 
 
-    public _switchStmt mapCode( int i, Exprs.Command lambdaContainer){
+    public _switchStmt mapCode( int i, Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(i, _l.astLambda);
     }
@@ -442,12 +442,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(i, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (int i, Exprs.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (int i, Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(i, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (int i, Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (int i, Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(i, _l.astLambda);
     }
@@ -457,12 +457,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(i, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (int i, Exprs.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (int i, Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(i, _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (int i, Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (int i, Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(i, _l.astLambda);
     }
@@ -476,7 +476,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(i, le.getBody());
     }
 
-    public <EN extends Enum> _switchStmt mapCode( EN e, Exprs.Command lambdaContainer){
+    public <EN extends Enum> _switchStmt mapCode( EN e, Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(e, _l.astLambda);
     }
@@ -496,12 +496,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(e, _l.astLambda);
     }
 
-    public <EN extends Enum,A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (EN e, Exprs.TriFunction<A,B,C, D> lambdaContainer){
+    public <EN extends Enum,A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt  mapCode (EN e, Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(e, _l.astLambda);
     }
 
-    public <EN extends Enum,A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (EN e, Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <EN extends Enum,A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt  mapCode (EN e, Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(e, _l.astLambda);
     }
@@ -511,12 +511,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return mapCode(e, _l.astLambda);
     }
 
-    public <EN extends Enum,A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (EN e, Exprs.TriConsumer<A,B,C> lambdaContainer ){
+    public <EN extends Enum,A extends Object, B extends Object,C extends Object> _switchStmt  mapCode (EN e, Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(e, _l.astLambda);
     }
 
-    public <EN extends Enum, A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (EN e, Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <EN extends Enum, A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt  mapCode (EN e, Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return mapCode(e, _l.astLambda);
     }
@@ -547,7 +547,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
     }
 
     public <E extends Enum> _switchStmt mapCode(E e, Statement...st){
-        return mapCode(Exprs.nameExpr(e.name()), st);
+        return mapCode(Expr.nameExpr(e.name()), st);
     }
 
     public <E extends Enum> _switchStmt mapCode(E e, _stmt..._st){
@@ -956,7 +956,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
     }
 
     public boolean isSwitchSelector(String... selector){
-        return Objects.equals( this.switchStmt.getSelector(), Exprs.of(selector));
+        return Objects.equals( this.switchStmt.getSelector(), Expr.of(selector));
     }
 
     public boolean isSwitchSelector(_expr e){
@@ -999,7 +999,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
      * @return
      */
     public _switchStmt setSwitchSelector(String... switchSelector){
-        this.switchStmt.setSelector(Exprs.of(switchSelector));
+        this.switchStmt.setSelector(Expr.of(switchSelector));
         return this;
     }
 
@@ -1036,7 +1036,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return setDefault(le.getBody());
     }
 
-    public _switchStmt setDefault(Exprs.Command lambdaContainer){
+    public _switchStmt setDefault(Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setDefault( _l.astLambda);
     }
@@ -1056,12 +1056,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return setDefault( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt setDefault (Exprs.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchStmt setDefault (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setDefault( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt setDefault (Exprs.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchStmt setDefault (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setDefault( _l.astLambda);
     }
@@ -1071,12 +1071,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return setDefault( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _switchStmt setDefault(Exprs.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _switchStmt setDefault(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setDefault( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt setDefault(Exprs.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchStmt setDefault(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setDefault( _l.astLambda);
     }
@@ -1157,7 +1157,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
     public _switchStmt setDefault(String...code){
         //the code COULD be an expression or a statement or a group of statements
         try {
-            Expression e = Exprs.of(code);
+            Expression e = Expr.of(code);
             setDefault(e);
             return this;
         }catch(Exception ex){

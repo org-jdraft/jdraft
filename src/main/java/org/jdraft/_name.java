@@ -82,7 +82,7 @@ public final class _name implements _java._node<Node, _name> {
             return of( new SimpleName(str) );
         }
         if( str.contains("::")){
-            return of( Exprs.methodReferenceExpr(str));
+            return of( Expr.methodReferenceExpr(str));
         }
         return of( new Name(str) );
 

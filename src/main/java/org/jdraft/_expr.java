@@ -9,7 +9,7 @@ public interface _expr<E extends Expression, _E extends _expr>
 
     default boolean is(String... stringRep) {
         try{
-            Expression e = Exprs.of(stringRep);
+            Expression e = Expr.of(stringRep);
             return Objects.equals( e, ast());
         } catch(Exception e){ }
         return false;
@@ -70,7 +70,7 @@ public interface _expr<E extends Expression, _E extends _expr>
     }
 
     static _expr of(String...code){
-        return of( Exprs.of(code));
+        return of( Expr.of(code));
     }
     static _intExpr of(int i){
         return _intExpr.of(i);

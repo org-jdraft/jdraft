@@ -30,7 +30,7 @@ public final class _constructorCallStmt
     }
 
     public static _constructorCallStmt of(String...code){
-        return new _constructorCallStmt(Stmts.constructorCallStmt( code));
+        return new _constructorCallStmt(Stmt.constructorCallStmt( code));
     }
 
     public static _feature._one<_constructorCallStmt, Boolean> IS_THIS = new _feature._one<>(_constructorCallStmt.class, Boolean.class,
@@ -70,7 +70,7 @@ public final class _constructorCallStmt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.constructorCallStmt(stringRep));
+            return is( Stmt.constructorCallStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

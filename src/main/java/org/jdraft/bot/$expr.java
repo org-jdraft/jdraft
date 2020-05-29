@@ -29,11 +29,11 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $expr<
     }
 
     static $expr of(String code) {
-        return of( Exprs.of(code));
+        return of( Expr.of(code));
     }
 
     static $expr of(String... code) {
-        return of( Exprs.of(code));
+        return of( Expr.of(code));
     }
 
     static <$E extends $expr> $E of(_expr _e) {

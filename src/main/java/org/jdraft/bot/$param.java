@@ -3,7 +3,6 @@ package org.jdraft.bot;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.Parameter;
 import org.jdraft.*;
-import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -21,7 +20,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     interface $part{}
 
-    public static $param of(Exprs.Command lambdaWithParameter ){
+    public static $param of(Expr.Command lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -37,11 +36,11 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $param of(Exprs.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Expr.TriConsumer<? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $param of(Exprs.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Expr.QuadConsumer<? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
@@ -53,11 +52,11 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $param of(Exprs.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Expr.TriFunction<? extends Object, ? extends Object,? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 
-    public static $param of(Exprs.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
+    public static $param of(Expr.QuadFunction<? extends Object, ? extends Object,? extends Object, ? extends Object, ? extends Object> lambdaWithParameter ){
         return from( Thread.currentThread().getStackTrace()[2]);
     }
 

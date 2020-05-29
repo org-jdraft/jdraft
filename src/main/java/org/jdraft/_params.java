@@ -37,18 +37,18 @@ public final class _params
         return from( ste );
     }
 
-    public static <T extends Object, U extends Object, V extends Object> _params of(Exprs.TriConsumer<T,U, V> bc){
+    public static <T extends Object, U extends Object, V extends Object> _params of(Expr.TriConsumer<T,U, V> bc){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
 
-    public static <T extends Object, U extends Object, V extends Object, W extends Object> _params of(Exprs.QuadConsumer<T,U, V,W> bc){
+    public static <T extends Object, U extends Object, V extends Object, W extends Object> _params of(Expr.QuadConsumer<T,U, V,W> bc){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
 
     private static _params from(StackTraceElement lambdaStackTrace ){
-        LambdaExpr le = Exprs.lambdaExpr( lambdaStackTrace );
+        LambdaExpr le = Expr.lambdaExpr( lambdaStackTrace );
         _params _ps = of( le.getParameters() );
         le.remove(); //dont connect the lambda with the caller
         return _ps;
@@ -61,7 +61,7 @@ public final class _params
     }
 
     public static _params of(){
-        return of(  Exprs.lambdaExpr("()->true") ); //Ast.method( "void $$();" ));
+        return of(  Expr.lambdaExpr("()->true") ); //Ast.method( "void $$();" ));
     }
 
     /**
@@ -85,7 +85,7 @@ public final class _params
         if( ps.endsWith(")")){
             ps = ps.substring(0, ps.length() -1);
         }
-        return of( Exprs.lambdaExpr( "(" + ps + ") -> true" ) );
+        return of( Expr.lambdaExpr( "(" + ps + ") -> true" ) );
     }
 
     /**
@@ -197,7 +197,7 @@ public final class _params
      */
     public _params copy(){
         NodeList<Parameter> ps = new NodeList<>();
-        LambdaExpr le = Exprs.lambdaExpr("()->true");
+        LambdaExpr le = Expr.lambdaExpr("()->true");
         ast().forEach( p-> le.addParameter(p) );
         return _params.of( le );
     }

@@ -29,7 +29,7 @@ public final class _breakStmt
         return new _breakStmt(bs);
     }
     public static _breakStmt of(String...code){
-        return new _breakStmt(Stmts.breakStmt( code));
+        return new _breakStmt(Stmt.breakStmt( code));
     }
 
     public static _feature._one<_breakStmt, String> LABEL = new _feature._one<>(_breakStmt.class, String.class,
@@ -53,7 +53,7 @@ public final class _breakStmt
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.breakStmt(stringRep));
+            return is( Stmt.breakStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

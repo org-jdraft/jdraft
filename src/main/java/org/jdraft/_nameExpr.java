@@ -21,7 +21,7 @@ public final class _nameExpr
         return new _nameExpr( ne);
     }
     public static _nameExpr of(String...code){
-        return new _nameExpr(Exprs.nameExpr( code));
+        return new _nameExpr(Expr.nameExpr( code));
     }
 
     public static _feature._one<_nameExpr, SimpleName> NAME = new _feature._one<>(_nameExpr.class, SimpleName.class,

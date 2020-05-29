@@ -274,7 +274,7 @@ public class SconstructorTest extends TestCase {
     
     public void testNoArgConstructor(){
         $constructor $c = $constructor.of( "public $name$(){ assert(1==1); }" )
-                .$(Stmts.of("assert(1==1);").toString(), "body");
+                .$(Stmt.of("assert(1==1);").toString(), "body");
         
         //TODO body doesnt match no body
         //assertTrue($c.matches(_constructor.of("public C(){}")));
@@ -378,7 +378,7 @@ public class SconstructorTest extends TestCase {
 
         assertTrue($c.draft().getBody().isEmpty());
         assertEquals($c.draft("label", true).getBody().getStatement(0),
-                Stmts.of("System.out.println(12);"));
+                Stmt.of("System.out.println(12);"));
     }
     public void testCtorLabelForAddingCode(){
         $constructor $c = $constructor.of( new Object(){
@@ -388,17 +388,17 @@ public class SconstructorTest extends TestCase {
         });
 
         assertTrue($c.draft().getBody().isEmpty());
-        assertEquals( Stmts.of("System.out.println(1);"),
+        assertEquals( Stmt.of("System.out.println(1);"),
             $c.draft("label", "System.out.println(1);").getBody().getStatement(0));
 
         //
-        assertEquals( Stmts.of("System.out.println(1);"),
-            $c.draft("label", Stmts.of("System.out.println(1);")).getBody().getStatement(0));
+        assertEquals( Stmt.of("System.out.println(1);"),
+            $c.draft("label", Stmt.of("System.out.println(1);")).getBody().getStatement(0));
 
         //block Statement
         //assertEquals( Stmt.of("{ System.out.println(1); }"),
-        assertEquals( Stmts.of("System.out.println(1); "),
-                $c.draft("label", Stmts.of("System.out.println(1);")).getBody().getStatement(0));
+        assertEquals( Stmt.of("System.out.println(1); "),
+                $c.draft("label", Stmt.of("System.out.println(1);")).getBody().getStatement(0));
             //$c.draft("label", Stmt.blockStmt("{ System.out.println(1); }")).getBody().getStatement(0));
 
 

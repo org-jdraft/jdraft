@@ -2,7 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.ClassExpr;
-import org.jdraft.Exprs;
+import org.jdraft.Expr;
 import org.jdraft._classExpr;
 import org.jdraft._java._domain;
 import org.jdraft._typeRef;
@@ -93,7 +93,7 @@ public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>
 
     public Select<_classExpr> select(String str) {
         try {
-            return select(Exprs.classExpr(str));
+            return select(Expr.classExpr(str));
         } catch (Exception e) {
             return null;
         }

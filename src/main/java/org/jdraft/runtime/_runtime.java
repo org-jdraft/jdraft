@@ -374,7 +374,7 @@ public final class _runtime {
      */
     public static <I extends Object> I impl(I anonymousImplementation, Object...ctorArgs) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         _class _c = _class.of(oce.getType().getNameAsString() + "Impl", anonymousImplementation, ste);
         return (I) instanceOf(_c, ctorArgs);
     }
@@ -437,7 +437,7 @@ public final class _runtime {
      * @return
      */
     public static Object staticEval( String... expressionCode ){
-        return staticEval( Exprs.of(expressionCode));
+        return staticEval( Expr.of(expressionCode));
     }
 
     private static Stencil $evalExpr = Stencil.of(
@@ -463,16 +463,16 @@ public final class _runtime {
                 return ((CharLiteralExpr)le).asChar();
             }
             if( le instanceof DoubleLiteralExpr ){
-                return Exprs.parseFloatOrDouble( le.asDoubleLiteralExpr() );
+                return Expr.parseFloatOrDouble( le.asDoubleLiteralExpr() );
             }
             if( le instanceof IntegerLiteralExpr){
-                return Exprs.parseInt(le.asIntegerLiteralExpr());
+                return Expr.parseInt(le.asIntegerLiteralExpr());
             }
             if( le instanceof BooleanLiteralExpr){
                 return ((BooleanLiteralExpr) le).getValue();
             }
             if( le instanceof LongLiteralExpr){
-                return Exprs.parseLong(le.asLongLiteralExpr());
+                return Expr.parseLong(le.asLongLiteralExpr());
             }
         }
         if( expr instanceof ThisExpr ){
@@ -526,7 +526,7 @@ public final class _runtime {
      * @return
      */
     public Object eval( String expressionCode ){
-         return eval( Exprs.of(expressionCode) );
+         return eval( Expr.of(expressionCode) );
     }
 
     /**

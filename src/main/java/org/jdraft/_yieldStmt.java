@@ -59,7 +59,7 @@ public final class _yieldStmt implements _stmt._controlFlow._returns<YieldStmt, 
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.yieldStmt(stringRep));
+            return is( Stmt.yieldStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

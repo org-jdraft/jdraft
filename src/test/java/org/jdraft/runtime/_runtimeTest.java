@@ -118,7 +118,7 @@ public class _runtimeTest extends TestCase {
                  if( $.returnStmt().countIn(_m) > 0 ) {
                      $.returnStmt().forSelectedIn(_m, sel-> {
                            //replace it with a labeled statement... then flatten
-                           LabeledStmt ls = Stmts.labeledStmt(
+                           LabeledStmt ls = Stmt.labeledStmt(
                            "$add$ : { System.out.println(\" " + ((_java._withName) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + (($stmt.Select)sel).ast().toString() + " }");
 
                            (($stmt.Select)sel).ast().replace(ls);
@@ -128,7 +128,7 @@ public class _runtimeTest extends TestCase {
                  } else{
                      //might be a (not return)
                      _m.add(_m.listStatements().size(),
-                             Stmts.of((Integer start) -> System.out.println(" took " + (System.currentTimeMillis() - start))));
+                             Stmt.of((Integer start) -> System.out.println(" took " + (System.currentTimeMillis() - start))));
                  }
                  return _m;
              }

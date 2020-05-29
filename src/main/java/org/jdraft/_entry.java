@@ -160,37 +160,37 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
     }
 
     public _entry setDefaultValue(int intValue ){
-        this.astAnnMember.setDefaultValue( Exprs.of( intValue ) );
+        this.astAnnMember.setDefaultValue( Expr.of( intValue ) );
         return this;
     }
 
     public _entry setDefaultValue(long longValue ){
-        this.astAnnMember.setDefaultValue( Exprs.of( longValue ) );
+        this.astAnnMember.setDefaultValue( Expr.of( longValue ) );
         return this;
     }
 
     public _entry setDefaultValue(char charValue ){
-        this.astAnnMember.setDefaultValue( Exprs.of( charValue ) );
+        this.astAnnMember.setDefaultValue( Expr.of( charValue ) );
         return this;
     }
 
     public _entry setDefaultValue(boolean booleanValue ){
-        this.astAnnMember.setDefaultValue( Exprs.of( booleanValue ) );
+        this.astAnnMember.setDefaultValue( Expr.of( booleanValue ) );
         return this;
     }
 
     public _entry setDefaultValueNull(){
-        this.astAnnMember.setDefaultValue( Exprs.nullExpr() );
+        this.astAnnMember.setDefaultValue( Expr.nullExpr() );
         return this;
     }
 
     public _entry setDefaultValue(float floatValue ){
-        this.astAnnMember.setDefaultValue( Exprs.of( floatValue ) );
+        this.astAnnMember.setDefaultValue( Expr.of( floatValue ) );
         return this;
     }
 
     public _entry setDefaultValue(double doubleValue ){
-        this.astAnnMember.setDefaultValue( Exprs.of( doubleValue ) );
+        this.astAnnMember.setDefaultValue( Expr.of( doubleValue ) );
         return this;
     }
 
@@ -242,7 +242,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
         if( this.astAnnMember == other.astAnnMember){
             return true; //two _element instances pointing to same AstMemberDeclaration
         }
-        if( ! Exprs.equalAnnos(this.astAnnMember, other.astAnnMember)){
+        if( ! Expr.equalAnnos(this.astAnnMember, other.astAnnMember)){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -278,7 +278,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + Objects.hash(
-                Exprs.hashAnnos(this.astAnnMember),
+                Expr.hashAnnos(this.astAnnMember),
                 this.getJavadoc(),
                 this.getName(),
                 Types.hash(this.astAnnMember.getType()),

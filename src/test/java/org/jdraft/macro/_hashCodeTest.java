@@ -78,7 +78,7 @@ public class _hashCodeTest extends TestCase {
 
         //verify that
         List<$stmt.Select> ss = $st.listSelectedIn(_m);
-        assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", Exprs.of("( b ? 1 : 0 )").toString())).findAny().isPresent());
+        assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", Expr.of("( b ? 1 : 0 )").toString())).findAny().isPresent());
         assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", "i") ).findAny().isPresent()); //int
         assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", "by") ).findAny().isPresent()); //ibyte
         assertTrue( ss.stream().filter(s-> s.tokens.is("fieldHash", "ss") ).findAny().isPresent()); //short

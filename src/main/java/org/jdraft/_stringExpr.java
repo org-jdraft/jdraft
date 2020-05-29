@@ -18,7 +18,7 @@ public final class _stringExpr implements _expr._literal<StringLiteralExpr, _str
     }
 
     public static _stringExpr of(String...code){
-        return new _stringExpr(Exprs.stringExpr( code));
+        return new _stringExpr(Expr.stringExpr( code));
     }
 
     public static _feature._one<_stringExpr, String> LITERAL_VALUE = new _feature._one<>(_stringExpr.class, String.class,
@@ -46,7 +46,7 @@ public final class _stringExpr implements _expr._literal<StringLiteralExpr, _str
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.stringExpr(stringRep));
+            return is( Expr.stringExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

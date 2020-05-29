@@ -66,7 +66,7 @@ public final class _annoExpr
      */
     public static _annoExpr of(Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration<?> bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty() ).findFirst().get();
         return of( bd.getAnnotation(0) );
@@ -254,21 +254,21 @@ public final class _annoExpr
     public static _feature._meta<_annoExpr> META = _feature._meta.of(_annoExpr.class, NAME, ENTRY_PAIRS);
 
     public boolean hasPair(String name, char value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
     public boolean hasPair(String name, boolean value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
 
     public boolean hasPair(String name, double value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
     public boolean hasPair(String name, float value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
 
     public boolean hasPair(String name, String value){
-        return hasPair(name, Exprs.stringExpr(value));
+        return hasPair(name, Expr.stringExpr(value));
     }
 
     /*
@@ -299,7 +299,7 @@ public final class _annoExpr
      */
     public boolean hasPair(String attrKeyValue ){
         try{
-            AssignExpr ae = Exprs.assignExpr(attrKeyValue);
+            AssignExpr ae = Expr.assignExpr(attrKeyValue);
             String name = ae.getTarget().toString();
             return hasPair( name, ae.getValue());
         } catch (Exception e){
@@ -316,29 +316,29 @@ public final class _annoExpr
     }
 
     public boolean hasPair(String name, int value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
 
     public boolean hasPair(String name, long value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
 
     public boolean hasPair(String name, char[] value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
     public boolean hasPair(String name, boolean[] value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
 
     public boolean hasPair(String name, double[] value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
     public boolean hasPair(String name, float[] value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
 
     public boolean hasPair(String name, int[] value){
-        return hasPair( name, Exprs.of(value));
+        return hasPair( name, Expr.of(value));
     }
 
     /**
@@ -488,27 +488,27 @@ public final class _annoExpr
     }
 
     public _annoExpr addPair(String key, char c ) {
-        return addPair( key, Exprs.of( c ) );
+        return addPair( key, Expr.of( c ) );
     }
 
     public _annoExpr addPair(String key, Class c ) {
-        return addPair( key, Exprs.classExpr( c ) );
+        return addPair( key, Expr.classExpr( c ) );
     }
 
     public _annoExpr addPair(String key, boolean b ) {
-        return addPair( key, Exprs.of( b ) );
+        return addPair( key, Expr.of( b ) );
     }
 
     public _annoExpr addPair(String key, int value ) {
-        return addPair( key, Exprs.of( value ) );
+        return addPair( key, Expr.of( value ) );
     }
 
     public _annoExpr addPair(String key, long value ) {
-        return addPair( key, Exprs.of( value ) );
+        return addPair( key, Expr.of( value ) );
     }
 
     public _annoExpr addPair(String key, float f ) {
-        return addPair( key, Exprs.of( f ) );
+        return addPair( key, Expr.of( f ) );
     }
 
     public _annoExpr addPair(String key, Class...classes ) {
@@ -516,7 +516,7 @@ public final class _annoExpr
     }
 
     public _annoExpr addPair(String key, double d ) {
-        return addPair( key, Exprs.of( d ) );
+        return addPair( key, Expr.of( d ) );
     }
 
     public _annoExpr addPair(String key, char... cs ) {
@@ -583,35 +583,35 @@ public final class _annoExpr
     }
 
     public _annoExpr addPair(String key, String value ) {
-        return addPair(key, Exprs.stringExpr(value));
+        return addPair(key, Expr.stringExpr(value));
     }
 
     public _annoExpr setPairValue(String key, char c ) {
-        return setPairValue( key, Exprs.of( c ) );
+        return setPairValue( key, Expr.of( c ) );
     }
 
     public _annoExpr setPairValue(String key, boolean b ) {
-        return setPairValue( key, Exprs.of( b ) );
+        return setPairValue( key, Expr.of( b ) );
     }
 
     public _annoExpr setPairValue(String key, int value ) {
-        return setPairValue( key, Exprs.of( value ) );
+        return setPairValue( key, Expr.of( value ) );
     }
 
     public _annoExpr setPairValue(String key, long value ) {
-        return setPairValue( key, Exprs.of( value ) );
+        return setPairValue( key, Expr.of( value ) );
     }
 
     public _annoExpr setPairValue(String key, float f ) {
-        return setPairValue( key, Exprs.of( f ) );
+        return setPairValue( key, Expr.of( f ) );
     }
 
     public _annoExpr setPairValue(String key, double d ) {
-        return setPairValue( key, Exprs.of( d ) );
+        return setPairValue( key, Expr.of( d ) );
     }
 
     public _annoExpr setPairValue(String name, String expression ) {
-        return setPairValue( name, Exprs.stringExpr( expression ) );
+        return setPairValue( name, Expr.stringExpr( expression ) );
     }
 
     public _annoExpr removePairs( Predicate<_entryPair> _matchFn){
@@ -625,7 +625,7 @@ public final class _annoExpr
         if( this.astAnno.isSingleMemberAnnotationExpr() && _p.getName().equals("value")){
             //infer the that "name" is value for a singleMemberAnnotationExpr
             Expression mvpe = this.astAnno.asSingleMemberAnnotationExpr().getMemberValue();
-            if( Exprs.equal( _p.getValue().ast(), mvpe )) {
+            if( Expr.equal( _p.getValue().ast(), mvpe )) {
                 MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.astAnno.getName());
                 if( this.astAnno.getParentNode().isPresent() ){
                     this.astAnno.getParentNode().get().replace( this.astAnno, mae);
@@ -699,27 +699,27 @@ public final class _annoExpr
     }
 
     public _annoExpr setPairValue(int index, String stringLiteral ) {
-        return setPairValue( index, Exprs.stringExpr( stringLiteral ) );
+        return setPairValue( index, Expr.stringExpr( stringLiteral ) );
     }
     
     public _annoExpr setPairValue(int index, int intLiteral) {
-        return setPairValue( index, Exprs.of( intLiteral ) );
+        return setPairValue( index, Expr.of( intLiteral ) );
     }
 
     public _annoExpr setPairValue(int index, boolean boolLiteral) {
-        return setPairValue( index, Exprs.of( boolLiteral ) );
+        return setPairValue( index, Expr.of( boolLiteral ) );
     }
     
     public _annoExpr setPairValue(int index, char charLiteral) {
-        return setPairValue( index, Exprs.of( charLiteral ) );
+        return setPairValue( index, Expr.of( charLiteral ) );
     }
     
     public _annoExpr setPairValue(int index, float floatLiteral) {
-        return setPairValue( index, Exprs.of( floatLiteral ) );
+        return setPairValue( index, Expr.of( floatLiteral ) );
     }
     
     public _annoExpr setPairValue(int index, double doubleLiteral) {
-        return setPairValue( index, Exprs.of( doubleLiteral ) );
+        return setPairValue( index, Expr.of( doubleLiteral ) );
     }
     
     public _annoExpr setPairValue(int index, Expression value ) {
@@ -791,11 +791,11 @@ public final class _annoExpr
         }
         if( this.astAnno instanceof SingleMemberAnnotationExpr){            
             Map<String,Integer> hm = new HashMap<>();
-            hm.put( "value", Exprs.hash(this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
+            hm.put( "value", Expr.hash(this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
             return hm.hashCode();
         }        
         Map<String,Integer> hm = new HashMap<>();
-        this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Exprs.hash( p.getValue()) ) );
+        this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Expr.hash( p.getValue()) ) );
         return hm.hashCode();
     }
 
@@ -812,7 +812,7 @@ public final class _annoExpr
         }
         final _annoExpr other = (_annoExpr)obj;
 
-        return Exprs.equal(astAnno, other.astAnno);
+        return Expr.equal(astAnno, other.astAnno);
     }
 
     @Override

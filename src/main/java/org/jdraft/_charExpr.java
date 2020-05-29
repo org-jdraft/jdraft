@@ -20,7 +20,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
         return new _charExpr(new CharLiteralExpr(c));
     }
     public static _charExpr of(String...code){
-        return new _charExpr(Exprs.charExpr(Text.combine(code)));
+        return new _charExpr(Expr.charExpr(Text.combine(code)));
     }
 
     public static _feature._one<_charExpr, Character> LITERAL_VALUE = new _feature._one<>(_charExpr.class, Character.class,
@@ -45,7 +45,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.charExpr(Text.combine(stringRep)));
+            return is( Expr.charExpr(Text.combine(stringRep)));
         } catch(Exception e){ }
         return false;
     }

@@ -28,7 +28,7 @@ public final class _typeArgs
     public static final Function<String, _typeArgs> PARSER = s-> _typeArgs.of(s);
 
     public static _typeArgs of(){
-        return of( Exprs.newExpr("new empty()"));
+        return of( Expr.newExpr("new empty()"));
     }
 
     public static _typeArgs of(_typeRef...rt){
@@ -45,16 +45,16 @@ public final class _typeArgs
             if( a.startsWith("<") && a.endsWith(">")){
                 a = a.substring(1, a.length()-1).trim();
                 if( a.length() == 0 ) {
-                    ObjectCreationExpr oce = Exprs.newExpr("new <> empty()");
+                    ObjectCreationExpr oce = Expr.newExpr("new <> empty()");
                     return of(oce);
                 }
-                ObjectCreationExpr oce = Exprs.newExpr("new <"+ a + "> empty()");
+                ObjectCreationExpr oce = Expr.newExpr("new <"+ a + "> empty()");
                 return of( oce);
             }
             if( a.startsWith("<") ){
                 a = a.substring(1, a.length()-1);
             }
-            ObjectCreationExpr oce = Exprs.newExpr("new <"+ a + "> empty()");
+            ObjectCreationExpr oce = Expr.newExpr("new <"+ a + "> empty()");
             return of( oce);
         }
         StringBuilder sb = new StringBuilder();
@@ -65,7 +65,7 @@ public final class _typeArgs
             String a = args[i].trim();
             sb.append(a);
         }
-        return of( Exprs.newExpr("new<"+ sb.toString() + "> empty()"));
+        return of( Expr.newExpr("new<"+ sb.toString() + "> empty()"));
     }
 
     public static _typeArgs of(NodeWithTypeArguments nwta){

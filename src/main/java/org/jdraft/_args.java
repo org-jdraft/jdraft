@@ -30,7 +30,7 @@ public final class _args
     public static final Function<String, _args> PARSER = s-> _args.of(s);
 
     public static _args of(){
-        return of( Exprs.methodCallExpr("empty()"));
+        return of( Expr.methodCallExpr("empty()"));
     }
 
     public static _args of(Expression... exs){
@@ -42,19 +42,19 @@ public final class _args
     }
 
     public static <A extends Object> _args of(Supplier<A> supplier ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _args of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _args of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _args of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _args of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _args from(LambdaExpr le){
@@ -73,7 +73,7 @@ public final class _args
                 if( code.length() ==0 ){
                     return of();
                 }
-                return of( Exprs.methodCallExpr("empty("+ code+")"));
+                return of( Expr.methodCallExpr("empty("+ code+")"));
             }
         }
         StringBuilder sb = new StringBuilder();
@@ -87,7 +87,7 @@ public final class _args
             sb.append(args[i]);
         }
         sb.append(")");
-        return of( Exprs.methodCallExpr("empty"+ sb.toString()));
+        return of( Expr.methodCallExpr("empty"+ sb.toString()));
     }
 
     public static _args of(NodeWithArguments nwa){
@@ -181,14 +181,14 @@ public final class _args
         if( index >= this.size()){
             return false;
         }
-        return isAt(index, Exprs.of(expression));
+        return isAt(index, Expr.of(expression));
     }
 
     public boolean isAt(int index, Expression e){
         if( index >= this.size()){
             return false;
         }
-        return Exprs.equal( getAt(index).ast(), e);
+        return Expr.equal( getAt(index).ast(), e);
     }
 
     public _args setAt(int index, int i){
@@ -241,7 +241,7 @@ public final class _args
             if( this.nwa.getArguments().size() == _as.size()){
                 for(int i=0;i<this.nwa.getArguments().size(); i++){
                     Expression e = this.nwa.getArgument(i);
-                    if( !Exprs.equal(e, _as.nwa.getArgument(i))){
+                    if( !Expr.equal(e, _as.nwa.getArgument(i))){
                         return false;
                     }
                 }
@@ -314,27 +314,27 @@ public final class _args
         }
 
         default _WA setArg(int index, boolean b){
-            return setArg(index, Exprs.of(b));
+            return setArg(index, Expr.of(b));
         }
 
         default _WA setArg(int index, int i){
-            return setArg(index, Exprs.of(i));
+            return setArg(index, Expr.of(i));
         }
 
         default _WA setArg(int index, char c){
-            return setArg(index, Exprs.of(c));
+            return setArg(index, Expr.of(c));
         }
 
         default _WA setArg(int index, float f){
-            return setArg(index, Exprs.of(f));
+            return setArg(index, Expr.of(f));
         }
 
         default _WA setArg(int index, long l){
-            return setArg(index, Exprs.of(l));
+            return setArg(index, Expr.of(l));
         }
 
         default _WA setArg(int index, double d){
-            return setArg(index, Exprs.of(d));
+            return setArg(index, Expr.of(d));
         }
 
         default _WA setArgs(_args _as){
@@ -398,7 +398,7 @@ public final class _args
             List<_expr> _tes = listArgs();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
-                    if( ! Exprs.equal(  _es[i].ast(), _tes.get(i).ast() ) ){
+                    if( ! Expr.equal(  _es[i].ast(), _tes.get(i).ast() ) ){
                         return false;
                     }
                 }
@@ -412,32 +412,32 @@ public final class _args
         }
 
         default boolean isArg(int index, boolean b){
-            return isArg(index, Exprs.of(b));
+            return isArg(index, Expr.of(b));
         }
 
         default boolean isArg(int index, int i){
-            return isArg(index, Exprs.of(i));
+            return isArg(index, Expr.of(i));
         }
 
         default boolean isArg(int index, char c){
-            return isArg(index, Exprs.of(c));
+            return isArg(index, Expr.of(c));
         }
 
         default boolean isArg(int index, float f){
-            return isArg(index, Exprs.of(f));
+            return isArg(index, Expr.of(f));
         }
 
         default boolean isArg(int index, long l){
-            return isArg(index, Exprs.of(l));
+            return isArg(index, Expr.of(l));
         }
 
         default boolean isArg(int index, double d){
-            return isArg(index, Exprs.of(d));
+            return isArg(index, Expr.of(d));
         }
 
         default boolean isArg(int index, String exprString){
             try {
-                return Exprs.equal( getArg(index).ast(), Exprs.of(exprString));
+                return Expr.equal( getArg(index).ast(), Expr.of(exprString));
             }catch(Exception e){
                 return false;
             }
@@ -445,7 +445,7 @@ public final class _args
 
         default boolean isArg(int index, Expression e){
             try {
-                return Exprs.equal( getArg(index).ast(), e);
+                return Expr.equal( getArg(index).ast(), e);
             }catch(Exception ex){
                 return false;
             }
@@ -467,7 +467,7 @@ public final class _args
 
         default boolean isArg(int index, _expr _e){
             try {
-                return Exprs.equal( getArg(index).ast(), _e.ast());
+                return Expr.equal( getArg(index).ast(), _e.ast());
             }catch(Exception e){
                 return false;
             }
@@ -478,27 +478,27 @@ public final class _args
         }
 
         default _WA addArg(int i){
-            return addArg( Exprs.of(i) );
+            return addArg( Expr.of(i) );
         }
 
         default _WA addArg(boolean b){
-            return addArg( Exprs.of(b) );
+            return addArg( Expr.of(b) );
         }
 
         default _WA addArg(float f){
-            return addArg( Exprs.of(f) );
+            return addArg( Expr.of(f) );
         }
 
         default _WA addArg(long l){
-            return addArg( Exprs.of(l) );
+            return addArg( Expr.of(l) );
         }
 
         default _WA addArg(double d){
-            return addArg( Exprs.of(d) );
+            return addArg( Expr.of(d) );
         }
 
         default _WA addArg(char c){
-            return addArg( Exprs.of(c) );
+            return addArg( Expr.of(c) );
         }
 
         default _WA addArg(Expression e){

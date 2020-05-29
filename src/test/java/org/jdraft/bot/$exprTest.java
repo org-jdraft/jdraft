@@ -23,7 +23,7 @@ public class $exprTest extends TestCase {
 		assertTrue( $expr.of(_expr.of("1")).matches("1"));
 		
 		//with Expression
-		assertTrue( $expr.of(Exprs.of("1")).matches("1"));
+		assertTrue( $expr.of(Expr.of("1")).matches("1"));
 		
 		//with Lambda
 		assertTrue( $e.of().$and(e-> e instanceof _intExpr).matches("1"));
@@ -65,7 +65,7 @@ public class $exprTest extends TestCase {
 	
 	public void testAnyMatch() {
 		//make sure it matches all different types of expressions
-		Expression e = Exprs.of("@Ann('c')");
+		Expression e = Expr.of("@Ann('c')");
 		System.out.println( e );
 		assertTrue( $expr.of().matches("@Ann('c')") );
 		assertTrue( $expr.of().matches("100"));

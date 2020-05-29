@@ -29,7 +29,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         return new _assertStmt(as);
     }
     public static _assertStmt of(String...code){
-        return new _assertStmt(Stmts.assertStmt( code));
+        return new _assertStmt(Stmt.assertStmt( code));
     }
 
     public static _assertStmt of(Expression check){
@@ -40,49 +40,49 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     }
 
     public static _assertStmt of(Expression check, String message){
-        return of( new AssertStmt().setCheck(check).setMessage(Exprs.stringExpr(message)));
+        return of( new AssertStmt().setCheck(check).setMessage(Expr.stringExpr(message)));
     }
 
     public static _assertStmt of(_expr check, String message){
-        return of( new AssertStmt().setCheck(check.ast()).setMessage(Exprs.stringExpr(message)));
+        return of( new AssertStmt().setCheck(check.ast()).setMessage(Expr.stringExpr(message)));
     }
 
     public static _assertStmt of(Expression check, Expression message){
         return of( new AssertStmt().setCheck(check).setMessage(message));
     }
 
-    public static <A extends Object> _assertStmt of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _assertStmt of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _assertStmt of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _assertStmt of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _assertStmt of( Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _assertStmt of( Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _assertStmt of( BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _assertStmt of( Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static _assertStmt from(StackTraceElement ste ){
@@ -123,14 +123,14 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.assertStmt(stringRep));
+            return is( Stmt.assertStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
 
     public boolean isCheck(String...checkCode){
         try{
-            return isCheck(Exprs.of(checkCode));
+            return isCheck(Expr.of(checkCode));
         }catch(Exception e){
             return false;
         }
@@ -150,7 +150,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
 
     public boolean isMessage(String message){
         try {
-            return isMessage(Exprs.of(message));
+            return isMessage(Expr.of(message));
         }catch(Exception e){
             return false;
         }
@@ -180,7 +180,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     }
 
     public _assertStmt setMessage(String message){
-        this.astStmt.setMessage(Exprs.stringExpr(message));
+        this.astStmt.setMessage(Expr.stringExpr(message));
         return this;
     }
 
@@ -217,7 +217,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     }
 
     public _assertStmt setCheck(String... str){
-        this.astStmt.setCheck( Exprs.of(str));
+        this.astStmt.setCheck( Expr.of(str));
         return this;
     }
 

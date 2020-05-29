@@ -169,7 +169,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
      */
     public static _enum of( String signature, Object anonymousBody, StackTraceElement ste){
         _enum _e = _enum.of(signature);
-        ObjectCreationExpr oce = Exprs.newExpr( ste );
+        ObjectCreationExpr oce = Expr.newExpr( ste );
         if( oce.getAnonymousClassBody().isPresent()) {
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
             for(int i=0; i<bds.size(); i++) {
@@ -516,7 +516,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
      */
     public _enum addConstant(String signature, Object anonymousBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         _constant _ct = _constant.of( Ast.constantDeclaration(signature));
         if( oce.getAnonymousClassBody().isPresent()){
             // here, I'm putting the BODY into a temp _class, so that I can apply
@@ -566,7 +566,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         if( !Objects.equals( this.getPackage(), other.getPackage() ) ) {
             return false;
         }
-        if( ! Exprs.equalAnnos(this.astEnum, other.astEnum)){
+        if( ! Expr.equalAnnos(this.astEnum, other.astEnum)){
             return false;
         }     
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -734,7 +734,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         sbs.addAll( this.listInitBlocks() );
 
         hash = 53 * hash + Objects.hash( this.getPackage(),
-                Exprs.hashAnnos(astEnum),
+                Expr.hashAnnos(astEnum),
                 this.getJavadoc(), 
                 this.getEffectiveModifiers(),
                 this.getName(), 

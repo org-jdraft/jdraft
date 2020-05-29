@@ -92,8 +92,8 @@ public class _initBlockTest extends TestCase {
             }
         }).setStatic();
         assertTrue(_ib.isStatic());
-        assertEquals( _ib.getStatement(0), Stmts.of( ()-> System.out.println(1)) );
-        assertEquals( _ib.getStatement(1), Stmts.of( ()-> System.out.println(2)) );
+        assertEquals( _ib.getStatement(0), Stmt.of( ()-> System.out.println(1)) );
+        assertEquals( _ib.getStatement(1), Stmt.of( ()-> System.out.println(2)) );
     }
     
     public void testIB(){

@@ -212,7 +212,7 @@ public class _inspectTest extends TestCase {
         _class _c2 = _class.of("C").addMethod(_m2);
         assertTrue(_diff.of(_c1, _c2).isEmpty());
         
-        _m1.add(Stmts.of(()->System.out.println(1)));
+        _m1.add(Stmt.of(()->System.out.println(1)));
         
         //_m1.setBody(()->{System.out.println(1);} );
         

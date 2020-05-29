@@ -145,7 +145,7 @@ public final class _method
      */
     public static _method of(Object anonymousObjectContainingMethod) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         //removeIn all things that aren't METHODS or METHODS WITH @_remove
         bds.removeIf(b -> b.isAnnotationPresent(_remove.class) || (!(b instanceof MethodDeclaration)));
@@ -185,7 +185,7 @@ public final class _method
      * @return
      */
     public static _method main(Consumer<String[]> lambdaWithMainBody){
-        Statement st = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]).getBody();
+        Statement st = Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]).getBody();
         _method _m = _method.of("public static void main(String[] args){}");
         if( st.isBlockStmt() ){
             _m.setBody( (BlockStmt)st);
@@ -339,7 +339,7 @@ public final class _method
         if (this.astMethod == other.astMethod) {
             return true; //two _method s pointing to the same MethodDeclaration
         }
-        if( ! Exprs.equalAnnos(astMethod, other.astMethod)){
+        if( ! Expr.equalAnnos(astMethod, other.astMethod)){
             return false;
         }
         if (!Objects.equals(this.getBody(), other.getBody())) {
@@ -490,7 +490,7 @@ public final class _method
         modsSet.addAll(this.getEffectiveModifiers());
 
         hash = 23 * hash + Objects.hash(
-                Exprs.hashAnnos(astMethod),
+                Expr.hashAnnos(astMethod),
                 this.getBody(),
                 //this.getJavadoc(),
                 modsSet, //this.getEffectiveModifiers(), //this.getModifiers(),
@@ -876,8 +876,8 @@ public final class _method
          * @param body
          * @return
          */
-        default _WM main(Exprs.Command body) {
-            LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
+        default _WM main(Expr.Command body) {
+            LambdaExpr le = Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
                 _m.setBody(le.getBody().asBlockStmt());
@@ -896,7 +896,7 @@ public final class _method
          * @return
          */
         default _WM main(Consumer<String[]> body) {
-            LambdaExpr le = Exprs.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
+            LambdaExpr le = Expr.lambdaExpr(Thread.currentThread().getStackTrace()[2]);
             _method _m = _method.of("public static void main(String[] args){ }");
             if (le.getBody().isBlockStmt()) {
                 _m.setBody(le.getBody().asBlockStmt());
@@ -926,7 +926,7 @@ public final class _method
          */
         default _WM addMethod(Object anonymousObjectContainingMethod) {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
-            ObjectCreationExpr oce = Exprs.newExpr(ste);
+            ObjectCreationExpr oce = Expr.newExpr(ste);
             if (oce == null || !oce.getAnonymousClassBody().isPresent()) {
                 throw new _jdraftException("No anonymous Object containing a method provided ");
             }

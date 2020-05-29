@@ -22,7 +22,7 @@ public final class _typeExpr
         return new _typeExpr(te);
     }
     public static _typeExpr of(String...code){
-        return new _typeExpr(Exprs.typeExpr( code));
+        return new _typeExpr(Expr.typeExpr( code));
     }
 
     public static _feature._one<_typeExpr, _typeRef> TYPE = new _feature._one<>(_typeExpr.class, _typeRef.class,

@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import junit.framework.TestCase;
-import org.jdraft.Stmts;
+import org.jdraft.Stmt;
 import org.jdraft._booleanExpr;
 import org.jdraft._doStmt;
 
@@ -34,14 +34,14 @@ public class $doStmtTest extends TestCase {
         assertTrue($.doStmt().isMatchAny());
 
         //match against ANY boolean expr (i.e. do... while(true) or do...while(false)
-        assertTrue($.doStmt().$condition($boolean.of()).match(Stmts.doStmt("do{ System.out.println(1); } while(false);")));
-        assertTrue($.doStmt().$condition(_booleanExpr.of(true)).match(Stmts.doStmt("do{ System.out.println(1); } while(true);")));
+        assertTrue($.doStmt().$condition($boolean.of()).match(Stmt.doStmt("do{ System.out.println(1); } while(false);")));
+        assertTrue($.doStmt().$condition(_booleanExpr.of(true)).match(Stmt.doStmt("do{ System.out.println(1); } while(true);")));
 
 
-        assertTrue($.doStmt().$and( d-> d.getBody().isImplemented()).matches( Stmts.doStmt("do{ System.out.println(1); } while(true);")));
-        assertTrue($doStmt.of().match(Stmts.doStmt("do{ System.out.println(1); } while(true);")));
+        assertTrue($.doStmt().$and( d-> d.getBody().isImplemented()).matches( Stmt.doStmt("do{ System.out.println(1); } while(true);")));
+        assertTrue($doStmt.of().match(Stmt.doStmt("do{ System.out.println(1); } while(true);")));
 
-        assertTrue($.doStmt().$body(s-> s.ast().isBlockStmt()).matches(Stmts.doStmt("do{ System.out.println(1); } while(true);")));
+        assertTrue($.doStmt().$body(s-> s.ast().isBlockStmt()).matches(Stmt.doStmt("do{ System.out.println(1); } while(true);")));
     }
 
     public void testDoAnyMatchAll(){

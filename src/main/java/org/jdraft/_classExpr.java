@@ -18,7 +18,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
     }
 
     public static _classExpr of(Class clazz){
-        return new _classExpr(Exprs.classExpr( clazz) );
+        return new _classExpr(Expr.classExpr( clazz) );
     }
 
     public static _classExpr of(ClassExpr ce){
@@ -26,7 +26,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
     }
 
     public static _classExpr of(String...code){
-        return new _classExpr(Exprs.classExpr( code));
+        return new _classExpr(Expr.classExpr( code));
     }
 
     public static _feature._one<_classExpr, _typeRef> TYPE = new _feature._one<>(_classExpr.class, _typeRef.class,
@@ -50,7 +50,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.classExpr(stringRep));
+            return is( Expr.classExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

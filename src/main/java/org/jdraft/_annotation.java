@@ -98,7 +98,7 @@ public final class _annotation
      */
     public static _annotation of( String signature, Object anonymousClassBody, StackTraceElement ste) {
         _annotation _a = of( signature );
-        ObjectCreationExpr oce = Exprs.newExpr(ste);
+        ObjectCreationExpr oce = Expr.newExpr(ste);
 
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
 
@@ -452,7 +452,7 @@ public final class _annotation
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc()) ){
             return false;
         }
-        if( !Exprs.equalAnnos(astAnnotation, astAnnotation)){
+        if( !Expr.equalAnnos(astAnnotation, astAnnotation)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName()) ){
@@ -619,7 +619,7 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( this.getEffectiveModifiers() );
 
         hash = 13 * hash + Objects.hashCode( this.getJavadoc() );
-        hash = 13 * hash + Exprs.hashAnnos(astAnnotation);
+        hash = 13 * hash + Expr.hashAnnos(astAnnotation);
 
         hash = 13 * hash + Objects.hashCode( this.getName() );
 

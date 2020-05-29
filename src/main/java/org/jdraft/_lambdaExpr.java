@@ -86,7 +86,7 @@ public final class _lambdaExpr
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object,U extends Object, V extends Object, W extends Object> _lambdaExpr of(Exprs.TriFunction<T, U, V, W> c ){
+    public static <T extends Object,U extends Object, V extends Object, W extends Object> _lambdaExpr of(Expr.TriFunction<T, U, V, W> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -104,7 +104,7 @@ public final class _lambdaExpr
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object,U extends Object, V extends Object, W extends Object, X extends Object> _lambdaExpr of(Exprs.QuadFunction<T, U, V, W, X> c ){
+    public static <T extends Object,U extends Object, V extends Object, W extends Object, X extends Object> _lambdaExpr of(Expr.QuadFunction<T, U, V, W, X> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -149,7 +149,7 @@ public final class _lambdaExpr
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <T extends Object, U extends Object, V extends Object> _lambdaExpr of(Exprs.TriConsumer<T, U, V> c ){
+    public static <T extends Object, U extends Object, V extends Object> _lambdaExpr of(Expr.TriConsumer<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -166,7 +166,7 @@ public final class _lambdaExpr
      * @param c a lambda
      * @return the LambdaExpr instance
      */
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _lambdaExpr of(Exprs.QuadConsumer<A,B,C,D> c ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _lambdaExpr of(Expr.QuadConsumer<A,B,C,D> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
@@ -177,7 +177,7 @@ public final class _lambdaExpr
      * @return
      */
     public static _lambdaExpr of(Object anonymousObjectWithLambda ){
-        ObjectCreationExpr oce = Exprs.newExpr(Thread.currentThread().getStackTrace()[2]);
+        ObjectCreationExpr oce = Expr.newExpr(Thread.currentThread().getStackTrace()[2]);
         Optional<LambdaExpr> ole = oce.findFirst(LambdaExpr.class);
         if(ole.isPresent()){
             return _lambdaExpr.of( ole.get());
@@ -185,13 +185,13 @@ public final class _lambdaExpr
         throw new _jdraftException("Could not find lambda within anonymous Object "+ oce );
     }
     
-    public static _lambdaExpr of(Exprs.Command lambda ){
+    public static _lambdaExpr of(Expr.Command lambda ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
     }
     
     public static _lambdaExpr from(StackTraceElement ste ){
-        return _lambdaExpr.of( Exprs.lambdaExpr(ste));
+        return _lambdaExpr.of( Expr.lambdaExpr(ste));
     }
 
     public static _lambdaExpr of(){
@@ -199,7 +199,7 @@ public final class _lambdaExpr
     }
 
     public static _lambdaExpr of(String... lambda){
-        return new _lambdaExpr( Exprs.lambdaExpr(lambda) );
+        return new _lambdaExpr( Expr.lambdaExpr(lambda) );
     }
     
     public static _lambdaExpr of(LambdaExpr astLambda ){
@@ -248,7 +248,7 @@ public final class _lambdaExpr
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is(Exprs.lambdaExpr(stringRep));
+            return is(Expr.lambdaExpr(stringRep));
         } catch(Exception e){
             return false;
         }

@@ -224,7 +224,7 @@ public class _enumTest extends TestCase {
         _field _f = _c.getField( "num");
         assertNotNull( _f);
         assertTrue( _f.getModifiers().is( "public static final"));
-        assertEquals( Exprs.of(12233), _f.getInitNode() );
+        assertEquals( Expr.of(12233), _f.getInitNode() );
         
         _method _m = _c.getMethod("getNum");
         assertTrue( _m.hasJavadoc() );

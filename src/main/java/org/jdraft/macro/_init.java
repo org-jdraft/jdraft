@@ -4,7 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import org.jdraft._field;
-import org.jdraft.Exprs;
+import org.jdraft.Expr;
 import com.github.javaparser.ast.expr.Expression;
 
 import java.lang.annotation.*;
@@ -49,12 +49,12 @@ public @interface _init {
 
         public Act( _init _i ){
             super(_i);
-            this.initEx = Exprs.of(_i.value());
+            this.initEx = Expr.of(_i.value());
         }
 
         public Act( String initEx){
             super(_init.class);
-            this.initEx = Exprs.of(initEx);
+            this.initEx = Expr.of(initEx);
         }
 
         public Act( Expression e ){

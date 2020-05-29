@@ -25,12 +25,12 @@ public class SstmtTest extends TestCase {
 
     public void testReturnEmbedAndParameters(){
         $stmt $s = $stmt.of(
-                Stmts.of((Object $any$)-> {$label: System.out.println(0);} ) );
+                Stmt.of((Object $any$)-> {$label: System.out.println(0);} ) );
         assertTrue( $s.$list().contains("label"));
 
 
         $s = $stmt.of(
-                Stmts.of((Object $any$)-> {$label: System.out.println($any$);} ) );
+                Stmt.of((Object $any$)-> {$label: System.out.println($any$);} ) );
         List<String> $names = $s.$list();
         System.out.println($names);
     }
@@ -114,28 +114,28 @@ public class SstmtTest extends TestCase {
     public void test$assertStmt(){
         //command
         $stmt<AssertStmt, _assertStmt> $as = $.assertStmt( ()-> {assert(1==1);} );
-        assertTrue( $as.matches( Stmts.of( ()->{assert(1==1);})) );
+        assertTrue( $as.matches( Stmt.of( ()->{assert(1==1);})) );
 
         //consumer
         $as = $.assertStmt( (Integer a)-> {assert(a==1);} );
-        assertTrue( $as.matches( Stmts.of( (Integer a)->{assert(a==1);})) );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
 
         //biconsumer
         $as = $.assertStmt( (Integer a, String b)-> {assert(a==1);} );
-        assertTrue( $as.matches( Stmts.of( (Integer a)->{assert(a==1);})) );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
 
         //triconsumer
         $as = $.assertStmt( (Integer a, String b, Map d)-> {assert(a==1);} );
-        assertTrue( $as.matches( Stmts.of( (Integer a)->{assert(a==1);})) );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
 
         //quadconsumer
         $as = $.assertStmt( (Integer a, String b, Map d, UUID g)-> {assert(a==1);} );
-        assertTrue( $as.matches( Stmts.of( (Integer a)->{assert(a==1);})) );
+        assertTrue( $as.matches( Stmt.of( (Integer a)->{assert(a==1);})) );
     }
 
     public void testThisOrSuperCallStmt(){
         ExplicitConstructorInvocationStmt ec = Ast.constructorCallStmt("super(1);");
-        assertEquals( Exprs.of(1), ec.getArgument(0));
+        assertEquals( Expr.of(1), ec.getArgument(0));
         assertFalse( ec.isThis() );
 
         //System.out.println( ec );
@@ -154,7 +154,7 @@ public class SstmtTest extends TestCase {
     public void testWalkCompose(){
         Tokens keyValues = new Tokens().add("label", "assert(true)", "block", true);
         Translator translator = Translator.DEFAULT_TRANSLATOR;
-        BlockStmt bodyStmts = Stmts.blockStmt( ()->{
+        BlockStmt bodyStmts = Stmt.blockStmt( ()->{
             System.out.println(1);
             $label: System.out.println(2);
             $block: {
@@ -178,7 +178,7 @@ public class SstmtTest extends TestCase {
             }
         }
         TypeDeclaration n = _class.of(F.class).ast();
-        $stmt.parameterize$LabeledStmt(n, Tokens.of("a", "assert(true);", "b", "assert(false);", "c", Stmts.of("assert(1==1);")) );
+        $stmt.parameterize$LabeledStmt(n, Tokens.of("a", "assert(true);", "b", "assert(false);", "c", Stmt.of("assert(1==1);")) );
         System.out.println(n);
     }
     public void testComposeStmt(){
@@ -194,36 +194,36 @@ public class SstmtTest extends TestCase {
         // HIDE "A" = null
         BlockStmt bs = $s.draft().ast();
         assertEquals(2,  bs.getStatements().size()); //1 and 3
-        assertEquals(Stmts.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
-        assertEquals(Stmts.of(()->System.out.println(3)),  bs.getStatement(1)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(1)); //1 and 3
 
         // SHOW "A" = true
         bs = $s.draft("A", true).ast();
         System.out.println( bs );
         assertEquals(3,  bs.getStatements().size()); //1,2,3
-        assertEquals(Stmts.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
-        assertEquals(Stmts.of(()->System.out.println(2)),  bs.getStatement(1)); //1 and 3
-        assertEquals(Stmts.of(()->System.out.println(3)),  bs.getStatement(2)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(2)),  bs.getStatement(1)); //1 and 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 and 3
 
         // OVERRIDE "A" = (String with single statement)
-        bs = $s.draft("A", Stmts.of("System.out.println('c');")).ast();
+        bs = $s.draft("A", Stmt.of("System.out.println('c');")).ast();
         System.out.println(bs);
         assertEquals(3,  bs.getStatements().size()); //1,2,3
-        assertEquals(Stmts.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c'' 3
-        assertEquals(Stmts.of(()->System.out.println('c')),  bs.getStatement(1)); //1 'c' 3
-        assertEquals(Stmts.of(()->System.out.println(3)),  bs.getStatement(2)); //1 'c' 3
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c'' 3
+        assertEquals(Stmt.of(()->System.out.println('c')),  bs.getStatement(1)); //1 'c' 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 'c' 3
 
         // OVERRIDE "A" = (BlockStatement)
-        bs = $s.draft("A", Stmts.blockStmt( "System.out.println('c');", "System.out.println('d');")).ast();
+        bs = $s.draft("A", Stmt.blockStmt( "System.out.println('c');", "System.out.println('d');")).ast();
         System.out.println("BLOKC "+ bs);
         assertEquals(3,  bs.getStatements().size()); //1,'c','d',3
-        assertEquals(Stmts.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c' 'd' 3
-        assertEquals(Stmts.blockStmt(()->{
+        assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c' 'd' 3
+        assertEquals(Stmt.blockStmt(()->{
             System.out.println('c');
             System.out.println('d');
             }),  bs.getStatement(1)); //1 'c' 'd' 3
         //assertEquals(Stmt.of(()->System.out.println('d')),  bs.getStatement(2)); //1 'c' 'd' 3
-        assertEquals(Stmts.of(()->System.out.println(3)),  bs.getStatement(2)); //1 'c' 'd' 3
+        assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 'c' 'd' 3
     }
 
     /**
@@ -266,7 +266,7 @@ public class SstmtTest extends TestCase {
         
         // OVERRIDE                pass in a statement here b(); and Override
         //                         what is at the $label
-        st = $s.draft("label", Stmts.of("b();")).ast();
+        st = $s.draft("label", Stmt.of("b();")).ast();
         assertTrue($stmt.of("if(a){b();}").matches(st) );
         
         // OVERRIDE               pass in another $stmt that will be constructed
@@ -301,19 +301,19 @@ public class SstmtTest extends TestCase {
     public void testConstruct$LabeledStatements(){
         //test no labeled statements
         Statement st = 
-            $stmt.construct$LabelStmt(Stmts.of("{}"), new Tokens() );
+            $stmt.construct$LabelStmt(Stmt.of("{}"), new Tokens() );
         assertTrue( $stmt.of("{}").matches(st) );
         
         //if it's null or false.... remove it        
-        st = $stmt.construct$LabelStmt(Stmts.of("{$l: assert true;}"), new Tokens() );
+        st = $stmt.construct$LabelStmt(Stmt.of("{$l: assert true;}"), new Tokens() );
         assertTrue( st instanceof BlockStmt);
         assertTrue( st.asBlockStmt().isEmpty() );        
-        st = $stmt.construct$LabelStmt(Stmts.of("{$l: assert true;}"), Tokens.of("l", false) );
+        st = $stmt.construct$LabelStmt(Stmt.of("{$l: assert true;}"), Tokens.of("l", false) );
         assertTrue( st instanceof BlockStmt);
         assertTrue( st.asBlockStmt().isEmpty() );        
         
         //if (the value of the $param "l" is true, leave the code in (without the label)
-        st = $stmt.construct$LabelStmt(Stmts.of("{$l: assert true;}"), Tokens.of("l", true) );
+        st = $stmt.construct$LabelStmt(Stmt.of("{$l: assert true;}"), Tokens.of("l", true) );
         assertTrue( st instanceof BlockStmt);
         assertTrue( !st.asBlockStmt().isEmpty() );        
         assertTrue( $stmt.of("{assert true;}").matches( st ) );        
@@ -322,7 +322,7 @@ public class SstmtTest extends TestCase {
         
         //Override at Labeled Statement
         //if (the value of the $param "l" is a statement), replace the code with the statement
-        st = $stmt.construct$LabelStmt(Stmts.of("{$l: assert true;}"), Tokens.of("l", Stmts.of("assert(1==1);")) );
+        st = $stmt.construct$LabelStmt(Stmt.of("{$l: assert true;}"), Tokens.of("l", Stmt.of("assert(1==1);")) );
         assertTrue( st instanceof BlockStmt);
         assertTrue( !st.asBlockStmt().isEmpty() );        
         assertTrue( $stmt.of("{assert (1==1);}").matches( st ) );
@@ -371,9 +371,9 @@ public class SstmtTest extends TestCase {
     public void testStmtAnyMatchesEmptyOrLongBlocks(){
         //assertTrue( $snip.any().matches( _method.of("void m();").getBody().ast() ));
         assertTrue( $stmt.of().matches( _method.of("void m(){}").getBody().ast() ));
-        assertTrue( $stmt.of().matches(Stmts.assertStmt("assert(1==1)")));
-        assertTrue( $stmt.of().matches(Stmts.breakStmt("break;")));
-        assertTrue( $stmt.of().matches(Stmts.assertStmt("assert(1==1)")));
+        assertTrue( $stmt.of().matches(Stmt.assertStmt("assert(1==1)")));
+        assertTrue( $stmt.of().matches(Stmt.breakStmt("break;")));
+        assertTrue( $stmt.of().matches(Stmt.assertStmt("assert(1==1)")));
         
         assertTrue( $stmt.of().matches( _body.of( new Object(){
             void m(){
@@ -390,8 +390,8 @@ public class SstmtTest extends TestCase {
         assertTrue($stmt.of().matches("{}"));
         assertTrue($stmt.of().matches(";"));
         
-        assertTrue($stmt.of().matches( Stmts.of("a(1);") ) );
-        assertTrue($stmt.of().matches( Stmts.blockStmt("{ a=1; assert(a != 0); }") ) );
+        assertTrue($stmt.of().matches( Stmt.of("a(1);") ) );
+        assertTrue($stmt.of().matches( Stmt.blockStmt("{ a=1; assert(a != 0); }") ) );
         
         assertFalse($stmt.of().matches( (Statement)null));        
     }
@@ -537,11 +537,11 @@ public class SstmtTest extends TestCase {
     }
 
     public void testLabelStmt(){
-        Stmts.of( (Object $any$)-> {label: System.out.println($any$);} );
+        Stmt.of( (Object $any$)-> {label: System.out.println($any$);} );
         $stmt $s = $stmt.of((Object $any$)-> {label: System.out.println($any$);});
         Statement s = $s.draft( "$any$" , 100).ast();
 
-        assertEquals( Stmts.of( "label: System.out.println(100);"), s );
+        assertEquals( Stmt.of( "label: System.out.println(100);"), s );
     }
 
     // I have a lambda that is and Expression that contains statements
@@ -621,8 +621,8 @@ public class SstmtTest extends TestCase {
             /* comment */
             assert $any$ != null;
         });
-        assertNotNull( $commA.select( Stmts.of("assert r != null;")));
-        assertNotNull( $commA.select( Stmts.of("/* comment */ assert r != null;")));
+        assertNotNull( $commA.select( Stmt.of("assert r != null;")));
+        assertNotNull( $commA.select( Stmt.of("/* comment */ assert r != null;")));
 
     }
 
@@ -631,19 +631,19 @@ public class SstmtTest extends TestCase {
         $stmt $s = $stmt.of( ()-> System.out.println(1) );
         //$args tokens = $s.deconstruct(Stmt.of( ()-> System.out.println(1) ));
         
-        Select sel = $s.select(Stmts.of( ()-> System.out.println(1) ));
+        Select sel = $s.select(Stmt.of( ()-> System.out.println(1) ));
         assertNotNull( sel );
 
         //$s = $stmt.of( ($any$)-> System.out.println($any$) );
         $s = $stmt.of( ($any$)-> System.out.println($any$) );
         
-        sel = $s.select(Stmts.of( ()-> System.out.println(1) ));
+        sel = $s.select(Stmt.of( ()-> System.out.println(1) ));
         //tokens = $s.deconstruct(Stmt.of( ()-> System.out.println(1) ));
         assertNotNull( sel );
         assertTrue( sel.is("any", "1"));
 
         //tokens = $s.deconstruct(Stmt.of( ()-> /** Comment */ System.out.println(1) ));
-        sel = $s.select(Stmts.of( ()-> /** Comment */ System.out.println(1) ));
+        sel = $s.select(Stmt.of( ()-> /** Comment */ System.out.println(1) ));
         assertNotNull( sel );
         assertTrue( sel.is("any", "1"));
     }
@@ -669,7 +669,7 @@ public class SstmtTest extends TestCase {
         assertEquals(st, st2);
 
         //verify we get what we expect
-        assertEquals( Stmts.of("System.out.println(1);"), st);
+        assertEquals( Stmt.of("System.out.println(1);"), st);
 
         //verify the prototype STILL matches the instance
         assertTrue( $s.matches(st));
@@ -695,37 +695,37 @@ public class SstmtTest extends TestCase {
 
     public void testStmtTypes(){
         //instead of Stmt.of, we can specify which TYPE of statement, verify the prototypes match the realized statements
-        assertTrue( $stmt.assertStmt("assert($any$);").matches(Stmts.of("assert(1==1);")));
-        assertTrue( $stmt.blockStmt("System.out.println($any$);").matches(Stmts.of("{System.out.println(\"anything\");}")));
-        assertTrue( $stmt.breakStmt("break $where$;").matches(Stmts.of("break outer;")));
-        assertTrue( $stmt.continueStmt("continue $where$;").matches(Stmts.of("continue outer;")));
+        assertTrue( $stmt.assertStmt("assert($any$);").matches(Stmt.of("assert(1==1);")));
+        assertTrue( $stmt.blockStmt("System.out.println($any$);").matches(Stmt.of("{System.out.println(\"anything\");}")));
+        assertTrue( $stmt.breakStmt("break $where$;").matches(Stmt.of("break outer;")));
+        assertTrue( $stmt.continueStmt("continue $where$;").matches(Stmt.of("continue outer;")));
         assertTrue( $stmt.thisCallStmt("this($args$);")
-                .matches(Stmts.of("this(1,2,'a');")));
-        assertTrue( $stmt.doStmt("do{ BODY(); }while($condition$)").$("BODY();", "BODY").matches(Stmts.of("do{ assert(1==1); }while(a<4)")));
-        assertTrue( $stmt.expressionStmt("$any$+=1;").matches(Stmts.of("i+=1")));
+                .matches(Stmt.of("this(1,2,'a');")));
+        assertTrue( $stmt.doStmt("do{ BODY(); }while($condition$)").$("BODY();", "BODY").matches(Stmt.of("do{ assert(1==1); }while(a<4)")));
+        assertTrue( $stmt.expressionStmt("$any$+=1;").matches(Stmt.of("i+=1")));
 
-        assertTrue( $stmt.forEachStmt("for(int $el$: $arr$){ assert($el$ > 0); }").matches(Stmts.of("for(int x:xs){ assert(x > 0); }")));
-        assertTrue( $stmt.forStmt("for(int i=0;i<$count$;i++){ assert(i > 0); }").matches(Stmts.of("for(int i=0;i<gg;i++){ assert(i>0); }") ));
-        assertTrue( $stmt.ifStmt("if($cond$){ print(\">1\");}").matches(Stmts.of("if(a>12345){ print(\">1\"); }")));
-        assertTrue( $stmt.labeledStmt("$label$: assert(1==1);").matches(Stmts.of("myLabel: assert(1==1);")));
-        assertTrue( $stmt.localClassStmt("class $name${ int i; }").$("int i;", "BODY").matches(Stmts.of("class F{ void m(){System.out.println(1);} }")));
-        assertTrue( $stmt.returnStmt("return $any$;").matches(Stmts.of("return this;")));
-        assertTrue( $stmt.switchStmt("switch($any$){ default: assert($any$ > 0); }").matches(Stmts.of("switch(someVar){ default: assert(someVar > 0);}")));
+        assertTrue( $stmt.forEachStmt("for(int $el$: $arr$){ assert($el$ > 0); }").matches(Stmt.of("for(int x:xs){ assert(x > 0); }")));
+        assertTrue( $stmt.forStmt("for(int i=0;i<$count$;i++){ assert(i > 0); }").matches(Stmt.of("for(int i=0;i<gg;i++){ assert(i>0); }") ));
+        assertTrue( $stmt.ifStmt("if($cond$){ print(\">1\");}").matches(Stmt.of("if(a>12345){ print(\">1\"); }")));
+        assertTrue( $stmt.labeledStmt("$label$: assert(1==1);").matches(Stmt.of("myLabel: assert(1==1);")));
+        assertTrue( $stmt.localClassStmt("class $name${ int i; }").$("int i;", "BODY").matches(Stmt.of("class F{ void m(){System.out.println(1);} }")));
+        assertTrue( $stmt.returnStmt("return $any$;").matches(Stmt.of("return this;")));
+        assertTrue( $stmt.switchStmt("switch($any$){ default: assert($any$ > 0); }").matches(Stmt.of("switch(someVar){ default: assert(someVar > 0);}")));
 
         //System.out.println($stmt.switchCaseStmt("case 'a': System.out.println($c$);").fill('a') );
         //System.out.println(Stmt.switchCaseStmt("case 'a': System.out.println(1);").toString().replace('\t', ' ') );
         //assertEquals(Stmt.switchCaseStmt("case 1: System.out.println(1);"), Stmt.switchCaseStmt("case 1: System.out.println(1);") );
         //assertTrue( $stmt.switchCaseStmt("case 1: System.out.println(1);").matches(Stmt.switchCaseStmt("case 1: System.out.println(1);")));
 
-        assertTrue( $stmt.synchronizedStmt("synchronized($any$){ BODY(); }").$("BODY()", "BODY").matches(Stmts.of("synchronized(someVar){ assert(true); }")));
-        assertTrue( $stmt.throwStmt("throw $any$;").matches(Stmts.of("throw new BlahException();")));
-        assertTrue( $stmt.tryStmt("try{ assert($any$); }catch($etype$ $e$){}").matches(Stmts.of("try{ assert(a>1); }catch(IOException ioe){}")));
-        assertTrue( $stmt.whileStmt("while($condition$){ BODY();}").$("BODY();", "BODY").matches(Stmts.of("while(a){ assert(a); }")));
+        assertTrue( $stmt.synchronizedStmt("synchronized($any$){ BODY(); }").$("BODY()", "BODY").matches(Stmt.of("synchronized(someVar){ assert(true); }")));
+        assertTrue( $stmt.throwStmt("throw $any$;").matches(Stmt.of("throw new BlahException();")));
+        assertTrue( $stmt.tryStmt("try{ assert($any$); }catch($etype$ $e$){}").matches(Stmt.of("try{ assert(a>1); }catch(IOException ioe){}")));
+        assertTrue( $stmt.whileStmt("while($condition$){ BODY();}").$("BODY();", "BODY").matches(Stmt.of("while(a){ assert(a); }")));
     }
 
     public void testSelect(){
         $stmt s = $stmt.of("System.out.println($any$);");
-        assertTrue(s.matches(Stmts.of("System.out.println(1);")));
+        assertTrue(s.matches(Stmt.of("System.out.println(1);")));
         class C{
             public void f(){
                 int i = 100;

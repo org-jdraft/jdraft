@@ -22,7 +22,7 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
     }
 
     public static _methodRefExpr of(String...code){
-        return new _methodRefExpr(Exprs.methodReferenceExpr( code));
+        return new _methodRefExpr(Expr.methodReferenceExpr( code));
     }
 
     public static _feature._one<_methodRefExpr, _expr> SCOPE = new _feature._one<>(_methodRefExpr.class, _expr.class,

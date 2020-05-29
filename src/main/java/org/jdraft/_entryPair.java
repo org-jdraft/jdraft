@@ -171,7 +171,7 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
     }
 
     public _entryPair setValue(String... ex){
-        this.mvp.setValue(Exprs.of(ex));
+        this.mvp.setValue(Expr.of(ex));
         return this;
     }
 
@@ -187,42 +187,42 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
 
     public boolean isValue( String... ex){
         try {
-            return Exprs.equal(this.mvp.getValue(), Exprs.of(ex));
+            return Expr.equal(this.mvp.getValue(), Expr.of(ex));
         }catch(Exception e){
             return false;
         }
     }
 
     public boolean isValue( _expr _e){
-        return Exprs.equal(this.mvp.getValue(), _e.ast());
+        return Expr.equal(this.mvp.getValue(), _e.ast());
     }
 
     public boolean isValue( Expression e){
-        return Exprs.equal(this.mvp.getValue(), e);
+        return Expr.equal(this.mvp.getValue(), e);
     }
 
     public boolean isValue( boolean b){
-        return isValue(Exprs.of(b));
+        return isValue(Expr.of(b));
     }
 
     public boolean isValue( int i){
-        return isValue(Exprs.of(i));
+        return isValue(Expr.of(i));
     }
 
     public boolean isValue( char c){
-        return isValue(Exprs.of(c));
+        return isValue(Expr.of(c));
     }
 
     public boolean isValue( float f){
-        return isValue(Exprs.of(f));
+        return isValue(Expr.of(f));
     }
 
     public boolean isValue( long l){
-        return isValue(Exprs.of(l));
+        return isValue(Expr.of(l));
     }
 
     public boolean isValue( double d){
-        return isValue(Exprs.of(d));
+        return isValue(Expr.of(d));
     }
 
     @Override

@@ -23,42 +23,42 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
     }
 
     public static _ifStmt of(String...code){
-        return new _ifStmt(Stmts.ifStmt( code));
+        return new _ifStmt(Stmt.ifStmt( code));
     }
 
 
-    public static <A extends Object> _ifStmt of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _ifStmt of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _ifStmt of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _ifStmt of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _ifStmt of( Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _ifStmt of( Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _ifStmt of( Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _ifStmt of( BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ifStmt of( Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _ifStmt from( LambdaExpr le){
@@ -102,7 +102,7 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.ifStmt(stringRep));
+            return is( Stmt.ifStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -119,7 +119,7 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
     }
 
     public _ifStmt setThen(String...sts){
-        this.astStmt.setThenStmt(Stmts.of(sts));
+        this.astStmt.setThenStmt(Stmt.of(sts));
         return this;
     }
 
@@ -139,7 +139,7 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
     }
 
     public _ifStmt setElse(String...stmt){
-        this.astStmt.setElseStmt(Stmts.of(stmt));
+        this.astStmt.setElseStmt(Stmt.of(stmt));
         return this;
     }
 

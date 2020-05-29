@@ -30,41 +30,41 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         return new _ternaryExpr(ce);
     }
     public static _ternaryExpr of(String...code){
-        return new _ternaryExpr(Exprs.ternaryExpr( code));
+        return new _ternaryExpr(Expr.ternaryExpr( code));
     }
 
-    public static <A extends Object> _ternaryExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _ternaryExpr of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _ternaryExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _ternaryExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _ternaryExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _ternaryExpr of(Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternaryExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternaryExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _ternaryExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _ternaryExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternaryExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _ternaryExpr of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _ternaryExpr from(LambdaExpr le){
@@ -106,7 +106,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.ternaryExpr(stringRep));
+            return is( Expr.ternaryExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -130,7 +130,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     }
 
     public boolean isThen( String...expr){
-        return isThen( Exprs.of(expr));
+        return isThen( Expr.of(expr));
     }
 
     public boolean isThen( _expr _e){
@@ -142,7 +142,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     }
 
     public _ternaryExpr setThen(String...expr){
-        this.ce.setThenExpr(Exprs.of(expr));
+        this.ce.setThenExpr(Expr.of(expr));
         return this;
     }
 
@@ -162,7 +162,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     }
 
     public boolean isElse( String...expr){
-        return isElse( Exprs.of(expr));
+        return isElse( Expr.of(expr));
     }
 
     public boolean isElse( _expr _e){
@@ -179,7 +179,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     }
 
     public _ternaryExpr setElse(String...expr){
-        this.ce.setElseExpr(Exprs.of(expr));
+        this.ce.setElseExpr(Expr.of(expr));
         return this;
     }
 

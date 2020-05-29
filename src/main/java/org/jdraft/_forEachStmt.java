@@ -33,41 +33,41 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
         return new _forEachStmt(fe);
     }
     public static _forEachStmt of(String...code){
-        return new _forEachStmt(Stmts.forEachStmt( code));
+        return new _forEachStmt(Stmt.forEachStmt( code));
     }
 
-    public static <A extends Object> _forEachStmt of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _forEachStmt of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _forEachStmt of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _forEachStmt of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _forEachStmt of( Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _forEachStmt of( BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _forEachStmt of( Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _forEachStmt from( LambdaExpr le){
@@ -109,14 +109,14 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmts.forEachStmt(stringRep));
+            return is( Stmt.forEachStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
 
     public boolean isIterable(String...expression){
         try {
-            return Objects.equals(this.astStmt.getIterable(), Exprs.of(expression));
+            return Objects.equals(this.astStmt.getIterable(), Expr.of(expression));
         }
         catch(Exception e){
             return false;
@@ -168,7 +168,7 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
     }
 
     public _forEachStmt setIterable(String...str){
-        this.astStmt.setIterable(Exprs.of(str));
+        this.astStmt.setIterable(Expr.of(str));
         return this;
     }
 

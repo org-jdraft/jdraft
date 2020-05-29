@@ -20,7 +20,7 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
         return new _thisExpr(te);
     }
     public static _thisExpr of(String...code){
-        return new _thisExpr(Exprs.thisExpr( code));
+        return new _thisExpr(Expr.thisExpr( code));
     }
 
     public static final Function<String, _thisExpr> PARSER = s-> _thisExpr.of(s);
@@ -46,7 +46,7 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.thisExpr(stringRep));
+            return is( Expr.thisExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }

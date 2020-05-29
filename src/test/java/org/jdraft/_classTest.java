@@ -688,7 +688,7 @@ public class _classTest extends TestCase {
         //verify that we manufactured a constructor, and it accepts a String (the final field NAME) as the constructor
         assertTrue( _c.getConstructor(0).getParam(0).isTypeRef(String.class) );
         //assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmt.of("this.name = name;") ) );
-         assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmts.of("this.name = name;") ) );
+         assertTrue( _c.getConstructor(0).getBody().getStatement(0).equals( Stmt.of("this.name = name;") ) );
     }
     
     
@@ -945,7 +945,7 @@ public class _classTest extends TestCase {
         assertTrue( _f.getModifiers().is( "public static final"));
         assertTrue( _f.isTypeRef( "List<String>"));
         assertTrue( _f.getName().equals( "l"));
-        assertTrue( _f.isInit(Exprs.of("new ArrayList<>()")));
+        assertTrue( _f.isInit(Expr.of("new ArrayList<>()")));
         //System.out.println( _c.listFields());
         
         assertTrue(_c.hasJavadoc());

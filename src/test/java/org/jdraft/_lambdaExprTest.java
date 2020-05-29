@@ -1,6 +1,6 @@
 package org.jdraft;
 
-import org.jdraft.Exprs.Command;
+import org.jdraft.Expr.Command;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -101,11 +101,11 @@ public class _lambdaExprTest extends TestCase {
 
     }
     public void testOf(){
-        Exprs.of(()-> System.out.println() );
-        Exprs.of((Object o)->System.out.println(o) );
-        Exprs.of(o-> "e" );
-        Exprs.of((o)-> "e" );
-        Exprs.of((o)-> {return "e";} );
+        Expr.of(()-> System.out.println() );
+        Expr.of((Object o)->System.out.println(o) );
+        Expr.of(o-> "e" );
+        Expr.of((o)-> "e" );
+        Expr.of((o)-> {return "e";} );
         
         _lambdaExpr.of(()-> System.out.println() );
         _lambdaExpr.of((String o)->System.out.println(o) );

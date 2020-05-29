@@ -32,42 +32,42 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         return new _arrayCreateExpr(ac);
     }
     public static _arrayCreateExpr of(String...code){
-        return new _arrayCreateExpr(Exprs.arrayCreationExpr( code));
+        return new _arrayCreateExpr(Expr.arrayCreationExpr( code));
     }
 
 
-    public static <A extends Object> _arrayCreateExpr of(Exprs.Command c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+    public static <A extends Object> _arrayCreateExpr of(Expr.Command c){
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object> _arrayCreateExpr of(Consumer<A> c){
-        LambdaExpr le = Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
+        LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
     public static <A extends Object, B extends Object> _arrayCreateExpr of(BiConsumer<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _arrayCreateExpr of(Exprs.TriConsumer<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object> _arrayCreateExpr of(Expr.TriConsumer<A,B,C> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreateExpr of(Exprs.QuadConsumer<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreateExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object> _arrayCreateExpr of(Function<A,B> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     public static <A extends Object, B extends Object, C extends Object> _arrayCreateExpr of(BiFunction<A,B,C> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreateExpr of(Exprs.TriFunction<A,B,C,D> command ){
-        return from(Exprs.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreateExpr of(Expr.TriFunction<A,B,C,D> command ){
+        return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
     private static _arrayCreateExpr from(LambdaExpr le){
@@ -123,7 +123,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.arrayCreationExpr(stringRep));
+            return is( Expr.arrayCreationExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
@@ -144,7 +144,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     }
 
     public _arrayCreateExpr setInit(String...init){
-        this.astNode.setInitializer(Exprs.arrayInitExpr(init));
+        this.astNode.setInitializer(Expr.arrayInitExpr(init));
         return this;
     }
 
@@ -176,7 +176,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
 
     public boolean isInit(String... initCode){
         try{
-            return isInit(Exprs.arrayInitExpr(initCode));
+            return isInit(Expr.arrayInitExpr(initCode));
         }catch(Exception e){
             return false;
         }
@@ -234,7 +234,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     }
 
     public _arrayCreateExpr setArrayDimensions(String...code){
-        this.astNode.setLevels( Exprs.arrayCreationLevels(code) );
+        this.astNode.setLevels( Expr.arrayCreationLevels(code) );
         return this;
     }
 
@@ -245,7 +245,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
 
     public boolean isArrayDimensions(String... dimensions){
         try {
-            return isArrayDimensions( Exprs.arrayCreationLevels(dimensions));
+            return isArrayDimensions( Expr.arrayCreationLevels(dimensions));
         } catch(Exception e){
             return false;
         }

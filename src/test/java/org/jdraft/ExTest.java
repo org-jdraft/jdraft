@@ -32,7 +32,7 @@ public class ExTest extends TestCase {
                 "        yield -1;",
                 "}"};
 
-        SwitchExpr se = Exprs.switchExpr(sy);
+        SwitchExpr se = Expr.switchExpr(sy);
         assertEquals( 4, se.getEntries().size());
         assertEquals( 2, se.getEntry(0).getLabels().size());
         assertEquals( 1, se.getEntry(1).getLabels().size());
@@ -44,12 +44,12 @@ public class ExTest extends TestCase {
      */
     public void testArrayEx(){
 
-        assertEquals(Exprs.of(new int[]{1,2,3,4,5}), Exprs.of(1,2,3,4,5));
-        assertEquals(Exprs.of(new boolean[]{true, false, true}), Exprs.of(true,false,true));
-        assertEquals(Exprs.of(new float[]{1.0f, 2.0f}), Exprs.of(1.0f,2.0f));
-        assertEquals(Exprs.of(new char[]{'a','b','c'}), Exprs.of('a','b','c'));
-        assertEquals(Exprs.of(new double[]{1.0d, 2.0d, 3.0d}), Exprs.of(1.0d,2.0d,3.0d));
-        assertEquals(Exprs.of("{\"A\", \"B\", \"C\"}"), Exprs.stringArrayInitExpr("A","B","C") );
+        assertEquals(Expr.of(new int[]{1,2,3,4,5}), Expr.of(1,2,3,4,5));
+        assertEquals(Expr.of(new boolean[]{true, false, true}), Expr.of(true,false,true));
+        assertEquals(Expr.of(new float[]{1.0f, 2.0f}), Expr.of(1.0f,2.0f));
+        assertEquals(Expr.of(new char[]{'a','b','c'}), Expr.of('a','b','c'));
+        assertEquals(Expr.of(new double[]{1.0d, 2.0d, 3.0d}), Expr.of(1.0d,2.0d,3.0d));
+        assertEquals(Expr.of("{\"A\", \"B\", \"C\"}"), Expr.stringArrayInitExpr("A","B","C") );
     }
 
     public void testExprThousandsSeparatorHexBinary(){
@@ -57,25 +57,25 @@ public class ExTest extends TestCase {
         StaticJavaParser.parseExpression("0xDEADBEEF");
         StaticJavaParser.parseExpression("0b110100111");
 
-        assertTrue( Exprs.JAVAPARSER.parseExpression("1_000").isSuccessful());
-        assertTrue( Exprs.JAVAPARSER.parseExpression("0xDEADBEEF").isSuccessful());
-        assertTrue( Exprs.JAVAPARSER.parseExpression("0b110100111").isSuccessful());
+        assertTrue( Expr.JAVAPARSER.parseExpression("1_000").isSuccessful());
+        assertTrue( Expr.JAVAPARSER.parseExpression("0xDEADBEEF").isSuccessful());
+        assertTrue( Expr.JAVAPARSER.parseExpression("0b110100111").isSuccessful());
         Ast.expression("1_000");
         Ast.expression("0xDEADBEEF");
         Ast.expression("0b110100111");
         
-        Exprs.intExpr("1_000");
-        Exprs.intExpr("0xDEADBEEF");
-        Exprs.intExpr("0b110100111");
+        Expr.intExpr("1_000");
+        Expr.intExpr("0xDEADBEEF");
+        Expr.intExpr("0b110100111");
 
-        LongLiteralExpr l = Exprs.longExpr("1_000_000L");
-        LongLiteralExpr ll = Exprs.longExpr("1000000L");
+        LongLiteralExpr l = Expr.longExpr("1_000_000L");
+        LongLiteralExpr ll = Expr.longExpr("1000000L");
         
         //this is a direct syntax comparison
         assertFalse( l.equals(11));
         
         //this is a "semantic" equality comparison
-        assertTrue( Exprs.equal(l, ll) );
+        assertTrue( Expr.equal(l, ll) );
         
         //this is interesting, because syntactically they ARE equal
         // but semantically they are not
@@ -89,10 +89,10 @@ public class ExTest extends TestCase {
     }
     
     public void testUnary(){
-        UnaryExpr ue = Exprs.unaryExpr( ()->!true );
-        assertEquals( Exprs.of("!true"), ue);
+        UnaryExpr ue = Expr.unaryExpr( ()->!true );
+        assertEquals( Expr.of("!true"), ue);
         
-        Exprs.instanceOfExpr( ($any$)-> $any$ instanceof String );
+        Expr.instanceOfExpr( ($any$)-> $any$ instanceof String );
     }
     
     
@@ -116,27 +116,27 @@ public class ExTest extends TestCase {
     }
     
     public void testObjectCreation(){
-        ObjectCreationExpr oce = Exprs.newExpr( ()-> new HashMap() );
-        assertEquals( oce, Exprs.newExpr("new HashMap()"));
+        ObjectCreationExpr oce = Expr.newExpr( ()-> new HashMap() );
+        assertEquals( oce, Expr.newExpr("new HashMap()"));
         
-        assertEquals( Exprs.of("List.of(1,2)"), Exprs.methodCallExpr("List.of(1,2);"));
+        assertEquals( Expr.of("List.of(1,2)"), Expr.methodCallExpr("List.of(1,2);"));
     }
     
     public void testArrayExpr(){
-        Exprs.of(new int[]{1,2,3});
-        Exprs.of(new float[]{1.0f,2.0f,3.0f});
-        Exprs.of(new double[]{1.0,2.0,3.0});
-        Exprs.of(new boolean[]{true});
-        Exprs.of(new char[]{'a'});
+        Expr.of(new int[]{1,2,3});
+        Expr.of(new float[]{1.0f,2.0f,3.0f});
+        Expr.of(new double[]{1.0,2.0,3.0});
+        Expr.of(new boolean[]{true});
+        Expr.of(new char[]{'a'});
     }
     
     public void testRuntimeAnonymousClass(){
-        ObjectCreationExpr oce = Exprs.newExpr(new Object(){
+        ObjectCreationExpr oce = Expr.newExpr(new Object(){
             int x,y,z;
         });
         assertTrue( oce.getAnonymousClassBody().get().get(0) instanceof FieldDeclaration );
 
-        oce = Exprs.newExpr(
+        oce = Expr.newExpr(
                 /** INTENTIONALLY BLANK */
                 /** INTENTIONALLY BLANK */
                 /** INTENTIONALLY BLANK */
@@ -152,11 +152,11 @@ public class ExTest extends TestCase {
 
     public void testRuntimeLambda(){
         //System.out.println( _io.describe() );
-        LambdaExpr le = Exprs.lambdaExpr( ()-> System.out.println(1) );
+        LambdaExpr le = Expr.lambdaExpr( ()-> System.out.println(1) );
 
 
         /** I need to get rid of the whole space requirement */
-        le = Exprs
+        le = Expr
                 .lambdaExpr(
                 //intentionally
                 //intentionally
@@ -201,26 +201,26 @@ public class ExTest extends TestCase {
 
     public void testLambda(){
         //no args
-        LambdaExpr le = Exprs.of( ()-> {assert true;} );
+        LambdaExpr le = Expr.of( ()-> {assert true;} );
         assertTrue( le.getParameters().isEmpty() );
-        assertEquals( Stmts.of( ()->{assert true;}), le.getBody().asBlockStmt().getStatement(0));
+        assertEquals( Stmt.of( ()->{assert true;}), le.getBody().asBlockStmt().getStatement(0));
 
         //unknown TYPE args
-        le = Exprs.lambdaExpr( "(x) ->System.out.println(x)" );
+        le = Expr.lambdaExpr( "(x) ->System.out.println(x)" );
         assertTrue( le.getParameters().get(0).getType() instanceof UnknownType);
         assertEquals( "x", le.getParameters().get(0).getNameAsString());
 
-        le = Exprs.lambdaExpr( (Integer x) ->System.out.println(x) );
+        le = Expr.lambdaExpr( (Integer x) ->System.out.println(x) );
 
         //typed args
-        le = Exprs.of( (String s)->System.out.println(s) );
+        le = Expr.of( (String s)->System.out.println(s) );
         assertTrue( le.getParameters().get(0).getType().isClassOrInterfaceType() );
         assertEquals( "s", le.getParameters().get(0).getNameAsString());
         assertEquals( "String", le.getParameters().get(0).getTypeAsString());
 
         //multiple args
         //le = Expr.of( (Integer i, String s, Boolean b)->System.out.println(s + " "+ i +" "+ b) );
-        le = Exprs.of( (Integer i, String s, Boolean b)->System.out.println(s + " "+ i +" "+ b) );
+        le = Expr.of( (Integer i, String s, Boolean b)->System.out.println(s + " "+ i +" "+ b) );
 
         assertTrue( le.getParameters().get(0).getType().isClassOrInterfaceType() );
         assertEquals( "i", le.getParameters().get(0).getNameAsString());
@@ -237,7 +237,7 @@ public class ExTest extends TestCase {
 
         //multiple statements (block Stmt)
         //le = Expr.of( (Integer i)->{
-        le = Exprs.of( (Integer i)->{
+        le = Expr.of( (Integer i)->{
             assert i > 1;
             System.out.println(i);
         } );
@@ -245,18 +245,18 @@ public class ExTest extends TestCase {
         assertEquals( "i", le.getParameters().get(0).getNameAsString());
         assertEquals( "Integer", le.getParameters().get(0).getTypeAsString());
         assertTrue( le.getBody().isBlockStmt() );
-        assertEquals( Stmts.of((Integer i)->{assert i > 1;}), le.getBody().asBlockStmt().getStatement(0));
-        assertEquals( Stmts.of((Integer i)->{System.out.println(i);}), le.getBody().asBlockStmt().getStatement(1));
+        assertEquals( Stmt.of((Integer i)->{assert i > 1;}), le.getBody().asBlockStmt().getStatement(0));
+        assertEquals( Stmt.of((Integer i)->{System.out.println(i);}), le.getBody().asBlockStmt().getStatement(1));
 
         //varargs
-        le = Exprs.of( (String... s)->System.out.println(Arrays.toString(s)) );
+        le = Expr.of( (String... s)->System.out.println(Arrays.toString(s)) );
         assertTrue( le.getParameters().get(0).getType().isClassOrInterfaceType() );
         assertEquals( "s", le.getParameters().get(0).getNameAsString());
         assertEquals( "String", le.getParameters().get(0).getTypeAsString());
         assertTrue( le.getParameters().get(0).isVarArgs());
 
         //ANNOTATIONS
-        le = Exprs.of( (@MyAnn String... s)->System.out.println(Arrays.toString(s)) );
+        le = Expr.of( (@MyAnn String... s)->System.out.println(Arrays.toString(s)) );
         assertTrue( le.getParameters().get(0).getType().isClassOrInterfaceType() );
         assertTrue( le.getParameters().get(0).getAnnotationByClass(MyAnn.class).isPresent());
         assertEquals( "s", le.getParameters().get(0).getNameAsString());
@@ -264,7 +264,7 @@ public class ExTest extends TestCase {
         assertTrue( le.getParameters().get(0).isVarArgs());
 
         //final
-        le = Exprs.of( (@MyAnn final String... s)->System.out.println(Arrays.toString(s)) );
+        le = Expr.of( (@MyAnn final String... s)->System.out.println(Arrays.toString(s)) );
         assertTrue( le.getParameters().get(0).getType().isClassOrInterfaceType() );
         assertTrue( le.getParameters().get(0).isFinal());
         assertTrue( le.getParameters().get(0).getAnnotationByClass(MyAnn.class).isPresent());
@@ -274,7 +274,7 @@ public class ExTest extends TestCase {
 
         //BODY comments
 
-        le = Exprs.of( ()->{
+        le = Expr.of( ()->{
             /** JAVADOC comment */
             System.out.println(1);
             /* comment */
@@ -285,9 +285,9 @@ public class ExTest extends TestCase {
 
         List<Comment> cs = le.getAllContainedComments();
 
-        assertEquals( Stmts.of( () ->/** JAVADOC comment */ System.out.println(1) ), le.getBody().asBlockStmt().getStatement(0 ));
-        assertEquals( Stmts.of( () ->/* comment */ System.out.println(2) ), le.getBody().asBlockStmt().getStatement(1 ));
-        assertEquals( Stmts.of( () ->// line comment
+        assertEquals( Stmt.of( () ->/** JAVADOC comment */ System.out.println(1) ), le.getBody().asBlockStmt().getStatement(0 ));
+        assertEquals( Stmt.of( () ->/* comment */ System.out.println(2) ), le.getBody().asBlockStmt().getStatement(1 ));
+        assertEquals( Stmt.of( () ->// line comment
                 System.out.println(3) ), le.getBody().asBlockStmt().getStatement(2 ));
 
         assertEquals( 3, cs.size() );
@@ -299,13 +299,13 @@ public class ExTest extends TestCase {
     //well... I want to
     public void testLiterals(){
         //binary, hex
-        assertEquals( Exprs.of("0b0011"), Exprs.of("0b0011"));
-        assertEquals( Exprs.of("0x0011"), Exprs.of("0x0011"));
+        assertEquals( Expr.of("0b0011"), Expr.of("0b0011"));
+        assertEquals( Expr.of("0x0011"), Expr.of("0x0011"));
 
-        assertEquals( Exprs.of(0b0011), Exprs.of(0b0011));
+        assertEquals( Expr.of(0b0011), Expr.of(0b0011));
 
         //long
-        assertEquals( Exprs.of(123456789l), Exprs.of(123456789L));
+        assertEquals( Expr.of(123456789l), Expr.of(123456789L));
         //LongLiteralExpr ll1 = Expr.longLiteral("123L" );
         //LongLiteralExpr ll2 = Expr.longLiteral("123l" );
         //assertEquals( ll1.asLong(), ll2.asLong());
@@ -313,12 +313,12 @@ public class ExTest extends TestCase {
         //assertEquals( Expr.of("123456789l"), Expr.of("123456789L"));
 
         //float
-        assertEquals( Exprs.of(3.14f), Exprs.of(3.14F));
-        assertEquals( Exprs.of("3.14f"), Exprs.of("3.14f"));
+        assertEquals( Expr.of(3.14f), Expr.of(3.14F));
+        assertEquals( Expr.of("3.14f"), Expr.of("3.14f"));
         //assertEquals( Expr.of("3.14f"), Expr.of("3.14F"));
 
         //double
-        assertEquals( Exprs.of("3.14"), Exprs.of("3.14"));
+        assertEquals( Expr.of("3.14"), Expr.of("3.14"));
         //assertEquals( Expr.of("3.14d"), Expr.of("3.14D"));
         //assertEquals( Expr.of(3.14f), Expr.of("3.14f"));
     }

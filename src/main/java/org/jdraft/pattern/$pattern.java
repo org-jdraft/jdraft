@@ -2079,7 +2079,7 @@ public interface $pattern<P, $P extends $pattern>{
             if (obj == null || obj.toString().trim().length() == 0) {
                 return null;
             }
-            return Exprs.of(obj.toString());
+            return Expr.of(obj.toString());
         }
 
         public Statement stmt(String $name) {
@@ -2087,7 +2087,7 @@ public interface $pattern<P, $P extends $pattern>{
             if (obj == null || obj.toString().trim().length() == 0) {
                 return null;
             }
-            return Stmts.of(obj.toString());
+            return Stmt.of(obj.toString());
         }
 
         public _typeRef type(String $name) {
@@ -2112,7 +2112,7 @@ public interface $pattern<P, $P extends $pattern>{
             if (obj.toString().trim().length() == 0) {
                 return Collections.EMPTY_LIST;
             }
-            return Stmts.blockStmt(obj.toString()).getStatements();
+            return Stmt.blockStmt(obj.toString()).getStatements();
         }
 
         /**
@@ -2235,10 +2235,10 @@ public interface $pattern<P, $P extends $pattern>{
                 return s.equals(v);
             }
             if (expectedValue instanceof Expression) {
-                return Exprs.equal((Expression) expectedValue, get($name));
+                return Expr.equal((Expression) expectedValue, get($name));
             } else if (expectedValue instanceof String) {
                 try {
-                    return Exprs.equal(Exprs.of((String) expectedValue), o);
+                    return Expr.equal(Expr.of((String) expectedValue), o);
                 } catch (Exception e) {
 
                 }

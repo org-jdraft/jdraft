@@ -15,11 +15,11 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
         return new _doubleExpr(dl);
     }
     public static _doubleExpr of(String...code){
-        return new _doubleExpr(Exprs.doubleExpr( code));
+        return new _doubleExpr(Expr.doubleExpr( code));
     }
 
     public static _doubleExpr of(double d){
-        return new _doubleExpr(Exprs.doubleExpr( d));
+        return new _doubleExpr(Expr.doubleExpr( d));
     }
 
     public static _feature._one<_doubleExpr, String> LITERAL_VALUE = new _feature._one<>(_doubleExpr.class, String.class,
@@ -44,7 +44,7 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Exprs.doubleExpr(stringRep));
+            return is( Expr.doubleExpr(stringRep));
         } catch(Exception e){
 
         }
@@ -57,7 +57,7 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
     }
 
     public boolean is(double d){
-        return Exprs.equal(de, d);
+        return Expr.equal(de, d);
     }
 
     public Double getValue(){

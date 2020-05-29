@@ -165,7 +165,7 @@ public class _fieldTest extends TestCase {
         assertEquals( _modifiers.of( "public", "static", "final"), _f.getModifiers() );
         assertTrue( _f.isTypeRef( "int"));
         assertEquals("W", _f.getName() );
-        assertEquals( Exprs.of("103 + 45"), _f.getInitNode() );
+        assertEquals( Expr.of("103 + 45"), _f.getInitNode() );
     }
     
 }
