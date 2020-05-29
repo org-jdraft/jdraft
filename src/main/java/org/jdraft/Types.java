@@ -55,10 +55,11 @@ public final class Types {
         }
         if (!param.startsWith("<")) {
             param = "<" + param;
-        }
-        if (!param.endsWith(">")) {
             param = param + ">";
         }
+        //if (!param.endsWith(">")) {
+        //    param = param + ">";
+        //}
         MethodDeclaration md = Ast.method(param + " void a(){}");
 
         TypeParameter tp = md.getTypeParameters().get(0);
@@ -135,12 +136,14 @@ public final class Types {
         }
         if( code.startsWith("?")){
             //need to parse a WildcardType
-            Type t = of("List<"+code+">");
-            Optional<WildcardType> on = t.findFirst(WildcardType.class);
-            if( on.isPresent()){
-                return on.get();
-            }
-            throw new _jdraftException("Unable to parse \""+ code+" as wildcard type");
+            try {
+                Type t = of("List<" + code + ">");
+                Optional<WildcardType> on = t.findFirst(WildcardType.class);
+                if( on.isPresent()){
+                    return on.get();
+                }
+            }catch(Exception e){ }
+            throw new _jdraftException("Unable to parse \""+ code+"\" as wildcard type");
         }
         if (PATTERN_LOCAL_CLASS.matcher(code).find()) {
             //lets remove all the local stuff... return a type without package

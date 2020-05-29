@@ -21,6 +21,39 @@ import java.util.List;
  */
 public class _typeParamTest extends TestCase {
 
+    public void testTypeParam(){
+        //without <>
+        assertTrue(_typeParam.of("A").is("A"));
+        assertTrue(_typeParam.of("A extends Serializable").is("A extends Serializable"));
+        assertTrue(_typeParam.of("A extends Serializable & Cloneable").is("A extends Serializable & Cloneable"));
+        assertTrue(_typeParam.of("A extends Serializable & Cloneable").is("A extends Cloneable & Serializable"));
+
+        //with <>
+        assertTrue(_typeParam.of("<A>").is("A"));
+        assertTrue(_typeParam.of("<A extends Serializable>").is("A extends Serializable"));
+        assertTrue(_typeParam.of("<A extends Serializable & Cloneable>").is("A extends Serializable & Cloneable"));
+        assertTrue(_typeParam.of("<A extends Serializable & Cloneable>").is("A extends Cloneable & Serializable"));
+
+        _typeParam _tp = _typeParam.of("A extends Serializable & Cloneable");
+        //Print.tree(_tp.ast());
+
+        _tp = _typeParam.of("A extends Base & Pair<A,B>");
+        assertTrue( _tp.is("A extends Pair<A,B> & Base"));
+        //Print.tree(_tp.ast());
+
+        //TypeParameter tp = Types.typeParam("A extends Base & Pair<A,B>");
+        /*
+        _tp = _typeParam.of("A super Serializable & Cloneable");
+        Print.tree(_tp);
+         */
+
+    }
+
+    public void testTPS(){
+        _typeParam _tp = _typeParam.of("<U extends Comparable<? super java.io.Serializable>>");
+        assertTrue( _tp.is("<U extends Comparable<? super java.io.Serializable>>"));
+        assertTrue( _tp.is("<U extends Comparable<? super Serializable>>")); //fully v non fully qualified
+    }
     public void testBuildFromScratch(){
         _typeParam _tp = _typeParam.of();
         NodeList<ClassOrInterfaceType> tb = new NodeList<>();
@@ -36,7 +69,7 @@ public class _typeParamTest extends TestCase {
     }
     public void testTypeParameterT(){
         _typeParams _tps = _typeParams.of("B extends R & J");
-        System.out.println( _tps.getAt(0).getTypeBound() );
+        System.out.println( _tps.getAt(0).getAstExtendsTypeBound() );
         
         System.out.println( _tps );
         
@@ -86,9 +119,9 @@ public class _typeParamTest extends TestCase {
         SimpleName sn = astTp.getName();
         astTp.getTypeBound();
         
-        _tp.getTypeBound().forEach(t->System.out.println( "TB "+ t));
+        _tp.getAstExtendsTypeBound().forEach(t->System.out.println( "TB "+ t));
         
-        assertEquals( Ast.anno("@Test"), _tp.getTypeBound().get(0).getAnnotation(0) );
+        assertEquals( Ast.anno("@Test"), _tp.getAstExtendsTypeBound().get(0).getAnnotation(0) );
         System.out.println( _tp );
     }
     

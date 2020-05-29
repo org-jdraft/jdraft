@@ -1021,7 +1021,11 @@ public enum Ast {
         if (!code.endsWith(";")) {
             code = code + ";";
         }
-        return StaticJavaParser.parseImport(code);
+        ParseResult<ImportDeclaration> pid = Ast.JAVAPARSER.parseImport(code);
+        if( pid.isSuccessful() ) {
+            return pid.getResult().get();
+        }
+        throw new _jdraftException("Could not parse import from \""+code+"\"");
     }
 
     /**
@@ -1511,13 +1515,14 @@ public enum Ast {
      * @return the BodyDeclaration
      */
     public static BodyDeclaration bodyDeclaration(String... code) {
-        try {
-            return
-                    StaticJavaParser.parseBodyDeclaration(Text.combine(code));
-        } catch (Exception e) {
-            throw new _jdraftException("Invalid Body Definition : "
-                    + System.lineSeparator() + Text.indent(Text.combine(code)));
+        String allCode = Text.combine(code);
+        ParseResult<BodyDeclaration> pbd = JAVAPARSER.parseBodyDeclaration(allCode );
+        if( pbd.isSuccessful() ){
+            return pbd.getResult().get();
         }
+        throw new _jdraftException("Invalid BodyDeclaration : " + System.lineSeparator()
+                + Text.indent(allCode) + System.lineSeparator()
+                + pbd.getProblems());
     }
 
     /**
@@ -1787,11 +1792,19 @@ public enum Ast {
     }
 
     public static Name name(String code) {
-        return StaticJavaParser.parseName(code);
+        ParseResult<Name> pn = JAVAPARSER.parseName(code);
+        if( pn.isSuccessful() ){
+            return pn.getResult().get();
+        }
+        throw new _jdraftException("Unable to parse Name \""+ code+ "\""+System.lineSeparator()+ pn.getProblems());
     }
 
     public static SimpleName simpleName(String code) {
-        return StaticJavaParser.parseSimpleName(code);
+        ParseResult<SimpleName> pn = JAVAPARSER.parseSimpleName(code);
+        if( pn.isSuccessful() ){
+            return pn.getResult().get();
+        }
+        throw new _jdraftException("Unable to parse SimpleName \""+ code+ "\""+System.lineSeparator()+ pn.getProblems());
     }
 
     public static NodeList<Parameter> parameters(String... code) {
@@ -1820,7 +1833,12 @@ public enum Ast {
     }
 
     public static Parameter parameter(String... code) {
-        return StaticJavaParser.parseParameter(Text.combine(code));
+        String allCode = Text.combine(code);
+        ParseResult<Parameter> pn = JAVAPARSER.parseParameter(allCode);
+        if( pn.isSuccessful() ){
+            return pn.getResult().get();
+        }
+        throw new _jdraftException("Unable to parse Parameter \""+ allCode+ "\""+System.lineSeparator()+ pn.getProblems());
     }
 
     /**
@@ -2114,6 +2132,14 @@ public enum Ast {
         if( !se.startsWith("case") && !(se.startsWith("default"))){
             se = "case "+se;
         }
+        ParseResult<Statement> pn = JAVAPARSER.parseStatement("switch (a){" + se + System.lineSeparator() + "}");
+        if( pn.isSuccessful() ){
+            SwitchEntry ses = pn.getResult().get().asSwitchStmt().getEntry(0);
+            ses.remove();
+            return ses;
+        }
+        throw new _jdraftException("Unable to parse SwitchEntry \""+ se+ "\""+System.lineSeparator()+ pn.getProblems());
+        /*
         try {
             SwitchStmt ss = (SwitchStmt) StaticJavaParser.parseStatement(
                     "switch (a){" + se + System.lineSeparator() + "}");
@@ -2123,6 +2149,7 @@ public enum Ast {
         } catch(Exception e){
             throw new _jdraftException("could not parse \""+se+"\"" );
         }
+         */
     }
     
     private static final String TRY_HARDCODED = "try{ assert(true); }";
@@ -2186,10 +2213,16 @@ public enum Ast {
      */
     public static AnnotationExpr anno(String... code) {
         String s = Text.combine(code);
-        if (s.startsWith("@")) {
-            return StaticJavaParser.parseAnnotation(s);
+
+        if(!s.startsWith("@")) {
+            s = "@"+s;
         }
-        return StaticJavaParser.parseAnnotation("@" + s);
+
+        ParseResult<AnnotationExpr> pn = JAVAPARSER.parseAnnotation(s);
+        if( pn.isSuccessful() ){
+            return pn.getResult().get();
+        }
+        throw new _jdraftException("Unable to parse AnnotationExpr \""+ s+ "\""+System.lineSeparator()+ pn.getProblems());
     }
 
     /**

@@ -52,7 +52,7 @@ public class _typeRefTest extends TestCase {
         _typeRef _t = _typeRef.of("URISyntaxException | FileNotFoundException");
         assertTrue( _t.isUnionType());
         assertTrue( _t.is("URISyntaxException | FileNotFoundException"));
-        assertTrue( _t.is("FileNotFoundException | URISyntaxException"));
+        assertTrue( _t.is("FileNotFoundException | URISyntaxException")); //out of order union type
 
         assertTrue( _t.is(FileNotFoundException.class.getCanonicalName()+" | URISyntaxException"));
 
@@ -78,6 +78,9 @@ public class _typeRefTest extends TestCase {
         Print.tree(wct);
         wct = (WildcardType) Types.of("? super T");
         Print.tree(wct);
+
+        wct = (WildcardType) Types.of("? extends T");
+        Print.tree(wct);
     }
 
     public void testWildcardExtendsSuper(){
@@ -97,15 +100,6 @@ public class _typeRefTest extends TestCase {
         assertTrue( _wct.isWildcardType() );
         assertFalse( _wct.isWildcardSuper(Serializable.class) );
         assertTrue( _wct.isWildcardExtends(Serializable.class) );
-
-
-
-        //StaticJavaParser.parseType("?");
-        //StaticJavaParser.parseType("? extends T");
-        //StaticJavaParser.parseType("? super V");
-
-        //Print.tree( t.ast());
-        //assertTrue( t.isWildcard() );
     }
     public void testTypesEquals(){
         Type astT = Types.of("void");

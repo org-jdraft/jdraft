@@ -72,7 +72,7 @@ public final class _typeParam
      * does this type parameter have a type bound?
      * @return
      */
-    public boolean hasTypeBound(){
+    public boolean hasExtendsTypeBound(){
         return this.typeParam.getTypeBound().isNonEmpty();
     }
 
@@ -164,7 +164,7 @@ public final class _typeParam
      *
      * @return
      */
-    public NodeList<ClassOrInterfaceType> getTypeBound() {
+    public NodeList<ClassOrInterfaceType> getAstExtendsTypeBound() {
         return typeParam.getTypeBound();
     }
 
@@ -213,9 +213,23 @@ public final class _typeParam
         if( Objects.equals(this.typeParam, other.typeParam)){
             return true;
         }
-        List<String>ttp = Types.normalizeTypeParam( this.typeParam);
-        List<String>otp = Types.normalizeTypeParam( other.typeParam);
-        return Objects.equals( ttp, otp );
+        if( !Objects.equals( this.getName(),other.getName()) ){
+            System.out.println("Name \""+ this.getName()+"\" not same \""+other.getName()+"\"");
+            return false;
+        }
+        //List<_typeRef> tetb = this.listExtendsTypeBound();
+        //List<_typeRef> otb = other.listExtendsTypeBound();
+        NodeList<ClassOrInterfaceType> tetb = this.getAstExtendsTypeBound();
+        NodeList<ClassOrInterfaceType> otb = other.getAstExtendsTypeBound();
+
+        if( tetb.size() != otb.size() ){
+            return false;
+        }
+        //make sure the bounds match (IN ANY ORDER)
+        return tetb.stream().allMatch(t-> otb.stream().anyMatch(a-> Types.equal( t, a)));
+        //List<String>ttp = Types.normalizeTypeParam( this.typeParam);
+        //List<String>otp = Types.normalizeTypeParam( other.typeParam);
+        //return Objects.equals( ttp, otp );
     }
 
     public Map<_java.Feature, Object> features( ) {

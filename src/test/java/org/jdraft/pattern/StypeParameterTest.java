@@ -193,10 +193,10 @@ public class StypeParameterTest extends TestCase {
     public void testLambda(){
         class C<A, B extends Serializable, C extends Map & Serializable>{
         }
-        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().isEmpty()).countIn(C.class));
-        assertEquals(2, $typeParameter.of(tp-> tp.getTypeBound().isNonEmpty()).countIn(C.class));
-        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().size() == 1).countIn(C.class));
-        assertEquals(1, $typeParameter.of(tp-> tp.getTypeBound().size() == 2).countIn(C.class));
+        assertEquals(1, $typeParameter.of(tp-> tp.getAstExtendsTypeBound().isEmpty()).countIn(C.class));
+        assertEquals(2, $typeParameter.of(tp-> tp.getAstExtendsTypeBound().isNonEmpty()).countIn(C.class));
+        assertEquals(1, $typeParameter.of(tp-> tp.getAstExtendsTypeBound().size() == 1).countIn(C.class));
+        assertEquals(1, $typeParameter.of(tp-> tp.getAstExtendsTypeBound().size() == 2).countIn(C.class));
         
     }
     

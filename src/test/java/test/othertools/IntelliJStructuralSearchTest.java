@@ -383,7 +383,7 @@ public class IntelliJStructuralSearchTest{
         __( $class.of(c-> c.allMethods(m-> m.isFinal()) ) );
         __( $class.of(c-> c.allFields(f-> f.isFinal()) ) );
         __( $class.of(c-> c.allInitBlocks(i-> i.isStatic() ) ) );
-        __( $class.of(c-> c.allTypeParams(tp-> !tp.hasTypeBound() ) ) );
+        __( $class.of(c-> c.allTypeParams(tp-> !tp.hasExtendsTypeBound() ) ) );
         __( $class.of(c-> c.isAllAnnoExprs(a-> !a.isNamed("todo") ) ) );
 
         //Singletons

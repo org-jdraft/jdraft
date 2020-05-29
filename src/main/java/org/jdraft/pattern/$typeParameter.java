@@ -108,12 +108,12 @@ public class $typeParameter
         $name $nm = $name.as( _tp.getName() );
 
         List<$typeRef> $tbs = new ArrayList<>();
-        _tp.getTypeBound().forEach( t -> $tbs.add($typeRef.as(t)));
+        _tp.getAstExtendsTypeBound().forEach(t -> $tbs.add($typeRef.as(t)));
         $typeParameter $tp = new $typeParameter( $as, $nm);
         $tp.$typeBound.addAll($tbs);
 
 
-        return $tp.$and( tp-> tp.getTypeBound().size() == _tp.getTypeBound().size());
+        return $tp.$and( tp-> tp.getAstExtendsTypeBound().size() == _tp.getAstExtendsTypeBound().size());
     }
 
     public static $typeParameter not( $part...parts){
@@ -193,7 +193,7 @@ public class $typeParameter
     public $typeParameter(_typeParam _tp){
         anns = $annoRefs.of(_tp);
         name = name.of(_tp.getName() );
-        _tp.getTypeBound().forEach(tb -> this.$typeBound.add($typeRef.of(tb)));                   
+        _tp.getAstExtendsTypeBound().forEach(tb -> this.$typeBound.add($typeRef.of(tb)));
     }
     
     public $typeParameter $anno(){
@@ -500,7 +500,7 @@ public class $typeParameter
                 return null;
             }
             List<ClassOrInterfaceType> availableTypeBounds = new ArrayList<>();
-            availableTypeBounds.addAll(_tp.getTypeBound());
+            availableTypeBounds.addAll(_tp.getAstExtendsTypeBound());
             //System.out.println( "Available type bound s"+ availableTypeBounds);
             //System.out.println( "this.$typeBound"+ this.$typeBound);
             /*
@@ -632,7 +632,7 @@ public class $typeParameter
         }
         
         public NodeList<ClassOrInterfaceType> typeBound(){
-            return _tp.getTypeBound();
+            return _tp.getAstExtendsTypeBound();
         }
         
         public String name(){
