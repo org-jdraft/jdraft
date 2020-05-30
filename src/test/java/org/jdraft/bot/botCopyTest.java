@@ -64,7 +64,7 @@ public class botCopyTest extends TestCase {
         assertFalse($b.matches("@B"));
         assertFalse($b.matches("@B(2)"));
 
-        $b.$and(a-> a.isPairedMembers());
+        $b.$and(a-> a.isEntryPairedMembers());
         assertTrue($b.matches("@A(key=2)"));
         assertFalse($b.matches("@A(2)"));
 

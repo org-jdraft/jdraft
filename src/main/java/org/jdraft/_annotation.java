@@ -563,7 +563,8 @@ public final class _annotation
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_annotation a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_annotation.class, s));
+            (_annotation a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_annotation.class, s))
+            .featureImplementations(_entry.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class);
 
     public static _feature._meta<_annotation> META = _feature._meta.of(_annotation.class,
             PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, MEMBERS);

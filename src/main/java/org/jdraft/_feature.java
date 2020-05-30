@@ -1,28 +1,21 @@
 package org.jdraft;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /**
  * Specifically designate a named feature and tools to get or set the value in an automated fashion
  * in the order the features appear within the AST
  *
  * <P>FROM a "Ast {@link com.github.javaparser.ast.Node} or {@link _java._node}s perspective, defines all of the
- * exactly the underlying possible "feature" nodes "below" it that can be populated and tools for accessing
+ * underlying possible "feature" nodes "below" it that can be populated and tools for accessing
  * or setting these nodes.</P>
  *
  * <P>For example: we have many Nodes in an AST that are {@link com.github.javaparser.ast.expr.Name} type, but
  * features let you designate a specific {@link com.github.javaparser.ast.expr.Name}, (i.e. the name of a
  * {@link com.github.javaparser.ast.body.MethodDeclaration}) and a tool for identifying, categorizing, accessing
- * or updating specifically method name(s).</P>
+ * or updating specifically method name(s) {@link _method#NAME}.</P>
  *
  * So the Combination of the featureClass and the featureId can uniquely identify a feature.(i.e.
  * methodNames would be the pair : {_method.class, Feature.Id.NAME}, however there is a
@@ -40,8 +33,8 @@ import java.util.stream.Stream;
 public interface _feature<_T, _F>{
 
     /**
-     * The disambiguation of where the feature is present (i.e. a Name Feature can exist on a particular Entity)
-     * @return
+     * The disambiguation of where the feature is present (i.e. identify ONLY names on {@link _method}s like {@link _method#NAME}
+     * @return the target Class of the feature (i.e. {@link _method} for {@link _method#NAME}
      */
     Class<_T> getTargetClass();
 
@@ -108,17 +101,21 @@ public interface _feature<_T, _F>{
 
         ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
         ANNO_EXPRS("annoExprs"), /** i.e. @Deprecated @NotNull */
-        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair"), //anno
-        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs"), //anno
+        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs"), /** {@link _annoExpr#ENTRY_PAIRS} */
+        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair"), /** {@link _annoExpr#ENTRY_PAIRS} */
 
-        ANNOTATION("annotation"),
-        ANNOTATION_ENTRY("annotationEntry"),
-        ANNOTATION_ENTRIES("annotationEntries"),
+        /*ANNOTATION("annotation"), /* the declaration of an ANNOTATION i.e. "@interface Closeable{}" */
+        /* ANNOTATION_ENTRIES("annotationEntries"), /*Lists of Members of annotations */
+        /* ANNOTATION_ENTRY("annotationEntry"), Lists of members in _annotations*/
 
-        ANONYMOUS_CLASS_BODY("anonymousClassBody"),//_new
+        /** {@link _newExpr#ANONYMOUS_CLASS_BODY} */
+        ANONYMOUS_CLASS_BODY("anonymousClassBody"),
 
+        /** {@link _constant#ARGS}, {@link _variable#INIT}, {@link _methodCallExpr#ARGS} */
+        ARGS_EXPRS("args"),
+        /** {@link _args#ARGS} */
         ARG_EXPR("arg"), //_enum._constant
-        ARGS_EXPRS("args"), //_enum._constant
+
 
         ARRAY_DIMENSION("arrayDimension"),
         ARRAY_DIMENSIONS("arrayDimensions"), //arrayCreate
@@ -273,7 +270,7 @@ public interface _feature<_T, _F>{
 
         public final String name;
 
-        private _id(String name){
+        _id(String name){
             this.name = name;
         }
     }
@@ -291,8 +288,18 @@ public interface _feature<_T, _F>{
      * @param <_E>
      */
     class _many<_T, _E> implements _feature<_T, List<_E>> {
+
+        /** the top level container target class containing the feature (i.e. {@link _method} for {@link _method#NAME} */
         public final Class<_T> targetClass;
+
+        /** the unifying element type (could be an interface, i.e. _java._member) */
         public final Class<_E> featureElementClass;
+
+        /**
+         * the implementation types of feature elements (i.e. {@link _method}, {@link _field},... for {@link _java._member})
+         * this is filled in if the {@link #featureElementClass} is a base class or interface.
+         */
+        public Class[] featureImplementationClasses;
 
         public final _id featureId;
         public final _id featureElementId;
@@ -313,6 +320,11 @@ public interface _feature<_T, _F>{
             this.setter = setter;
             this.targetParser = targetParser;
             this.elementParser = elementParser;
+        }
+
+        public _many featureImplementations(Class<? extends _E>... featureImplementationClass ){
+            this.featureImplementationClasses = featureImplementationClasses;
+            return this;
         }
 
         public Function<String, _T> getTargetParser(){ return this.targetParser; }
@@ -449,9 +461,14 @@ public interface _feature<_T, _F>{
             return new _meta<>(targetClass, features);
         }
 
+        /** Class of the Container of the feature (i.e. {@link _method} class for the {@link _method#NAME} feature) */
         public final Class<_T> targetClass;
 
-        /** Note: this should be the features IN THE ORDER THEY APPEAR IN THE LANGUAGE */
+        /**
+         * Note: this should be the features IN THE ORDER THEY APPEAR IN THE LANGUAGE
+         * each feature MAY be null, a single entity, or a list of entities as defined by it's
+         * {@link _feature} implementation
+         */
         public final List<_feature<_T, ?>> featureList;
 
         private _meta(Class<_T> targetClass, _feature<_T, ?>... features ){
@@ -459,12 +476,12 @@ public interface _feature<_T, _F>{
             this.featureList = Stream.of(features).collect(Collectors.toList());
         }
 
-        //get the target class for this specification
+        /** get the target class for this specification */
         public Class<_T> getTargetClass(){
             return targetClass;
         }
 
-        //returns a (ordered logically in the token order appearance) list of all features for the targetClass
+        /** returns a (ordered logically in the token order appearance) list of all features for the targetClass */
         public List<_feature<_T, ?>> list(){
             return featureList;
         }
@@ -485,6 +502,11 @@ public interface _feature<_T, _F>{
             return this;
         }
 
+        /**
+         *
+         * @param consumerFn
+         * @return
+         */
         public _meta<_T> forEach(Consumer<_feature<_T,?>> consumerFn){
             this.featureList.forEach(consumerFn);
             return this;

@@ -37,7 +37,7 @@ public @interface _$ {
 
                 for (int i = 0; i < _ps.size(); i++) {
                     _annoExpr _a = _ps.get(i);
-                    _arrayInitExpr _ai = _arrayInitExpr.of(_a.getPairValue("value").asArrayInitializerExpr());
+                    _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
                     _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
@@ -76,7 +76,7 @@ public @interface _$ {
 
                 for (int i = 0; i < _ps.size(); i++) {
                     _annoExpr _a = _ps.get(i);
-                    _arrayInitExpr _ai = _arrayInitExpr.of(_a.getPairValue("value").asArrayInitializerExpr());
+                    _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
                     _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));

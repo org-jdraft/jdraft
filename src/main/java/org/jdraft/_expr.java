@@ -34,44 +34,45 @@ public interface _expr<E extends Expression, _E extends _expr>
     // reference
     //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
     //
-    public static class Classes {
-        Class<_annoExpr> ANNO = _annoExpr.class;
-        Class<_arrayAccessExpr> ARRAY_ACCESS = _arrayAccessExpr.class;
-        Class<_assignExpr> ASSIGN = _assignExpr.class;
-        Class<_arrayInitExpr> ARRAY_INITIALIZE = _arrayInitExpr.class;
-        Class<_binaryExpr> BINARY_EXPRESSION = _binaryExpr.class;
-        Class<_booleanExpr> BOOLEAN = _booleanExpr.class;
-        Class<_castExpr> CAST = _castExpr.class;
-        Class<_charExpr> CHAR = _charExpr.class;
-        Class<_classExpr> CLASS_EXPRESSION = _classExpr.class;
-        Class<_ternaryExpr> CONDITIONAL_EXPRESSION = _ternaryExpr.class;
-        Class<_parenthesizedExpr> ENCLOSED_EXPRESSION = _parenthesizedExpr.class;
-        Class<_fieldAccessExpr> FIELD_ACCESS = _fieldAccessExpr.class;
-        Class<_intExpr> INT = _intExpr.class;
-        Class<_longExpr> LONG = _longExpr.class;
-        Class<_lambdaExpr> LAMBDA = _lambdaExpr.class;
-        Class<_methodCallExpr> METHOD_CALL = _methodCallExpr.class;
-        Class<_methodRefExpr> METHOD_REFERENCE = _methodRefExpr.class;
-        Class<_nameExpr> NAME_EXPRESSION = _nameExpr.class;
-        Class<_newExpr> NEW = _newExpr.class;
-        Class<_nullExpr> NULL = _nullExpr.class;
-        Class<_superExpr> SUPER = _superExpr.class;
-        Class<_stringExpr> STRING = _stringExpr.class;
-        Class<_switchExpr> SWITCH_EXPRESSION = _switchExpr.class;
-        Class<_typeExpr> TYPE_EXPRESSION = _typeExpr.class;
-        Class<_unaryExpr> UNARY = _unaryExpr.class;
-        Class<_variablesExpr> VARIABLE = _variablesExpr.class;
+    class Classes {
+        public static Class<_annoExpr> ANNO_EXPR = _annoExpr.class;
+        public static Class<_arrayAccessExpr> ARRAY_ACCESS_EXPR = _arrayAccessExpr.class;
+        public static Class<_assignExpr> ASSIGN_EXPR = _assignExpr.class;
+        public static Class<_arrayInitExpr> ARRAY_INIT_EXPR = _arrayInitExpr.class;
+        public static Class<_binaryExpr> BINARY_EXPR = _binaryExpr.class;
+        public static Class<_booleanExpr> BOOLEAN_EXPR = _booleanExpr.class;
+        public static Class<_castExpr> CAST_EXPR = _castExpr.class;
+        public static Class<_charExpr> CHAR_EXPR = _charExpr.class;
+        public static Class<_classExpr> CLASS_EXPR = _classExpr.class;
+        public static Class<_ternaryExpr> CONDITIONAL_EXPR = _ternaryExpr.class;
+        public static Class<_parenthesizedExpr> PARENTHESIZED_EXPR = _parenthesizedExpr.class;
+        public static Class<_fieldAccessExpr> FIELD_ACCESS_EXPR = _fieldAccessExpr.class;
+        public static Class<_intExpr> INT_EXPR = _intExpr.class;
+        public static Class<_longExpr> LONG_EXPR = _longExpr.class;
+        public static Class<_lambdaExpr> LAMBDA_EXPR = _lambdaExpr.class;
+        public static Class<_methodCallExpr> METHOD_CALL_EXPR = _methodCallExpr.class;
+        public static Class<_methodRefExpr> METHOD_REF_EXPR = _methodRefExpr.class;
+        public static Class<_nameExpr> NAME_EXPR = _nameExpr.class;
+        public static Class<_newExpr> NEW_EXPR = _newExpr.class;
+        public static Class<_nullExpr> NULL_EXPR = _nullExpr.class;
+        public static Class<_superExpr> SUPER_EXPR = _superExpr.class;
+        public static Class<_stringExpr> STRING_EXPR = _stringExpr.class;
+        public static Class<_switchExpr> SWITCH_EXPR = _switchExpr.class;
+        public static Class<_textBlockExpr> TEXT_BLOCK_EXPR = _textBlockExpr.class;
+        public static Class<_typeExpr> TYPE_EXPR = _typeExpr.class;
+        public static Class<_unaryExpr> UNARY_EXPR = _unaryExpr.class;
+        public static Class<_variablesExpr> VARIABLES_EXPR = _variablesExpr.class;
 
-        Class<? super _expr>[] ALL = new Class[]{ANNO, ARRAY_ACCESS, ASSIGN, ARRAY_INITIALIZE,
-                BINARY_EXPRESSION, BOOLEAN, CAST, CHAR, CLASS_EXPRESSION, CONDITIONAL_EXPRESSION, ENCLOSED_EXPRESSION,
-                FIELD_ACCESS, INT, LONG, LAMBDA, METHOD_CALL, METHOD_REFERENCE, NAME_EXPRESSION, NEW, NULL, SUPER, STRING,
-                SWITCH_EXPRESSION, TYPE_EXPRESSION, UNARY, VARIABLE};
-
+        public static Class<? extends _expr>[] ALL = new Class[]{ANNO_EXPR, ARRAY_ACCESS_EXPR, ASSIGN_EXPR, ARRAY_INIT_EXPR,
+                BINARY_EXPR, BOOLEAN_EXPR, CAST_EXPR, CHAR_EXPR, CLASS_EXPR, CONDITIONAL_EXPR, PARENTHESIZED_EXPR,
+                FIELD_ACCESS_EXPR, INT_EXPR, LONG_EXPR, LAMBDA_EXPR, METHOD_CALL_EXPR, METHOD_REF_EXPR, NAME_EXPR, NEW_EXPR, NULL_EXPR, SUPER_EXPR, STRING_EXPR,
+                SWITCH_EXPR, TEXT_BLOCK_EXPR, TYPE_EXPR, UNARY_EXPR, VARIABLES_EXPR};
     }
 
     static _expr of(String...code){
         return of( Expr.of(code));
     }
+
     static _intExpr of(int i){
         return _intExpr.of(i);
     }

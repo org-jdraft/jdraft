@@ -208,10 +208,10 @@ public class SannoRefTest extends TestCase {
         assertTrue($anno.of(S.class, "($any$)").matches("S()"));
         assertTrue($anno.of(S.class, "($any$)").matches("S(Float.class)"));
         */
-        assertTrue($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S(Float.class)"));
+        assertTrue($annoRef.of(S.class).$and(a-> a.hasEntryPair(p -> p.getValue() instanceof _classExpr)).matches("@S(Float.class)"));
 
-        assertFalse($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S"));
-        assertFalse($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S({Float.class, String.class})"));
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasEntryPair(p -> p.getValue() instanceof _classExpr)).matches("@S"));
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasEntryPair(p -> p.getValue() instanceof _classExpr)).matches("@S({Float.class, String.class})"));
 
         //assertFalse($annoRef.of(S.class).$and(a-> a.hasValue(v -> v.isClassExpr())).matches("@S"));
 
@@ -276,7 +276,7 @@ public class SannoRefTest extends TestCase {
         //verify that we can find 
         assertNotNull( $annoRef.of("name($any$)").firstIn(_c,
                 //there is an Integer attribute value that is odd
-                (a)-> a.hasPair(p -> p.getValue() instanceof _intExpr  && ((_intExpr)p.getValue()).getValue() % 2 == 1)) );
+                (a)-> a.hasEntryPair(p -> p.getValue() instanceof _intExpr  && ((_intExpr)p.getValue()).getValue() % 2 == 1)) );
                 //(a)-> a.hasValue(e -> e.isIntegerLiteralExpr() && e.asIntegerLiteralExpr().asInt() % 2 == 1)) );
         
         

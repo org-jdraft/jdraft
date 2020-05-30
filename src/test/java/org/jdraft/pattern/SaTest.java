@@ -252,9 +252,9 @@ public class SaTest extends TestCase {
         
         assertTrue($annoRef.of(S.class).matches("S()"));
         assertTrue($annoRef.of(S.class).matches("S(Float.class)"));
-        assertTrue($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S(Float.class)"));
-        assertFalse($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S"));
-        assertFalse($annoRef.of(S.class).$and(a-> a.hasPair(p -> p.getValue() instanceof _classExpr)).matches("@S({Float.class, String.class})"));
+        assertTrue($annoRef.of(S.class).$and(a-> a.hasEntryPair(p -> p.getValue() instanceof _classExpr)).matches("@S(Float.class)"));
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasEntryPair(p -> p.getValue() instanceof _classExpr)).matches("@S"));
+        assertFalse($annoRef.of(S.class).$and(a-> a.hasEntryPair(p -> p.getValue() instanceof _classExpr)).matches("@S({Float.class, String.class})"));
         
     }
     

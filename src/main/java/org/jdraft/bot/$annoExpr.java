@@ -108,7 +108,7 @@ public class $annoExpr
     public static $annoExpr as(_annoExpr _an) {
         $annoExpr $a = of(_an);
         //add a constraint to verify there are EXACTLY only the same
-        $a.$and(_a -> _an.listPairs().size() == _a.listPairs().size());
+        $a.$and(_a -> _an.listEntryPairs().size() == _a.listEntryPairs().size());
         return $a;
     }
 
@@ -281,7 +281,7 @@ public class $annoExpr
         }
         _annoExpr _a = _annoExpr.of();
         _a.setName(name.draft(translator, keyValues).toString());
-        _a.setPairs(entryPairs.draft(translator, keyValues));
+        _a.setEntryPairs(entryPairs.draft(translator, keyValues));
         return _a.toString();
     }
 

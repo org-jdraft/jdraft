@@ -123,7 +123,7 @@ public class $annoRef
     public static $annoRef as(_annoExpr _an){
         $annoRef $a = of( _an);
         //add a constraint to verify there are EXACTLY only the same
-        $a.$and( _a-> _an.listPairs().size() == _a.listPairs().size());
+        $a.$and( _a-> _an.listEntryPairs().size() == _a.listEntryPairs().size());
         return $a;
     }
 

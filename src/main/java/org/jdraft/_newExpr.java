@@ -133,13 +133,14 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
             a -> a.getArgs(),
             (_newExpr a, _args _a) -> a.setArgs(_a), PARSER);
 
-    public static _feature._many<_newExpr, _java._declared> ANONYMOUS_MEMBER_DECLARATIONS = new _feature._many<>(_newExpr.class, _java._declared.class,
-            _feature._id.MEMBERS,
+    public static _feature._many<_newExpr, _java._declared> ANONYMOUS_CLASS_BODY = new _feature._many<>(_newExpr.class, _java._declared.class,
+            _feature._id.ANONYMOUS_CLASS_BODY,
             _feature._id.MEMBER,
             a -> a.listAnonymousDeclarations(),
-            (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousDeclarations(_ms), PARSER, s-> (_java._declared)_java._member.of(_class.class, s));
+            (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousDeclarations(_ms), PARSER, s-> (_java._declared)_java._member.of(_class.class, s))
+            .featureImplementations(_method.class, _field.class);
 
-    public static _feature._meta<_newExpr> META = _feature._meta.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_MEMBER_DECLARATIONS );
+    public static _feature._meta<_newExpr> META = _feature._meta.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_CLASS_BODY);
 
 
     /*

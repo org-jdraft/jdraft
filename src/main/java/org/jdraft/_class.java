@@ -463,7 +463,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             _feature._id.MEMBERS,
             _feature._id.MEMBER,
             a -> a.listMembers(),
-            (_class a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _member.of(_class.class, s));
+            (_class a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _member.of(_class.class, s))
+            .featureImplementations(_constructor.class, _method.class, _initBlock.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class);
 
     public static _feature._one<_class, _typeParams> TYPE_PARAMS = new _feature._one<>(_class.class, _typeParams.class,
             _feature._id.TYPE_PARAMS,
@@ -518,7 +519,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param anonymousImplementation
      * @return the modified Class
      */
-    public _class impl(Object anonymousImplementation ){
+    public _class addToBody(Object anonymousImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         for(int i=0;i<anonymousImplementation.getClass().getInterfaces().length;i++ ){
             addImplements( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]} );
@@ -754,6 +755,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             return _typeRef.of(getExtendsNode());
         }
         return null;
+    }
+
+    public _class setExtends(Class clazz){
+        return setExtends(_typeRef.of(clazz));
     }
 
     public _class setExtends( _typeRef _tr){

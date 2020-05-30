@@ -18,8 +18,8 @@ public class _variablesExprTest extends TestCase {
         assertNotNull(_vs.getAnnoExpr("B"));
         assertNotNull(_vs.getAnnoExpr("C"));
 
-        assertNotNull(_vs.getAnnoExpr(a-> a.hasPair("value", 1)));
-        assertNotNull(_vs.getAnnoExpr(a-> a.hasPair("k", 2)));
+        assertNotNull(_vs.getAnnoExpr(a-> a.hasEntryPair("value", 1)));
+        assertNotNull(_vs.getAnnoExpr(a-> a.hasEntryPair("k", 2)));
 
         assertEquals(3, _vs.listAnnoExprs().size());
 

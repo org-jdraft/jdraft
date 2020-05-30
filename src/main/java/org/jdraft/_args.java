@@ -97,7 +97,8 @@ public final class _args
     public static _feature._many<_args, _expr> ARGS = new _feature._many<>(_args.class, _expr.class,
             _feature._id.ARGS_EXPRS, _feature._id.ARG_EXPR,
             a->a.list(),
-            (_args a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s));
+            (_args a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s))
+            .featureImplementations(_expr.Classes.ALL);
 
     public static _feature._meta<_args> META = _feature._meta.of(_args.class, ARGS);
 

@@ -11,7 +11,7 @@ import java.util.List;
 public class $botListSelectTest extends TestCase {
 
     public void testSingleMemberAnno(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listEntryPairs());
 
         $entryPair $mv = $entryPair.of(_entryPair.of("1"));
         List<$entryPair> $mvs = new ArrayList<>();
@@ -28,7 +28,7 @@ public class $botListSelectTest extends TestCase {
     }
 
     public void testNormalAnno(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listEntryPairs());
 
         $entryPair $mv = $entryPair.of(_entryPair.of("value=1"));
         List<$entryPair> $mvs = new ArrayList<>();
@@ -42,7 +42,7 @@ public class $botListSelectTest extends TestCase {
     }
 
     public void testOrder(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listEntryPairs());
 
         $entryPair $mv1 = $entryPair.of(_entryPair.of("key=1"));
         $entryPair $mv2 = $entryPair.of(_entryPair.of("val=2"));
@@ -57,7 +57,7 @@ public class $botListSelectTest extends TestCase {
     }
 
     public void testMatchAll(){
-        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listPairs());
+        Select.$botSetSelect $bls = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "memberValues", _ae-> ((_annoExpr)_ae).listEntryPairs());
 
         $bls.setMatchAll(true);
 

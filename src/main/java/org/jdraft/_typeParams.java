@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -21,7 +22,7 @@ public final class _typeParams
     public static final Function<String, _typeParams> PARSER = s-> _typeParams.of(s);
 
     public static _typeParams of(){
-        return of( (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Dummy{}" ));
+        return of( (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Unknown{}" ));
     }
 
     public static _typeParams of(String...tps){
@@ -32,7 +33,15 @@ public final class _typeParams
         if( !typeParams.startsWith("<") ){
             typeParams = "<"+ typeParams +">";
         }
-        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Dummy"+ typeParams +"{}");
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Unknown"+ typeParams +"{}");
+        return of( coid );
+    }
+
+    public static _typeParams of( _typeParam... _tps){
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Unknown{}");
+        NodeList<TypeParameter> ntp = new NodeList<>();
+        Stream.of(_tps).forEach(_tp -> ntp.add( _tp.ast()));
+        coid.setTypeParameters(ntp);
         return of( coid );
     }
 
@@ -197,6 +206,19 @@ public final class _typeParams
         default NodeList<TypeParameter> listAstTypeParameters() {
             _java._declared _m = (_java._declared) this;
             return ((NodeWithTypeParameters)_m.ast()).getTypeParameters();
+        }
+
+        default _WTP addTypeParam( _typeParam _tp){
+            if( hasTypeParams() ){
+                listAstTypeParameters().add( _tp.ast());
+            } else{
+                setTypeParams(_typeParams.of(_tp));
+            }
+            return (_WTP) this;
+        }
+
+        default _WTP addTypeParam( String typeParam ){
+            return addTypeParam( _typeParam.of(typeParam));
         }
 
         /**

@@ -149,8 +149,8 @@ public class _annoExprTest extends TestCase {
      *
      */
     public void testMetaFunctionEntryPair() {
-        _entryPair _epA = _annoExpr.of("@A(1)").getPair(0);
-        _entryPair _epB = _annoExpr.of("@A(1)").getPair(0);
+        _entryPair _epA = _annoExpr.of("@A(1)").getEntryPair(0);
+        _entryPair _epB = _annoExpr.of("@A(1)").getEntryPair(0);
         Map<_feature, Boolean> m = featureEqualsMap(_epA, _epB);
 
         //verify all true
@@ -220,44 +220,44 @@ public class _annoExprTest extends TestCase {
     public void testRemovePair(){
         _annoExpr _ae = _annoExpr.of("@A(1)");
         assertTrue( _ae.isSingleMember() );
-        _ae.removePair(_entryPair.of("value", 1));
+        _ae.removeEntryPair(_entryPair.of("value", 1));
         assertTrue( _ae.isMarker() );
 
         System.out.println( _ae );
 
         _ae = _annoExpr.of("@A(k=1)");
-        _ae.removePairs(p-> p.isNamed("k"));
-        assertEquals(0, _ae.listPairs().size() );
+        _ae.removeEntryPairs(p-> p.isNamed("k"));
+        assertEquals(0, _ae.listEntryPairs().size() );
         assertTrue(_ae.isMarker() );
     }
 
     @AI(is={1,2,3,4,5})
     public void testAnnoUse(){
-        _annoExpr.of("A").addPair("i", 1);
-        _annoExpr.of("A").addPair("i", 1,2,3);
+        _annoExpr.of("A").addEntryPair("i", 1);
+        _annoExpr.of("A").addEntryPair("i", 1,2,3);
 
-        _annoExpr.of("A").addPair("i", 'a');
-        _annoExpr.of("A").addPair("i", 'a', 'b');
+        _annoExpr.of("A").addEntryPair("i", 'a');
+        _annoExpr.of("A").addEntryPair("i", 'a', 'b');
 
-        _annoExpr.of("A").addPair("i", true);
-        _annoExpr.of("A").addPair("i", true, false);
-        _annoExpr.of("A").addPair("i", new boolean[]{true});
-        System.out.println( _annoExpr.of("A").addPair("i", String.class, Map.class ) );
+        _annoExpr.of("A").addEntryPair("i", true);
+        _annoExpr.of("A").addEntryPair("i", true, false);
+        _annoExpr.of("A").addEntryPair("i", new boolean[]{true});
+        System.out.println( _annoExpr.of("A").addEntryPair("i", String.class, Map.class ) );
 
-        _annoExpr.of("A").addPair("i", _annoExpr.of("@A(1)"), _annoExpr.of("@A(2)") );
+        _annoExpr.of("A").addEntryPair("i", _annoExpr.of("@A(1)"), _annoExpr.of("@A(2)") );
 
-        _annoExpr _ap = _annoExpr.of("A").addPair("i", 1L);
-
-
-        System.out.println(_annoExpr.of("A").addPair("i", 1L, 2L));
+        _annoExpr _ap = _annoExpr.of("A").addEntryPair("i", 1L);
 
 
-        System.out.println( _annoExpr.of("A").addPair(_entryPair.of("i", 1,2,3,4)) );
+        System.out.println(_annoExpr.of("A").addEntryPair("i", 1L, 2L));
 
-        _annoExpr.of("A").addPair("f", 1.0f);
-        _annoExpr.of("A").addPair("f", 1.0f, 2.0f);
-        _annoExpr.of("A").addPair(_entryPair.of("fs", 1.0f));
-        _annoExpr.of("A").addPair(_entryPair.of("fs", 1.0f,2.0f,3.0f,4.0f));
+
+        System.out.println( _annoExpr.of("A").addEntryPair(_entryPair.of("i", 1,2,3,4)) );
+
+        _annoExpr.of("A").addEntryPair("f", 1.0f);
+        _annoExpr.of("A").addEntryPair("f", 1.0f, 2.0f);
+        _annoExpr.of("A").addEntryPair(_entryPair.of("fs", 1.0f));
+        _annoExpr.of("A").addEntryPair(_entryPair.of("fs", 1.0f,2.0f,3.0f,4.0f));
 
         @AI
         class C{ }
@@ -296,19 +296,19 @@ public class _annoExprTest extends TestCase {
 
         _annoExpr _a = _annoExpr.of("@A(k=1,v=2)");
 
-        assertTrue( _a.hasPair("k",1));
-        assertTrue( _a.hasPair("v",2));
+        assertTrue( _a.hasEntryPair("k",1));
+        assertTrue( _a.hasEntryPair("v",2));
 
-        assertTrue( _a.hasPair( (m, v)-> m.equals("k") && _intExpr.of(1).equals(v)));
+        assertTrue( _a.hasEntryPair( (m, v)-> m.equals("k") && _intExpr.of(1).equals(v)));
         //System.out.println( "HASH1"+_a.listMemberValues().get(0).hashCode() );
         //System.out.println( "HASH1"+_a.listMemberValues().get(1).hashCode() );
         //assertTrue( _a.isMemberValues("k=1,v=2"));
-        assertTrue( _a.isPairs("v=2,k=1"));
-        assertEquals(2, _a.listPairs().size());
+        assertTrue( _a.isEntryPairs("v=2,k=1"));
+        assertEquals(2, _a.listEntryPairs().size());
 
         //assertTrue(_a.hasKeys("k", "v"));
-        assertTrue( _a.hasPair("k", 1));
-        assertTrue( _a.hasPair("v", 2));
+        assertTrue( _a.hasEntryPair("k", 1));
+        assertTrue( _a.hasEntryPair("v", 2));
     }
 
     /*
@@ -328,7 +328,7 @@ public class _annoExprTest extends TestCase {
     public void testAnn(){
         _annoExpr _a = _annoExpr.of()
                 .setName("n")
-                .addPair("i", 100);
+                .addEntryPair("i", 100);
 
         System.out.println(_a);
     }
@@ -603,12 +603,12 @@ public class _annoExprTest extends TestCase {
     public void testAnnoHasAttr(){
         _annoExpr _a = _annoExpr.of("a(1)");
         _annoExpr _b = _annoExpr.of("a(x=1)");
-        assertTrue( _a.hasPair("value", Expr.of(1)) );
-        assertTrue( _a.hasPair("value", 1) );
-        assertTrue( _b.hasPair("x", Expr.of(1)) );
-        assertTrue( _b.hasPair("x", 1) );
+        assertTrue( _a.hasEntryPair("value", Expr.of(1)) );
+        assertTrue( _a.hasEntryPair("value", 1) );
+        assertTrue( _b.hasEntryPair("x", Expr.of(1)) );
+        assertTrue( _b.hasEntryPair("x", 1) );
         
-        assertTrue( _b.hasPair("x=1") );
+        assertTrue( _b.hasEntryPair("x=1") );
         //assertTrue( _b.hasAttr("x", 1) );
         
         
@@ -635,14 +635,14 @@ public class _annoExprTest extends TestCase {
     public void testIsValue(){
         _annoExpr _a = _annoExpr.of("A(1)");
 
-        assertTrue( _a.hasPair("value", 1) );
-        assertTrue( _a.hasPair("value", 1));
+        assertTrue( _a.hasEntryPair("value", 1) );
+        assertTrue( _a.hasEntryPair("value", 1));
 
         Expr.arrayInitializerExpr(new int[]{1,2,3});
         _annoExpr _b = _annoExpr.of("B(k=1,v={'a','b'})");
-        assertTrue( _b.hasPair("k", 1) );
-        assertTrue( _b.hasPair("v", new char[]{'a', 'b'}) );
-        assertTrue( _b.hasPair("v", Expr.arrayInitializerExpr('a', 'b')) );
+        assertTrue( _b.hasEntryPair("k", 1) );
+        assertTrue( _b.hasEntryPair("v", new char[]{'a', 'b'}) );
+        assertTrue( _b.hasEntryPair("v", Expr.arrayInitializerExpr('a', 'b')) );
     }
 
     public void test23Draft(){
@@ -657,10 +657,10 @@ public class _annoExprTest extends TestCase {
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
                 .addAnnoExprs(_a);
         _a = _m.getAnnoExpr(0);
-        _a.hasPair("Accept", "application/json; charset=utf-8");
-        _a.hasPair("User-Agent", "Square Cash");
+        _a.hasEntryPair("Accept", "application/json; charset=utf-8");
+        _a.hasEntryPair("User-Agent", "Square Cash");
 
-        Expression e = _a.getPairValue("value");
+        Expression e = _a.getEntryValue("value");
         /*
         Map<String,Expression> keyValues = _a.getPairsMap();
         Expression val = keyValues.get("value");
@@ -716,26 +716,26 @@ public class _annoExprTest extends TestCase {
         _annoExpr _a = new _annoExpr(fd.getAnnotation( 0 ));
 
         //to a Single Value Annotation
-        _a.setPairValue( 0, 100 );
-        assertEquals( _a.getPairValue( 0 ), Expr.of(100) );
+        _a.setEntryPairValue( 0, 100 );
+        assertEquals( _a.getEntryValue( 0 ), Expr.of(100) );
 
         //to a Normal Annotation
-        _a.addPair( "k", 200 );
-        assertEquals( _a.getPairValue( 0 ), Expr.of(200) );
-        assertEquals( _a.getPairValue( "k" ), Expr.of(200) );
+        _a.addEntryPair( "k", 200 );
+        assertEquals( _a.getEntryValue( 0 ), Expr.of(200) );
+        assertEquals( _a.getEntryValue( "k" ), Expr.of(200) );
 
-        _a.addPair( "v", 300 );
-        assertEquals( _a.getPairValue( 1 ), Expr.of(300) );
-        assertEquals( _a.getPairValue( "v" ), Expr.of(300) );
+        _a.addEntryPair( "v", 300 );
+        assertEquals( _a.getEntryValue( 1 ), Expr.of(300) );
+        assertEquals( _a.getEntryValue( "v" ), Expr.of(300) );
 
-        assertEquals( 2, _a.listPairs().size());
+        assertEquals( 2, _a.listEntryPairs().size());
 
-        _a.removePair("a");
-        assertEquals( 2, _a.listPairs().size());
-        _a.removePair("v");
-        assertEquals( 1, _a.listPairs().size());
-        _a.removePair(0);
-        assertEquals( 0, _a.listPairs().size());
+        _a.removeEntryPair("a");
+        assertEquals( 2, _a.listEntryPairs().size());
+        _a.removeEntryPair("v");
+        assertEquals( 1, _a.listEntryPairs().size());
+        _a.removeEntryPair(0);
+        assertEquals( 0, _a.listEntryPairs().size());
 
         //_a.removeAttrs();
 
@@ -746,7 +746,7 @@ public class _annoExprTest extends TestCase {
         //the underlying field has to change the implementation from
         FieldDeclaration fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
         _annoExpr _a = new _annoExpr(fd.getAnnotation( 0 ));
-        _a.addPair( "Key", 1000 );
+        _a.addEntryPair( "Key", 1000 );
 
         assertTrue( _a.is("@a(Key=1000)"));
 
@@ -756,7 +756,7 @@ public class _annoExprTest extends TestCase {
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         System.out.println( ae.getParentNode().isPresent() );
         _annoExpr _aNoParent = new _annoExpr(ae);
-        _aNoParent.addPair( "Key", 9999 );
+        _aNoParent.addEntryPair( "Key", 9999 );
         assertTrue( _aNoParent.is("@a(Key=9999)") );
         //System.out.println( _aNoParent );
     }
