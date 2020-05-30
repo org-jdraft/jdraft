@@ -477,7 +477,7 @@ public class SexTest extends TestCase {
         assertTrue($ex.intLiteralEx(100).matches("100"));
         assertTrue($ex.of(100).matches("100"));
         assertTrue($ex.instanceOfEx("$obj$ instanceof String").matches("a instanceof String"));
-        assertTrue( $ex.longLiteralEx(100).matches( Expr.longExpr( "100")));
+        assertTrue( $ex.longLiteralEx(100).matches( Expr.longLiteralExpr( "100")));
         assertTrue($ex.lambdaEx("$param$ -> a.$method$()").matches("x-> a.toString()"));
         assertTrue($ex.methodCallEx("$methodCall$($params$)").matches("a()"));
         assertTrue($ex.methodCallEx("$methodCall$($params$)").matches("a(1,2,3)"));

@@ -54,7 +54,6 @@ public enum Stmt {
                 return null;
             }
             for(int i=0;i<stmtsToAddBefore.length;i++){
-                //System.out.println( "adding "+ stmtsToAddBefore[i]+" at "+ (index + i));
                 parentStmt.addStatement(index + i, stmtsToAddBefore[i]);
             }
             return parentStmt;
@@ -178,7 +177,6 @@ public enum Stmt {
         }
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>") );
-        //System.out.println( st );
         st.replace( es );
         return es;
     };
@@ -441,37 +439,16 @@ public enum Stmt {
                 return pre.getResult().get();
             }
             throw new _jdraftException("unable to parse ExplicitConstructor :\""+ str+"\""+ System.lineSeparator()+ pre.getProblems());
-            //return StaticJavaParser.parseExplicitConstructorInvocationStmt(str);
         }
         if( str.startsWith("{") ){
             return blockStmt(str);
         }
-        /*
-        if( str.indexOf("super") >= 0  || str.indexOf("this") >= 0){
-            //the statement could be a statement within a constructor like super() or this()
-            BlockStmt bs = blockStmt(str);
-            //return bs.getStatement(0);
-
-            if( bs.getStatement(0).isBlockStmt()){
-                return bs.getStatement(0);
-            }
-            if( bs.getStatements().size() == 1){
-                return bs.getStatement(0);
-            }
-            return bs;
-
-        }
-         */
-        //System.out.println("THE STRING "+ str );
         ParseResult<Statement> pr = Ast.JAVAPARSER.parseStatement(str);
         if( pr.isSuccessful() ){
             return pr.getResult().get();
         }
         throw new _jdraftException("unable to parse Statement \""+str+"\""+System.lineSeparator()+" "+pr.getProblems());
-        //return StaticJavaParser.parseStatement( str );
     }
-
-    public static final Class<AssertStmt> ASSERT = AssertStmt.class;
 
     /**
      * i.e."assert(1==1);"
@@ -505,6 +482,11 @@ public enum Stmt {
         return le.findFirst(AssertStmt.class).get();
     }
 
+    /**
+     *
+     * @param le
+     * @return
+     */
     public static AssertStmt assertStmt( LambdaExpr le ){
         Optional<AssertStmt> ods = le.findFirst(AssertStmt.class);
         if( ods == null ){
@@ -532,8 +514,6 @@ public enum Stmt {
     public static <A extends Object, B extends Object, C extends Object, D extends Object> AssertStmt assertStmt( Expr.QuadConsumer<A,B,C,D> command ){
         return assertStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
-
-    public static final Class<BlockStmt> BLOCK = BlockStmt.class;
     
     /**
      * NOTE: If you omit the opening and closing braces { }, they will be added
@@ -576,7 +556,6 @@ public enum Stmt {
             throw new _jdraftException("unable to parse block : "+System.lineSeparator()+
                     Text.indent(comb)+System.lineSeparator()+
                     pbs.getProblems() );
-            //return StaticJavaParser.parseBlock( comb );
         }
         if( !combined.startsWith("{") ){
             combined = "{"+ combined;
@@ -593,15 +572,6 @@ public enum Stmt {
         if( !combined.endsWith("}") || count > 0 ){
             combined = combined +System.lineSeparator()+ "}";
         }
-
-        // recent addition to handle super() within the body of a constructor
-        /*
-
-
-         */
-        //
-
-
         if( combined.contains("super") || combined.contains("this")){
 
             combined = "UNKNOWN()"+ combined;
@@ -611,16 +581,12 @@ public enum Stmt {
                 bs.remove();
                 return bs;
             }
-
-            //ConstructorDeclaration bd = (ConstructorDeclaration)StaticJavaParser.parseBodyDeclaration(combined);
-
         }
         ParseResult<BlockStmt> pbs = Ast.JAVAPARSER.parseBlock(combined);
         if( pbs.isSuccessful() ){
             return pbs.getResult().get();
         }
         throw new _jdraftException("Unable to parse blockStmt :"+System.lineSeparator()+ Text.indent(combined) +System.lineSeparator()+ pbs.getProblems());
-        //return StaticJavaParser.parseBlock( combined );
     }
 
     /**
@@ -685,9 +651,6 @@ public enum Stmt {
         return new BlockStmt().addStatement( st );
     }
 
-    /** i.e. "break;" "break outer;" */
-    public static final Class<BreakStmt> BREAK = BreakStmt.class;
-
     /**
      * i.e."break;" or "break outer;"
      * @param code String representing the break of
@@ -696,9 +659,6 @@ public enum Stmt {
     public static BreakStmt breakStmt(String... code ) {
         return of( code ).asBreakStmt();
     }
-
-    /** i.e. "continue outer;" */
-    public static final Class<ContinueStmt> CONTINUE = ContinueStmt.class;
 
     /** 
      * i.e."continue outer;" 
@@ -709,9 +669,6 @@ public enum Stmt {
     public static ContinueStmt continueStmt(String... code ) {
         return of( code ).asContinueStmt();
     }
-
-    /** i.e. "do{ System.out.println(1); }while( a < 100 );" */
-    public static final Class<DoStmt> DO = DoStmt.class;
 
     /** 
      *  i.e."do{ System.out.println(1); }while( a < 100 );"
@@ -752,6 +709,7 @@ public enum Stmt {
         }
         return ods.get();
     }
+
     public static DoStmt doStmt( Expr.Command command ){
         return doStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
@@ -773,12 +731,6 @@ public enum Stmt {
     }
 
     /** 
-     * i.e. "this(100,2900);", "super('c',123);"
-     */
-    public static final Class<ExplicitConstructorInvocationStmt> CONSTRUCTOR_CALL_STMT
-            = ExplicitConstructorInvocationStmt.class;
-
-    /** 
      * i.e."this(100,2900);" "super('c',203);"
      * 
      * @param code the java code
@@ -791,19 +743,16 @@ public enum Stmt {
             return eps.getResult().get();
         }
         throw new _jdraftException("unable to parse constructor call \""+cd+"\""+System.lineSeparator()+eps.getProblems());
-        //return StaticJavaParser.parseExplicitConstructorInvocationStmt(cd);
-        /*
-        if( cd.startsWith("this")|| cd.startsWith("super") ){
-            return of( cd ).asExplicitConstructorInvocationStmt();
-        }
-        /*Hmm might as well "let it fail"
-        try {
-            return of(cd ).asExplicitConstructorInvocationStmt();
-        }catch(Exception e){
-            throw new _jdraftException("could not parse \""+cd+"\" as "+ExplicitConstructorInvocationStmt.class );
-        }
+    }
 
-         */
+    /**
+     * i.e."super('c',203);" "this(1);"
+     *
+     * @param code the java code
+     * @return an ExplicitConstructorInvocationStmt based on the code
+     */
+    public static ExplicitConstructorInvocationStmt explicitConstructorInvocationStmt(String... code ) {
+        return constructorCallStmt( code );
     }
 
     /**
@@ -826,55 +775,6 @@ public enum Stmt {
         return constructorCallStmt( code );
     }
 
-    /** i.e. "s += t;" */
-    public static final Class<ExpressionStmt> EXPRESSION_STMT = ExpressionStmt.class;
-
-    /** 
-     * i.e."s += t;" 
-     * 
-     * @param code
-     * @return 
-     */
-    public static ExpressionStmt exprStmt(String... code ) {
-        String str = Text.combine( code );
-        if(str.endsWith(";") ){
-            //Expression ex = ;
-            return new ExpressionStmt( Expr.of(str.substring(0, str.length() -1) ) );
-        }
-        return of( code ).asExpressionStmt();
-    }
-
-    /**
-     * i.e."for(int i=0; i<100;i++) {...}"
-     * @param code
-     * @return
-     */
-    public static ExpressionStmt exprStmt(String code ){
-        return exprStmt( new String[]{code});
-    }
-
-    /**
-     * Builds a ExpressionStmt from the first ExpressionStmt within the Lambda expression code found based on the
-     * location of the
-     * StackTraceElement.  i.e.
-     * Stmt.expressionStmt( (Integer s)-> s+=5; );
-     *
-     * @param ste the stackTraceElement for the caller location of the
-     * @return a BlockStmt based on the Lambda Expression block
-     */
-    public static ExpressionStmt exprStmt(StackTraceElement ste ){
-        LambdaExpr le = Expr.lambdaExpr( ste );
-        return le.findFirst(ExpressionStmt.class).get();
-    }
-
-    public static ExpressionStmt exprStmt(LambdaExpr le ){
-        Optional<ExpressionStmt> ods = le.findFirst(ExpressionStmt.class);
-        if( ods == null ){
-            throw new _jdraftException("No ExpressionStmt in lambda "+ le );
-        }
-        return ods.get();
-    }
-
     public static EmptyStmt emptyStmt(){
         return new EmptyStmt();
     }
@@ -886,28 +786,70 @@ public enum Stmt {
         throw new _jdraftException("Invalid characters to represent EmptyStmt: "+Text.combine(code));
     }
 
-    public static ExpressionStmt exprStmt(Expr.Command command ){
-        return exprStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    /** 
+     * i.e."s += t;" 
+     * 
+     * @param code
+     * @return 
+     */
+    public static ExpressionStmt expressionStmt(String... code ) {
+        String str = Text.combine( code );
+        if(str.endsWith(";") ){
+            return new ExpressionStmt( Expr.of(str.substring(0, str.length() -1) ) );
+        }
+        return of( code ).asExpressionStmt();
     }
 
-    public static <A extends Object> ExpressionStmt exprStmt(Consumer<A> command ){
-        return exprStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    /**
+     * i.e."for(int i=0; i<100;i++) {...}"
+     * @param code
+     * @return
+     */
+    public static ExpressionStmt expressionStmt(String code ){
+        return expressionStmt( new String[]{code});
     }
 
-    public static <A extends Object, B extends Object> ExpressionStmt exprStmt(BiConsumer<A,B> command ){
-        return exprStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    /**
+     * Builds a ExpressionStmt from the first ExpressionStmt within the Lambda expression code found based on the
+     * location of the
+     * StackTraceElement.  i.e.
+     * Stmt.expressionStmt( (Integer s)-> s+=5; );
+     *
+     * @param ste the stackTraceElement for the caller location of the
+     * @return a BlockStmt based on the Lambda Expression block
+     */
+    public static ExpressionStmt expressionStmt(StackTraceElement ste ){
+        LambdaExpr le = Expr.lambdaExpr( ste );
+        return le.findFirst(ExpressionStmt.class).get();
     }
 
-    public static <A extends Object, B extends Object, C extends Object> ExpressionStmt exprStmt(Expr.TriConsumer<A,B,C> command ){
-        return exprStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static ExpressionStmt expressionStmt(LambdaExpr le ){
+        Optional<ExpressionStmt> ods = le.findFirst(ExpressionStmt.class);
+        if( ods == null ){
+            throw new _jdraftException("No ExpressionStmt in lambda "+ le );
+        }
+        return ods.get();
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> ExpressionStmt exprStmt(Expr.QuadConsumer<A,B,C,D> command ){
-        return exprStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    public static ExpressionStmt expressionStmt(Expr.Command command ){
+        return expressionStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "for(int i=0; i<100;i++) {...}" */
-    public static final Class<ForStmt> FOR = ForStmt.class;
+    public static <A extends Object> ExpressionStmt expressionStmt(Consumer<A> command ){
+        return expressionStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object> ExpressionStmt expressionStmt(BiConsumer<A,B> command ){
+        return expressionStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object> ExpressionStmt expressionStmt(Expr.TriConsumer<A,B,C> command ){
+        return expressionStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    }
+
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> ExpressionStmt expressionStmt(Expr.QuadConsumer<A,B,C,D> command ){
+        return expressionStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
+    }
 
     /** 
      * i.e."for(int i=0; i<100;i++) {...}"
@@ -969,8 +911,6 @@ public enum Stmt {
         return forStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "for(String element:arr){...}" */
-    public static final Class<ForEachStmt> FOR_EACH = ForEachStmt.class;
 
     /** 
      * i.e."for(String element:arr){...}" 
@@ -1035,9 +975,6 @@ public enum Stmt {
         return forEachStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "if(a==1){...}" */
-    public static final Class<IfStmt> IF = IfStmt.class;
-
     /** 
      * i.e."if(a==1){...}" 
      * @param code
@@ -1097,9 +1034,6 @@ public enum Stmt {
     public static <A extends Object, B extends Object, C extends Object, D extends Object> IfStmt ifStmt( Expr.QuadConsumer<A,B,C,D> command ){
         return ifStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
-
-    /** i.e. "outer:   start = getValue();" */
-    public static final Class<LabeledStmt> LABELED = LabeledStmt.class;
 
     /** 
      * i.e."outer:   start = getValue();" 
@@ -1163,21 +1097,15 @@ public enum Stmt {
         return labeledStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "class C{ int a, b; }" */
-    public static final Class<LocalClassDeclarationStmt> LOCAL_CLASS = LocalClassDeclarationStmt.class;
-
     /**
      * Converts from a String to a LocalClass
      * i.e. "class C{ int a, b; }"
      * @param code the code that represents a local class
      * @return the AST implementation
      */
-    public static LocalClassDeclarationStmt localClassStmt(String... code ) {
+    public static LocalClassDeclarationStmt localClassDeclarationStmt(String... code ) {
         return of( code ).asLocalClassDeclarationStmt();
     }
-
-    /** i.e. "return VALUE;" */
-    public static final Class<ReturnStmt> RETURN = ReturnStmt.class;
 
     /** 
      * i.e."return VALUE;" 
@@ -1211,9 +1139,6 @@ public enum Stmt {
         }
         return le.getBody().findFirst(ReturnStmt.class).get();
     }
-
-    /** i.e. "switch(a) { case 1: break; default : doMethod(a); }" */ 
-    public static final Class<SwitchStmt> SWITCH = SwitchStmt.class;
     
     /** 
      * i.e."switch(a) { case 1: break; default : doMethod(a); }" 
@@ -1271,9 +1196,6 @@ public enum Stmt {
         return switchStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "synchronized(e) { ...}" */
-    public static final Class<SynchronizedStmt> SYNCHRONIZED = SynchronizedStmt.class;
-    
     /**
      * i.e. "synchronized(e) { ...}"
      * @param code
@@ -1334,10 +1256,6 @@ public enum Stmt {
         return synchronizedStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /**
-     * i.e. "throw new RuntimeException("SHOOT");"
-     */
-    public static final Class<ThrowStmt> THROW = ThrowStmt.class;
     
     /**
      * i.e."throw new RuntimeException("SHOOT");"
@@ -1401,8 +1319,6 @@ public enum Stmt {
         return throwStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "try{ clazz.getMethod("fieldName"); }" */
-    public static final Class<TryStmt> TRY = TryStmt.class;
     
     /** 
      * i.e. "try{ clazz.getMethod("fieldName"); }" 
@@ -1464,9 +1380,6 @@ public enum Stmt {
         return tryStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "while(i< 1) { ... }"*/
-    public static final Class<WhileStmt> WHILE = WhileStmt.class;
-    
     /** 
      * i.e."while(i< 1) { ...}"
      * 
@@ -1529,9 +1442,6 @@ public enum Stmt {
         return whileStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** i.e. "yield 6;" */
-    public static final Class<YieldStmt> YIELD = YieldStmt.class;
-
     /**
      * i.e."yield 6;"
      *
@@ -1545,7 +1455,6 @@ public enum Stmt {
         YieldStmt ys = (YieldStmt)se.getEntry(0).getStatement(0);
         ys.getParentNode().get().remove(ys);
         return ys;
-        //return of( code ).asYieldStmt();
     }
 
     /**
@@ -1600,8 +1509,66 @@ public enum Stmt {
         return yieldStmt(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    /** an empty statement i.e. ";" */
-    public static final Class<EmptyStmt> EMPTY = EmptyStmt.class;
+    public static class Classes{
 
+        public static final Class<AssertStmt> ASSERT = AssertStmt.class;
+
+        public static final Class<BlockStmt> BLOCK = BlockStmt.class;
+
+        /** i.e. "break;" "break outer;" */
+        public static final Class<BreakStmt> BREAK = BreakStmt.class;
+
+        /** i.e. "continue outer;" */
+        public static final Class<ContinueStmt> CONTINUE = ContinueStmt.class;
+
+        /** i.e. "do{ System.out.println(1); }while( a < 100 );" */
+        public static final Class<DoStmt> DO = DoStmt.class;
+
+        /** i.e. "this(100,2900);", "super('c',123);"*/
+        public static final Class<ExplicitConstructorInvocationStmt> CONSTRUCTOR_CALL_STMT
+                = ExplicitConstructorInvocationStmt.class;
+
+        /** i.e. "s += t;" */
+        public static final Class<ExpressionStmt> EXPRESSION_STMT = ExpressionStmt.class;
+
+        /** i.e. "for(int i=0; i<100;i++) {...}" */
+        public static final Class<ForStmt> FOR = ForStmt.class;
+
+        /** i.e. "for(String element:arr){...}" */
+        public static final Class<ForEachStmt> FOR_EACH = ForEachStmt.class;
+
+        /** i.e. "if(a==1){...}" */
+        public static final Class<IfStmt> IF = IfStmt.class;
+
+        /** i.e. "outer:   start = getValue();" */
+        public static final Class<LabeledStmt> LABELED = LabeledStmt.class;
+
+        /** i.e. "class C{ int a, b; }" */
+        public static final Class<LocalClassDeclarationStmt> LOCAL_CLASS = LocalClassDeclarationStmt.class;
+
+        /** i.e. "return VALUE;" */
+        public static final Class<ReturnStmt> RETURN = ReturnStmt.class;
+
+        /** i.e. "switch(a) { case 1: break; default : doMethod(a); }" */
+        public static final Class<SwitchStmt> SWITCH = SwitchStmt.class;
+
+        /** i.e. "synchronized(e) { ...}" */
+        public static final Class<SynchronizedStmt> SYNCHRONIZED = SynchronizedStmt.class;
+
+        /** i.e. "throw new RuntimeException("SHOOT");"*/
+        public static final Class<ThrowStmt> THROW = ThrowStmt.class;
+
+        /** i.e. "try{ clazz.getMethod("fieldName"); }" */
+        public static final Class<TryStmt> TRY = TryStmt.class;
+
+        /** i.e. "while(i< 1) { ... }"*/
+        public static final Class<WhileStmt> WHILE = WhileStmt.class;
+
+        /** i.e. "yield 6;" */
+        public static final Class<YieldStmt> YIELD = YieldStmt.class;
+
+        /** an empty statement i.e. ";" */
+        public static final Class<EmptyStmt> EMPTY = EmptyStmt.class;
+    }
 }
 

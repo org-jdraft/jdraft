@@ -144,7 +144,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     }
 
     public _arrayCreateExpr setInit(String...init){
-        this.astNode.setInitializer(Expr.arrayInitExpr(init));
+        this.astNode.setInitializer(Expr.arrayInitializerExpr(init));
         return this;
     }
 
@@ -176,7 +176,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
 
     public boolean isInit(String... initCode){
         try{
-            return isInit(Expr.arrayInitExpr(initCode));
+            return isInit(Expr.arrayInitializerExpr(initCode));
         }catch(Exception e){
             return false;
         }

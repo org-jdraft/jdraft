@@ -19,16 +19,29 @@ public final class Types {
     private Types(){}
 
     public static class Classes {
-        public static Class<PrimitiveType> PRIMITIVE_TYPE = PrimitiveType.class;
 
-        public static PrimitiveType BOOLEAN_TYPE = PrimitiveType.booleanType();
-        public static PrimitiveType BYTE_TYPE = PrimitiveType.byteType();
-        public static PrimitiveType SHORT_TYPE = PrimitiveType.shortType();
-        public static PrimitiveType CHAR_TYPE = PrimitiveType.charType();
-        public static PrimitiveType INT_TYPE = PrimitiveType.intType();
-        public static PrimitiveType FLOAT_TYPE = PrimitiveType.floatType();
-        public static PrimitiveType DOUBLE_TYPE = PrimitiveType.doubleType();
-        public static PrimitiveType LONG_TYPE = PrimitiveType.longType();
+        /**
+         * i.e. "void m(){}"
+         */
+        public static Class<VoidType> VOID = VoidType.class;
+
+        /**
+         * Unknown type, as used in lambda expressions like:
+         * "(x)->doThing(x);"
+         * where we have the parameter x that does not explicitly provide the
+         */
+        public static Class<UnknownType> UNKNOWN = UnknownType.class;
+
+        public static Class<PrimitiveType> PRIMITIVE = PrimitiveType.class;
+
+        public static PrimitiveType BOOLEAN = PrimitiveType.booleanType();
+        public static PrimitiveType BYTE = PrimitiveType.byteType();
+        public static PrimitiveType SHORT = PrimitiveType.shortType();
+        public static PrimitiveType CHAR = PrimitiveType.charType();
+        public static PrimitiveType INT = PrimitiveType.intType();
+        public static PrimitiveType FLOAT = PrimitiveType.floatType();
+        public static PrimitiveType DOUBLE = PrimitiveType.doubleType();
+        public static PrimitiveType LONG = PrimitiveType.longType();
     }
     /**
      * When we create an anonymous Local Class and ask for it's name, it will
@@ -41,6 +54,10 @@ public final class Types {
      */
     public static final String LOCAL_CLASS_NAME_PACKAGE_PATTERN = "\\$?\\d+\\$";
 
+    /**
+     * A Pattern used to identify anonymous local class so as to decide when
+     * we encounter one when referencing code
+     */
     public static final Pattern PATTERN_LOCAL_CLASS = Pattern.compile(LOCAL_CLASS_NAME_PACKAGE_PATTERN);
 
     /**

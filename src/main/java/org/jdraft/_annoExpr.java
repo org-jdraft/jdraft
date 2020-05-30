@@ -268,7 +268,7 @@ public final class _annoExpr
     }
 
     public boolean hasPair(String name, String value){
-        return hasPair(name, Expr.stringExpr(value));
+        return hasPair(name, Expr.stringLiteralExpr(value));
     }
 
     /*
@@ -324,21 +324,21 @@ public final class _annoExpr
     }
 
     public boolean hasPair(String name, char[] value){
-        return hasPair( name, Expr.of(value));
+        return hasPair( name, Expr.arrayInitializerExpr(value));
     }
     public boolean hasPair(String name, boolean[] value){
-        return hasPair( name, Expr.of(value));
+        return hasPair( name, Expr.arrayInitializerExpr(value));
     }
 
     public boolean hasPair(String name, double[] value){
-        return hasPair( name, Expr.of(value));
+        return hasPair( name, Expr.arrayInitializerExpr(value));
     }
     public boolean hasPair(String name, float[] value){
-        return hasPair( name, Expr.of(value));
+        return hasPair( name, Expr.arrayInitializerExpr(value));
     }
 
     public boolean hasPair(String name, int[] value){
-        return hasPair( name, Expr.of(value));
+        return hasPair( name, Expr.arrayInitializerExpr(value));
     }
 
     /**
@@ -583,7 +583,7 @@ public final class _annoExpr
     }
 
     public _annoExpr addPair(String key, String value ) {
-        return addPair(key, Expr.stringExpr(value));
+        return addPair(key, Expr.stringLiteralExpr(value));
     }
 
     public _annoExpr setPairValue(String key, char c ) {
@@ -611,7 +611,7 @@ public final class _annoExpr
     }
 
     public _annoExpr setPairValue(String name, String expression ) {
-        return setPairValue( name, Expr.stringExpr( expression ) );
+        return setPairValue( name, Expr.stringLiteralExpr( expression ) );
     }
 
     public _annoExpr removePairs( Predicate<_entryPair> _matchFn){
@@ -699,7 +699,7 @@ public final class _annoExpr
     }
 
     public _annoExpr setPairValue(int index, String stringLiteral ) {
-        return setPairValue( index, Expr.stringExpr( stringLiteral ) );
+        return setPairValue( index, Expr.stringLiteralExpr( stringLiteral ) );
     }
     
     public _annoExpr setPairValue(int index, int intLiteral) {

@@ -44,11 +44,11 @@ public class ExTest extends TestCase {
      */
     public void testArrayEx(){
 
-        assertEquals(Expr.of(new int[]{1,2,3,4,5}), Expr.of(1,2,3,4,5));
-        assertEquals(Expr.of(new boolean[]{true, false, true}), Expr.of(true,false,true));
-        assertEquals(Expr.of(new float[]{1.0f, 2.0f}), Expr.of(1.0f,2.0f));
-        assertEquals(Expr.of(new char[]{'a','b','c'}), Expr.of('a','b','c'));
-        assertEquals(Expr.of(new double[]{1.0d, 2.0d, 3.0d}), Expr.of(1.0d,2.0d,3.0d));
+        assertEquals(Expr.arrayInitializerExpr(new int[]{1,2,3,4,5}), Expr.arrayInitializerExpr(1,2,3,4,5));
+        assertEquals(Expr.arrayInitializerExpr(new boolean[]{true, false, true}), Expr.arrayInitializerExpr(true,false,true));
+        assertEquals(Expr.arrayInitializerExpr(new float[]{1.0f, 2.0f}), Expr.arrayInitializerExpr(1.0f,2.0f));
+        assertEquals(Expr.arrayInitializerExpr(new char[]{'a','b','c'}), Expr.arrayInitializerExpr('a','b','c'));
+        assertEquals(Expr.arrayInitializerExpr(new double[]{1.0d, 2.0d, 3.0d}), Expr.arrayInitializerExpr(1.0d,2.0d,3.0d));
         assertEquals(Expr.of("{\"A\", \"B\", \"C\"}"), Expr.stringArrayInitExpr("A","B","C") );
     }
 
@@ -64,12 +64,12 @@ public class ExTest extends TestCase {
         Ast.expression("0xDEADBEEF");
         Ast.expression("0b110100111");
         
-        Expr.intExpr("1_000");
-        Expr.intExpr("0xDEADBEEF");
-        Expr.intExpr("0b110100111");
+        Expr.integerLiteralExpr("1_000");
+        Expr.integerLiteralExpr("0xDEADBEEF");
+        Expr.integerLiteralExpr("0b110100111");
 
-        LongLiteralExpr l = Expr.longExpr("1_000_000L");
-        LongLiteralExpr ll = Expr.longExpr("1000000L");
+        LongLiteralExpr l = Expr.longLiteralExpr("1_000_000L");
+        LongLiteralExpr ll = Expr.longLiteralExpr("1000000L");
         
         //this is a direct syntax comparison
         assertFalse( l.equals(11));
@@ -123,11 +123,11 @@ public class ExTest extends TestCase {
     }
     
     public void testArrayExpr(){
-        Expr.of(new int[]{1,2,3});
-        Expr.of(new float[]{1.0f,2.0f,3.0f});
-        Expr.of(new double[]{1.0,2.0,3.0});
-        Expr.of(new boolean[]{true});
-        Expr.of(new char[]{'a'});
+        Expr.arrayInitializerExpr(new int[]{1,2,3});
+        Expr.arrayInitializerExpr(new float[]{1.0f,2.0f,3.0f});
+        Expr.arrayInitializerExpr(new double[]{1.0,2.0,3.0});
+        Expr.arrayInitializerExpr(new boolean[]{true});
+        Expr.arrayInitializerExpr(new char[]{'a'});
     }
     
     public void testRuntimeAnonymousClass(){

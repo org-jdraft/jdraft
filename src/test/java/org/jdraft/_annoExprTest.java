@@ -421,7 +421,7 @@ public class _annoExprTest extends TestCase {
     }
     
     public void testMissingTypeUseAnnotationOnObjectCreationExpr(){
-        ExpressionStmt es = (ExpressionStmt) Stmt.exprStmt("N n = new @Test N();");
+        ExpressionStmt es = (ExpressionStmt) Stmt.expressionStmt("N n = new @Test N();");
         VariableDeclarationExpr vd = es.getExpression().asVariableDeclarationExpr();
         VariableDeclarator var = vd.getVariable(0);
         ObjectCreationExpr init = (ObjectCreationExpr)var.getInitializer().get();
@@ -638,11 +638,11 @@ public class _annoExprTest extends TestCase {
         assertTrue( _a.hasPair("value", 1) );
         assertTrue( _a.hasPair("value", 1));
 
-        Expr.of(new int[]{1,2,3});
+        Expr.arrayInitializerExpr(new int[]{1,2,3});
         _annoExpr _b = _annoExpr.of("B(k=1,v={'a','b'})");
         assertTrue( _b.hasPair("k", 1) );
         assertTrue( _b.hasPair("v", new char[]{'a', 'b'}) );
-        assertTrue( _b.hasPair("v", Expr.of('a', 'b')) );
+        assertTrue( _b.hasPair("v", Expr.arrayInitializerExpr('a', 'b')) );
     }
 
     public void test23Draft(){

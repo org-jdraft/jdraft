@@ -131,7 +131,7 @@ public class _methodTest extends TestCase {
         });
         
         //verify that I 
-        assertEquals( Tree.first( _m.getBody(), Expr.Classes.STRING_LITERAL), Expr.stringExpr("mr") );
+        assertEquals( Tree.first( _m.getBody(), Expr.Classes.STRING_LITERAL), Expr.stringLiteralExpr("mr") );
         /*
         //for All exprs and statements
         _m.forExprs(e-> System.out.println( e + " | " + e.getClass() ) );
@@ -142,10 +142,10 @@ public class _methodTest extends TestCase {
         assertNotNull( _m.firstExpr(BinaryExpr.class, b-> b.getRight().isNameExpr()));
         assertNull( _m.firstExpr(CastExpr.class) );
         */
-        assertNotNull( _m.firstStmt(Stmt.ASSERT));
-        assertNotNull( _m.firstStmt(Stmt.ASSERT, a-> a.getCheck().isBinaryExpr()));
+        assertNotNull( _m.firstStmt(Stmt.Classes.ASSERT));
+        assertNotNull( _m.firstStmt(Stmt.Classes.ASSERT, a-> a.getCheck().isBinaryExpr()));
         
-        assertNull( _m.firstStmt(Stmt.RETURN));
+        assertNull( _m.firstStmt(Stmt.Classes.RETURN));
 
     }
     

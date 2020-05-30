@@ -70,7 +70,7 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
     }
 
     public static _arrayInitExpr of(String...code){
-        return new _arrayInitExpr(Expr.arrayInitExpr( code));
+        return new _arrayInitExpr(Expr.arrayInitializerExpr( code));
     }
 
     public static _arrayInitExpr ofStrings(String[] arr){

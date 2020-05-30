@@ -23,7 +23,7 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
         return new _localClassStmt( lc);
     }
     public static _localClassStmt of(String...code){
-        return new _localClassStmt(Stmt.localClassStmt( code));
+        return new _localClassStmt(Stmt.localClassDeclarationStmt( code));
     }
 
     public static <A extends Object> _localClassStmt of(Expr.Command c){
@@ -89,7 +89,7 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.localClassStmt(stringRep));
+            return is( Stmt.localClassDeclarationStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

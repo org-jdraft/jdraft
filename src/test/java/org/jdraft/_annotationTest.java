@@ -127,7 +127,7 @@ public class _annotationTest extends TestCase  {
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
-        assertEquals( Expr.stringExpr( "String"), _p.getDefaultAstValue());
+        assertEquals( Expr.stringLiteralExpr( "String"), _p.getDefaultAstValue());
 
         _p = _an.getEntry("clazz");
         assertFalse( _p.hasJavadoc() );
@@ -136,7 +136,7 @@ public class _annotationTest extends TestCase  {
         assertEquals( _p.getTypeRef(), _typeRef.of(Types.of("Class[]")));
 
         assertTrue( _p.isTypeRef(Class[].class) );
-        assertEquals( Expr.arrayInitExpr( "{}"),_p.getDefaultAstValue());
+        assertEquals( Expr.arrayInitializerExpr( "{}"),_p.getDefaultAstValue());
 
         _p = _an.getEntry("vval");
         assertFalse( _p.hasJavadoc() );
@@ -154,10 +154,10 @@ public class _annotationTest extends TestCase  {
 
 
         //verify we can find the field in each nested TYPE
-        assertEquals( Expr.intExpr(123), _an.listInnerTypes(t-> t instanceof _class).get(0).getField("f").getInitNode() );
-        assertEquals( Expr.intExpr(123), _an.listInnerTypes(t-> t instanceof _enum).get(0).getField("f").getInitNode() );
-        assertEquals( Expr.intExpr(123), _an.listInnerTypes(t-> t instanceof _interface).get(0).getField("f").getInitNode() );
-        assertEquals( Expr.intExpr(123), _an.listInnerTypes(t-> t instanceof _annotation).get(0).getField("f").getInitNode() );
+        assertEquals( Expr.integerLiteralExpr(123), _an.listInnerTypes(t-> t instanceof _class).get(0).getField("f").getInitNode() );
+        assertEquals( Expr.integerLiteralExpr(123), _an.listInnerTypes(t-> t instanceof _enum).get(0).getField("f").getInitNode() );
+        assertEquals( Expr.integerLiteralExpr(123), _an.listInnerTypes(t-> t instanceof _interface).get(0).getField("f").getInitNode() );
+        assertEquals( Expr.integerLiteralExpr(123), _an.listInnerTypes(t-> t instanceof _annotation).get(0).getField("f").getInitNode() );
 
 
         //add NESTS

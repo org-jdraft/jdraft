@@ -30,7 +30,7 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
         return new _exprStmt( es);
     }
     public static _exprStmt of(String...code){
-        return new _exprStmt(Stmt.exprStmt( code));
+        return new _exprStmt(Stmt.expressionStmt( code));
     }
 
     public static <A extends Object> _exprStmt of(Expr.Command c){
@@ -100,7 +100,7 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Stmt.exprStmt(stringRep));
+            return is( Stmt.expressionStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }

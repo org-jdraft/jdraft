@@ -175,14 +175,14 @@ public class SaTest extends TestCase {
         $annoRef.$memberValue.of().matches(new MemberValuePair("a", Expr.of(1)));
         
         //static  membervalues
-        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expr.stringExpr("100")));
+        $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expr.stringLiteralExpr("100")));
         $annoRef.$memberValue.of("a", "100").matches(new MemberValuePair("a", Expr.of("100")));
         
         //dynamic value
         $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.of("100")));
         $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.of("1")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.stringExpr("Blah")));
-        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.of(new int[]{1,2,3,4})));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.stringLiteralExpr("Blah")));
+        $annoRef.$memberValue.of("a", "$value$").matches(new MemberValuePair("a", Expr.arrayInitializerExpr(new int[]{1,2,3,4})));
         
         
     }
@@ -351,7 +351,7 @@ public class SaTest extends TestCase {
         assertNotNull( a.select( _annoExpr.of("@name(prefix=\"1\")") ));
 
         System.out.println( "GOTTEN " + a.select(_annoExpr.of("@name(prefix=\"1\")") ).tokens);
-        assertTrue( a.select(_annoExpr.of("@name(prefix=\"1\")") ).is("any", Expr.stringExpr("1")) );
+        assertTrue( a.select(_annoExpr.of("@name(prefix=\"1\")") ).is("any", Expr.stringLiteralExpr("1")) );
 
         assertTrue( a.select(_annoExpr.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
         assertTrue( a.$list().contains("any"));

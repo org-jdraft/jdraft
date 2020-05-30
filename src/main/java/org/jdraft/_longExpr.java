@@ -21,7 +21,7 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
         return new _longExpr(ll);
     }
     public static _longExpr of(String...code){
-        return new _longExpr(Expr.longExpr( code));
+        return new _longExpr(Expr.longLiteralExpr( code));
     }
 
     public static _feature._one<_longExpr, String> LITERAL_VALUE = new _feature._one<>(_longExpr.class, String.class,
@@ -46,7 +46,7 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Expr.longExpr(stringRep));
+            return is( Expr.longLiteralExpr(stringRep));
         } catch(Exception e){}
         return false;
     }

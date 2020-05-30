@@ -40,11 +40,11 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     }
 
     public static _assertStmt of(Expression check, String message){
-        return of( new AssertStmt().setCheck(check).setMessage(Expr.stringExpr(message)));
+        return of( new AssertStmt().setCheck(check).setMessage(Expr.stringLiteralExpr(message)));
     }
 
     public static _assertStmt of(_expr check, String message){
-        return of( new AssertStmt().setCheck(check.ast()).setMessage(Expr.stringExpr(message)));
+        return of( new AssertStmt().setCheck(check.ast()).setMessage(Expr.stringLiteralExpr(message)));
     }
 
     public static _assertStmt of(Expression check, Expression message){
@@ -180,7 +180,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     }
 
     public _assertStmt setMessage(String message){
-        this.astStmt.setMessage(Expr.stringExpr(message));
+        this.astStmt.setMessage(Expr.stringLiteralExpr(message));
         return this;
     }
 

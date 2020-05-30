@@ -663,17 +663,25 @@ public enum Expr {
         return ee.asArrayAccessExpr();
     }
 
-
     public static ArrayCreationExpr arrayCreationExpr(String... code ) {
         return of( code ).asArrayCreationExpr();
     }
 
-
+    /**
+     * One or more arrayCreationLevels (for multi-dimensional array) i.e. int[][] x = new x[10][20];
+     * @param code
+     * @return
+     */
     public static NodeList<ArrayCreationLevel> arrayCreationLevels(String...code){
         ArrayCreationExpr aae = Expr.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
         return aae.getLevels();
     }
 
+    /**
+     * One or more arrayCreationLevels (for multi-dimensional array) i.e. int[][] x = new x[10][20];
+     * @param code
+     * @return
+     */
     public static ArrayCreationLevel arrayCreationLevel(String...code){
         ArrayCreationExpr aae = Expr.arrayCreationExpr("Object "+Text.combine(code)+" unknown ");
         return aae.getLevels().get(0);
@@ -682,7 +690,7 @@ public enum Expr {
     /**
      * i.e. "{1,2,3,4,5}"
      */
-    public static ArrayInitializerExpr arrayInitExpr(String... code ) {
+    public static ArrayInitializerExpr arrayInitializerExpr(String... code ) {
         String ai = Text.combine(code);
         ai = "new Object[] "+ai;
         ArrayInitializerExpr aie = of(ai).asArrayCreationExpr().getInitializer().get();
@@ -695,7 +703,6 @@ public enum Expr {
         return of( code ).asAssignExpr();
     }
 
-
     /** i.e. "a + b"*/
     public static BinaryExpr binaryExpr(String... code ) {
         return of( code ).asBinaryExpr();
@@ -706,7 +713,7 @@ public enum Expr {
     }
 
     /** "true" / "false" */
-    public static BooleanLiteralExpr booleanExpr(boolean b) {
+    public static BooleanLiteralExpr booleanLiteralExpr(boolean b) {
         if( b ){
             return new BooleanLiteralExpr(true);
         }
@@ -714,10 +721,9 @@ public enum Expr {
     }
 
     /** "true" / "false" */
-    public static BooleanLiteralExpr booleanExpr(String... code ) {
+    public static BooleanLiteralExpr booleanLiteralExpr(String... code ) {
         return of( code ).asBooleanLiteralExpr();
     }
-
 
     /** (String)o */
     public static CastExpr castExpr(String... code ) {
@@ -748,20 +754,13 @@ public enum Expr {
     }
 
     /** 'c' */
-    public static CharLiteralExpr charExpr(char c ) {
+    public static CharLiteralExpr charLiteralExpr(char c ) {
         return new CharLiteralExpr(c);
     }
 
-    public static CharLiteralExpr charExpr(String s) {
+    public static CharLiteralExpr charLiteralExpr(String s) {
         return new CharLiteralExpr(s);
     }
-
-    /** 'c'
-    public static CharLiteralExpr charLiteralEx(String... code ) {
-        return of( code ).asCharLiteralExpr();
-    }
-     */
-
 
     public static ClassExpr classExpr(Class clazz){
         return new ClassExpr(_typeRef.of(clazz).ast());
@@ -772,24 +771,26 @@ public enum Expr {
         return of( code ).asClassExpr();
     }
 
-
+    /** saved ? return true; */
+    public static ConditionalExpr conditionalExpr(String... code ) {
+        return of( code ).asConditionalExpr();
+    }
 
     /** saved ? return true; */
     public static ConditionalExpr ternaryExpr(String... code ) {
         return of( code ).asConditionalExpr();
     }
 
-
     public static DoubleLiteralExpr of( double d ){
         return new DoubleLiteralExpr( d );
     }
 
-    public static DoubleLiteralExpr doubleExpr(double d ) {
+    public static DoubleLiteralExpr doubleLiteralExpr(double d ) {
         return new DoubleLiteralExpr( d );
     }
 
     /** i.e. "3.14d" */
-    public static DoubleLiteralExpr doubleExpr(String... code ) {
+    public static DoubleLiteralExpr doubleLiteralExpr(String... code ) {
         return of( code ).asDoubleLiteralExpr();
     }
 
@@ -801,7 +802,7 @@ public enum Expr {
     //    return of( intArray);
     //}
 
-    public static ArrayInitializerExpr of(long...longArray) {
+    public static ArrayInitializerExpr arrayInitializerExpr(long...longArray) {
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<longArray.length;i++){
@@ -811,10 +812,10 @@ public enum Expr {
             sb.append( longArray[i]+"L" );
         }
         sb.append(" }");
-        return arrayInitExpr( sb.toString() );
+        return arrayInitializerExpr( sb.toString() );
     }
 
-    public static ArrayInitializerExpr of( int... intArray ){
+    public static ArrayInitializerExpr arrayInitializerExpr(int... intArray ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<intArray.length;i++){
@@ -824,14 +825,14 @@ public enum Expr {
             sb.append( intArray[i] );
         }
         sb.append(" }");
-        return arrayInitExpr( sb.toString() );
+        return arrayInitializerExpr( sb.toString() );
     }
     
     //public static ArrayInitializerExpr arrayInitExpr(float[] floatArray ){
     //    return of( floatArray);
     //}
     
-    public static ArrayInitializerExpr of( float... array ){
+    public static ArrayInitializerExpr arrayInitializerExpr(float... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -841,14 +842,14 @@ public enum Expr {
             sb.append( array[i] ).append("f");
         }
         sb.append(" }");
-        return arrayInitExpr( sb.toString() );
+        return arrayInitializerExpr( sb.toString() );
     }
     
     //public static ArrayInitializerExpr arrayInitExpr(double[] array ){
      //   return of( array);
     //}
     
-    public static ArrayInitializerExpr of( double... array ){
+    public static ArrayInitializerExpr arrayInitializerExpr(double... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -858,14 +859,14 @@ public enum Expr {
             sb.append( array[i] ).append("d");
         }
         sb.append(" }");
-        return arrayInitExpr( sb.toString() );
+        return arrayInitializerExpr( sb.toString() );
     }
 
     //public static ArrayInitializerExpr arrayInitExpr(boolean[] array ){
     //    return of( array);
    // }
     
-    public static ArrayInitializerExpr of( boolean... array ){
+    public static ArrayInitializerExpr arrayInitializerExpr(boolean... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -875,7 +876,7 @@ public enum Expr {
             sb.append( array[i] );
         }
         sb.append(" }");
-        return arrayInitExpr( sb.toString() );
+        return arrayInitializerExpr( sb.toString() );
     }
 
     /*
@@ -906,16 +907,16 @@ public enum Expr {
      */
     public static ArrayInitializerExpr stringArrayInitExpr(String...strs ){
         ArrayInitializerExpr ae = new ArrayInitializerExpr();
-        Arrays.stream(strs).forEach( s -> ae.getValues().add( Expr.stringExpr(s)));
+        Arrays.stream(strs).forEach( s -> ae.getValues().add( Expr.stringLiteralExpr(s)));
         return ae;
     }
 
 
-    public static ArrayInitializerExpr arrayInitExpr(char... array ){
-        return of( array );
-    }
+    //public static ArrayInitializerExpr arrayInitializerExpr(char... array ){
+    //    return arrayInitializerExpr( array );
+   // }
     
-    public static ArrayInitializerExpr of( char... array ){
+    public static ArrayInitializerExpr arrayInitializerExpr(char... array ){
         StringBuilder sb = new StringBuilder();
         sb.append("{ ");
         for(int i=0;i<array.length;i++){
@@ -925,18 +926,18 @@ public enum Expr {
             sb.append("'").append( array[i] ).append("'");
         }
         sb.append(" }");
-        return arrayInitExpr( sb.toString() );
+        return arrayInitializerExpr( sb.toString() );
     }
-    
 
-    public static DoubleLiteralExpr doubleExpr(float d ) {
+    public static DoubleLiteralExpr doubleLiteralExpr(float d ) {
         return new DoubleLiteralExpr( d );
     }
 
-    /** i.e. "3.14f" */
-    public static DoubleLiteralExpr floatExpr(String... code ) {
+    /** i.e. "3.14f"
+    public static DoubleLiteralExpr doubleLiteralExpr(String... code ) {
         return of( code ).asDoubleLiteralExpr();
     }
+    */
 
 
     /** i.e. ( 4 + 5 ) */
@@ -962,8 +963,6 @@ public enum Expr {
         LambdaExpr astLambda = Expr.lambdaExpr(ste);
         return astLambda.getBody().findFirst(EnclosedExpr.class).get();
     }
-
-
 
     /**
      * i.e. System.out
@@ -1022,14 +1021,14 @@ public enum Expr {
         return ile;
     }
 
-    public static IntegerLiteralExpr intExpr(int i) {
+    public static IntegerLiteralExpr integerLiteralExpr(int i) {
         //return intExpr(""+i);
         IntegerLiteralExpr ile = new IntegerLiteralExpr(i);
         return ile;
     }
 
 
-    public static IntegerLiteralExpr intExpr(String... code ) {
+    public static IntegerLiteralExpr integerLiteralExpr(String... code ) {
         Expression e = of(code);
         if( e instanceof IntegerLiteralExpr ){
             return (IntegerLiteralExpr)e;
@@ -1053,7 +1052,6 @@ public enum Expr {
         }
         return of( code ).asIntegerLiteralExpr();
     }
-
 
     /**
      * parses and returns a lambda expression from the code
@@ -1210,11 +1208,11 @@ public enum Expr {
         return new LongLiteralExpr(l);
     }
 
-    public static LongLiteralExpr longExpr(long l ) {
+    public static LongLiteralExpr longLiteralExpr(long l ) {
         return new LongLiteralExpr(l);
     }
 
-    public static LongLiteralExpr longExpr(String... code ) {
+    public static LongLiteralExpr longLiteralExpr(String... code ) {
         return new LongLiteralExpr(Text.combine(code));
     }
 
@@ -1350,21 +1348,21 @@ public enum Expr {
     }
 
 
-    public static AnnotationExpr annoExpr(String... code ) {
+    public static AnnotationExpr annotationExpr(String... code ) {
         return of( code ).asAnnotationExpr();
     }
-
-
-
 
     /** i.e. null */
     public static NullLiteralExpr nullExpr(){
         return new NullLiteralExpr();
     }
 
+    public static ObjectCreationExpr objectCreationExpr(Object anonymousClassImplementation ){
+        StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        return newExpr(ste, _io.IN_DEFAULT);
+    }
 
-
-    public static ObjectCreationExpr anonymousClassEx(Object anonymousClassImplementation ){
+    public static ObjectCreationExpr anonymousClassExpr(Object anonymousClassImplementation ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return newExpr(ste, _io.IN_DEFAULT);
     }
@@ -1419,7 +1417,7 @@ public enum Expr {
         return le.getBody().findFirst(ObjectCreationExpr.class).get();        
     }
 
-    public static StringLiteralExpr stringExpr(String code ){
+    public static StringLiteralExpr stringLiteralExpr(String code ){
         if( code.startsWith("\"")){
             code = code.substring(1);
             if( code.endsWith("\"")){
@@ -1440,7 +1438,7 @@ public enum Expr {
          */
     }
     
-    public static StringLiteralExpr stringExpr(String... code ) {
+    public static StringLiteralExpr stringLiteralExpr(String... code ) {
         String str = Text.combine( code );
         if(! str.startsWith("\"") ){
             str = "\""+str;
@@ -1451,15 +1449,14 @@ public enum Expr {
         return of( str ).asStringLiteralExpr();
     }
 
-    public static TextBlockLiteralExpr textBlockExpr(String code ){
+    public static TextBlockLiteralExpr textBlockLiteralExpr(String code ){
         return new TextBlockLiteralExpr(code);
     }
 
-    public static TextBlockLiteralExpr textBlockExpr(String... code ) {
+    public static TextBlockLiteralExpr textBlockLiteralExpr(String... code ) {
         String str = Text.combine( code );
         return new TextBlockLiteralExpr(str);
     }
-
 
     /** 
      * "super" 
@@ -1503,8 +1500,6 @@ public enum Expr {
         return (ThisExpr) Expr.of(expr);
         //return (ThisExpr)StaticJavaParser.parseExpression(Text.combine(expr));
     }
-
-
 
     public static TypeExpr typeExpr(String... code ) {
         //World::greet
@@ -1754,7 +1749,7 @@ public enum Expr {
                 return equal(exp , e );
             }catch(Exception e){
                 if( exp instanceof StringLiteralExpr ){
-                    return equal( exp, Expr.stringExpr(o.toString()) );
+                    return equal( exp, Expr.stringLiteralExpr(o.toString()) );
                 }
             }
         }
@@ -1763,26 +1758,26 @@ public enum Expr {
             return equal( Expr.of(o.toString()), exp );
         }
         else if(o instanceof Character ){
-            return Objects.equals( Expr.charExpr( (Character)o), exp );
+            return Objects.equals( Expr.charLiteralExpr( (Character)o), exp );
         }
         //arrays?
         else if( o.getClass().isArray() ){
             if( o.getClass().getComponentType().isPrimitive() ){
                 Class ct = o.getClass().getComponentType();
                 if( ct == int.class ){
-                    return equal(exp, Expr.of( (int[])o) );
+                    return equal(exp, Expr.arrayInitializerExpr( (int[])o) );
                 }
                 if( ct == float.class ){
-                    return equal(exp, Expr.of( (float[])o) );
+                    return equal(exp, Expr.arrayInitializerExpr( (float[])o) );
                 }
                 if( ct == double.class ){
-                    return equal(exp, Expr.of( (double[])o) );
+                    return equal(exp, Expr.arrayInitializerExpr( (double[])o) );
                 }
                 if( ct == boolean.class ){
-                    return equal(exp, Expr.of( (boolean[])o) );
+                    return equal(exp, Expr.arrayInitializerExpr( (boolean[])o) );
                 }
                 if( ct == char.class ){
-                    return equal(exp, Expr.of( (char[])o) );
+                    return equal(exp, Expr.arrayInitializerExpr( (char[])o) );
                 }
                 throw new _jdraftException("Only simple primitive types supported");
             } 
@@ -1847,7 +1842,7 @@ public enum Expr {
     }
     
     
-    public static int memberValueHash(MemberValuePair mvp) {
+    public static int memberValuePairHash(MemberValuePair mvp) {
         if (mvp.getValue() instanceof AnnotationExpr) {
             return Objects.hash(mvp.getNameAsString(), hash((AnnotationExpr) mvp.getValue()));
         }
@@ -1892,7 +1887,7 @@ public enum Expr {
             NodeList<MemberValuePair> pairs = nae.getPairs();
             //Annotations can contain OTHER ANNOTATIONS
             Set<Integer> memberValueHashes = new HashSet<>(); //Hash them all
-            pairs.forEach(p -> memberValueHashes.add(memberValueHash(p)));
+            pairs.forEach(p -> memberValueHashes.add(memberValuePairHash(p)));
             return Objects.hash(normalizedName, memberValueHashes);
         }
         if (ae instanceof SingleMemberAnnotationExpr) {
@@ -1905,7 +1900,7 @@ public enum Expr {
             }
             //Set<MemberValuePair> mvps = new HashSet<>();
             Set<Integer> memberValueHashes = new HashSet<>(); //Hash them all
-            memberValueHashes.add( memberValueHash(new MemberValuePair("value", memberValue) ) );
+            memberValueHashes.add( memberValuePairHash(new MemberValuePair("value", memberValue) ) );
             //we want this: 
             // @a(1)
             //to be the same as:

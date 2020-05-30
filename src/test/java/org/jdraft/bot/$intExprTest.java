@@ -175,7 +175,7 @@ public class $intExprTest extends TestCase {
 		
 		//here I want to change the int literal oo value (3) 
 		//to be a DIFFERENT node type (StringLiteral) with value "Hello"
-		_c = $intExpr.of("3").replaceIn(C.class, Expr.stringExpr("Hello") );
+		_c = $intExpr.of("3").replaceIn(C.class, Expr.stringLiteralExpr("Hello") );
 		
 		assertTrue( _c.getField("oo").isInit("Hello"));		
 	}

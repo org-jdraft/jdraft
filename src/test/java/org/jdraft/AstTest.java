@@ -1103,13 +1103,13 @@ public class AstTest extends TestCase {
         Stmt.continueStmt( "continue;");
         Stmt.continueStmt( "continue out;");
         ExpressionStmt es = new ExpressionStmt( Expr.of("3+4"));
-        Stmt.exprStmt( "c=a+b;");
+        Stmt.expressionStmt( "c=a+b;");
         Stmt.forEachStmt( "for( int x : expressions){}");
         Stmt.doStmt( "do{ System.out.println(1); }while(n<100);");
         Stmt.forStmt( "for(int i=0;i<100;i++){System.out.printlnt(1);}");
         Stmt.ifStmt( "if(true){ System.out.println(1);}");
         Stmt.labeledStmt( "label: System.out.println(1);");
-        Stmt.localClassStmt( "class F{ int x; }");
+        Stmt.localClassDeclarationStmt( "class F{ int x; }");
         Stmt.returnStmt( "return 1;");
         //AST.switchEntryStmt("case 1: System.out.println(1);");
         // AST.switchEntryStmt( "(5+4): ");

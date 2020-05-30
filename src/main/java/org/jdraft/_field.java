@@ -249,7 +249,7 @@ public final class _field
     }
 
     public boolean isInit(String init) {
-        return Objects.equals(this.getInitNode(), Expr.stringExpr(init));
+        return Objects.equals(this.getInitNode(), Expr.stringLiteralExpr(init));
     }
     
     public boolean hasInit() {

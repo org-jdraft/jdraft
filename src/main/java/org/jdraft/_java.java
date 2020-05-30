@@ -1798,27 +1798,27 @@ public interface _java {
         }
 
         default boolean isExpression( int... i){
-            return isExpression( Expr.of(i) );
+            return isExpression( Expr.arrayInitializerExpr(i) );
         }
 
         default boolean isExpression( boolean... b){
-            return isExpression( Expr.of(b) );
+            return isExpression( Expr.arrayInitializerExpr(b) );
         }
 
         default boolean isExpression( float... f){
-            return isExpression( Expr.of(f) );
+            return isExpression( Expr.arrayInitializerExpr(f) );
         }
 
         default boolean isExpression( long... l){
-            return isExpression( Expr.of(l) );
+            return isExpression( Expr.arrayInitializerExpr(l) );
         }
 
         default boolean isExpression( double... d){
-            return isExpression( Expr.of(d) );
+            return isExpression( Expr.arrayInitializerExpr(d) );
         }
 
         default boolean isExpression( char... c){
-            return isExpression( Expr.of(c) );
+            return isExpression( Expr.arrayInitializerExpr(c) );
         }
 
         default _WE setExpression(String...expression){

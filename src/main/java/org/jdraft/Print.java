@@ -27,7 +27,6 @@ import static com.github.javaparser.utils.Utils.normalizeEolInTextBlock;
  * Helpful things for printing the contents of the AST
  */
 public interface Print {
-    //;
 
     /**
      * a slight variant of the PrettyPrinter
@@ -54,10 +53,11 @@ public interface Print {
      * /** JavadocComment * /
      *
      */
-    public static final PrettyPrinterConfiguration EMPTY_STATEMENT_COMMENT_PRINTER
+    PrettyPrinterConfiguration EMPTY_STATEMENT_COMMENT_PRINTER
             = new PrettyPrinterConfiguration()
             .setVisitorFactory(EmptyStatementCommentPrinter::new);
-    public static final PrettyPrinterConfiguration PRINT_NO_TYPE_PARAMETERS = new PrettyPrinterConfiguration()
+
+    PrettyPrinterConfiguration PRINT_NO_TYPE_PARAMETERS = new PrettyPrinterConfiguration()
             .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoTypeParams::new);
     /**
      * Dont print TypeParameters or Annotations... this is for dealing with {@link ClassOrInterfaceType} types
@@ -71,12 +71,14 @@ public interface Print {
      * if we want to compare the type (proper) to another type without annotations and Generics
      * </PRE>
      */
-    public static final PrettyPrinterConfiguration PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS
+    PrettyPrinterConfiguration PRINT_NO_ANNOTATIONS_OR_TYPE_PARAMETERS
             = new PrettyPrinterConfiguration()
             .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotationsOrTypeParams::new);
-    public static final PrettyPrinterConfiguration PRINT_NO_COMMENTS = new PrettyPrinterConfiguration()
+
+    PrettyPrinterConfiguration PRINT_NO_COMMENTS = new PrettyPrinterConfiguration()
             .setPrintComments(false).setPrintJavadoc(false);
-    public static final PrettyPrinterConfiguration PRINT_RAW_COMMENTS = new PrettyPrinterConfiguration()
+
+    PrettyPrinterConfiguration PRINT_RAW_COMMENTS = new PrettyPrinterConfiguration()
             .setVisitorFactory(PrintRawComments::new);
 
     /**
@@ -87,7 +89,7 @@ public interface Print {
      *  _c.toString( Ast.PRINT_NO_ANNOTATIONS_OR_COMMENTS );
      * </PRE>
      */
-    public static final PrettyPrinterConfiguration PRINT_NO_ANNOTATIONS_OR_COMMENTS
+    PrettyPrinterConfiguration PRINT_NO_ANNOTATIONS_OR_COMMENTS
             = new PrettyPrinterConfiguration()
                     .setPrintComments(false).setPrintJavadoc(false).setVisitorFactory(PrintNoAnnotations::new);
 
@@ -108,7 +110,7 @@ public interface Print {
      * </PRE>
      * @param clazz
      */
-    public static void tree(Class clazz){
+    static void tree(Class clazz){
         _type _t = _type.of(clazz);
         if( _t.isTopLevel() ){
             ASCIITreePrinter.print( _t.astCompilationUnit() );
@@ -133,11 +135,11 @@ public interface Print {
      * </PRE>
      * @param n
      */
-    public static void tree(Node n){
+    static void tree(Node n){
         ASCIITreePrinter.print(n);
     }
 
-    public static void tree(_java._node _n ){
+    static void tree(_java._node _n ){
         ASCIITreePrinter.print(_n);
     }
 
@@ -158,11 +160,11 @@ public interface Print {
      * @param n
      * @param nodeFormat
      */
-    public static void tree(Node n, Function<Node,String>nodeFormat){
+    static void tree(Node n, Function<Node,String>nodeFormat){
         ASCIITreePrinter.print(n, nodeFormat);
     }
 
-    public static class EmptyStatementCommentPrinter extends PrettyPrintVisitor {
+    class EmptyStatementCommentPrinter extends PrettyPrintVisitor {
 
         public EmptyStatementCommentPrinter(PrettyPrinterConfiguration prettyPrinterConfiguration) {
             super(prettyPrinterConfiguration);
@@ -214,12 +216,11 @@ public interface Print {
      * the formatted .java source code, for the more comprehensive example:
      * @see PrettyPrintVisitor
      */
-    public static class PrintNoTypeParams extends PrettyPrintVisitor {
+    class PrintNoTypeParams extends PrettyPrintVisitor {
 
         public PrintNoTypeParams(PrettyPrinterConfiguration prettyPrinterConfiguration) {
             super(prettyPrinterConfiguration);
         }
-
 
         @Override
         public void visit(final ClassOrInterfaceType n, final Void arg) {
@@ -231,7 +232,6 @@ public interface Print {
                 }
                 printer.print(" ");
             }
-
             if (n.getScope().isPresent()) {
                 n.getScope().get().accept(this, arg);
                 printer.print(".");
@@ -258,7 +258,7 @@ public interface Print {
      * the formatted .java source code, for the more comprehensive example:
      * @see PrettyPrintVisitor
      */
-    public static class PrintNoAnnotationsOrTypeParams extends PrettyPrintVisitor {
+    class PrintNoAnnotationsOrTypeParams extends PrettyPrintVisitor {
 
         public PrintNoAnnotationsOrTypeParams(PrettyPrinterConfiguration prettyPrinterConfiguration) {
             super(prettyPrinterConfiguration);
@@ -299,7 +299,7 @@ public interface Print {
      * the formatted .java source code, for the more comprehensive example:
      * @see PrettyPrintVisitor
      */
-    public static class PrintNoAnnotations extends PrettyPrintVisitor {
+    class PrintNoAnnotations extends PrettyPrintVisitor {
 
         public PrintNoAnnotations(PrettyPrinterConfiguration prettyPrinterConfiguration) {
             super(prettyPrinterConfiguration);
@@ -324,7 +324,7 @@ public interface Print {
         }
     }
 
-    public static class PrintRawComments extends PrettyPrintVisitor {
+    class PrintRawComments extends PrettyPrintVisitor {
 
         public PrintRawComments(PrettyPrinterConfiguration prettyPrinterConfiguration) {
             super(prettyPrinterConfiguration);

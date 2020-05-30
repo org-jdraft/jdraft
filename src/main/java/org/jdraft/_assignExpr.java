@@ -401,27 +401,27 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public _assignExpr setValue(int... value){
-        this.ae.setValue(Expr.of(value));
+        this.ae.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(float... value){
-        this.ae.setValue(Expr.of(value));
+        this.ae.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(boolean... value){
-        this.ae.setValue(Expr.of(value));
+        this.ae.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(char... value){
-        this.ae.setValue(Expr.of(value));
+        this.ae.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(long... value){
-        this.ae.setValue(Expr.of(value));
+        this.ae.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 

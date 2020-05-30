@@ -279,8 +279,8 @@ public class StypeRefTest extends TestCase {
         $typeRef $t = $typeRef.of(int.class);
         assertEquals(_typeRef.of(int.class), $t.draft());
 
-        assertNotNull( $t.select(Types.Classes.INT_TYPE));
-        assertNull( $t.select(Types.Classes.FLOAT_TYPE));
+        assertNotNull( $t.select(Types.Classes.INT));
+        assertNull( $t.select(Types.Classes.FLOAT));
         class F{
             int a;
             public F( int b ){

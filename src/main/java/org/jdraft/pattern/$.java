@@ -862,7 +862,7 @@ public final class $ {
         for(int i=0;i<ss.length; i++){
             sd.add( ss[i]);
         }
-        return new $ex( Expr.stringExpr( ) ).$and(d-> sd.contains(d));
+        return new $ex( Expr.stringLiteralExpr( ) ).$and(d-> sd.contains(d));
     }
 
     public static $ex<StringLiteralExpr, _stringExpr, $ex> stringLiteral(StringLiteralExpr sl){

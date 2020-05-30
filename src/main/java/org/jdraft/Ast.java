@@ -1693,7 +1693,7 @@ public enum Ast {
      * @return
      */
     public static ExpressionStmt expressionStmt( String... code ) {
-        return Stmt.exprStmt(code);
+        return Stmt.expressionStmt(code);
     }
 
     /**

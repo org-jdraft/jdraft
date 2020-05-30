@@ -158,7 +158,6 @@ public enum Nodes {
         this.n = n;
     }
 
-
     public static Nodes of(Class clazz){
         Optional<Nodes> ncm = Arrays.stream(Nodes.values()).filter(n -> n._n == clazz || n.n == clazz).findFirst();
         if( ncm.isPresent() ){

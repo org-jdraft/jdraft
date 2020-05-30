@@ -126,7 +126,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
      *     └─"1" IntegerLiteralExpr : (1,22)-(1,22)
      */
     public void testNumNegativeUnaryNegative() {
-        IntegerLiteralExpr ile = Expr.intExpr(-12);
+        IntegerLiteralExpr ile = Expr.integerLiteralExpr(-12);
         Print.tree(ile);
         UnaryExpr ue = new UnaryExpr(ile, UnaryExpr.Operator.MINUS);
         Expression res = NegativeLiteralNumberPostProcessor.replaceUnaryWithNegativeLiteral(ue);
@@ -134,7 +134,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
     }
 
     public void testLongNumNegativeUnaryNegative() {
-        LongLiteralExpr ile = Expr.longExpr(-12L);
+        LongLiteralExpr ile = Expr.longLiteralExpr(-12L);
         Print.tree(ile);
         UnaryExpr ue = new UnaryExpr(ile, UnaryExpr.Operator.MINUS);
         Expression res = NegativeLiteralNumberPostProcessor.replaceUnaryWithNegativeLiteral(ue);
@@ -164,7 +164,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
     }
 
     public void testDoubleNegNum(){
-        DoubleLiteralExpr dle = Expr.doubleExpr(-1.1);
+        DoubleLiteralExpr dle = Expr.doubleLiteralExpr(-1.1);
         Print.tree(dle);
         UnaryExpr ue = new UnaryExpr(dle,UnaryExpr.Operator.MINUS);
         Expression res = NegativeLiteralNumberPostProcessor.replaceUnaryWithNegativeLiteral(ue);

@@ -18,7 +18,7 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
         return new _intExpr(il);
     }
     public static _intExpr of(String...code){
-        return new _intExpr(Expr.intExpr( code));
+        return new _intExpr(Expr.integerLiteralExpr( code));
     }
 
     public static _feature._one<_intExpr, String> LITERAL_VALUE = new _feature._one<>(_intExpr.class, String.class,
@@ -43,7 +43,7 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
     @Override
     public boolean is(String... stringRep) {
         try{
-            return is( Expr.intExpr(stringRep));
+            return is( Expr.integerLiteralExpr(stringRep));
         } catch(Exception e){
 
         }

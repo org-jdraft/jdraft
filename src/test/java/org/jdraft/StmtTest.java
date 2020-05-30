@@ -250,7 +250,7 @@ public class StmtTest extends TestCase {
 
         assertEquals(st, Stmt.doStmt("do{ assert(1==1); }while(n>2);"));
 
-        assertEquals(Stmt.of((Integer a) -> a = 2 + 45), Stmt.exprStmt("a = 2 + 45;"));
+        assertEquals(Stmt.of((Integer a) -> a = 2 + 45), Stmt.expressionStmt("a = 2 + 45;"));
 
 
         //Stmt.expressionStmt("a = 2 + 45;");
@@ -286,7 +286,7 @@ public class StmtTest extends TestCase {
                         int i;
                     }
                 }),
-                Stmt.localClassStmt("class F{ int i; }"));
+                Stmt.localClassDeclarationStmt("class F{ int i; }"));
 
         assertEquals(Stmt.of(() -> {
                     label:

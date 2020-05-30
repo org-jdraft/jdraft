@@ -89,7 +89,7 @@ public class $booleanExprTest extends TestCase {
     }
 
     public void testAst(){
-        Select<_booleanExpr> s = $ANY.select(Expr.booleanExpr("true"));
+        Select<_booleanExpr> s = $ANY.select(Expr.booleanLiteralExpr("true"));
         assertEquals(_booleanExpr.of(true), s.select);
     }
 

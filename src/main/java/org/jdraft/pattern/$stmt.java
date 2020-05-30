@@ -599,7 +599,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return 
      */
     public static $stmt<ExpressionStmt, _exprStmt> expressionStmt(String... pattern ) {
-        return new $stmt( Stmt.exprStmt(pattern));
+        return new $stmt( Stmt.expressionStmt(pattern));
     }
     
     /** 
@@ -609,7 +609,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return 
      */
     public static $stmt<ExpressionStmt, _exprStmt> expressionStmt(String pattern, Predicate<ExpressionStmt> constraint) {
-        return new $stmt( Stmt.exprStmt(pattern)).$and(constraint);
+        return new $stmt( Stmt.expressionStmt(pattern)).$and(constraint);
     }
 
     /** 
@@ -769,7 +769,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return the AST implementation
      */
     public static $stmt<LocalClassDeclarationStmt, _localClassStmt> localClassStmt( String... pattern ) {
-        return new $stmt( Stmt.localClassStmt(pattern));
+        return new $stmt( Stmt.localClassDeclarationStmt(pattern));
     }
     
     /**
@@ -780,7 +780,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return the AST implementation
      */
     public static $stmt<LocalClassDeclarationStmt, _localClassStmt> localClassStmt( String pattern, Predicate<LocalClassDeclarationStmt> constraint) {
-        return new $stmt( Stmt.localClassStmt(pattern)).$and(constraint);
+        return new $stmt( Stmt.localClassDeclarationStmt(pattern)).$and(constraint);
     }
 
     /**

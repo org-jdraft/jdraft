@@ -19,7 +19,7 @@ public final class _textBlockExpr implements _expr._literal<TextBlockLiteralExpr
         return new _textBlockExpr(tb);
     }
     public static _textBlockExpr of(String...code){
-        return new _textBlockExpr(Expr.textBlockExpr( code));
+        return new _textBlockExpr(Expr.textBlockLiteralExpr( code));
     }
 
 
