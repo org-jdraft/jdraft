@@ -69,7 +69,7 @@ public final class _whileStmt implements _stmt._controlFlow._conditional<WhileSt
     }
 
     public static _feature._one<_whileStmt, _expr> CONDITION = new _feature._one<>(_whileStmt.class, _expr.class,
-            _feature._id.CONDITION_EXPR,
+            _feature._id.CONDITION,
             a -> a.getCondition(),
             (_whileStmt a, _expr _e) -> a.setCondition(_e), PARSER);
 

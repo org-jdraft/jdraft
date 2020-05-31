@@ -84,7 +84,7 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
             (_forEachStmt a, _body b) -> a.setBody(b), PARSER);
 
     public static _feature._one<_forEachStmt, _expr> ITERABLE = new _feature._one<>(_forEachStmt.class, _expr.class,
-            _feature._id.ITERABLE_EXPR,
+            _feature._id.ITERABLE,
             a -> a.getIterable(),
             (_forEachStmt a, _expr _e) -> a.setIterable(_e), PARSER);
 

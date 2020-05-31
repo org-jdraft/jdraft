@@ -113,8 +113,8 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return of( _l.astLambda);
     }
 
-    public static _feature._one<_switchExpr, _expr> EXPRESSION = new _feature._one<>(_switchExpr.class, _expr.class,
-            _feature._id.EXPRESSION,
+    public static _feature._one<_switchExpr, _expr> SELECTOR = new _feature._one<>(_switchExpr.class, _expr.class,
+            _feature._id.SELECTOR,
             a -> a.getSwitchSelector(),
             (_switchExpr p, _expr _es) -> p.setSwitchSelector(_es), PARSER);
 
@@ -124,7 +124,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             a -> a.listSwitchEntries(),
             (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s));
 
-    public static _feature._meta<_switchExpr> META = _feature._meta.of(_switchExpr.class, EXPRESSION, SWITCH_ENTRIES );
+    public static _feature._meta<_switchExpr> META = _feature._meta.of(_switchExpr.class, SELECTOR, SWITCH_ENTRIES );
 
 
     public SwitchExpr switchExpr;

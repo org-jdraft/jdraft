@@ -472,12 +472,12 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             (_class a, _typeParams b) -> a.setTypeParams(b), PARSER);
 
     public static _feature._one<_class, _typeRef> EXTENDS = new _feature._one<>(_class.class, _typeRef.class,
-            _feature._id.EXTENDS_TYPES,
+            _feature._id.EXTENDS,
             a -> a.getExtends(),
             (_class a, _typeRef exts) -> a.setExtends(exts), PARSER);
 
     public static _feature._many<_class, _typeRef> IMPLEMENTS = new _feature._many<>(_class.class, _typeRef.class,
-            _feature._id.IMPLEMENTS_TYPES,
+            _feature._id.IMPLEMENTS,
             _feature._id.TYPE_REF,
             a -> a.listImplements(),
             (_class a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s->_typeRef.of(s));

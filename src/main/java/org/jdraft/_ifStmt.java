@@ -70,7 +70,7 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
     }
 
     public static _feature._one<_ifStmt, _expr> CONDITION = new _feature._one<>(_ifStmt.class, _expr.class,
-            _feature._id.CONDITION_EXPR,
+            _feature._id.CONDITION,
             a -> a.getCondition(),
             (_ifStmt a, _expr _e) -> a.setCondition(_e), PARSER);
 

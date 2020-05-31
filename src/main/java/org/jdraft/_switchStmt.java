@@ -126,8 +126,8 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return of( _l.astLambda);
     }
 
-    public static _feature._one<_switchStmt, _expr> EXPRESSION = new _feature._one<>(_switchStmt.class, _expr.class,
-            _feature._id.EXPRESSION,
+    public static _feature._one<_switchStmt, _expr> SELECTOR = new _feature._one<>(_switchStmt.class, _expr.class,
+            _feature._id.SELECTOR,
             a -> a.getSwitchSelector(),
             (_switchStmt p, _expr _es) -> p.setSwitchSelector(_es), PARSER);
 
@@ -137,7 +137,7 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
             a -> a.listSwitchEntries(),
             (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s));
 
-    public static _feature._meta<_switchStmt> META = _feature._meta.of(_switchStmt.class, EXPRESSION, SWITCH_ENTRIES );
+    public static _feature._meta<_switchStmt> META = _feature._meta.of(_switchStmt.class, SELECTOR, SWITCH_ENTRIES );
 
     public SwitchStmt switchStmt;
 

@@ -78,7 +78,7 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
     }
 
     public static _feature._one<_doStmt, _expr> CONDITION = new _feature._one<>(_doStmt.class, _expr.class,
-            _feature._id.CONDITION_EXPR,
+            _feature._id.CONDITION,
             a -> a.getCondition(),
             (_doStmt a, _expr _e) -> a.setCondition(_e), PARSER);
 

@@ -75,13 +75,13 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
             (_forStmt a, _body b) -> a.setBody(b), PARSER);
 
     public static _feature._one<_forStmt, _expr> COMPARE = new _feature._one<>(_forStmt.class, _expr.class,
-            _feature._id.COMPARE_EXPR,
+            _feature._id.COMPARE,
             a -> a.getCompare(),
             (_forStmt a, _expr _e) -> a.setCompare(_e), PARSER);
 
     public static _feature._many<_forStmt, _expr> UPDATES = new _feature._many<>(_forStmt.class, _expr.class,
-            _feature._id.UPDATES_EXPRS,
-            _feature._id.UPDATE_EXPR,
+            _feature._id.UPDATES,
+            _feature._id.UPDATE,
             a -> a.listUpdates(),
             (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER, s-> _expr.of(s));
 

@@ -206,8 +206,13 @@ public final class _lambdaExpr
         return new _lambdaExpr( astLambda );
     }
 
-    public static _feature._one<_lambdaExpr, Boolean> IS_PARENTHESIZED_PARAMS = new _feature._one<>(_lambdaExpr.class, Boolean.class,
-            _feature._id.IS_PARENTHESIZED_PARAMS,
+    /**
+     * are the lambda parameter(s) parenthesized : i.e.
+     * a-> "100"; //param "a" NOT parenthesized
+     * (a)-> "100"; //param "a' IS parenthesized
+     */
+    public static _feature._one<_lambdaExpr, Boolean> IS_PARAM_PARENTHESIZED = new _feature._one<>(_lambdaExpr.class, Boolean.class,
+            _feature._id.IS_PARAM_PARENTHESIZED,
             a -> a.isParenthesizedParams(),
             (_lambdaExpr a, Boolean b) -> a.setParenthesizedParams(b), PARSER);
 
@@ -221,7 +226,7 @@ public final class _lambdaExpr
             a -> a.getBody(),
             (_lambdaExpr a, _stmt _s) -> a.setBody(_s), PARSER);
 
-    public static _feature._meta<_lambdaExpr> META = _feature._meta.of(_lambdaExpr.class, IS_PARENTHESIZED_PARAMS, PARAMS, BODY );
+    public static _feature._meta<_lambdaExpr> META = _feature._meta.of(_lambdaExpr.class, IS_PARAM_PARENTHESIZED, PARAMS, BODY );
 
     public final LambdaExpr astLambda;
     

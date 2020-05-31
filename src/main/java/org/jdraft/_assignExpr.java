@@ -89,7 +89,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
             (_assignExpr a, AssignExpr.Operator o) -> a.setOperator(o), PARSER);
 
     public static _feature._one<_assignExpr, _expr> VALUE = new _feature._one<>(_assignExpr.class, _expr.class,
-            _feature._id.VALUE_EXPR,
+            _feature._id.VALUE,
             a -> a.getValue(),
             (_assignExpr a, _expr _e) -> a.setValue(_e), PARSER);
 

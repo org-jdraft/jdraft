@@ -224,7 +224,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public static _feature._one<_binaryExpr, _expr> LEFT = new _feature._one<>(_binaryExpr.class, _expr.class,
-            _feature._id.LEFT_EXPR,
+            _feature._id.LEFT,
             a -> a.getLeft(),
             (_binaryExpr a, _expr _e) -> a.setLeft(_e), PARSER);
 
@@ -234,7 +234,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
             (_binaryExpr a, BinaryExpr.Operator o) -> a.setOperator(o), PARSER);
 
     public static _feature._one<_binaryExpr, _expr> RIGHT = new _feature._one<>(_binaryExpr.class, _expr.class,
-            _feature._id.RIGHT_EXPR,
+            _feature._id.RIGHT,
             a -> a.getRight(),
             (_binaryExpr a, _expr _e) -> a.setRight(_e), PARSER);
 

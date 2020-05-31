@@ -34,12 +34,12 @@ public final class _constructorCallStmt
     }
 
     public static _feature._one<_constructorCallStmt, Boolean> IS_THIS = new _feature._one<>(_constructorCallStmt.class, Boolean.class,
-            _feature._id.IS_THIS_CALL,
+            _feature._id.IS_THIS,
             a -> a.isThis(),
             (_constructorCallStmt a, Boolean b) -> a.setThis(b), PARSER);
 
     public static _feature._one<_constructorCallStmt, Boolean> IS_SUPER = new _feature._one<>(_constructorCallStmt.class, Boolean.class,
-            _feature._id.IS_SUPER_CALL,
+            _feature._id.IS_SUPER,
             a -> a.isSuper(),
             (_constructorCallStmt a, Boolean b) -> a.setSuper(b), PARSER);
 

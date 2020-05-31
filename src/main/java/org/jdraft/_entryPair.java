@@ -125,7 +125,7 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
             (_entryPair a, String name) -> a.setName(name), PARSER);
 
     public static _feature._one<_entryPair, _expr> VALUE = new _feature._one<>(_entryPair.class, _expr.class,
-            _feature._id.VALUE_EXPR,
+            _feature._id.VALUE,
             a->a.getValue(),
             (_entryPair a, _expr _e)-> a.setValue(_e), PARSER );
 

@@ -271,7 +271,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             (_interface a, _typeParams b) -> a.setTypeParams(b), PARSER);
 
     public static _feature._many<_interface, _typeRef> EXTENDS = new _feature._many<>(_interface.class, _typeRef.class,
-            _feature._id.EXTENDS_TYPES,
+            _feature._id.EXTENDS,
             _feature._id.TYPE_REF,
             a -> a.listExtends(),
             (_interface a, List<_typeRef>mems) -> a.setExtends(mems), PARSER, s->_typeRef.of(s));

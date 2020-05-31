@@ -73,7 +73,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
             (_entry a, String name) -> a.setName(name), PARSER);
 
     public static _feature._one<_entry, _expr> DEFAULT = new _feature._one<>(_entry.class, _expr.class,
-            _feature._id.DEFAULT_EXPR,
+            _feature._id.DEFAULT,
             a->a.getDefaultValue(),
             (_entry a, _expr _e)-> a.setDefaultValue(_e), PARSER );
 

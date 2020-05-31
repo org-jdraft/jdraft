@@ -141,7 +141,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             (_field a, String s) -> a.setName(s), PARSER);
 
     public static _feature._one<_field, _expr> INIT = new _feature._one<>(_field.class, _expr.class,
-            _feature._id.INIT_EXPR,
+            _feature._id.INIT,
             a -> a.getInit(),
             (_field a, _expr _e) -> a.setInit(_e), PARSER);
 
