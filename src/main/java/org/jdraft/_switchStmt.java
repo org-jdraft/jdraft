@@ -126,6 +126,9 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return of( _l.astLambda);
     }
 
+    /**
+     * Expression to be selected on (i.e. "a" in "switch(a){ ... }"
+     */
     public static _feature._one<_switchStmt, _expr> SELECTOR = new _feature._one<>(_switchStmt.class, _expr.class,
             _feature._id.SELECTOR,
             a -> a.getSwitchSelector(),

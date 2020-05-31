@@ -113,6 +113,9 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return of( _l.astLambda);
     }
 
+    /**
+     * Expression to be selected on (i.e. "a" in "switch(a){ ... }"
+     */
     public static _feature._one<_switchExpr, _expr> SELECTOR = new _feature._one<>(_switchExpr.class, _expr.class,
             _feature._id.SELECTOR,
             a -> a.getSwitchSelector(),

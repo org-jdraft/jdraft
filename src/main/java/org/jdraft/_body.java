@@ -243,6 +243,12 @@ public final class _body implements _java._domain {
         return new _body(astNodeWithOptionalBlock);
     }
 
+    /**
+     * is the body implemented, or (abstract/NOT implemented)
+     * <CODE>void m(){}</CODE> has an IMPLEMENTED BODY because its an empty block statement
+     * -vs-
+     * <CODE>void m();</CODE> has a NOT IMPLEMENTED BODY because ";" )
+     */
     public static _feature._one<_body, Boolean> IS_IMPLEMENTED = new _feature._one<>(_body.class, Boolean.class,
             _feature._id.IS_IMPLEMENTED,
             a -> a.isImplemented(),

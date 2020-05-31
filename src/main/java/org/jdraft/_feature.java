@@ -100,15 +100,16 @@ public interface _feature<_T, _F>{
     enum _id {
 
         /**{@link org.jdraft._annoExprs._withAnnoExprs}... */
-        ANNO_EXPRS("annoExprs"), /** i.e. @Deprecated @NotNull */
+        ANNO_EXPRS("annoExprs", _annoExprs._withAnnoExprs.class), /** i.e. @Deprecated @NotNull */
         /**{@link _annoExprs#ANNOS} */
         ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
 
         /** {@link _newExpr#ANONYMOUS_CLASS_BODY} */
         ANONYMOUS_CLASS_BODY("anonymousClassBody"),
 
-        /** {@link _args#ARGS}, {@link _constant#ARGS},  {@link _methodCallExpr#ARGS} {@link _constructorCallStmt#ARGS}, {@link _newExpr#ARGS}*/
-        ARGS("args"),
+        /** {@link org.jdraft._args._withArgs} {@link _args#ARGS}, {@link _constant#ARGS},  {@link _methodCallExpr#ARGS}
+         *  {@link _constructorCallStmt#ARGS}, {@link _newExpr#ARGS}*/
+        ARGS("args", _args._withArgs.class),
         /** {@link _args#ARGS} */
         ARG("arg"),
 
@@ -117,17 +118,21 @@ public interface _feature<_T, _F>{
         /** {@link _arrayCreateExpr#DIMENSIONS} */
         ARRAY_DIMENSION("arrayDimension"),
 
-        /** {@link _catch#BODY} {@link _constructor#BODY} {@link _doStmt#BODY}, {@link _forEachStmt#BODY},
+        /**
+         * {@link org.jdraft._body._withBody}
+         * {@link _catch#BODY} {@link _constructor#BODY} {@link _doStmt#BODY}, {@link _forEachStmt#BODY},
          * {@link _forStmt#BODY}, {@link _initBlock#BODY}, {@link _lambdaExpr#BODY}, {@link _method#BODY},
          * {@link _synchronizedStmt#BODY}, {@link _whileStmt#BODY}
          */
-        BODY("body"),
+        BODY("body", _body._withBody.class),
 
         /**{@link _switchEntry#BODY_TYPE}*/
         BODY_TYPE("bodyType"),
 
         /**{@link _switchEntry#CASE_EXPRESSIONS}*/
         CASE_EXPRESSIONS("caseExpressions"),
+        /**{@link _switchEntry#CASE_EXPRESSIONS}*/
+        CASE_EXPRESSION("caseExpression"),
 
         /** {@link _tryStmt#CATCH_CLAUSES}*/
         CATCH_CLAUSES( "catchClauses"),
@@ -148,13 +153,14 @@ public interface _feature<_T, _F>{
         /**{@link _forStmt#COMPARE}*/
         COMPARE("compare"),
 
-        /** {@link org.jdraft._java._withCondition}, {@link _doStmt#CONDITION}, {@link _ifStmt#CONDITION}, {@link _ternaryExpr#CONDITION}, {@link _whileStmt#CONDITION} */
-        CONDITION("condition"),
+        /** {@link org.jdraft._java._withCondition}, {@link _doStmt#CONDITION}, {@link _ifStmt#CONDITION},
+         * {@link _ternaryExpr#CONDITION}, {@link _whileStmt#CONDITION} */
+        CONDITION("condition", _java._withCondition.class),
 
         /** {@link _entry#DEFAULT} */
         DEFAULT("default"),
 
-        /**{@link _ifStmt#THEN}, {@link _ternaryExpr#THEN}*/
+        /**{@link _ifStmt#ELSE}, {@link _ternaryExpr#ELSE}*/
         ELSE("else"),
 
         /** {@link _annoExpr#ENTRY_PAIRS} */
@@ -162,16 +168,19 @@ public interface _feature<_T, _F>{
         /** {@link _annoExpr#ENTRY_PAIRS} */
         ENTRY_PAIR("entryPair"),
 
-        /**{@link org.jdraft._java._withExpression} {@link _arrayDimension#EXPRESSION}, {@link _castExpr#EXPRESSION},
+        /**
+         * {@link org.jdraft._java._withExpression} {@link _arrayDimension#EXPRESSION}, {@link _castExpr#EXPRESSION},
          * {@link _exprStmt#EXPRESSION}, {@link _instanceOfExpr#EXPRESSION}, {@link _parenthesizedExpr#EXPRESSION},
-         * {@link _returnStmt#EXPRESSION}, {@link _switchEntry#CASE_EXPRESSIONS}, {@link _switchExpr#EXPRESSION}*/
-        EXPRESSION("expression"),
+         * {@link _returnStmt#EXPRESSION}, {@link _synchronizedStmt#EXPRESSION}, {@link _throwStmt#EXPRESSION},
+         * {@link _unaryExpr#EXPRESSION}, {@link _yieldStmt#EXPRESSION}
+         */
+        EXPRESSION("expression", _java._withExpression.class),
 
         /** {@link _typeParam#EXTENDS_TYPE_BOUND} */
         EXTENDS_TYPE_BOUNDS("extendsTypeBounds"),
 
-        /**{@link org.jdraft._type._withExtends} {@link _class#EXTENDS} {@link _interface#EXTENDS}*/
-        EXTENDS("extends"),
+        /**{@link _class#EXTENDS} {@link _interface#EXTENDS}*/
+        EXTENDS("extends", _type._withExtends.class),
 
         /**{@link _tryStmt#FINALLY_BODY}*/
         FINALLY_BODY( "finallyBody"),
@@ -180,10 +189,10 @@ public interface _feature<_T, _F>{
         IDENTIFIER("identifier"),
 
         /**{@link org.jdraft._type._withImplements}, {@link _class#IMPLEMENTS}, {@link _enum#IMPLEMENTS}*/
-        IMPLEMENTS("implements"), //_class, _enum
+        IMPLEMENTS("implements", _type._withImplements.class), //_class, _enum
 
-        /**{@link _annotation#IMPORTS}, {@link _class#IMPORTS}, {@link _enum#IMPORTS},
-         * {@link _interface#IMPORTS},{@link _packageInfo#IMPORTS},{@link _moduleInfo#IMPORTS} {@link _imports#IMPORTS}*/
+        /**{@link _annotation#IMPORTS}, {@link _class#IMPORTS}, {@link _enum#IMPORTS},{@link _interface#IMPORTS},
+         * {@link _packageInfo#IMPORTS},{@link _moduleInfo#IMPORTS} {@link _imports#IMPORTS}*/
         IMPORTS("imports"),
         /**{@link _imports#IMPORTS} */
         IMPORT("import"),
@@ -193,14 +202,20 @@ public interface _feature<_T, _F>{
 
         /**{@link _forStmt#INITS}, {@link _arrayInitExpr#INITS}*/
         INITS("inits"),
-        /** {@link _variable#INIT} {@link _arrayCreateExpr#INIT}, {@link _arrayInitExpr#INITS}, {@link _field#INIT}, {@link _forStmt#INITS}*/
+        /** {@link _variable#INIT} {@link _arrayCreateExpr#INIT}, {@link _arrayInitExpr#INITS},
+         * {@link _field#INIT}, {@link _forStmt#INITS}*/
         INIT("init"),
 
         /** {@link _param#IS_FINAL} */
         IS_FINAL("isFinal"),
 
-        /** {@link _body#IS_IMPLEMENTED} */
-        IS_IMPLEMENTED( "isImplemented"), //for implemented bodies (i.e. "void m(){}" IMPLEMENTED vs "void m();" NOT IMPLEMENTED)
+        /**
+         * is the body implemented, or (abstract/NOT implemented)
+         * <CODE>void m(){}</CODE> has an IMPLEMENTED BODY because its an empty block statement
+         * -vs-
+         * <CODE>void m();</CODE> has a NOT IMPLEMENTED BODY because ";" )
+         * {@link _body#IS_IMPLEMENTED} */
+        IS_IMPLEMENTED( "isImplemented"),
 
         /** {@link _moduleInfo#IS_OPEN} */
         IS_OPEN("isOpen"),
@@ -229,10 +244,12 @@ public interface _feature<_T, _F>{
         /**{@link _forEachStmt#ITERABLE}*/
         ITERABLE("iterable"),
 
-        /** {@link _annotation#JAVADOC}, {@link _class#JAVADOC}, {@link _enum#JAVADOC}, {@link _interface#JAVADOC},
+        /**
+         * {@link org.jdraft._javadocComment._withJavadoc}
+         * {@link _annotation#JAVADOC}, {@link _class#JAVADOC}, {@link _enum#JAVADOC}, {@link _interface#JAVADOC},
          * {@link _constructor#JAVADOC} {@link _method#JAVADOC}
          */
-        JAVADOC("javadoc"),
+        JAVADOC("javadoc", _javadocComment._withJavadoc.class),
 
         /**{@link _breakStmt#LABEL}, {@link _labeledStmt#LABEL}, {@link _continueStmt#LABEL} */
         LABEL("label"),
@@ -242,7 +259,9 @@ public interface _feature<_T, _F>{
 
         //values like int, float, etc. are stored as string b/c "0b1" & "1" & "0x1"
         //are mean the same value but represented differently
-        /**{@link _expr._literal} (int, double, boolean, string, char, float, textBlock)*/
+        /**{@link _expr._literal} {@link _intExpr#LITERAL_VALUE}, {@link _doubleExpr#LITERAL_VALUE},
+         * {@link _booleanExpr#LITERAL_VALUE}, {@link _stringExpr#LITERAL_VALUE},{@link _charExpr#LITERAL_VALUE},
+         * {@link _textBlockExpr#LITERAL_VALUE) */
         LITERAL_VALUE("literalValue"),
 
         /** {@link _class#MEMBERS}, {@link _enum#MEMBERS}, {@link _annotation#MEMBERS}, {@link _interface#MEMBERS}, {@link _constant#MEMBERS} */
@@ -254,7 +273,7 @@ public interface _feature<_T, _F>{
         MESSAGE("message"),
 
         /** {@link org.jdraft._modifiers._withModifiers} */
-        MODIFIERS("modifiers"),
+        MODIFIERS("modifiers", _modifiers._withModifiers.class),
         /** {@link _modifiers#MODIFIERS}*/
         MODIFIER("modifier"),
 
@@ -267,36 +286,37 @@ public interface _feature<_T, _F>{
         MODULE_NAMES("moduleNames"),
 
         /**{@link org.jdraft._java._withName} ... */
-        NAME("name"),
+        NAME("name", _java._withName.class),
 
         /**{@link _assignExpr#OPERATOR}, {@link _binaryExpr#OPERATOR}, {@link _unaryExpr#OPERATOR}*/
         OPERATOR("operator"),
 
-        /** {@link _annotation#PACKAGE}, {@link _class#PACKAGE}, {@link _enum#PACKAGE}, {@link _interface#PACKAGE}, {@link _packageInfo#PACKAGE}*/
+        /** {@link _annotation#PACKAGE}, {@link _class#PACKAGE}, {@link _enum#PACKAGE}, {@link _interface#PACKAGE},
+         * {@link _packageInfo#PACKAGE}*/
         PACKAGE("package"),
 
         /** {@link org.jdraft._params._withParams} {@link _params#PARAMS}, {@link _constructor#PARAMS}, {@link _lambdaExpr#PARAMS}, {@link _method#PARAMS} */
-        PARAMS("params"),
+        PARAMS("params", _params._withParams.class),
         /**{@link _catch#PARAM} {@link _params#PARAMS} */
         PARAM("param"),
 
         /** {@link org.jdraft._receiverParam._withReceiverParam} {@link _method#RECEIVER_PARAM} {@link _constructor#RECEIVER_PARAM} */
-        RECEIVER_PARAM("receiverParam"),
+        RECEIVER_PARAM("receiverParam", _receiverParam._withReceiverParam.class),
 
         /**{@link _binaryExpr#RIGHT}*/
         RIGHT( "right"),
 
         /**{@link org.jdraft._java._withScope}, {@link _fieldAccessExpr#SCOPE}, {@link _methodCallExpr#SCOPE}, {@link _methodRefExpr#SCOPE}, {@link _newExpr#SCOPE} */
-        SCOPE("scope"),
+        SCOPE("scope", _java._withScope.class),
 
-        /**{@link _blockStmt} {@link _body} {@link _switchEntry} */
+        /**{@link _blockStmt#STATEMENTS} {@link _body#STATEMENTS} {@link _switchEntry#STATEMENTS} */
         STATEMENTS("statements"),
         /**{@link _blockStmt#STATEMENTS}, {@link _body#STATEMENTS}, {@link _labeledStmt#STATEMENT}, {@link _switchEntry#STATEMENTS} */
         STATEMENT("statement"),
 
-        /**{@link _switchExpr}, {@link _switchStmt}*/
+        /**{@link _switchExpr#SWITCH_ENTRIES}, {@link _switchStmt#SWITCH_ENTRIES}*/
         SWITCH_ENTRIES("switchEntries"),
-        /**{@link _switchExpr}, {@link _switchStmt}*/
+        /**{@link _switchExpr#SWITCH_ENTRIES}, {@link _switchStmt#SWITCH_ENTRIES}*/
         SWITCH_ENTRY("switchEntry"),
 
         /**{@link _switchExpr#SELECTOR}, {@link _switchStmt#SELECTOR}*/
@@ -305,14 +325,14 @@ public interface _feature<_T, _F>{
         /**{@link _assignExpr#TARGET}*/
         TARGET("target"),
 
-        /**{@link _comment} (lineComment, blockComment, javadocComment)*/
-        TEXT("text"),
+        /**{@link _lineComment#TEXT}, {@link _blockComment#TEXT}, {@link _javadocComment#TEXT} */
+        TEXT("text", _comment.class),
 
         /**{@link _ifStmt#THEN}, {@link _ternaryExpr#THEN}*/
         THEN("then"),
 
         /**{@link org.jdraft._throws._withThrows}, {@link _constructor#THROWS}, {@link _method#THROWS} */
-        THROWS("throws"),
+        THROWS("throws", _throws._withThrows.class),
         /**{@link _throws#THROWS} */
         THROW("throw"),
 
@@ -320,15 +340,16 @@ public interface _feature<_T, _F>{
         TRY_BODY("tryBody"),
 
         /**{@link org.jdraft._typeRef._withTypeRef} ...*/
-        TYPE_REF("typeRef"),
+        TYPE_REF("typeRef", _typeRef._withTypeRef.class),
 
         /**{@link org.jdraft._typeParams._withTypeParams} ... */
-        TYPE_PARAMS("typeParams"),
+        TYPE_PARAMS("typeParams", _typeParams._withTypeParams.class),
         /** {@link _typeParams#TYPE_PARAMS} */
         TYPE_PARAM("typeParam"),
 
-        /**{@link org.jdraft._typeArgs._withTypeArgs}, {@link _constructorCallStmt}, {@link _fieldAccessExpr}, {@link _methodCallExpr}, {@link _methodRefExpr}, {@link _newExpr}, {@link _typeArgs} */
-        TYPE_ARGS("typeArgs"),
+        /**{@link _constructorCallStmt#TYPE_ARGS}, {@link _fieldAccessExpr#TYPE_ARGS}, {@link _methodCallExpr#TYPE_ARGS},
+         * {@link _methodRefExpr#TYPE_ARGS}, {@link _newExpr#TYPE_ARGS}, {@link _typeArgs#TYPE_ARGS} */
+        TYPE_ARGS("typeArgs", _typeArgs._withTypeArgs.class),
 
         /**{@link _superExpr#TYPE_NAME} {@link _thisExpr#TYPE_NAME}*/
         TYPE_NAME("typeName"),
@@ -350,13 +371,21 @@ public interface _feature<_T, _F>{
         VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),
 
         /**{@link _tryStmt#WITH_RESOURCES}*/
-        WITH_RESOURCES("withResources")
+        WITH_RESOURCES("withResources"),
+        /**{@link _tryStmt#WITH_RESOURCES}*/
+        WITH_RESOURCE("withResource")
         ;
 
         public final String name;
+        public final Class categoryType;
 
         _id(String name){
             this.name = name;
+            this.categoryType = null;
+        }
+        _id(String name, Class categoryType){
+            this.name = name;
+            this.categoryType = categoryType;
         }
     }
 

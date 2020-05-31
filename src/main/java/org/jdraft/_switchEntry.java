@@ -41,7 +41,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
 
     public static _feature._many<_switchEntry, _expr> CASE_EXPRESSIONS = new _feature._many<>(_switchEntry.class, _expr.class,
             _feature._id.CASE_EXPRESSIONS,
-            _feature._id.EXPRESSION,
+            _feature._id.CASE_EXPRESSION,
             a -> a.listCaseExpressions(),
             (_switchEntry p, List<_expr> _es) -> p.setCaseExpressions(_es), PARSER, s->_expr.of(s));
 

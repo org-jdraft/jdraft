@@ -80,7 +80,7 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
 
     public static _feature._many<_tryStmt, _expr> WITH_RESOURCES = new _feature._many<>(_tryStmt.class, _expr.class,
             _feature._id.WITH_RESOURCES,
-            _feature._id.EXPRESSION,
+            _feature._id.WITH_RESOURCE,
             a -> a.listWithResources(),
             (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses), PARSER, s->_expr.of(s));
 
