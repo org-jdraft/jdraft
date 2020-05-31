@@ -124,7 +124,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
             (_newExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta), PARSER);
 
     public static _feature._one<_newExpr, _typeRef> TYPE = new _feature._one<>(_newExpr.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> a.getTypeRef(),
             (_newExpr a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
 

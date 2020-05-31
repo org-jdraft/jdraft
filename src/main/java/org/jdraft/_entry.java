@@ -63,7 +63,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
             (_entry a, _modifiers _m)-> a.setModifiers(_m) , PARSER);
 
     public static _feature._one<_entry, _typeRef> TYPE = new _feature._one<>(_entry.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a->a.getTypeRef(),
             (_entry a, _typeRef _e)-> a.setTypeRef(_e) , PARSER);
 

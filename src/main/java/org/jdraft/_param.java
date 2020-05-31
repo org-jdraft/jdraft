@@ -78,7 +78,7 @@ public final class _param
             (_param p, Boolean b) -> p.setFinal(b), PARSER);
 
     public static _feature._one<_param, _typeRef> TYPE = new _feature._one<>(_param.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> a.getTypeRef(),
             (_param p, _typeRef _tr) -> p.setTypeRef(_tr), PARSER);
 

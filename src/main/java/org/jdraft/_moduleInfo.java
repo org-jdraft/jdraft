@@ -103,8 +103,8 @@ public final class _moduleInfo
             a -> a.isOpen(),
             (_moduleInfo a, Boolean b) -> a.setOpen(b), PARSER);
 
-    public static _feature._one<_moduleInfo, String> NAME = new _feature._one<>(_moduleInfo.class, String.class,
-            _feature._id.NAME,
+    public static _feature._one<_moduleInfo, String> MODULE_NAME = new _feature._one<>(_moduleInfo.class, String.class,
+            _feature._id.MODULE_NAME,
             a -> a.getName(),
             (_moduleInfo a, String s) -> a.setName(s), PARSER);
 
@@ -114,7 +114,7 @@ public final class _moduleInfo
             a -> a.listModuleDirectives(),
             (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER, s-> _moduleDirective.of(s));
 
-    public static _feature._meta<_moduleInfo> META = _feature._meta.of(_moduleInfo.class, IMPORTS, IS_OPEN, NAME, MODULE_DIRECTIVES);
+    public static _feature._meta<_moduleInfo> META = _feature._meta.of(_moduleInfo.class, IMPORTS, IS_OPEN, MODULE_NAME, MODULE_DIRECTIVES);
 
     /**
      * Decompose the entity into key-VALUE pairs

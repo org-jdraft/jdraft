@@ -36,7 +36,7 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
     }
 
     public static _feature._one<_moduleRequires, String> MODULE_NAME = new _feature._one<>(_moduleRequires.class, String.class,
-            _feature._id.NAME,
+            _feature._id.MODULE_NAME,
             a -> a.getName(),
             (_moduleRequires a, String s) -> a.setName(s), PARSER);
 

@@ -39,18 +39,18 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
         return of( modd );
     }
 
-    public static _feature._one<_moduleProvides, String> NAME = new _feature._one<>(_moduleProvides.class, String.class,
-            _feature._id.NAME,
+    public static _feature._one<_moduleProvides, String> MODULE_NAME = new _feature._one<>(_moduleProvides.class, String.class,
+            _feature._id.MODULE_NAME,
             a -> a.getName(),
             (_moduleProvides a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleProvides, _name> MODULE_NAMES = new _feature._many<>(_moduleProvides.class, _name.class,
             _feature._id.MODULE_NAMES,
-            _feature._id.NAME,
+            _feature._id.MODULE_NAME,
             a -> a.list(),
             (_moduleProvides a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s));
 
-    public static _feature._meta<_moduleProvides> META = _feature._meta.of(_moduleProvides.class, NAME, MODULE_NAMES);
+    public static _feature._meta<_moduleProvides> META = _feature._meta.of(_moduleProvides.class, MODULE_NAME, MODULE_NAMES);
 
     public ModuleProvidesDirective me;
 

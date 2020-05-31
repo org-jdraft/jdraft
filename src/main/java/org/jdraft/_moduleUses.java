@@ -34,12 +34,12 @@ public final class _moduleUses implements _java._node<ModuleUsesDirective, _modu
         return of( modd );
     }
 
-    public static _feature._one<_moduleUses, String> NAME = new _feature._one<>(_moduleUses.class, String.class,
-            _feature._id.NAME,
+    public static _feature._one<_moduleUses, String> MODULE_NAME = new _feature._one<>(_moduleUses.class, String.class,
+            _feature._id.MODULE_NAME,
             a -> a.getName(),
             (_moduleUses a, String s) -> a.setName(s), PARSER);
 
-    public static _feature._meta<_moduleUses> META = _feature._meta.of(_moduleUses.class, NAME);
+    public static _feature._meta<_moduleUses> META = _feature._meta.of(_moduleUses.class, MODULE_NAME);
 
     public ModuleUsesDirective mod;
 

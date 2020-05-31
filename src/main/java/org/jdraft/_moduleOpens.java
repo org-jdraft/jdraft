@@ -39,18 +39,18 @@ public final class _moduleOpens implements _java._node<ModuleOpensDirective, _mo
         return of( modd );
     }
 
-    public static _feature._one<_moduleOpens, String> NAME = new _feature._one<>(_moduleOpens.class, String.class,
-            _feature._id.NAME,
+    public static _feature._one<_moduleOpens, String> MODULE_NAME = new _feature._one<>(_moduleOpens.class, String.class,
+            _feature._id.MODULE_NAME,
             a -> a.getName(),
             (_moduleOpens a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleOpens, _name> MODULE_NAMES = new _feature._many<>(_moduleOpens.class, _name.class,
             _feature._id.MODULE_NAMES,
-            _feature._id.NAME,
+            _feature._id.MODULE_NAME,
             a -> a.list(),
             (_moduleOpens a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s));
 
-    public static _feature._meta<_moduleOpens> META = _feature._meta.of(_moduleOpens.class, NAME, MODULE_NAMES);
+    public static _feature._meta<_moduleOpens> META = _feature._meta.of(_moduleOpens.class, MODULE_NAME, MODULE_NAMES);
 
     public ModuleOpensDirective mod;
 

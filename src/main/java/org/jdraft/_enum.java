@@ -295,7 +295,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
 
     public static _feature._many<_enum, _typeRef> IMPLEMENTS = new _feature._many<>(_enum.class, _typeRef.class,
             _feature._id.IMPLEMENTS,
-            _feature._id.TYPE_REF,
+            _feature._id.IMPLEMENT,
             a -> a.listImplements(),
             (_enum a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s-> _typeRef.of(s));
 

@@ -530,7 +530,7 @@ public final class _typeRef<T extends Type>
     }
 
     public static _feature._one<_typeRef, Type> TYPE = new _feature._one<>(_typeRef.class, Type.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> a.ast(),
             (_typeRef p, Type t) -> p.setType(t), PARSER);
 

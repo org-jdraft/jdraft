@@ -178,9 +178,12 @@ public interface _feature<_T, _F>{
 
         /** {@link _typeParam#EXTENDS_TYPE_BOUND} */
         EXTENDS_TYPE_BOUNDS("extendsTypeBounds"),
+        EXTENDS_TYPE_BOUND("extendsTypeBound"),
 
         /**{@link _class#EXTENDS} {@link _interface#EXTENDS}*/
         EXTENDS("extends", _type._withExtends.class),
+        /**{@link _class#EXTENDS} {@link _interface#EXTENDS}*/
+        EXTEND("extend"),
 
         /**{@link _tryStmt#FINALLY_BODY}*/
         FINALLY_BODY( "finallyBody"),
@@ -188,17 +191,18 @@ public interface _feature<_T, _F>{
         /**{@link _methodRefExpr#IDENTIFIER}*/
         IDENTIFIER("identifier"),
 
+        /**{@link _arrayAccessExpr#INDEX}*/
+        INDEX("index"),
+
         /**{@link org.jdraft._type._withImplements}, {@link _class#IMPLEMENTS}, {@link _enum#IMPLEMENTS}*/
-        IMPLEMENTS("implements", _type._withImplements.class), //_class, _enum
+        IMPLEMENTS("implements", _type._withImplements.class),
+        IMPLEMENT("implement"),
 
         /**{@link _annotation#IMPORTS}, {@link _class#IMPORTS}, {@link _enum#IMPORTS},{@link _interface#IMPORTS},
          * {@link _packageInfo#IMPORTS},{@link _moduleInfo#IMPORTS} {@link _imports#IMPORTS}*/
         IMPORTS("imports"),
         /**{@link _imports#IMPORTS} */
         IMPORT("import"),
-
-        /**{@link _arrayAccessExpr#INDEX}*/
-        INDEX("index"),
 
         /**{@link _forStmt#INITS}, {@link _arrayInitExpr#INITS}*/
         INITS("inits"),
@@ -272,7 +276,11 @@ public interface _feature<_T, _F>{
         /**{@link _assertStmt#MESSAGE}*/
         MESSAGE("message"),
 
-        /** {@link org.jdraft._modifiers._withModifiers} */
+        /**
+         * {@link _annotation#MODIFIERS}, {@link _class#MODIFIERS},{@link _constructor#MODIFIERS},
+         * {@link _entry#MODIFIERS}, {@link _enum#MODIFIERS}, {@link _field#MODIFIERS},{@link _interface#MODIFIERS},
+         * {@link _method#MODIFIERS}, {@link _modifiers#MODIFIERS}, {@link _variablesExpr#MODIFIERS}
+         */
         MODIFIERS("modifiers", _modifiers._withModifiers.class),
         /** {@link _modifiers#MODIFIERS}*/
         MODIFIER("modifier"),
@@ -284,8 +292,16 @@ public interface _feature<_T, _F>{
 
         /** {@link _moduleProvides#MODULE_NAMES}, {@link _moduleOpens#MODULE_NAMES}, {@link _moduleExports#MODULE_NAMES} */
         MODULE_NAMES("moduleNames"),
+        /**{@link _moduleExports#MODULE_NAME}, {@link _moduleInfo#MODULE_NAME}, {@link _moduleOpens#MODULE_NAME}, {@link _moduleProvides#MODULE_NAME},
+         * {@link _moduleRequires#MODULE_NAME}*/
+        MODULE_NAME("moduleName"),
 
-        /**{@link org.jdraft._java._withName} ... */
+        /**{@link _annoExpr#NAME}, {@link _arrayAccessExpr#NAME}, {@link _class#NAME}, {@link _constant#NAME},
+         * {@link _constructor#NAME}, {@link _entry#NAME}, {@link _entryPair#NAME}, {@link _enum#NAME},
+         * {@link _field#NAME}, {@link _fieldAccessExpr#NAME}, {@link _import#NAME}, {@link _interface#NAME},
+         * {@link _method#NAME}, {@link _methodCallExpr#NAME}, {@link _name#NAME}, {@link _nameExpr#NAME},
+         * {@link _package#NAME}, {@link _param#NAME}, {@link _receiverParam#NAME}, {@link _variable#NAME}
+         */
         NAME("name", _java._withName.class),
 
         /**{@link _assignExpr#OPERATOR}, {@link _binaryExpr#OPERATOR}, {@link _unaryExpr#OPERATOR}*/
@@ -295,18 +311,18 @@ public interface _feature<_T, _F>{
          * {@link _packageInfo#PACKAGE}*/
         PACKAGE("package"),
 
-        /** {@link org.jdraft._params._withParams} {@link _params#PARAMS}, {@link _constructor#PARAMS}, {@link _lambdaExpr#PARAMS}, {@link _method#PARAMS} */
+        /** {@link _params#PARAMS}, {@link _constructor#PARAMS},{@link _lambdaExpr#PARAMS}, {@link _method#PARAMS} */
         PARAMS("params", _params._withParams.class),
         /**{@link _catch#PARAM} {@link _params#PARAMS} */
         PARAM("param"),
 
-        /** {@link org.jdraft._receiverParam._withReceiverParam} {@link _method#RECEIVER_PARAM} {@link _constructor#RECEIVER_PARAM} */
+        /** {@link _method#RECEIVER_PARAM} {@link _constructor#RECEIVER_PARAM} */
         RECEIVER_PARAM("receiverParam", _receiverParam._withReceiverParam.class),
 
         /**{@link _binaryExpr#RIGHT}*/
-        RIGHT( "right"),
+        RIGHT("right"),
 
-        /**{@link org.jdraft._java._withScope}, {@link _fieldAccessExpr#SCOPE}, {@link _methodCallExpr#SCOPE}, {@link _methodRefExpr#SCOPE}, {@link _newExpr#SCOPE} */
+        /**{@link _fieldAccessExpr#SCOPE}, {@link _methodCallExpr#SCOPE}, {@link _methodRefExpr#SCOPE}, {@link _newExpr#SCOPE} */
         SCOPE("scope", _java._withScope.class),
 
         /**{@link _blockStmt#STATEMENTS} {@link _body#STATEMENTS} {@link _switchEntry#STATEMENTS} */
@@ -331,7 +347,7 @@ public interface _feature<_T, _F>{
         /**{@link _ifStmt#THEN}, {@link _ternaryExpr#THEN}*/
         THEN("then"),
 
-        /**{@link org.jdraft._throws._withThrows}, {@link _constructor#THROWS}, {@link _method#THROWS} */
+        /**{@link _constructor#THROWS}, {@link _method#THROWS} */
         THROWS("throws", _throws._withThrows.class),
         /**{@link _throws#THROWS} */
         THROW("throw"),
@@ -339,10 +355,13 @@ public interface _feature<_T, _F>{
         /**{@link _tryStmt#TRY_BODY}*/
         TRY_BODY("tryBody"),
 
-        /**{@link org.jdraft._typeRef._withTypeRef} ...*/
-        TYPE_REF("typeRef", _typeRef._withTypeRef.class),
+        /**{@link _arrayCreateExpr#TYPE}, {@link _castExpr#TYPE} {@link _classExpr#TYPE}, {@link _entry#TYPE},
+         * {@link _field#TYPE}, {@link _instanceOfExpr#TYPE},{@link _method#TYPE}, {@link _newExpr#TYPE},
+         * {@link _param#TYPE}, {@link _receiverParam#TYPE},{@link _typeExpr#TYPE}, {@link _typeRef#TYPE},
+         * {@link _variable#TYPE}...*/
+        TYPE("typeRef", _typeRef._withTypeRef.class),
 
-        /**{@link org.jdraft._typeParams._withTypeParams} ... */
+        /** {@link _class}, {@link _constructor}, {@link _interface}, {@link _method}, {@link _typeParams} */
         TYPE_PARAMS("typeParams", _typeParams._withTypeParams.class),
         /** {@link _typeParams#TYPE_PARAMS} */
         TYPE_PARAM("typeParam"),
@@ -350,6 +369,7 @@ public interface _feature<_T, _F>{
         /**{@link _constructorCallStmt#TYPE_ARGS}, {@link _fieldAccessExpr#TYPE_ARGS}, {@link _methodCallExpr#TYPE_ARGS},
          * {@link _methodRefExpr#TYPE_ARGS}, {@link _newExpr#TYPE_ARGS}, {@link _typeArgs#TYPE_ARGS} */
         TYPE_ARGS("typeArgs", _typeArgs._withTypeArgs.class),
+        TYPE_ARG("typeArg"),
 
         /**{@link _superExpr#TYPE_NAME} {@link _thisExpr#TYPE_NAME}*/
         TYPE_NAME("typeName"),
@@ -365,7 +385,7 @@ public interface _feature<_T, _F>{
         /**{@link _forEachStmt#VARIABLES} {@link _variablesExpr#VARIABLES} */
         VARIABLES("variables"),
         /**{@link _variablesExpr#VARIABLES}*/
-        VARIABLE("variable"), //forEachStmt
+        VARIABLE("variable"),
 
         /**{@link _param#VAR_ARG_ANNO_EXPRS} */
         VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),
@@ -373,10 +393,12 @@ public interface _feature<_T, _F>{
         /**{@link _tryStmt#WITH_RESOURCES}*/
         WITH_RESOURCES("withResources"),
         /**{@link _tryStmt#WITH_RESOURCES}*/
-        WITH_RESOURCE("withResource")
-        ;
+        WITH_RESOURCE("withResource");
 
+        /** name used to identify this feature */
         public final String name;
+
+        /** Nullable type that is associated with this feature */
         public final Class categoryType;
 
         _id(String name){
@@ -483,10 +505,6 @@ public interface _feature<_T, _F>{
             this.setter.accept(_targetInstance, featureValue);
             return _targetInstance;
         }
-
-        //add
-        //remove
-        //set/replace target index value
 
         public BiConsumer<_T, List<_E>> setter(){
             return this.setter;
@@ -637,18 +655,6 @@ public interface _feature<_T, _F>{
         public List<_feature<_T, ?>> list(_T instance, Predicate<_feature<_T,?>> matchFn){
             return featureOrder.apply(instance, this.featureList).stream().filter(matchFn).collect(Collectors.toList());
         }
-
-        /** returns a (ordered logically in the token order appearance) list of all features for the targetClass
-        public List<_feature<_T, ?>> list(){
-            return featureList;
-        }
-        */
-
-        /** returns an ordered list of features that map to the instances features that pass the matchFn
-        public List<_feature<_T, ?>> list(Predicate<_feature<_T,?>> matchFn){
-            return featureList.stream().filter(matchFn).collect(Collectors.toList());
-        }
-         */
 
         /**
          * Perform some action on all features that match the matchFn

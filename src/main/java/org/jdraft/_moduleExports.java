@@ -39,18 +39,18 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
         return of( modd );
     }
 
-    public static _feature._one<_moduleExports, String> NAME = new _feature._one<>(_moduleExports.class, String.class,
-            _feature._id.NAME,
+    public static _feature._one<_moduleExports, String> MODULE_NAME = new _feature._one<>(_moduleExports.class, String.class,
+            _feature._id.MODULE_NAME,
             a -> a.getName(),
             (_moduleExports a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleExports, _name> MODULE_NAMES = new _feature._many<>(_moduleExports.class, _name.class,
             _feature._id.MODULE_NAMES,
-            _feature._id.NAME,
+            _feature._id.MODULE_NAME,
             a -> a.list(),
             (_moduleExports a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s));
 
-    public static _feature._meta<_moduleExports> META = _feature._meta.of(_moduleExports.class, NAME, MODULE_NAMES);
+    public static _feature._meta<_moduleExports> META = _feature._meta.of(_moduleExports.class, MODULE_NAME, MODULE_NAMES);
 
     public ModuleExportsDirective me;
 

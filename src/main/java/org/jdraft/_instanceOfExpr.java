@@ -74,7 +74,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
     }
 
     public static _feature._one<_instanceOfExpr, _typeRef> TYPE = new _feature._one<>(_instanceOfExpr.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> a.getTypeRef(),
             (_instanceOfExpr a, _typeRef _t) -> a.setTypeRef(_t), PARSER);
 

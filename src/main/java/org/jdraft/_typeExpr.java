@@ -26,7 +26,7 @@ public final class _typeExpr
     }
 
     public static _feature._one<_typeExpr, _typeRef> TYPE = new _feature._one<>(_typeExpr.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> a.getTypeRef(),
             (_typeExpr a, _typeRef value) -> a.setTypeRef(value), PARSER);
 

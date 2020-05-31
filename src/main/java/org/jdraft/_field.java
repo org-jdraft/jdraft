@@ -131,7 +131,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             (_field a, _modifiers _e) -> a.setModifiers(_e), PARSER);
 
     public static _feature._one<_field, _typeRef> TYPE = new _feature._one<>(_field.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> a.getTypeRef(),
             (_field a, _typeRef _e) -> a.setTypeRef(_e), PARSER);
 

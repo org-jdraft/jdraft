@@ -30,7 +30,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
     }
 
     public static _feature._one<_classExpr, _typeRef> TYPE = new _feature._one<>(_classExpr.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> a.getTypeRef(),
             (_classExpr a, _typeRef o) -> a.setTypeRef(o), PARSER);
 

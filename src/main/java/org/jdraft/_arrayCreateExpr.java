@@ -79,7 +79,7 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     }
 
     public static _feature._one<_arrayCreateExpr, _typeRef> TYPE = new _feature._one<>(_arrayCreateExpr.class, _typeRef.class,
-            _feature._id.TYPE_REF,
+            _feature._id.TYPE,
             a -> ((_arrayCreateExpr) a).getElementType(),
             (_arrayCreateExpr a, _typeRef _t) -> a.setElementType(_t), PARSER);
 

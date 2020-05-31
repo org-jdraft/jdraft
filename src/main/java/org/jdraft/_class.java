@@ -478,7 +478,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
     public static _feature._many<_class, _typeRef> IMPLEMENTS = new _feature._many<>(_class.class, _typeRef.class,
             _feature._id.IMPLEMENTS,
-            _feature._id.TYPE_REF,
+            _feature._id.IMPLEMENT,
             a -> a.listImplements(),
             (_class a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s->_typeRef.of(s));
 
