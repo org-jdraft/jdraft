@@ -29,7 +29,7 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
     }
 
     public static _feature._one<_variable, _typeRef> TYPE = new _feature._one<>(_variable.class, _typeRef.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.getTypeRef(),
             (_variable a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
 

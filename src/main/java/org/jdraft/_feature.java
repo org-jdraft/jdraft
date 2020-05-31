@@ -99,10 +99,14 @@ public interface _feature<_T, _F>{
      */
     enum _id {
 
+        /**{@link _annoExprs#ANNOS} */
         ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
         ANNO_EXPRS("annoExprs"), /** i.e. @Deprecated @NotNull */
-        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs"), /** {@link _annoExpr#ENTRY_PAIRS} */
-        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair"), /** {@link _annoExpr#ENTRY_PAIRS} */
+
+        /** {@link _annoExpr#ENTRY_PAIRS} */
+        ENTRY_PAIRS("entryPairs"),
+        /** {@link _annoExpr#ENTRY_PAIRS} */
+        ENTRY_PAIR("entryPair"),
 
         /*ANNOTATION("annotation"), /* the declaration of an ANNOTATION i.e. "@interface Closeable{}" */
         /* ANNOTATION_ENTRIES("annotationEntries"), /*Lists of Members of annotations */
@@ -111,146 +115,243 @@ public interface _feature<_T, _F>{
         /** {@link _newExpr#ANONYMOUS_CLASS_BODY} */
         ANONYMOUS_CLASS_BODY("anonymousClassBody"),
 
-        /** {@link _constant#ARGS}, {@link _variable#INIT}, {@link _methodCallExpr#ARGS} */
-        ARGS_EXPRS("args"),
+        /** {@link _args#ARGS}, {@link _constant#ARGS},  {@link _methodCallExpr#ARGS} {@link _constructorCallStmt#ARGS}, {@link _newExpr#ARGS}*/
+        ARGS("args"),
         /** {@link _args#ARGS} */
-        ARG_EXPR("arg"), //_enum._constant
+        ARG("arg"),
 
-
+        /** {@link _arrayCreateExpr#DIMENSIONS} */
+        ARRAY_DIMENSIONS("arrayDimensions"),
+        /** {@link _arrayCreateExpr#DIMENSIONS} */
         ARRAY_DIMENSION("arrayDimension"),
-        ARRAY_DIMENSIONS("arrayDimensions"), //arrayCreate
-        ARRAY_NAME("arrayName"), //arrayAccess
 
-        ASSIGN_OPERATOR("assignOperator"),
+        /** {@link _assignExpr#OPERATOR}
+        ASSIGN_OPERATOR("assignOperator"),*/
 
+        /** {@link _catch#BODY} {@link _constructor#BODY} {@link _doStmt#BODY}, {@link _forEachStmt#BODY},
+         * {@link _forStmt#BODY}, {@link _initBlock#BODY}, {@link _lambdaExpr#BODY}, {@link _method#BODY},
+         * {@link _synchronizedStmt#BODY}, {@link _whileStmt#BODY}
+         */
+        BODY("body"),
+
+        /**{@link _localClassStmt#CLASS} */
+        CLASS("class"),
+        /*ENUM("enum"),
+        INTERFACE("interface"),
+        */
+
+
+        /** {@link _tryStmt#CATCH_CLAUSES}*/
+        CATCH_CLAUSES( "catchClauses"),
+        /** {@link _tryStmt#CATCH_CLAUSES}*/
+        CATCH_CLAUSE("catchClause"),
+
+        /**{@link _switchEntry#CASE_EXPRESSIONS}*/
+        CASE_EXPRESSIONS("caseExpressions"),
+
+
+        /**{@link _assertStmt#CHECK}*/
+        CHECK_EXPR("checkExpr"),
+
+        /** {@link _project#CODE_UNITS}*/
         CODE_UNITS("codeUnits"), //project
+        /** {@link _project#CODE_UNITS}*/
         CODE_UNIT("codeUnit"),
 
-        MEMBERS("members"), //for types (_class, _interface, _enum, _annotation)
+
+        /** {@link org.jdraft._java._withCondition}, {@link _doStmt#CONDITION}, {@link _ifStmt#CONDITION}, {@link _ternaryExpr#CONDITION}, {@link _whileStmt#CONDITION} */
+        CONDITION_EXPR("conditionExpr"), //ternary
+
+        /* CONSTANTS("constants"), */
+        /* CONSTANT("constant"), */
+        /* CONSTRUCTORS("constructors"), //class, _enum */
+        /* CONSTRUCTOR("constructor"), */
+
+        /** {@link _entry#DEFAULT} */
+        DEFAULT_EXPR("defaultExpr"),
+
+        /**{@link org.jdraft._java._withExpression} */
+        EXPRESSION("expression"), //CastExpr
+
+        /** {@link _typeParam#EXTENDS_TYPE_BOUND} */
+        EXTENDS_TYPE_BOUNDS("extendsTypeBounds"), //typeParam
+
+        /**{@link org.jdraft._type._withExtends} {@link _class#EXTENDS} {@link _interface#EXTENDS}*/
+        EXTENDS_TYPES("extendsTypes"),
+
+        /**{@link _tryStmt#FINALLY_BODY}*/
+        FINALLY_BODY( "finallyBody"),
+
+        /** {@link _class#MEMBERS}, {@link _enum#MEMBERS}, {@link _annotation#MEMBERS}, {@link _interface#MEMBERS}, {@link _constant#MEMBERS} */
+        MEMBERS("members"),
+        /** {@link _class#MEMBERS}, {@link _enum#MEMBERS}, {@link _annotation#MEMBERS}, {@link _interface#MEMBERS}, {@link _constant#MEMBERS} */
         MEMBER("member"),
 
-        IS_OPEN("isOpen"), //module-info
+        /** {@link _moduleInfo#IS_OPEN} */
+        IS_OPEN("isOpen"),
 
+        /** {@link _moduleInfo#MODULE_DIRECTIVES} */
         MODULE_DIRECTIVES("moduleDirectives"),
+        /** {@link _moduleInfo#MODULE_DIRECTIVES} */
         MODULE_DIRECTIVE("moduleDirective"),
-        IS_TRANSITIVE("isTransitive"), //moduleRequires
+
+        /** {@link _moduleRequires#IS_TRANSITIVE} */
+        IS_TRANSITIVE("isTransitive"),
+
+        /** {@link _body#IS_IMPLEMENTED} */
         IS_IMPLEMENTED( "isImplemented"), //for implemented bodies (i.e. "void m(){}" IMPLEMENTED vs "void m();" NOT IMPLEMENTED)
-        NAMES("names"), //moduleProvides, moduleOpens, moduleExports
 
-        VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),//annotations places on parameter var args
+        /** {@link _moduleProvides#MODULE_NAMES}, {@link _moduleOpens#MODULE_NAMES}, {@link _moduleExports#MODULE_NAMES} */
+        MODULE_NAMES("moduleNames"),
+        /**{@link _param#VAR_ARG_ANNO_EXPRS} */
+        VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),
 
-        IS_TOP_LEVEL("isTopLevel"),
-        MODULE_DECLARATION("moduleDeclaration"),
+        /* IS_TOP_LEVEL("isTopLevel"), */
+        /* MODULE_DECLARATION("moduleDeclaration"), */
+
+        /** {@link _annotation#PACKAGE}, {@link _class#PACKAGE}, {@link _enum#PACKAGE}, {@link _interface#PACKAGE}, {@link _packageInfo#PACKAGE}*/
         PACKAGE("package"),
-
-        CATCH_CLAUSES( "catchClauses"), //tryStmt
-        CATCH("catch"), //individual catch clause
-        CASE_EXPRESSIONS("caseExpressions"), // switchEntry i.e. 'a' and 'b' in : case 'A', 'B':
 
         //values like int, float, etc. are stored as string b/c "0b1" & "1" & "0x1"
         //are mean the same value but represented differently
+        /**{@link _expr._literal} (int, double, boolean, string, char, float, textBlock)*/
         LITERAL_VALUE("literalValue"),
 
+        /**{@link _comment} (lineComment, blockComment, javadocComment)*/
         TEXT("text"),
-        CLASS("class"),
-        ENUM("enum"),
-        INTERFACE("interface"),
 
-        BODY("body"),
+        /** {@link org.jdraft._modifiers._withModifiers} */
+        MODIFIERS("modifiers"),
+        /** {@link _modifiers#MODIFIERS}*/
         MODIFIER("modifier"),
-        MODIFIERS("modifiers"), //List.class, Modifier.class),
-        HEADER_COMMENT("header"),
+
+        /** HEADER_COMMENT("header"), */
+
+        /** {@link _annotation#JAVADOC}, {@link _class#JAVADOC}, {@link _enum#JAVADOC}, {@link _interface#JAVADOC},
+         * {@link _constructor#JAVADOC} {@link _method#JAVADOC}
+         */
         JAVADOC("javadoc"),
-        LINE_COMMENT("lineComment"),
-        BLOCK_COMMENT("blockComment"),
+
+        /**{@link _assignExpr}, {@link _binaryExpr}, {@link _unaryExpr}*/
+        OPERATOR("operator"),
+        /*LINE_COMMENT("lineComment"), BLOCK_COMMENT("blockComment"),        */
+
+        /**{@link _catch#PARAM} {@link _params#PARAMS} */
         PARAM("param"),
+        /** {@link org.jdraft._params._withParams} {@link _params#PARAMS}, {@link _constructor#PARAMS}, {@link _lambdaExpr#PARAMS}, {@link _method#PARAMS} */
         PARAMS("params"),
+        /** {@link org.jdraft._receiverParam._withReceiverParam} {@link _method#RECEIVER_PARAM} {@link _constructor#RECEIVER_PARAM} */
         RECEIVER_PARAM("receiverParam"),
-        TYPE_PARAM("typeParam"), //_typeParam.class
-        EXTENDS_TYPE_BOUNDS("extendsTypeBounds"), //typeParam
+
+        /** {@link _typeParams#TYPE_PARAMS} */
+        TYPE_PARAM("typeParam"),
+
+        /**{@link org.jdraft._typeParams._withTypeParams} */
         TYPE_PARAMS("typeParams"),
+
+        /**{@link org.jdraft._throws._withThrows}, {@link _constructor#THROWS}, {@link _method#THROWS} */
         THROWS("throws"), //list of thrown exceptions (method, constructor)
+        /**{@link _throws#THROWS} */
         THROW("throw"), //individual thrown exception type (method constructor)
+
+        /**{@link org.jdraft._java._withName} ... */
         NAME("name"),
 
-        IMPORT("import"),
+        /**{@link _type}, {@link _annotation}, {@link _class}, {@link _enum}, {@link _interface}, {@link _imports}*/
         IMPORTS("imports"),
+        /**{@link _imports} */
+        IMPORT("import"),
 
+        /** {@link _import} {@link _initBlock} */
         IS_STATIC("isStatic"),
+
+        /**{@link _import}*/
         IS_WILDCARD("isWildcard"),
 
+        /**{@link org.jdraft._typeRef._withTypeRef} */
+        TYPE_REF("typeRef"),
 
-        FIELD("field"),
-        FIELDS("fields"),
-        INNER_TYPE("innerType"),
-        INNER_TYPES("innerTypes"),
-
-        COMPANION_TYPE( "companionType"),
-        COMPANION_TYPES( "companionTypes"),
-
-        TYPE("type"),
-        DEFAULT_EXPR("defaultExpr"),
-
-        EXTENDS_TYPES("extendsTypes"),
+        /**{@link org.jdraft._type._withImplements}*/
         IMPLEMENTS_TYPES("implementsTypes"), //_class, _enum
 
-        INIT_BLOCK("initBlock"), //class, _enum
+        /*
         INIT_BLOCKS("initBlocks"), //class, _enum
-
-        CONSTRUCTOR("constructor"),
-        CONSTRUCTORS("constructors"), //class, _enum
-
-        METHOD("method"),
-        METHODS("methods"),
-
-        CONSTANT("constant"),
-        CONSTANTS("constants"),
+        INIT_BLOCK("initBlock"), //class, _enum
+        */
 
         INITS("inits"), //initializations made on an forStmt "for(int i=0, int j=1; ...)"
-        INIT("init"), //field
-        IS_FINAL("isFinal"), //_parameter
-        IS_VAR_ARG("isVarArg"), //parameter
 
-        AST_TYPE("astType"), //typeRef
-        ARRAY_LEVEL("arrayLevel"), //_typeRef
-        ELEMENT_TYPE("elementType"), //array _typeRef
+        /** {@link _variable#INIT} */
+        INIT("init"), //field
+        /** {@link _param#IS_FINAL} */
+        IS_FINAL("isFinal"),
+        /** {@link _param#IS_VAR_ARG}*/
+        IS_VAR_ARG("isVarArg"),
+
+        /*
+        METHODS("methods"),
+        METHOD("method"),
+        */
+
+        /* AST_TYPE("astType"), //typeRef */
+        /* ARRAY_LEVEL("arrayLevel"), //_typeRef */
+        /* ELEMENT_TYPE("elementType"), //array _typeRef */
 
         //new stuff for Statements and expressions
+        /**{@link _tryStmt#TRY_BODY}*/
         TRY_BODY("tryBody"),
 
+        /**{@link _tryStmt#WITH_RESOURCES}*/
+        WITH_RESOURCES_EXPRS("withResourcesExprs"), //tryStmt
 
-        FINALLY_BODY( "finallyBody"),
-        WITH_RESOURCES_EXPRS("withResourcesExpr"), //tryStmt
+        /**{@link _blockStmt} {@link _body} {@link _switchEntry} */
+        STATEMENTS("statements"),
 
-        STATEMENTS("statements"), //statements of a switch entry
-        SWITCH_SELECTOR_EXPR("switchSelectorExpr"),
-        SWITCH_ENTRIES("switchEntries"), // lists of "cases" within a switchSmt switchExpr
-        SWITCH_ENTRY("switchEntry"), // individual "case"
-        SWITCH_BODY_TYPE("switchBodyType"),
-        SWITCH_LABEL_EXPRS("switchLabelExprs"),
+        /* SWITCH_SELECTOR_EXPR("switchSelectorExpr"), */
 
-        INDEX_EXPR("indexExpr"), //arrayAccess
-        VALUE_EXPRS("valueExprs"), //ArrayInit
-        TARGET_EXPR("targetExpr"), //assign
+        /**{@link _switchExpr}, {@link _switchStmt}*/
+        SWITCH_ENTRIES("switchEntries"),
+        /**{@link _switchExpr}, {@link _switchStmt}*/
+        SWITCH_ENTRY("switchEntry"),
+
+        /**{@link _switchEntry#BODY_TYPE}*/
+        BODY_TYPE("bodyType"),
+        /* SWITCH_LABEL_EXPRS("switchLabelExprs"), */
+
+        /**{@link _arrayAccessExpr#INDEX}*/
+        INDEX("index"),
+        /* VALUE_EXPRS("valueExprs"), //ArrayInit */
+
+        /**{@link _assignExpr#TARGET}*/
+        TARGET("target"),
+
         VALUE_EXPR("valueExpr"), //assign
         LEFT_EXPR( "leftExpr"), //binaryExpr
         RIGHT_EXPR( "rightExpr"), //binaryExpr
-        BINARY_OPERATOR( "binaryOperator"), //binaryExpr
-        UNARY_OPERATOR( "unaryOperator"), //unaryExpr
-        EXPRESSION("expression"), //CastExpr
-        CONDITION_EXPR("conditionExpr"), //ternary
-        THEN("then"),
-        //THEN_EXPR("thenExpr"),    //ternary
-        ELSE("else"),
-        //ELSE_EXPR("else"),   //ternary
-        INNER_EXPR("innerExpr"), //parenthesizedExpr
-        SCOPE_EXPR("scopeExpr"), //fieldAccessExpr
-        TYPE_ARGS("typeArgs"), //methodCall
-        IDENTIFIER("identifier"),  //methodReference
 
-        TYPE_NAME("typeName"), //_super superExpr
+        /* BINARY_OPERATOR( "binaryOperator"), /** {@link _binaryExpr}
+        UNARY_OPERATOR( "unaryOperator"), //unaryExpr */
+
+        /**{@link _ifStmt#THEN}, {@link _ternaryExpr#THEN}*/
+        THEN("then"),
+        /**{@link _ifStmt#THEN}, {@link _ternaryExpr#THEN}*/
+        ELSE("else"),
+
+
+        /**{@link org.jdraft._java._withScope}, {@link _fieldAccessExpr#SCOPE}, {@link _methodCallExpr#SCOPE}, {@link _methodRefExpr#SCOPE}, {@link _newExpr#SCOPE} */
+        SCOPE("scope"),
+
+        /**{@link org.jdraft._typeArgs._withTypeArgs}, {@link _constructorCallStmt}, {@link _fieldAccessExpr}, {@link _methodCallExpr}, {@link _methodRefExpr}, {@link _newExpr}, {@link _typeArgs} */
+        TYPE_ARGS("typeArgs"),
+
+        /**{@link _methodRefExpr}*/
+        IDENTIFIER("identifier"),
+
+        /**{@link _superExpr#TYPE_NAME} {@link _thisExpr#TYPE_NAME}*/
+        TYPE_NAME("typeName"),
+
         VARIABLES("variables"), //VariableDeclarator.class),
-        CHECK_EXPR("checkExpr"), //assertStmt
+
         MESSAGE_EXPR("messageExpr"), //assertStmt
         LABEL("label"), //breakStmt, labeledStmt
         IS_THIS_CALL("isThisCall"), //constructorCallStmt
@@ -471,6 +572,21 @@ public interface _feature<_T, _F>{
          */
         public final List<_feature<_T, ?>> featureList;
 
+        /**
+         * By default, the order of the features is exactly the order they are passed in
+         * (THIS IS NOT the case for things like {@link _ternaryExpr}, because it is possible
+         * for the "Operator" to be:
+         * <UL>
+         *     <LI>a prefix operator, as in "++a", "--a", "!a"
+         *     (where the OPERATOR feature ("++", "--", "!") is BEFORE the Expression ("a") feature)
+         *     <LI>a postfix operator, as in "a++", "a--"
+         *     (where the OPERATOR feature ("++", "--") is AFTER the Expression ("a") feature
+         * </UL>
+         * @see _ternaryExpr
+         */
+        public BiFunction<_T, List<_feature<_T, ?>>, List<_feature<_T, ?>>> featureOrder =
+                (_T instance, List<_feature<_T, ?>> baseOrder) -> baseOrder;
+
         private _meta(Class<_T> targetClass, _feature<_T, ?>... features ){
             this.targetClass = targetClass;
             this.featureList = Stream.of(features).collect(Collectors.toList());
@@ -481,15 +597,45 @@ public interface _feature<_T, _F>{
             return targetClass;
         }
 
-        /** returns a (ordered logically in the token order appearance) list of all features for the targetClass */
+        /**
+         * Sets the feature order based on the instance
+         * @param featureOrder
+         * @return
+         */
+        public _meta<_T> setFeatureOrder(BiFunction<_T, List<_feature<_T, ?>>, List<_feature<_T, ?>>> featureOrder ){
+            this.featureOrder = featureOrder;
+            return this;
+        }
+
+        /**
+         * List the appropriate featureOrder based on the _T instance
+         * @param instance the instance of the container of features
+         * @return the list of features in the order they appear
+         */
+        public List<_feature<_T, ?>> list(_T instance){
+             return featureOrder.apply(instance, this.featureList);
+        }
+
+        /**
+         * List the appropriate featureOrder based on the _T instance
+         * @param instance the instance of the container of features
+         * @return the list of features in the order they appear
+         */
+        public List<_feature<_T, ?>> list(_T instance, Predicate<_feature<_T,?>> matchFn){
+            return featureOrder.apply(instance, this.featureList).stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        /** returns a (ordered logically in the token order appearance) list of all features for the targetClass
         public List<_feature<_T, ?>> list(){
             return featureList;
         }
+        */
 
-        /** returns an ordered list of features that map to the instances features that pass the matchFn */
+        /** returns an ordered list of features that map to the instances features that pass the matchFn
         public List<_feature<_T, ?>> list(Predicate<_feature<_T,?>> matchFn){
             return featureList.stream().filter(matchFn).collect(Collectors.toList());
         }
+         */
 
         /**
          * Perform some action on all features that match the matchFn
@@ -497,18 +643,18 @@ public interface _feature<_T, _F>{
          * @param actionFn the action to take with the matching features
          * @return the immutable meta<_T>
          */
-        public _meta<_T> forEach(Predicate<_feature<_T, ?>> matchFn, Consumer<_feature<_T,?>> actionFn){
-            list(matchFn).forEach(actionFn);
+        public _meta<_T> forEach(_T instance, Predicate<_feature<_T, ?>> matchFn, Consumer<_feature<_T,?>> actionFn){
+            list(instance, matchFn).forEach(actionFn);
             return this;
         }
 
         /**
          *
-         * @param consumerFn
+         * @param actionFn
          * @return
          */
-        public _meta<_T> forEach(Consumer<_feature<_T,?>> consumerFn){
-            this.featureList.forEach(consumerFn);
+        public _meta<_T> forEach(_T instance, Consumer<_feature<_T,?>> actionFn){
+            list(instance).forEach(actionFn);
             return this;
         }
     }

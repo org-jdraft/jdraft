@@ -45,7 +45,7 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
             (_moduleExports a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleExports, _name> MODULE_NAMES = new _feature._many<>(_moduleExports.class, _name.class,
-            _feature._id.NAMES,
+            _feature._id.MODULE_NAMES,
             _feature._id.NAME,
             a -> a.list(),
             (_moduleExports a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s));

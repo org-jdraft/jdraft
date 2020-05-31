@@ -355,6 +355,10 @@ public final class _typeRef<T extends Type>
         return isUnionType(Types.of(c));
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isUnionType() {
         return astType.isUnionType();
     }
@@ -424,17 +428,12 @@ public final class _typeRef<T extends Type>
         if( type.getClass() == UnknownType.class || type.getClass() ==TypeParameter.class || type.getClass() == WildcardType.class){
             return type;
         }
-        //System.out.println("BEFORE \""+type.getClass()+"\"" );
-        //System.out.println("BEFORE THE ERASED TYPE \""+type.toString(Ast.PRINT_NO_TYPE_PARAMETERS )+"\"" );
-
         String st = type.toString(Print.PRINT_NO_TYPE_PARAMETERS );
-        //System.out.println("THE ERASED TYPE "+st );
         try {
             return Types.of(st);
         }catch(Exception e){
-            System.out.println(type.getClass()+" "+type);
-            throw new _jdraftException("GOT HERE", e);
-            //return type;
+            //System.out.println(type.getClass()+" "+type);
+            throw new _jdraftException("unable to get erased type " + type, e);
         }
     }
 
@@ -531,10 +530,9 @@ public final class _typeRef<T extends Type>
     }
 
     public static _feature._one<_typeRef, Type> TYPE = new _feature._one<>(_typeRef.class, Type.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.ast(),
             (_typeRef p, Type t) -> p.setType(t), PARSER);
-
 
     public static _feature._meta<_typeRef> META = _feature._meta.of(_typeRef.class, TYPE);
 
@@ -577,7 +575,6 @@ public final class _typeRef<T extends Type>
                 return false;
             }
             return  rts.stream().allMatch(r -> ots.stream().anyMatch(o-> Types.equal( o, r) ) );
-            //return rts.equals(ots);
         }
         if( this.isPrimitiveType() && other.isPrimitiveType() ) {
             return Objects.equals(this.astType, other.astType );
@@ -630,6 +627,10 @@ public final class _typeRef<T extends Type>
             return (_WT)this;
         }
 
+        /**
+         *
+         * @return
+         */
         default boolean isArrayType(){
             return getTypeRef().isArrayType();
         }

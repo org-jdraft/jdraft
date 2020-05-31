@@ -26,7 +26,7 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
     }
 
     public static _feature._one<_methodRefExpr, _expr> SCOPE = new _feature._one<>(_methodRefExpr.class, _expr.class,
-            _feature._id.SCOPE_EXPR,
+            _feature._id.SCOPE,
             a -> a.getScope(),
             (_methodRefExpr a, _expr _e) -> a.setScope(_e), PARSER);
 

@@ -53,7 +53,7 @@ public final class _receiverParam
             (_receiverParam p, _annoExprs _e) -> p.setAnnoExprs(_e), PARSER);
 
     public static _feature._one<_receiverParam, _typeRef> TYPE = new _feature._one<>(_receiverParam.class, _typeRef.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.getTypeRef(),
             (_receiverParam p, _typeRef _t) -> p.setTypeRef(_t), PARSER);
 

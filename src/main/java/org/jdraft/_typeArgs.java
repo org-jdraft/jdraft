@@ -74,7 +74,7 @@ public final class _typeArgs
 
     public static _feature._many<_typeArgs, _typeRef> TYPE_ARGS = new _feature._many<>(_typeArgs.class, _typeRef.class,
             _feature._id.TYPE_ARGS,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.list(),
             (_typeArgs p, List<_typeRef> _ccs) -> p.set(_ccs), PARSER, s->_typeRef.of(s));
 

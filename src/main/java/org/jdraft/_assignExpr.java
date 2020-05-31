@@ -79,12 +79,12 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
 
     public static _feature._one<_assignExpr, _expr> TARGET = new _feature._one<>(_assignExpr.class, _expr.class,
-            _feature._id.TARGET_EXPR,
+            _feature._id.TARGET,
             a -> a.getTarget(),
             (_assignExpr a, _expr _e) -> a.setTarget(_e), PARSER);
 
     public static _feature._one<_assignExpr, AssignExpr.Operator> OPERATOR = new _feature._one<>(_assignExpr.class, AssignExpr.Operator.class,
-            _feature._id.ASSIGN_OPERATOR,
+            _feature._id.OPERATOR,
             a -> a.getOperator(),
             (_assignExpr a, AssignExpr.Operator o) -> a.setOperator(o), PARSER);
 

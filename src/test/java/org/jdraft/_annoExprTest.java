@@ -37,6 +37,12 @@ public class _annoExprTest extends TestCase {
         System.out.println(_annoExpr.ENTRY_PAIRS.get(_a));
     }
 
+    public void testMetaFeatureList(){
+        _annoExpr _a = _annoExpr.of("@A");
+        assertEquals( _annoExpr.META.list(_a).get(0), _annoExpr.NAME);
+        assertEquals( _annoExpr.META.list(_a).get(1), _annoExpr.ENTRY_PAIRS);
+    }
+
     public void testMetaFeature() {
         _annoExpr _a = _annoExpr.of("@A");
         _annoExpr _b = _annoExpr.of("@Blah");
@@ -44,12 +50,12 @@ public class _annoExprTest extends TestCase {
         Tokens keyValues = new Tokens();
 
         //this is an META Ensemble operation
-        _annoExpr.META.forEach(s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
+        _annoExpr.META.forEach(_a, s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
 
         System.out.println(keyValues);
 
 
-        _annoExpr.META.forEach(s -> s instanceof _feature._many,
+        _annoExpr.META.forEach(_a, s -> s instanceof _feature._many,
                 s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
     }
 
@@ -91,7 +97,7 @@ public class _annoExprTest extends TestCase {
      */
     public static <_N extends _java._node> Map<_feature, Boolean> featureEqualsMap(_feature._meta<_N> _meta, _N _a, _N _b){
         Map<_feature, Boolean> featureEqualsMap = new HashMap<>();
-        _meta.forEach(f-> {
+        _meta.forEach(_a, f-> {
             //I need to check between
             if( f instanceof _feature._many){
                 _feature._many _fm = (_feature._many)f;

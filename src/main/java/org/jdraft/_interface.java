@@ -228,8 +228,6 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         return new _interface( astClass );
     }
 
-
-    /** could be a single statement, or a block stmt */
     public static _feature._one<_interface, _imports> IMPORTS = new _feature._one<>(_interface.class, _imports.class,
             _feature._id.IMPORTS,
             a -> a.getImports(),
@@ -274,7 +272,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
 
     public static _feature._many<_interface, _typeRef> EXTENDS = new _feature._many<>(_interface.class, _typeRef.class,
             _feature._id.EXTENDS_TYPES,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.listExtends(),
             (_interface a, List<_typeRef>mems) -> a.setExtends(mems), PARSER, s->_typeRef.of(s));
 

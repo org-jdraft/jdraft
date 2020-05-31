@@ -45,8 +45,8 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
             a -> a.listCaseExpressions(),
             (_switchEntry p, List<_expr> _es) -> p.setCaseExpressions(_es), PARSER, s->_expr.of(s));
 
-    public static _feature._one<_switchEntry, SwitchEntry.Type> SWITCH_BODY_TYPE = new _feature._one<>(_switchEntry.class, SwitchEntry.Type.class,
-            _feature._id.SWITCH_BODY_TYPE,
+    public static _feature._one<_switchEntry, SwitchEntry.Type> BODY_TYPE = new _feature._one<>(_switchEntry.class, SwitchEntry.Type.class,
+            _feature._id.BODY_TYPE,
             a -> a.getBodyType(),
             (_switchEntry p, SwitchEntry.Type t) -> p.ast().setType(t), PARSER);
 
@@ -56,7 +56,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
             a -> a.listStatements(),
             (_switchEntry p, List<_stmt> _st) -> p.setStatements(_st), PARSER, s->_stmt.of(s));
 
-    public static _feature._meta<_switchEntry> META = _feature._meta.of(_switchEntry.class, CASE_EXPRESSIONS, SWITCH_BODY_TYPE, STATEMENTS );
+    public static _feature._meta<_switchEntry> META = _feature._meta.of(_switchEntry.class, CASE_EXPRESSIONS, BODY_TYPE, STATEMENTS );
 
     public SwitchEntry switchEntry;
 

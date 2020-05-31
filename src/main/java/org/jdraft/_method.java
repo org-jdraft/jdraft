@@ -434,7 +434,7 @@ public final class _method
             (_method a, _typeParams _tps) -> a.setTypeParams(_tps), PARSER);
 
     public static _feature._one<_method, _typeRef> TYPE = new _feature._one<>(_method.class, _typeRef.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.getTypeRef(),
             (_method a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
 

@@ -31,9 +31,9 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class _field
-        implements _javadocComment._withJavadoc<_field>, _annoExprs._withAnnoExprs<_field>, _modifiers._withModifiers<_field>,
-        _modifiers._withFinal<_field>, _modifiers._withStatic<_field>, _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
+public final class _field implements _javadocComment._withJavadoc<_field>, _annoExprs._withAnnoExprs<_field>,
+        _modifiers._withModifiers<_field>, _modifiers._withFinal<_field>, _modifiers._withStatic<_field>,
+        _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
         _java._withNameTypeRef<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
 
     public static final Function<String, _field> PARSER = s-> _field.of(s);
@@ -131,7 +131,7 @@ public final class _field
             (_field a, _modifiers _e) -> a.setModifiers(_e), PARSER);
 
     public static _feature._one<_field, _typeRef> TYPE = new _feature._one<>(_field.class, _typeRef.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.getTypeRef(),
             (_field a, _typeRef _e) -> a.setTypeRef(_e), PARSER);
 

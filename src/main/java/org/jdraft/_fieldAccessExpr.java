@@ -77,7 +77,7 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
     }
 
     public static _feature._one<_fieldAccessExpr, _expr> SCOPE = new _feature._one<>(_fieldAccessExpr.class, _expr.class,
-            _feature._id.SCOPE_EXPR,
+            _feature._id.SCOPE,
             a -> a.getScope(),
             (_fieldAccessExpr a, _expr _e) -> a.setScope(_e), PARSER);
 

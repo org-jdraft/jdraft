@@ -50,7 +50,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
             (_constant a, String o) -> a.setName(o), PARSER);
 
     public static _feature._one<_constant, _args> ARGS = new _feature._one<>(_constant.class, _args.class,
-            _feature._id.ARGS_EXPRS,
+            _feature._id.ARGS,
             a -> a.getArgs(),
             (_constant a, _args o) -> a.setArgs(o), PARSER);
 

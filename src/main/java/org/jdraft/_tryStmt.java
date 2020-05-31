@@ -86,7 +86,7 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
 
     public static _feature._many<_tryStmt, _catch> CATCH_CLAUSES = new _feature._many<>(_tryStmt.class, _catch.class,
             _feature._id.CATCH_CLAUSES,
-            _feature._id.CATCH,
+            _feature._id.CATCH_CLAUSE,
             a -> a.listCatches(),
             (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs), PARSER, s->_catch.of(s));
 

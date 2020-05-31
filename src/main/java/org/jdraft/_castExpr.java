@@ -81,7 +81,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
     }
 
     public static _feature._one<_castExpr, _typeRef> TYPE = new _feature._one<>(_castExpr.class, _typeRef.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.getTypeRef(),
             (_castExpr a, _typeRef o) -> a.setType(o), PARSER);
 

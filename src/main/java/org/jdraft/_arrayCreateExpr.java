@@ -21,6 +21,7 @@ import java.util.function.Function;
  */
 public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCreateExpr>,
         _java._node<ArrayCreationExpr, _arrayCreateExpr>,
+        _typeRef._withTypeRef<ArrayCreationExpr, _arrayCreateExpr>,
         _java._list<ArrayCreationLevel, _arrayDimension, _arrayCreateExpr> {
 
     public static final Function<String, _arrayCreateExpr> PARSER = s-> _arrayCreateExpr.of(s);
@@ -34,7 +35,6 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     public static _arrayCreateExpr of(String...code){
         return new _arrayCreateExpr(Expr.arrayCreationExpr( code));
     }
-
 
     public static <A extends Object> _arrayCreateExpr of(Expr.Command c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
@@ -79,10 +79,9 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     }
 
     public static _feature._one<_arrayCreateExpr, _typeRef> TYPE = new _feature._one<>(_arrayCreateExpr.class, _typeRef.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> ((_arrayCreateExpr) a).getElementType(),
             (_arrayCreateExpr a, _typeRef _t) -> a.setElementType(_t), PARSER);
-
 
     public static _feature._many<_arrayCreateExpr, _arrayDimension> DIMENSIONS = new _feature._many<>(_arrayCreateExpr.class, _arrayDimension.class,
             _feature._id.ARRAY_DIMENSIONS,

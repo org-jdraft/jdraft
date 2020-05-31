@@ -40,7 +40,7 @@ public final class _typeParam
 
     public static _feature._many<_typeParam, _typeRef> EXTENDS_TYPE_BOUND = new _feature._many<>(_typeParam.class, _typeRef.class,
             _feature._id.EXTENDS_TYPE_BOUNDS,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.listExtendsTypeBound(),
             (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs), PARSER, s->_typeRef.of(s));
 

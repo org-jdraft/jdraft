@@ -45,7 +45,7 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
             (_moduleProvides a, String s) -> a.setName(s), PARSER);
 
     public static _feature._many<_moduleProvides, _name> MODULE_NAMES = new _feature._many<>(_moduleProvides.class, _name.class,
-            _feature._id.NAMES,
+            _feature._id.MODULE_NAMES,
             _feature._id.NAME,
             a -> a.list(),
             (_moduleProvides a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s));

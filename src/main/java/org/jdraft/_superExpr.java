@@ -39,7 +39,6 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._no
             return new _superExpr(new SuperExpr(new Name(st)));
         }
         return new _superExpr( new SuperExpr());
-        //return new _super(Ex.superEx( code));
     }
 
     public static _feature._one<_superExpr, String> TYPE_NAME = new _feature._one<>(_superExpr.class, String.class,

@@ -18,14 +18,24 @@ public final class _packageInfo
 
     public static _packageInfo of(String... pkgInfo) {
         return new _packageInfo(Ast.of(Text.combine(pkgInfo)));
-                //StaticJavaParser.parse(Text.combine(pkgInfo)));
     }
 
     public static _packageInfo of(CompilationUnit astCu) {
         return new _packageInfo(astCu);
     }
 
-    public static _feature._meta<_packageInfo> META = _feature._meta.of(_packageInfo.class );
+    public static _feature._one<_packageInfo, _package> PACKAGE = new _feature._one<>(_packageInfo.class, _package.class,
+            _feature._id.PACKAGE,
+            a -> a.getPackage(),
+            (_packageInfo a, _package _a) -> a.setPackage(_a), PARSER);
+
+    public static _feature._one<_packageInfo, _imports> IMPORTS = new _feature._one<>(_packageInfo.class, _imports.class,
+            _feature._id.IMPORTS,
+            a -> a.getImports(),
+            (_packageInfo a, _imports b) -> a.setImports(b), PARSER);
+
+
+    public static _feature._meta<_packageInfo> META = _feature._meta.of(_packageInfo.class, PACKAGE, IMPORTS );
 
     public CompilationUnit astCompUnit;
 

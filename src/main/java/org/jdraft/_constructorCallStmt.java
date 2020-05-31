@@ -44,7 +44,7 @@ public final class _constructorCallStmt
             (_constructorCallStmt a, Boolean b) -> a.setSuper(b), PARSER);
 
     public static _feature._one<_constructorCallStmt, _args> ARGS = new _feature._one<>(_constructorCallStmt.class, _args.class,
-            _feature._id.ARGS_EXPRS,
+            _feature._id.ARGS,
             a -> a.getArgs(),
             (_constructorCallStmt a, _args _e) -> a.setArgs(_e), PARSER);
 

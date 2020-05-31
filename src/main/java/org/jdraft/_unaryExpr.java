@@ -3,10 +3,13 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * The unary expression i.e.
@@ -54,7 +57,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
     }
 
     public static _feature._one<_unaryExpr, UnaryExpr.Operator> OPERATOR = new _feature._one<>(_unaryExpr.class, UnaryExpr.Operator.class,
-            _feature._id.UNARY_OPERATOR,
+            _feature._id.OPERATOR,
             a -> a.getOperator(),
             (_unaryExpr a, UnaryExpr.Operator o) -> a.setOperator(o), PARSER);
 
@@ -63,7 +66,13 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
             a -> a.getExpression(),
             (_unaryExpr a, _expr _e) -> a.setExpression(_e), PARSER);
 
-    public static _feature._meta<_unaryExpr> META = _feature._meta.of(_unaryExpr.class, OPERATOR, EXPRESSION);
+    public static _feature._meta<_unaryExpr> META = _feature._meta.of(_unaryExpr.class, OPERATOR, EXPRESSION)
+            .setFeatureOrder( (_unaryExpr _u, List<_feature<_unaryExpr, ?>> l)->{
+                if( _u.isPrefixOperator()){
+                    return Stream.of(OPERATOR, EXPRESSION).collect(Collectors.toList());
+                }
+                return Stream.of(EXPRESSION, OPERATOR).collect(Collectors.toList());
+            });
 
     public UnaryExpr unaryEx;
 
@@ -84,6 +93,31 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
         return false;
     }
 
+    public boolean isOperator(String operator ){
+        return Objects.equals( getOperator().asString(), operator);
+    }
+
+    public boolean isPrefixOperator(String op){
+        if( isPrefixOperator() ){
+            return Objects.equals( getOperator().asString(), op);
+        }
+        return false;
+    }
+
+    public boolean isPostfixOperator(String op){
+        if( isPostfixOperator() ){
+            return Objects.equals( getOperator().asString(), op);
+        }
+        return false;
+    }
+
+    public boolean isPrefixOperator(){
+        return this.unaryEx.getOperator().isPrefix();
+    }
+
+    public boolean isPostfixOperator(){
+        return this.unaryEx.getOperator().isPostfix();
+    }
     @Override
     public boolean is(UnaryExpr astNode) {
         return this.ast( ).equals(astNode);
@@ -105,6 +139,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
         return uo.test(this.unaryEx.getOperator());
     }
 
+    /*
     public boolean isOperator(String operator){
         try{
             return isOperator( UnaryExpr.Operator.valueOf(operator));
@@ -113,6 +148,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
             return false;
         }
     }
+     */
 
     // +val
     public boolean isPlusPrefix(){

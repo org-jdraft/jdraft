@@ -68,7 +68,6 @@ public final class _whileStmt implements _stmt._controlFlow._conditional<WhileSt
         throw new _jdraftException("No while statement found in lambda");
     }
 
-
     public static _feature._one<_whileStmt, _expr> CONDITION = new _feature._one<>(_whileStmt.class, _expr.class,
             _feature._id.CONDITION_EXPR,
             a -> a.getCondition(),

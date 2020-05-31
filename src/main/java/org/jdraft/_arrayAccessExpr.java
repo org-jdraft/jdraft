@@ -89,7 +89,7 @@ public final class _arrayAccessExpr
      *
      */
     public static _feature._one<_arrayAccessExpr, _expr> INDEX = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
-            _feature._id.INDEX_EXPR,
+            _feature._id.INDEX,
             a -> a.getIndex(),
             (_arrayAccessExpr a, _expr _e) -> a.setIndex(_e), PARSER);
 

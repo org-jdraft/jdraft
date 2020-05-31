@@ -114,7 +114,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
     }
 
     public static _feature._one<_newExpr, _expr> SCOPE = new _feature._one<>(_newExpr.class, _expr.class,
-            _feature._id.SCOPE_EXPR,
+            _feature._id.SCOPE,
             a -> a.getScope(),
             (_newExpr a, _expr _e) -> a.setScope(_e), PARSER);
 
@@ -124,12 +124,12 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
             (_newExpr a, _typeArgs _ta) -> a.setTypeArgs(_ta), PARSER);
 
     public static _feature._one<_newExpr, _typeRef> TYPE = new _feature._one<>(_newExpr.class, _typeRef.class,
-            _feature._id.TYPE,
+            _feature._id.TYPE_REF,
             a -> a.getTypeRef(),
             (_newExpr a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
 
     public static _feature._one<_newExpr, _args> ARGS = new _feature._one<>(_newExpr.class, _args.class,
-            _feature._id.ARGS_EXPRS,
+            _feature._id.ARGS,
             a -> a.getArgs(),
             (_newExpr a, _args _a) -> a.setArgs(_a), PARSER);
 

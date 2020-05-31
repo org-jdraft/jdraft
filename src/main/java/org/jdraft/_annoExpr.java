@@ -246,7 +246,7 @@ public final class _annoExpr
             PARSER );
 
     public static _feature._many<_annoExpr, _entryPair> ENTRY_PAIRS = new _feature._many<>(_annoExpr.class, _entryPair.class,
-            _feature._id.ANNO_EXPR_ENTRY_PAIRS, _feature._id.ANNO_EXPR_ENTRY_PAIR,
+            _feature._id.ENTRY_PAIRS, _feature._id.ENTRY_PAIR,
             a->a.listEntryPairs(),
             (_annoExpr a, List<_entryPair> pairs)-> a.setEntryPairs(pairs),
             PARSER, s-> _entryPair.of(s));

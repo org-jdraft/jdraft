@@ -32,13 +32,13 @@ public final class _annoExprs
 
     public static final Function<String, _annoExprs> PARSER = s-> _annoExprs.of(s);
 
-    public static _feature._many<_annoExprs, _annoExpr> EXPRS = new _feature._many<>(_annoExprs.class, _annoExpr.class,
+    public static _feature._many<_annoExprs, _annoExpr> ANNOS = new _feature._many<>(_annoExprs.class, _annoExpr.class,
             _feature._id.ANNO_EXPRS, _feature._id.ANNO_EXPR,
             as->as.list(),
             (_annoExprs as, List<_annoExpr> anns)-> as.set(anns),
             PARSER, s-> _annoExpr.of(s));
 
-    public static _feature._meta<_annoExprs> META = _feature._meta.of(_annoExprs.class, EXPRS);
+    public static _feature._meta<_annoExprs> META = _feature._meta.of(_annoExprs.class, ANNOS);
 
     /** A reference to the container entity that is being annotated*/
     public final NodeWithAnnotations astAnnNode;

@@ -73,7 +73,7 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
     }
 
     public static _feature._one<_methodCallExpr, _expr> SCOPE = new _feature._one<>(_methodCallExpr.class, _expr.class,
-            _feature._id.SCOPE_EXPR,
+            _feature._id.SCOPE,
             a -> a.getScope(),
             (_methodCallExpr a, _expr _e) -> a.setScope(_e), PARSER);
 
@@ -88,7 +88,7 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
             (_methodCallExpr a, String s) -> a.setName(s), PARSER);
 
     public static _feature._one<_methodCallExpr, _args> ARGS = new _feature._one<>(_methodCallExpr.class, _args.class,
-            _feature._id.ARGS_EXPRS,
+            _feature._id.ARGS,
             a -> a.getArgs(),
             (_methodCallExpr a, _args _a) -> a.setArgs(_a), PARSER);
 
