@@ -291,13 +291,18 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             _feature._id.MEMBER,
             a -> a.listMembers(),
             (_enum a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_enum.class, s))
-            .featureImplementations(_constant.class, _constructor.class, _method.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class);
+            .featureImplementations(_constant.class, _constructor.class, _method.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class)
+            .isOrdered(false); /** the order of declarations doesnt matter mostly */
 
+    /**
+     * the order of the implements doesnt matter (i.e. enum A implements B, C === enum A implements C, B)
+     */
     public static _feature._many<_enum, _typeRef> IMPLEMENTS = new _feature._many<>(_enum.class, _typeRef.class,
             _feature._id.IMPLEMENTS,
             _feature._id.IMPLEMENT,
             a -> a.listImplements(),
-            (_enum a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s-> _typeRef.of(s));
+            (_enum a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s-> _typeRef.of(s))
+            .isOrdered(false);
 
     public static _feature._meta<_enum> META = _feature._meta.of(_enum.class,
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, IMPLEMENTS, MEMBERS);

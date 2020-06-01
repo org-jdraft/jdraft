@@ -36,7 +36,8 @@ public final class _annoExprs
             _feature._id.ANNO_EXPRS, _feature._id.ANNO_EXPR,
             as->as.list(),
             (_annoExprs as, List<_annoExpr> anns)-> as.set(anns),
-            PARSER, s-> _annoExpr.of(s));
+            PARSER, s-> _annoExpr.of(s))
+            .isOrdered(false); /* the order of the annos isnt semantically important {@A @B @C === @B @A @C} */
 
     public static _feature._meta<_annoExprs> META = _feature._meta.of(_annoExprs.class, ANNOS);
 

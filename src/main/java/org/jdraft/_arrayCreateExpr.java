@@ -87,7 +87,8 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
             _feature._id.ARRAY_DIMENSIONS,
             _feature._id.ARRAY_DIMENSION,
             a -> ((_arrayCreateExpr)a).list(),
-            (_arrayCreateExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads), PARSER, s-> _arrayDimension.of(s));
+            (_arrayCreateExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads), PARSER, s-> _arrayDimension.of(s))
+            .isOrdered(true); /** the order of the dimension declarations matters { int[100][200] =/= int [200][100] } */
 
     public static _feature._one<_arrayCreateExpr, _arrayInitExpr> INIT = new _feature._one<>(_arrayCreateExpr.class, _arrayInitExpr.class,
             _feature._id.INIT,

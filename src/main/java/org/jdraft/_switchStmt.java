@@ -138,7 +138,8 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
             _feature._id.SWITCH_ENTRIES,
             _feature._id.SWITCH_ENTRY,
             a -> a.listSwitchEntries(),
-            (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s));
+            (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s))
+            .isOrdered(true);
 
     public static _feature._meta<_switchStmt> META = _feature._meta.of(_switchStmt.class, SELECTOR, SWITCH_ENTRIES );
 

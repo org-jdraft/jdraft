@@ -138,7 +138,6 @@ public class $annoExpr
         this.entryPairs.setBotList(Stream.of(mvs).collect(Collectors.toList()));
     }
 
-    //internal (or) constructor
     protected $annoExpr() { }
 
     /**
@@ -156,7 +155,6 @@ public class $annoExpr
             SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr) astAnn;
             Stencil st = Stencil.of(sa.getMemberValue().toString());
             if (st.isMatchAny()) { //i.e. @A($any$) which matches @A, @A(1), @A(k=1), @A(k=1v=2)...
-                //System.out.println( "Setting match ALL to :\""+st.$list().get(0)+"\"");
                 entryPairs.setMatchAll(st.$list().get(0));
             } else {
                 entryPairs.add($entryPair.of(sa.getMemberValue()));
@@ -194,6 +192,11 @@ public class $annoExpr
         return this;
     }
 
+    /**
+     *
+     * @param $keyValuePairs
+     * @return
+     */
     public $annoExpr $entryPairs(List<$entryPair> $keyValuePairs) {
         this.entryPairs.setBotList($keyValuePairs);
         return this;
@@ -271,12 +274,12 @@ public class $annoExpr
     }
 
     public String draftToString(Translator translator, Map<String, Object> keyValues) {
-        if (keyValues.get("$anno") != null) {
+        if (keyValues.get("$annoExpr") != null) {
             //override parameter passed in
-            $annoExpr $a = $annoExpr.of(keyValues.get("$anno").toString());
+            $annoExpr $a = $annoExpr.of(keyValues.get("$annoExpr").toString());
             Map<String, Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
-            kvs.remove("$anno"); //remove to avoid stackOverflow
+            kvs.remove("$annoExpr"); //remove to avoid stackOverflow
             return $a.draftToString(translator, kvs);
         }
         _annoExpr _a = _annoExpr.of();
@@ -287,12 +290,12 @@ public class $annoExpr
 
     @Override
     public _annoExpr draft(Translator translator, Map<String, Object> keyValues) {
-        if (keyValues.get("$anno") != null) {
+        if (keyValues.get("$annoExpr") != null) {
             //override parameter passed in
-            $annoExpr $a = $annoExpr.of(keyValues.get("$anno").toString());
+            $annoExpr $a = $annoExpr.of(keyValues.get("$annoExpr").toString());
             Map<String, Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
-            kvs.remove("$anno"); //remove to avoid stackOverflow
+            kvs.remove("$annoExpr"); //remove to avoid stackOverflow
             return $a.draft(translator, kvs);
         }
         return _annoExpr.of(draftToString(translator, keyValues));

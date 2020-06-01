@@ -9,6 +9,9 @@ public class _variablesExprTest extends TestCase {
         assertEquals(3, _vs.size());
         assertEquals(3, _vs.list().size());
         assertEquals(2, _vs.list(v-> v.hasInit()).size());
+        _vs.isAt(0, "int x");
+        _vs.isAt(1, "int y = -2");
+        _vs.isAt(2, "int z = 100");
         assertTrue( _vs.hasAnnoExpr("A"));
         assertTrue( _vs.hasAnnoExpr("B"));
         assertTrue( _vs.hasAnnoExpr("C"));

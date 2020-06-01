@@ -1,9 +1,13 @@
 package org.jdraft.bot;
 
+import com.github.javaparser.ast.CompilationUnit;
 import junit.framework.TestCase;
-import org.jdraft._annoExpr;
-import org.jdraft._annoExprs;
+import org.jdraft.*;
+import org.jdraft.pattern.$method;
 import org.jdraft.text.Tokens;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class $annoExprsTest extends TestCase {
 
@@ -123,21 +127,67 @@ public class $annoExprsTest extends TestCase {
     }
 
 
+    //public class $Print{}
+    //public class $PrintTree{}
+
+    public static<_T extends _java._node, _F, $S> $bot<_T, $S> fromFeature(_feature<_T, _F> _f){
+        if(_f.getTargetClass() ==_method.class){
+            if( _f.getFeatureId() == _feature._id.NAME ) {
+                return ($bot<_T, $S>)$name.of(_name.Use.METHOD_NAME);
+                //return ($selector<_T, $S>) $method.of( $name.of());
+            }
+        }
+        return null;
+    }
+
+    public static class $List<_T extends _java._node, _F>{
+
+        public  static<_T extends _java._node, _F> $List<_T, _F> of(_feature<_T, _F> _f){
+            return new $List(_f);
+        }
+
+        public _feature<_T, _F> _f;
+
+        public $List(_feature<_T, _F> _f){
+            this._f = _f;
+        }
+
+
+        public List<_F> in(Class clazz){
+            return null;
+            /*
+             $selector<_T, _F> sel = fromFeature(_f);
+             CompilationUnit cu = Ast.of(clazz);
+             List<_F> found = new ArrayList<>();
+             cu.walk(n -> {
+                 Select s = sel.matches( n );
+                 if( s != null ){
+
+                 }
+             });
+             */
+        }
+    }
+
+    public void testI$List(){
+         List<String> ns = $List.of(_method.NAME).in($annoExprsTest.class);
+    }
+
     public void testExprs(){
         $annoExprs $aes = $annoExprs.of( $annoExpr.of("@A($value$)") );
-        assertTrue($aes.$annoExprsList.get(0).entryPairs.isMatchAll());
+        assertTrue($aes.annosList.getBot(0).entryPairs.isMatchAll());
 
         assertTrue($aes.matches("@A(1)"));
         assertTrue($aes.matches("@A(2)"));
         assertTrue($aes.matches("@A('f')"));
 
         $aes.$hardcode(Tokens.of("value", 1));
-        assertNotNull( $aes.$annoExprsList.get(0).entryPairs.selectFrom(_annoExpr.of("A(1)")) );
+        assertNotNull( $aes.annosList.getBot(0).entryPairs.selectFrom(_annoExpr.of("A(1)")) );
         //System.out.println( "LIST BOTS"+ $aes.$annoExprsList );
         //System.out.println( "FIRST BOT"+ $aes.$annoExprsList.get(0) );
         //System.out.println("BOTTTTTT"+( $aes.$annoExprsList.get(0).entryPairs.getBot(0)) );
-        assertNull( $aes.$annoExprsList.get(0).entryPairs.selectFrom(_annoExpr.of("A(2)")) );
-        assertFalse($aes.$annoExprsList.get(0).entryPairs.isMatchAll());
+        assertNull( $aes.annosList.getBot(0).entryPairs.selectFrom(_annoExpr.of("A(2)")) );
+        assertFalse($aes.annosList.getBot(0).entryPairs.isMatchAll());
         assertTrue($aes.matches("@A(1)"));
         assertFalse($aes.matches("@A('c')"));
         assertFalse($aes.matches("@A(2)"));

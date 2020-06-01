@@ -30,7 +30,7 @@ public final class _args
     public static final Function<String, _args> PARSER = s-> _args.of(s);
 
     public static _args of(){
-        return of( Expr.methodCallExpr("empty()"));
+        return of( Expr.methodCallExpr("unknown()"));
     }
 
     public static _args of(Expression... exs){
@@ -62,7 +62,7 @@ public final class _args
         if( ows.isPresent() ){
             return of(ows.get().getInitializer().get().getValues().toArray(new Expression[0]));
         }
-        throw new _jdraftException("No binary expression found in lambda");
+        throw new _jdraftException("No arguments list found in lambda");
     }
 
     public static _args of(String...args){
@@ -73,7 +73,7 @@ public final class _args
                 if( code.length() ==0 ){
                     return of();
                 }
-                return of( Expr.methodCallExpr("empty("+ code+")"));
+                return of( Expr.methodCallExpr("unknown("+ code+")"));
             }
         }
         StringBuilder sb = new StringBuilder();
@@ -87,7 +87,7 @@ public final class _args
             sb.append(args[i]);
         }
         sb.append(")");
-        return of( Expr.methodCallExpr("empty"+ sb.toString()));
+        return of( Expr.methodCallExpr("unknown"+ sb.toString()));
     }
 
     public static _args of(NodeWithArguments nwa){
@@ -98,7 +98,8 @@ public final class _args
             _feature._id.ARGS, _feature._id.ARG,
             a->a.list(),
             (_args a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s))
-            .featureImplementations(_expr.Classes.ALL);
+            .featureImplementations(_expr.Classes.ALL) //could be expressions TODO make this a subset of expressions?
+            .isOrdered(true); //order matters to _args { (1,'a') =/= ('a', 1) }
 
     public static _feature._meta<_args> META = _feature._meta.of(_args.class, ARGS);
 

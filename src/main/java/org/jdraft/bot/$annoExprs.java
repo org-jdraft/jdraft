@@ -5,10 +5,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
-import org.jdraft.Expr;
-import org.jdraft._annoExpr;
-import org.jdraft._annoExprs;
-import org.jdraft._jdraftException;
+import org.jdraft.*;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -23,7 +20,8 @@ import java.util.stream.Stream;
  * as() exactly these match
  * of() these match (can be other annotations)
  */
-public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
+public class $annoExprs
+        extends $botEnsemble<_annoExprs, $annoExprs>
         implements $bot<_annoExprs, $annoExprs>{
 
     public static $annoExprs of(){
@@ -136,22 +134,17 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
         return new $annoExprs.Or($as);
     }
 
-    //public Predicate<_annoExprs> predicate = t-> true;
-
-    /** the member values of the annotation */
-    public Select.$botSetSelect<$annoExpr, _annoExprs, _annoExpr> $annoExprsList =
-            new Select.$botSetSelect(_annoExprs.class, _annoExpr.class, "annos", _aes-> ((_annoExprs)_aes).list());
-    //public Set<$annoExpr> $annos = new HashSet<>();
+    public $featureBotList<_annoExprs, _annoExpr, $annoExpr> annosList =
+            $featureBotList.of(_annoExprs.ANNOS);
 
     public $annoExprs($annoExpr...$ars){
-        Arrays.stream($ars).forEach($a -> $annoExprsList.add($a));
+        Arrays.stream($ars).forEach($a -> annosList.add($a));
     }
 
     @Override
     public $annoExprs copy() {
         $annoExprs copy = of();
-        copy.$annoExprsList = $annoExprsList.copy();
-        //this.$annos.forEach($a -> copy.$annos.add($a.copy()));
+        copy.annosList = annosList.copy();
         copy.predicate = predicate.and(t->true);
         return copy;
     }
@@ -174,18 +167,6 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
         }
         return null;
     }
-/*
-    @Override
-    public Predicate<_annoExprs> getPredicate() {
-        return this.predicate;
-    }
-
-    @Override
-    public $annoExprs setPredicate(Predicate<_annoExprs> predicate) {
-        this.predicate = predicate;
-        return this;
-    }
-*/
 
     @Override
     public Select<_annoExprs> select(Node n) {
@@ -198,41 +179,6 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
     public Select<_annoExprs> select(NodeWithAnnotations nwa) {
         return select( _annoExprs.of( nwa));
     }
-
-    /*
-    @Override
-    public Select<_annoExprs> select(_annoExprs _anns) {
-
-        if( !this.predicate.test(_anns) ) {
-            return null;
-        }
-        if( this.$annos.size() > _anns.size() ){
-             return null;
-        }
-        List<_annoExpr> annosLeft = new ArrayList<>();
-        annosLeft.addAll(_anns.list());
-        Tokens tokens = new Tokens();
-        List<$annoExpr> $ars = this.$annos.stream().collect(Collectors.toList());
-        for(int i=0;i<$ars.size();i++){
-
-            $annoExpr $a = $ars.get(i);
-            Optional<_annoExpr> oa = annosLeft.stream().filter(a-> $a.matches(a)).findFirst();
-            if( !oa.isPresent() ){
-                //System.out.println("NO MATCHING "+ $a);
-                return null; //didnf find a matching anno
-            }
-            _annoExpr got = oa.get();
-            annosLeft.remove(got);
-            Select $as = $a.select(oa.get());
-            if( tokens.isConsistent($as.tokens)){ //args are consistent
-                tokens.putAll($as.tokens);
-            } else{
-                return null;
-            }
-        }
-        return new Select(_anns, tokens);
-    }
-     */
 
     public Select<_annoExprs> select(String...candidate){
         try {
@@ -248,56 +194,29 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
     }
 
     @Override
+    public List<$feature<_annoExprs, ?, ?>> $listFeatures() {
+        return Stream.of(this.annosList).collect(Collectors.toList());
+    }
+
+    @Override
     public boolean isMatchAny() {
         try {
-            return this.$annoExprsList.isMatchAny() && this.predicate.test(null);
+            return this.annosList.isMatchAny() && this.predicate.test(null);
         }catch(Exception e){
             return false;
         }
     }
 
     @Override
-    public List<Select.$feature<_annoExprs, ?>> $listSelectors() {
-        return Stream.of(this.$annoExprsList).collect(Collectors.toList());
-    }
-
-    @Override
     public _annoExprs draft(Translator translator, Map<String, Object> keyValues) {
-        List<_annoExpr> _as = $annoExprsList.draft(translator, keyValues);
+        List<_annoExpr> _as = annosList.draft(translator, keyValues);
         _annoExprs _ars = _annoExprs.of( _as.toArray(new _annoExpr[0]));
-        /*
-        $annoExpr[] arr = this.$annos.toArray(new $annoExpr[0]);
-        for(int i=0;i<arr.length; i++){
-            _ars.add( arr[i].draftToString(translator, keyValues));
-        }
-         */
+
         if( this.predicate.test(_ars)){
             return _ars;
         }
         return null;
     }
-
-    /*
-    @Override
-    public $annoExprs $(String target, String $Name) {
-        this.$annos.forEach( $a -> $a.$(target, $Name));
-        return this;
-    }
-
-    @Override
-    public List<String> $list() {
-        List<String> params = new ArrayList<>();
-        this.$annos.forEach( $a -> params.addAll($a.$list() ));
-        return params;
-    }
-
-    @Override
-    public List<String> $listNormalized() {
-        List<String> params = new ArrayList<>();
-        this.$annos.forEach( $a -> params.addAll($a.$listNormalized() ));
-        return params.stream().distinct().collect(Collectors.toList());
-    }
-    */
 
     /**
      * An Or entity that can match against any of the $bot instances provided
@@ -338,7 +257,6 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
 
         @Override
         public $annoExprs.Or $hardcode(Translator translator, Tokens tokens){
-            //System.out.println(" calling hardcode " + tokens);
             $annoExprsBots.stream().forEach($a -> $a.$hardcode(translator, tokens));
             return this;
         }
@@ -351,7 +269,7 @@ public class $annoExprs extends $baseBot<_annoExprs, $annoExprs>
         @Override
         public String toString(){
             StringBuilder sb = new StringBuilder();
-            sb.append("$annoRefs.Or{");
+            sb.append("$annoExprs.Or{");
             sb.append(System.lineSeparator());
             $annoExprsBots.forEach($a -> sb.append( Text.indent($a.toString()) ) );
             sb.append("}");

@@ -464,7 +464,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             _feature._id.MEMBER,
             a -> a.listMembers(),
             (_class a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _member.of(_class.class, s))
-            .featureImplementations(_constructor.class, _method.class, _initBlock.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class);
+            .featureImplementations(_constructor.class, _method.class, _initBlock.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class)
+            .isOrdered(false);/** the order of declaration doesnt matter (MOSTLY) */
 
     public static _feature._one<_class, _typeParams> TYPE_PARAMS = new _feature._one<>(_class.class, _typeParams.class,
             _feature._id.TYPE_PARAMS,
@@ -480,7 +481,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             _feature._id.IMPLEMENTS,
             _feature._id.IMPLEMENT,
             a -> a.listImplements(),
-            (_class a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s->_typeRef.of(s));
+            (_class a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s->_typeRef.of(s))
+            .isOrdered(false);/** the order of declaring implements doesnt matter { class A implements B, C  === class A implements C, B }*/
 
     public static _feature._meta<_class> META = _feature._meta.of(_class.class,
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);

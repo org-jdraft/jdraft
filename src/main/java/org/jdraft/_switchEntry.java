@@ -43,7 +43,8 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
             _feature._id.CASE_EXPRESSIONS,
             _feature._id.CASE_EXPRESSION,
             a -> a.listCaseExpressions(),
-            (_switchEntry p, List<_expr> _es) -> p.setCaseExpressions(_es), PARSER, s->_expr.of(s));
+            (_switchEntry p, List<_expr> _es) -> p.setCaseExpressions(_es), PARSER, s->_expr.of(s))
+            .isOrdered(false);
 
     public static _feature._one<_switchEntry, SwitchEntry.Type> BODY_TYPE = new _feature._one<>(_switchEntry.class, SwitchEntry.Type.class,
             _feature._id.BODY_TYPE,
@@ -54,7 +55,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
             _feature._id.STATEMENTS,
             _feature._id.STATEMENT,
             a -> a.listStatements(),
-            (_switchEntry p, List<_stmt> _st) -> p.setStatements(_st), PARSER, s->_stmt.of(s));
+            (_switchEntry p, List<_stmt> _st) -> p.setStatements(_st), PARSER, s->_stmt.of(s)).isOrdered(true);
 
     public static _feature._meta<_switchEntry> META = _feature._meta.of(_switchEntry.class, CASE_EXPRESSIONS, BODY_TYPE, STATEMENTS );
 

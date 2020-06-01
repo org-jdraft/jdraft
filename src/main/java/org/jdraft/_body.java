@@ -16,6 +16,7 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import org.jdraft.macro._remove;
+import org.jdraft.text.Text;
 
 /**
  * The "body" part of methods, constructors, and static blocks (i.e.
@@ -257,7 +258,8 @@ public final class _body implements _java._domain {
     public static _feature._many<_body, _stmt> STATEMENTS = new _feature._many<>(_body.class, _stmt.class,
             _feature._id.STATEMENTS, _feature._id.STATEMENT,
             a->a.list(),
-            (_body a, List<_stmt> es)-> a.set(es), PARSER, s-> _stmt.of(s));
+            (_body a, List<_stmt> es)-> a.set(es), PARSER, s-> _stmt.of(s))
+            .isOrdered(true);/** the order of the statements matter */
 
     public static _feature._meta<_body> META = _feature._meta.of(_body.class, IS_IMPLEMENTED, STATEMENTS);
 
@@ -609,6 +611,34 @@ public final class _body implements _java._domain {
          */
         default boolean hasBody() {
             return getBody().isImplemented();
+        }
+
+        /**
+         * "" empty string
+         * Is the body equal to
+         * @param statements
+         * @return
+         */
+        default boolean isBody(String...statements){
+            String all = Text.combine(statements);
+            if( all.trim().length() == 0 ){
+                return !isImplemented();
+            }
+            if( !isImplemented() ){
+                return false;
+            }
+            _body _bd = _body.of(all);
+            if(_bd.list().size() != this.listStatements().size()){
+                return false;
+            }
+            List<Statement> tst = this.listStatements();
+            List<_stmt> st = _bd.list();
+            for(int i=0;i<st.size(); i++){
+                if( !Objects.equals( st.get(i), _stmt.of(tst.get(i)) ) ){
+                    return false;
+                }
+            }
+            return true;
         }
 
         /**

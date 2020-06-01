@@ -108,11 +108,13 @@ public final class _moduleInfo
             a -> a.getName(),
             (_moduleInfo a, String s) -> a.setName(s), PARSER);
 
-    public static _feature._many<_moduleInfo, _moduleDirective> MODULE_DIRECTIVES = new _feature._many<>(_moduleInfo.class, _moduleDirective.class,
+    public static _feature._many<_moduleInfo, _moduleDirective> MODULE_DIRECTIVES =
+            new _feature._many<>(_moduleInfo.class, _moduleDirective.class,
             _feature._id.MODULE_DIRECTIVES,
             _feature._id.MODULE_DIRECTIVES,
             a -> a.listModuleDirectives(),
-            (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER, s-> _moduleDirective.of(s));
+            (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER, s-> _moduleDirective.of(s))
+            .isOrdered(false);
 
     public static _feature._meta<_moduleInfo> META = _feature._meta.of(_moduleInfo.class, IMPORTS, IS_OPEN, MODULE_NAME, MODULE_DIRECTIVES);
 

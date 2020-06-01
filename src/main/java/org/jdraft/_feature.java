@@ -119,7 +119,6 @@ public interface _feature<_T, _F>{
         ARRAY_DIMENSION("arrayDimension"),
 
         /**
-         * {@link org.jdraft._body._withBody}
          * {@link _catch#BODY} {@link _constructor#BODY} {@link _doStmt#BODY}, {@link _forEachStmt#BODY},
          * {@link _forStmt#BODY}, {@link _initBlock#BODY}, {@link _lambdaExpr#BODY}, {@link _method#BODY},
          * {@link _synchronizedStmt#BODY}, {@link _whileStmt#BODY}
@@ -437,6 +436,12 @@ public interface _feature<_T, _F>{
          */
         public Class[] featureImplementationClasses;
 
+        /**
+         * Does the order matter to the semantics (i.e. to test for equality)
+         * this is TRUE for things like {@link _params}, {@link _args}
+         */
+        public Boolean isOrdered = false;
+
         public final _id featureId;
         public final _id featureElementId;
         public final Function<_T, List<_E>> getter;
@@ -458,8 +463,13 @@ public interface _feature<_T, _F>{
             this.elementParser = elementParser;
         }
 
-        public _many featureImplementations(Class<? extends _E>... featureImplementationClass ){
+        public _many<_T, _E> featureImplementations(Class<? extends _E>... featureImplementationClass ){
             this.featureImplementationClasses = featureImplementationClasses;
+            return this;
+        }
+
+        public _many<_T, _E> isOrdered(Boolean isOrdered){
+            this.isOrdered = isOrdered;
             return this;
         }
 
@@ -589,7 +599,7 @@ public interface _feature<_T, _F>{
      */
     class _meta<_T>{
 
-        public static <_T extends Object> _meta<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
+        public static <_T> _meta<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
             return new _meta<>(targetClass, features);
         }
 

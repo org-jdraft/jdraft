@@ -140,7 +140,8 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
     public static _feature._many<_arrayInitExpr, _expr> INITS = new _feature._many<>(_arrayInitExpr.class, _expr.class,
             _feature._id.INITS, _feature._id.INIT,
             a->a.list(),
-            (_arrayInitExpr a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s));
+            (_arrayInitExpr a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s))
+            .isOrdered(false);/** order of init exprs doesnt matter semantically { (int i=0; int j=1;) === (int j=1, int i=0) } */
 
     public static _feature._meta<_arrayInitExpr> META = _feature._meta.of(_arrayInitExpr.class, INITS);
 

@@ -126,7 +126,8 @@ public final class _params
     public static _feature._many<_params, _param> PARAMS = new _feature._many<>(_params.class, _param.class,
             _feature._id.PARAMS, _feature._id.PARAM,
             a->a.list(),
-            (_params a, List<_param> ps)-> a.set(ps), PARSER, s-> _param.of(s));
+            (_params a, List<_param> ps)-> a.set(ps), PARSER, s-> _param.of(s))
+            .isOrdered(true);
 
     public static _feature._meta<_params> META = _feature._meta.of(_params.class, PARAMS);
 

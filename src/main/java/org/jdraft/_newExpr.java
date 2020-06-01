@@ -138,7 +138,8 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
             _feature._id.MEMBER,
             a -> a.listAnonymousDeclarations(),
             (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousDeclarations(_ms), PARSER, s-> (_java._declared)_java._member.of(_class.class, s))
-            .featureImplementations(_method.class, _field.class);
+            .featureImplementations(_method.class, _field.class)
+            .isOrdered(false);
 
     public static _feature._meta<_newExpr> META = _feature._meta.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_CLASS_BODY);
 

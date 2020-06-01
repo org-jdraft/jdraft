@@ -1,8 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
 
 import java.util.*;
@@ -83,15 +82,31 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
             _feature._id.UPDATES,
             _feature._id.UPDATE,
             a -> a.listUpdates(),
-            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER, s-> _expr.of(s));
+            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER, s-> _expr.of(s))
+            .isOrdered(true);/** the order of the updates MAY matter */
 
+
+    public static _feature._one<_forStmt, _variablesExpr> INIT = new _feature._one<>(_forStmt.class, _variablesExpr.class,
+                    _feature._id.COMPARE,
+                    a -> {
+                        List<Expression> es = a.ast().getInitialization();
+                        if( es.isEmpty() ){
+                            return null;
+                        }
+                        return _variablesExpr.of( (VariableDeclarationExpr)es.get(0) );
+                    },
+                    (_forStmt a, _variablesExpr _e) -> a.setCompare(_e), PARSER);
+
+    /*
     public static _feature._many<_forStmt, _expr> INITS = new _feature._many<>(_forStmt.class, _expr.class,
             _feature._id.INITS,
             _feature._id.INIT,
             a -> a.listInits(),
-            (_forStmt a, List<_expr> _e) -> a.setInits(_e), PARSER, s-> _expr.of(s));
+            (_forStmt a, List<_expr> _e) -> a.setInits(_e), PARSER, s-> _expr.of(s))
+            .isOrdered(false); /** the order of the initializers doesnt matter (i.e. int i=0; int j=1 === int j=1, int i=0)
+    */
 
-    public static _feature._meta<_forStmt> META = _feature._meta.of(_forStmt.class, INITS, COMPARE, UPDATES, BODY);
+    public static _feature._meta<_forStmt> META = _feature._meta.of(_forStmt.class, INIT, COMPARE, UPDATES, BODY);
 
     private ForStmt astStmt;
 
@@ -112,13 +127,45 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return false;
     }
 
-    public _forStmt forInits(Consumer<_expr> consumer){
-        listInits().forEach(consumer);
+    public boolean hasInit(){
+        return !this.astStmt.getInitialization().isEmpty();
+    }
+
+    public _variablesExpr getInit(){
+        if( hasInit()){
+            return _variablesExpr.of( (VariableDeclarationExpr)astStmt.getInitialization().get(0) );
+        }
+        return null;
+    }
+    public boolean isInit(_variablesExpr _ve){
+        if( !this.hasInit() ){
+            return false;
+        }
+        return Objects.equals( _ve, _variablesExpr.of( (VariableDeclarationExpr)this.astStmt.getInitialization().get(0) ) );
+    }
+
+    public boolean isInit(String...code){
+        if( !this.hasInit() ){
+            return code.length == 0 || code.length == 1 && code[0].trim().length() ==0;
+        }
+        try{
+            _variablesExpr _ve = _variablesExpr.of(code);
+            return Objects.equals( _ve, _variablesExpr.of( (VariableDeclarationExpr)this.astStmt.getInitialization().get(0) ) );
+        }catch(Exception e){
+            return false;
+        }
+    }
+
+    public _forStmt setInit(_variablesExpr _ve){
+        NodeList<Expression> nle = new NodeList<>();
+        nle.add( _ve.ast() );
+        this.astStmt.setInitialization(nle);
         return this;
     }
 
-    public _forStmt forUpdates(Consumer<_expr> consumer){
-        listUpdates().forEach(consumer);
+    /*
+    public _forStmt forInits(Consumer<_expr> consumer){
+        listInits().forEach(consumer);
         return this;
     }
 
@@ -152,6 +199,114 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return this;
     }
 
+
+    public _forStmt setInits(List<_expr> _es){
+        return setInits( _es.toArray(new _expr[0]) );
+    }
+
+    public _forStmt setInits(_expr... es){
+        NodeList<Expression> init = new NodeList<>();
+        Arrays.stream(es).forEach(e-> init.add(e.ast()));
+        this.astStmt.setInitialization(init);
+        return this;
+    }
+    */
+
+    public boolean hasCompare(){
+        return !(this.getCompare() == null);
+    }
+
+
+    public _expr getCompare(){
+        if( this.astStmt.getCompare().isPresent()) {
+            return _expr.of(this.astStmt.getCompare().get());
+        }
+        return null;
+    }
+
+    /**
+     * checks if the compare part of the forStmt equals the expression
+     * @param expressionCode
+     * @return
+     */
+    public boolean isCompare(String...expressionCode){
+        try{
+            return Objects.equals( _expr.of(expressionCode), getCompare() );
+        } catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean isCompare(BinaryExpr.Operator bo){
+        if(this.astStmt.getCompare().isPresent() && this.astStmt.getCompare().get() instanceof BinaryExpr){
+            return ((BinaryExpr) this.astStmt.getCompare().get()).getOperator() == bo;
+        }
+        return false;
+    }
+
+    public boolean isCompare(_expr _e){
+        return Objects.equals( getCompare(), _e);
+    }
+
+    public boolean isCompare(Class<? extends _expr> expressionClass ){
+        if( hasCompare() ){
+            return expressionClass.isAssignableFrom( getCompare().getClass() );
+        }
+        return false;
+    }
+
+    /*
+    public boolean isCompare(Class<? extends _expr>...expressionClass ){
+        _expr _ec = getCompare();
+        try{
+            return Arrays.stream(expressionClass).anyMatch(ec -> ec.isAssignableFrom( _ec.getClass() ) );
+        } catch(Exception e){
+            return false;
+        }
+    }
+     */
+
+    public boolean isCompare( Predicate<_expr> matchFn){
+        _expr _e = getCompare();
+        if( _e == null ){
+            try{
+                return matchFn.test(null);
+            } catch(Exception e){
+                return false;
+            }
+        }
+        return matchFn.test(_e);
+    }
+
+    public _forStmt setCompare(String...str){
+        this.astStmt.setCompare(Expr.of(str));
+        return this;
+    }
+
+    public _forStmt setCompare(_expr e){
+        this.astStmt.setCompare(e.ast());
+        return this;
+    }
+
+    public _forStmt setCompare(Expression e){
+        this.astStmt.setCompare(e);
+        return this;
+    }
+
+    public _forStmt removeCompare(){
+        this.astStmt.removeCompare();
+        return this;
+    }
+
+    public _forStmt forUpdates(Consumer<_expr> consumer){
+        listUpdates().forEach(consumer);
+        return this;
+    }
+
+    public boolean hasUpdate(){
+        return !this.astStmt.getUpdate().isEmpty();
+    }
+
     public _forStmt addUpdates( _expr... _es){
         Arrays.stream(_es).forEach(_e -> this.astStmt.getUpdate().add(_e.ast()));
         return this;
@@ -182,45 +337,27 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return updates;
     }
 
-    public _expr getCompare(){
-        if( this.astStmt.getCompare().isPresent()) {
-            return _expr.of(this.astStmt.getCompare().get());
-        }
-        return null;
+    public _forStmt setUpdates(List<_expr> es){
+        return setUpdates( es.toArray(new _expr[0]));
     }
 
-    /**
-     * checks if the compare part of the forStmt equals the expression
-     * @param expressionCode
-     * @return
-     */
-    public boolean isCompare(String...expressionCode){
-        try{
-            return Objects.equals( _expr.of(expressionCode), getCompare() );
-        } catch(Exception e){
-            return false;
-        }
+    public boolean isUpdate( String updateExpr ){
+        int x = 0;
+        String code = "for(;;"+updateExpr+"){}";
+        _forStmt _fs = of(code);
+        Set<_expr> updates = new HashSet<>();
+        updates.addAll( _fs.listUpdates() );
+
+        Set<_expr> tup = new HashSet<>();
+        tup.addAll( listUpdates());
+        return Objects.equals(updates, tup);
     }
 
-    public boolean isCompare(Class<? extends _expr>...expressionClass ){
-        _expr _ec = getCompare();
-        try{
-            return Arrays.stream(expressionClass).anyMatch(ec -> ec.isAssignableFrom( _ec.getClass() ) );
-        } catch(Exception e){
-            return false;
-        }
-    }
-
-    public boolean isCompare( Predicate<_expr> matchFn){
-        _expr _e = getCompare();
-        if( _e == null ){
-            try{
-                return matchFn.test(null);
-            } catch(Exception e){
-                return false;
-            }
-        }
-        return matchFn.test(_e);
+    public _forStmt setUpdates(_expr... es){
+        NodeList<Expression> upd = new NodeList<>();
+        Arrays.stream(es).forEach(e-> upd.add(e.ast()));
+        this.astStmt.setInitialization(upd);
+        return this;
     }
 
     public _body getBody(){
@@ -230,48 +367,6 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
     @Override
     public _forStmt setBody(BlockStmt body) {
         this.astStmt.setBody(body);
-        return this;
-    }
-
-    public _forStmt setCompare(String...str){
-        this.astStmt.setCompare(Expr.of(str));
-        return this;
-    }
-
-    public _forStmt setCompare(_expr e){
-        this.astStmt.setCompare(e.ast());
-        return this;
-    }
-
-    public _forStmt setCompare(Expression e){
-        this.astStmt.setCompare(e);
-        return this;
-    }
-
-    public _forStmt removeCompare(){
-        this.astStmt.removeCompare();
-        return this;
-    }
-
-    public _forStmt setInits(List<_expr> _es){
-        return setInits( _es.toArray(new _expr[0]) );
-    }
-
-    public _forStmt setInits(_expr... es){
-        NodeList<Expression> init = new NodeList<>();
-        Arrays.stream(es).forEach(e-> init.add(e.ast()));
-        this.astStmt.setInitialization(init);
-        return this;
-    }
-
-    public _forStmt setUpdates(List<_expr> es){
-        return setUpdates( es.toArray(new _expr[0]));
-    }
-
-    public _forStmt setUpdates(_expr... es){
-        NodeList<Expression> upd = new NodeList<>();
-        Arrays.stream(es).forEach(e-> upd.add(e.ast()));
-        this.astStmt.setInitialization(upd);
         return this;
     }
 

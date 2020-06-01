@@ -4,9 +4,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -53,7 +51,8 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
             _feature._id.VARIABLES,
             _feature._id.VARIABLE,
             a -> a.list(),
-            (_variablesExpr p, List<_variable> _ccs) -> p.set(_ccs), PARSER, s-> _variable.of(s));
+            (_variablesExpr p, List<_variable> _ccs) -> p.set(_ccs), PARSER, s-> _variable.of(s))
+            .isOrdered(false);
 
     public static _feature._meta<_variablesExpr> META = _feature._meta.of(_variablesExpr.class, ANNO_EXPRS, MODIFIERS, VARIABLES);
 
@@ -96,6 +95,20 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return false;
     }
 
+    public boolean isAt(int index, _variable _v){
+        if( index < size() ){
+            return getAt(index).equals(_v);
+        }
+        return false;
+    }
+
+    public boolean isAt(int index, String var){
+        if( index < size() ){
+            return getAt(index).is(var);
+        }
+        return false;
+    }
+
     public boolean isFinal(){
         return this.varDeclEx.isFinal();
     }
@@ -111,7 +124,8 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
     @Override
     public boolean is(VariableDeclarationExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return equals( _variablesExpr.of( astNode));
+        //return this.ast( ).equals(astNode);
     }
 
     public VariableDeclarationExpr ast(){
@@ -157,7 +171,24 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
 
     public boolean equals(Object other){
         if( other instanceof _variablesExpr){
-            return ((_variablesExpr)other).varDeclEx.equals( this.varDeclEx);
+            _variablesExpr _o = ((_variablesExpr)other);
+            //return ((_variablesExpr)other).varDeclEx.equals( this.varDeclEx);
+            if(ast().getVariables().size() != _o.ast().getVariables().size() ){
+                return false;
+            }
+            //they have the same number of variables
+            if( !Objects.equals( this.getAnnoExprs(), _o.getAnnoExprs() ) ){
+                return false;
+            }
+            if( !Objects.equals( this.getModifiers(), _o.getModifiers() ) ){
+                return false;
+            }
+            Set<VariableDeclarator> vds = new HashSet<>();
+            vds.addAll( this.ast().getVariables() );
+
+            Set<VariableDeclarator> ovds = new HashSet<>();
+            ovds.addAll( _o.ast().getVariables() );
+            return Objects.equals(ovds, vds );
         }
         return false;
     }

@@ -76,7 +76,8 @@ public final class _typeArgs
             _feature._id.TYPE_ARGS,
             _feature._id.TYPE_ARG,
             a -> a.list(),
-            (_typeArgs p, List<_typeRef> _ccs) -> p.set(_ccs), PARSER, s->_typeRef.of(s));
+            (_typeArgs p, List<_typeRef> _ccs) -> p.set(_ccs), PARSER, s->_typeRef.of(s))
+            .isOrdered(false);
 
     public static _feature._meta<_typeArgs> META = _feature._meta.of(_typeArgs.class, TYPE_ARGS );
 
