@@ -106,8 +106,8 @@ public interface _feature<_T, _F>{
         /**{@link _annoExprs#ANNOS} */
         ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
 
-        /** {@link _newExpr#ANONYMOUS_CLASS_BODY} */
-        ANONYMOUS_CLASS_BODY("anonymousClassBody"),
+        /** {@link _newExpr#ANONYMOUS_BODY_MEMBERS} */
+        ANONYMOUS_BODY_MEMBERS("anonymousBodyMembers"),
 
         /** {@link _args#ARGS}, {@link _constant#ARGS},  {@link _methodCallExpr#ARGS}
          *  {@link _constructorCallStmt#ARGS}, {@link _newExpr#ARGS}*/

@@ -67,7 +67,7 @@ public class _newExprTest extends TestCase {
         });
 
         assertTrue( _n.isTypeRef(Serializable.class) );
-        assertEquals(1, _n.listAnonymousDeclarations().size());
+        assertEquals(1, _n.listAnonymousBodyMembers().size());
         _n.addTypeArgs(Types.of("T") );
         _n.getTypeArg(0);
     }

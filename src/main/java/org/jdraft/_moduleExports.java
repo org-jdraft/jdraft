@@ -32,7 +32,7 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
             src = src+";";
         }
         CompilationUnit cu =
-                Ast.parse("module J{ "+System.lineSeparator()+src+System.lineSeparator()+"}");
+                Ast.parse("module UNKNOWN{ "+System.lineSeparator()+src+System.lineSeparator()+"}");
         ModuleDeclaration md = cu.getModule().get();
         ModuleExportsDirective modd = (ModuleExportsDirective)md.getDirectives().get(0);
         modd.remove();

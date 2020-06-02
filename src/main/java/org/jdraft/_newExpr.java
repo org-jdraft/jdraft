@@ -134,15 +134,15 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
             a -> a.getArgs(),
             (_newExpr a, _args _a) -> a.setArgs(_a), PARSER);
 
-    public static _feature._many<_newExpr, _java._declared> ANONYMOUS_CLASS_BODY = new _feature._many<>(_newExpr.class, _java._declared.class,
-            _feature._id.ANONYMOUS_CLASS_BODY,
+    public static _feature._many<_newExpr, _java._declared> ANONYMOUS_BODY_MEMBERS = new _feature._many<>(_newExpr.class, _java._declared.class,
+            _feature._id.ANONYMOUS_BODY_MEMBERS,
             _feature._id.MEMBER,
-            a -> a.listAnonymousDeclarations(),
-            (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousDeclarations(_ms), PARSER, s-> (_java._declared)_java._member.of(_class.class, s))
+            a -> a.listAnonymousBodyMembers(),
+            (_newExpr a, List<_java._declared> _ms) -> a.setAnonymousBodyMembers(_ms), PARSER, s-> (_java._declared)_java._member.of(_class.class, s))
             .featureImplementations(_method.class, _field.class)
             .isOrdered(false);
 
-    public static _feature._meta<_newExpr> META = _feature._meta.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_CLASS_BODY);
+    public static _feature._meta<_newExpr> META = _feature._meta.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_BODY_MEMBERS);
 
 
     /*
@@ -171,7 +171,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @param _dcls
      * @return
      */
-    public _newExpr setAnonymousDeclarations(List<_java._declared> _dcls){
+    public _newExpr setAnonymousBodyMembers(List<_java._declared> _dcls){
         if( this.oce.getAnonymousClassBody().isPresent()){
             NodeList<BodyDeclaration<?>> b =  this.oce.getAnonymousClassBody().get();
             b.clear();
@@ -192,7 +192,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * </PRE>
      * @return
      */
-    public List<_java._declared> listAnonymousDeclarations(){
+    public List<_java._declared> listAnonymousBodyMembers(){
         List<_java._declared> ds =  new ArrayList<>();
         if( this.oce.getAnonymousClassBody().isPresent()){
             oce.getAnonymousClassBody().get().forEach(b -> {
@@ -207,8 +207,8 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         return ds;
     }
 
-    public List<_java._declared> listAnonymousDeclarations(Predicate<_java._declared> _matchFn){
-        return listAnonymousDeclarations().stream().filter(_matchFn).collect(Collectors.toList());
+    public List<_java._declared> listAnonymousBodyMembers(Predicate<_java._declared> _matchFn){
+        return listAnonymousBodyMembers().stream().filter(_matchFn).collect(Collectors.toList());
     }
 
 
@@ -217,7 +217,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @param _dec
      * @return
      */
-    public _newExpr addAnonymousBodyDeclarations(_java._declared... _dec ){
+    public _newExpr addAnonymousBodyMembers(_java._declared... _dec ){
         Arrays.stream(_dec).forEach( d -> this.oce.addAnonymousClassBody( (BodyDeclaration)d.ast() ) );
         return this;
     }
@@ -227,7 +227,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @param dec
      * @return
      */
-    public _newExpr addAnonymousBodyDeclarations(BodyDeclaration ... dec ){
+    public _newExpr addAnonymousBodyMembers(BodyDeclaration ... dec ){
         Arrays.stream(dec).forEach( d -> this.oce.addAnonymousClassBody( d ) );
         return this;
     }
@@ -241,7 +241,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @param memberFn
      * @return
      */
-    public _newExpr forAnonymousBodyDeclarations(Consumer<_java._declared> memberFn){
+    public _newExpr forAnonymousBodyMembers(Consumer<_java._declared> memberFn){
         if( this.oce.getAnonymousClassBody().isPresent() ){
             this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m)).forEach(m -> memberFn.accept(m));
         }
@@ -259,7 +259,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @param memberFn
      * @return
      */
-    public _newExpr forAnonymousBodyDeclarations(Predicate<_java._declared> memberMatchFn, Consumer<_java._declared> memberFn){
+    public _newExpr forAnonymousBodyMembers(Predicate<_java._declared> memberMatchFn, Consumer<_java._declared> memberFn){
         if( this.oce.getAnonymousClassBody().isPresent() ){
             this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m))
                     .filter(memberMatchFn).forEach(m -> memberFn.accept(m));
