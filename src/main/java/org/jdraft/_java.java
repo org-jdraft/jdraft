@@ -1324,7 +1324,7 @@ public interface _java {
      * map to a specific Ast entity but a grouping of AST entities
      *
      * @see _params (parameters are ordered)
-     * @see _arrayCreateExpr (the dimensions of the array are in an ordered list)
+     * @see _newArrayExpr (the dimensions of the array are in an ordered list)
      * @see _arrayInitExpr (the elements located in the array are ordered)
      */
     interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _domain {

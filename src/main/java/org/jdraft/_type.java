@@ -809,11 +809,18 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * List the {@link _java._member}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
      * {@link _constant}s, {@link _entry}s) , and inner{@link _type}s, {@link _enum}s,
      * {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
-     * @return a List of {@link _java._declared}s on the type
+     * @return a List of {@link _java._member}s on the {@link _type}
      */
     default List<_java._member> listMembers(){
         List<_java._member> _ms = new ArrayList<>();
-        NodeList<BodyDeclaration<?>> bds = ast().getMembers();
+        NodeList<BodyDeclaration<?>> bds = new NodeList<>();
+
+        if( ast() instanceof EnumDeclaration ){
+            EnumDeclaration ed = (EnumDeclaration)ast();
+            bds.addAll( ed.getEntries() );
+        }
+
+        bds.addAll( ast().getMembers() );
 
         bds.forEach(b -> {
             if( b instanceof FieldDeclaration ){
@@ -823,6 +830,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                 _ms.add((_java._member) _java.of(b));
             }
         } );
+
+
         return _ms;
     }
 

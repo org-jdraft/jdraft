@@ -15,7 +15,7 @@ public class OfTest extends TestCase {
                 _annotation.of(),
                 _args.of(),
                 _arrayAccessExpr.of(),
-                _arrayCreateExpr.of(),
+                _newArrayExpr.of(),
                 _arrayDimension.of(),
                 _arrayInitExpr.of(),
                 _assertStmt.of(),

@@ -31,7 +31,7 @@ public enum Nodes {
       ANNO_ENTRY(_entry.class, AnnotationMemberDeclaration.class),
       ANNOTATION(_annotation.class, AnnotationDeclaration.class),
       ARRAY_ACCESS_EXPR(_arrayAccessExpr.class, ArrayAccessExpr.class),
-      ARRAY_CREATE_EXPR(_arrayCreateExpr.class, ArrayCreationExpr.class),
+      ARRAY_CREATE_EXPR(_newArrayExpr.class, ArrayCreationExpr.class),
       ARRAY_DIMENSION(_arrayDimension.class, ArrayCreationLevel.class),
       ARRAY_INIT_EXPR(_arrayInitExpr.class, ArrayInitializerExpr.class),
       ASSERT_STMT(_assertStmt.class, AssertStmt.class),

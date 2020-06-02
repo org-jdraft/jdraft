@@ -131,7 +131,7 @@ public interface _expr<E extends Expression, _E extends _expr>
             return _annoExpr.of( (AnnotationExpr)e);
         }
         if( e instanceof ArrayCreationExpr){
-            return new _arrayCreateExpr( (ArrayCreationExpr)e);
+            return new _newArrayExpr( (ArrayCreationExpr)e);
         }
         if( e instanceof ArrayAccessExpr){
             return new _arrayAccessExpr( (ArrayAccessExpr)e);

@@ -387,7 +387,11 @@ public final class _annotation
         return addEntry( new AnnotationMemberDeclaration( ));
     }
     public _annotation addEntry(String... entryDeclaration ){
-        return addEntry( Ast.annotationMemberDeclaration( entryDeclaration ));
+        String str = Text.combine(entryDeclaration );
+        if( !str.endsWith(";")){
+            str = str + ";";
+        }
+        return addEntry( Ast.annotationMemberDeclaration( str ));
     }
 
     public _annotation addEntry(_entry _ae){

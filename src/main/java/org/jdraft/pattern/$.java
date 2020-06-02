@@ -479,19 +479,19 @@ public final class $ {
         return $ex.arrayAccessEx(aae);
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex> arrayCreation(){
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex> arrayCreation(){
         return $ex.arrayCreationEx();
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex> arrayCreation(String ac){
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex> arrayCreation(String ac){
         return $ex.arrayCreationEx(ac);
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex> arrayCreation(ArrayCreationExpr ace){
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex> arrayCreation(ArrayCreationExpr ace){
         return $ex.of(ace);
     }
 
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex> arrayCreation(Predicate<_arrayCreateExpr> ace){
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex> arrayCreation(Predicate<_newArrayExpr> ace){
         return $ex.arrayCreationEx(ace);
     }
 

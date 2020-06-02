@@ -72,6 +72,11 @@ public class _mergeInterfaceToClass extends TestCase {
                 _wm.getModifiers().setPublic().setStatic();
                 _c.add( (_java._member)_wm );
             }
+            if( _m instanceof _field && ((_field)_m).hasInit()){ //non static but initialized fields on
+                _field _f = ((_field)_m).copy();
+                _f.getModifiers().setPublic().setStatic();
+                _c.add( (_field)_f );
+            }
         });
 
         //transpose all imports from interface to class
@@ -97,9 +102,18 @@ public class _mergeInterfaceToClass extends TestCase {
 
     public void testMergeInterfaceMembersToClass(){
         _class _merged = merge(_i.copy(), _onlyOne.copy() );
-        System.out.println( _merged );
+        //System.out.println( "***************************I" + _i );
+        //System.out.println( "******************** ONLYONE" + _onlyOne );
+        //System.out.println( _merged );
+
+        assertEquals(4, _i.copy().listMembers().size());
+
+        //_merged.listMembers().forEach( m -> System.out.println( "****** " + m.getClass() + " >>> "+ m));
+
         //make sure we moved over the field/s method/s
         assertEquals(4, _merged.listMembers().size());
+
+
 
         //make sure we imported imports from interface
         assertTrue( _merged.hasImports(UUID.class) );

@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.type.Type;
+import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -19,58 +20,62 @@ import java.util.function.Function;
  *  <br/>"int" is the element type.
  *  <br/>All the brackets are stored in the levels field, from left to right.
  */
-public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCreateExpr>,
-        _java._node<ArrayCreationExpr, _arrayCreateExpr>,
-        _typeRef._withTypeRef<ArrayCreationExpr, _arrayCreateExpr>,
-        _java._list<ArrayCreationLevel, _arrayDimension, _arrayCreateExpr> {
+public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayExpr>,
+        _java._node<ArrayCreationExpr, _newArrayExpr>,
+        _typeRef._withTypeRef<ArrayCreationExpr, _newArrayExpr>,
+        _java._list<ArrayCreationLevel, _arrayDimension, _newArrayExpr> {
 
-    public static final Function<String, _arrayCreateExpr> PARSER = s-> _arrayCreateExpr.of(s);
+    public static final Function<String, _newArrayExpr> PARSER = s-> _newArrayExpr.of(s);
 
-    public static _arrayCreateExpr of( ){
-        return new _arrayCreateExpr(new ArrayCreationExpr());
+    public static _newArrayExpr of( ){
+        return new _newArrayExpr(new ArrayCreationExpr());
     }
-    public static _arrayCreateExpr of(ArrayCreationExpr ac){
-        return new _arrayCreateExpr(ac);
+    public static _newArrayExpr of(ArrayCreationExpr ac){
+        return new _newArrayExpr(ac);
     }
-    public static _arrayCreateExpr of(String...code){
-        return new _arrayCreateExpr(Expr.arrayCreationExpr( code));
+    public static _newArrayExpr of(String...code){
+        String str = Text.combine(code);
+        if( !str.startsWith("new ") ){
+            str = "new "+ str;
+        }
+        return new _newArrayExpr(Expr.arrayCreationExpr( str));
     }
 
-    public static <A extends Object> _arrayCreateExpr of(Expr.Command c){
+    public static <A extends Object> _newArrayExpr of(Expr.Command c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object> _arrayCreateExpr of(Consumer<A> c){
+    public static <A extends Object> _newArrayExpr of(Consumer<A> c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object, B extends Object> _arrayCreateExpr of(BiConsumer<A,B> command ){
+    public static <A extends Object, B extends Object> _newArrayExpr of(BiConsumer<A,B> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _arrayCreateExpr of(Expr.TriConsumer<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _newArrayExpr of(Expr.TriConsumer<A,B,C> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreateExpr of(Expr.QuadConsumer<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _newArrayExpr of(Expr.QuadConsumer<A,B,C,D> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object> _arrayCreateExpr of(Function<A,B> command ){
+    public static <A extends Object, B extends Object> _newArrayExpr of(Function<A,B> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _arrayCreateExpr of(BiFunction<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _newArrayExpr of(BiFunction<A,B,C> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _arrayCreateExpr of(Expr.TriFunction<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _newArrayExpr of(Expr.TriFunction<A,B,C,D> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    private static _arrayCreateExpr from(LambdaExpr le){
+    private static _newArrayExpr from(LambdaExpr le){
         Optional<ArrayCreationExpr> ows = le.getBody().findFirst(ArrayCreationExpr.class);
         if( ows.isPresent() ){
             return of(ows.get());
@@ -78,34 +83,34 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         throw new _jdraftException("No ArrayCreationExpr found in lambda");
     }
 
-    public static _feature._one<_arrayCreateExpr, _typeRef> TYPE = new _feature._one<>(_arrayCreateExpr.class, _typeRef.class,
+    public static _feature._one<_newArrayExpr, _typeRef> TYPE = new _feature._one<>(_newArrayExpr.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> ((_arrayCreateExpr) a).getElementType(),
-            (_arrayCreateExpr a, _typeRef _t) -> a.setElementType(_t), PARSER);
+            a -> ((_newArrayExpr) a).getElementType(),
+            (_newArrayExpr a, _typeRef _t) -> a.setElementType(_t), PARSER);
 
-    public static _feature._many<_arrayCreateExpr, _arrayDimension> DIMENSIONS = new _feature._many<>(_arrayCreateExpr.class, _arrayDimension.class,
+    public static _feature._many<_newArrayExpr, _arrayDimension> DIMENSIONS = new _feature._many<>(_newArrayExpr.class, _arrayDimension.class,
             _feature._id.ARRAY_DIMENSIONS,
             _feature._id.ARRAY_DIMENSION,
-            a -> ((_arrayCreateExpr)a).list(),
-            (_arrayCreateExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads), PARSER, s-> _arrayDimension.of(s))
+            a -> ((_newArrayExpr)a).list(),
+            (_newArrayExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads), PARSER, s-> _arrayDimension.of(s))
             .isOrdered(true); /** the order of the dimension declarations matters { int[100][200] =/= int [200][100] } */
 
-    public static _feature._one<_arrayCreateExpr, _arrayInitExpr> INIT = new _feature._one<>(_arrayCreateExpr.class, _arrayInitExpr.class,
+    public static _feature._one<_newArrayExpr, _arrayInitExpr> INIT = new _feature._one<>(_newArrayExpr.class, _arrayInitExpr.class,
             _feature._id.INIT,
             a -> a.getInit(),
-            (_arrayCreateExpr a, _arrayInitExpr _t) -> a.setInit(_t), PARSER);
+            (_newArrayExpr a, _arrayInitExpr _t) -> a.setInit(_t), PARSER);
 
-    public static _feature._meta<_arrayCreateExpr> META = _feature._meta.of(_arrayCreateExpr.class, TYPE, DIMENSIONS, INIT );
+    public static _feature._meta<_newArrayExpr> META = _feature._meta.of(_newArrayExpr.class, TYPE, DIMENSIONS, INIT );
 
     public ArrayCreationExpr astNode;
 
-    public _arrayCreateExpr(ArrayCreationExpr astNode){
+    public _newArrayExpr(ArrayCreationExpr astNode){
         this.astNode = astNode;
     }
 
     @Override
-    public _arrayCreateExpr copy() {
-        return new _arrayCreateExpr(this.astNode.clone());
+    public _newArrayExpr copy() {
+        return new _newArrayExpr(this.astNode.clone());
     }
 
     @Override
@@ -143,17 +148,17 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         return comps;
     }
 
-    public _arrayCreateExpr setInit(String...init){
+    public _newArrayExpr setInit(String...init){
         this.astNode.setInitializer(Expr.arrayInitializerExpr(init));
         return this;
     }
 
-    public _arrayCreateExpr setInit(_arrayInitExpr ae){
+    public _newArrayExpr setInit(_arrayInitExpr ae){
         this.astNode.setInitializer(ae.ast());
         return this;
     }
 
-    public _arrayCreateExpr setInit(ArrayInitializerExpr ae){
+    public _newArrayExpr setInit(ArrayInitializerExpr ae){
         this.astNode.setInitializer(ae);
         return this;
     }
@@ -206,17 +211,17 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         return _typeRef.of(this.astNode.getElementType());
     }
 
-    public _arrayCreateExpr setElementType(_typeRef _tr){
+    public _newArrayExpr setElementType(_typeRef _tr){
         this.astNode.setElementType(_tr.ast());
         return this;
     }
 
-    public _arrayCreateExpr setElementType(Class clazz){
+    public _newArrayExpr setElementType(Class clazz){
         this.astNode.setElementType(clazz);
         return this;
     }
 
-    public _arrayCreateExpr setElementType(String str){
+    public _newArrayExpr setElementType(String str){
         this.astNode.setElementType(_typeRef.of(str).ast());
         return this;
     }
@@ -227,18 +232,18 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
         return ads;
     }
 
-    public _arrayCreateExpr setArrayDimensions(List<_arrayDimension> ads){
+    public _newArrayExpr setArrayDimensions(List<_arrayDimension> ads){
         NodeList<ArrayCreationLevel> lvls = new NodeList<>();
         ads.forEach(ad -> lvls.add(ad.astNode));
         return setArrayDimensions(lvls);
     }
 
-    public _arrayCreateExpr setArrayDimensions(String...code){
+    public _newArrayExpr setArrayDimensions(String...code){
         this.astNode.setLevels( Expr.arrayCreationLevels(code) );
         return this;
     }
 
-    public _arrayCreateExpr setArrayDimensions(NodeList<ArrayCreationLevel> acls){
+    public _newArrayExpr setArrayDimensions(NodeList<ArrayCreationLevel> acls){
         this.astNode.setLevels( acls );
         return this;
     }
@@ -256,8 +261,8 @@ public final class _arrayCreateExpr implements _expr<ArrayCreationExpr, _arrayCr
     }
 
     public boolean equals(Object other){
-        if( other instanceof _arrayCreateExpr){
-            return ((_arrayCreateExpr)other).astNode.equals( this.astNode);
+        if( other instanceof _newArrayExpr){
+            return ((_newArrayExpr)other).astNode.equals( this.astNode);
         }
         return false;
     }

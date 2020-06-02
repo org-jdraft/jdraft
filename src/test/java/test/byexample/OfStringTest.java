@@ -20,7 +20,7 @@ public class OfStringTest extends TestCase {
                 _annotation.of("@interface AI{}"),
                 _args.of("(1, 'c')"),
                 _arrayAccessExpr.of("a[1][call()]"),
-                _arrayCreateExpr.of("new a[1][2]"),
+                _newArrayExpr.of("new a[1][2]"),
                 _arrayDimension.of("[0]"),
                 _arrayInitExpr.of("{1,2,3}"),
                 _assertStmt.of("assert true;"),

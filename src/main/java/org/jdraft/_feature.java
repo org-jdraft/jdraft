@@ -115,9 +115,9 @@ public interface _feature<_T, _F>{
         /** {@link _args#ARGS} */
         ARG("arg"),
 
-        /** {@link _arrayCreateExpr#DIMENSIONS} */
+        /** {@link _newArrayExpr#DIMENSIONS} */
         ARRAY_DIMENSIONS("arrayDimensions"),
-        /** {@link _arrayCreateExpr#DIMENSIONS} */
+        /** {@link _newArrayExpr#DIMENSIONS} */
         ARRAY_DIMENSION("arrayDimension"),
 
         /**
@@ -207,7 +207,7 @@ public interface _feature<_T, _F>{
 
         /**{@link _arrayInitExpr#INITS}*/
         INITS("inits"),
-        /** {@link _variable#INIT} {@link _arrayCreateExpr#INIT}, {@link _arrayInitExpr#INITS},
+        /** {@link _variable#INIT} {@link _newArrayExpr#INIT}, {@link _arrayInitExpr#INITS},
          * {@link _field#INIT}, {@link _forStmt#INIT}*/
         INIT("init"),
 
@@ -356,7 +356,7 @@ public interface _feature<_T, _F>{
         /**{@link _tryStmt#TRY_BODY}*/
         TRY_BODY("tryBody"),
 
-        /**{@link _arrayCreateExpr#TYPE}, {@link _castExpr#TYPE} {@link _classExpr#TYPE}, {@link _entry#TYPE},
+        /**{@link _newArrayExpr#TYPE}, {@link _castExpr#TYPE} {@link _classExpr#TYPE}, {@link _entry#TYPE},
          * {@link _field#TYPE}, {@link _instanceOfExpr#TYPE},{@link _method#TYPE}, {@link _newExpr#TYPE},
          * {@link _param#TYPE}, {@link _receiverParam#TYPE},{@link _typeExpr#TYPE}, {@link _typeRef#TYPE},
          * {@link _variable#TYPE}...*/

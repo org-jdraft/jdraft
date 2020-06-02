@@ -156,7 +156,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param pattern
      * @return 
      */
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex>  arrayCreationEx(String... pattern ) {
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex>  arrayCreationEx(String... pattern ) {
         return new $ex<>( Expr.arrayCreationExpr(pattern ) );
     }
     
@@ -165,8 +165,8 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex>  arrayCreationEx(Predicate<_arrayCreateExpr> constraint ) {
-        return new $ex<ArrayCreationExpr, _arrayCreateExpr, $ex>  ( Expr.arrayCreationExpr("new int[]")).$(Expr.of("new int[]"), "any").$and(constraint);
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex>  arrayCreationEx(Predicate<_newArrayExpr> constraint ) {
+        return new $ex<ArrayCreationExpr, _newArrayExpr, $ex>  ( Expr.arrayCreationExpr("new int[]")).$(Expr.of("new int[]"), "any").$and(constraint);
     }
     
     /**
@@ -175,15 +175,15 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @param constraint
      * @return 
      */
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex>  arrayCreationEx(String pattern, Predicate<_arrayCreateExpr> constraint ) {
-        return new $ex<ArrayCreationExpr, _arrayCreateExpr, $ex>  ( Expr.arrayCreationExpr(pattern ) ).$and(constraint);
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex>  arrayCreationEx(String pattern, Predicate<_newArrayExpr> constraint ) {
+        return new $ex<ArrayCreationExpr, _newArrayExpr, $ex>  ( Expr.arrayCreationExpr(pattern ) ).$and(constraint);
     }
 
     /**
      * i.e."new Obj[]", "new int[][]"
      * @return 
      */
-    public static $ex<ArrayCreationExpr, _arrayCreateExpr, $ex>  arrayCreationEx( ) {
+    public static $ex<ArrayCreationExpr, _newArrayExpr, $ex>  arrayCreationEx( ) {
         return new $ex<>( ArrayCreationExpr.class, "$arrayCreationExpr$");
     }
     

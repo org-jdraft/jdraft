@@ -16,7 +16,7 @@ import java.util.function.Function;
  *  [arrs.length] a fieldAccessExpression denoted dimension
  *  [getY()] a methodCallExpr denoted dimension
  *
- * @see _arrayCreateExpr where we use these _arrayDimensions to declare arrays
+ * @see _newArrayExpr where we use these _arrayDimensions to declare arrays
  */
 public final class _arrayDimension implements _java._node<ArrayCreationLevel, _arrayDimension>,
         _java._withExpression<ArrayCreationLevel, _arrayDimension> {
