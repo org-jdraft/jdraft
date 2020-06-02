@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -107,10 +108,12 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         return false;
     }
 
+    /*
     @Override
     public boolean is(BlockStmt astNode) {
-        return this.bs.equals( astNode);
+        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
     }
+     */
 
     public BlockStmt ast(){
         return bs;

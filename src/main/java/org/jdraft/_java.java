@@ -1134,13 +1134,19 @@ public interface _java {
          */
         boolean is(String... stringRep);
 
+        /*
+        default boolean is(N astNode){
+            return Objects.equals(ast(), astNode);
+        }
+         */
+
         /**
          * Is the AST node representation equal to the underlying entity
          * @param astNode the astNode to compare against
          * @return true if they represent the same _node, false otherwise
          */
-        default boolean is(N astNode){
-            return Objects.equals(ast(), astNode);
+        default boolean is(N astNode) {
+            return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
         }
     }
 

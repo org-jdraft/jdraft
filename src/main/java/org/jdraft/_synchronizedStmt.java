@@ -116,10 +116,12 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
         return this;
     }
 
+    /*
     @Override
     public boolean is(SynchronizedStmt astNode) {
         return this.astStmt.equals( astNode);
     }
+     */
 
     public SynchronizedStmt ast(){
         return astStmt;

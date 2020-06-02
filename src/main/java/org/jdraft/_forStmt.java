@@ -418,10 +418,12 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return this;
     }
 
+    /*
     @Override
     public boolean is(ForStmt astNode) {
-        return this.astStmt.equals( astNode);
+        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
     }
+     */
 
     public ForStmt ast(){
         return astStmt;

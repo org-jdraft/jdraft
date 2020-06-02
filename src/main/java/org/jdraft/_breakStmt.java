@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BreakStmt;
 
 import java.util.Objects;
@@ -76,10 +77,12 @@ public final class _breakStmt
         return label == null;
     }
 
+    /*
     @Override
     public boolean is(BreakStmt astNode) {
-        return this.astStmt.equals( astNode);
+        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
     }
+     */
 
     public _breakStmt setLabel(SimpleName sn){
         this.astStmt.setLabel( sn );

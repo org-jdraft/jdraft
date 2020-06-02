@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.AssertStmt;
+import com.github.javaparser.ast.stmt.ForStmt;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -170,10 +171,12 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         return message == null;
     }
 
+    /*
     @Override
     public boolean is(AssertStmt astNode) {
-        return this.astStmt.equals( astNode);
+        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
     }
+     */
 
     public AssertStmt ast(){
         return astStmt;

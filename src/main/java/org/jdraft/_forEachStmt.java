@@ -229,10 +229,12 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
         return this;
     }
 
+    /*
     @Override
     public boolean is(ForEachStmt astNode) {
         return this.astStmt.equals( astNode);
     }
+     */
 
     public ForEachStmt ast(){
         return astStmt;

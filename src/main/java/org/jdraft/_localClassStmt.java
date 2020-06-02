@@ -108,11 +108,13 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
         return this;
     }
 
+    /*
     //HMM do I want to equals on the _class??
     @Override
     public boolean is(LocalClassDeclarationStmt astNode) {
         return this.astStmt.equals( astNode);
     }
+     */
 
     public LocalClassDeclarationStmt ast(){
         return astStmt;

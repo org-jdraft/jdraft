@@ -107,10 +107,12 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return new _tryStmt( this.tryStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(TryStmt astNode) {
         return this.tryStmt.equals( astNode);
     }
+     */
 
     @Override
     public boolean is(String...str ){

@@ -191,10 +191,12 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         }
     }
 
+    /*
     @Override
     public boolean is(SwitchStmt astNode) {
         return this.switchStmt.equals(astNode);
     }
+     */
 
     public boolean equals(Object o){
         if( o instanceof _switchStmt){

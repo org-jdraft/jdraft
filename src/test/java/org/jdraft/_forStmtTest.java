@@ -5,6 +5,14 @@ import junit.framework.TestCase;
 
 public class _forStmtTest extends TestCase {
 
+    public void testIs(){
+        _forStmt _f  = _forStmt.of( ()-> {
+            for(int i=0;i<100; i++)
+                System.out.println( i );
+        });
+
+        assertTrue( _f.is("/*comment*/ for(int i=0;i<100;i++) /*comm*/ System.out.println(i);"));
+    }
     public void testEquality(){
         _variablesExpr _ve = _variablesExpr.of("int i, j");
         assertTrue( _ve.is("int j, i"));

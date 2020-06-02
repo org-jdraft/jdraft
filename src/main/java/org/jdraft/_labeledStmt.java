@@ -148,10 +148,12 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         return Objects.equals( this.astStmt.getStatement(), st.ast());
     }
 
+    /*
     @Override
     public boolean is(LabeledStmt astNode) {
         return this.astStmt.equals( astNode);
     }
+     */
 
     public LabeledStmt ast(){
         return astStmt;

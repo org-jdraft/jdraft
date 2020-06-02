@@ -158,10 +158,12 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
         return this;
     }
 
+    /*
     @Override
     public boolean is(IfStmt astNode) {
         return this.astStmt.equals( astNode);
     }
+     */
 
     public IfStmt ast(){
         return astStmt;

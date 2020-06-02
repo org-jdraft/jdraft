@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.SimpleName;
+import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.Objects;
@@ -50,6 +51,13 @@ public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStm
         } catch(Exception e){ }
         return false;
     }
+
+    /*
+    @Override
+    public boolean is(ContinueStmt astNode) {
+        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
+    }
+     */
 
     public String getLabel(){
         if(this.astStmt.getLabel().isPresent()){

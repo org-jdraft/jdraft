@@ -635,6 +635,10 @@ public final class _body implements _java._domain {
             return true;
         }
 
+        default List<_stmt> listStatements(){
+            return listAstStatements().stream().map(s-> _stmt.of(s)).collect(Collectors.toList());
+        }
+
         /**
          * Returns a list of statements
          * NOTE: this lists the "top statements" 

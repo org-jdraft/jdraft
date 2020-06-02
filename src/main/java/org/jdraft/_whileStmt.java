@@ -139,10 +139,12 @@ public final class _whileStmt implements _stmt._controlFlow._conditional<WhileSt
         return this;
     }
 
+    /*
     @Override
     public boolean is(WhileStmt astNode) {
         return this.whileStmt.equals( astNode);
     }
+     */
 
     public WhileStmt ast(){
         return whileStmt;
