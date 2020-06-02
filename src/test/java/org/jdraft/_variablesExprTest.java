@@ -12,10 +12,14 @@ public class _variablesExprTest extends TestCase {
         _vs.isAt(0, "int x");
         _vs.isAt(1, "int y = -2");
         _vs.isAt(2, "int z = 100");
+
+        _vs.has(_variable.of("int x"));
+        _vs.has("int x");
+        _vs.has("int y = -2");
+
         assertTrue( _vs.hasAnnoExpr("A"));
         assertTrue( _vs.hasAnnoExpr("B"));
         assertTrue( _vs.hasAnnoExpr("C"));
-
 
         assertNotNull(_vs.getAnnoExpr("A"));
         assertNotNull(_vs.getAnnoExpr("B"));

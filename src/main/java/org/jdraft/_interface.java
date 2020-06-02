@@ -238,8 +238,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             a -> a.getPackage(),
             (_interface a, _package b) -> a.setPackage(b), PARSER);
 
-    public static _feature._one<_interface, _annoExprs> ANNO_EXPRS = new _feature._one<>(_interface.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+    public static _feature._one<_interface, _annoExprs> ANNOS = new _feature._one<>(_interface.class, _annoExprs.class,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_interface a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 
@@ -279,7 +279,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             .isOrdered(false);
 
     public static _feature._meta<_interface> META = _feature._meta.of(_interface.class,
-            PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, MEMBERS);
+            PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, MEMBERS);
 
     public _interface( ClassOrInterfaceDeclaration astClass ){
         this.astInterface = astClass;

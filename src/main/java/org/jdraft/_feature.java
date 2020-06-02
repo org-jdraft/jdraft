@@ -99,15 +99,17 @@ public interface _feature<_T, _F>{
      */
     enum _id {
 
-        /**{@link org.jdraft._annoExprs._withAnnoExprs}... */
-        ANNO_EXPRS("annoExprs", _annoExprs._withAnnoExprs.class), /** i.e. @Deprecated @NotNull */
+        /**{@link org.jdraft._annoExprs._withAnnoExprs} {@link _annoExprs#ANNOS} {@link _annotation#ANNOS}
+         * {@link _class#ANNOS} {@link _constructor#ANNOS}, {@link _field#ANNOS} {@link _interface#ANNOS}
+         * {@link _method#ANNOS} {@link _param#ANNOS} {@link _receiverParam#ANNOS} {@link _variablesExpr#ANNOS}... */
+        ANNOS("annos", _annoExprs._withAnnoExprs.class), /** i.e. @Deprecated @NotNull */
         /**{@link _annoExprs#ANNOS} */
         ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
 
         /** {@link _newExpr#ANONYMOUS_CLASS_BODY} */
         ANONYMOUS_CLASS_BODY("anonymousClassBody"),
 
-        /** {@link org.jdraft._args._withArgs} {@link _args#ARGS}, {@link _constant#ARGS},  {@link _methodCallExpr#ARGS}
+        /** {@link _args#ARGS}, {@link _constant#ARGS},  {@link _methodCallExpr#ARGS}
          *  {@link _constructorCallStmt#ARGS}, {@link _newExpr#ARGS}*/
         ARGS("args", _args._withArgs.class),
         /** {@link _args#ARGS} */
@@ -203,10 +205,10 @@ public interface _feature<_T, _F>{
         /**{@link _imports#IMPORTS} */
         IMPORT("import"),
 
-        /**{@link _forStmt#INITS}, {@link _arrayInitExpr#INITS}*/
+        /**{@link _arrayInitExpr#INITS}*/
         INITS("inits"),
         /** {@link _variable#INIT} {@link _arrayCreateExpr#INIT}, {@link _arrayInitExpr#INITS},
-         * {@link _field#INIT}, {@link _forStmt#INITS}*/
+         * {@link _field#INIT}, {@link _forStmt#INIT}*/
         INIT("init"),
 
         /** {@link _param#IS_FINAL} */
@@ -614,6 +616,14 @@ public interface _feature<_T, _F>{
         public final List<_feature<_T, ?>> featureList;
 
         /**
+         * Are the order of the features tokens strictly ordered, i.e.
+         * each feature contained in the _META MUST appear in a certain order
+         * (This is ALMOST ALWAYS true, except for {@link _param#META}, where
+         * you can interchange the final operator, and the annotations )
+         */
+        public boolean isStrictlyOrdered = true;
+
+        /**
          * By default, the order of the features is exactly the order they are passed in
          * (THIS IS NOT the case for things like {@link _ternaryExpr}, because it is possible
          * for the "Operator" to be:
@@ -645,6 +655,19 @@ public interface _feature<_T, _F>{
          */
         public _meta<_T> setFeatureOrder(BiFunction<_T, List<_feature<_T, ?>>, List<_feature<_T, ?>>> featureOrder ){
             this.featureOrder = featureOrder;
+            return this;
+        }
+
+        /**
+         * The tokens/features of the META are strictly ordered when they MUST
+         * occur in the same arrangement, otherwise they are loosely ordered when
+         * there can be some variation in the order of features/tokens
+         *
+         * @param isStrictlyOrdered
+         * @return
+         */
+        public _meta<_T> setStrictlyOrdered(Boolean isStrictlyOrdered){
+            this.isStrictlyOrdered = isStrictlyOrdered;
             return this;
         }
 

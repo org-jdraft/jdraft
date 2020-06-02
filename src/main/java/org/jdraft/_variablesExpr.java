@@ -37,15 +37,15 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return new _variablesExpr(Expr.variablesExpr(code));
     }
 
+    public static _feature._one<_variablesExpr, _annoExprs> ANNOS = new _feature._one<>(_variablesExpr.class, _annoExprs.class,
+            _feature._id.ANNOS,
+            a -> a.getAnnoExprs(),
+            (_variablesExpr p, _annoExprs _ccs) -> p.setAnnoExprs(_ccs), PARSER);
+
     public static _feature._one<_variablesExpr, _modifiers> MODIFIERS = new _feature._one<>(_variablesExpr.class, _modifiers.class,
             _feature._id.MODIFIERS,
             a -> a.getModifiers(),
             (_variablesExpr a, _modifiers _m) -> a.setModifiers(_m), PARSER);
-
-    public static _feature._one<_variablesExpr, _annoExprs> ANNO_EXPRS = new _feature._one<>(_variablesExpr.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
-            a -> a.getAnnoExprs(),
-            (_variablesExpr p, _annoExprs _ccs) -> p.setAnnoExprs(_ccs), PARSER);
 
     public static _feature._many<_variablesExpr, _variable> VARIABLES = new _feature._many<>(_variablesExpr.class, _variable.class,
             _feature._id.VARIABLES,
@@ -54,7 +54,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
             (_variablesExpr p, List<_variable> _ccs) -> p.set(_ccs), PARSER, s-> _variable.of(s))
             .isOrdered(false);
 
-    public static _feature._meta<_variablesExpr> META = _feature._meta.of(_variablesExpr.class, ANNO_EXPRS, MODIFIERS, VARIABLES);
+    public static _feature._meta<_variablesExpr> META = _feature._meta.of(_variablesExpr.class, ANNOS, MODIFIERS, VARIABLES);
 
     public VariableDeclarationExpr varDeclEx;
 
@@ -95,6 +95,12 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return false;
     }
 
+    /**
+     * Is the variable at the index equal to the _v
+     * @param index the index of the variable (0-based)
+     * @param _v the target variable
+     * @return true if they are equal, false otherwise
+     */
     public boolean isAt(int index, _variable _v){
         if( index < size() ){
             return getAt(index).equals(_v);
@@ -102,11 +108,38 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return false;
     }
 
+    /**
+     * Is the variable at the index (0-based) equal to the variable
+     * @param index
+     * @param var
+     * @return
+     */
     public boolean isAt(int index, String var){
         if( index < size() ){
             return getAt(index).is(var);
         }
         return false;
+    }
+
+    /**
+     * Is the variable at the index equal to the lambda
+     * @param index
+     * @param _pv
+     * @return
+     */
+    public boolean isAt( int index, Predicate<_variable> _pv){
+        if( index < size() ){
+            return _pv.test( getAt(index) );
+        }
+        return false;
+    }
+
+    public boolean has( String varCode){
+        try{
+            return has( _variable.of(varCode));
+        } catch(Exception e){
+            return false;
+        }
     }
 
     public boolean isFinal(){
@@ -124,8 +157,11 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
     @Override
     public boolean is(VariableDeclarationExpr astNode) {
-        return equals( _variablesExpr.of( astNode));
-        //return this.ast( ).equals(astNode);
+        try {
+            return equals(_variablesExpr.of(astNode));
+        }catch(Exception e){
+            return false;
+        }
     }
 
     public VariableDeclarationExpr ast(){
@@ -143,7 +179,6 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
 
     //does the same as list
     public List<_variable> listVariables(){
-
         return this.varDeclEx.getVariables().stream().map(v-> _variable.of(v)).collect(Collectors.toList());
     }
 

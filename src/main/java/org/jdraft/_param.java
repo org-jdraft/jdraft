@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import java.lang.annotation.Documented;
 import java.util.*;
 import java.util.function.Function;
 
@@ -67,8 +68,8 @@ public final class _param
     }
 
 
-    public static _feature._one<_param, _annoExprs> ANNO_EXPRS = new _feature._one<>(_param.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+    public static _feature._one<_param, _annoExprs> ANNOS = new _feature._one<>(_param.class, _annoExprs.class,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_param p, _annoExprs _ae) -> p.setAnnoExprs(_ae), PARSER);
 
@@ -97,7 +98,8 @@ public final class _param
             a -> a.getName(),
             (_param p, String s) -> p.setName(s), PARSER);
 
-    public static _feature._meta<_param> META = _feature._meta.of(_param.class, ANNO_EXPRS, IS_FINAL, TYPE, IS_VAR_ARG, VAR_ARG_ANNO_EXPRS, NAME);
+    public static _feature._meta<_param> META = _feature._meta.of(_param.class, ANNOS, IS_FINAL, TYPE, IS_VAR_ARG, VAR_ARG_ANNO_EXPRS, NAME)
+            .setStrictlyOrdered(false);
 
     private final Parameter astParameter;
 

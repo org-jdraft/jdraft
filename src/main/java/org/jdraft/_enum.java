@@ -267,7 +267,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             (_enum a, _package b) -> a.setPackage(b), PARSER);
 
     public static _feature._one<_enum, _annoExprs> ANNO_EXPRS = new _feature._one<>(_enum.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_enum a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 

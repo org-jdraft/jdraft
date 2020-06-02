@@ -33,6 +33,11 @@ public final class _typeParam
         return new _typeParam( typeParameter );
     }
 
+    public static _feature._one<_typeParam, _annoExprs> ANNOS = new _feature._one<>(_typeParam.class, _annoExprs.class,
+            _feature._id.ANNOS,
+            a -> a.getAnnoExprs(),
+            (_typeParam p, _annoExprs _ae) -> p.setAnnoExprs(_ae), PARSER);
+
     public static _feature._one<_typeParam, String> NAME = new _feature._one<>(_typeParam.class, String.class,
             _feature._id.TYPE_PARAM,
             a -> a.getName(),
@@ -44,7 +49,7 @@ public final class _typeParam
             a -> a.listExtendsTypeBound(),
             (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs), PARSER, s->_typeRef.of(s)).isOrdered(false);
 
-    public static _feature._meta<_typeParam> META = _feature._meta.of(_typeParam.class, NAME, EXTENDS_TYPE_BOUND);
+    public static _feature._meta<_typeParam> META = _feature._meta.of(_typeParam.class, ANNOS, NAME, EXTENDS_TYPE_BOUND);
 
     private final TypeParameter typeParam;
 

@@ -67,6 +67,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
             (_unaryExpr a, _expr _e) -> a.setExpression(_e), PARSER);
 
     public static _feature._meta<_unaryExpr> META = _feature._meta.of(_unaryExpr.class, OPERATOR, EXPRESSION)
+            .setStrictlyOrdered(false)
             .setFeatureOrder( (_unaryExpr _u, List<_feature<_unaryExpr, ?>> l)->{
                 if( _u.isPrefixOperator()){
                     return Stream.of(OPERATOR, EXPRESSION).collect(Collectors.toList());

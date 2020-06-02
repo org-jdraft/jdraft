@@ -272,12 +272,6 @@ public final class _annoExpr
         return hasEntryPair(name, Expr.stringLiteralExpr(value));
     }
 
-    /*
-    public boolean hasPair(String name, int value){
-        return hasPair( name, Exprs.of(value));
-    }
-     */
-
     public boolean hasEntryPair(String name, Expression value){
         Expression e = this.getEntryValue(name);
         if( e != null ){

@@ -439,8 +439,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             a -> a.getPackage(),
             (_class a, _package b) -> a.setPackage(b), PARSER);
 
-    public static _feature._one<_class, _annoExprs> ANNO_EXPRS = new _feature._one<>(_class.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+    public static _feature._one<_class, _annoExprs> ANNOS = new _feature._one<>(_class.class, _annoExprs.class,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_class a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 
@@ -485,7 +485,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             .isOrdered(false);/** the order of declaring implements doesnt matter { class A implements B, C  === class A implements C, B }*/
 
     public static _feature._meta<_class> META = _feature._meta.of(_class.class,
-            PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);
+            PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);
 
     public _class( ClassOrInterfaceDeclaration astClass ){
         this.astClass = astClass;

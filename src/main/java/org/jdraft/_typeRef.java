@@ -529,12 +529,17 @@ public final class _typeRef<T extends Type>
         }
     }
 
+    public static _feature._one<_typeRef, _annoExprs> ANNOS = new _feature._one<>(_typeRef.class, _annoExprs.class,
+            _feature._id.ANNOS,
+            a -> a.getAnnoExprs(),
+            (_typeRef t, _annoExprs _ae) -> t.setAnnoExprs(_ae), PARSER);
+
     public static _feature._one<_typeRef, Type> TYPE = new _feature._one<>(_typeRef.class, Type.class,
             _feature._id.TYPE,
             a -> a.ast(),
             (_typeRef p, Type t) -> p.setType(t), PARSER);
 
-    public static _feature._meta<_typeRef> META = _feature._meta.of(_typeRef.class, TYPE);
+    public static _feature._meta<_typeRef> META = _feature._meta.of(_typeRef.class, ANNOS, TYPE);
 
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();

@@ -44,6 +44,11 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return new _constant( ecd);
     }
 
+    public static _feature._one<_constant, _annoExprs> ANNOS = new _feature._one<>(_constant.class, _annoExprs.class,
+            _feature._id.ANNOS,
+            a -> a.getAnnoExprs(),
+            (_constant a, _annoExprs o) -> a.setAnnoExprs(o), PARSER);
+
     public static _feature._one<_constant, String> NAME = new _feature._one<>(_constant.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
@@ -63,7 +68,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
             .isOrdered(false);
 
 
-    public static _feature._meta<_constant> META = _feature._meta.of(_constant.class, NAME, ARGS, MEMBERS);
+    public static _feature._meta<_constant> META = _feature._meta.of(_constant.class, ANNOS, NAME, ARGS, MEMBERS);
 
     public _constant( EnumConstantDeclaration ecd ){
         this.astConstant = ecd;

@@ -29,7 +29,8 @@ import java.util.function.Function;
  * (it is also a _member) and maps to an AnnotationMemberDeclaration
  */
 public final class _entry implements _javadocComment._withJavadoc<_entry>,
-        _annoExprs._withAnnoExprs<_entry>, _java._withNameTypeRef<AnnotationMemberDeclaration, _entry>,
+        //_annoExprs._withAnnoExprs<_entry>,
+        _java._withNameTypeRef<AnnotationMemberDeclaration, _entry>,
         _java._declared<AnnotationMemberDeclaration, _entry> {
 
     public static final Function<String, _entry> PARSER = s-> _entry.of(s);

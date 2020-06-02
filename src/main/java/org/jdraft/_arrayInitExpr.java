@@ -161,6 +161,7 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
         return this.aie.getValues();
     }
 
+    /*
     public _arrayInitExpr set(int index, _expr _e){
         aie.getValues().set(index, _e.ast());
         return this;
@@ -170,6 +171,7 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
         aie.getValues().set(index, e);
         return this;
     }
+     */
 
     public ArrayInitializerExpr ast(){
         return aie;

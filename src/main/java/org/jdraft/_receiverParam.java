@@ -48,7 +48,7 @@ public final class _receiverParam
     }
 
     public static _feature._one<_receiverParam, _annoExprs> ANNOS = new _feature._one<>(_receiverParam.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_receiverParam p, _annoExprs _e) -> p.setAnnoExprs(_e), PARSER);
 

@@ -418,8 +418,8 @@ public final class _method
             a -> a.getJavadoc(),
             (_method a, _javadocComment _jd) -> a.setJavadoc(_jd), PARSER);
 
-    public static _feature._one<_method, _annoExprs> ANNO_EXPRS = new _feature._one<>(_method.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+    public static _feature._one<_method, _annoExprs> ANNOS = new _feature._one<>(_method.class, _annoExprs.class,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_method a, _annoExprs _ta) -> a.setAnnoExprs(_ta), PARSER);
 
@@ -464,7 +464,7 @@ public final class _method
             (_method a, _body _b) -> a.setBody(_b), PARSER);
 
     public static _feature._meta<_method> META = _feature._meta.of(_method.class,
-            JAVADOC, ANNO_EXPRS, MODIFIERS, TYPE_PARAMS, TYPE, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
+            JAVADOC, ANNOS, MODIFIERS, TYPE_PARAMS, TYPE, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
 
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();

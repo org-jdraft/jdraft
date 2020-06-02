@@ -118,8 +118,8 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
             a -> a.getJavadoc(),
             (_constructor a, _javadocComment _jd) -> a.setJavadoc(_jd), PARSER);
 
-    public static _feature._one<_constructor, _annoExprs> ANNO_EXPRS = new _feature._one<>(_constructor.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+    public static _feature._one<_constructor, _annoExprs> ANNOS = new _feature._one<>(_constructor.class, _annoExprs.class,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_constructor a, _annoExprs _ta) -> a.setAnnoExprs(_ta), PARSER);
 
@@ -159,7 +159,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
             (_constructor a, _body _b) -> a.setBody(_b), PARSER);
 
     public static _feature._meta<_constructor> META = _feature._meta.of(_constructor.class,
-            JAVADOC, ANNO_EXPRS, MODIFIERS, TYPE_PARAMS, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
+            JAVADOC, ANNOS, MODIFIERS, TYPE_PARAMS, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
 
     private final ConstructorDeclaration astCtor;
 

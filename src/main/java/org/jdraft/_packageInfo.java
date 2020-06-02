@@ -24,6 +24,11 @@ public final class _packageInfo
         return new _packageInfo(astCu);
     }
 
+    public static _feature._one<_packageInfo, _annoExprs> ANNOS = new _feature._one<>(_packageInfo.class, _annoExprs.class,
+            _feature._id.ANNOS,
+            a -> a.getAnnoExprs(),
+            (_packageInfo a, _annoExprs o) -> a.setAnnoExprs(o), PARSER);
+
     public static _feature._one<_packageInfo, _package> PACKAGE = new _feature._one<>(_packageInfo.class, _package.class,
             _feature._id.PACKAGE,
             a -> a.getPackage(),
@@ -35,7 +40,7 @@ public final class _packageInfo
             (_packageInfo a, _imports b) -> a.setImports(b), PARSER);
 
 
-    public static _feature._meta<_packageInfo> META = _feature._meta.of(_packageInfo.class, PACKAGE, IMPORTS );
+    public static _feature._meta<_packageInfo> META = _feature._meta.of(_packageInfo.class, PACKAGE, ANNOS, IMPORTS );
 
     public CompilationUnit astCompUnit;
 

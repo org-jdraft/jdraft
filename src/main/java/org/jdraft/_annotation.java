@@ -544,8 +544,8 @@ public final class _annotation
             a -> a.getPackage(),
             (_annotation a, _package b) -> a.setPackage(b), PARSER);
 
-    public static _feature._one<_annotation, _annoExprs> ANNO_EXPRS = new _feature._one<>(_annotation.class, _annoExprs.class,
-            _feature._id.ANNO_EXPRS,
+    public static _feature._one<_annotation, _annoExprs> ANNOS = new _feature._one<>(_annotation.class, _annoExprs.class,
+            _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
             (_annotation a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
 
@@ -568,7 +568,7 @@ public final class _annotation
             .isOrdered(false);/** for the most part, the order of declarations doesnt matter */
 
     public static _feature._meta<_annotation> META = _feature._meta.of(_annotation.class,
-            PACKAGE, IMPORTS, ANNO_EXPRS, JAVADOC, MODIFIERS, MEMBERS);
+            PACKAGE, IMPORTS, ANNOS, JAVADOC, MODIFIERS, MEMBERS);
 
     /*
     public static _feature._many<_annotation, _annotation._entry> ANNOTATION_ENTRIES = new _feature._many<>(_annotation.class, _annotation._entry.class,

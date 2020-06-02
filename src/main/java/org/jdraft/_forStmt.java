@@ -87,15 +87,15 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
 
 
     public static _feature._one<_forStmt, _variablesExpr> INIT = new _feature._one<>(_forStmt.class, _variablesExpr.class,
-                    _feature._id.COMPARE,
-                    a -> {
-                        List<Expression> es = a.ast().getInitialization();
-                        if( es.isEmpty() ){
-                            return null;
-                        }
-                        return _variablesExpr.of( (VariableDeclarationExpr)es.get(0) );
-                    },
-                    (_forStmt a, _variablesExpr _e) -> a.setCompare(_e), PARSER);
+          _feature._id.INIT,
+          a -> {
+            List<Expression> es = a.ast().getInitialization();
+            if( es.isEmpty() ){
+                return null;
+            }
+            return _variablesExpr.of( (VariableDeclarationExpr)es.get(0) );
+          },
+          (_forStmt a, _variablesExpr _e) -> a.setInit(_e), PARSER);
 
     /*
     public static _feature._many<_forStmt, _expr> INITS = new _feature._many<>(_forStmt.class, _expr.class,
@@ -154,6 +154,13 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         }catch(Exception e){
             return false;
         }
+    }
+
+    public boolean isInit(Predicate<_variablesExpr> _varsMatchFn){
+        if( !this.hasInit() ){
+            return false;
+        }
+        return _varsMatchFn.test(getInit());
     }
 
     public _forStmt setInit(_variablesExpr _ve){
@@ -216,6 +223,10 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return !(this.getCompare() == null);
     }
 
+    public _forStmt removeCompare(){
+        this.astStmt.removeCompare();
+        return this;
+    }
 
     public _expr getCompare(){
         if( this.astStmt.getCompare().isPresent()) {
@@ -255,17 +266,6 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return false;
     }
 
-    /*
-    public boolean isCompare(Class<? extends _expr>...expressionClass ){
-        _expr _ec = getCompare();
-        try{
-            return Arrays.stream(expressionClass).anyMatch(ec -> ec.isAssignableFrom( _ec.getClass() ) );
-        } catch(Exception e){
-            return false;
-        }
-    }
-     */
-
     public boolean isCompare( Predicate<_expr> matchFn){
         _expr _e = getCompare();
         if( _e == null ){
@@ -293,18 +293,18 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return this;
     }
 
-    public _forStmt removeCompare(){
-        this.astStmt.removeCompare();
+    public boolean hasUpdate(){
+        return !this.astStmt.getUpdate().isEmpty();
+    }
+
+    public _forStmt removeUpdate(_expr _ex){
+        this.astStmt.getUpdate().removeIf(u-> Objects.equals(u, _ex.ast()) );
         return this;
     }
 
     public _forStmt forUpdates(Consumer<_expr> consumer){
         listUpdates().forEach(consumer);
         return this;
-    }
-
-    public boolean hasUpdate(){
-        return !this.astStmt.getUpdate().isEmpty();
     }
 
     public _forStmt addUpdates( _expr... _es){
@@ -351,6 +351,22 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         Set<_expr> tup = new HashSet<>();
         tup.addAll( listUpdates());
         return Objects.equals(updates, tup);
+    }
+
+    public boolean hasUpdate( String updateExpr ){
+        String code = "for(;;"+updateExpr+"){}";
+        _forStmt _fs = of(code);
+        Set<_expr> updates = new HashSet<>();
+        updates.addAll( _fs.listUpdates() );
+
+        Set<_expr> tup = new HashSet<>();
+        tup.addAll( listUpdates());
+        updates.removeAll(tup);
+        return updates.isEmpty();
+    }
+
+    public boolean hasUpdate( Predicate<_expr> predicate ){
+        return listUpdates().stream().anyMatch(predicate);
     }
 
     public _forStmt setUpdates(_expr... es){
