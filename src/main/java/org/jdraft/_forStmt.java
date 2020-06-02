@@ -83,7 +83,7 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
             _feature._id.UPDATE,
             a -> a.listUpdates(),
             (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER, s-> _expr.of(s))
-            .isOrdered(true);/** the order of the updates MAY matter */
+            .setOrdered(true);/** the order of the updates MAY matter */
 
 
     public static _feature._one<_forStmt, _variablesExpr> INIT = new _feature._one<>(_forStmt.class, _variablesExpr.class,
@@ -106,7 +106,7 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
             .isOrdered(false); /** the order of the initializers doesnt matter (i.e. int i=0; int j=1 === int j=1, int i=0)
     */
 
-    public static _feature._meta<_forStmt> META = _feature._meta.of(_forStmt.class, INIT, COMPARE, UPDATES, BODY);
+    public static _feature._features<_forStmt> FEATURES = _feature._features.of(_forStmt.class, INIT, COMPARE, UPDATES, BODY);
 
     private ForStmt astStmt;
 

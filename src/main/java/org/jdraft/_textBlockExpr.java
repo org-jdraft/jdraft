@@ -71,7 +71,7 @@ public final class _textBlockExpr implements _expr._literal<TextBlockLiteralExpr
             (_textBlockExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
-    public static _feature._meta<_textBlockExpr> META = _feature._meta.of(_textBlockExpr.class, LITERAL_VALUE);
+    public static _feature._features<_textBlockExpr> FEATURES = _feature._features.of(_textBlockExpr.class, LITERAL_VALUE);
 
     public TextBlockLiteralExpr tble;
 

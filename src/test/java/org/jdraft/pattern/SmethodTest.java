@@ -28,10 +28,10 @@ public class SmethodTest extends TestCase {
 
         //OK here this should just NOT print
         _method _m = $toMap.draft();
-        assertEquals(2, _m.listStatements().size());
+        assertEquals(2, _m.listAstStatements().size());
 
         _m = $toMap.draft("fields", false);
-        assertEquals(2, _m.listStatements().size());
+        assertEquals(2, _m.listAstStatements().size());
 
 
 

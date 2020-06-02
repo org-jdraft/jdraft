@@ -55,7 +55,7 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
         // we can get the statements in the method
         // NOTE: Statements are "unwrapped" JavaParser Statement types, (no corresponding jdraft _models)
         // Also, Comments DO NOT count as Statements
-        assertTrue( _m.getStatement(0 ) instanceof ExpressionStmt); // the first Statement is:
+        assertTrue( _m.getAstStatement(0 ) instanceof ExpressionStmt); // the first Statement is:
         // _class _c = _class.of( ANestedClass.class) ;
 
         // ...an "ExpressionStmt" is a JavaParser Statement implementation... later we will discuss how to

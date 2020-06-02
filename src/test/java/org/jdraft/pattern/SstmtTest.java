@@ -49,23 +49,23 @@ public class SstmtTest extends TestCase {
         _class _c = (_class)$println.unComment(C.class);
         _method _m = _c.getMethod("m");
         //    verify the Statement I uncommented
-        assertEquals( $println.draft("any", 1).ast(), _m.getStatement(0));
+        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0));
         //System.out.println( _c );
 
         // 2) comment out (i.e. replace with an emptyStmt and a comment
         $println.commentOut(_c);
 
         //   verify I have an emptyStatement( with comment) where the old println was
-        assertTrue( _m.getStatement(0).isEmptyStmt() );
-        assertEquals(1, _m.listStatements().size());
+        assertTrue( _m.getAstStatement(0).isEmptyStmt() );
+        assertEquals(1, _m.listAstStatements().size());
         //System.out.println( _c );
 
         // 3) unComment
         $println.unComment(_c);
         //    verify the Statement I uncommented
-        assertEquals( $println.draft("any", 1).ast(), _m.getStatement(0));
+        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0));
         //    verify I removed the Empty statement
-        assertEquals(1, _m.listStatements().size());
+        assertEquals(1, _m.listAstStatements().size());
         //System.out.println( _c );
     }
 
@@ -86,7 +86,7 @@ public class SstmtTest extends TestCase {
         _method _m = _c.getMethod("m");
         //    verify the Statement I uncommented
         //System.out.println( _c );
-        assertEquals( $println.draft("any", 1).ast(), _m.getStatement(0).asBlockStmt().getStatement(0));
+        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0).asBlockStmt().getStatement(0));
         //System.out.println( _c );
 
         // 2) comment out (i.e. replace with an blockStmt with a comment
@@ -95,17 +95,17 @@ public class SstmtTest extends TestCase {
         //System.out.println( _c );
 
         //   verify I have an emptyStatement( with comment) where the old println was
-        assertTrue( _m.getStatement(0).isBlockStmt() );
-        assertTrue( _m.getStatement(0).asBlockStmt().isEmpty() );
-        assertEquals(1, _m.listStatements().size());
+        assertTrue( _m.getAstStatement(0).isBlockStmt() );
+        assertTrue( _m.getAstStatement(0).asBlockStmt().isEmpty() );
+        assertEquals(1, _m.listAstStatements().size());
         //System.out.println( _c );
 
         // 3) unComment
         $println.unComment(_c);
         //    verify the Statement I uncommented
-        assertEquals( $println.draft("any", 1).ast(), _m.getStatement(0).asBlockStmt().getStatement(0));
+        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0).asBlockStmt().getStatement(0));
         //    verify I removed the Empty statement
-        assertEquals(1, _m.listStatements().size());
+        assertEquals(1, _m.listAstStatements().size());
         //System.out.println( _c );
     }
 

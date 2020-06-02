@@ -88,7 +88,7 @@ public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
             a -> a.getBody(),
             (_doStmt a, _body b) -> a.setBody(b), PARSER);
 
-    public static _feature._meta<_doStmt> META = _feature._meta.of(_doStmt.class, CONDITION, BODY );
+    public static _feature._features<_doStmt> FEATURES = _feature._features.of(_doStmt.class, CONDITION, BODY );
 
     private DoStmt astStmt;
 

@@ -46,6 +46,12 @@ public interface _feature<_T, _F>{
     _id getFeatureId();
 
     /**
+     * for a valid entity, is this feature allowed to be null?
+     * @return whether this feature is allowed to be null
+     */
+    boolean isNullable();
+
+    /**
      * A getter function for retrieving the Feature from the target class instance
      * @return function for retrieving the feature instance from the target instance
      */
@@ -412,13 +418,6 @@ public interface _feature<_T, _F>{
         }
     }
 
-    //TODO multiOrdered
-    //    get(int index)
-    //    set(int index)
-    //    replace(old, new)
-
-    //TODO multiBag
-    //     replace(old, new)
     /**
      *
      * @param <_T>
@@ -443,6 +442,9 @@ public interface _feature<_T, _F>{
          * this is TRUE for things like {@link _params}, {@link _args}
          */
         public Boolean isOrdered = false;
+
+        /** Is this feature allowed to be null (and the target be valid)?*/
+        public Boolean nullable = false;
 
         public final _id featureId;
         public final _id featureElementId;
@@ -470,8 +472,13 @@ public interface _feature<_T, _F>{
             return this;
         }
 
-        public _many<_T, _E> isOrdered(Boolean isOrdered){
+        public _many<_T, _E> setOrdered(Boolean isOrdered){
             this.isOrdered = isOrdered;
+            return this;
+        }
+
+        public _many<_T, _E> setNullable(Boolean isNullable){
+            this.nullable = isNullable;
             return this;
         }
 
@@ -487,6 +494,11 @@ public interface _feature<_T, _F>{
 
         public _id getFeatureId(){
             return this.featureId;
+        }
+
+        @Override
+        public boolean isNullable() {
+            return this.nullable;
         }
 
         public Function<_T, List<_E>> getter(){
@@ -542,6 +554,7 @@ public interface _feature<_T, _F>{
         public final Function<_T, _F> getter;
         public final BiConsumer<_T, _F> setter;
         public final Function<String,_T> targetParser;
+        public Boolean nullable;
 
         public _one(Class<_T> targetClass, Class<_F>featureClass, _id feature, Function<_T,_F> getter, BiConsumer<_T,_F> setter, Function<String, _T> targetParser){
             this.targetClass = targetClass;
@@ -550,6 +563,15 @@ public interface _feature<_T, _F>{
             this.getter = getter;
             this.setter = setter;
             this.targetParser = targetParser;
+        }
+
+        public boolean isNullable(){
+            return this.nullable;
+        }
+
+        public _one<_T, _F> setNullable(Boolean isNullable){
+            this.nullable = isNullable;
+            return this;
         }
 
         public Class<_T> getTargetClass(){
@@ -595,14 +617,14 @@ public interface _feature<_T, _F>{
      *
      * for example an {@link _annoExpr} has
      *
-     * @see _annoExpr#META
+     * @see _annoExpr#FEATURES
      *
      * @param <_T>
      */
-    class _meta<_T>{
+    class _features<_T>{
 
-        public static <_T> _meta<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
-            return new _meta<>(targetClass, features);
+        public static <_T> _features<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
+            return new _features<>(targetClass, features);
         }
 
         /** Class of the Container of the feature (i.e. {@link _method} class for the {@link _method#NAME} feature) */
@@ -618,7 +640,7 @@ public interface _feature<_T, _F>{
         /**
          * Are the order of the features tokens strictly ordered, i.e.
          * each feature contained in the _META MUST appear in a certain order
-         * (This is ALMOST ALWAYS true, except for {@link _param#META}, where
+         * (This is ALMOST ALWAYS true, except for {@link _param#FEATURES}, where
          * you can interchange the final operator, and the annotations )
          */
         public boolean isStrictlyOrdered = true;
@@ -638,7 +660,7 @@ public interface _feature<_T, _F>{
         public BiFunction<_T, List<_feature<_T, ?>>, List<_feature<_T, ?>>> featureOrder =
                 (_T instance, List<_feature<_T, ?>> baseOrder) -> baseOrder;
 
-        private _meta(Class<_T> targetClass, _feature<_T, ?>... features ){
+        private _features(Class<_T> targetClass, _feature<_T, ?>... features ){
             this.targetClass = targetClass;
             this.featureList = Stream.of(features).collect(Collectors.toList());
         }
@@ -653,7 +675,7 @@ public interface _feature<_T, _F>{
          * @param featureOrder
          * @return
          */
-        public _meta<_T> setFeatureOrder(BiFunction<_T, List<_feature<_T, ?>>, List<_feature<_T, ?>>> featureOrder ){
+        public _features<_T> setFeatureOrder(BiFunction<_T, List<_feature<_T, ?>>, List<_feature<_T, ?>>> featureOrder ){
             this.featureOrder = featureOrder;
             return this;
         }
@@ -666,9 +688,28 @@ public interface _feature<_T, _F>{
          * @param isStrictlyOrdered
          * @return
          */
-        public _meta<_T> setStrictlyOrdered(Boolean isStrictlyOrdered){
+        public _features<_T> setStrictlyOrdered(Boolean isStrictlyOrdered){
             this.isStrictlyOrdered = isStrictlyOrdered;
             return this;
+        }
+
+        /**
+         * Build a map with the key as a feature and the value as the feature value from instance t
+         * @param targetType the targetType to "scrape" for features to put in the map
+         * @return the featureMap
+         */
+        public Map<_feature<_T, ?>, Object> featureMap(_T targetType){
+            Map<_feature<_T, ?>, Object> instanceMap = new HashMap<>();
+            list(targetType).forEach(f-> instanceMap.put( f, f.get(targetType)));
+            return instanceMap;
+        }
+
+        /**
+         * The size (number of features)
+         * @return the size (or number of features)
+         */
+        public int size(){
+            return this.featureList.size();
         }
 
         /**
@@ -695,7 +736,7 @@ public interface _feature<_T, _F>{
          * @param actionFn the action to take with the matching features
          * @return the immutable meta<_T>
          */
-        public _meta<_T> forEach(_T instance, Predicate<_feature<_T, ?>> matchFn, Consumer<_feature<_T,?>> actionFn){
+        public _features<_T> forEach(_T instance, Predicate<_feature<_T, ?>> matchFn, Consumer<_feature<_T,?>> actionFn){
             list(instance, matchFn).forEach(actionFn);
             return this;
         }
@@ -705,7 +746,7 @@ public interface _feature<_T, _F>{
          * @param actionFn
          * @return
          */
-        public _meta<_T> forEach(_T instance, Consumer<_feature<_T,?>> actionFn){
+        public _features<_T> forEach(_T instance, Consumer<_feature<_T,?>> actionFn){
             list(instance).forEach(actionFn);
             return this;
         }

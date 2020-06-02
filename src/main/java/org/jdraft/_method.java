@@ -433,7 +433,7 @@ public final class _method
             a -> a.getBody(),
             (_method a, _body _b) -> a.setBody(_b), PARSER);
 
-    public static _feature._meta<_method> META = _feature._meta.of(_method.class,
+    public static _feature._features<_method> FEATURES = _feature._features.of(_method.class,
             JAVADOC, ANNOS, MODIFIERS, TYPE_PARAMS, TYPE, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
 
     /*

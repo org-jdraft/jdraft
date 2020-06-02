@@ -142,10 +142,10 @@ public class _methodTest extends TestCase {
         assertNotNull( _m.firstExpr(BinaryExpr.class, b-> b.getRight().isNameExpr()));
         assertNull( _m.firstExpr(CastExpr.class) );
         */
-        assertNotNull( _m.firstStmt(Stmt.Classes.ASSERT));
-        assertNotNull( _m.firstStmt(Stmt.Classes.ASSERT, a-> a.getCheck().isBinaryExpr()));
+        assertNotNull( _m.firstAstStmt(Stmt.Classes.ASSERT));
+        assertNotNull( _m.firstAstStmt(Stmt.Classes.ASSERT, a-> a.getCheck().isBinaryExpr()));
         
-        assertNull( _m.firstStmt(Stmt.Classes.RETURN));
+        assertNull( _m.firstAstStmt(Stmt.Classes.RETURN));
 
     }
     
@@ -285,7 +285,7 @@ public class _methodTest extends TestCase {
         _m.ast().isDefault();
         assertTrue(_m.isPublic());
         assertTrue(_m.isVoid());
-        assertEquals(_m.getBody().getStatement(0), Stmt.of( ()-> System.out.println("Hello World!")));
+        assertEquals(_m.getBody().getAstStatement(0), Stmt.of( ()-> System.out.println("Hello World!")));
         System.out.println(_m);
 
         _m = _method.of( new Object(){ 

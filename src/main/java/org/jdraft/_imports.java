@@ -4,7 +4,6 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.TypeDeclaration;
-import org.jdraft.text.Text;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -60,9 +59,9 @@ public final class _imports implements _java._set<ImportDeclaration, _import, _i
             _feature._id.IMPORTS, _feature._id.IMPORT,
             a->a.list(),
             (_imports a, List<_import> es)-> a.set(es), PARSER, s-> _import.of(s))
-            .isOrdered(false);
+            .setOrdered(false);
 
-    public static _feature._meta<_imports> META = _feature._meta.of(_imports.class, IMPORTS);
+    public static _feature._features<_imports> FEATURES = _feature._features.of(_imports.class, IMPORTS);
 
     public CompilationUnit astCompilationUnit;
 

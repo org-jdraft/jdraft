@@ -187,7 +187,7 @@ public class EclipseJDTTest{ //extends TestCase
         _c.getMethod("main").add( ()->System.out.println("Hello, World!") );
         //System.out.println( _c );
         assertEquals( Stmt.of( ()->System.out.println("Hello, World!")),
-                _c.getMethod("main").getStatement(0) );
+                _c.getMethod("main").getAstStatement(0) );
     }
 
     /**
@@ -257,7 +257,7 @@ public class EclipseJDTTest{ //extends TestCase
 
         //System.out.println(_c);
         assertEquals( Stmt.of( ()->System.out.println("Hello, World!")),
-                _c.getMethod("main").getStatement(0));
+                _c.getMethod("main").getAstStatement(0));
     }
 
     /**

@@ -238,7 +238,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
             a -> a.getRight(),
             (_binaryExpr a, _expr _e) -> a.setRight(_e), PARSER);
 
-    public static _feature._meta<_binaryExpr> META = _feature._meta.of(_binaryExpr.class, LEFT, OPERATOR, RIGHT);
+    public static _feature._features<_binaryExpr> FEATURES = _feature._features.of(_binaryExpr.class, LEFT, OPERATOR, RIGHT);
 
     public BinaryExpr astBe;
 

@@ -40,7 +40,7 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
             a -> a.getIdentifier(),
             (_methodRefExpr a, String s) -> a.setIdentifier(s), PARSER);
 
-    public static _feature._meta<_methodRefExpr> META = _feature._meta.of(_methodRefExpr.class, SCOPE, TYPE_ARGS, IDENTIFIER );
+    public static _feature._features<_methodRefExpr> FEATURES = _feature._features.of(_methodRefExpr.class, SCOPE, TYPE_ARGS, IDENTIFIER );
 
     public MethodReferenceExpr mre;
 

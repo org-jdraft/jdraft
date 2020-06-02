@@ -8,8 +8,6 @@ import java.util.function.Function;
 
 public enum _modifier implements _java._node<Modifier, _modifier> {
 
-
-
     /** Making the internal AST modifiers more accessible */
     PUBLIC( com.github.javaparser.ast.Modifier.publicModifier(), java.lang.reflect.Modifier.PUBLIC ),
     PRIVATE( com.github.javaparser.ast.Modifier.privateModifier(), java.lang.reflect.Modifier.PRIVATE ),
@@ -28,7 +26,7 @@ public enum _modifier implements _java._node<Modifier, _modifier> {
 
     public static final Function<String, _modifier> PARSER = s-> _modifier.of(s);
 
-    public static _feature._meta<_modifier> META = _feature._meta.of(_modifier.class);
+    public static _feature._features<_modifier> FEATURES = _feature._features.of(_modifier.class);
 
     public final int bitMask;
 

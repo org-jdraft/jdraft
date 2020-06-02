@@ -26,7 +26,7 @@ public final class _stringExpr implements _expr._literal<StringLiteralExpr, _str
             a -> a.valueAsString(),
             (_stringExpr a, String value) -> a.ast().setValue(value), PARSER);
 
-    public static _feature._meta<_stringExpr> META = _feature._meta.of(_stringExpr.class, LITERAL_VALUE);
+    public static _feature._features<_stringExpr> FEATURES = _feature._features.of(_stringExpr.class, LITERAL_VALUE);
 
     public StringLiteralExpr se;
 

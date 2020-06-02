@@ -30,7 +30,7 @@ public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStm
             a -> a.getLabel(),
             (_continueStmt a, String s) -> a.setLabel(s), PARSER);
 
-    public static _feature._meta<_continueStmt> META = _feature._meta.of(_continueStmt.class, LABEL);
+    public static _feature._features<_continueStmt> FEATURES = _feature._features.of(_continueStmt.class, LABEL);
 
     private ContinueStmt astStmt;
 

@@ -78,7 +78,7 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
             a -> a.getStatement(),
             (_labeledStmt a, _stmt _s) -> a.setStatement(_s), PARSER);
 
-    public static _feature._meta<_labeledStmt> META = _feature._meta.of(_labeledStmt.class, LABEL, STATEMENT );
+    public static _feature._features<_labeledStmt> FEATURES = _feature._features.of(_labeledStmt.class, LABEL, STATEMENT );
 
     private LabeledStmt astStmt;
 

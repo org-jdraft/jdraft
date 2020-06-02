@@ -90,7 +90,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
             a -> a.getExpression(),
             (_castExpr a, _expr _e) -> a.setExpression(_e), PARSER);
 
-    public static _feature._meta<_castExpr> META = _feature._meta.of(_castExpr.class, TYPE, EXPRESSION);
+    public static _feature._features<_castExpr> FEATURES = _feature._features.of(_castExpr.class, TYPE, EXPRESSION);
 
     public CastExpr ce;
 

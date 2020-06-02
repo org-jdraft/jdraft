@@ -17,7 +17,7 @@ public class _bodyTest extends TestCase {
     public void testAddBodyToNonImplementedMethod(){
         _method m = _method.of("public void m();");
         m.add( "System.out.println(1);");
-        assertEquals( Stmt.of(()->System.out.println(1)), m.getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(1)), m.getAstStatement(0));
         m.getBody().clear();
     }
 

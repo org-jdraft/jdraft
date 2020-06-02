@@ -90,9 +90,9 @@ public final class _project {
             _feature._id.CODE_UNITS, _feature._id.CODE_UNIT,
             a->a.list(),
             (_project a, List<_codeUnit> ps)-> a.set(ps), PARSER, s-> _codeUnit.of(s))
-            .isOrdered(false);
+            .setOrdered(false);
 
-    public static _feature._meta<_project> META = _feature._meta.of(_project.class, CODE_UNITS);
+    public static _feature._features<_project> FEATURES = _feature._features.of(_project.class, CODE_UNITS);
 
     public _project(){
         this.cache = new ArrayList<>();

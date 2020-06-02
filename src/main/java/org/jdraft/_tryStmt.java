@@ -82,15 +82,15 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
             _feature._id.WITH_RESOURCES,
             _feature._id.WITH_RESOURCE,
             a -> a.listWithResources(),
-            (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses), PARSER, s->_expr.of(s)).isOrdered(false);
+            (_tryStmt p, List<_expr> _ses) -> p.setWithResources(_ses), PARSER, s->_expr.of(s)).setOrdered(false);
 
     public static _feature._many<_tryStmt, _catch> CATCH_CLAUSES = new _feature._many<>(_tryStmt.class, _catch.class,
             _feature._id.CATCH_CLAUSES,
             _feature._id.CATCH_CLAUSE,
             a -> a.listCatches(),
-            (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs), PARSER, s->_catch.of(s)).isOrdered(false);
+            (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs), PARSER, s->_catch.of(s)).setOrdered(false);
 
-    public static _feature._meta<_tryStmt> META = _feature._meta.of(_tryStmt.class, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
+    public static _feature._features<_tryStmt> FEATURES = _feature._features.of(_tryStmt.class, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
 
     private TryStmt tryStmt;
 

@@ -62,7 +62,7 @@ public final class _receiverParam
             a -> a.getName(),
             (_receiverParam p, String s) -> p.setName(s), PARSER);
 
-    public static _feature._meta<_receiverParam> META = _feature._meta.of(_receiverParam.class, ANNOS, TYPE, NAME );
+    public static _feature._features<_receiverParam> FEATURES = _feature._features.of(_receiverParam.class, ANNOS, TYPE, NAME );
 
     public final ReceiverParameter astReceiverParam;
 

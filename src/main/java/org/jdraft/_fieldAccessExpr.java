@@ -93,7 +93,7 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
             (_fieldAccessExpr a, _typeArgs _e) -> a.setTypeArgs(_e), PARSER);
 
 
-    public static _feature._meta<_fieldAccessExpr> META = _feature._meta.of(_fieldAccessExpr.class, SCOPE, TYPE_ARGS, NAME );
+    public static _feature._features<_fieldAccessExpr> FEATURES = _feature._features.of(_fieldAccessExpr.class, SCOPE, TYPE_ARGS, NAME );
 
     public FieldAccessExpr fe;
 

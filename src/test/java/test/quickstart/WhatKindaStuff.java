@@ -50,7 +50,7 @@ public class WhatKindaStuff extends TestCase {
         //System.out.println(hashCode);
 
         //print the name and line counts for each non-static method
-        $method.not($.STATIC).forEachIn(A.class, m-> System.out.println("  "+ m + ":" + m.listStatements().size()));
+        $method.not($.STATIC).forEachIn(A.class, m-> System.out.println("  "+ m + ":" + m.listAstStatements().size()));
 
         //comment all (System.out.println() statements in the code and return the modified code
         String src = $stmt.of("System.out.println($any$);").removeIn(A.class).toString();

@@ -77,7 +77,7 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
             a -> a.getExpression(),
             (_parenthesizedExpr p, _expr _e) -> p.setExpression(_e), PARSER);
 
-    public static _feature._meta<_parenthesizedExpr> META = _feature._meta.of(_parenthesizedExpr.class, EXPRESSION);
+    public static _feature._features<_parenthesizedExpr> FEATURES = _feature._features.of(_parenthesizedExpr.class, EXPRESSION);
 
     public EnclosedExpr ee;
 

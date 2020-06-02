@@ -92,7 +92,7 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
             a -> a.getArgs(),
             (_methodCallExpr a, _args _a) -> a.setArgs(_a), PARSER);
 
-    public static _feature._meta<_methodCallExpr> META = _feature._meta.of(_methodCallExpr.class, SCOPE, TYPE_ARGS, NAME, ARGS );
+    public static _feature._features<_methodCallExpr> FEATURES = _feature._features.of(_methodCallExpr.class, SCOPE, TYPE_ARGS, NAME, ARGS );
 
     public MethodCallExpr mce;
 

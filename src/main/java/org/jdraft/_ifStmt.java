@@ -86,7 +86,7 @@ public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _i
             a -> a.getElse(),
             (_ifStmt a, _stmt b) -> a.setElse(b), PARSER);
 
-    public static _feature._meta<_ifStmt> META = _feature._meta.of(_ifStmt.class, CONDITION, THEN, ELSE );
+    public static _feature._features<_ifStmt> FEATURES = _feature._features.of(_ifStmt.class, CONDITION, THEN, ELSE );
 
     private IfStmt astStmt;
 

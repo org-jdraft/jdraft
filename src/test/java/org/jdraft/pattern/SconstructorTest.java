@@ -377,7 +377,7 @@ public class SconstructorTest extends TestCase {
         });
 
         assertTrue($c.draft().getBody().isEmpty());
-        assertEquals($c.draft("label", true).getBody().getStatement(0),
+        assertEquals($c.draft("label", true).getBody().getAstStatement(0),
                 Stmt.of("System.out.println(12);"));
     }
     public void testCtorLabelForAddingCode(){
@@ -389,16 +389,16 @@ public class SconstructorTest extends TestCase {
 
         assertTrue($c.draft().getBody().isEmpty());
         assertEquals( Stmt.of("System.out.println(1);"),
-            $c.draft("label", "System.out.println(1);").getBody().getStatement(0));
+            $c.draft("label", "System.out.println(1);").getBody().getAstStatement(0));
 
         //
         assertEquals( Stmt.of("System.out.println(1);"),
-            $c.draft("label", Stmt.of("System.out.println(1);")).getBody().getStatement(0));
+            $c.draft("label", Stmt.of("System.out.println(1);")).getBody().getAstStatement(0));
 
         //block Statement
         //assertEquals( Stmt.of("{ System.out.println(1); }"),
         assertEquals( Stmt.of("System.out.println(1); "),
-                $c.draft("label", Stmt.of("System.out.println(1);")).getBody().getStatement(0));
+                $c.draft("label", Stmt.of("System.out.println(1);")).getBody().getAstStatement(0));
             //$c.draft("label", Stmt.blockStmt("{ System.out.println(1); }")).getBody().getStatement(0));
 
 

@@ -54,7 +54,7 @@ public final class _constructorCallStmt
             (_constructorCallStmt a, _typeArgs _e) -> a.setTypeArgs(_e), PARSER);
 
 
-    public static _feature._meta<_constructorCallStmt> META = _feature._meta.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, ARGS);
+    public static _feature._features<_constructorCallStmt> FEATURES = _feature._features.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, ARGS);
 
     private ExplicitConstructorInvocationStmt astStmt;
 

@@ -93,14 +93,14 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
             _feature._id.ARRAY_DIMENSION,
             a -> ((_newArrayExpr)a).list(),
             (_newArrayExpr a, List<_arrayDimension> _ads) -> a.setArrayDimensions(_ads), PARSER, s-> _arrayDimension.of(s))
-            .isOrdered(true); /** the order of the dimension declarations matters { int[100][200] =/= int [200][100] } */
+            .setOrdered(true); /** the order of the dimension declarations matters { int[100][200] =/= int [200][100] } */
 
     public static _feature._one<_newArrayExpr, _arrayInitExpr> INIT = new _feature._one<>(_newArrayExpr.class, _arrayInitExpr.class,
             _feature._id.INIT,
             a -> a.getInit(),
             (_newArrayExpr a, _arrayInitExpr _t) -> a.setInit(_t), PARSER);
 
-    public static _feature._meta<_newArrayExpr> META = _feature._meta.of(_newArrayExpr.class, TYPE, DIMENSIONS, INIT );
+    public static _feature._features<_newArrayExpr> FEATURES = _feature._features.of(_newArrayExpr.class, TYPE, DIMENSIONS, INIT );
 
     public ArrayCreationExpr astNode;
 

@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.comments.LineComment;
 import org.jdraft.text.Text;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -37,7 +36,7 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
             (_lineComment a, String text) -> a.setText(text), PARSER);
 
 
-    public static _feature._meta<_lineComment> META = _feature._meta.of(_lineComment.class, TEXT);
+    public static _feature._features<_lineComment> FEATURES = _feature._features.of(_lineComment.class, TEXT);
 
     public LineComment astComment;
 

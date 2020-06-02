@@ -65,10 +65,10 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
             a -> a.listMembers(),
             (_constant a, List<_java._member> mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_constant.class, s))
             .featureImplementations(_method.class, _field.class)
-            .isOrdered(false);
+            .setOrdered(false);
 
 
-    public static _feature._meta<_constant> META = _feature._meta.of(_constant.class, ANNOS, NAME, ARGS, MEMBERS);
+    public static _feature._features<_constant> FEATURES = _feature._features.of(_constant.class, ANNOS, NAME, ARGS, MEMBERS);
 
     public _constant( EnumConstantDeclaration ecd ){
         this.astConstant = ecd;

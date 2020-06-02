@@ -54,9 +54,9 @@ public final class _typeParams
             _feature._id.TYPE_PARAM,
             a -> a.list(),
             (_typeParams p, List<_typeParam> _tps) -> p.setTypeParams(_tps), PARSER, s-> _typeParam.of(s))
-            .isOrdered(false);
+            .setOrdered(false);
 
-    public static _feature._meta<_typeParams> META = _feature._meta.of(_typeParams.class, TYPE_PARAMS);
+    public static _feature._features<_typeParams> FEATURES = _feature._features.of(_typeParams.class, TYPE_PARAMS);
 
     private final NodeWithTypeParameters astNodeWithTypeParams;
 

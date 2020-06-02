@@ -168,7 +168,7 @@ public class SbodyTest extends TestCase {
         //SHOW
         _body _bd = $b.draft( "label", true );
         System.out.println( _bd );
-        assertTrue( $stmt.of("System.out.println(2);").matches( _bd.getStatement(0)) );
+        assertTrue( $stmt.of("System.out.println(2);").matches( _bd.getAstStatement(0)) );
         
         //HIDE
         _bd = $b.draft();
@@ -176,7 +176,7 @@ public class SbodyTest extends TestCase {
         
         //OVERRIDE
         _bd = $b.draft( "label", Stmt.of("assert true;") );
-        assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
+        assertTrue( $stmt.of("assert true;").matches( _bd.getAstStatement(0)) );
     }
     
     public void testCompose$LabelBlock(){
@@ -194,12 +194,12 @@ public class SbodyTest extends TestCase {
         
         //OVERRIDE (with single statement)
         _bd = $b.draft( "block", Stmt.of("assert true;") );
-        assertTrue( $stmt.of("assert true;").matches( _bd.getStatement(0)) );                
+        assertTrue( $stmt.of("assert true;").matches( _bd.getAstStatement(0)) );
         
         //OVERRIDE (with block statement)
         _bd = $b.draft( "block", Stmt.of("{ a(); b(); }") );
 
-        assertTrue( $stmt.of("{ a(); b();}").matches( _bd.getStatement(0)) );
+        assertTrue( $stmt.of("{ a(); b();}").matches( _bd.getAstStatement(0)) );
         //assertTrue( $stmt.of("b();").matches( _bd.getStatement(1)) );
 
         //assertTrue( $stmt.of("a();").matches( _bd.getStatement(0).asBlockStmt().getStatement(0)) );

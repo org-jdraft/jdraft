@@ -90,7 +90,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
             a -> a.getElse(),
             (_ternaryExpr p, _expr _es) -> p.setElse(_es), PARSER);
 
-    public static _feature._meta<_ternaryExpr> META = _feature._meta.of(_ternaryExpr.class, CONDITION, THEN, ELSE );
+    public static _feature._features<_ternaryExpr> FEATURES = _feature._features.of(_ternaryExpr.class, CONDITION, THEN, ELSE );
 
     public ConditionalExpr ce;
 

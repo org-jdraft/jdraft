@@ -93,7 +93,7 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
             a -> a.getVariables(),
             (_forEachStmt a, _variablesExpr _e) -> a.setVariable(_e), PARSER);
 
-    public static _feature._meta<_forEachStmt> META = _feature._meta.of(_forEachStmt.class, VARIABLES, ITERABLE, BODY);
+    public static _feature._features<_forEachStmt> FEATURES = _feature._features.of(_forEachStmt.class, VARIABLES, ITERABLE, BODY);
 
     private ForEachStmt astStmt;
 

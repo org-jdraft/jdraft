@@ -27,13 +27,13 @@ public class StmtTest extends TestCase {
         _class _c = _class.of(C.class);
         _method _m = _c.getMethod("m");
 
-        assertEquals( null, Stmt.previous( _m.getStatement(0)));
-        assertEquals( Stmt.of("assert(1==1);"), Stmt.previous( _m.getStatement(1)));
-        assertEquals( Stmt.of("assert(2==2);"), Stmt.previous( _m.getStatement(2)));
+        assertEquals( null, Stmt.previous( _m.getAstStatement(0)));
+        assertEquals( Stmt.of("assert(1==1);"), Stmt.previous( _m.getAstStatement(1)));
+        assertEquals( Stmt.of("assert(2==2);"), Stmt.previous( _m.getAstStatement(2)));
 
-        assertEquals( Stmt.of("assert(2==2);"), Stmt.next( _m.getStatement(0)));
-        assertEquals( Stmt.of("assert(3==3);"), Stmt.next( _m.getStatement(1)));
-        assertEquals( null, Stmt.next( _m.getStatement(2)));
+        assertEquals( Stmt.of("assert(2==2);"), Stmt.next( _m.getAstStatement(0)));
+        assertEquals( Stmt.of("assert(3==3);"), Stmt.next( _m.getAstStatement(1)));
+        assertEquals( null, Stmt.next( _m.getAstStatement(2)));
 
     }
 
@@ -54,18 +54,18 @@ public class StmtTest extends TestCase {
 
         Stmt.addStatementsBefore(first, Stmt.of( ()->System.out.println(1) ) );
         Stmt.addStatementsAfter(first, Stmt.of( ()->System.out.println(2)));
-        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
-        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getStatement(1));
-        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getStatement(2));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getAstStatement(0));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getAstStatement(1));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getAstStatement(2));
 
         LabeledStmt second = (LabeledStmt) ((_labeledStmt)$.labeledStmt("secondStmt:{}").firstIn(_c)).ast();
         Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ) );
         Stmt.addStatementsAfter(second, Stmt.of( ()->System.out.println(2)));
 
-        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
-        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
-        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getStatement(2));
-        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(3));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getAstStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getAstStatement(1));
+        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getAstStatement(2));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getAstStatement(3));
     }
 
     public void testAddBeforeAfterMulti(){
@@ -91,11 +91,11 @@ public class StmtTest extends TestCase {
 
         //System.out.println( _c );
 
-        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getStatement(0));
-        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getStatement(1));
-        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getStatement(2));
-        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m").getStatement(3));
-        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m").getStatement(4));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m").getAstStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m").getAstStatement(1));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m").getAstStatement(2));
+        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m").getAstStatement(3));
+        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m").getAstStatement(4));
 
         LabeledStmt second = (LabeledStmt) ((_labeledStmt)$.labeledStmt("secondStmt:{}").firstIn(_c)).ast();
         Stmt.addStatementsBefore(second, Stmt.of( ()->System.out.println(1) ),
@@ -104,12 +104,12 @@ public class StmtTest extends TestCase {
         Stmt.addStatementsAfter(second, Stmt.of( ()->System.out.println(3)),
                 Stmt.of( ()->System.out.println(4)));
 
-        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getStatement(0));
-        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getStatement(1));
-        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getStatement(2));
-        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getStatement(3));
-        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m2").getStatement(4));
-        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m2").getStatement(5));
+        assertEquals( Stmt.of("firstStmt:{}"), _c.getMethod("m2").getAstStatement(0));
+        assertEquals( Stmt.of(()->System.out.println(1)), _c.getMethod("m2").getAstStatement(1));
+        assertEquals( Stmt.of(()->System.out.println(2)), _c.getMethod("m2").getAstStatement(2));
+        assertEquals( Stmt.of("secondStmt:{}"), _c.getMethod("m2").getAstStatement(3));
+        assertEquals( Stmt.of(()->System.out.println(3)), _c.getMethod("m2").getAstStatement(4));
+        assertEquals( Stmt.of(()->System.out.println(4)), _c.getMethod("m2").getAstStatement(5));
     }
 
     public void testReturnStmtLambda(){

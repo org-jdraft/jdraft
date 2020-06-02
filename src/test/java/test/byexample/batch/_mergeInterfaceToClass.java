@@ -119,7 +119,7 @@ public class _mergeInterfaceToClass extends TestCase {
         assertTrue( _merged.hasImports(UUID.class) );
 
         assertEquals( Stmt.of("System.out.println(\"keep this one\");"),
-                _merged.getMethod("alreadyImplemented").getBody().getStatement(0));
+                _merged.getMethod("alreadyImplemented").getBody().getAstStatement(0));
 
         //for good measure, see if we can compile and load an instance
         _runtime.compile(_merged);

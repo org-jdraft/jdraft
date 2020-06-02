@@ -30,7 +30,7 @@ public final class _typeExpr
             a -> a.getTypeRef(),
             (_typeExpr a, _typeRef value) -> a.setTypeRef(value), PARSER);
 
-    public static _feature._meta<_typeExpr> META = _feature._meta.of(_typeExpr.class, TYPE);
+    public static _feature._features<_typeExpr> FEATURES = _feature._features.of(_typeExpr.class, TYPE);
 
     public TypeExpr te;
 

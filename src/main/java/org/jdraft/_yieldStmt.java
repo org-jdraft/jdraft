@@ -43,7 +43,7 @@ public final class _yieldStmt implements _stmt._controlFlow._returns<YieldStmt, 
             a -> a.getExpression(),
             (_yieldStmt a, _expr _e) -> a.setExpression(_e), PARSER);
 
-    public static _feature._meta<_yieldStmt> META = _feature._meta.of(_yieldStmt.class, EXPRESSION);
+    public static _feature._features<_yieldStmt> FEATURES = _feature._features.of(_yieldStmt.class, EXPRESSION);
 
     private YieldStmt yieldStmt;
 

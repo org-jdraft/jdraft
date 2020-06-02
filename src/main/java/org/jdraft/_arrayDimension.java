@@ -60,7 +60,7 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
             a -> a.getExpression(),
             (_arrayDimension a, _expr _e) -> a.setExpression(_e), PARSER);
 
-    public static _feature._meta<_arrayDimension> META = _feature._meta.of(_arrayDimension.class, EXPRESSION );
+    public static _feature._features<_arrayDimension> FEATURES = _feature._features.of(_arrayDimension.class, EXPRESSION );
 
     public final ArrayCreationLevel astNode;
 

@@ -3,7 +3,6 @@ package org.jdraft;
 import com.github.javaparser.ast.comments.BlockComment;
 import org.jdraft.text.Text;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -40,7 +39,7 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
             (_blockComment a, String text) -> a.setText(text), PARSER);
 
 
-    public static _feature._meta<_blockComment> META = _feature._meta.of(_blockComment.class, TEXT);
+    public static _feature._features<_blockComment> FEATURES = _feature._features.of(_blockComment.class, TEXT);
 
     public BlockComment astComment;
 

@@ -99,9 +99,9 @@ public final class _args
             a->a.list(),
             (_args a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s))
             .featureImplementations(_expr.Classes.ALL) //could be expressions TODO make this a subset of expressions?
-            .isOrdered(true); //order matters to _args { (1,'a') =/= ('a', 1) }
+            .setOrdered(true); //order matters to _args { (1,'a') =/= ('a', 1) }
 
-    public static _feature._meta<_args> META = _feature._meta.of(_args.class, ARGS);
+    public static _feature._features<_args> FEATURES = _feature._features.of(_args.class, ARGS);
 
     public NodeWithArguments nwa;
 

@@ -260,12 +260,12 @@ public class AstTest extends TestCase {
         cs  =md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(2);") );
         System.out.println( md );
-        assertEquals(Stmt.of("System.out.println(2);"), _method.of(md).getStatement(1));
+        assertEquals(Stmt.of("System.out.println(2);"), _method.of(md).getAstStatement(1));
 
         md =  _c.getMethod("onlyComment").ast();
         cs  =md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(1);") );
-        assertEquals(Stmt.of("System.out.println(1);"), _method.of(md).getStatement(0));
+        assertEquals(Stmt.of("System.out.println(1);"), _method.of(md).getAstStatement(0));
     }
 
     /**
@@ -319,12 +319,12 @@ public class AstTest extends TestCase {
         _class _c =_class.of(C.class);
         System.out.println(_c );
         _method _m = _c.getMethod("m2");
-        _m.getStatement(0).replace(Stmt.of("assert(1==1)"));
+        _m.getAstStatement(0).replace(Stmt.of("assert(1==1)"));
         System.out.println(_c);
 
         //TODO does this make sense
         //Stmt.commentOut( _m.getStatement(0));
-        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT_FN.apply( _m.getStatement(0) );
+        Stmt.REPLACE_WITH_EMPTY_STMT_COMMENT_FN.apply( _m.getAstStatement(0) );
         System.out.println( _m  );
         System.out.println( _m.toString(Print.EMPTY_STATEMENT_COMMENT_PRINTER) );
     }

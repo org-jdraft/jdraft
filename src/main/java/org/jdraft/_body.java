@@ -130,13 +130,7 @@ public final class _body implements _java._domain {
      * @return 
      */
     public static _body of( String...body ){
-        //String bd = Text.combine(body).trim();
-        //if( bd.equals(";")){
-            //return of( _constructor.of("C (){}").ast());
-        //    return of( _method.of("void __BODYHOLDER();").ast());
-        //}
         return of( _constructor.of("UNKNOWN(){}").add(body).ast() );
-        //return of( _method.of("void __BODYHOLDER();").add(body).ast() );
     }
     
     /**
@@ -259,9 +253,9 @@ public final class _body implements _java._domain {
             _feature._id.STATEMENTS, _feature._id.STATEMENT,
             a->a.list(),
             (_body a, List<_stmt> es)-> a.set(es), PARSER, s-> _stmt.of(s))
-            .isOrdered(true);/** the order of the statements matter */
+            .setOrdered(true);/** the order of the statements matter */
 
-    public static _feature._meta<_body> META = _feature._meta.of(_body.class, IS_IMPLEMENTED, STATEMENTS);
+    public static _feature._features<_body> FEATURES = _feature._features.of(_body.class, IS_IMPLEMENTED, STATEMENTS);
 
     /**
      * Private constructor, lets not confuse everyone by having a single Object
@@ -337,7 +331,7 @@ public final class _body implements _java._domain {
      * @param index
      * @return 
      */
-    public Statement getStatement(int index) {
+    public Statement getAstStatement(int index) {
         if( this.isImplemented() ){
             return ast().getStatement(index);
         }
@@ -350,7 +344,7 @@ public final class _body implements _java._domain {
      */
     public List<_stmt> list(){
         List<_stmt> sts = new ArrayList<>();
-        NodeList<Statement> ns = getStatementNodeList();
+        NodeList<Statement> ns = getAstStatements();
         if( ns != null ){
             ns.forEach(n -> sts.add(_stmt.of(n)));
         }
@@ -370,11 +364,11 @@ public final class _body implements _java._domain {
             return this;
         }
         if( stmts == null ){
-            this.getStatementNodeList().clear();
+            this.getAstStatements().clear();
             return this;
         }
         this.clear(); //clear existing statements
-        stmts.forEach(s-> this.getStatementNodeList().add(s.ast()));
+        stmts.forEach(s-> this.getAstStatements().add(s.ast()));
         return this;
     }
 
@@ -384,7 +378,7 @@ public final class _body implements _java._domain {
      * null represents NO BODY i.e. "void m();"
      * empty list means empty body "void m(){}"
      */
-    public NodeList<Statement> getStatementNodeList() {
+    public NodeList<Statement> getAstStatements() {
         if (isImplemented()) {
             return ast().getStatements();
         }
@@ -628,10 +622,10 @@ public final class _body implements _java._domain {
                 return false;
             }
             _body _bd = _body.of(all);
-            if(_bd.list().size() != this.listStatements().size()){
+            if(_bd.list().size() != this.listAstStatements().size()){
                 return false;
             }
-            List<Statement> tst = this.listStatements();
+            List<Statement> tst = this.listAstStatements();
             List<_stmt> st = _bd.list();
             for(int i=0;i<st.size(); i++){
                 if( !Objects.equals( st.get(i), _stmt.of(tst.get(i)) ) ){
@@ -649,9 +643,9 @@ public final class _body implements _java._domain {
          * 
          * @return 
          */
-        default List<Statement> listStatements(){
+        default List<Statement> listAstStatements(){
             if( this.hasBody() ){
-                return getBody().getStatementNodeList();
+                return getBody().getAstStatements();
             }
             return Collections.EMPTY_LIST;
         }
@@ -671,10 +665,10 @@ public final class _body implements _java._domain {
          * @param stmtClass the statement class
          * @return the list of statements of the class
          */
-        default <S extends Statement> List<S> listStatements(Class<S> stmtClass ){
+        default <S extends Statement> List<S> listAstStatements(Class<S> stmtClass ){
             if( this.hasBody() ){
                 List<S> stmts = new ArrayList<>();
-                getBody().getStatementNodeList().stream()
+                getBody().getAstStatements().stream()
                     .filter(s-> stmtClass.isAssignableFrom(s.getClass()))
                     .forEach(s -> stmts.add( (S)s ));
                 return stmts;
@@ -701,8 +695,8 @@ public final class _body implements _java._domain {
          * @param stmtPredicate 
          * @return the list of statements of the class
          */
-        default <S extends Statement> List<S> listStatements(Class<S> stmtClass, Predicate<S> stmtPredicate){
-            return listStatements(stmtClass).stream().filter(stmtPredicate).collect(Collectors.toList());
+        default <S extends Statement> List<S> listAstStatements(Class<S> stmtClass, Predicate<S> stmtPredicate){
+            return listAstStatements(stmtClass).stream().filter(stmtPredicate).collect(Collectors.toList());
         }
         
         default <A extends Object> _WB setBody(Expr.Command lambdaWithBody){
@@ -897,7 +891,6 @@ public final class _body implements _java._domain {
             }
             return add(index, bdy );            
         }
-
                 
         default <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _WB add(Expr.QuadFunction<A,B,C,D,E> lambdaWithBody ){
             Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
@@ -1079,7 +1072,7 @@ public final class _body implements _java._domain {
          * @return the number of "top level" Statements of this body (0 for unimplmented)
          */
         default int statementCount(){
-            return this.listStatements().size();
+            return this.listAstStatements().size();
         }
         
         /**
@@ -1088,8 +1081,8 @@ public final class _body implements _java._domain {
          * @param statementIndex
          * @return 
          */
-        default Statement getStatement(int statementIndex){
-            return this.listStatements().get(statementIndex);
+        default Statement getAstStatement(int statementIndex){
+            return this.listAstStatements().get(statementIndex);
         }
                 
         default <A extends Object> _WB addAt(String labelName, Expr.Command lambdaWithBody){
@@ -1258,10 +1251,10 @@ public final class _body implements _java._domain {
          * Appends Ast Statements to the label within the code 
          * (always adds at the tail/ end if the label already contains statements)
          * @param labelName the name of the label where statements are to be added
-         * @param stmts a list of Statements to add at the label
+         * @param astStmts a list of Statements to add at the label
          * @return the modified entity
          */
-        default _WB addAt(String labelName, List<Statement> stmts) {
+        default _WB addAt(String labelName, List<Statement> astStmts) {
             if( !isImplemented() ){
                 throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
@@ -1273,9 +1266,9 @@ public final class _body implements _java._domain {
             Statement st = ols.get().getStatement();
             if (st.isBlockStmt()) {
                 BlockStmt bs = st.asBlockStmt();
-                stmts.forEach(s -> bs.addStatement(s));
+                astStmts.forEach(s -> bs.addStatement(s));
             } else {
-                BlockStmt bs = Ast.blockStmt(stmts.toArray(new Statement[0]));
+                BlockStmt bs = Ast.blockStmt(astStmts.toArray(new Statement[0]));
                 bs.addStatement(0, st);
                 st.replace(bs);
             }
@@ -1307,7 +1300,7 @@ public final class _body implements _java._domain {
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
          */
-        default _WB forStmts(Consumer<Statement> stmtActionFn ){
+        default _WB forAstStmts(Consumer<Statement> stmtActionFn ){
             if( !isImplemented() ){
                 return (_WB)this;
             }           
@@ -1324,7 +1317,7 @@ public final class _body implements _java._domain {
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
          */
-        default <S extends Statement> _WB forStmts(Class<S> statementClass, Consumer<S> stmtActionFn ){
+        default <S extends Statement> _WB forAstStmts(Class<S> statementClass, Consumer<S> stmtActionFn ){
             if( !isImplemented() ){
                 return (_WB)this;
             }
@@ -1342,7 +1335,7 @@ public final class _body implements _java._domain {
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
          */
-        default <S extends Statement> _WB forStmts(Class<S> statementClass, Predicate<S>stmtMatchFn, Consumer<S> stmtActionFn ){
+        default <S extends Statement> _WB forAstStmts(Class<S> statementClass, Predicate<S>stmtMatchFn, Consumer<S> stmtActionFn ){
             if( !isImplemented() ){
                 return (_WB)this;
             }
@@ -1363,8 +1356,8 @@ public final class _body implements _java._domain {
          * @param stmtClass the specific Statement class 
          * @return the first matching statement or null if no statements match
          */
-        default <S extends Statement> S firstStmt( Class<S> stmtClass ){
-            return firstStmt(stmtClass, s->true);
+        default <S extends Statement> S firstAstStmt(Class<S> stmtClass ){
+            return firstAstStmt(stmtClass, s->true);
         }
         
          /**
@@ -1382,7 +1375,7 @@ public final class _body implements _java._domain {
          * @param stmtMatchFn 
          * @return the first matching statement or null if no statements match
          */
-        default <S extends Statement> S firstStmt( Class<S> stmtClass, Predicate<S> stmtMatchFn ){
+        default <S extends Statement> S firstAstStmt(Class<S> stmtClass, Predicate<S> stmtMatchFn ){
             if( !isImplemented() ){
                 return null;
             }

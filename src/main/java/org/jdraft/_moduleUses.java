@@ -39,7 +39,7 @@ public final class _moduleUses implements _java._node<ModuleUsesDirective, _modu
             a -> a.getName(),
             (_moduleUses a, String s) -> a.setName(s), PARSER);
 
-    public static _feature._meta<_moduleUses> META = _feature._meta.of(_moduleUses.class, MODULE_NAME);
+    public static _feature._features<_moduleUses> FEATURES = _feature._features.of(_moduleUses.class, MODULE_NAME);
 
     public ModuleUsesDirective mod;
 

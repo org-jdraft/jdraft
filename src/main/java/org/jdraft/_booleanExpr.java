@@ -28,7 +28,7 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
             (_booleanExpr a, Boolean b) -> a.set(b), PARSER);
 
 
-    public static _feature._meta<_booleanExpr> META = _feature._meta.of(_booleanExpr.class, LITERAL_VALUE);
+    public static _feature._features<_booleanExpr> FEATURES = _feature._features.of(_booleanExpr.class, LITERAL_VALUE);
 
     public BooleanLiteralExpr be;
 

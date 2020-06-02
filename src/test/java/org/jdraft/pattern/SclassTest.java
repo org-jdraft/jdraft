@@ -110,10 +110,10 @@ public class SclassTest extends TestCase {
         assertTrue( $class.of($.method(m->m.isStatic())).matches(_class.of("C").addMethod("static void m(){}")));
         assertFalse( $class.of($.method(m->m.isStatic())).matches(_class.of("C").addMethod("void m(){}")));
 
-        assertTrue( $class.of($.constructor(c->c.listStatements().size() >0)).matches(
+        assertTrue( $class.of($.constructor(c->c.listAstStatements().size() >0)).matches(
                 _class.of("C").addConstructor("{System.out.println(1);}")) );
 
-        assertFalse( $class.of($.constructor(c->c.listStatements().size() >0)).matches(
+        assertFalse( $class.of($.constructor(c->c.listAstStatements().size() >0)).matches(
                 _class.of("C").addConstructor("{}")) );
 
         assertTrue($class.of($field.of(f->f.isStatic())).matches(_class.of("C").addField("static int i=100;")));

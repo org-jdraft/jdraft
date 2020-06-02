@@ -159,7 +159,7 @@ public final class _initBlock
             a -> a.getBody(),
             (_initBlock a, _body b) -> a.setBody(b), PARSER);
 
-    public static _feature._meta<_initBlock> META = _feature._meta.of(_initBlock.class, IS_STATIC, BODY);
+    public static _feature._features<_initBlock> FEATURES = _feature._features.of(_initBlock.class, IS_STATIC, BODY);
 
     public final InitializerDeclaration astInit;
 

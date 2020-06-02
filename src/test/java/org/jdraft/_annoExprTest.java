@@ -39,23 +39,23 @@ public class _annoExprTest extends TestCase {
 
     public void testMetaFeatureList(){
         _annoExpr _a = _annoExpr.of("@A");
-        assertEquals( _annoExpr.META.list(_a).get(0), _annoExpr.NAME);
-        assertEquals( _annoExpr.META.list(_a).get(1), _annoExpr.ENTRY_PAIRS);
+        assertEquals( _annoExpr.FEATURES.list(_a).get(0), _annoExpr.NAME);
+        assertEquals( _annoExpr.FEATURES.list(_a).get(1), _annoExpr.ENTRY_PAIRS);
     }
 
-    public void testMetaFeature() {
+    public void testFeatureFunction() {
         _annoExpr _a = _annoExpr.of("@A");
         _annoExpr _b = _annoExpr.of("@Blah");
 
         Tokens keyValues = new Tokens();
 
         //this is an META Ensemble operation
-        _annoExpr.META.forEach(_a, s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
+        _annoExpr.FEATURES.forEach(_a, s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
 
         System.out.println(keyValues);
 
 
-        _annoExpr.META.forEach(_a, s -> s instanceof _feature._many,
+        _annoExpr.FEATURES.forEach(_a, s -> s instanceof _feature._many,
                 s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
     }
 
@@ -64,7 +64,7 @@ public class _annoExprTest extends TestCase {
         _annoExpr _a = _annoExpr.of("@A");
         _annoExpr _b = _annoExpr.of("@Blah");
 
-        Map<_feature, Boolean> featureEqualsMap = featureEqualsMap(_annoExpr.META, _a, _b);
+        Map<_feature, Boolean> featureEqualsMap = featureEqualsMap(_annoExpr.FEATURES, _a, _b);
 
         //what about a compareTo
         System.out.println("FEATURES EQUAL " + featureEqualsMap);
@@ -79,8 +79,8 @@ public class _annoExprTest extends TestCase {
      */
     public static <_N extends _java._node> Map<_feature, Boolean> featureEqualsMap(_N _a, _N _b) {
         try {
-            Field f = _a.getClass().getField("META");
-            _feature._meta<_N> _mn = (_feature._meta<_N>) f.get(null);
+            Field f = _a.getClass().getField("FEATURES");
+            _feature._features<_N> _mn = (_feature._features<_N>) f.get(null);
             return featureEqualsMap(_mn, _a, _b);
         } catch(NoSuchFieldException | IllegalAccessException nsfe ){
             throw new _jdraftException("Unable to resolve META field");
@@ -90,14 +90,14 @@ public class _annoExprTest extends TestCase {
     /**
      * an example meta function to apply to all features within two _N instances
      * @param <_N> the underlying type (i.e. _annoExpr.class, _method.class)
-     * @param _meta the meta implementation for the type (i.e. _annoExpr.META, _method.META)
+     * @param _features the meta implementation for the type (i.e. _annoExpr.META, _method.META)
      * @param _a instance of _N to compare to _b
      * @param _b instance of _N to compare to _a
      * @return the featureEquals map
      */
-    public static <_N extends _java._node> Map<_feature, Boolean> featureEqualsMap(_feature._meta<_N> _meta, _N _a, _N _b){
+    public static <_N extends _java._node> Map<_feature, Boolean> featureEqualsMap(_feature._features<_N> _features, _N _a, _N _b){
         Map<_feature, Boolean> featureEqualsMap = new HashMap<>();
-        _meta.forEach(_a, f-> {
+        _features.forEach(_a, f-> {
             //I need to check between
             if( f instanceof _feature._many){
                 _feature._many _fm = (_feature._many)f;

@@ -250,9 +250,9 @@ public final class _annoExpr
             a->a.listEntryPairs(),
             (_annoExpr a, List<_entryPair> pairs)-> a.setEntryPairs(pairs),
             PARSER, s-> _entryPair.of(s))
-            .isOrdered(false); //the order of the entry pairs { @A(a=1,b=2) == @A(b=2,a=1)} isn't semantically important
+            .setOrdered(false); //the order of the entry pairs { @A(a=1,b=2) == @A(b=2,a=1)} isn't semantically important
 
-    public static _feature._meta<_annoExpr> META = _feature._meta.of(_annoExpr.class, NAME, ENTRY_PAIRS);
+    public static _feature._features<_annoExpr> FEATURES = _feature._features.of(_annoExpr.class, NAME, ENTRY_PAIRS);
 
     public boolean hasEntryPair(String name, char value){
         return hasEntryPair( name, Expr.of(value));

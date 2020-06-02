@@ -7,6 +7,57 @@ import java.net.URISyntaxException;
 
 public class _featureTest extends TestCase {
 
+    public void testFeatureInstanceMap(){
+        assertEquals( _annoExpr.FEATURES.size(), _annoExpr.FEATURES.featureMap(_annoExpr.of("@A(k=1,v=2)")).size());
+        assertEquals( _annoExprs.FEATURES.size(), _annoExprs.FEATURES.featureMap( _annoExprs.of("@A @B @C @D")).size());
+        assertEquals( _annotation.FEATURES.size(), _annotation.FEATURES.featureMap( _annotation.of("A").addEntry("int val()").addInnerType(_class.of("B")) ).size());
+        assertEquals( _args.FEATURES.size(), _args.FEATURES.featureMap(_args.of("1,'c'")).size());
+        assertEquals( _newArrayExpr.FEATURES.size(), _newArrayExpr.FEATURES.featureMap(_newArrayExpr.of("int [1][2][3]")).size());
+        assertEquals( _arrayInitExpr.FEATURES.size(), _arrayInitExpr.FEATURES.featureMap(_arrayInitExpr.of("{1, 2}")).size());
+        assertEquals( _blockStmt.FEATURES.size(), _blockStmt.FEATURES.featureMap(_blockStmt.of("{int i; int j; int k;}")).size());
+        assertEquals( _body.FEATURES.size(), _body.FEATURES.featureMap(_body.of("{int i; int j;}")).size());
+
+        assertEquals( _class.FEATURES.size(), _class.FEATURES.featureMap(_class.of("class A{ int a; void m(){} }")).size());
+        assertEquals( _class.FEATURES.size(), _class.FEATURES.featureMap(_class.of("class A implements B, C{}")).size());
+        assertEquals( _constant.FEATURES.size(), _constant.FEATURES.featureMap(_constant.of("A{ int a; void m(){} }")).size());
+
+        assertEquals( _enum.FEATURES.size(), _enum.FEATURES.featureMap(_enum.of("enum E implements B, C{}")).size());
+        assertEquals( _enum.FEATURES.size(), _enum.FEATURES.featureMap(_enum.of("enum E{ A,B,C,D; }")).size());
+
+        assertEquals( _forStmt.FEATURES.size(), _forStmt.FEATURES.featureMap(_forStmt.of("for(;;a++,b++)")).size());
+        assertEquals(_imports.FEATURES.size(), _imports.FEATURES.featureMap(_imports.of("aaaa.A", "bbbb.B")).size());
+
+        assertEquals(_interface.FEATURES.size(), _interface.FEATURES.featureMap( _interface.of("A").addExtend("B").addExtend("C")).size());
+        assertEquals(_interface.FEATURES.size(), _interface.FEATURES.featureMap( _interface.of("A").addFields("int i, j;")).size());
+        assertEquals(_modifiers.FEATURES.size(), _modifiers.FEATURES.featureMap(_modifiers.of("public static final")).size());
+        assertEquals(_moduleExports.FEATURES.size(), _moduleExports.FEATURES.featureMap(_moduleExports.of("exports R.S to T1.U1, T2.U2;")).size());
+        assertEquals(_moduleInfo.FEATURES.size(), _moduleInfo.FEATURES.featureMap(_moduleInfo.of("module M{ exports R.S to T1.U1, T2.U2; opens F; }")).size());
+        assertEquals( _moduleOpens.FEATURES.size(), _moduleOpens.FEATURES.featureMap(_moduleOpens.of("opens R.S to T1.U1, T2.U2;")).size());
+
+        assertEquals(_moduleProvides.FEATURES.size(), _moduleProvides.FEATURES.featureMap(_moduleProvides.of("provides R.S with T1.U1, T2.U2;")).size());
+
+        assertEquals(_newExpr.FEATURES.size(), _newExpr.FEATURES.featureMap(_newExpr.of("new A(){ int i, j; }")).size());
+
+        assertEquals( _params.FEATURES.size(), _params.FEATURES.featureMap(_params.of("(@A int i, final String...vars)")).size());
+
+        assertEquals( _project.FEATURES.size(), _project.FEATURES.featureMap( _project.of(_class.of("A"), _interface.of("I"))).size());
+
+        assertEquals( _switchEntry.FEATURES.size(), _switchEntry.FEATURES.featureMap(_switchEntry.of("case 1, 2: break;")).size());
+        assertEquals( _switchEntry.FEATURES.size(), _switchEntry.FEATURES.featureMap(_switchEntry.of("case 1: i=0; break;")).size());
+
+        assertEquals( _switchExpr.FEATURES.size(), _switchExpr.FEATURES.featureMap(_switchExpr.of("switch(a){ case 1: yield 1; case 2: yield 2;}")).size());
+        assertEquals( _switchExpr.FEATURES.size(), _switchStmt.FEATURES.featureMap(_switchStmt.of("switch(a){ case 1: return 1; case 2: return 2;}")).size());
+
+        assertEquals( _throws.FEATURES.size(), _throws.FEATURES.featureMap(_throws.of(FileNotFoundException.class, URISyntaxException.class)).size());
+        assertEquals( _tryStmt.FEATURES.size(), _tryStmt.FEATURES.featureMap( _tryStmt.of("try{ a(); }catch(A a){} catch(B b){}")).size());
+        assertEquals( _tryStmt.FEATURES.size(), _tryStmt.FEATURES.featureMap( _tryStmt.of("try( AC f = new AC(); AC t = new AC()) { }")).size());
+
+        assertEquals(_typeArgs.FEATURES.size(), _typeArgs.FEATURES.featureMap(_typeArgs.of("A,B")).size());
+        assertEquals(_typeParams.FEATURES.size(), _typeParams.FEATURES.featureMap(_typeParams.of("A extends B, C")).size());
+
+        assertEquals( _variablesExpr.FEATURES.size(), _variablesExpr.FEATURES.featureMap(_variablesExpr.of("int i,j")).size());
+    }
+
     //here we go through all the "many" features and make sure the getters work
     public void testManyGet(){
         assertEquals( 2, _annoExpr.ENTRY_PAIRS.get(_annoExpr.of("@A(k=1,v=2)")).size());

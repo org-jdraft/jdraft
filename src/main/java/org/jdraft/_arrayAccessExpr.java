@@ -93,7 +93,7 @@ public final class _arrayAccessExpr
             a -> a.getIndex(),
             (_arrayAccessExpr a, _expr _e) -> a.setIndex(_e), PARSER);
 
-    public static _feature._meta<_arrayAccessExpr> META = _feature._meta.of(_arrayAccessExpr.class, NAME, INDEX);
+    public static _feature._features<_arrayAccessExpr> FEATURES = _feature._features.of(_arrayAccessExpr.class, NAME, INDEX);
 
     public ArrayAccessExpr aae;
 

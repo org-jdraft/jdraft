@@ -47,9 +47,9 @@ public final class _typeParam
             _feature._id.EXTENDS_TYPE_BOUNDS,
             _feature._id.EXTENDS_TYPE_BOUND,
             a -> a.listExtendsTypeBound(),
-            (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs), PARSER, s->_typeRef.of(s)).isOrdered(false);
+            (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs), PARSER, s->_typeRef.of(s)).setOrdered(false);
 
-    public static _feature._meta<_typeParam> META = _feature._meta.of(_typeParam.class, ANNOS, NAME, EXTENDS_TYPE_BOUND);
+    public static _feature._features<_typeParam> FEATURES = _feature._features.of(_typeParam.class, ANNOS, NAME, EXTENDS_TYPE_BOUND);
 
     private final TypeParameter typeParam;
 

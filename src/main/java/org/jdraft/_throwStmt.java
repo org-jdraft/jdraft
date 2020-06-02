@@ -72,7 +72,7 @@ public final class _throwStmt implements _stmt._controlFlow._returns<ThrowStmt, 
             a -> a.getExpression(),
             (_throwStmt p, _expr _e) -> p.setExpression(_e), PARSER);
 
-    public static _feature._meta<_throwStmt> META = _feature._meta.of(_throwStmt.class, EXPRESSION );
+    public static _feature._features<_throwStmt> FEATURES = _feature._features.of(_throwStmt.class, EXPRESSION );
 
     private ThrowStmt astStmt;
 

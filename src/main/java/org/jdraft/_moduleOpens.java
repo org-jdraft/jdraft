@@ -49,9 +49,9 @@ public final class _moduleOpens implements _java._node<ModuleOpensDirective, _mo
             _feature._id.MODULE_NAME,
             a -> a.list(),
             (_moduleOpens a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s))
-            .isOrdered(false);
+            .setOrdered(false);
 
-    public static _feature._meta<_moduleOpens> META = _feature._meta.of(_moduleOpens.class, MODULE_NAME, MODULE_NAMES);
+    public static _feature._features<_moduleOpens> FEATURES = _feature._features.of(_moduleOpens.class, MODULE_NAME, MODULE_NAMES);
 
     public ModuleOpensDirective mod;
 

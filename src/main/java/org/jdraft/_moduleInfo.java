@@ -114,9 +114,9 @@ public final class _moduleInfo
             _feature._id.MODULE_DIRECTIVES,
             a -> a.listModuleDirectives(),
             (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER, s-> _moduleDirective.of(s))
-            .isOrdered(false);
+            .setOrdered(false);
 
-    public static _feature._meta<_moduleInfo> META = _feature._meta.of(_moduleInfo.class, IMPORTS, IS_OPEN, MODULE_NAME, MODULE_DIRECTIVES);
+    public static _feature._features<_moduleInfo> FEATURES = _feature._features.of(_moduleInfo.class, IMPORTS, IS_OPEN, MODULE_NAME, MODULE_DIRECTIVES);
 
     /**
      * Decompose the entity into key-VALUE pairs

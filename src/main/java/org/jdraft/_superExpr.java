@@ -46,7 +46,7 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._no
             a -> a.getTypeName(),
             (_superExpr p, String s) -> p.setTypeName(s), PARSER);
 
-    public static _feature._meta<_superExpr> META = _feature._meta.of(_superExpr.class, TYPE_NAME );
+    public static _feature._features<_superExpr> FEATURES = _feature._features.of(_superExpr.class, TYPE_NAME );
 
     public SuperExpr se;
 

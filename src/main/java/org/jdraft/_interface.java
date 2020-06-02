@@ -264,7 +264,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             a -> a.listMembers(),
             (_interface a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_interface.class, s))
             .featureImplementations(_method.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class)
-            .isOrdered(false);
+            .setOrdered(false);
 
     public static _feature._one<_interface, _typeParams> TYPE_PARAMS = new _feature._one<>(_interface.class, _typeParams.class,
             _feature._id.TYPE_PARAMS,
@@ -276,9 +276,9 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             _feature._id.EXTEND,
             a -> a.listExtends(),
             (_interface a, List<_typeRef>mems) -> a.setExtends(mems), PARSER, s->_typeRef.of(s))
-            .isOrdered(false);
+            .setOrdered(false);
 
-    public static _feature._meta<_interface> META = _feature._meta.of(_interface.class,
+    public static _feature._features<_interface> FEATURES = _feature._features.of(_interface.class,
             PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, MEMBERS);
 
     public _interface( ClassOrInterfaceDeclaration astClass ){

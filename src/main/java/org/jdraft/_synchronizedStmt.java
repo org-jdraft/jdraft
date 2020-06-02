@@ -40,7 +40,7 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
             a -> a.getBody(),
             (_synchronizedStmt p, _body _bs) -> p.setBody(_bs), PARSER);
 
-    public static _feature._meta<_synchronizedStmt> META = _feature._meta.of(_synchronizedStmt.class, EXPRESSION, BODY );
+    public static _feature._features<_synchronizedStmt> FEATURES = _feature._features.of(_synchronizedStmt.class, EXPRESSION, BODY );
 
     private SynchronizedStmt astStmt;
 

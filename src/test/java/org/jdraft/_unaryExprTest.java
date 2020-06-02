@@ -28,12 +28,12 @@ public class _unaryExprTest extends TestCase {
      */
     public void testMetaList(){
         _unaryExpr _u = _unaryExpr.of("++a");
-        assertTrue(_u.META.list(_u).get(0) == _unaryExpr.OPERATOR);
-        assertTrue(_u.META.list(_u).get(1) == _unaryExpr.EXPRESSION);
+        assertTrue(_u.FEATURES.list(_u).get(0) == _unaryExpr.OPERATOR);
+        assertTrue(_u.FEATURES.list(_u).get(1) == _unaryExpr.EXPRESSION);
 
         _u = _unaryExpr.of("a--");
-        assertTrue(_u.META.list(_u).get(0) == _unaryExpr.EXPRESSION);
-        assertTrue(_u.META.list(_u).get(1) == _unaryExpr.OPERATOR);
+        assertTrue(_u.FEATURES.list(_u).get(0) == _unaryExpr.EXPRESSION);
+        assertTrue(_u.FEATURES.list(_u).get(1) == _unaryExpr.OPERATOR);
     }
 
 }

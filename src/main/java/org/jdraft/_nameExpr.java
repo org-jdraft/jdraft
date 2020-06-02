@@ -29,7 +29,7 @@ public final class _nameExpr
             a -> a.getNameNode(),
             (_nameExpr a, SimpleName sn) -> a.setName(sn), PARSER);
 
-    public static _feature._meta<_nameExpr> META = _feature._meta.of(_nameExpr.class, NAME);
+    public static _feature._features<_nameExpr> FEATURES = _feature._features.of(_nameExpr.class, NAME);
 
     public NameExpr ne;
 

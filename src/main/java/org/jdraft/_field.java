@@ -146,7 +146,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             (_field a, _expr _e) -> a.setInit(_e), PARSER);
 
 
-    public static _feature._meta<_field> META = _feature._meta.of(_field.class, ANNOS, MODIFIERS, TYPE, NAME, INIT );
+    public static _feature._features<_field> FEATURES = _feature._features.of(_field.class, ANNOS, MODIFIERS, TYPE, NAME, INIT );
 
     /**
      * Gets the (effective modifiers) which is the union of the explicit

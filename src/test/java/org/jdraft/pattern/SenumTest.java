@@ -112,10 +112,10 @@ public class SenumTest extends TestCase {
         assertTrue( $enum.of($.method(m->m.isStatic())).matches(_enum.of("C").addMethod("static void m(){}")));
         assertFalse( $enum.of($.method(m->m.isStatic())).matches(_enum.of("C").addMethod("void m(){}")));
 
-        assertTrue( $enum.of($.constructor(c->c.listStatements().size() >0)).matches(
+        assertTrue( $enum.of($.constructor(c->c.listAstStatements().size() >0)).matches(
                 _enum.of("C").addConstructor("{System.out.println(1);}")) );
 
-        assertFalse( $enum.of($.constructor(c->c.listStatements().size() >0)).matches(
+        assertFalse( $enum.of($.constructor(c->c.listAstStatements().size() >0)).matches(
                 _enum.of("C").addConstructor("{}")) );
 
         assertTrue($enum.of($field.of(f->f.isStatic())).matches(_enum.of("C").addField("static int i=100;")));

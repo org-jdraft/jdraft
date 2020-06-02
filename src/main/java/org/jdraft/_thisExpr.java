@@ -30,7 +30,7 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
             a -> a.getTypeName(),
             (_thisExpr a, String value) -> a.setTypeName(value), PARSER);
 
-    public static _feature._meta<_thisExpr> META = _feature._meta.of(_thisExpr.class, TYPE_NAME);
+    public static _feature._features<_thisExpr> FEATURES = _feature._features.of(_thisExpr.class, TYPE_NAME);
 
     public ThisExpr ile;
 

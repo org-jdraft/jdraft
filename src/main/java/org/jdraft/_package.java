@@ -30,7 +30,7 @@ public final class _package implements _java._node<PackageDeclaration, _package>
             a -> a.getNameNode(),
             (_package p, Name s) -> p.setName(s), PARSER);
 
-    public static _feature._meta<_package> META = _feature._meta.of(_package.class, NAME);
+    public static _feature._features<_package> FEATURES = _feature._features.of(_package.class, NAME);
 
     public _package( PackageDeclaration astPd){
         this.astPackage = astPd;

@@ -78,7 +78,7 @@ public final class _whileStmt implements _stmt._controlFlow._conditional<WhileSt
             a -> a.getBody(),
             (_whileStmt a, _body _b) -> a.setBody(_b), PARSER);
 
-    public static _feature._meta<_whileStmt> META = _feature._meta.of(_whileStmt.class, CONDITION, BODY);
+    public static _feature._features<_whileStmt> FEATURES = _feature._features.of(_whileStmt.class, CONDITION, BODY);
 
     private WhileStmt whileStmt;
 

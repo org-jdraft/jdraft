@@ -62,6 +62,6 @@ public class SinitBlockTest extends TestCase {
     }
     public void testDraftParameterized(){
         $initBlock $sb = $initBlock.of( (Object $p$)->System.out.println($p$) );
-        assertEquals( Stmt.of(()->System.out.println('c')), $sb.draft("p", 'c').getStatement(0));
+        assertEquals( Stmt.of(()->System.out.println('c')), $sb.draft("p", 'c').getAstStatement(0));
     }
 }

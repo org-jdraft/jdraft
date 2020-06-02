@@ -6,7 +6,6 @@ import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleRequiresDirective;
 import org.jdraft.text.Text;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -45,7 +44,7 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
             a -> a.isTransitive(),
             (_moduleRequires a, Boolean b) -> a.setTransitive(b), PARSER);
 
-    public static _feature._meta<_moduleRequires> META = _feature._meta.of(_moduleRequires.class, IS_TRANSITIVE, MODULE_NAME);
+    public static _feature._features<_moduleRequires> FEATURES = _feature._features.of(_moduleRequires.class, IS_TRANSITIVE, MODULE_NAME);
 
     public ModuleRequiresDirective  me;
 
