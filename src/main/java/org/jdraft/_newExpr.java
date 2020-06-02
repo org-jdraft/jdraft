@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 
@@ -194,7 +195,14 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
     public List<_java._declared> listAnonymousDeclarations(){
         List<_java._declared> ds =  new ArrayList<>();
         if( this.oce.getAnonymousClassBody().isPresent()){
-            oce.getAnonymousClassBody().get().forEach(b -> ds.add((_java._declared)_java.of(b)));
+            oce.getAnonymousClassBody().get().forEach(b -> {
+                if( b instanceof FieldDeclaration && b.asFieldDeclaration().getVariables().size() > 1){
+                    FieldDeclaration fd = b.asFieldDeclaration();
+                    fd.getVariables().forEach(f-> ds.add( _field.of( f)));
+                } else {
+                    ds.add((_java._declared) _java.of(b));
+                }
+            });
         }
         return ds;
     }
