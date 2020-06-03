@@ -13,6 +13,13 @@ import java.util.function.*;
 
 /**
  * Binary Expresssions
+ * <UL>
+ * <LI> A & B
+ * <LI> A | B
+ * <LI> A && B
+ * <LI> A / B
+ *
+ * </UL>
  */
 public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         _java._node<BinaryExpr, _binaryExpr> {

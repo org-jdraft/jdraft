@@ -77,17 +77,11 @@ public final class _arrayAccessExpr
         return of(ae, left);
     }
 
-    /**
-     *
-     */
     public static _feature._one<_arrayAccessExpr, _expr> NAME = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
             _feature._id.NAME,
             a -> a.getName(),
             (_arrayAccessExpr a, _expr _e) -> a.setName(_e), PARSER);
 
-    /**
-     *
-     */
     public static _feature._one<_arrayAccessExpr, _expr> INDEX = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
             _feature._id.INDEX,
             a -> a.getIndex(),

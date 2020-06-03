@@ -9,10 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 /**
  * assert true;    //check only
@@ -106,7 +103,8 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
     public static _feature._one<_assertStmt, _expr> MESSAGE = new _feature._one<>(_assertStmt.class, _expr.class,
             _feature._id.MESSAGE,
             a -> a.getMessage(),
-            (_assertStmt a, _expr _e) -> a.setMessage(_e), PARSER);
+            (_assertStmt a, _expr _e) -> a.setMessage(_e), PARSER)
+            .setNullable(true);
 
     public static _feature._features<_assertStmt> FEATURES = _feature._features.of(_assertStmt.class, CHECK, MESSAGE);
 
@@ -145,6 +143,11 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         return isCheck(_e.ast());
     }
 
+    public boolean isCheck( Predicate<_expr> matchFn){
+        return matchFn.test(getCheck());
+    }
+
+
     public boolean hasMessage(){
         return this.astStmt.getMessage().isPresent();
     }
@@ -155,6 +158,13 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         }catch(Exception e){
             return false;
         }
+    }
+
+    public boolean isMessage( Predicate<_expr> matchFn){
+        if( hasMessage() ){
+            return matchFn.test(getMessage());
+        }
+        return false;
     }
 
     public boolean isMessage(Expression message){
@@ -170,13 +180,6 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         }
         return message == null;
     }
-
-    /*
-    @Override
-    public boolean is(AssertStmt astNode) {
-        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
-    }
-     */
 
     public AssertStmt ast(){
         return astStmt;

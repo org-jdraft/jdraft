@@ -108,13 +108,6 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         return false;
     }
 
-    /*
-    @Override
-    public boolean is(BlockStmt astNode) {
-        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
-    }
-     */
-
     public BlockStmt ast(){
         return bs;
     }

@@ -103,6 +103,9 @@ public final class _args
 
     public static _feature._features<_args> FEATURES = _feature._features.of(_args.class, ARGS);
 
+    static void Objs(Object...os){
+
+    }
     public NodeWithArguments nwa;
 
     public _args(NodeWithArguments nwa){

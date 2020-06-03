@@ -546,7 +546,8 @@ public final class _annotation
     public static _feature._one<_annotation, _package> PACKAGE = new _feature._one<>(_annotation.class, _package.class,
             _feature._id.PACKAGE,
             a -> a.getPackage(),
-            (_annotation a, _package b) -> a.setPackage(b), PARSER);
+            (_annotation a, _package b) -> a.setPackage(b), PARSER)
+            .setNullable(true);
 
     public static _feature._one<_annotation, _annoExprs> ANNOS = new _feature._one<>(_annotation.class, _annoExprs.class,
             _feature._id.ANNOS,
@@ -556,7 +557,8 @@ public final class _annotation
     public static _feature._one<_annotation, _javadocComment> JAVADOC = new _feature._one<>(_annotation.class, _javadocComment.class,
             _feature._id.JAVADOC,
             a -> a.getJavadoc(),
-            (_annotation a, _javadocComment b) -> a.setJavadoc(b), PARSER);
+            (_annotation a, _javadocComment b) -> a.setJavadoc(b), PARSER)
+            .setNullable(true);
 
     public static _feature._one<_annotation, _modifiers> MODIFIERS = new _feature._one<>(_annotation.class, _modifiers.class,
             _feature._id.MODIFIERS,

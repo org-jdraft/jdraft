@@ -8,10 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
+import java.util.stream.Stream;
 
 /**
  * Assignment of a field or variable to some value, method return, etc.
@@ -124,6 +122,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         return ae;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.TARGET_EXPR, ae.getTarget());
@@ -131,6 +130,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         comps.put(_java.Feature.VALUE_EXPR, ae.getValue());
         return comps;
     }
+     */
 
     public AssignExpr.Operator getOperator(){
         return this.ae.getOperator();
@@ -143,7 +143,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     /**
      * "="
      */
-    public boolean isAssignOperation() {
+    public boolean isAssign() {
         return isOperator(AssignExpr.Operator.ASSIGN);
     }
 
@@ -152,7 +152,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      *
      * @return
      */
-    public boolean isIncrementAssignOperation() {
+    public boolean isIncrementAssign() {
         return isOperator(AssignExpr.Operator.PLUS);
     }
 
@@ -160,13 +160,13 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * "-="
      * @return
      */
-    public boolean isDecrementAssignOperation() {
+    public boolean isDecrementAssign() {
         return isOperator(AssignExpr.Operator.MINUS);
     }
     /**
      *  "*="
      */
-    public boolean isMultiplyAssignOperation() {
+    public boolean isMultiplyAssign() {
         return isOperator(AssignExpr.Operator.MULTIPLY);
     }
 
@@ -174,7 +174,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * /=
      * @return
      */
-    public boolean isDivideAssignOperation() {
+    public boolean isDivideAssign() {
         return isOperator(AssignExpr.Operator.DIVIDE);
     }
 
@@ -183,7 +183,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      *
      * @return
      */
-    public boolean isBinaryAndAssignOperation() {
+    public boolean isBinaryAndAssign() {
         return isOperator(AssignExpr.Operator.BINARY_AND);
     }
 
@@ -191,7 +191,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * "|="
      * @return
      */
-    public boolean isBinaryOrAssignOperation() {
+    public boolean isBinaryOrAssign() {
         return isOperator(AssignExpr.Operator.BINARY_OR);
     }
 
@@ -199,7 +199,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * "^="
      * @return
      */
-    public boolean isBinaryXorAssignOperation() {
+    public boolean isBinaryXorAssign() {
         return isOperator(AssignExpr.Operator.XOR);
     }
 
@@ -207,7 +207,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * "%="
      * @return
      */
-    public boolean isRemainderAssignOperation() {
+    public boolean isRemainderAssign() {
         return isOperator(AssignExpr.Operator.REMAINDER);
     }
 
@@ -215,7 +215,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * "<<="
      * @return
      */
-    public boolean isBinaryLeftShiftAssignOperation() {
+    public boolean isBinaryLeftShiftAssign() {
         return isOperator(AssignExpr.Operator.LEFT_SHIFT);
     }
 
@@ -223,7 +223,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * ">>="
      * @return
      */
-    public boolean isBinarySignedRightShiftAssignOperation() {
+    public boolean isBinarySignedRightShiftAssign() {
         return isOperator(AssignExpr.Operator.SIGNED_RIGHT_SHIFT);
     }
 
@@ -231,103 +231,8 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
      * ">>>="
      * @return
      */
-    public boolean isBinaryUnsignedRightShiftAssignOperation() {
+    public boolean isBinaryUnsignedRightShiftAssign() {
         return isOperator(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT);
-    }
-
-    /**
-     * "="
-     */
-    public _assignExpr setAssignOperation() {
-        return setOperator(AssignExpr.Operator.ASSIGN);
-    }
-
-    /**
-     * "+="
-     *
-     * @return
-     */
-    public _assignExpr setIncrementAssignOperation() {
-        return setOperator(AssignExpr.Operator.PLUS);
-    }
-
-    /**
-     * "-="
-     * @return
-     */
-    public _assignExpr setDecrementAssignOperation() {
-        return setOperator(AssignExpr.Operator.MINUS);
-    }
-    /**
-     *  "*="
-     */
-    public _assignExpr setMultiplyAssignOperation() {
-        return setOperator(AssignExpr.Operator.MULTIPLY);
-    }
-
-    /**
-     * /=
-     * @return
-     */
-    public _assignExpr setDivideAssignOperation() {
-        return setOperator(AssignExpr.Operator.DIVIDE);
-    }
-
-    /**
-     * &=
-     *
-     * @return
-     */
-    public _assignExpr setBinaryAndAssignOperation() {
-        return setOperator(AssignExpr.Operator.BINARY_AND);
-    }
-
-    /**
-     * "|="
-     * @return
-     */
-    public _assignExpr setBinaryOrAssignOperation() {
-        return setOperator(AssignExpr.Operator.BINARY_OR);
-    }
-
-    /**
-     * "^="
-     * @return
-     */
-    public _assignExpr setBinaryXorAssignOperation() {
-        return setOperator(AssignExpr.Operator.XOR);
-    }
-
-    /**
-     * "%="
-     * @return
-     */
-    public _assignExpr setRemainderAssignOperation() {
-        return setOperator(AssignExpr.Operator.REMAINDER);
-    }
-
-    /**
-     * "<<="
-     * @return
-     */
-    public _assignExpr setBinaryLeftShiftAssignOperation() {
-        return setOperator(AssignExpr.Operator.LEFT_SHIFT);
-    }
-
-    /**
-     * ">>="
-     * @return
-     */
-    public _assignExpr setBinarySignedRightShiftAssignOperation() {
-        return setOperator(AssignExpr.Operator.SIGNED_RIGHT_SHIFT);
-    }
-
-    /**
-     * ">>>="
-     * @return
-     */
-    public _assignExpr setBinaryUnsignedRightShiftAssignOperation() {
-        return setOperator(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT);
     }
 
     public _assignExpr setOperator(String op ){
@@ -340,14 +245,24 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         return this;
     }
 
+    public boolean isValue(Class<? extends _expr>...expressionTypes ){
+        _expr v = getValue();
+        return Stream.of(expressionTypes).anyMatch(e-> e.isAssignableFrom(v.getClass()) );
+    }
+
     public boolean isValue(String str){
         return Objects.equals( this.ae.getValue(), Expr.of(str));
     }
+
     public boolean isValue(Expression e){
         return Objects.equals( this.ae.getValue(), e);
     }
     public boolean isValue(_expr e){
         return Objects.equals( this.ae.getValue(), e.ast());
+    }
+
+    public boolean isValue(Predicate<_expr> _matchFn){
+        return _matchFn.test( getValue() );
     }
 
     public boolean isTarget(String str){
@@ -358,6 +273,10 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
     }
     public boolean isTarget(_expr e){
         return Objects.equals( this.ae.getTarget(), e.ast());
+    }
+
+    public boolean isTarget(Predicate<_expr> _matchFn){
+        return _matchFn.test( getTarget() );
     }
 
     public _assignExpr setTarget(String...target){

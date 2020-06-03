@@ -8,6 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * The initialization of an array. In the following sample, the outer { } is an ArrayInitializerExpr.
@@ -161,20 +162,40 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
         return this.aie.getValues();
     }
 
-    /*
-    public _arrayInitExpr set(int index, _expr _e){
-        aie.getValues().set(index, _e.ast());
-        return this;
-    }
-
-    public _arrayInitExpr set(int index, Expression e){
-        aie.getValues().set(index, e);
-        return this;
-    }
+    /**
+     * gets the number of values initialized
+     * @return the size
      */
+    public int getSize(){
+        return this.aie.getValues().size();
+    }
 
     public ArrayInitializerExpr ast(){
         return aie;
+    }
+
+    /**
+     * Adds expressions to the array initializer
+     * @param exprs Strings representing expressions to be added to the array initialization
+     * @return the modified _arrayInitExpr
+     */
+    public _arrayInitExpr add(String...exprs){
+        Stream.of(exprs).forEach(e -> add( _expr.of(e)));
+        return this;
+    }
+
+    /**
+     *
+     * @param index
+     * @param exprCode
+     * @return
+     */
+    public boolean isAt(int index, String exprCode){
+        try{
+            return isAt( index, _expr.of(exprCode));
+        }catch(Exception e){
+            return false;
+        }
     }
 
     @Override

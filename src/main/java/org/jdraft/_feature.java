@@ -435,7 +435,7 @@ public interface _feature<_T, _F>{
          * the implementation types of feature elements (i.e. {@link _method}, {@link _field},... for {@link _java._member})
          * this is filled in if the {@link #featureElementClass} is a base class or interface.
          */
-        public Class[] featureImplementationClasses;
+        public Class<? extends _E> [] featureImplementationClasses;
 
         /**
          * Does the order matter to the semantics (i.e. to test for equality)
@@ -467,11 +467,30 @@ public interface _feature<_T, _F>{
             this.elementParser = elementParser;
         }
 
+        /**
+         * Are the many items in the feature set of the same implementation type?
+         * @return
+         */
+        public boolean isHomogenous(){
+            return this.featureImplementationClasses == null || this.featureImplementationClasses.length == 0;
+        }
+
+        /**
+         * the gamut of possible types that can be the Feature Implementation
+         * (NULL or empty if the set is HOMOGENOUS)
+         * @param featureImplementationClass
+         * @return
+         */
         public _many<_T, _E> featureImplementations(Class<? extends _E>... featureImplementationClass ){
             this.featureImplementationClasses = featureImplementationClasses;
             return this;
         }
 
+        /**
+         * Does the order have (semantic) meaning
+         * @param isOrdered
+         * @return
+         */
         public _many<_T, _E> setOrdered(Boolean isOrdered){
             this.isOrdered = isOrdered;
             return this;
@@ -540,15 +559,21 @@ public interface _feature<_T, _F>{
     }
 
     /**
-     * A tool for operating on a specific feature that is a single entity (i.e. a
+     * A tool for operating on a specific feature that is a single entity (i.e. a {@link _java._node})
      * within an instance of the targetClass
      *
      * @param <_T>
      * @param <_F>
      */
     class _one<_T, _F> implements _feature<_T, _F> {
+        /** the concrete target ({@link _java._node}, {@link _java._set}, {@link _java._list}) implementation */
         public final Class<_T> targetClass;
+
+        /** the class or interface type of the feature */
         public final Class<_F> featureClass;
+
+        /** concrete implementation classes that can be used for this feature (i.e. if the featureClass is {@link _expr} */
+        public Class <? extends _F>[] featureImplementationClasses;
 
         public final _id feature;
         public final Function<_T, _F> getter;

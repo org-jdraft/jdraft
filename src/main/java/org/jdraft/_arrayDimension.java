@@ -11,11 +11,12 @@ import java.util.function.Function;
  * An expression representing a single Array dimension
  * i.e. for the following (3) dimensional array
  * int[10][arrs.length][getY()] vals;
- * we have (3) distinct _arrayDimension instances
- *  [10] an intLiteral expression denoted dimension
- *  [arrs.length] a fieldAccessExpression denoted dimension
- *  [getY()] a methodCallExpr denoted dimension
- *
+ * we have (3) distinct _arrayDimension instances:
+ * <UL>
+ *  <LI>[10] an intLiteral expression denoted dimension
+ *  <LI>[arrs.length] a fieldAccessExpression denoted dimension
+ *  <LI>[getY()] a methodCallExpr denoted dimension
+ *</UL>
  * @see _newArrayExpr where we use these _arrayDimensions to declare arrays
  */
 public final class _arrayDimension implements _java._node<ArrayCreationLevel, _arrayDimension>,
