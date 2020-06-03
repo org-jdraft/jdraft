@@ -447,6 +447,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         return true;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put(_java.Feature.NAME, getName());
@@ -457,6 +458,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         parts.put(_java.Feature.INIT, getInitNode());
         return parts;
     }
+     */
 
     @Override
     public int hashCode() {

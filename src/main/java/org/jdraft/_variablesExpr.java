@@ -168,15 +168,6 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return varDeclEx;
     }
 
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        comps.put( _java.Feature.IS_FINAL, varDeclEx.isFinal() );
-        comps.put( _java.Feature.ANNO_EXPRS, _annoExprs.of(varDeclEx));
-        comps.put( _java.Feature.VARIABLES, list() );
-        return comps;
-    }
-
     //does the same as list
     public List<_variable> listVariables(){
         return this.varDeclEx.getVariables().stream().map(v-> _variable.of(v)).collect(Collectors.toList());

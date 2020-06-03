@@ -240,6 +240,7 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
         return astStmt;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.ITERABLE_EXPR, astStmt.getIterable());
@@ -247,6 +248,7 @@ public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEa
         comps.put(_java.Feature.BODY, astStmt.getBody());
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

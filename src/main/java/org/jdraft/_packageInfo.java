@@ -197,7 +197,7 @@ public final class _packageInfo
      * Decompose the entity into key-VALUE pairs
      *
      * @return a map of key values
-     */
+
     public Map<_java.Feature, Object> features() {
         Map m = new HashMap();
         m.put(_java.Feature.HEADER_COMMENT, this.getHeaderComment());
@@ -207,4 +207,5 @@ public final class _packageInfo
         m.put(_java.Feature.IMPORTS, _imports.of(astCompUnit));
         return m;
     }
+    */
 }

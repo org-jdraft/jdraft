@@ -562,6 +562,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         return hash;
     }
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
@@ -580,6 +581,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }
+     */
 
     @Override
     public boolean is( String...interfaceDeclaration ){

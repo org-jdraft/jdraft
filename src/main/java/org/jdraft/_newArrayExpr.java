@@ -137,6 +137,7 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
         return astNode;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
@@ -147,6 +148,7 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
         comps.put(_java.Feature.TYPE, astNode.getElementType());
         return comps;
     }
+     */
 
     public _newArrayExpr setInit(String...init){
         this.astNode.setInitializer(Expr.arrayInitializerExpr(init));

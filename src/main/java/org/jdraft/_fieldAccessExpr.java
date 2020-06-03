@@ -110,6 +110,7 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
         return fe;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.SCOPE_EXPR, fe.getScope());
@@ -119,6 +120,7 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
         comps.put(_java.Feature.NAME, fe.getNameAsString());
         return comps;
     }
+     */
 
     public SimpleName getNameNode() { return this.fe.getName(); }
 

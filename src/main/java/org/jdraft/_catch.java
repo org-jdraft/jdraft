@@ -316,12 +316,14 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
         return this.cc;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put( _java.Feature.BODY, this.cc.getBody());
         comps.put( _java.Feature.PARAM, this.cc.getParameter());
         return comps;
     }
+     */
 
     public String toString(){
         return this.cc.toString();

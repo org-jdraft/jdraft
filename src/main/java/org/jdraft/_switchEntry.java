@@ -518,6 +518,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         return this.switchEntry;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> cs = new HashMap<>();
         cs.put(_java.Feature.STATEMENTS, this.switchEntry.getStatements());
@@ -525,6 +526,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         cs.put(_java.Feature.SWITCH_LABEL_EXPRS, this.switchEntry.getLabels());
         return cs;
     }
+     */
 
     public String toString(){
         return this.switchEntry.toString();

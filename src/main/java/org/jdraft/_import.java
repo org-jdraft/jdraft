@@ -328,6 +328,7 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
         }
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature,Object>components = new HashMap<>();
         components.put(_java.Feature.NAME, this.astId.getNameAsString());
@@ -335,6 +336,7 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
         components.put(_java.Feature.IS_WILDCARD, this.astId.isAsterisk());
         return components;
     }
+     */
 
     /**
      * 

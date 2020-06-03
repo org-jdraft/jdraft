@@ -113,12 +113,14 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         return ioe;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.TYPE, ioe.getType());
         comps.put(_java.Feature.EXPRESSION, ioe.getExpression());
         return comps;
     }
+     */
 
     public _expr getExpression(){
         return _expr.of(this.ioe.getExpression());

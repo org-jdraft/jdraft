@@ -541,6 +541,7 @@ public final class _typeRef<T extends Type>
 
     public static _feature._features<_typeRef> FEATURES = _feature._features.of(_typeRef.class, ANNOS, TYPE);
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
 
@@ -549,6 +550,7 @@ public final class _typeRef<T extends Type>
         parts.put( _java.Feature.ELEMENT_TYPE, this.astType.getElementType());
         return parts;
     }
+     */
 
     public _typeRef setType(Type t){
         this.astType.replace(t);

@@ -524,7 +524,7 @@ public interface _java {
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
      * ...to jdraft _java models (i.e. {@link _annoExpr})
      */
-    class Model {
+    class Classes {
 
         /*
             Easy access to the draft _java classes and interfaces that represent
@@ -700,23 +700,7 @@ public interface _java {
      * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
      */
     interface _member<N extends Node, _N extends _withComments>
-            extends _withComments<N, _N> { //_multiPart<N, _N>,
-
-        /**
-         *
-         * @param code
-         * @return
-
-        public static _member of( String code){
-            if( code.contains(" default ")){
-                //MUST be a
-
-            }
-            if( code.endsWith(";")){
-                //field
-            }
-        }
-        */
+            extends _withComments<N, _N> {
 
         /**
          * Given the "container class" and a String representing the member, build and return

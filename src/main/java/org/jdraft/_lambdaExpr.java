@@ -400,6 +400,7 @@ public final class _lambdaExpr
         return this.astLambda.toString();
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> map = new HashMap<>();
         map.put(_java.Feature.BODY, _body.of(this.astLambda));
@@ -407,4 +408,5 @@ public final class _lambdaExpr
         map.put(_java.Feature.PARAMS, _params.of(this.astLambda.getParameters()));
         return null;
     }
+     */
 }

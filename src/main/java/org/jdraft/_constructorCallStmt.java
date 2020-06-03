@@ -105,6 +105,7 @@ public final class _constructorCallStmt
         return this;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
@@ -116,6 +117,7 @@ public final class _constructorCallStmt
         }
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

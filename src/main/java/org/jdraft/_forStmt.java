@@ -429,6 +429,7 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         return astStmt;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.INIT_EXPR, astStmt.getInitialization());
@@ -437,6 +438,7 @@ public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStm
         comps.put(_java.Feature.BODY, astStmt.getBody());
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

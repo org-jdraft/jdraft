@@ -120,6 +120,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         return ce;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
@@ -127,6 +128,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         comps.put(_java.Feature.EXPRESSION, ce.getExpression());
         return comps;
     }
+     */
 
     public boolean equals(Object other){
         if( other instanceof _castExpr){

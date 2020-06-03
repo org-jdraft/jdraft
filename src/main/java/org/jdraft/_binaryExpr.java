@@ -275,6 +275,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         return astBe;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.LEFT_EXPR, astBe.getLeft());
@@ -282,6 +283,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         comps.put(_java.Feature.RIGHT_EXPR, astBe.getRight());
         return comps;
     }
+     */
 
 
     public boolean isLeft( Predicate<_expr> matchFn){

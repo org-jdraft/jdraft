@@ -695,6 +695,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return this;
     }
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
@@ -714,6 +715,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes());
         return parts;
     }
+     */
 
     @Override
     public int hashCode() {

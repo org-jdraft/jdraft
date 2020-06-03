@@ -298,6 +298,7 @@ public final class _param
         return this;
     }
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.IS_FINAL, isFinal() );
@@ -307,5 +308,6 @@ public final class _param
         parts.put( _java.Feature.IS_VAR_ARG, isVarArg() );
         return parts;
     }
+     */
 
 }

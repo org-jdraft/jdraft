@@ -231,6 +231,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         return _expr.of(astStmt.getCheck());
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
         comps.put(_java.Feature.EXPRESSION, astStmt.getCheck() );
@@ -239,6 +240,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         }
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

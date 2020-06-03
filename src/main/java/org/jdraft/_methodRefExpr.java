@@ -57,6 +57,7 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
         return mre;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
@@ -67,6 +68,7 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
         comps.put(_java.Feature.IDENTIFIER, mre.getId());
         return comps;
     }
+     */
 
     public boolean isIdentifier( String id){
         return Objects.equals( this.mre.getIdentifier(), id);

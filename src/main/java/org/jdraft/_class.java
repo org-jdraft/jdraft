@@ -1024,6 +1024,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return true;
     }
 
+    /*
     public Map<Feature, Object> features( ) {
         Map<Feature, Object> parts = new HashMap<>();
         parts.put(Feature.HEADER_COMMENT, this.getHeaderComment() );
@@ -1044,6 +1045,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         parts.put( Feature.COMPANION_TYPES, this.listCompanionTypes() );
         return parts;
     }
+     */
 
     @Override
     public int hashCode(){

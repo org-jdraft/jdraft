@@ -237,11 +237,13 @@ public final class _typeParam
         //return Objects.equals( ttp, otp );
     }
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.TYPE_PARAM, this.typeParam);
         return parts;
     }
+     */
 
     @Override
     public int hashCode() {

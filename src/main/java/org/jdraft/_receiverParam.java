@@ -159,6 +159,7 @@ public final class _receiverParam
         return true;
     }
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
@@ -166,6 +167,7 @@ public final class _receiverParam
         parts.put( _java.Feature.NAME, getName() );
         return parts;
     }
+     */
 
     @Override
     public int hashCode() {

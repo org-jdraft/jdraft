@@ -127,6 +127,7 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
         return astStmt;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
@@ -134,6 +135,7 @@ public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchro
         comps.put(_java.Feature.BODY, astStmt.getBody());
         return comps;
     }
+     */
 
     public String toString(){
         return this.astStmt.toString();

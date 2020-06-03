@@ -265,6 +265,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
         return true;
     }
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
@@ -274,6 +275,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
         parts.put( _java.Feature.DEFAULT_EXPR, this.getDefaultAstValue() );
         return parts;
     }
+     */
 
     @Override
     public int hashCode() {

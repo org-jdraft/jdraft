@@ -370,6 +370,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return true;
     }
 
+    /*
     public Map<_java.Feature, Object> features( ) {
         Map<_java.Feature, Object> parts = new HashMap<>();
         parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
@@ -380,6 +381,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         parts.put( _java.Feature.FIELDS, this.listFields() );
         return parts;
     }
+     */
 
     @Override
     public String toString(){

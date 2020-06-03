@@ -120,6 +120,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         return ce;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> comps = new HashMap<>();
 
@@ -128,6 +129,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         comps.put(_java.Feature.ELSE_EXPR, ce.getElseExpr());
         return comps;
     }
+     */
 
     public boolean isThen( String...expr){
         return isThen( Expr.of(expr));

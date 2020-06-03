@@ -122,7 +122,7 @@ public final class _moduleInfo
      * Decompose the entity into key-VALUE pairs
      *
      * @return a map of key values
-     */
+
     public Map<_java.Feature, Object> features() {
 
         Map m = new HashMap();
@@ -136,6 +136,7 @@ public final class _moduleInfo
 
         return m;
     }
+     */
 
     @Override
     public String toString() {

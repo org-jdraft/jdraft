@@ -1253,12 +1253,14 @@ public final class _switchStmt implements _stmt._controlFlow._conditional<Switch
         return this;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> mc = new HashMap<>();
         mc.put(_java.Feature.SWITCH_SELECTOR_EXPR, this.switchStmt.getSelector());
         mc.put(_java.Feature.SWITCH_ENTRIES, this.switchStmt.getEntries());
         return mc;
     }
+     */
 
     public String toString(){
         return this.switchStmt.toString();

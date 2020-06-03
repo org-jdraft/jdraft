@@ -139,22 +139,8 @@ public final class _whileStmt implements _stmt._controlFlow._conditional<WhileSt
         return this;
     }
 
-    /*
-    @Override
-    public boolean is(WhileStmt astNode) {
-        return this.whileStmt.equals( astNode);
-    }
-     */
-
     public WhileStmt ast(){
         return whileStmt;
-    }
-
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.CONDITION_EXPR, whileStmt.getCondition());
-        comps.put(_java.Feature.BODY, whileStmt.getBody());
-        return comps;
     }
 
     public boolean equals(Object other){

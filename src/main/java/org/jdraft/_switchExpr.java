@@ -427,12 +427,14 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return this;
     }
 
+    /*
     public Map<_java.Feature, Object> features() {
         Map<_java.Feature, Object> mc = new HashMap<>();
         mc.put(_java.Feature.SWITCH_SELECTOR_EXPR, this.switchExpr.getSelector());
         mc.put(_java.Feature.SWITCH_ENTRIES, this.switchExpr.getEntries());
         return mc;
     }
+     */
 
     public String toString(){
         return this.switchExpr.toString();
