@@ -11,7 +11,7 @@ public class _argsTest extends TestCase {
         assertTrue(_as.allMatch( e-> e.is(Expr.of(1))));
         assertFalse(_as.anyMatch( e-> e.is(Expr.of(1))));
         assertEquals( -1, _as.indexOf(_intExpr.of(1)));
-        assertNull( _as.get(_e -> _e instanceof _expr._literal ));
+        assertNull( _as.first(_e -> _e instanceof _expr._literal ));
         _as.forEach(e-> fail() ); //there are none so we shouldnt fail
         assertFalse(_as.has(_intExpr.of(2)));
 

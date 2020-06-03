@@ -126,6 +126,11 @@ public final class _typeArgs
         return new _typeArgs( (NodeWithTypeArguments) (n.clone()) );
     }
 
+    public _typeRef getAt(int index){
+        NodeList<Type> tsa = (NodeList<Type>)this.nwta.getTypeArguments().get();
+        return _typeRef.of( tsa.get(index));
+    }
+
     @Override
     public List<_typeRef> list() {
         if( !this.nwta.getTypeArguments().isPresent()){

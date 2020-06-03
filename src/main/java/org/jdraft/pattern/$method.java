@@ -546,7 +546,7 @@ public class $method
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_method> pf = f-> f.getAnnoExprs().get(a -> $fa.matches(a) ) != null;
+                Predicate<_method> pf = f-> f.getAnnoExprs().first(a -> $fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){

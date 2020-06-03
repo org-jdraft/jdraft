@@ -4,7 +4,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
 import org.jdraft.*;
-import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
@@ -207,7 +206,7 @@ public class $args<N extends Node & NodeWithArguments>
 
     public $args $any(Class<? extends _expr>...expressionClasses ){
         Predicate<_args> ps =
-                (args) -> Arrays.stream(expressionClasses).anyMatch( ec-> args.get(a -> ec.isAssignableFrom(a.getClass())) != null );
+                (args) -> Arrays.stream(expressionClasses).anyMatch( ec-> args.first(a -> ec.isAssignableFrom(a.getClass())) != null );
         return $and( ps );
     }
 

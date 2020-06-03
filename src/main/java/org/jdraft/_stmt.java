@@ -13,6 +13,13 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
      */
     S ast();
 
+    /**
+     * Remove this statement from the AST
+     */
+    default void remove(){
+        ast().remove();
+    }
+
     interface _controlFlow<S extends Statement, _S extends _stmt> extends _stmt<S, _S> {
 
         /**

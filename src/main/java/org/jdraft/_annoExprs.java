@@ -111,7 +111,6 @@ public final class _annoExprs
         return new _annoExprs( astTypeParam );
     }
 
-
     public static <T extends Type> _annoExprs of(T t ){
         return new _annoExprs( new _annoExpr.Type_annoPatch(t) );
     }
@@ -157,6 +156,10 @@ public final class _annoExprs
             return a.get( 0 );
         }
         return null;
+    }
+
+    public _annoExpr getAt( int index){
+        return _annoExpr.of(this.ast().get(index));
     }
 
     @Override
@@ -371,7 +374,7 @@ public final class _annoExprs
          * @return
          */
         default _annoExpr getAnnoExpr(int index) {
-            return getAnnoExprs().getAt( index );
+            return listAnnoExprs().get(index);
         }
 
         /**
@@ -402,7 +405,7 @@ public final class _annoExprs
          * @return the first matching {@link _annoExpr}, or null if none query
          */
         default _annoExpr getAnnoExpr(Predicate<_annoExpr> _annoMatchFn) {
-            return getAnnoExprs().get( _annoMatchFn );
+            return getAnnoExprs().first( _annoMatchFn );
         }
 
         /**

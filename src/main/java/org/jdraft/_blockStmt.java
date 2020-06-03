@@ -7,10 +7,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         _java._list<Statement, _stmt, _blockStmt> {
@@ -99,6 +96,157 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
     public NodeList<Statement> listAstElements() {
         return this.bs.getStatements();
     }
+
+    /**
+     * Adds this code (as statements) to the body of the block statement (at the end)
+     * @param code a String representing Statement(s)
+     * @return the modified _blockStmt
+     */
+    public _blockStmt add(String...code){
+         _blockStmt _bs = of( code );
+         _bs.forEach(s-> this.add(s));
+         return this;
+    }
+
+    /**
+     * Add all of the statements represented by the code at the index
+     * @param index the index where to start adding
+     * @param code the code representing the statements to be added
+     * @return the modified blockStmt
+     */
+    public _blockStmt addAt(int index, String...code ){
+        _blockStmt _bs = of( code );
+        for(int i=0;i< _bs.size(); i++){
+            this.addAt(i+ index, _bs.getAt(i));
+        }
+        return this;
+    }
+
+    /**
+     * Using the body of the lambda add statements to the end of this blockStmt
+     *
+     * @param ec the lambda containing the body
+     * @return
+     */
+    public _blockStmt add( Expr.Command ec ){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( Consumer<? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( Supplier<? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( Function<? extends Object, ? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( BiFunction<? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( Expr.TriFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( Expr.QuadFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( BiConsumer<? extends Object, ? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( Expr.TriConsumer<? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt add( Expr.QuadConsumer<? extends Object, ? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( Thread.currentThread().getStackTrace()[2] );
+    }
+
+    /**
+     * Using the body of the lambda add statements to the end of this blockStmt
+     *
+     * @param ec the lambda containing the body
+     * @return
+     */
+    public _blockStmt addAt(int index, Expr.Command ec ){
+        return addFrom( index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, Consumer<? extends Object> c){
+        return addFrom( index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, Supplier<? extends Object> c){
+        return addFrom( index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, Function<? extends Object, ? extends Object> c){
+        return addFrom( index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, BiFunction<? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, Expr.TriFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, Expr.QuadFunction<? extends Object, ? extends Object, ? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom( index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, BiConsumer<? extends Object, ? extends Object> c){
+        return addFrom(index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, Expr.TriConsumer<? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom(index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    public _blockStmt addAt(int index, Expr.QuadConsumer<? extends Object, ? extends Object, ? extends Object, ? extends Object> c){
+        return addFrom(index, Thread.currentThread().getStackTrace()[2] );
+    }
+
+    private _blockStmt addFrom( StackTraceElement ste ){
+        _lambdaExpr _le = _lambdaExpr.from(ste);
+        _stmt _s = _le.getBody();
+        if( _s instanceof _blockStmt ){
+            _blockStmt _bs = (_blockStmt)_s;
+            _bs.forEach(s-> this.add(s));
+        } else{
+            add( _s );
+        }
+        return this;
+    }
+    private _blockStmt addFrom(int index, StackTraceElement ste){
+        _lambdaExpr _le = _lambdaExpr.from(ste);
+        _stmt _s = _le.getBody();
+        if( _s instanceof _blockStmt ){
+            _blockStmt _bs = (_blockStmt)_s;
+            this.addAt(index, _bs.list().toArray(new _stmt[0]));
+        } else{
+            this.addAt(index, _s );
+        }
+        return this;
+    }
+    public <_S extends _stmt> _blockStmt remove(Class<_S> stmtClass, Predicate<_S> matchFn){
+        remove(_s-> {
+            if( stmtClass.isAssignableFrom( _s.getClass())){
+                return matchFn.test( (_S) _s);
+            }
+            return false;
+        });
+        return this;
+    }
+
+
 
     @Override
     public boolean is(String... stringRep) {

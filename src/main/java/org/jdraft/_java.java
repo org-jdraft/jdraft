@@ -1244,24 +1244,12 @@ public interface _java {
             return (_S)this;
         }
 
-        default _EL get(Predicate<_EL> matchFn){
+        default _EL first(Predicate<_EL> matchFn){
             List<_EL> _els = this.list(matchFn);
             if( _els.isEmpty() ){
                 return null;
             }
             return _els.get(0);
-        }
-
-        default _EL getAt(int index){
-            return this.list().get(index);
-        }
-
-        default int indexOf(_EL target){
-            return list().indexOf(target);
-        }
-
-        default int indexOf(EL target){
-            return listAstElements().indexOf(target);
         }
 
         default boolean has(_EL target){
@@ -1315,53 +1303,87 @@ public interface _java {
             return (_S)this;
         }
 
-
-    }
-
-    /**
-     * ORDERED/ ORDER MATTERS TO THE SEMANTICS GROUP
-     * Sometimes we have groupings of entities that do not
-     * map to a specific Ast entity but a grouping of AST entities
-     *
-     * @see _params (parameters are ordered)
-     * @see _newArrayExpr (the dimensions of the array are in an ordered list)
-     * @see _arrayInitExpr (the elements located in the array are ordered)
-     */
-    interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _domain {
-
         /**
-         *
-         * @param _els
+         * Count the number of elements in the list that are of these implementation classes
+         * @param instanceClasses
          * @return
          */
-        default boolean is(_EL... _els){
-            List<_EL> _arr = new ArrayList<>();
-            Arrays.stream(_els).forEach(n -> _arr.add(n));
-            return is(_arr);
+        default int count( Class<? extends _EL>... instanceClasses ){
+            return list(e-> Stream.of(instanceClasses).anyMatch(c-> c.isAssignableFrom(e.getClass()))).size();
+        }
+
+        /**
+         * count the number of elements in the list that abide by the predicate
+         * @param matchFn the predicate matching function
+         * @return the count of elements in the list that match the predicate
+         */
+        default int count( Predicate<_EL> matchFn){
+            return list(matchFn).size();
         }
 
         /**
          *
-         * @param _els
+         * @param instanceType
+         * @param _instanceMatchFn
+         * @param <_IT>
          * @return
          */
-        default boolean is(List<_EL> _els){
-            if( this.size() != _els.size() ){
-                return false;
-            }
-            List<_EL> _tels = list();
-            for(int i=0;i<_els.size(); i++){
-                if( !Objects.equals(_els.get(i), _tels.get(i))){
-                    return false;
+        default <_IT extends _EL> int count(  Class<_IT> instanceType, Predicate<_IT> _instanceMatchFn){
+            return list(e-> {
+                if( instanceType.isAssignableFrom(e.getClass()) ){
+                    return _instanceMatchFn.test( (_IT)e);
                 }
-            }
-            return true;
+                return false;
+            }).size();
+        }
+
+        /**
+         * E
+         * @param index
+         * @return
+         */
+        default _EL getAt(int index){
+            return this.list().get(index);
+        }
+
+        default int indexOf(_EL target){
+            return list().indexOf(target);
+        }
+
+        default int indexOf(EL target){
+            return listAstElements().indexOf(target);
         }
 
         /** remove the argument at this index */
-        default _L removeAt(int index){
+        default _S removeAt(int index){
             this.listAstElements().remove(index);
-            return (_L)this;
+            return (_S)this;
+        }
+
+        /**
+         * Adds an element at the index and returns the modified list
+         * @param index the index to add at (0-based)
+         * @param element the element to add
+         * @return the modified list
+         */
+        default _S addAt( int index, _EL... element){
+            for(int i=0;i<element.length;i++) {
+                this.listAstElements().add(index+i, (EL) element[i].ast());
+            }
+            return (_S)this;
+        }
+
+        /**
+         * Adds an element at the index and returns the modified list
+         * @param index the index to add at (0-based)
+         * @param element the element to add
+         * @return the modified list
+         */
+        default _S addAt( int index, EL... element){
+            for(int i=0;i<element.length;i++) {
+                this.listAstElements().add(index+i, element[i]);
+            }
+            return (_S)this;
         }
 
         /**
@@ -1370,9 +1392,9 @@ public interface _java {
          * @param element
          * @return
          */
-        default _L setAt( int index, EL element){
+        default _S setAt( int index, EL element){
             this.listAstElements().set(index, element);
-            return (_L)this;
+            return (_S)this;
         }
 
         /**
@@ -1381,9 +1403,9 @@ public interface _java {
          * @param _element
          * @return
          */
-        default _L setAt( int index, _EL _element){
+        default _S setAt( int index, _EL _element){
             this.listAstElements().set(index, (EL)_element.ast());
-            return (_L)this;
+            return (_S)this;
         }
 
         /**
@@ -1424,6 +1446,20 @@ public interface _java {
             }
             return matchFn.test( getAt(index));
         }
+    }
+
+    /**
+     * ORDERED/ ORDER MATTERS TO THE SEMANTICS GROUP
+     * Sometimes we have groupings of entities that do not
+     * map to a specific Ast entity but a grouping of AST entities
+     *
+     * @see _params (parameters are ordered)
+     * @see _newArrayExpr (the dimensions of the array are in an ordered list)
+     * @see _arrayInitExpr (the elements located in the array are ordered)
+     */
+    interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _domain {
+
+
     }
 
     /**
@@ -1876,6 +1912,18 @@ public interface _java {
 
         public <_D extends _domain> boolean has(Class<_D> _nodeClass, Predicate<_D> _matchFn){
             return Tree.first(this.treeTraversal, this._n, _nodeClass, _matchFn) != null;
+        }
+
+        public int count(Predicate<_node> _matchFn){
+            return count(_node.class, _matchFn);
+        }
+
+        public <_D extends _domain> int count(Class<_D> _nodeClass){
+            return list(_nodeClass, t->true).size();
+        }
+
+        public <_D extends _domain> int count(Class<_D> _nodeClass, Predicate<_D> _matchFn){
+            return list(_nodeClass, _matchFn).size();
         }
 
         public void print(Predicate<_node> _matchFn){
