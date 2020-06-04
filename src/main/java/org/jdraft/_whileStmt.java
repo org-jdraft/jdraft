@@ -8,9 +8,9 @@ import com.github.javaparser.ast.stmt.WhileStmt;
 import java.util.*;
 import java.util.function.*;
 
-public final class _whileStmt implements _stmt._controlFlow._conditional<WhileStmt, _whileStmt>,
-        _java._node<WhileStmt, _whileStmt>,
-        _stmt._controlFlow._loop<WhileStmt, _whileStmt>,
+public final class _whileStmt implements
+        _stmt._conditional<WhileStmt, _whileStmt>,
+        _stmt._loop<WhileStmt, _whileStmt>,
         _java._withCondition<WhileStmt, _whileStmt>,
         _body._withBody<_whileStmt> {
 

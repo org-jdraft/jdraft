@@ -10,8 +10,9 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class _throwStmt implements _stmt._controlFlow._returns<ThrowStmt, _throwStmt>,
-        _java._node<ThrowStmt, _throwStmt>, _java._withExpression<ThrowStmt, _throwStmt> {
+public final class _throwStmt implements
+        _stmt._returns<ThrowStmt, _throwStmt>,
+        _java._withExpression<ThrowStmt, _throwStmt> {
 
     public static final Function<String, _throwStmt> PARSER = s-> _throwStmt.of(s);
 

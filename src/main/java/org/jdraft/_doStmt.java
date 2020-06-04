@@ -5,8 +5,6 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.DoStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -17,9 +15,9 @@ import java.util.function.Function;
 /**
  *
  */
-public final class _doStmt implements _stmt._controlFlow._loop<DoStmt, _doStmt>,
-        _stmt._controlFlow._conditional<DoStmt, _doStmt>,
-        _java._node<DoStmt, _doStmt>,
+public final class _doStmt implements
+        _stmt._conditional<DoStmt, _doStmt>,
+        _stmt._loop<DoStmt, _doStmt>,
         _java._withCondition<DoStmt,_doStmt>,
         _body._withBody<_doStmt> {
 

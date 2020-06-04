@@ -1,14 +1,12 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.SimpleName;
-import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.ContinueStmt;
 
 import java.util.Objects;
 import java.util.function.Function;
 
-public final class _continueStmt implements _stmt._controlFlow._goto<ContinueStmt, _continueStmt>,
-        _java._node<ContinueStmt, _continueStmt> {
+public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueStmt> {
 
     public static final Function<String, _continueStmt> PARSER = s-> _continueStmt.of(s);
 

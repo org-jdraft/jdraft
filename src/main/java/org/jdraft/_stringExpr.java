@@ -2,11 +2,14 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Tokens;
 
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public final class _stringExpr implements _expr._literal<StringLiteralExpr, _stringExpr>, _java._withText<_stringExpr> {
+public final class _stringExpr
+        implements _expr._literal<StringLiteralExpr, _stringExpr>, _java._withText<_stringExpr> {
 
     public static final Function<String, _stringExpr> PARSER = s-> _stringExpr.of(s);
 
@@ -51,15 +54,19 @@ public final class _stringExpr implements _expr._literal<StringLiteralExpr, _str
         return false;
     }
 
+    /*
     @Override
     public boolean is(StringLiteralExpr astNode) {
         return this.ast( ).equals(astNode);
     }
+     */
 
+    /*
     @Override
     public boolean isText(Predicate<String> textMatchFn ){
         return textMatchFn.test(this.se.asString());
     }
+     */
 
     /**
      * Gets the text of the String

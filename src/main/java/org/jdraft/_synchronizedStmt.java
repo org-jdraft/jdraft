@@ -12,10 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-
-public final class _synchronizedStmt implements _stmt<SynchronizedStmt, _synchronizedStmt>,
+public final class _synchronizedStmt implements
+        _stmt<SynchronizedStmt, _synchronizedStmt>,
         _body._withBody<_synchronizedStmt>,
-        _java._node<SynchronizedStmt, _synchronizedStmt>,
         _java._withExpression<SynchronizedStmt, _synchronizedStmt> {
 
     public static final Function<String, _synchronizedStmt> PARSER = s-> _synchronizedStmt.of(s);

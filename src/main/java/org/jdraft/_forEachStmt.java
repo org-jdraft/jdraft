@@ -7,8 +7,6 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -19,9 +17,9 @@ import java.util.function.Function;
 /**
  * for(Object o: objects) { ... }
  */
-public final class _forEachStmt implements _stmt._controlFlow._conditional<ForEachStmt, _forEachStmt>,
-        _stmt._controlFlow._loop<ForEachStmt, _forEachStmt>,
-        _java._node<ForEachStmt, _forEachStmt>,
+public final class _forEachStmt implements
+        _stmt._conditional<ForEachStmt, _forEachStmt>,
+        _stmt._loop<ForEachStmt, _forEachStmt>,
         _body._withBody<_forEachStmt> {
 
     public static final Function<String, _forEachStmt> PARSER = s-> _forEachStmt.of(s);

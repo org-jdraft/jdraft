@@ -236,6 +236,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         }
         return this;
     }
+
     public <_S extends _stmt> _blockStmt remove(Class<_S> stmtClass, Predicate<_S> matchFn){
         remove(_s-> {
             if( stmtClass.isAssignableFrom( _s.getClass())){
@@ -245,8 +246,6 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         });
         return this;
     }
-
-
 
     @Override
     public boolean is(String... stringRep) {

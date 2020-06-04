@@ -10,8 +10,8 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.Collectors;
 
-public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, _tryStmt>,
-        _java._node<TryStmt, _tryStmt>{
+public final class _tryStmt implements
+        _stmt._conditional<TryStmt, _tryStmt> {
 
     public static final Function<String, _tryStmt> PARSER = s-> _tryStmt.of(s);
 
@@ -59,7 +59,6 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-
     private static _tryStmt from( LambdaExpr le){
         Optional<TryStmt> ows = le.getBody().findFirst(TryStmt.class);
         if( ows.isPresent() ){
@@ -106,13 +105,6 @@ public final class _tryStmt implements _stmt._controlFlow._conditional<TryStmt, 
     public _tryStmt copy() {
         return new _tryStmt( this.tryStmt.clone());
     }
-
-    /*
-    @Override
-    public boolean is(TryStmt astNode) {
-        return this.tryStmt.equals( astNode);
-    }
-     */
 
     @Override
     public boolean is(String...str ){

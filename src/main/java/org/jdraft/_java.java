@@ -32,6 +32,8 @@ import org.jdraft._type._withExtends;
 import org.jdraft._type._withImplements;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
+
 /**
  * <P>A "Meta-Model" implementation/view of entities for representing java source code
  * in a concrete way that sits "above" that AST implementation
@@ -1262,6 +1264,14 @@ public interface _java {
             return (_S)this;
         }
 
+        /**
+         * remove all elements from the set and return the modified empty entity
+         */
+        default _S clear(){
+            this.listAstElements().clear();
+            return (_S)this;
+        }
+
         default _S remove(_EL... _els) {
             Arrays.stream( _els ).forEach(e -> this.listAstElements().remove( e.ast() ) );
             return (_S)this;
@@ -1483,6 +1493,33 @@ public interface _java {
          */
         default boolean isText(Predicate<String> textMatchFn ) {
             return textMatchFn.test(getText());
+        }
+
+        /**
+         * Does the Text match the Stencil
+         * @param stencil
+         * @return
+         */
+        default boolean isText(Stencil stencil){
+            return parseText(stencil) != null;
+        }
+
+        /**
+         * Parses the text using the stencil and returns the Tokens (or null if the text cannot be parsed by the Stencil)
+         * @param stencil the stencil
+         * @return the Tokens parsed from the Stencil or null if the parse failed for the text
+         */
+        default Tokens parseText(Stencil stencil){
+            return stencil.parse(getText());
+        }
+
+        /**
+         *
+         * @param text
+         * @return
+         */
+        default boolean isText(String text){
+            return Objects.equals( getText(), text);
         }
 
         /**

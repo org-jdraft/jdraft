@@ -7,9 +7,9 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public final class _returnStmt implements _stmt._controlFlow._returns<ReturnStmt, _returnStmt>,
-        _java._withExpression<ReturnStmt, _returnStmt>,
-        _java._node<ReturnStmt, _returnStmt> {
+public final class _returnStmt implements
+        _stmt._returns<ReturnStmt, _returnStmt>,
+        _java._withExpression<ReturnStmt, _returnStmt>{
 
     public static final Function<String, _returnStmt> PARSER = s-> _returnStmt.of(s);
 

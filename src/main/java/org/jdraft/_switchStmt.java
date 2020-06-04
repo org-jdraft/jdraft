@@ -27,8 +27,7 @@ import java.util.stream.Collectors;
  * note: this is a "virtual" thing
  *
  */
-public final class _switchStmt implements _stmt._controlFlow._conditional<SwitchStmt, _switchStmt>,
-        _java._node<SwitchStmt, _switchStmt>, _switch<_switchStmt> {
+public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switchStmt> {
 
     public static final Function<String, _switchStmt> PARSER = s-> _switchStmt.of(s);
 

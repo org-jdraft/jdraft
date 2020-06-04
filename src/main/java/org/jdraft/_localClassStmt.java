@@ -11,8 +11,7 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _localClassStmt>,
-        _java._node<LocalClassDeclarationStmt, _localClassStmt> {
+public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _localClassStmt> {
 
     public static final Function<String, _localClassStmt> PARSER = s-> _localClassStmt.of(s);
 

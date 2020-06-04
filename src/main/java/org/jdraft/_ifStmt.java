@@ -9,9 +9,10 @@ import java.util.*;
 import java.util.function.*;
 
 
-public final class _ifStmt implements _stmt._controlFlow._conditional<IfStmt, _ifStmt>, _body._withBody<_ifStmt>,
+public final class _ifStmt implements
+        _stmt._conditional<IfStmt, _ifStmt>,
         _java._withCondition<IfStmt, _ifStmt>,
-        _java._node<IfStmt, _ifStmt> {
+        _body._withBody<_ifStmt>{
 
     public static final Function<String, _ifStmt> PARSER = s-> _ifStmt.of(s);
 

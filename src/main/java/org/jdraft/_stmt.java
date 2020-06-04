@@ -5,6 +5,11 @@ import com.github.javaparser.ast.stmt.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ *
+ * @param <S> the JavaParser {@link Statement}
+ * @param <_S> the _jdraft Implementataion {@link _stmt}
+ */
 public interface _stmt<S extends Statement, _S extends _stmt> extends _java._node<S, _S>, _java._withComments<S, _S> {
 
     /**
@@ -14,63 +19,64 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
     S ast();
 
     /**
-     * Remove this statement from the AST
+     * Remove this statement, any comment, and all children statements from the AST
+     * @return whether the remove operation was successful
+     * (false if it is a required property of the parent, or if the parent is null).
      */
-    default void remove(){
-        ast().remove();
+    default boolean removeFromAst(){
+        return ast().remove();
     }
 
-    interface _controlFlow<S extends Statement, _S extends _stmt> extends _stmt<S, _S> {
+    interface _controlFlow<S extends Statement, _S extends _stmt> extends _stmt<S, _S> { }
 
-        /**
-         * stmt categorization of a statement that goes to (a label) or "breaks"/ to the parent
-         * @param <S> the Ast Node type
-         * @param <_S> the _statement type
-         * @see _breakStmt
-         * @see _continueStmt
-         */
-        interface _goto<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
+    /**
+     *
+     * @param <S>
+     * @param <_S>
+     * @see _doStmt
+     * @see _forStmt
+     * @see _forEachStmt
+     * @see _whileStmt
+     */
+    interface _loop <S extends Statement, _S extends _stmt> extends _controlFlow._conditional<S, _S>{}
 
-        /**
-         * categorization that returns control to the caller
-         * (useful for analyzing {@link _switch} statements wrt fall-thorough)
-         * @see _returnStmt
-         * @see _throwStmt
-         * @see _yieldStmt
-         * @param <S>
-         * @param <_S>
-         */
-        interface _returns <S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
+    /**
+     * Conditional statement (contains a condition) that effects the control flow
+     * @param <S>
+     * @param <_S>
+     *
+     * //conditional NON-LOOPING
+     * @see _ifStmt
+     * @see _switchStmt
+     * @see _tryStmt
+     *
+     * //conditional LOOPING (i.e. implements {@link _loop})
+     * @see _forStmt
+     * @see _doStmt
+     * @see _forEachStmt
+     * @see _whileStmt
+     */
+    interface _conditional<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
 
-        /**
-         * Conditional statement (contains a condition) that effects the control flow
-         * @param <S>
-         * @param <_S>
-         *
-         * //conditional NON-LOOPING
-         * @see _ifStmt
-         * @see _switchStmt
-         * @see _tryStmt
-         *
-         * //conditional LOOPING (i.e. implements {@link _controlFlow._loop})
-         * @see _forStmt
-         * @see _doStmt
-         * @see _forEachStmt
-         * @see _whileStmt
-         */
-        interface _conditional<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
+    /**
+     * stmt categorization of a statement that goes to (a label) or "breaks"/ to the parent
+     * @param <S> the Ast Node type
+     * @param <_S> the _statement type
+     * @see _breakStmt
+     * @see _continueStmt
+     */
+    interface _goto<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
 
-        /**
-         *
-         * @param <S>
-         * @param <_S>
-         * @see _doStmt
-         * @see _forStmt
-         * @see _forEachStmt
-         * @see _whileStmt
-         */
-        interface _loop <S extends Statement, _S extends _stmt> extends _controlFlow._conditional<S, _S>{}
-    }
+    /**
+     * categorization that returns control to the caller
+     * (useful for analyzing {@link _switch} statements wrt fall-thorough)
+     * @see _returnStmt
+     * @see _throwStmt
+     * @see _yieldStmt
+     * @param <S>
+     * @param <_S>
+     */
+    interface _returns <S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
 
     /**
      * categories all of the available classes

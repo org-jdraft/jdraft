@@ -15,7 +15,6 @@ import java.util.function.Function;
  */
 public final class _constructorCallStmt
         implements _stmt<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
-        _java._node<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _typeArgs._withTypeArgs<ExplicitConstructorInvocationStmt, _constructorCallStmt>,
         _args._withArgs<ExplicitConstructorInvocationStmt, _constructorCallStmt> {
 

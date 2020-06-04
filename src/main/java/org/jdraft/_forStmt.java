@@ -10,9 +10,10 @@ import java.util.function.*;
 /**
  *
  */
-public final class _forStmt implements _stmt._controlFlow._loop<ForStmt, _forStmt>,
-        _java._node<ForStmt, _forStmt>,
-        _stmt._controlFlow._conditional<ForStmt,_forStmt>, _body._withBody<_forStmt> {
+public final class _forStmt implements
+        _stmt._conditional<ForStmt,_forStmt>,
+        _stmt._loop<ForStmt, _forStmt>,
+        _body._withBody<_forStmt> {
 
     public static final Function<String, _forStmt> PARSER = s-> _forStmt.of(s);
 

@@ -13,19 +13,33 @@ public class _blockStmtTest extends TestCase {
         //count with multiple classes
         assertEquals(0, _bs.count(_assertStmt.class, _ifStmt.class));
         //count with _stmt interface
-        assertEquals(0, _bs.count(_stmt._controlFlow._goto.class));
+        assertEquals(0, _bs.count(_stmt._goto.class));
 
         //modify
         _bs.add( ()-> {assert(0==0): "message";});
         //count with predicate
         assertEquals(1, _bs.count(_s -> _s instanceof _assertStmt));
+        //with class and (typed) predicate
+        assertEquals(1, _bs.count(_assertStmt.class, _a -> _a.hasMessage() ));
         //count with class
         assertEquals(1, _bs.count(_assertStmt.class));
         //count with multiple classes
         assertEquals(1, _bs.count(_assertStmt.class, _ifStmt.class));
-        assertEquals(0, _bs.count(_stmt._controlFlow._goto.class));
+        assertEquals(0, _bs.count(_stmt._goto.class));
 
         assertEquals( _intExpr.of(0), _bs.walk().first(_intExpr.class));
+        assertTrue(_bs.walk().first(_stringExpr.class).isText("message"));
+    }
+
+    public void testCountLoop(){
+        _blockStmt _bs = _blockStmt.of( ()->{
+            int j = 1;
+            for(int i=0; i<j; i++){
+                System.out.println( " "+i +" "+ j );
+            }
+        });
+
+        assertEquals(1, _bs.count(_stmt._loop.class));
     }
 
     public void testAddAt(){
@@ -46,6 +60,23 @@ public class _blockStmtTest extends TestCase {
         //add multiple statements with a singe string
         _bs.addAt(0, "print(0); print(1);");
         assertEquals(2, _bs.size());
+
+        _bs.clear();
+        assertEquals(0, _bs.size());
+
+        _bs.removeFromAst();
+        //remove when empty
+        _bs.remove( t-> true);
+        assertEquals(0, _bs.size());
+
+        //cant remove from AST because is root
+        assertFalse( _bs.removeFromAst() );
+
+        _blockStmt _parent = _blockStmt.of();
+        _parent.add( _bs );
+
+        //with a parent I CAN remove from AST
+        assertTrue( _bs.removeFromAst() );
     }
 
     public void testMutateAndWalk(){
@@ -69,7 +100,7 @@ public class _blockStmtTest extends TestCase {
         assertEquals(1, _bs.walk().count(_assertStmt.class));
 
         //walk & remove all assertsStmts that have messages
-        _bs.walk().forEach(_assertStmt.class,_as-> _as.hasMessage(), _as-> _as.remove());
+        _bs.walk().forEach(_assertStmt.class,_as-> _as.hasMessage(), _as-> _as.removeFromAst());
 
         //verify its been removed
         assertFalse( _bs.walk().has(_assertStmt.class) ); //verify there are none

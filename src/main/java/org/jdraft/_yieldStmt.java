@@ -7,8 +7,8 @@ import org.jdraft.text.Text;
 import java.util.Objects;
 import java.util.function.Function;
 
-public final class _yieldStmt implements _stmt._controlFlow._returns<YieldStmt, _yieldStmt>,
-        _java._node<YieldStmt, _yieldStmt>,
+public final class _yieldStmt implements
+        _stmt._returns<YieldStmt, _yieldStmt>,
         _java._withExpression<YieldStmt, _yieldStmt>{
 
     public static final Function<String, _yieldStmt> PARSER = s-> _yieldStmt.of(s);

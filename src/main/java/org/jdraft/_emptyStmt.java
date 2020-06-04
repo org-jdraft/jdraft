@@ -8,7 +8,7 @@ import java.util.function.Function;
 /**
  * just ";" (i.e. "for(int i=0;;;)")
  */
-public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt>, _java._node<EmptyStmt, _emptyStmt> {
+public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt> {
 
     public static final Function<String, _emptyStmt> PARSER = s-> _emptyStmt.of();
 

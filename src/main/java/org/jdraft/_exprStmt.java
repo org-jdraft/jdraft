@@ -15,7 +15,7 @@ import java.util.function.Function;
  *
  */
 public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
-        _java._node<ExpressionStmt, _exprStmt>, _java._withExpression<ExpressionStmt, _exprStmt> {
+        _java._withExpression<ExpressionStmt, _exprStmt> {
 
     public static final Function<String, _exprStmt> PARSER = s-> _exprStmt.of(s);
 
