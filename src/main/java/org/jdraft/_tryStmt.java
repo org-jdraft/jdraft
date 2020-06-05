@@ -134,7 +134,17 @@ public final class _tryStmt implements
     }
 
     public _tryStmt setTryBody(_body _b){
-        this.tryStmt.setTryBlock(_b.ast());
+        Statement st = _b.astStatement();
+        if( st == null ){
+            this.tryStmt.setTryBlock(new BlockStmt());
+        }
+        else if( st instanceof BlockStmt ){
+            this.tryStmt.setTryBlock( st.asBlockStmt());
+        } else{
+            BlockStmt bs = new BlockStmt( );
+            bs.addStatement( st);
+            this.tryStmt.setTryBlock(bs);
+        }
         return this;
     }
 
@@ -469,9 +479,26 @@ public final class _tryStmt implements
     }
 
     public _tryStmt setFinallyBody(_body _b){
+        Statement st = _b.astStatement();
+        if( st == null ){
+            this.tryStmt.setFinallyBlock(new BlockStmt());
+        }
+        else if( st instanceof BlockStmt ){
+            this.tryStmt.setFinallyBlock( st.asBlockStmt());
+        } else{
+            BlockStmt bs = new BlockStmt( );
+            bs.addStatement( st);
+            this.tryStmt.setFinallyBlock(bs);
+        }
+        return this;
+    }
+
+    /*
+    public _tryStmt setFinallyBody(_body _b){
         this.tryStmt.setFinallyBlock(_b.ast());
         return this;
     }
+     */
 
     public _tryStmt setFinallyBody(_blockStmt finallyBlock){
         this.tryStmt.setFinallyBlock(finallyBlock.ast());

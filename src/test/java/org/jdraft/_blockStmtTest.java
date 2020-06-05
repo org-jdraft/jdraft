@@ -4,6 +4,35 @@ import junit.framework.TestCase;
 
 public class _blockStmtTest extends TestCase {
 
+    /**
+     *
+     */
+    public void testListCountRemoveAndWalkCountRemove(){
+        _blockStmt _bs = _blockStmt.of( ()-> {
+            assert(1==1) : "message";
+            if( true ){
+                assert(1==1) : "message";
+            }
+        });
+        assertEquals(1, _bs.count(_assertStmt.class));
+        assertEquals(1, _bs.count(_assertStmt.class, _as-> _as.hasMessage()));
+        //this will only remove ONE
+        _bs.remove(_assertStmt.class, _as-> _as.hasMessage());
+        assertEquals(0, _bs.count(_assertStmt.class));
+        assertEquals(0, _bs.count(_assertStmt.class, _as-> _as.hasMessage()));
+
+        //now we'll walk and remove
+        _bs = _blockStmt.of( ()-> {
+            assert(1==1) : "message";
+            if( true ){
+                assert(1==1) : "message";
+            }
+        });
+        assertEquals(2, _bs.walk().count(_assertStmt.class));
+        _bs.walk().forEach(_assertStmt.class, _as-> _as.hasMessage(), _as->_as.removeFromAst());
+        assertEquals(0, _bs.walk().count(_assertStmt.class));
+    }
+
     public void testCount(){
         _blockStmt _bs = _blockStmt.of();
         //count with predicate

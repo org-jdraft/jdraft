@@ -254,12 +254,31 @@ public final class _typeArgs
             return (_WTA)this;
         }
 
+        /**
+         * gets the first type argument that matches the _matchFn
+         * @param _matchFn
+         * @return
+         */
+        default _typeRef getTypeArg(Predicate<_typeRef> _matchFn){
+            if( hasTypeArgs()){
+                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
+                for(int i=0;i<tt.size(); i++){
+                    _typeRef _a = _typeRef.of(tt.get(i));
+                    if( _matchFn.test(_a) ){
+                        return _a;
+                    }
+                }
+            }
+            return null;
+        }
+
         default _typeRef getTypeArg(int index){
             if( hasTypeArgs()){
                 NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
                 return _typeRef.of( tt.get(index) );
             }
-            throw new _jdraftException("no type argument at ["+ index+"]");
+            return null;
+            //throw new _jdraftException("no type argument at ["+ index+"]");
         }
 
         default _WTA removeTypeArg(int index){
@@ -322,7 +341,10 @@ public final class _typeArgs
          * @return
          */
         default boolean allTypeArgs(Predicate<_typeRef> matchFn){
-            return listTypeArgs().stream().allMatch(matchFn);
+            if( listTypeArgs() != null ) {
+                return listTypeArgs().stream().allMatch(matchFn);
+            }
+            return false;
         }
 
         default boolean isUsingDiamondOperator(){

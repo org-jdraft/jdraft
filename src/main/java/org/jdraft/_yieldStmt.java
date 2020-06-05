@@ -22,21 +22,15 @@ public final class _yieldStmt implements
 
     public static _yieldStmt of(String...code){
         String str = "switch(e){ case 1: "+Text.combine(code)+" }";
-        //System.out.println( str );
         _switchExpr _se = _switchExpr.of(str);
-        return of( (YieldStmt)_se.getSwitchEntry(0).getStatement(0));
-        //String t = Text.combine(code);
-        //if( t.startsWith("yield ") ){ //they could pass in the whole yield statement string
-        //    return new _yieldStmt(Stmt.yieldStmt( code ));
-        //}
-        //they could just pass in the expression
-        //return of(Ex.of( code));
+        YieldStmt ys = (YieldStmt)_se.getSwitchEntry(0).getStatement(0);
+        ys.remove(); //decouple from the string
+        return of( ys);
     }
 
     public static _yieldStmt of(Expression e){
         return new _yieldStmt( new YieldStmt(e));
     }
-
 
     public static _feature._one<_yieldStmt, _expr> EXPRESSION = new _feature._one<>(_yieldStmt.class, _expr.class,
             _feature._id.EXPRESSION,

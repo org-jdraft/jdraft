@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.BreakStmt;
+import org.jdraft.text.Stencil;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -18,7 +19,7 @@ import java.util.function.Function;
  * </PRE>
  */
 public final class _breakStmt
-        implements _stmt._controlFlow._goto<BreakStmt, _breakStmt> {
+        implements _stmt._goto<BreakStmt, _breakStmt> {
 
     public static final Function<String, _breakStmt> PARSER = s-> _breakStmt.of(s);
 
@@ -76,12 +77,12 @@ public final class _breakStmt
         return label == null;
     }
 
-    /*
-    @Override
-    public boolean is(BreakStmt astNode) {
-        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
+    public boolean isLabel( Stencil st){
+        if( this.astStmt.getLabel().isPresent() ) {
+            return st.parse(this.astStmt.getLabel().get().asString()) != null;
+        }
+        return false;
     }
-     */
 
     public _breakStmt setLabel(SimpleName sn){
         this.astStmt.setLabel( sn );

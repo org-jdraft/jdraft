@@ -82,35 +82,6 @@ public enum Ast {
     public static final JavaParser JAVAPARSER = 
         new JavaParser(JAVAPARSER_CONFIG);
 
-
-    
-    /*---------------------------------------------------------
-       the point of having all of these JavaParser Classes in a
-       single place is to simplify / flatten the access to the JavaParser
-       API Classes when being used walking the AST.  Since, what we want to be able
-       to do is to _walk through the AST implementation easily and it
-       is easier to have the IDE autocomplete the NAME of a class when
-       it is in one spot...(without remembering the class package).
-       i.e. I can look through:
-       _walk.list( Ast.WALK<<autocomplete>>, node, Ast.<<autocomplete>>, ... );
-                  ------------------------        --------------------
-                   tree traversal strategy        node class / interface
-
-       NOTE: if you know the TYPE of component is a Statement or Expression
-       you can also use :
-       _walk.list( node, Expr.<<autocomplete>>, ... );
-                             ----------------
-                             expression class
-
-       _walk.list( node, Stmt.<<autocomplete>>, ... );
-                             ----------------
-                             statement class
-       ...this will
-
-       ...which will have less completions to weed through
-     */
-
-
     public static class Classes{
     /* ------------------NODES----------------------------*/
  /* ( in com.github.javaparser.ast ) */
@@ -260,7 +231,6 @@ public enum Ast {
      * "String::getName"
      */
     public static final Class<MethodReferenceExpr> METHOD_REFERENCE_EXPR = MethodReferenceExpr.class;
-    //AST.Expr.methodReference("String::getName");
 
     /**
      * "new String()"
@@ -473,7 +443,8 @@ public enum Ast {
     public static final Class<YieldStmt> YIELD_STMT = YieldStmt.class;
 
     /**
-     *
+     * case 1:
+     *    return 'a';
      */
     public static final Class<SwitchEntry> SWITCH_CASE = SwitchEntry.class;
     
@@ -485,7 +456,7 @@ public enum Ast {
      * <br/><code>int a = switch(x) { case 5,6 -> 20; case 9 -> 30; default -> 40; };</code>
      * <br/><code>int a = switch(x) { case 5,6: break 20; default: break 5+5; };</code>
      */
-    public static final Class<SwitchExpr> SWITCH_EX = SwitchExpr.class;
+    public static final Class<SwitchExpr> SWITCH_EXPR = SwitchExpr.class;
     
     /**
      *

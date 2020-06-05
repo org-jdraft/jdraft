@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.ContinueStmt;
+import org.jdraft.text.Stencil;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -50,13 +51,6 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
         return false;
     }
 
-    /*
-    @Override
-    public boolean is(ContinueStmt astNode) {
-        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
-    }
-     */
-
     public String getLabel(){
         if(this.astStmt.getLabel().isPresent()){
             return this.astStmt.getLabel().get().asString();
@@ -82,6 +76,12 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
         return label == null;
     }
 
+    public boolean isLabel(Stencil labelStencil){
+        if( this.astStmt.getLabel().isPresent() ) {
+            return labelStencil.parse(this.astStmt.getLabelAsString().get()) != null;
+        }
+        return false;
+    }
     public _continueStmt setLabel(SimpleName label){
         this.astStmt.setLabel( label);
         return this;

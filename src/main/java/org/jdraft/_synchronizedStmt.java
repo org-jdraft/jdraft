@@ -87,10 +87,17 @@ public final class _synchronizedStmt implements
         return this;
     }
 
+    /*
     public _synchronizedStmt setBody(_body _b){
-        this.astStmt.setBody(_b.ast());
+        Statement st = _b.astStatement();
+        if( st instanceof BlockStmt){
+            this.astStmt.setBody()
+        } else {
+            this.astStmt.setBody(_b.astStatement());
+        }
         return this;
     }
+     */
 
     @Override
     public _synchronizedStmt clearBody() {

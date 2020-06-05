@@ -1,9 +1,10 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.DoStmt;
-import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.ast.nodeTypes.NodeWithExpression;
+import com.github.javaparser.ast.stmt.*;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -23,9 +24,14 @@ public final class _doStmt implements
 
     public static final Function<String, _doStmt> PARSER = s-> _doStmt.of(s);
 
+    /**
+     * change this to do nothing (not RETURN)
+     * @return
+     */
     public static _doStmt of(){
-        return new _doStmt( new DoStmt( ));
+        return new _doStmt( new DoStmt(null, new EmptyStmt(), new BooleanLiteralExpr()));
     }
+
     public static _doStmt of(DoStmt ds){
         return new _doStmt(ds);
     }
@@ -107,6 +113,28 @@ public final class _doStmt implements
         return false;
     }
 
+
+    public _doStmt setCondition(String...expression){
+        return setCondition(Expr.of(expression));
+    }
+
+    public _doStmt setCondition(_expr e){
+        return setCondition(e.ast());
+    }
+
+    public _doStmt setCondition(Expression e){
+        this.ast().setCondition(e);
+        return this;
+    }
+
+    public _expr getCondition(){
+        return _expr.of(this.ast().getCondition());
+    }
+
+
+
+
+
     public _body getBody(){
         return _body.of( this.astStmt.getBody() );
     }
@@ -122,10 +150,12 @@ public final class _doStmt implements
         return this;
     }
 
+    /*
     public _doStmt setBody(_body _bd){
         this.astStmt.setBody(_bd.ast());
         return this;
     }
+     */
 
     public _doStmt clearBody(){
         this.astStmt.setBody( new BlockStmt());
@@ -141,11 +171,20 @@ public final class _doStmt implements
             }
             return this;
         }
+        //just a statement
+        if( bd instanceof EmptyStmt ){
+            if( statements.length == 1 ){
+                this.astStmt.setBody( statements[0]);
+                return this;
+            }
+        }
         BlockStmt bs = new BlockStmt();
         bs.addStatement(bd);
         for(int i=0;i<statements.length; i++) {
-            bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+            //bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
+            bs.addStatement(i+startStatementIndex, statements[i]);
         }
+        this.ast().setBody(bs);
         return this;
     }
 

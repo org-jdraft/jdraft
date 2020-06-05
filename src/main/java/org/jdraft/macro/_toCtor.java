@@ -3,6 +3,7 @@ package org.jdraft.macro;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.stmt.BlockStmt;
 import org.jdraft._jdraftException;
 import org.jdraft._constructor;
 import org.jdraft._method;
@@ -117,7 +118,7 @@ public @interface _toCtor {
             }
             //port all the constructor stuff to the AST constructor
             cd.setTypeParameters(_ct.getTypeParams().ast());
-            cd.setBody(_ct.getBody().ast());
+            cd.setBody((BlockStmt)_ct.getBody().ast());
             cd.setParameters( _ct.getParams().ast());
             cd.setThrownExceptions( _ct.getThrows().ast());
             if( _ct.hasJavadoc() ) {

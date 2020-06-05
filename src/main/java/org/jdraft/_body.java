@@ -11,7 +11,9 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
+import com.github.javaparser.ast.nodeTypes.NodeWithBody;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
+import com.github.javaparser.ast.nodeTypes.NodeWithStatements;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
@@ -31,8 +33,9 @@ public final class _body implements _java._domain {
 
     /**
      * NOTE: this is an Object, because it can EITHER be a {@link NodeWithBlockStmt}
-     * or {@link NodeWithOptionalBlockStmt} implementation (i.e. for method which can 
+     * or {@link NodeWithOptionalBlockStmt} (i.e. for method which can
      * lack a body, like "abstract m();" )
+     * or {@link NodeWithBody} implementation which can be a single statement:
      * so, internally we just say it's an Object
      */
     private final Object astParentNode;
@@ -147,8 +150,12 @@ public final class _body implements _java._domain {
             if( parent instanceof NodeWithOptionalBlockStmt){
                 return of( (NodeWithOptionalBlockStmt)parent);
             }
+            if( parent instanceof NodeWithBody ){
+                return of( (NodeWithBody)parent);
+            }
         }
         //they COULD be
+
         if( statement instanceof BlockStmt ){
             return of( _constructor.of("UNKNOWN(){}").setBody((BlockStmt)statement).ast());
             //return of( _method.of("void __BODYHOLDER();").setBody((BlockStmt)statement).ast());
@@ -238,6 +245,10 @@ public final class _body implements _java._domain {
         return new _body(astNodeWithOptionalBlock);
     }
 
+    public static _body of(NodeWithBody astNodeWithBody){
+        return new _body(astNodeWithBody);
+    }
+
     /**
      * is the body implemented, or (abstract/NOT implemented)
      * <CODE>void m(){}</CODE> has an IMPLEMENTED BODY because its an empty block statement
@@ -314,13 +325,17 @@ public final class _body implements _java._domain {
      *
      * @return
      */
-    public BlockStmt ast() {
+    public Statement ast() {
         if (astParentNode instanceof NodeWithOptionalBlockStmt) {
             NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
             if (nobs.getBody().isPresent()) {
                 return (BlockStmt) nobs.getBody().get();
             }
             return null; //abstract body, i.e. "void m();"
+        }
+        if(astParentNode instanceof NodeWithBody){
+            NodeWithBody nwb = (NodeWithBody)astParentNode;
+            return nwb.getBody();
         }
         NodeWithBlockStmt nbs = (NodeWithBlockStmt) astParentNode;
         return nbs.getBody();
@@ -333,7 +348,17 @@ public final class _body implements _java._domain {
      */
     public Statement getAstStatement(int index) {
         if( this.isImplemented() ){
-            return ast().getStatement(index);
+            Statement st = astStatement();
+            if( st instanceof BlockStmt ){
+                return st.asBlockStmt().getStatement(index);
+            } else{
+                if( index > 0){
+                    //System.out.println( "STATEMENT IS "+st.getClass()+" "+st );
+                    return null;
+                }
+                return st;
+            }
+            //return ast().getStatement(index);
         }
         throw new _jdraftException("No Statement at ["+index+"] for non-implemented body");
     }
@@ -372,6 +397,23 @@ public final class _body implements _java._domain {
         return this;
     }
 
+    public Statement astStatement(){
+        if(this.astParentNode instanceof NodeWithBody){
+            return ((NodeWithBody)this.astParentNode).getBody();
+        }
+        if(this.astParentNode instanceof NodeWithBlockStmt){
+            return ((NodeWithBlockStmt)this.astParentNode).getBody();
+        }
+        if(this.astParentNode instanceof NodeWithOptionalBlockStmt){
+            NodeWithOptionalBlockStmt nwobs = (NodeWithOptionalBlockStmt)this.astParentNode;
+            if( nwobs.getBody().isPresent()){
+                return (Statement)nwobs.getBody().get();
+            }
+            return null;
+        }
+        throw new _jdraftException("Parent node is not NodeWithBody, NodeWithBlockStmt, NodeWithOptionalBlockStmt "+ this.astParentNode.getClass()+" "+astParentNode);
+    }
+
     /**
      * Returns the AST statements node list within the body
      * @return a NodeList with statements,
@@ -380,13 +422,29 @@ public final class _body implements _java._domain {
      */
     public NodeList<Statement> getAstStatements() {
         if (isImplemented()) {
-            return ast().getStatements();
+            Statement st = astStatement();
+            if( st.isBlockStmt() ) {
+                return st.asBlockStmt().getStatements();
+            } else{
+                NodeList<Statement> nls = new NodeList<Statement>();
+                nls.add( st );
+                return nls;
+            }
         }
-        return null; 
+        return new NodeList<>();
+        //return null;
         // returning null as I dont want to return an empty node list that
         // someone might presume will be modifyable ( which the changes WONT be 
         // reflected in the underlying...its a bold strategy cotton, lets see if it pays off for em
         //https://www.youtube.com/watch?v=4Ru8DMW-grY
+    }
+
+    public boolean is(_stmt _st ){
+        return is( _st.ast());
+    }
+
+    public boolean is(Statement st){
+        return Objects.equals( this.astStatement(), st);
     }
 
     /**
@@ -395,11 +453,35 @@ public final class _body implements _java._domain {
      * @return 
      */
     public boolean is(String... body) {
-        if( body == null || body.length == 0 || (body.length == 1 && body[0].trim().equals(";"))) {
-            return !this.isImplemented();
+        if( body == null || body.length == 0
+                || (body.length == 1 && body[0].trim().length()==0)
+                || (body.length == 1 && body[0].trim().equals(";"))) {
+            return !this.isImplemented() || this.isEmpty();
         }
-        BlockStmt bs = Ast.blockStmt(body);
-        return Objects.equals(this.ast(), bs);
+        Statement thisStatement = astStatement();
+
+        //Ast.statement(body);
+        Statement testStmt;
+        try {
+            testStmt = Ast.statement(body);
+        } catch(Exception e){
+            testStmt = Ast.blockStmt(body);
+        }
+        if( thisStatement.getClass() == testStmt.getClass() ) {
+            //return Objects.equals(thisStatement, testStmt);
+            return Objects.equals(thisStatement.toString(Print.PRINT_NO_COMMENTS),testStmt.toString(Print.PRINT_NO_COMMENTS) );
+            //return Objects.equals(_stmt.of(thisStatement),_stmt.of(testStmt) );
+        } else{
+            if( thisStatement instanceof BlockStmt
+                    && thisStatement.asBlockStmt().getStatements().size() == 1){
+
+                return Objects.equals(thisStatement.toString(Print.PRINT_NO_COMMENTS), _blockStmt.of().add(testStmt).ast().toString(Print.PRINT_NO_COMMENTS) );
+                //return Objects.equals( _stmt.of(thisStatement), _blockStmt.of().add(testStmt));
+            }
+        }
+        return false;
+        //BlockStmt bs = Ast.blockStmt(body);
+        //return Objects.equals(this.ast(), bs);
     }
 
     /**
@@ -409,6 +491,10 @@ public final class _body implements _java._domain {
     public _body clear(){
         if( this.astParentNode instanceof NodeWithOptionalBlockStmt){
             ((NodeWithOptionalBlockStmt)this.astParentNode).setBody(Ast.blockStmt("{}"));
+            return this;
+        }
+        if( this.astParentNode instanceof NodeWithBody ){
+            ((NodeWithBody)this.astParentNode).setBody(new EmptyStmt());
             return this;
         }
         ((NodeWithBlockStmt)this.astParentNode).setBody(Ast.blockStmt("{}"));
@@ -459,7 +545,33 @@ public final class _body implements _java._domain {
         Statement bdy = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]).getAstStatementBody();
         return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
-    
+
+    /*
+    public boolean is(Class<? extends _stmt> statementClass){
+        if( isImplemented()){
+            if( this.astParentNode instanceof NodeWithOptionalBlockStmt){
+                System.out.println( "NWOBS");
+                return statementClass.isAssignableFrom(BlockStmt.class);
+            } else if( this.astParentNode instanceof NodeWithStatements ){
+                System.out.println( "NWSS");
+            } else if( this.astParentNode instanceof NodeWithBlockStmt){
+                System.out.println( "NWBS");
+                BlockStmt bs = ((NodeWithBlockStmt) this.astParentNode).getBody();
+                return statementClass.isAssignableFrom(BlockStmt.class);
+            }
+            System.out.println("PARENT"+ this.astParentNode );
+            System.out.println("AST" + this.ast());
+
+            if( this.getAstStatements().size() == 1){
+                System.out.println("AST" + this.ast());
+                return statementClass.isAssignableFrom( _stmt.of(this.ast()).getClass() );
+            }
+
+        }
+        return false;
+    }
+     */
+
     /**
      * Does a comparison WITHOUT COMMENTS to determine if the
      * statements of the two 
@@ -476,7 +588,11 @@ public final class _body implements _java._domain {
                 && this.astParentNode.equals(bs.getParentNode().get()) ){
                 return true;
             }
-            NodeList<Statement> ts = this.ast().getStatements();
+            Statement st = astStatement();
+            if( ! (st instanceof BlockStmt)){
+                return false;
+            }
+            NodeList<Statement> ts = st.asBlockStmt().getStatements();
             NodeList<Statement> os = bs.getStatements();
 
             if (ts.size() != os.size()) {
@@ -517,6 +633,17 @@ public final class _body implements _java._domain {
             return true;
         }
 
+        Statement t = this.astStatement();
+        Statement o = other.astStatement();
+        String left = t.toString(Print.PRINT_NO_COMMENTS);
+        String right =  o.toString(Print.PRINT_NO_COMMENTS);
+
+        //System.out.println( left );
+        //System.out.println( right );
+        return Objects.equals(left, right);
+        //return _stmt.of(t).equals( _stmt.of(o));
+        //return Objects.equals( _stmt.of(t).toString(), _stmt.of(o));
+        /*
         BlockStmt t = this.ast();
         BlockStmt o = other.ast();
 
@@ -530,6 +657,7 @@ public final class _body implements _java._domain {
         String tnc = t.toString(Print.PRINT_NO_COMMENTS);
         String onc = o.toString(Print.PRINT_NO_COMMENTS);
         return tnc.equals(onc);
+         */
     }
 
     @Override
@@ -538,7 +666,7 @@ public final class _body implements _java._domain {
         if (!isImplemented()) {
             return 0;
         }
-        hash = 53 * hash + Objects.hashCode(ast().toString(Print.PRINT_NO_COMMENTS));
+        hash = 53 * hash + Objects.hashCode(astStatement().toString(Print.PRINT_NO_COMMENTS));
         return hash;
     }
 
@@ -555,7 +683,7 @@ public final class _body implements _java._domain {
         if (!isImplemented()) {
             return "";
         }
-        return ast().toString(ppc);
+        return astStatement().toString(ppc);
     }
 
     @Override
@@ -563,7 +691,7 @@ public final class _body implements _java._domain {
         if (!isImplemented()) {
             return "";
         }
-        return ast().toString();
+        return astStatement().toString();
     }
 
     /**
@@ -575,7 +703,10 @@ public final class _body implements _java._domain {
      * @return 
      */
     public boolean isEmpty() {
-        return isImplemented() && ast().isEmpty();
+        if( isImplemented() ){
+            return astStatement().isEmptyStmt() || (astStatement().isBlockStmt() && astStatement().asBlockStmt().isEmpty());
+        }
+        return true;
     }
 
     /**
@@ -618,6 +749,9 @@ public final class _body implements _java._domain {
             if( all.trim().length() == 0 ){
                 return !isImplemented();
             }
+            if(all.equals(";") ){
+                return this.statementCount() == 1 && Objects.equals( this.getAt(0), _emptyStmt.of());
+            }
             if( !isImplemented() ){
                 return false;
             }
@@ -635,8 +769,59 @@ public final class _body implements _java._domain {
             return true;
         }
 
+        default _WB removeStatements(Predicate<_stmt> stmtMatchFn){
+            List<_stmt> sts = new ArrayList<>();
+            this.listStatements().forEach( s-> {
+                if( stmtMatchFn.test( s)){
+                    sts.add( s );
+                }
+            } );
+            Statement st = getBody().astStatement();
+            if( st.isBlockStmt() ){
+                sts.forEach(s-> st.asBlockStmt().getStatements().remove( s.ast()));
+                return (_WB)this;
+            } else{
+                if( stmtMatchFn.test( _stmt.of(st)) ){
+                    setBody(new EmptyStmt());
+                }
+                return (_WB)this;
+            }
+            /*
+            sts.forEach( s -> {
+                System.out.println( "REMOVING "+ s.ast()+" from "+s.ast().getParentNode().get() );
+                boolean removed = s.ast().remove();
+                if( !removed ){
+                    System.out.println("NOT REMOVED "+ s.ast() );
+                    s.ast().getParentNode().get().remove(s.ast());
+                }
+                //s.replace(new EmptyStmt() );
+                //boolean st = this.listAstStatements().remove(s.ast());
+
+
+                //System.out.println( "REMOVED "+ st+" "+s );
+                //st = s.ast().remove();
+                //System.out.println( "REMOVED "+ st+" "+s );
+
+                //if( !st ){
+
+                //    st = s.ast().replace( new EmptyStmt());
+                //    System.out.println("ST "+st);
+               // }
+            } );
+            return (_WB)this;
+             */
+        }
+
+        default <_SI extends _stmt> _WB removeStatements(Class<_SI> stmtInstanceClass){
+            return removeStatements( s-> stmtInstanceClass.isAssignableFrom( s.getClass() ));
+        }
+
         default List<_stmt> listStatements(){
-            return listAstStatements().stream().map(s-> _stmt.of(s)).collect(Collectors.toList());
+            NodeList<Statement> sts = listAstStatements();
+            if( sts == null ){
+                return new ArrayList<>();
+            }
+            return sts.stream().map(s-> _stmt.of(s)).collect(Collectors.toList());
         }
 
         /**
@@ -647,11 +832,11 @@ public final class _body implements _java._domain {
          * 
          * @return 
          */
-        default List<Statement> listAstStatements(){
+        default NodeList<Statement> listAstStatements(){
             if( this.hasBody() ){
                 return getBody().getAstStatements();
             }
-            return Collections.EMPTY_LIST;
+            return new NodeList<>();
         }
         
         /**
@@ -829,7 +1014,7 @@ public final class _body implements _java._domain {
             if( bdy.isBlockStmt() ){
                 return add( bdy.asBlockStmt().getStatements().toArray(new Statement[0]));
             }
-            return add(bdy );
+            return add( bdy );
         }
         
         default <A extends Object> _WB add(Consumer<A> lambdaWithBody){
@@ -1031,8 +1216,23 @@ public final class _body implements _java._domain {
                     } else{
                         ((BlockStmt)nobs.getBody().get()).addStatement(st);
                     }
-                } else{
-                    getBody().ast().addStatement(st);
+                } else if( getBody().astParentNode() instanceof NodeWithBody ) {
+                    Statement bd = getBody().astStatement();
+                    if( bd instanceof BlockStmt ){
+                        bs.getStatements().forEach(s -> bd.asBlockStmt().addStatement(s));
+                    } else{
+                        if( bd instanceof EmptyStmt ){
+                            setBody(bs); //remove the emptystatement with the block statement
+                        } else{
+                            BlockStmt nbs = new BlockStmt();
+                            nbs.addStatement( bd);
+                            bs.getStatements().forEach(s -> nbs.addStatement(s));
+                            setBody(nbs);
+                        }
+                    }
+                }
+                else{
+                    ((BlockStmt)getBody().ast()).addStatement(st);
                 }
             }
             coms.forEach(co -> getBody().ast().addOrphanComment(co));
@@ -1279,13 +1479,20 @@ public final class _body implements _java._domain {
             return (_WB) this;
         }
 
+        default _stmt getAt( int index ){
+            if( !isImplemented() ){
+                return null;
+            }
+            return _stmt.of(listAstStatements().get(index));
+        }
+
         /**
          * Gets the Labeled statement based on the label
          *
          * @param labelName
          * @return the Labeled Statement or THROWS EXCEPTION if not found
          */
-        default LabeledStmt getAt(String labelName) {
+        default _labeledStmt getAt(String labelName) {
             if( !isImplemented() ){
                 throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
             }
@@ -1294,7 +1501,7 @@ public final class _body implements _java._domain {
             if (!ols.isPresent()) {
                 throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\"");
             }
-            return ols.get();
+            return _labeledStmt.of(ols.get());
         }
         
         /**

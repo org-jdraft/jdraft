@@ -299,6 +299,34 @@ public final class _args
             return listArgs().stream().allMatch(matchFn);
         }
 
+        /**
+         * gets the first argument that matches the _exprMatchFn and returns it or returns null if none match
+         * @param _exprMatchFn
+         * @return
+         */
+        default _expr getArg( Predicate<_expr> _exprMatchFn){
+            List<_expr> found = listArgs(_exprMatchFn);
+            if( found.isEmpty() ){
+                return null;
+            }
+            return found.get(0);
+        }
+
+        /**
+         * gets the first argument of the _implClass that matches the _exprMatchFn
+         * and returns it or returns null if none match
+         * @param _implClass the implementation class (an _expr)
+         * @param _exprMatchFn the function for matching the implementation
+         * @return the first argument matching or null if no arguments match
+         */
+        default <_I extends _expr> _expr getArg(Class<_I> _implClass, Predicate<_I> _exprMatchFn ){
+            List<_I> found = listArgs(_implClass, _exprMatchFn);
+            if( found.isEmpty() ){
+                return null;
+            }
+            return found.get(0);
+        }
+
         default _expr getArg(int index){
             return _expr.of( ((NodeWithArguments)ast()).getArgument(index) );
         }
@@ -379,8 +407,22 @@ public final class _args
             return args;
         }
 
+        default <_I extends _expr> List<_I> listArgs(Class<_I>_implClass){
+            return listArgs().stream().filter(a-> _implClass.isAssignableFrom(a.getClass())).map(a-> (_I)a).collect(Collectors.toList());
+        }
+
         default List<_expr> listArgs(Predicate<_expr> matchFn){
             return listArgs().stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        default <_I extends _expr> List<_I> listArgs(Class<_I>implClass, Predicate<_I>_implMatchFn){
+            List<_I> ls = listArgs().stream().filter( _a-> {
+                if(implClass.isAssignableFrom(_a.getClass())){
+                    return _implMatchFn.test( (_I)_a);
+                }
+                return false;
+            }).map(a-> (_I)a).collect(Collectors.toList());
+            return ls;
         }
 
         default boolean isArgs(String... es){

@@ -237,6 +237,39 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         return this;
     }
 
+    /**
+     * Remove all statements from the blockStmts "top level" statement that are of the stmtClass
+     * and match the predicate.
+     *
+     * NOTE: this is NOT a walk, where Statements within Statements are removed (i.e.
+     * if I have this block:
+     * <PRE>
+     * {
+     *     assert(1==1) : "message" ;
+     *     if(true){
+     *         assert(1==1) : "message";
+     *     }
+     * }
+     * </PRE>
+     * _blockStmt bs = ...;
+     * bs.remove(_assertStmt.class, _as-> as.hasMessage());
+     *
+     * ...will produce this:
+     * <PRE>
+     * {
+     *     if(true){
+     *         assert(1==1) : "message";
+     *     }
+     * }
+     * </PRE>
+     * ...because the assertStmt WITHIN the ifStmt is NOT a top level statement
+     *
+     * @see _blockStmt#walk().remove(
+     * @param stmtClass
+     * @param matchFn
+     * @param <_S>
+     * @return
+     */
     public <_S extends _stmt> _blockStmt remove(Class<_S> stmtClass, Predicate<_S> matchFn){
         remove(_s-> {
             if( stmtClass.isAssignableFrom( _s.getClass())){
@@ -265,7 +298,9 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
 
     public boolean equals(Object other){
         if( other instanceof _blockStmt ){
-            return Objects.equals( ((_blockStmt)other).ast(), this.ast() );
+            this.toString(Print.PRINT_NO_COMMENTS).equals( ((_blockStmt)other).toString(Print.PRINT_NO_COMMENTS));
+            //return Objects.equals( )
+            //return Objects.equals( ((_blockStmt)other).ast(), this.ast() );
         }
         return false;
     }

@@ -27,6 +27,11 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
         return ast().remove();
     }
 
+    /**
+     * Categorization of Stmts that are control flow related
+     * @param <S>
+     * @param <_S>
+     */
     interface _controlFlow<S extends Statement, _S extends _stmt> extends _stmt<S, _S> { }
 
     /**
@@ -68,7 +73,7 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
     interface _goto<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}
 
     /**
-     * categorization that returns control to the caller
+     * categorization of a control flow stmt that returns control to the caller
      * (useful for analyzing {@link _switch} statements wrt fall-thorough)
      * @see _returnStmt
      * @see _throwStmt
@@ -285,5 +290,4 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
         }
         throw new _jdraftException("Unsupported Statement "+ astStatement.getClass() + System.lineSeparator() + astStatement);
     }
-
 }

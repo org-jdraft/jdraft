@@ -1,6 +1,11 @@
 
 package org.jdraft;
 
+import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
+import com.github.javaparser.ast.nodeTypes.NodeWithBody;
+import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.jdraft.macro._abstract;
 import junit.framework.TestCase;
 
@@ -10,10 +15,82 @@ import junit.framework.TestCase;
  */
 public class _bodyTest extends TestCase {
 
+    public void testBodyTypes(){
+
+        //these are the (3) different types of bodies I want to unify with _body
+
+        //nodeWithBlockStmt always has a blockStmt (it can never be a single statement, or null)
+        NodeWithBlockStmt nwbs = Ast.constructorDeclaration("A(){ System.out.println(1);}");
+
+        //nodewithOptional... can have a "totally empty" body (i.e. its null OR a blockStmt)
+        NodeWithOptionalBlockStmt nwobs = Ast.methodDeclaration("void m();");
+
+        //nodeWithBody CAN have a single statement (that is not a blockStmt) or a blockStmt
+        NodeWithBody nwb = Ast.doStmt("do System.out.println(3); while(true);");
+
+        _body _nwbs = _body.of(nwbs);
+        _body _nwobs = _body.of(nwobs);
+        _body _nwb = _body.of(nwb);
+
+        assertFalse( _nwb.isEmpty());
+        assertTrue( _body.of(";").isEmpty());
+        assertTrue(_body.of("{}").isEmpty());
+        assertTrue( _nwobs.isEmpty());
+        assertFalse( _nwbs.isEmpty());
+
+        assertEquals( nwbs, _nwbs.astParentNode());
+        assertEquals( nwobs, _nwobs.astParentNode());
+        assertEquals( nwb, _nwb.astParentNode());
+
+        assertTrue( _nwbs.astStatement() instanceof BlockStmt);
+        assertNull( _nwobs.astStatement() ); //this should be
+        assertTrue( _nwb.astStatement() instanceof ExpressionStmt);
+
+        assertEquals(1, _nwbs.getAstStatements().size());
+        assertEquals(0, _nwobs.getAstStatements().size());
+
+        assertEquals(1, _nwb.getAstStatements().size());
+        assertNotNull(_nwb.astStatement());
+        //System.out.println( _nwb.astStatement() );
+
+        assertTrue(_nwbs.isImplemented() );
+        assertFalse(_nwobs.isImplemented() );
+        assertTrue(_nwb.isImplemented() );
+
+        assertTrue(_nwb.is("System.out.println(3);"));
+        assertTrue(_nwb.is(()->System.out.println(3)));
+        assertTrue( _nwbs.is("{ System.out.println(1); }"));
+        assertTrue( _nwbs.is(()->{ System.out.println(1); }));
+        assertTrue(_nwobs.is(";"));
+        assertTrue(_nwobs.is(""));
+
+
+        _nwb.is(_stmt.of("System.out.println(3);"));
+        _nwobs.is(_stmt.of("{ System.out.println(1); }"));
+        _nwbs.is(_emptyStmt.of());
+
+        _nwb.hashCode();
+        _nwobs.hashCode();
+        _nwbs.hashCode();
+
+
+
+        _nwobs.hashCode();
+        _nwbs.hashCode();
+
+
+        _nwb.clear();
+        _nwobs.clear();
+        _nwbs.clear();
+
+
+    }
+
     public void testFromScratch(){
         _body _b = _body.of();
         System.out.println(_b);
     }
+
     public void testAddBodyToNonImplementedMethod(){
         _method m = _method.of("public void m();");
         m.add( "System.out.println(1);");
@@ -38,8 +115,9 @@ public class _bodyTest extends TestCase {
         _body _wComment = _c.getMethod("withComment").getBody();
         _body _woComment = _c.getMethod("withoutComment").getBody();
         
-        assertEquals( _wComment, _woComment);
+
         assertEquals( _wComment.hashCode(), _woComment.hashCode());
+        assertEquals( _wComment, _woComment);
         
         _body _noBody = _c.getMethod("noBody").getBody();
         _body _noBodyComment = _c.getMethod("noBodyComment").getBody();
@@ -152,7 +230,7 @@ public class _bodyTest extends TestCase {
         
         _c.getInitBlock(0).ast().getJavadocComment().get().setContent( "Different Javadoc");
         
-        System.out.println( _c );
+        //System.out.println( _c );
         
     }
 }

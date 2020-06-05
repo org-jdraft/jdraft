@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 
 import java.util.*;
@@ -42,6 +43,11 @@ public final class _constructorCallStmt
             a -> a.isSuper(),
             (_constructorCallStmt a, Boolean b) -> a.setSuper(b), PARSER);
 
+    public static _feature._one<_constructorCallStmt, _expr> EXPRESSION = new _feature._one<>(_constructorCallStmt.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
+            (_constructorCallStmt a, _expr _e) -> a.setExpression(_e), PARSER);
+
     public static _feature._one<_constructorCallStmt, _args> ARGS = new _feature._one<>(_constructorCallStmt.class, _args.class,
             _feature._id.ARGS,
             a -> a.getArgs(),
@@ -51,7 +57,6 @@ public final class _constructorCallStmt
             _feature._id.TYPE_ARGS,
             a -> a.getTypeArgs(),
             (_constructorCallStmt a, _typeArgs _e) -> a.setTypeArgs(_e), PARSER);
-
 
     public static _feature._features<_constructorCallStmt> FEATURES = _feature._features.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, ARGS);
 
@@ -104,19 +109,54 @@ public final class _constructorCallStmt
         return this;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        comps.put(_java.Feature.IS_THIS_CALL, astStmt.isThis());
-        comps.put(_java.Feature.IS_SUPER_CALL, !astStmt.isThis());
-        comps.put(_java.Feature.ARGS_EXPRS, astStmt.getArguments());
-        if( astStmt.getTypeArguments().isPresent()){
-            comps.put(_java.Feature.TYPE_ARGS, astStmt.getTypeArguments().get());
-        }
-        return comps;
+    public boolean hasExpression(){
+        return this.ast().getExpression().isPresent();
     }
-     */
+
+    public _expr getExpression(){
+        if( this.ast().getExpression().isPresent()){
+            this.astStmt.getExpression().get();
+        }
+        return null;
+    }
+
+    public boolean isExpression( _expr _e){
+        return Objects.equals( this.getExpression(), _e);
+    }
+
+    public boolean isExpression( Expression e){
+        if( this.ast().getExpression().isPresent()){
+            return Expr.equal( this.ast().getExpression().get(), e);
+        }
+        return e == null;
+    }
+
+    public _constructorCallStmt setExpression(String...expression){
+        return setExpression( _expr.of(expression));
+    }
+
+    public _constructorCallStmt setExpression(Expression e){
+        if( e != null ) {
+            this.astStmt.setExpression(e);
+        } else {
+            this.astStmt.removeExpression();
+        }
+        return this;
+    }
+
+    public _constructorCallStmt setExpression(_expr _e){
+        if( _e != null ) {
+            this.astStmt.setExpression(_e.ast());
+        } else {
+            this.astStmt.removeExpression();
+        }
+        return this;
+    }
+
+    public _constructorCallStmt removeExpression(){
+        this.astStmt.removeExpression();
+        return this;
+    }
 
     public String toString(){
         return this.astStmt.toString();
