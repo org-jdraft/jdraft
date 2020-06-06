@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public final class _field implements _javadocComment._withJavadoc<_field>, _annoExprs._withAnnoExprs<_field>,
         _modifiers._withModifiers<_field>, _modifiers._withFinal<_field>, _modifiers._withStatic<_field>,
         _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
-        _java._withNameTypeRef<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
+        _java._withNameType<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
 
     public static final Function<String, _field> PARSER = s-> _field.of(s);
 
@@ -132,8 +132,8 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     public static _feature._one<_field, _typeRef> TYPE = new _feature._one<>(_field.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_field a, _typeRef _e) -> a.setTypeRef(_e), PARSER);
+            a -> a.getType(),
+            (_field a, _typeRef _e) -> a.setType(_e), PARSER);
 
     public static _feature._one<_field, String> NAME = new _feature._one<>(_field.class, String.class,
             _feature._id.NAME,
@@ -366,7 +366,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             sb.append(mods);
             sb.append(" ");
         }
-        sb.append(this.getTypeRef());
+        sb.append(this.getType());
         sb.append(" ");
         sb.append(this.getName());
         if (this.hasInit()) {
@@ -384,13 +384,13 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     }
 
     @Override
-    public _field setTypeRef(Type t) {
+    public _field setType(Type t) {
         this.astVar.setType(t);
         return this;
     }
 
     @Override
-    public _typeRef getTypeRef() {
+    public _typeRef getType() {
         return _typeRef.of(astVar.getType());
     }
 

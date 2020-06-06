@@ -592,7 +592,7 @@ public interface _java {
         //Class<_multiPart> NODE = _multiPart.class;
         Class<_declared> MEMBER = _declared.class;
         Class<_withName> NAMED = _withName.class;
-        Class<_withNameTypeRef> NAMED_TYPE = _withNameTypeRef.class;
+        Class<_withNameType> NAMED_TYPE = _withNameType.class;
 
         Class<_withThrows> HAS_THROWS = _withThrows.class;
         Class<_withBody> HAS_BODY = _withBody.class;
@@ -1678,8 +1678,8 @@ public interface _java {
      * </UL>
      * @param <_NT> the specialized entity that is a named TYPE
      */
-    interface _withNameTypeRef<N extends Node, _NT extends _withNameTypeRef>
-            extends _node<N, _NT>, _withName<_NT>, _typeRef._withTypeRef<N,_NT> {
+    interface _withNameType<N extends Node, _NT extends _withNameType>
+            extends _node<N, _NT>, _withName<_NT>, _typeRef._withType<N,_NT> {
     }
 
     /**

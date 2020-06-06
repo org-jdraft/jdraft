@@ -175,7 +175,7 @@ public class SfTest extends TestCase {
         
         //assertTrue( $b.matches("@Deprecated int a=1;") );
 
-        $b.$and(f -> f.isTypeRef(String.class));
+        $b.$and(f -> f.isType(String.class));
         //assertTrue( $b.matches("@Deprecated String a=1;") );
         
         $b.$and(f -> f.hasInit());
@@ -200,7 +200,7 @@ public class SfTest extends TestCase {
         };
         assertTrue( pf.test( _field.of("@Deprecated int i") ) );        
         
-        pf = pf.and(f -> f.isTypeRef(int.class));
+        pf = pf.and(f -> f.isType(int.class));
         assertTrue( pf.test( _field.of("@Deprecated int i=100") ) );
         
         assertFalse( pf.test( _field.of("@Deprecated float i=1.0f") ) );

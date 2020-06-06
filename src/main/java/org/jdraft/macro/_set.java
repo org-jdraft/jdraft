@@ -49,7 +49,7 @@ public @interface _set {
 
             _fs.forEach(f ->
                     typeDeclaration.addMember(
-                            Ast.methodDeclaration($SET.draft("name", f.getName(), "type", f.getTypeRef()))));
+                            Ast.methodDeclaration($SET.draft("name", f.getName(), "type", f.getType()))));
             return typeDeclaration;
         }
 

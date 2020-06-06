@@ -131,7 +131,7 @@ public class EclipseJDTTest{ //extends TestCase
         $.method().forEachIn(_cc, m->System.out.println(
                 "Name:      " + m.getName()+System.lineSeparator()+
                 "Signature: " + m.ast().getSignature().toString()+System.lineSeparator()+
-                "ReturnType: "+ m.getTypeRef()+System.lineSeparator() ));
+                "ReturnType: "+ m.getType()+System.lineSeparator() ));
 
     }
 

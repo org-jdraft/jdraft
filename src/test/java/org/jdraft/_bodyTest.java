@@ -64,6 +64,9 @@ public class _bodyTest extends TestCase {
         assertTrue(_nwobs.is(";"));
         assertTrue(_nwobs.is(""));
 
+        assertTrue( _nwb.ast() instanceof ExpressionStmt);
+        assertNull(_nwobs.ast());
+        assertTrue( _nwbs.ast() instanceof BlockStmt);
 
         _nwb.is(_stmt.of("System.out.println(3);"));
         _nwobs.is(_stmt.of("{ System.out.println(1); }"));

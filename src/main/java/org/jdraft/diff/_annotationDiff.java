@@ -200,7 +200,7 @@ public final class _annotationDiff implements _differ<_annotation, _java._node> 
         public <_PN extends _java._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _entry left, _entry right) {
             _javadocCommentDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
             _annoExprsDiff.INSTANCE.diff(path, ds, left, right, left.getAnnoExprs(), right.getAnnoExprs());
-            _typeRefDiff.INSTANCE.diff(path, ds, left, right, left.getTypeRef(), right.getTypeRef());
+            _typeRefDiff.INSTANCE.diff(path, ds, left, right, left.getType(), right.getType());
             _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
             DEFAULT_VALUE_DIFF.diff(path, ds, left, right, left.getDefaultAstValue(), right.getDefaultAstValue());
             return ds;

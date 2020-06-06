@@ -25,7 +25,7 @@ public class _newExprTest extends TestCase {
             //expected
         }
         System.out.println(_n);
-        _n.setTypeRef("Thingy");
+        _n.setType("Thingy");
         System.out.println(_n);
         _n.setArgs(_intExpr.of(1) );
         System.out.println( _n );
@@ -54,11 +54,11 @@ public class _newExprTest extends TestCase {
 
     public void testAnon(){
         _newExpr _n = _newExpr.of( ()-> new ArrayList() );
-        assertTrue(_n.isTypeRef(ArrayList.class));
+        assertTrue(_n.isType(ArrayList.class));
 
         _n = _newExpr.of( ()-> new ArrayList<String>() );
         //System.out.println( _n.getType() );
-        assertTrue(_n.isTypeRef("ArrayList<String>"));
+        assertTrue(_n.isType("ArrayList<String>"));
 
         _n = _newExpr.of( ()-> new Serializable(){
            public int getY(){
@@ -66,7 +66,7 @@ public class _newExprTest extends TestCase {
            }
         });
 
-        assertTrue( _n.isTypeRef(Serializable.class) );
+        assertTrue( _n.isType(Serializable.class) );
         assertEquals(1, _n.listAnonymousBodyMembers().size());
         _n.addTypeArgs(Types.of("T") );
         _n.getTypeArg(0);
@@ -130,7 +130,7 @@ public class _newExprTest extends TestCase {
             };
         });
         System.out.println( _n.getScope() );
-        System.out.println( _n.getTypeRef() );
+        System.out.println( _n.getType() );
         System.out.println( _n.listArgs() );
         //assertEquals(2, _n.listTypeArguments().size() );
     }

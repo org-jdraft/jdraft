@@ -99,8 +99,8 @@ public class SinterfaceTest extends TestCase {
         assertFalse( $interface.of($.method(m->m.isStatic())).matches(_interface.of("C").addMethod("void m(){}")));
 
 
-        assertTrue($interface.of($field.of(f->f.isTypeRef(int.class))).matches(_interface.of("C").addField("int i=100;")));
-        assertFalse($interface.of($field.of(f->f.isTypeRef(int.class))).matches(_interface.of("C").addField("String s;")));
+        assertTrue($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").addField("int i=100;")));
+        assertFalse($interface.of($field.of(f->f.isType(int.class))).matches(_interface.of("C").addField("String s;")));
 
         assertTrue( $interface.of().$extend(Map.class).matches(_interface.of("AnyClass").addExtend(Map.class)));
         assertFalse( $interface.of().$extend(Map.class).matches(_interface.of("AnyClass")));

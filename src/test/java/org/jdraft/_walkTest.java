@@ -20,7 +20,7 @@ public class _walkTest extends TestCase {
 
         assertNotNull(_w.first(n-> n instanceof _binaryExpr));
         assertNotNull(_w.first(_lambdaExpr.class));
-        assertNotNull(_w.first(_lambdaExpr.class, _l->_l.getParam("s").getTypeRef().isUnknownType()));
+        assertNotNull(_w.first(_lambdaExpr.class, _l->_l.getParam("s").getType().isUnknownType()));
 
         assertEquals( 1, _w.list(n -> n instanceof _lambdaExpr).size());
         _w.print(_lambdaExpr.class);

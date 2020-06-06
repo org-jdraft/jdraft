@@ -85,7 +85,7 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
         assertTrue(_f.isInit(123)); //the init value of the field is 123
 
         _method _m = _c.getMethod("id" );
-        assertTrue( _m.isTypeRef( UUID.class ) );
+        assertTrue( _m.isType( UUID.class ) );
         assertTrue( _m.hasAnnoExpr( Deprecated.class ) );
         _m.setStatic().setFinal().setPublic();
 

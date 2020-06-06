@@ -38,8 +38,8 @@ public class _variablesExprTest extends TestCase {
         assertEquals(1, _vs.size());
         assertEquals( _variable.of("int i"), _vs.getAt(0) );
 
-        assertEquals(1, _vs.listVariables(v-> v.isTypeRef(int.class)).size());
-        assertEquals(0, _vs.listVariables(v-> v.isTypeRef(String.class)).size());
+        assertEquals(1, _vs.listVariables(v-> v.isType(int.class)).size());
+        assertEquals(0, _vs.listVariables(v-> v.isType(String.class)).size());
 
         assertEquals( 0, _vs.indexOf(_variable.of("int i")));
         assertEquals( -1, _vs.indexOf(_variable.of("int j")));
@@ -56,7 +56,7 @@ public class _variablesExprTest extends TestCase {
         }catch(Exception e){
             //expected
         }
-        assertTrue(_vs.has(v-> v.isTypeRef(int.class)));
+        assertTrue(_vs.has(v-> v.isType(int.class)));
     }
 
     public void testMods(){

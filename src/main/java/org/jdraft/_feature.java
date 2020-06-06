@@ -366,7 +366,7 @@ public interface _feature<_T, _F>{
          * {@link _field#TYPE}, {@link _instanceOfExpr#TYPE},{@link _method#TYPE}, {@link _newExpr#TYPE},
          * {@link _param#TYPE}, {@link _receiverParam#TYPE},{@link _typeExpr#TYPE}, {@link _typeRef#TYPE},
          * {@link _variable#TYPE}...*/
-        TYPE("typeRef", _typeRef._withTypeRef.class),
+        TYPE("typeRef", _typeRef._withType.class),
 
         /** {@link _class}, {@link _constructor}, {@link _interface}, {@link _method}, {@link _typeParams} */
         TYPE_PARAMS("typeParams", _typeParams._withTypeParams.class),

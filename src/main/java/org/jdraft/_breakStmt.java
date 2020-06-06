@@ -6,6 +6,7 @@ import org.jdraft.text.Stencil;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * <PRE>
@@ -68,6 +69,13 @@ public final class _breakStmt
 
     public boolean hasLabel(){
         return this.astStmt.getLabel().isPresent();
+    }
+
+    public boolean isLabel(Predicate<String> labelMatchFn){
+        if( this.astStmt.getLabel().isPresent()){
+            return labelMatchFn.test( this.astStmt.getLabel().get().asString() );
+        }
+        return false;
     }
 
     public boolean isLabel(String label){

@@ -3,10 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.CastExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.type.Type;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.*;
 
@@ -19,7 +16,7 @@ import java.util.function.*;
  *
  */
 public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<CastExpr, _castExpr>,
-        _typeRef._withTypeRef<CastExpr, _castExpr>, _java._withExpression<CastExpr, _castExpr> {
+        _typeRef._withType<CastExpr, _castExpr>, _java._withExpression<CastExpr, _castExpr> {
 
     public static final Function<String, _castExpr> PARSER = s-> _castExpr.of(s);
 
@@ -82,7 +79,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
 
     public static _feature._one<_castExpr, _typeRef> TYPE = new _feature._one<>(_castExpr.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
+            a -> a.getType(),
             (_castExpr a, _typeRef o) -> a.setType(o), PARSER);
 
     public static _feature._one<_castExpr, _expr> EXPRESSION = new _feature._one<>(_castExpr.class, _expr.class,
@@ -137,6 +134,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         return false;
     }
 
+    /*
     public _castExpr setType( String typeRef ){
         return setType(_typeRef.of(typeRef));
     }
@@ -150,7 +148,9 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         this.ce.setType(t);
         return this;
     }
+     */
 
+    /*
     public boolean isType(String type ){
         return isType(_typeRef.of(type));
     }
@@ -162,6 +162,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
     public boolean isType( _typeRef _t){
         return Types.equal(_t.ast(), this.ce.getType());
     }
+    */
 
     public _castExpr setExpression(String ex){
         return setExpression(_expr.of(ex));

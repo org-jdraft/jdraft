@@ -7,10 +7,10 @@ import org.jdraft.pattern.$typeRef;
 public class JavaParserLucaAccumulateTest extends TestCase {
 
     public void testAcc() {
-        assertTrue( generateAccumulate(int.class).getParam(0).isTypeRef(int[].class) );
-        assertTrue( generateAccumulate(float.class).getParam(0).isTypeRef(float[].class) );
-        assertTrue( generateAccumulate(double.class).getParam(0).isTypeRef(double[].class) );
-        assertTrue( generateAccumulate(String.class).getParam(0).isTypeRef(String[].class) );
+        assertTrue( generateAccumulate(int.class).getParam(0).isType(int[].class) );
+        assertTrue( generateAccumulate(float.class).getParam(0).isType(float[].class) );
+        assertTrue( generateAccumulate(double.class).getParam(0).isType(double[].class) );
+        assertTrue( generateAccumulate(String.class).getParam(0).isType(String[].class) );
     }
 
     public _method generateAccumulate( Class type ){

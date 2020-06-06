@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
  */
 public final class _receiverParam
         implements _java._node<ReceiverParameter, _receiverParam>,
-        _java._withNameTypeRef<ReceiverParameter, _receiverParam>, _annoExprs._withAnnoExprs<_receiverParam> {
+        _java._withNameType<ReceiverParameter, _receiverParam>, _annoExprs._withAnnoExprs<_receiverParam> {
 
     public static final Function<String, _receiverParam> PARSER = s-> _receiverParam.of(s);
 
@@ -54,8 +54,8 @@ public final class _receiverParam
 
     public static _feature._one<_receiverParam, _typeRef> TYPE = new _feature._one<>(_receiverParam.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_receiverParam p, _typeRef _t) -> p.setTypeRef(_t), PARSER);
+            a -> a.getType(),
+            (_receiverParam p, _typeRef _t) -> p.setType(_t), PARSER);
 
     public static _feature._one<_receiverParam, String> NAME = new _feature._one<>(_receiverParam.class, String.class,
             _feature._id.NAME,
@@ -112,12 +112,12 @@ public final class _receiverParam
     }
 
     @Override
-    public _typeRef getTypeRef() {
+    public _typeRef getType() {
         return _typeRef.of( this.astReceiverParam.getType() );
     }
 
     @Override
-    public _receiverParam setTypeRef(Type astType ) {
+    public _receiverParam setType(Type astType ) {
         this.astReceiverParam.setType( astType );
         return this;
     }

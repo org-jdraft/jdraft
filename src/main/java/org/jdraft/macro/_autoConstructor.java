@@ -66,7 +66,7 @@ public @interface _autoConstructor {
                 }
                 _constructor _ct = _constructor.of( cd );
                 _fs.forEach(f -> {
-                    _ct.addParam(f.getTypeRef(), f.getName());
+                    _ct.addParam(f.getType(), f.getName());
                     _ct.add("this." + f.getName() + " = " + f.getName() + ";");
                 });
                 return _ct;

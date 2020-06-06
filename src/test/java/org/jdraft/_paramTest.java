@@ -16,7 +16,7 @@ public class _paramTest extends TestCase {
     public void testBuildFromScratch(){
         _param _p = _param.of();
         System.out.println( _p );
-        _p.setTypeRef(int.class).setName("x");
+        _p.setType(int.class).setName("x");
         System.out.println( _p );
     }
     public void testFullyQualified(){
@@ -31,7 +31,7 @@ public class _paramTest extends TestCase {
         _param _p = _param.of("int a");
         assertEquals( _param.of( "int a" ), _p  );
         assertTrue( _p.is("int a"));
-        assertTrue( _p.isTypeRef("int") );
+        assertTrue( _p.isType("int") );
         assertTrue( _p.isNamed("a") );
     }
     

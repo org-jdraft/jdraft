@@ -98,15 +98,15 @@ public @interface _equals {
                 List<_field> _fs = _t.listFields(FIELDS_FOR_EQUALS);
 
                 _fs.forEach(f-> {
-                    if( f.isTypeRef(float.class) ){
+                    if( f.isType(float.class) ){
                         body.addStatement( $float.fill(f.getName()));
-                    }else if( f.isTypeRef(double.class)){
+                    }else if( f.isType(double.class)){
                         body.addStatement($double.fill(f.getName()));
                     }else if( f.isPrimitive() ){
                         body.addStatement($primitive.fill(f.getName()));
                     }else{
                         if( f.isArray()){
-                            if( f.getTypeRef().getElementType().isPrimitiveType() ){
+                            if( f.getType().getElementType().isPrimitiveType() ){
                                 body.addStatement($arrayOfPrimitives.fill(f.getName()));
                             } else {
                                 body.addStatement($arrayOfObject.fill(f.getName()));

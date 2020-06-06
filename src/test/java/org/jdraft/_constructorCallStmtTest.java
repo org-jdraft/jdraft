@@ -6,6 +6,18 @@ import static org.junit.Assert.*;
 
 public class _constructorCallStmtTest extends TestCase {
 
+    public void testSwapThisSuper(){
+        _constructorCallStmt _ccs = _constructorCallStmt.of("this(1,2);");
+        assertTrue(_ccs.isThis());
+        assertFalse(_ccs.isSuper());
+        _ccs.setSuper(true);
+
+        assertFalse(_ccs.isThis());
+        assertTrue(_ccs.isSuper());
+        assertTrue(_ccs.isArgs("1, 2"));
+        assertTrue( _ccs.isArgs(_a -> _a.size() == 2));
+    }
+
     public void testCC(){
         _constructorCallStmt _ccs = _constructorCallStmt.of();
         assertTrue(_ccs.getArgs().isEmpty());

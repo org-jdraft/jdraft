@@ -56,7 +56,7 @@ public @interface _setFluent {
             _fs.forEach(f ->
                     typeDeclaration.addMember(
                             Ast.methodDeclaration($SET_FLUENT.draft("className", typeDeclaration.getNameAsString(),
-                                    "name", f.getName(), "type", f.getTypeRef()))));
+                                    "name", f.getName(), "type", f.getType()))));
             return typeDeclaration;
         }
 

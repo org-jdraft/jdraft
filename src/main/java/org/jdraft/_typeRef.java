@@ -607,12 +607,13 @@ public final class _typeRef<T extends Type>
         return Normalizer.of( this.astType.toString() );        
     }
 
-    public static interface _withTypeRef<N extends Node, _WT extends _java._node> extends _java._node<N, _WT> {
+
+    public interface _withType<N extends Node, _WT extends _java._node> extends _java._node<N, _WT> {
 
         /**
          * @return they type
          */
-        default _typeRef getTypeRef(){
+        default _typeRef getType(){
             return of(((NodeWithType)ast()).getType());
         }
 
@@ -621,7 +622,7 @@ public final class _typeRef<T extends Type>
          * @return the array element type
          */
         default _typeRef getElementType() {
-            return of(getTypeRef().ast().getElementType());
+            return of(getType().ast().getElementType());
         }
 
         /**
@@ -629,7 +630,7 @@ public final class _typeRef<T extends Type>
          * @param t the _typeRef object
          * @return the modified entity after setting the TYPE
          */
-        default _WT setTypeRef(Type t){
+        default _WT setType(Type t){
             ((NodeWithType)ast()).setType(t);
             return (_WT)this;
         }
@@ -639,7 +640,7 @@ public final class _typeRef<T extends Type>
          * @return
          */
         default boolean isArrayType(){
-            return getTypeRef().isArrayType();
+            return getType().isArrayType();
         }
 
         /**
@@ -647,8 +648,8 @@ public final class _typeRef<T extends Type>
          * @param _tr
          * @return
          */
-        default _WT setTypeRef(_typeRef _tr) {
-            return setTypeRef(_tr.ast());
+        default _WT setType(_typeRef _tr) {
+            return setType(_tr.ast());
         }
 
         /**
@@ -656,8 +657,8 @@ public final class _typeRef<T extends Type>
          * @param typeRef the String representation of the TYPE
          * @return the modified entity after setting the TYPE
          */
-        default _WT setTypeRef(String typeRef) {
-            return setTypeRef(Types.of(typeRef));
+        default _WT setType(String typeRef) {
+            return setType(Types.of(typeRef));
         }
 
         /**
@@ -665,8 +666,8 @@ public final class _typeRef<T extends Type>
          * @param clazz the class of the TYPE to set
          * @return the modified entity after setting the TYPE
          */
-        default _WT setTypeRef(Class clazz) {
-            return setTypeRef(Types.of(clazz.getCanonicalName()));
+        default _WT setType(Class clazz) {
+            return setType(Types.of(clazz.getCanonicalName()));
         }
 
         /**
@@ -674,7 +675,7 @@ public final class _typeRef<T extends Type>
          * @return true if void
          */
         default boolean isVoid() {
-            return getTypeRef().ast().isVoidType();
+            return getType().ast().isVoidType();
         }
 
         /**
@@ -682,8 +683,8 @@ public final class _typeRef<T extends Type>
          * @param type the _typeRef representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isTypeRef(Type type) {
-            return Types.equal( getTypeRef().ast(), type);
+        default boolean isType(Type type) {
+            return Types.equal( getType().ast(), type);
         }
 
         /**
@@ -691,8 +692,8 @@ public final class _typeRef<T extends Type>
          * @param type the _typeRef representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isTypeRef(_typeRef type) {
-            return getTypeRef().equals(type);
+        default boolean isType(_typeRef type) {
+            return getType().equals(type);
         }
 
         /**
@@ -700,9 +701,9 @@ public final class _typeRef<T extends Type>
          * @param clazz the Class representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isTypeRef(Class clazz) {
+        default boolean isType(Class clazz) {
             try {
-                return isTypeRef(clazz.getCanonicalName()) || isTypeRef(clazz.getSimpleName());
+                return isType(clazz.getCanonicalName()) || isType(clazz.getSimpleName());
             } catch (Exception e) {
             }
             return false;
@@ -713,8 +714,8 @@ public final class _typeRef<T extends Type>
          * @param typeMatchFn lambda matcher function
          * @return true if the type
          */
-        default boolean isTypeRef(Predicate<_typeRef> typeMatchFn) {
-            return typeMatchFn.test(getTypeRef());
+        default boolean isType(Predicate<_typeRef> typeMatchFn) {
+            return typeMatchFn.test(getType());
         }
 
         /**
@@ -722,9 +723,9 @@ public final class _typeRef<T extends Type>
          * @param type the String representation of the TYPE
          * @return true if the TYPE is the same
          */
-        default boolean isTypeRef(String type) {
+        default boolean isType(String type) {
             try {
-                return isTypeRef(Types.of(type));
+                return isType(Types.of(type));
             } catch (Exception e) {
             }
             return false;

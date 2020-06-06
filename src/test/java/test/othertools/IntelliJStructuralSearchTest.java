@@ -239,7 +239,7 @@ public class IntelliJStructuralSearchTest{
         //$.typeParameters(t.isDiamondOperator());
 
         //Generic Cast
-        __( $.cast(c-> c.getTypeRef().isGenericType() ) );
+        __( $.cast(c-> c.getType().isGenericType() ) );
 
         //Generic Classes
         __( $class.of(c-> c.hasTypeParams()) );
@@ -269,7 +269,7 @@ public class IntelliJStructuralSearchTest{
 
         //type var substitutions in instanceof with generic types
         //instanceof with generic type
-        $.instanceOf(i-> i.isTypeRef(t-> t.isGenericType()));
+        $.instanceOf(i-> i.isType(t-> t.isGenericType()));
 
         //typed symbol
         $typeRef.of(t-> t.isGenericType());

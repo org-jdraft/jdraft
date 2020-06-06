@@ -22,7 +22,7 @@ import java.util.function.Function;
  */
 public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayExpr>,
         _java._node<ArrayCreationExpr, _newArrayExpr>,
-        _typeRef._withTypeRef<ArrayCreationExpr, _newArrayExpr>,
+        _typeRef._withType<ArrayCreationExpr, _newArrayExpr>,
         _java._list<ArrayCreationLevel, _arrayDimension, _newArrayExpr> {
 
     public static final Function<String, _newArrayExpr> PARSER = s-> _newArrayExpr.of(s);

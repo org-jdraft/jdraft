@@ -6,7 +6,9 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * just ";" (i.e. "for(int i=0;;;)")
+ * models the absence of a statement (specifically a placeholder for statements in loops)
+ *
+ * i.e. ";" (i.e. "for(int i=0;;)")
  */
 public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt> {
 

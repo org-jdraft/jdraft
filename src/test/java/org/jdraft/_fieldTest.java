@@ -17,7 +17,7 @@ public class _fieldTest extends TestCase {
     public void testBuildFromScratch(){
         _field _f = _field.of();
         System.out.println(_f);
-        _f.setName("A").setTypeRef(int.class).setModifiers("public static final");
+        _f.setName("A").setType(int.class).setModifiers("public static final");
         //_f.name("A").type(int.class).modifiers("static");
         //_f.name("A").type(int.class).modifiers("public", "static");
         System.out.println(_f);
@@ -123,7 +123,7 @@ public class _fieldTest extends TestCase {
     public void testSimple(){
         _field _f = _field.of("int i;");
         assertEquals( "i", _f.getName());
-        assertEquals( _typeRef.of( "int"), _f.getTypeRef());
+        assertEquals( _typeRef.of( "int"), _f.getType());
         assertFalse( _f.isFinal() );
         assertFalse( _f.isPrivate() );
         assertFalse( _f.isProtected() );
@@ -132,8 +132,8 @@ public class _fieldTest extends TestCase {
         assertFalse( _f.isStatic() );
         assertFalse( _f.isTransient() );
         assertFalse( _f.isVolatile() );
-        assertTrue( _f.isTypeRef( "int") );
-        assertTrue( _f.isTypeRef( int.class) );
+        assertTrue( _f.isType( "int") );
+        assertTrue( _f.isType( int.class) );
         assertFalse( _f.hasInit());
         assertFalse( _f.hasAnnoExprs());
         
@@ -163,7 +163,7 @@ public class _fieldTest extends TestCase {
         assertTrue( _as.is("@ann(1)", "@ann2(3)") );
         
         assertEquals( _modifiers.of( "public", "static", "final"), _f.getModifiers() );
-        assertTrue( _f.isTypeRef( "int"));
+        assertTrue( _f.isType( "int"));
         assertEquals("W", _f.getName() );
         assertEquals( Expr.of("103 + 45"), _f.getInitNode() );
     }

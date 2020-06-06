@@ -15,7 +15,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _param
-    implements _java._withNameTypeRef<Parameter, _param>, _annoExprs._withAnnoExprs<_param>,
+    implements _java._withNameType<Parameter, _param>, _annoExprs._withAnnoExprs<_param>,
         _modifiers._withFinal<_param>, _java._node<Parameter, _param> {
 
     public static final Function<String, _param> PARSER = s-> _param.of(s);
@@ -79,8 +79,8 @@ public final class _param
 
     public static _feature._one<_param, _typeRef> TYPE = new _feature._one<>(_param.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_param p, _typeRef _tr) -> p.setTypeRef(_tr), PARSER);
+            a -> a.getType(),
+            (_param p, _typeRef _tr) -> p.setType(_tr), PARSER);
 
     public static _feature._one<_param, Boolean> IS_VAR_ARG = new _feature._one<>(_param.class, Boolean.class,
             _feature._id.IS_VAR_ARG,
@@ -176,12 +176,12 @@ public final class _param
     }
 
     @Override
-    public boolean isTypeRef(String type ) {
+    public boolean isType(String type ) {
         return Types.equal(this.astParameter.getType(), Types.of( type ));
     }
 
     @Override
-    public boolean isTypeRef(Type type ) {
+    public boolean isType(Type type ) {
         return Types.equal(this.astParameter.getType(), type);
     }
 

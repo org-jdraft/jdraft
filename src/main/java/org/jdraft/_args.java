@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
+import org.jdraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -426,36 +427,22 @@ public final class _args
         }
 
         default boolean isArgs(String... es){
-            _expr[] _es = new _expr[es.length];
-            for(int i=0;i<es.length;i++){
-                _es[i] = _expr.of(es[i]);
-            }
-            return isArgs(_es);
+            _args _as = _args.of(es);
+            return getArgs().equals(_as);
         }
 
         default boolean isArgs(Expression... es){
-            _expr[] _es = new _expr[es.length];
-            for(int i=0;i<es.length;i++){
-                _es[i] = _expr.of(es[i]);
-            }
-            return isArgs(_es);
+            _args _as = _args.of(es);
+            return _as.equals(getArgs());
         }
 
         default boolean isArgs(_expr... _es){
-            List<_expr> _tes = listArgs();
-            if(_es.length == _tes.size()){
-                for(int i=0;i<_es.length;i++){
-                    if( ! Expr.equal(  _es[i].ast(), _tes.get(i).ast() ) ){
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false;
+            _args _as = _args.of(_es);
+            return _as.equals(getArgs());
         }
 
-        default boolean isArgs(Predicate<List<_expr>> matchFn){
-            return matchFn.test( listArgs() );
+        default boolean isArgs(Predicate<_args> matchFn){
+            return matchFn.test(getArgs());
         }
 
         default boolean isArg(int index, boolean b){

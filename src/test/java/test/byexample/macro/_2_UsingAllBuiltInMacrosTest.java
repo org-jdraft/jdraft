@@ -56,8 +56,8 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         @_dto class D{ int x,y; }
         _class _d = _class.of(D.class);
 
-        assertTrue(_d.getMethod("getX").isTypeRef(int.class));
-        assertTrue(_d.getMethod("getY").isTypeRef(int.class));
+        assertTrue(_d.getMethod("getX").isType(int.class));
+        assertTrue(_d.getMethod("getY").isType(int.class));
         assertTrue(_d.getMethod("setX").getParams().is("int x"));
         assertTrue(_d.getMethod("setY").getParams().is("int y"));
         assertNotNull( _d.getMethod("equals"));
@@ -104,8 +104,8 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         @_get class G{ int x, y; }
 
         _class _g = _class.of(G.class);
-        assertTrue( _g.getMethod("getX").isTypeRef(int.class));
-        assertTrue( _g.getMethod("getY").isTypeRef(int.class));
+        assertTrue( _g.getMethod("getX").isType(int.class));
+        assertTrue( _g.getMethod("getY").isType(int.class));
 
         //get works on enums (creates getter methods getX(), getY())
         //_enum _e = _enum.of("GE", new @_get Object(){ int x, y; });

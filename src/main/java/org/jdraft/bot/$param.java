@@ -104,7 +104,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
     public static $param as(_param _p){
         return of()
                 .$name(_p.getName())
-                .$typeRef(_p.getTypeRef())
+                .$typeRef(_p.getType())
                 .$annoRefs($annoExprs.as(_p.ast()))
                 .$isVarArg(_p.isVarArg())
                 .$isFinal(_p.isFinal());
@@ -243,7 +243,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
             Select.$botSelect.of(_param.class, _annoExprs.class, "annoRefs", p-> p.getAnnoExprs() );
 
     public Select.$botSelect<$typeRef, _param, _typeRef> type =
-            Select.$botSelect.of(_param.class, _typeRef.class, "type", p-> p.getTypeRef() );
+            Select.$botSelect.of(_param.class, _typeRef.class, "type", p-> p.getType() );
 
     public Select.$botSelect<$name, _param, _name> name =
             Select.$botSelect.of(_param.class, _name.class, "name", p-> _name.of(p.getName()));
@@ -261,7 +261,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
             annoExprs.setBot( $annoExprs.of(_p.ast()) );
         }
         name.setBot( $name.of(_p.getName()) );
-        type.setBot( $typeRef.of(_p.getTypeRef()));
+        type.setBot( $typeRef.of(_p.getType()));
 
         if( _p.isVarArg() ){
             isVarArg.setExpected( true );
@@ -371,7 +371,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
         _param _p = _param.of();
         _p.setAnnoExprs( this.annoExprs.draft(tr, keyValues) );
         _p.setName(this.name.draft(tr, keyValues).name.toString());
-        _p.setTypeRef(this.type.draft(tr, keyValues));
+        _p.setType(this.type.draft(tr, keyValues));
         if( this.isFinal.getExpected() ){
             _p.setFinal(true);
         }

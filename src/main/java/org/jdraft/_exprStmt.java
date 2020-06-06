@@ -12,7 +12,11 @@ import java.util.function.Function;
 
 /**
  * Statement wrapper over and Expression (to make an Expression a Statement)
- *
+ * i.e.
+ * <PRE>
+ * "System.out.println(1);" is an {@link _exprStmt} for the
+ * "System.out.println(1)" {@link _methodCallExpr}
+ * </PRE>
  */
 public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
         _java._withExpression<ExpressionStmt, _exprStmt> {
@@ -115,7 +119,9 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
 
     public boolean equals(Object other){
         if( other instanceof _exprStmt){
-            return Objects.equals( ((_exprStmt)other).ast(), this.ast() );
+            _exprStmt _o = (_exprStmt)other;
+            return Objects.equals( _o.getExpression(), getExpression() );
+            //return Objects.equals( ((_exprStmt)other).ast(), this.ast() );
         }
         return false;
     }

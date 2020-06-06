@@ -621,7 +621,7 @@ public enum Expr {
                 if( pvd.isSuccessful() ){
                     e = pvd.getResult().get();
                 } else {
-                    System.out.println("GOT HERE 2");
+                    //System.out.println("GOT HERE 2");
                     throw new _jdraftException("Unable to parse Expression \"" + str + "\" " + System.lineSeparator() + pe.getProblems());
                 }
             }

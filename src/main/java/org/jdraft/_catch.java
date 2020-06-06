@@ -11,8 +11,6 @@ import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.UnionType;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
@@ -125,16 +123,16 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
         //UnionType ut = new UnionType();
         //ut.getElements()
         //Type ce = Types.of(caughtException);
-        return this.getParam().getTypeRef().is(caughtException) ||
-                this.getParam().getTypeRef().isUnionType( caughtException); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
+        return this.getParam().getType().is(caughtException) ||
+                this.getParam().getType().isUnionType( caughtException); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
     }
 
     public boolean isCatch(_typeRef caughtException){
         //UnionType ut = new UnionType();
         //ut.getElements()
         //Type ce = Types.of(caughtException);
-        return this.getParam().getTypeRef().is(caughtException.ast()) ||
-                this.getParam().getTypeRef().isUnionType( caughtException.ast()); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
+        return this.getParam().getType().is(caughtException.ast()) ||
+                this.getParam().getType().isUnionType( caughtException.ast()); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
     }
 
     public _catch addType(Class<? extends Exception>...clazz){

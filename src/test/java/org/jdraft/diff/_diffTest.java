@@ -272,9 +272,9 @@ public class _diffTest extends TestCase {
         _change_type _ct = new _change_type(_nodePath.of(Feature.CLASS, "C"), _m1, _m2 );
         
         _ct.patchRightToLeft();
-        assertEquals( _typeRef.of(float.class), _m1.getTypeRef() );
+        assertEquals( _typeRef.of(float.class), _m1.getType() );
         _ct.patchLeftToRight();
-        assertEquals( _typeRef.of(int.class), _m1.getTypeRef() );
+        assertEquals( _typeRef.of(int.class), _m1.getType() );
         
         _changeName _cn = new _changeName(_nodePath.of(Feature.CLASS, "C"), _m1, _m2 );
         

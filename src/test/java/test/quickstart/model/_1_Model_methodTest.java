@@ -30,7 +30,7 @@ public class _1_Model_methodTest extends TestCase {
         assertTrue( _m.isPublic() );
         assertTrue( _m.isImplemented() );
         assertTrue( _m.hasParams() );
-        assertTrue( _m.isTypeRef( int.class ) );
+        assertTrue( _m.isType( int.class ) );
 
         // other simple questions you can ask
             assertFalse( _m.hasJavadoc() );
@@ -40,7 +40,7 @@ public class _1_Model_methodTest extends TestCase {
         // the _method can also return other _models that are also part of the _method
         _modifiers _ms = _m.getModifiers();
         _params _ps = _m.getParams();
-        _typeRef _t = _m.getTypeRef();
+        _typeRef _t = _m.getType();
 
         // other _method _models
             _typeParams _tps = _m.getTypeParams();

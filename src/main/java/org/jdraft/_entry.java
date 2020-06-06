@@ -9,8 +9,6 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.utils.Log;
 import org.jdraft.text.Text;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -29,8 +27,7 @@ import java.util.function.Function;
  * (it is also a _member) and maps to an AnnotationMemberDeclaration
  */
 public final class _entry implements _javadocComment._withJavadoc<_entry>,
-        //_annoExprs._withAnnoExprs<_entry>,
-        _java._withNameTypeRef<AnnotationMemberDeclaration, _entry>,
+        _java._withNameType<AnnotationMemberDeclaration, _entry>,
         _java._declared<AnnotationMemberDeclaration, _entry> {
 
     public static final Function<String, _entry> PARSER = s-> _entry.of(s);
@@ -65,8 +62,8 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
 
     public static _feature._one<_entry, _typeRef> TYPE = new _feature._one<>(_entry.class, _typeRef.class,
             _feature._id.TYPE,
-            a->a.getTypeRef(),
-            (_entry a, _typeRef _e)-> a.setTypeRef(_e) , PARSER);
+            a->a.getType(),
+            (_entry a, _typeRef _e)-> a.setType(_e) , PARSER);
 
     public static _feature._one<_entry, String> NAME = new _feature._one<>(_entry.class, String.class,
             _feature._id.NAME,
@@ -124,7 +121,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
     }
 
     @Override
-    public _entry setTypeRef(Type t){
+    public _entry setType(Type t){
         this.astAnnMember.setType( t );
         return this;
     }
@@ -147,7 +144,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
     }
 
     @Override
-    public _typeRef getTypeRef(){
+    public _typeRef getType(){
         return _typeRef.of(this.astAnnMember.getType());
     }
 

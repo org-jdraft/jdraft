@@ -160,7 +160,7 @@ public class _1_classAPITest extends TestCase {
         //members/declared
         _FROM_STRING_PARTS.forConstructors(c-> c.isVarArg(), c-> System.out.println(c));
         _FROM_STRING_PARTS.forFields(f-> f.isPublic(), f-> System.out.println(f));
-        _FROM_STRING_PARTS.forMethods(m-> m.isTypeRef(UUID.class), m-> System.out.println(m));
+        _FROM_STRING_PARTS.forMethods(m-> m.isType(UUID.class), m-> System.out.println(m));
         //nests
         _FROM_STRING_PARTS.forInnerTypes(n-> n instanceof _interface, n-> System.out.println(n));
     }

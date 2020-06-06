@@ -6,6 +6,7 @@ import org.jdraft.text.Stencil;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueStmt> {
 
@@ -62,6 +63,13 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
         return this.astStmt.getLabel().isPresent();
     }
 
+    public boolean isLabel(Predicate<String> labelMatchFn){
+        if( hasLabel()){
+            return labelMatchFn.test( getLabel() );
+        }
+        return false;
+    }
+
     public boolean isLabel(SimpleName label){
         if( this.astStmt.getLabel().isPresent() ) {
             return Objects.equals(this.astStmt.getLabel().get(), label);
@@ -82,6 +90,7 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
         }
         return false;
     }
+
     public _continueStmt setLabel(SimpleName label){
         this.astStmt.setLabel( label);
         return this;

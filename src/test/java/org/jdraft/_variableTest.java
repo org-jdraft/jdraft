@@ -44,7 +44,7 @@ public class _variableTest extends TestCase {
     public void testAPI(){
         _variable _v = _variable.of("int i");
         assertTrue(_v.isNamed("i"));
-        assertTrue(_v.isTypeRef(int.class));
+        assertTrue(_v.isType(int.class));
         assertFalse( _v.hasInit());
         assertFalse( _v.isFinal());
 

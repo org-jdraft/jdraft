@@ -120,7 +120,7 @@ public class SvarTest extends TestCase {
 
         }
         System.out.println( $var.of().listIn(F.class) );
-        System.out.println( $parameter.of().firstIn(F.class).getTypeRef().ast().getClass() );
+        System.out.println( $parameter.of().firstIn(F.class).getType().ast().getClass() );
         System.out.println( $parameter.of().listIn(F.class));
     }
     

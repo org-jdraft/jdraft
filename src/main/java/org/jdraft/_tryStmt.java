@@ -284,8 +284,8 @@ public final class _tryStmt implements
     }
 
     public boolean hasWithResourceType( Class clazz ){
-        return hasWithResources(_newExpr.class, _n-> _n.isTypeRef(clazz))
-                || hasWithResources(_variablesExpr.class, _v->_v.listVariables(v-> v.isTypeRef(clazz)).size() > 0 );
+        return hasWithResources(_newExpr.class, _n-> _n.isType(clazz))
+                || hasWithResources(_variablesExpr.class, _v->_v.listVariables(v-> v.isType(clazz)).size() > 0 );
     }
 
     public <_E extends _expr> boolean hasWithResources(Class<_E> exprClass, Predicate<_E> matchFn){
@@ -377,9 +377,9 @@ public final class _tryStmt implements
 
     public _catch getCatch( Type astType ){
         Optional<_catch> _oc = listCatches().stream().filter( _c->
-            _c.getParam().isTypeRef(astType)
-            ||  _c.getParam().getTypeRef().isUnionType() &&
-                    _c.getParam().getTypeRef().ast().asUnionType().getElements().stream().anyMatch(rt-> Types.equal(rt, astType))
+            _c.getParam().isType(astType)
+            ||  _c.getParam().getType().isUnionType() &&
+                    _c.getParam().getType().ast().asUnionType().getElements().stream().anyMatch(rt-> Types.equal(rt, astType))
         ).findFirst();
         if( _oc.isPresent() ){
             return _oc.get();
@@ -399,9 +399,9 @@ public final class _tryStmt implements
         com.github.javaparser.ast.type.ReferenceType astType2 = Types.of(type.getSimpleName()).asReferenceType();
 
         //_c-> _c.getParameter().isType(IOException.class)).findFirst().get()
-        Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParam().isTypeRef(type)
-                || _c.getParam().getTypeRef().isUnionType() && _c.getParam().getTypeRef().ast().asUnionType().getElements().contains(astType)
-                || _c.getParam().getTypeRef().isUnionType() && _c.getParam().getTypeRef().ast().asUnionType().getElements().contains(astType2))
+        Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParam().isType(type)
+                || _c.getParam().getType().isUnionType() && _c.getParam().getType().ast().asUnionType().getElements().contains(astType)
+                || _c.getParam().getType().isUnionType() && _c.getParam().getType().ast().asUnionType().getElements().contains(astType2))
                 .findFirst();
         if( _oc.isPresent() ){
             return _oc.get();

@@ -37,7 +37,7 @@ public @interface _get {
             List<_field> _fs = _field.of(typeDeclaration.getFields());
             _fs.stream().filter(_f -> !((_field)_f).isStatic())
                     .forEach( _f-> typeDeclaration.addMember(
-                            _method.of($GET.draft("type", _f.getTypeRef(), "name", _f.getName()) ).ast()) );
+                            _method.of($GET.draft("type", _f.getType(), "name", _f.getName()) ).ast()) );
             return typeDeclaration;
         }
 

@@ -87,13 +87,13 @@ public class macroUseTest extends TestCase {
             int x, y, z;
         }
         _c = _class.of(D.class);
-        assertTrue(_c.getConstructor(0).getParam(0).isTypeRef(int.class));
+        assertTrue(_c.getConstructor(0).getParam(0).isType(int.class));
         assertNotNull(_c.getMethod("equals"));
         assertNotNull(_c.getMethod("hashCode"));
         assertNotNull(_c.getMethod("toString"));
         assertNotNull(_c.getMethod("getX"));
         assertNotNull(_c.getMethod("getI"));
-        assertNotNull(_c.getMethod("setZ").getParam(0).isTypeRef(int.class));
+        assertNotNull(_c.getMethod("setZ").getParam(0).isType(int.class));
     }
     public void testAutoEquals(){
         @_equals
@@ -124,8 +124,8 @@ public class macroUseTest extends TestCase {
             static final int r = 100; //no getter
         }
         _class _c = _class.of(A.class);
-        assertTrue( _c.getMethod("getX").isTypeRef(int.class));
-        assertTrue( _c.getMethod("getG").isTypeRef(String.class));
+        assertTrue( _c.getMethod("getX").isType(int.class));
+        assertTrue( _c.getMethod("getG").isType(String.class));
         assertNull( _c.getMethod("getR") );
     }
 
@@ -139,8 +139,8 @@ public class macroUseTest extends TestCase {
         }
         _class _c = _class.of(A.class);
         System.out.println( _c );
-        assertTrue( _c.getMethod("setX").getParam(0).isTypeRef(int.class));
-        assertTrue( _c.getMethod("setG").getParam(0).isTypeRef(String.class));
+        assertTrue( _c.getMethod("setX").getParam(0).isType(int.class));
+        assertTrue( _c.getMethod("setG").getParam(0).isType(String.class));
         assertNull( _c.getMethod("setFin") );
         assertNull( _c.getMethod("setR") );
     }
@@ -154,10 +154,10 @@ public class macroUseTest extends TestCase {
             static final int r = 100; //no setter
         }
         _class _c = _class.of(C.class);
-        assertTrue( _c.getMethod("setX").getParam(0).isTypeRef(int.class));
-        assertTrue( _c.getMethod("setG").getParam(0).isTypeRef(String.class));
-        assertTrue( _c.getMethod("setG").isTypeRef(C.class));
-        assertTrue( _c.getMethod("setX").isTypeRef(C.class));
+        assertTrue( _c.getMethod("setX").getParam(0).isType(int.class));
+        assertTrue( _c.getMethod("setG").getParam(0).isType(String.class));
+        assertTrue( _c.getMethod("setG").isType(C.class));
+        assertTrue( _c.getMethod("setX").isType(C.class));
         assertNull( _c.getMethod("setFin") );
         assertNull( _c.getMethod("setR") );
     }

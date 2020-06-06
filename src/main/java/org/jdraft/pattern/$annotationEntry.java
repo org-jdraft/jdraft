@@ -50,7 +50,7 @@ public class $annotationEntry
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
         }
         ec.name = $name.of(_ec.getName());
-        ec.type = $typeRef.of(_ec.getTypeRef() );
+        ec.type = $typeRef.of(_ec.getType() );
         if( _ec.hasDefaultValue() ){
             ec.defaultValue = $ex.of(_ec.getDefaultAstValue());
         }
@@ -92,7 +92,7 @@ public class $annotationEntry
             ae.javadoc = $comment.javadocComment(_ec.getJavadoc());
         }
         ae.name = $name.as(_ec.getName());
-        ae.type = $typeRef.as(_ec.getTypeRef() );
+        ae.type = $typeRef.as(_ec.getType() );
         if( _ec.hasDefaultValue() ){
             ae.defaultValue = $ex.of(_ec.getDefaultAstValue());
         } else{
@@ -225,7 +225,7 @@ public class $annotationEntry
         // IF "NewTokens" is not null : check that the "tokens" are consistent with "NewTokens"
         // IF "tokens"/"NewTokens" ARE NOT consistent (i.e. at least one var is assigned (2) distinct values) : return null
         // IF "tokens"/NewTokens" ARE consistent : return the "composite" tokens list (the union of "tokens" & "NewTokens")
-        Tokens ts = this.type.parseTo(instance.getTypeRef(), new Tokens() );
+        Tokens ts = this.type.parseTo(instance.getType(), new Tokens() );
         if( ts == null ){
             return null;
         }
@@ -255,7 +255,7 @@ public class $annotationEntry
             }
             else if( parts[i] instanceof $typeRef ){
                 final $typeRef $fa = (($typeRef)parts[i]);
-                Predicate<_entry> pf = f-> $fa.matches(f.getTypeRef());
+                Predicate<_entry> pf = f-> $fa.matches(f.getType());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $name){

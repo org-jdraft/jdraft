@@ -553,7 +553,7 @@ public class _methodTest extends TestCase {
         assertTrue( _m.isVoid() );
         assertFalse( _m.isVarArg() );
         assertTrue( _m.getParams().isEmpty() );
-        assertTrue( _m.getTypeRef().isVoid());
+        assertTrue( _m.getType().isVoid());
     }
 
     /* REmoved this... I';ll accept it
@@ -581,13 +581,13 @@ public class _methodTest extends TestCase {
         assertEquals( "blah", _m.getJavadoc().getText() );
 
         assertEquals( 1, _m.getAnnoExprs().list( "p" ).size());
-        assertEquals( "int", _m.getTypeRef().toString() );
+        assertEquals( "int", _m.getType().toString() );
 
         assertTrue( _m.getModifiers().isPublic() );
         assertEquals( "getM", _m.getName() );
 
         _param _pa = _m.getParams().getAt( 0 );
-        assertEquals( _pa.getTypeRef().toString(), "int" );
+        assertEquals( _pa.getType().toString(), "int" );
         assertEquals( _pa.getName().toString(), "a" );
     }
 
@@ -637,9 +637,9 @@ public class _methodTest extends TestCase {
         
         assertEquals( _modifiers.of(), _m.getModifiers());
         assertEquals("m", _m.getName());
-        assertTrue( _m.isTypeRef("void") );
-        assertTrue( _m.isTypeRef( Types.of( "void")) );
-        assertEquals("void", _m.getTypeRef().toString());
+        assertTrue( _m.isType("void") );
+        assertTrue( _m.isType( Types.of( "void")) );
+        assertEquals("void", _m.getType().toString());
         assertNull( _m.getBody().ast() );        
     }
     
@@ -681,8 +681,8 @@ public class _methodTest extends TestCase {
         assertNotNull(_m.getTypeParams().is("<E extends element>"));
         assertEquals(1, _m.getTypeParams().size());
         
-        assertTrue( _m.isTypeRef( "List<String>"));
-        assertTrue( _m.isTypeRef( Types.of( "List<String>")) );
+        assertTrue( _m.isType( "List<String>"));
+        assertTrue( _m.isType( Types.of( "List<String>")) );
         
         assertEquals("aMethod", _m.getName());
         assertTrue( _m.hasParams() );
@@ -727,7 +727,7 @@ public class _methodTest extends TestCase {
         _m.addAnnoExprs( ann.class );
         _m.addAnnoExprs( "@ann2(key=7,VALUE='r')");
         _m.setPublic().setStatic().setFinal();
-        _m.setTypeRef("List<String>");
+        _m.setType("List<String>");
         _m.setName("aMethod");
         _m.setTypeParams("<E extends element>");
         _m.addParams("@ann @ann2(key=1, VALUE='v')final int val",

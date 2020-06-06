@@ -23,7 +23,7 @@ public final class _constructorDiff implements _differ<_constructor, _java._node
             if (i > 0) {
                 sb.append(", ");
             }
-            sb.append(_pts.getAt(i).getTypeRef());
+            sb.append(_pts.getAt(i).getType());
             if (_pts.getAt(i).isVarArg()) {
                 sb.append("...");
             }

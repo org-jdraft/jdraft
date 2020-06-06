@@ -9,7 +9,7 @@ import java.util.function.Function;
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
-public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef._withTypeRef<ClassExpr, _classExpr>, _java._node<ClassExpr, _classExpr> {
+public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef._withType<ClassExpr, _classExpr>, _java._node<ClassExpr, _classExpr> {
 
     public static final Function<String, _classExpr> PARSER = s-> _classExpr.of(s);
 
@@ -31,8 +31,8 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
 
     public static _feature._one<_classExpr, _typeRef> TYPE = new _feature._one<>(_classExpr.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_classExpr a, _typeRef o) -> a.setTypeRef(o), PARSER);
+            a -> a.getType(),
+            (_classExpr a, _typeRef o) -> a.setType(o), PARSER);
 
     public static _feature._features<_classExpr> FEATURES = _feature._features.of(_classExpr.class, TYPE);
 
@@ -88,7 +88,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
     */
 
     public _classExpr setTypeRef(String...type ){
-        return setTypeRef( _typeRef.of(Text.combine(type)));
+        return setType( _typeRef.of(Text.combine(type)));
     }
 
     public boolean equals(Object other){

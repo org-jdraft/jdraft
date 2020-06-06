@@ -14,7 +14,7 @@ public final class _typeRefDiff
     @Override
     public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeRef left, _typeRef right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _change_type(path.in(_java.Feature.TYPE), (_java._withNameTypeRef) _leftParent, (_java._withNameTypeRef) _rightParent));
+            dt.addDiff(new _change_type(path.in(_java.Feature.TYPE), (_java._withNameType) _leftParent, (_java._withNameType) _rightParent));
         }
         return  dt;
     }
@@ -27,29 +27,29 @@ public final class _typeRefDiff
     public static class _change_type 
             implements _diffNode, _diffNode._change<_typeRef>{
         _nodePath path;
-        _java._withNameTypeRef leftParent;
-        _java._withNameTypeRef rightParent;
+        _java._withNameType leftParent;
+        _java._withNameType rightParent;
         _typeRef leftType;
         _typeRef rightType;
         
-        public _change_type(_nodePath _p, _java._withNameTypeRef leftParent, _java._withNameTypeRef rightParent){
+        public _change_type(_nodePath _p, _java._withNameType leftParent, _java._withNameType rightParent){
             this.path = _p;
             this.leftParent = leftParent;
-            this.leftType = leftParent.getTypeRef().copy();
+            this.leftType = leftParent.getType().copy();
             this.rightParent = rightParent;
-            this.rightType = rightParent.getTypeRef().copy();
+            this.rightType = rightParent.getType().copy();
         }
         
         @Override
         public void patchLeftToRight(){
-            leftParent.setTypeRef(leftType.copy());
-            rightParent.setTypeRef(leftType.copy());
+            leftParent.setType(leftType.copy());
+            rightParent.setType(leftType.copy());
         }
         
         @Override
         public void patchRightToLeft(){
-            leftParent.setTypeRef(rightType.copy());
-            rightParent.setTypeRef(rightType.copy());
+            leftParent.setType(rightType.copy());
+            rightParent.setType(rightType.copy());
         }
         
         @Override

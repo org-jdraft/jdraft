@@ -332,9 +332,9 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         }
         for(int i=0;i<pl.size(); i++){
             _typeRef _t = _typeRef.of(genericParameterTypes[i+delta]);
-            if( !pl.get(i).isTypeRef( _t ) ){
+            if( !pl.get(i).isType( _t ) ){
                 if( ctor.isVarArgs() &&  //if last parameter and varargs
-                    Types.equal( pl.get(i).getTypeRef().getElementType(),
+                    Types.equal( pl.get(i).getType().getElementType(),
                         _t.getElementType())  ){                    
                 } else{             
                     return false;

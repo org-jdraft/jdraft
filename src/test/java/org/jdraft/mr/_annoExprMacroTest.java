@@ -116,15 +116,15 @@ public class _annoExprMacroTest extends TestCase {
         //CompilationUnit cu = StaticJavaParser.parse("class MRT{ public @_str int a(){ return 2; } }");
 
         //OK, manually add an annotation and process it
-        _c.getMethod("a").getTypeRef().ast().getAnnotations().add(Ast.annotationExpr("@_str"));
+        _c.getMethod("a").getType().ast().getAnnotations().add(Ast.annotationExpr("@_str"));
         //System.out.println( cu );
 
         //System.out.println( _c );
-        assertTrue( _c.getMethod("a").getTypeRef().hasAnnoExpr(_str.class));
+        assertTrue( _c.getMethod("a").getType().hasAnnoExpr(_str.class));
         _annoMacro.Apply.to(MRT.class, _c.getMethod("a").ast() );
 
-        assertTrue( _c.getMethod("a").getTypeRef().is(String.class) );
-        assertFalse( _c.getMethod("a").getTypeRef().hasAnnoExpr(_str.class));
+        assertTrue( _c.getMethod("a").getType().is(String.class) );
+        assertFalse( _c.getMethod("a").getType().hasAnnoExpr(_str.class));
     }
 
     public void testApplyToMethodExceptionType(){

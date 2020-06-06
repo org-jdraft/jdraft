@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
  */
 public final class _method
         implements _javadocComment._withJavadoc<_method>, _annoExprs._withAnnoExprs<_method>,
-        _java._withNameTypeRef<MethodDeclaration, _method>, _body._withBody<_method>, _throws._withThrows<_method>,
+        _java._withNameType<MethodDeclaration, _method>, _body._withBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _params._withParams<_method>,
         _typeParams._withTypeParams<_method>, _receiverParam._withReceiverParam<_method>,
         _modifiers._withStatic<_method>, _modifiers._withNative<_method>, _modifiers._withFinal<_method>,
@@ -214,8 +214,8 @@ public final class _method
      * @param _namedType instance of a _namedType with name and type
      * @return a get method
      */
-    public static _method get( _java._withNameTypeRef _namedType ){
-        return get(_namedType.getTypeRef(), _namedType.getName());
+    public static _method get( _java._withNameType _namedType ){
+        return get(_namedType.getType(), _namedType.getName());
     }
 
     /**
@@ -259,8 +259,8 @@ public final class _method
      * @param _namedType instance of a _namedType with name and type
      * @return a get method
      */
-    public static _method set( _java._withNameTypeRef _namedType ){
-        return set(_namedType.getTypeRef(), _namedType.getName());
+    public static _method set( _java._withNameType _namedType ){
+        return set(_namedType.getType(), _namedType.getName());
     }
 
     public static _method set( _typeRef _type, String name){
@@ -326,7 +326,7 @@ public final class _method
      */
     public static final Predicate<_method> IS_MAIN = m-> 
         m.isPublic() && m.isStatic() && m.getName().equals("main") && m.isVoid()
-        && m.getParams().size() == 1 && m.getParam(0).isTypeRef(String[].class);
+        && m.getParams().size() == 1 && m.getParam(0).isType(String[].class);
 
     @Override
     public boolean equals(Object obj) {
@@ -405,8 +405,8 @@ public final class _method
 
     public static _feature._one<_method, _typeRef> TYPE = new _feature._one<>(_method.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_method a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
+            a -> a.getType(),
+            (_method a, _typeRef _tr) -> a.setType(_tr), PARSER);
 
     public static _feature._one<_method, String> NAME = new _feature._one<>(_method.class, String.class,
             _feature._id.NAME,
@@ -480,13 +480,13 @@ public final class _method
     }
     
     @Override
-    public _method setTypeRef(Type type) {
+    public _method setType(Type type) {
         this.astMethod.setType(type);
         return this;
     }
 
     @Override
-    public _typeRef getTypeRef() {
+    public _typeRef getType() {
         return _typeRef.of(this.astMethod.getType());
     }
 
@@ -518,10 +518,10 @@ public final class _method
         }
         for (int i = 0; i < genericParameterTypes.length; i++) {
             _typeRef _t = _typeRef.of(genericParameterTypes[i]);
-            if (!pl.get(i).isTypeRef(_t)) {
+            if (!pl.get(i).isType(_t)) {
                 if (m.isVarArgs()
                     && //if last parameter and varargs
-                    Types.equal(pl.get(i).getTypeRef().getElementType(),
+                    Types.equal(pl.get(i).getType().getElementType(),
                         _t.getElementType())) {
                 } else {
                     return false;
@@ -546,7 +546,7 @@ public final class _method
             //System.out.println("GEN TYPE NANME "+m.getGenericReturnType().getTypeName() );
             //System.out.println("GEN"+m.getGenericReturnType(). );
 
-            return _m.getTypeRef().is(m.getGenericReturnType());
+            return _m.getType().is(m.getGenericReturnType());
         }
         return false;
     }
@@ -947,7 +947,7 @@ public final class _method
             if (i > 0) {
                 sb.append(", ");
             }
-            sb.append(_m.getParam(i).getTypeRef());
+            sb.append(_m.getParam(i).getType());
             if (_m.getParam(i).isVarArg()) {
                 sb.append("...");
             }

@@ -84,28 +84,28 @@ public @interface _hashCode {
          public static Stencil $simplePrimitive = Stencil.of("hash = hash * prime + $name$;\n");
 
          public static Statement constructStmt(_field _f){
-             if( _f.getTypeRef().isArrayType() ){
-                 if( _f.getTypeRef().getElementType().isPrimitiveType()){
-                     return Stmt.of($arrayOfPrimitives.draft("name", _f.getName(), "type", _f.getTypeRef()));
+             if( _f.getType().isArrayType() ){
+                 if( _f.getType().getElementType().isPrimitiveType()){
+                     return Stmt.of($arrayOfPrimitives.draft("name", _f.getName(), "type", _f.getType()));
                  }
-                 return Stmt.of($arrayOfObject.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                 return Stmt.of($arrayOfObject.draft("name", _f.getName(), "type", _f.getType()));
              }
-             if( _f.getTypeRef().isPrimitiveType()){
-                 if( _f.isTypeRef(boolean.class)){
-                     return Stmt.of($boolean.draft("name", _f.getName(), "type", _f.getTypeRef()));
+             if( _f.getType().isPrimitiveType()){
+                 if( _f.isType(boolean.class)){
+                     return Stmt.of($boolean.draft("name", _f.getName(), "type", _f.getType()));
                  }
-                 if( _f.isTypeRef(double.class)){
-                     return Stmt.of($double.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                 if( _f.isType(double.class)){
+                     return Stmt.of($double.draft("name", _f.getName(), "type", _f.getType()));
                  }
-                 if( _f.isTypeRef(float.class)){
-                     return Stmt.of($float.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                 if( _f.isType(float.class)){
+                     return Stmt.of($float.draft("name", _f.getName(), "type", _f.getType()));
                  }
-                 if( _f.isTypeRef(long.class)){
-                     return Stmt.of($long.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                 if( _f.isType(long.class)){
+                     return Stmt.of($long.draft("name", _f.getName(), "type", _f.getType()));
                  }
-                 return Stmt.of($simplePrimitive.draft("name", _f.getName(), "type", _f.getTypeRef()));
+                 return Stmt.of($simplePrimitive.draft("name", _f.getName(), "type", _f.getType()));
              }
-             return Stmt.of($default.draft("name", _f.getName(), "type", _f.getTypeRef()));
+             return Stmt.of($default.draft("name", _f.getName(), "type", _f.getType()));
          }
      }
 

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  */
 public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         _java._node<ObjectCreationExpr, _newExpr>,
-        _typeRef._withTypeRef<ObjectCreationExpr, _newExpr>,
+        _typeRef._withType<ObjectCreationExpr, _newExpr>,
         _java._withScope<ObjectCreationExpr, _newExpr>,
         _args._withArgs<ObjectCreationExpr, _newExpr>,
         _typeArgs._withTypeArgs<ObjectCreationExpr, _newExpr> {
@@ -126,8 +126,8 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
 
     public static _feature._one<_newExpr, _typeRef> TYPE = new _feature._one<>(_newExpr.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_newExpr a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
+            a -> a.getType(),
+            (_newExpr a, _typeRef _tr) -> a.setType(_tr), PARSER);
 
     public static _feature._one<_newExpr, _args> ARGS = new _feature._one<>(_newExpr.class, _args.class,
             _feature._id.ARGS,

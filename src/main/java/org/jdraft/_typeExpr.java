@@ -11,7 +11,7 @@ import java.util.function.Function;
 public final class _typeExpr
         implements _expr<TypeExpr, _typeExpr>,
         _java._node<TypeExpr, _typeExpr>,
-        _typeRef._withTypeRef<TypeExpr, _typeExpr> {
+        _typeRef._withType<TypeExpr, _typeExpr> {
 
     public static final Function<String, _typeExpr> PARSER = s-> _typeExpr.of(s);
 
@@ -27,8 +27,8 @@ public final class _typeExpr
 
     public static _feature._one<_typeExpr, _typeRef> TYPE = new _feature._one<>(_typeExpr.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_typeExpr a, _typeRef value) -> a.setTypeRef(value), PARSER);
+            a -> a.getType(),
+            (_typeExpr a, _typeRef value) -> a.setType(value), PARSER);
 
     public static _feature._features<_typeExpr> FEATURES = _feature._features.of(_typeExpr.class, TYPE);
 
@@ -51,7 +51,7 @@ public final class _typeExpr
      * Returns a list of Type arguments if there are any or an empty list if there are none
      * @return
      */
-    public _typeRef getTypeRef(){
+    public _typeRef getType(){
         return _typeRef.of(this.te.getType());
     }
 

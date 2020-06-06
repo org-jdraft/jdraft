@@ -25,7 +25,7 @@ public class ParsingForTheFirstTime {
         System.out.println(String.format("Method declaration: modifiers=%s, name=%s, parameters=%s, returnType=%s",
                 _m.getModifiers(), _m.getName(),
                 _m.getParams().list().stream().map(p -> p.getName()).collect(Collectors.toList()),
-                _m.getTypeRef()));
+                _m.getType()));
 
         System.out.println(String.format("Class declaration: name=%s, nMembers=%s",
                 _c.getName(), _c.listMembers().size()));

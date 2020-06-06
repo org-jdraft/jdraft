@@ -58,7 +58,6 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _java._nod
      * //conditional LOOPING (i.e. implements {@link _loop})
      * @see _forStmt
      * @see _doStmt
-     * @see _forEachStmt
      * @see _whileStmt
      */
     interface _conditional<S extends Statement, _S extends _stmt> extends _controlFlow<S, _S>{}

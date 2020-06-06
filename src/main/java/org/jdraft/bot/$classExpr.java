@@ -108,7 +108,7 @@ public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>
 
     public Select<_classExpr> select(_classExpr _aa) {
         if (this.predicate.test(_aa)) {
-            Select s = this.type.select(_aa.getTypeRef());
+            Select s = this.type.select(_aa.getType());
             if (s == null) {
                 return null;
             }
@@ -163,7 +163,7 @@ public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>
     @Override
     public _classExpr draft(Translator translator, Map<String, Object> keyValues) {
         _classExpr _e = _classExpr.of();
-        _e.setTypeRef(this.type.draft(translator, keyValues));
+        _e.setType(this.type.draft(translator, keyValues));
         return _e;
     }
 
@@ -187,6 +187,6 @@ public class $classExpr implements $bot.$node<ClassExpr, _classExpr, $classExpr>
     }
 
     public $classExpr(_classExpr _e) {
-        this.type = $typeRef.of(_e.getTypeRef());
+        this.type = $typeRef.of(_e.getType());
     }
 }

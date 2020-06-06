@@ -5,8 +5,6 @@ import com.github.javaparser.ast.expr.InstanceOfExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.type.ReferenceType;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -15,7 +13,7 @@ import java.util.function.Function;
 
 public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfExpr>,
         _java._node<InstanceOfExpr, _instanceOfExpr>,
-        _typeRef._withTypeRef<InstanceOfExpr, _instanceOfExpr>,
+        _typeRef._withType<InstanceOfExpr, _instanceOfExpr>,
         _java._withExpression<InstanceOfExpr, _instanceOfExpr>{
 
     public static final Function<String, _instanceOfExpr> PARSER = s-> _instanceOfExpr.of(s);
@@ -75,8 +73,8 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
 
     public static _feature._one<_instanceOfExpr, _typeRef> TYPE = new _feature._one<>(_instanceOfExpr.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_instanceOfExpr a, _typeRef _t) -> a.setTypeRef(_t), PARSER);
+            a -> a.getType(),
+            (_instanceOfExpr a, _typeRef _t) -> a.setType(_t), PARSER);
 
     public static _feature._one<_instanceOfExpr, _expr> EXPRESSION = new _feature._one<>(_instanceOfExpr.class, _expr.class,
             _feature._id.EXPRESSION,
@@ -126,16 +124,16 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         return _expr.of(this.ioe.getExpression());
     }
 
-    public _typeRef getTypeRef(){
+    public _typeRef getType(){
         return _typeRef.of(this.ioe.getType());
     }
 
-    public _instanceOfExpr setTypeRef(Class clazz){
+    public _instanceOfExpr setType(Class clazz){
         this.ioe.setType(clazz);
         return this;
     }
 
-    public _instanceOfExpr setTypeRef(String type){
+    public _instanceOfExpr setType(String type){
         this.ioe.setType(type);
         return this;
     }
@@ -145,7 +143,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         return this;
     }
 
-    public _instanceOfExpr setTypeRef(_typeRef _t){
+    public _instanceOfExpr setType(_typeRef _t){
         this.ioe.setType((ReferenceType)_t.ast());
         return this;
     }

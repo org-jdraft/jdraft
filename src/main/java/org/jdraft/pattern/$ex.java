@@ -916,7 +916,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
     }
 
     public static $ex<InstanceOfExpr, _instanceOfExpr, $ex> instanceOfEx($typeRef type ){
-        return instanceOfEx("$expr$ instanceof $type$", e-> type.matches( e.getTypeRef() ) );
+        return instanceOfEx("$expr$ instanceof $type$", e-> type.matches( e.getType() ) );
     }
 
     /**

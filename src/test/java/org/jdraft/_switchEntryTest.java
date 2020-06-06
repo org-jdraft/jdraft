@@ -5,6 +5,12 @@ import junit.framework.TestCase;
 public class _switchEntryTest extends TestCase {
 
 
+    public void testApi(){
+        _switchEntry _se = _switchEntry.of();
+
+        System.out.println( _se.getBodyType());
+    }
+
     public void m(){
         char c = 'c';
         switch(c){

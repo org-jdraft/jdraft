@@ -56,7 +56,7 @@ public class AutoCompleteTest extends TestCase {
         _field _f = _field.of("public int i=0");
 
         //modify and return chain
-        _field _f2 = _field.of().setPublic().setTypeRef(int.class).setName("i").setInit(0);
+        _field _f2 = _field.of().setPublic().setType(int.class).setName("i").setInit(0);
 
         assertEquals( fd, _f.getFieldDeclaration());
         assertEquals( fd, _f2.getFieldDeclaration());
@@ -229,7 +229,7 @@ public class AutoCompleteTest extends TestCase {
         assertTrue(_class.of("C").listAllJavadocComments().isEmpty());
         assertFalse(_charExpr.of('c').is(c->Character.isUpperCase(c.getValue()) ));
 
-        assertTrue(_catch.of("catch(IOException ioe){}").isParam(p-> p.isTypeRef(IOException.class)));
+        assertTrue(_catch.of("catch(IOException ioe){}").isParam(p-> p.isType(IOException.class)));
 
         assertTrue(_forStmt.of(()-> {
             for(int i=0;i<100; i++){ } })

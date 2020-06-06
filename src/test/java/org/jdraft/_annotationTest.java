@@ -114,14 +114,14 @@ public class _annotationTest extends TestCase  {
 
         assertTrue( _an.hasFields() );
         assertTrue( _an.getField( "V").getModifiers().is( "public static final") );
-        assertTrue( _an.getField("V").isTypeRef( int.class));
+        assertTrue( _an.getField("V").isType( int.class));
         assertEquals( Expr.of( 102), _an.getField("V").getInitNode());
 
         _entry _p = _an.getEntry("value");
         assertTrue(_p.getAnnoExprs().is( "@ann", "@ann2(k='3',v=2)"));
         assertTrue(_p.getJavadoc().getText().contains( "javadoc"));
         assertFalse( _p.hasDefaultValue());
-        assertTrue( _p.isTypeRef( int.class));
+        assertTrue( _p.isType( int.class));
 
         _p = _an.getEntry("s");
         assertFalse( _p.hasJavadoc() );
@@ -133,16 +133,16 @@ public class _annotationTest extends TestCase  {
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
-        assertEquals( _p.getTypeRef(), _typeRef.of(Types.of("Class[]")));
+        assertEquals( _p.getType(), _typeRef.of(Types.of("Class[]")));
 
-        assertTrue( _p.isTypeRef(Class[].class) );
+        assertTrue( _p.isType(Class[].class) );
         assertEquals( Expr.arrayInitializerExpr( "{}"),_p.getDefaultAstValue());
 
         _p = _an.getEntry("vval");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnoExprs() );
         assertTrue( _p.hasDefaultValue());
-        assertTrue( _p.isTypeRef( int.class) );
+        assertTrue( _p.isType( int.class) );
         assertEquals( Expr.nameExpr("V"),_p.getDefaultAstValue());
         assertEquals( "ComplexAnnotationType", _an.getName());
 

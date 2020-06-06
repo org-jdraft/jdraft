@@ -181,7 +181,7 @@ public class StmtTest extends TestCase {
 
         //what about a list of
         Predicate<_field> pf = (f)-> f.isPublic();
-        Predicate<_field> ff = (f)-> f.isTypeRef(int.class);
+        Predicate<_field> ff = (f)-> f.isType(int.class);
     }
 
     public void testAllStmtsLambdaWithComments() {

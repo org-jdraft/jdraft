@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public final class _variable implements _java._node<VariableDeclarator, _variable>,
-        _java._withNameTypeRef<VariableDeclarator, _variable> {
+        _java._withNameType<VariableDeclarator, _variable> {
 
     public static final Function<String, _variable> PARSER = s-> _variable.of(s);
 
@@ -30,8 +30,8 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
 
     public static _feature._one<_variable, _typeRef> TYPE = new _feature._one<>(_variable.class, _typeRef.class,
             _feature._id.TYPE,
-            a -> a.getTypeRef(),
-            (_variable a, _typeRef _tr) -> a.setTypeRef(_tr), PARSER);
+            a -> a.getType(),
+            (_variable a, _typeRef _tr) -> a.setType(_tr), PARSER);
 
     public static _feature._one<_variable, String> NAME = new _feature._one<>(_variable.class, String.class,
             _feature._id.NAME,
@@ -51,7 +51,7 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
         this.vd = vd;
     }
 
-    public _typeRef getTypeRef(){
+    public _typeRef getType(){
         return _typeRef.of(this.vd.getType());
     }
 

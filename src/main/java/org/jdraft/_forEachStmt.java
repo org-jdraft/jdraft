@@ -9,16 +9,16 @@ import com.github.javaparser.ast.stmt.Statement;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.function.Function;
+import java.util.function.*;
 
 /**
+ * Model of a forEach iteration Statement
+ * <PRE>
  * for(Object o: objects) { ... }
+ * </PRE>
+ *
  */
 public final class _forEachStmt implements
-        _stmt._conditional<ForEachStmt, _forEachStmt>,
         _stmt._loop<ForEachStmt, _forEachStmt>,
         _body._withBody<_forEachStmt> {
 
@@ -88,7 +88,7 @@ public final class _forEachStmt implements
 
     public static _feature._one<_forEachStmt, _variablesExpr> VARIABLES = new _feature._one<>(_forEachStmt.class, _variablesExpr.class,
             _feature._id.VARIABLES,
-            a -> a.getVariables(),
+            a -> a.getVariable(),
             (_forEachStmt a, _variablesExpr _e) -> a.setVariable(_e), PARSER);
 
     public static _feature._features<_forEachStmt> FEATURES = _feature._features.of(_forEachStmt.class, VARIABLES, ITERABLE, BODY);
@@ -112,6 +112,55 @@ public final class _forEachStmt implements
         return false;
     }
 
+    public boolean isVariable(String...expression){
+        try {
+            //NOTE: we convert to _variabelsExpr because this allows out-of-order testing "int a,b" === "int b,a"
+            return Objects.equals(_variablesExpr.of(this.astStmt.getVariable()), _variablesExpr.of(Ast.variableDeclarationExpr(expression)));
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean hasVariable(String variableDeclaration){
+        return this.getVariable().has(variableDeclaration);
+    }
+
+    public boolean hasVariable(_variable _v){
+        return this.getVariable().has(_v);
+    }
+
+    public boolean hasVariable(Predicate<_variable> _vMatchFn){
+        return this.getVariable().has(_vMatchFn);
+    }
+
+    public boolean isVariable(VariableDeclarationExpr ve){
+        return Objects.equals( this.astStmt.getVariable(), ve);
+    }
+
+    public boolean isVariable(_variablesExpr _v){
+        return Objects.equals( this.astStmt.getVariable(), _v.ast());
+    }
+
+    public _variablesExpr getVariable(){
+        return new _variablesExpr(this.astStmt.getVariable());
+    }
+
+    public _forEachStmt setVariable(String... var){
+        this.astStmt.setVariable(Ast.variableDeclarationExpr(var));
+        return this;
+    }
+
+    public _forEachStmt setVariable( _variablesExpr _v){
+        this.astStmt.setVariable(_v.varDeclEx);
+        return this;
+    }
+
+    public _forEachStmt setVariable(VariableDeclarationExpr v){
+        this.astStmt.setVariable(v);
+        return this;
+    }
+
     public boolean isIterable(String...expression){
         try {
             return Objects.equals(this.astStmt.getIterable(), Expr.of(expression));
@@ -133,38 +182,6 @@ public final class _forEachStmt implements
         return _expr.of(this.astStmt.getIterable());
     }
 
-
-    public boolean isVariables(String...expression){
-        try {
-            return Objects.equals(this.astStmt.getVariable(), Ast.variableDeclarationExpr(expression));
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
-
-    public boolean isVariables(VariableDeclarationExpr ve){
-        return Objects.equals( this.astStmt.getVariable(), ve);
-    }
-
-    public boolean isVariables(_variablesExpr _v){
-        return Objects.equals( this.astStmt.getVariable(), _v.ast());
-    }
-
-    public _variablesExpr getVariables(){
-        return new _variablesExpr(this.astStmt.getVariable());
-    }
-
-    public _body getBody(){
-        return _body.of( this.astStmt.getBody() );
-    }
-
-    @Override
-    public _forEachStmt setBody(BlockStmt body) {
-        this.astStmt.setBody(body);
-        return this;
-    }
-
     public _forEachStmt setIterable(String...str){
         this.astStmt.setIterable(Expr.of(str));
         return this;
@@ -180,18 +197,13 @@ public final class _forEachStmt implements
         return this;
     }
 
-    public _forEachStmt setVariable(String... var){
-        this.astStmt.setVariable(Ast.variableDeclarationExpr(var));
-        return this;
+    public _body getBody(){
+        return _body.of( this.astStmt.getBody() );
     }
 
-    public _forEachStmt setVariable( _variablesExpr _v){
-        this.astStmt.setVariable(_v.varDeclEx);
-        return this;
-    }
-
-    public _forEachStmt setVariable(VariableDeclarationExpr v){
-        this.astStmt.setVariable(v);
+    @Override
+    public _forEachStmt setBody(BlockStmt body) {
+        this.astStmt.setBody(body);
         return this;
     }
 
@@ -238,23 +250,21 @@ public final class _forEachStmt implements
         return astStmt;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.ITERABLE_EXPR, astStmt.getIterable());
-        comps.put(_java.Feature.VARIABLE, astStmt.getVariable());
-        comps.put(_java.Feature.BODY, astStmt.getBody());
-        return comps;
-    }
-     */
-
     public String toString(){
         return this.astStmt.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _forEachStmt ){
-            return Objects.equals( ((_forEachStmt)other).ast(), this.ast() );
+            _forEachStmt _o = (_forEachStmt)other;
+            if( !Objects.equals( getVariable(), _o.getVariable() ) ){
+                return false;
+            }
+            if( !Objects.equals(getIterable(), _o.getIterable())){
+                return false;
+            }
+            boolean bodyEquals = Objects.equals( getBody(), _o.getBody());
+            return bodyEquals;
         }
         return false;
     }
