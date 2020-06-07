@@ -28,6 +28,10 @@ public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt> {
 
     private EmptyStmt astStmt;
 
+    public _feature._features<_emptyStmt> features(){
+        return FEATURES;
+    }
+
     public _emptyStmt(EmptyStmt rs){
         this.astStmt = rs;
     }
@@ -37,6 +41,7 @@ public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt> {
         return new _emptyStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -44,6 +49,7 @@ public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt> {
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(EmptyStmt astNode) {

@@ -111,11 +111,16 @@ public final class _ifStmt implements
         this.astStmt = rs;
     }
 
+    public _feature._features<_ifStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _ifStmt copy() {
         return new _ifStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -123,6 +128,7 @@ public final class _ifStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public _ifStmt setCondition(String...expression){
         return setCondition(Expr.of(expression));

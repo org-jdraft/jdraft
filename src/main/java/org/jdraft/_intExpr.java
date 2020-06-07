@@ -31,6 +31,10 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
 
     public IntegerLiteralExpr ile;
 
+    public _feature._features<_intExpr> features(){
+        return FEATURES;
+    }
+
     public _intExpr(IntegerLiteralExpr ile){
         this.ile = ile;
     }

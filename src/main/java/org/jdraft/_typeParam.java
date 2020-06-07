@@ -53,6 +53,10 @@ public final class _typeParam
 
     private final TypeParameter typeParam;
 
+    public _feature._features<_typeParam> features(){
+        return FEATURES;
+    }
+
     /**
      * build and return an independent copy of this model
      * @return 
@@ -182,6 +186,7 @@ public final class _typeParam
         this.typeParam = tp;
     }
 
+    /*
     @Override
     public boolean is( String... typeParam ){
         try{
@@ -191,6 +196,7 @@ public final class _typeParam
             return false;
         }
     }
+     */
 
     @Override
     public boolean is( TypeParameter typeParam ){

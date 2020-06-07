@@ -101,6 +101,24 @@ public interface _java {
         if (! _domain.class.isAssignableFrom(nodeClass)) {
             return Ast.nodeOf(nodeClass, code);
         }
+        if( nodeClass == _variable.class){
+            return _variable.of(code).ast();
+        }
+        if( nodeClass == _switchEntry.class){
+            return _switchEntry.of(code).ast();
+        }
+        if( nodeClass == _package.class){
+            return _package.of(Text.combine( code)).ast();
+        }
+        if( nodeClass == _typeParam.class){
+            return _typeParam.of(Text.combine(code)).ast();
+        }
+        if ( _stmt.class.isAssignableFrom(nodeClass)){
+            return Stmt.of(code);
+        }
+        if ( _expr.class.isAssignableFrom(nodeClass)){
+            return Expr.of(code);
+        }
         if (_import.class == nodeClass) {
             return importDeclaration(Text.combine(code) );
         }
@@ -948,6 +966,103 @@ public interface _java {
      */
     interface _node<N extends Node, _N extends _node> extends _domain {
 
+        public _feature._features<_N> features();
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default PRE_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * Preorder (Parent, then children) from (A) : A,B,D,E,C
+         * </PRE>
+         *
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default <_F> _walkFeatures<_F> walk(_feature<?, _F>...features){
+            return new _walkFeatures(Tree.PRE_ORDER, this, features);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * PostOrder ("leaves first", "bottom-up") from (A) : D,E,B,C,A
+         * </PRE>
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default <_F> _walkFeatures<_F> walkPostOrder(_feature<?, _F>...features){
+            return new _walkFeatures(Tree.POST_ORDER, this, features);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * Breadth-First (or Level Order) from (A): A,B,C,D,E
+         * </PRE>
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default <_F> _walkFeatures<_F> walkBreadthFirst(_feature<?, _F>...features){
+            return new _walkFeatures(Tree.BREADTH_FIRST, this, features);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default PARENTS fashion)
+         *
+         * <PRE>
+         *             A
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         *
+         * "Parents" (or "up to root"):
+         *    from D: B, A
+         *    from E: B, A
+         *    from B: A
+         *    from C: A
+         * </PRE>
+         *
+         * @return
+         */
+        default <_F> _walkFeatures<_F> walkParents(_feature<?, _F>...features){
+            return new _walkFeatures(Tree.PARENTS, this);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in DIRECT_CHILDREN fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *         (B)   C
+         *         / \
+         *        D   E
+         * Direct Children
+         *     From (A): B, C
+         *     From (B): D, E
+         * </PRE>
+         *
+         * @return
+         */
+        default <_F> _walkFeatures<_F> walkDirectChildren(_feature<?, _F>...features){
+            return new _walkFeatures<_F>(Tree.DIRECT_CHILDREN, this, features);
+        }
+
         /**
          * Build and return a _walk object that will prepare walking the AST (in default PRE_ORDER fashion)
          *
@@ -1118,7 +1233,22 @@ public interface _java {
          * (parsed as an AST and compared to this entity to see if equal)
          * @return true if the Parsed String represents the entity
          */
-        boolean is(String... stringRep);
+        default boolean is(String... stringRep){
+            try{
+                _node _n = (_node)of(node( getClass(), Text.combine(stringRep)));
+                Stencil st = Stencil.of( _n.toString());
+                if( st.isFixedText() ){
+                    //System.out.println ("ITS FIXED TEXT" + _n +System.lineSeparator() +this );
+                    return equals( _n );
+                } else {
+                    //System.out.println ("ITS STENCIL TEXT");
+                    return st.matches(this.toString(Print.PRINT_NO_COMMENTS));
+                }
+            } catch(Exception e){
+                //System.out.println( "FAILED YO "+ e);
+                return false;
+            }
+        }
 
         /**
          * Is the AST node representation equal to the underlying entity
@@ -1154,6 +1284,8 @@ public interface _java {
      * @param <_S>
      */
     interface _set<EL extends Node, _EL extends _node, _S extends _set> extends _domain{
+
+        _feature._features<_S> features();
 
         _S copy();
 
@@ -1842,8 +1974,23 @@ public interface _java {
             }
         }
 
+        default <_EI extends _expr> boolean isExpression(Class<_EI> exprImpl){
+            if( this.getExpression() != null && exprImpl.isAssignableFrom(this.getExpression().getClass())){
+                return true;
+            }
+            return false;
+        }
+
+        default <_EI extends _expr> boolean isExpression(Class<_EI> exprImpl, Predicate<_EI> matchFn){
+            if( this.getExpression() != null && exprImpl.isAssignableFrom(this.getExpression().getClass())){
+                return matchFn.test( (_EI)this.getExpression() );
+            }
+            return false;
+        }
+
         default boolean isExpression(_expr _ex){
-            return Expr.equal( this.getExpression().ast(), _ex.ast());
+            return Objects.equals( getExpression(), _ex);
+            //return Expr.equal( this.getExpression().ast(), _ex.ast());
         }
 
         default boolean isExpression(Expression ex){
@@ -1921,8 +2068,100 @@ public interface _java {
     }
 
     /**
-     * Fluent intermediate object used to set up a walk through AST-nodes
+     * Fluent intermediate object used to set up a walk through AST-nodes given:
+     * <UL>
+     * <LI>a starting node
+     * <LI>a treeTraversal strategy</LI>
+     * <LI>the target node type</LI>
+     *</UL>
      *
+     * this simplifies "walk" queries where the target is known
+     *
+     * i.e.
+     * _class _c = _class.of(MyClass.class);
+     * //this is a walkTarget implementation
+     * assertEquals(2, _c.walk(_method.class).count(_m->_m.isStatic()));
+     * //this is a normal implementation
+     *
+     *
+     */
+    class _walkFeatures <_F> {
+
+        /** How to walk the AST */
+        public Node.TreeTraversal treeTraversal = Node.TreeTraversal.PREORDER;
+
+        /** The start node for where to begin the walk */
+        public _node _n;
+
+        /** The relevant features to intercept*/
+        public List<_feature<?, _F>> features;
+
+        public _walkFeatures(_node _n, _feature<?, _F>...features){
+            this._n = _n;
+            this.features = Stream.of(features).collect(Collectors.toList());
+        }
+
+        public _walkFeatures(Node.TreeTraversal tt, _node _n, _feature<?, _F>...features){
+            this._n = _n;
+            this.treeTraversal = tt;
+            this.features = Stream.of(features).collect(Collectors.toList());
+        }
+
+        public boolean has(){
+            return has(t->true);
+        }
+
+        public  boolean has(Predicate<_F> _matchFn){
+            return first(_matchFn) != null;
+        }
+
+        public _F first(){
+            return first( t->true);
+        }
+
+        public <_I extends _F> _I first(Class<_I> implClass){
+            return (_I) first( t-> implClass.isAssignableFrom(t.getClass()));
+        }
+
+
+        /**
+         *
+         *  List<_feature<?, _F>> featuresOnThisNode =
+         *     features.stream().filter( f-> f.getTargetClass().isAssignableFrom(n.getClass()) ).collect(Collectors.toList());
+         *
+         *  featuresOnThisNode.stream().filter( f-> _matchFn.test( f.getter( _n) ) );
+         * @param _matchFn
+         * @return
+         */
+        public <_T> _F first(Predicate<_F> _matchFn){
+            List<_F> found = new ArrayList<>();
+            this._n.walk().first(  n->{
+                for(int i=0; i<features.size();i++){
+                    _feature<_T, _F> _f = (_feature<_T, _F>) this.features.get(i);
+
+                    if( _f.getTargetClass().isAssignableFrom(n.getClass()) ){
+                        _F f = _f.get( (_T)n);
+                        if(_matchFn.test(f)){
+                            found.add(f);
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            });
+            if( found.isEmpty()){
+                return null;
+            }
+            return found.get(0);
+        }
+    }
+
+    /**
+     * Fluent intermediate object used to set up a walk through AST-nodes given:
+     * <UL>
+     * <LI>a starting node
+     * <LI>a treeTraversal strategy</LI>
+     *</UL>
      * //print all of the int literals within the source of MyClass.class
      * _class.of(MyClass.class).walk().print(_int.class);
      *
@@ -1969,6 +2208,19 @@ public interface _java {
 
         public <_D extends _domain> int count(Class<_D> _nodeClass, Predicate<_D> _matchFn){
             return list(_nodeClass, _matchFn).size();
+        }
+
+        public <_N extends _node> int count(Class<_N> _nodeClass, String... stencil){
+            //this might seem strange at first, that we construct an entity and then write it to a string
+            //but it serves a valuable purpose... first it validates that the string IS a valid entity of _nodeClass,
+            //secondly it NORMALIZES the form so that (if we encounter a like entity), we don't exclude a match
+            //purely because it has "STYLISTIC" differences (i.e. spaces within parameters, "( 1 )" -vs- "(1)" etc.)
+            Stencil st = Stencil.of(_java.node(_nodeClass, stencil).toString(Print.PRINT_NO_COMMENTS));
+            return list(_nodeClass, _n -> st.matches( _n.toString(Print.PRINT_NO_COMMENTS))).size();
+        }
+
+        public <_N extends _node> int count(Class<_N> _nodeClass, Stencil stencil){
+            return list(_nodeClass, _n -> stencil.matches( _n.toString(Print.PRINT_NO_COMMENTS))).size();
         }
 
         public void print(Predicate<_node> _matchFn){

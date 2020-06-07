@@ -104,14 +104,9 @@ public final class _arrayAccessExpr
         return aae;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.INDEX_EXPR, aae.getIndex());
-        comps.put(_java.Feature.ARRAY_NAME, aae.getName());
-        return comps;
+    public _feature._features<_arrayAccessExpr> features(){
+        return FEATURES;
     }
-     */
 
     public boolean isNamed(String name){
         try{

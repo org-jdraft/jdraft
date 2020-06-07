@@ -102,6 +102,10 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
 
     public static _feature._features<_newArrayExpr> FEATURES = _feature._features.of(_newArrayExpr.class, TYPE, DIMENSIONS, INIT );
 
+    public _feature._features<_newArrayExpr> features(){
+        return FEATURES;
+    }
+
     public ArrayCreationExpr astNode;
 
     public _newArrayExpr(ArrayCreationExpr astNode){
@@ -125,6 +129,7 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
         return this.astNode.getLevels();
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -132,6 +137,7 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public ArrayCreationExpr ast(){
         return astNode;

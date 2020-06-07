@@ -82,6 +82,10 @@ public final class _whileStmt implements
 
     private WhileStmt whileStmt;
 
+    public _feature._features<_whileStmt> features(){
+        return FEATURES;
+    }
+
     public _whileStmt(WhileStmt rs){
         this.whileStmt = rs;
     }
@@ -91,6 +95,7 @@ public final class _whileStmt implements
         return new _whileStmt( this.whileStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -98,6 +103,7 @@ public final class _whileStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public _body getBody(){
         return _body.of( this.whileStmt.getBody() );

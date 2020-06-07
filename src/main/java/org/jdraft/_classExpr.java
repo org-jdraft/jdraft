@@ -42,11 +42,16 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
         this.ce = ce;
     }
 
+    public _feature._features<_classExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _classExpr copy() {
         return new _classExpr(this.ce.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -54,6 +59,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public ClassExpr ast(){
         return ce;

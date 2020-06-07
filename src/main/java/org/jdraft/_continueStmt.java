@@ -35,6 +35,10 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
 
     private ContinueStmt astStmt;
 
+    public _feature._features<_continueStmt> features(){
+        return FEATURES;
+    }
+
     public _continueStmt(ContinueStmt rs){
         this.astStmt = rs;
     }
@@ -44,6 +48,7 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
         return new _continueStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -51,6 +56,7 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public String getLabel(){
         if(this.astStmt.getLabel().isPresent()){

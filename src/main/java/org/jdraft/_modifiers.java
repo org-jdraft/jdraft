@@ -100,6 +100,10 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         this.node = Ast.fieldDeclaration( "int dummyParent;" );
     }
 
+    public _feature._features<_modifiers> features(){
+        return FEATURES;
+    }
+
     public _modifiers set(String... keywords ) {
         Arrays.stream( keywords ).forEach( kw -> set( kw ) );
         return this;

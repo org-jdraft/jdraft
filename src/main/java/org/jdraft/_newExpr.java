@@ -89,11 +89,16 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         this.oce = oce;
     }
 
+    public _feature._features<_newExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _newExpr copy() {
         return new _newExpr(this.oce.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -101,6 +106,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public ObjectCreationExpr ast(){
         return oce;

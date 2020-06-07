@@ -19,6 +19,10 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
 
     public static final Function<String, _moduleProvides> PARSER = s-> _moduleProvides.of(s);
 
+    public _feature._features<_moduleProvides> features(){
+        return FEATURES;
+    }
+
     public static _moduleProvides of(ModuleProvidesDirective med){
         return new _moduleProvides(med);
     }
@@ -130,10 +134,12 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
         return this.me;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( of(stringRep ).me, this.me);
     }
+     */
 
     public int hashCode(){
         return 31 * this.me.hashCode();

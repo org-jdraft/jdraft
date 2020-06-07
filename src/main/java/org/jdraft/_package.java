@@ -36,6 +36,10 @@ public final class _package implements _java._node<PackageDeclaration, _package>
         this.astPackage = astPd;
     }
 
+    public _feature._features<_package> features(){
+        return FEATURES;
+    }
+
     @Override
     public _package copy() {
         return of( astPackage.clone() );
@@ -55,10 +59,12 @@ public final class _package implements _java._node<PackageDeclaration, _package>
         return this;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( this.astPackage, Ast.packageDeclaration(Text.combine(stringRep)));
     }
+     */
 
     public int hashCode(){
         return 31 * this.astPackage.hashCode();

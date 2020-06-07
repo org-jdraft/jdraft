@@ -32,6 +32,11 @@ public final class _moduleInfo
     public _moduleInfo copy(){
         return of( this.astCompUnit.toString() );
     }
+
+    public _feature._features<_moduleInfo> features(){
+        return FEATURES;
+    }
+
     /**
      * is the String representation equal to the _node entity (i.e. if we parse
      * the string, does it create an AST entity that is equal to the node?)
@@ -39,7 +44,7 @@ public final class _moduleInfo
      * @param stringRep the string representation of the node (parsed as an AST
      * and compared to this entity to see if equal)
      * @return true if the Parsed String represents the entity
-     */
+
     @Override
     public boolean is(String... stringRep) {
         try {
@@ -48,6 +53,7 @@ public final class _moduleInfo
             return false;
         }
     }
+     */
 
     @Override
     public String getSimpleName(){

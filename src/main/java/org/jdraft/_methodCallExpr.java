@@ -100,6 +100,10 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         this.mce = mce;
     }
 
+    public _feature._features<_methodCallExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _methodCallExpr copy() {
         return new _methodCallExpr(this.mce.clone());
@@ -111,25 +115,31 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         return this;
     }
 
+    /**
+     * checks the name and scope matches the string.
+     * <PRE>
+     *     _methodCallExpr _mce = _methodCallExpr.of("System.out.println(1)");
+     *     assertTrue(_mce.isScopedName("System.out.println")); //the scope "System.out" and name "println" are combined
+     * </PRE>
+     * <PRE>
+     *     _methodCallExpr _mce = _methodCallExpr.of("myObject.call(1)");
+     *     assertTrue(_mce.isScopedName("myObject.call")); //the scope "myObject" and name "call" are combined
+     * </PRE>
+     * @param scopedName
+     * @return
+     */
+    public boolean isScopedName( String scopedName){
+        try {
+            _methodCallExpr _mce = of(scopedName + "()");
+            return Objects.equals( _mce.getScope(), getScope()) && Objects.equals( _mce.getName(), getName() );
+        }catch(Exception e){
+            return false;
+        }
+    }
+
     public MethodCallExpr ast(){
         return mce;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        if( mce.getScope().isPresent() ) {
-            comps.put(_java.Feature.SCOPE_EXPR, mce.getScope().get());
-        }
-        comps.put(_java.Feature.NAME, mce.getNameAsString());
-        if( mce.getTypeArguments().isPresent()) {
-            comps.put(_java.Feature.TYPE_ARGS, mce.getTypeArguments().get());
-        }
-        comps.put(_java.Feature.ARGS_EXPRS, mce.getArguments());
-        return comps;
-    }
-     */
 
     public SimpleName getNameNode() { return this.mce.getName(); }
 

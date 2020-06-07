@@ -41,6 +41,10 @@ public final class _breakStmt
 
     public static _feature._features<_breakStmt> FEATURES = _feature._features.of(_breakStmt.class, LABEL);
 
+    public _feature._features<_breakStmt> features(){
+        return FEATURES;
+    }
+
     private BreakStmt astStmt;
 
     public _breakStmt(BreakStmt rs){
@@ -52,6 +56,7 @@ public final class _breakStmt
         return new _breakStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -59,6 +64,7 @@ public final class _breakStmt
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public String getLabel(){
         if(this.astStmt.getLabel().isPresent()){

@@ -51,6 +51,10 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
         this.vd = vd;
     }
 
+    public _feature._features<_variable> features(){
+        return FEATURES;
+    }
+
     public _typeRef getType(){
         return _typeRef.of(this.vd.getType());
     }
@@ -207,10 +211,12 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
         return this.vd.hashCode() * 31;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return of( Ast.variableDeclarator(stringRep)).equals(this);
     }
+     */
 
     @Override
     public _variable setName(String name) {

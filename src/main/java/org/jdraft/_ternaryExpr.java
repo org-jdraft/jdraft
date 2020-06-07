@@ -92,6 +92,10 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
 
     public static _feature._features<_ternaryExpr> FEATURES = _feature._features.of(_ternaryExpr.class, CONDITION, THEN, ELSE );
 
+    public _feature._features<_ternaryExpr> features(){
+        return FEATURES;
+    }
+
     public ConditionalExpr ce;
 
     public _ternaryExpr(ConditionalExpr ce){
@@ -103,6 +107,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         return new _ternaryExpr(this.ce.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -110,6 +115,7 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(ConditionalExpr astNode) {

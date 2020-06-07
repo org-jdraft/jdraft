@@ -69,6 +69,10 @@ public final class _imports implements _java._set<ImportDeclaration, _import, _i
         this.astCompilationUnit = astCu;
     }
 
+    public _feature._features<_imports> features(){
+        return FEATURES;
+    }
+
     @Override
     public _imports copy() {
         return _imports.of(astCompilationUnit);

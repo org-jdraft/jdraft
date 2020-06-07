@@ -99,11 +99,16 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         this.ae = ae;
     }
 
+    public _feature._features<_assignExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _assignExpr copy() {
         return new _assignExpr(this.ae.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try {
@@ -112,6 +117,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
         }
         return false;
     }
+     */
 
     @Override
     public boolean is(AssignExpr astNode) {

@@ -72,6 +72,10 @@ public final class _annoExpr
         return of( bd.getAnnotation(0) );
     }
 
+    public _feature._features<_annoExpr> features(){
+        return FEATURES;
+    }
+
     public static _annoExpr of(Class<? extends Annotation> annotationClass){
         return of( new MarkerAnnotationExpr(annotationClass.getSimpleName()));
     }

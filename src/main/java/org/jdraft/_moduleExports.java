@@ -54,6 +54,10 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
 
     public ModuleExportsDirective me;
 
+    public _feature._features<_moduleExports> features(){
+        return FEATURES;
+    }
+
     public _moduleExports setName(String name){
         this.me.setName(name);
         return this;
@@ -129,10 +133,12 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
         return this.me;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( of(stringRep ).me, this.me);
     }
+     */
 
     public int hashCode(){
         return 31 * this.me.hashCode();

@@ -41,11 +41,16 @@ public final class _stringExpr
         this.se = se;
     }
 
+    public _feature._features<_stringExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _stringExpr copy() {
         return new _stringExpr(this.se.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -53,6 +58,7 @@ public final class _stringExpr
         } catch(Exception e){ }
         return false;
     }
+     */
 
     /*
     @Override

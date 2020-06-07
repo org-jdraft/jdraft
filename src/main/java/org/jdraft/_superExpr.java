@@ -50,6 +50,10 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._no
 
     public SuperExpr se;
 
+    public _feature._features<_superExpr> features(){
+        return FEATURES;
+    }
+
     public _superExpr(SuperExpr se){
         this.se = se;
     }

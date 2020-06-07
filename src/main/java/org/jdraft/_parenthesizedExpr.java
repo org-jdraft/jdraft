@@ -85,11 +85,16 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
         this.ee = ee;
     }
 
+    public _feature._features<_parenthesizedExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _parenthesizedExpr copy() {
         return new _parenthesizedExpr(this.ee.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -97,6 +102,7 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(EnclosedExpr astNode) {

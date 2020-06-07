@@ -490,7 +490,11 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     public _class( ClassOrInterfaceDeclaration astClass ){
         this.astClass = astClass;
     }
-    
+
+    public _feature._features<_class> features(){
+        return FEATURES;
+    }
+
     @Override
     public ClassOrInterfaceDeclaration ast() {
         return this.astClass;

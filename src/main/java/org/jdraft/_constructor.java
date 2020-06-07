@@ -163,6 +163,10 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
 
     private final ConstructorDeclaration astCtor;
 
+    public _feature._features<_constructor> features(){
+        return FEATURES;
+    }
+
     public _constructor( ConstructorDeclaration md ) {
         this.astCtor = md;
     }
@@ -343,7 +347,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
         }        
         return true;        
     }
-    
+
     @Override
     public boolean is( String...constructorDeclaration ){
         try {

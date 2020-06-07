@@ -100,11 +100,16 @@ public final class _doStmt implements
         this.astStmt = rs;
     }
 
+    public _feature._features<_doStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _doStmt copy() {
         return new _doStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -112,6 +117,7 @@ public final class _doStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public _doStmt setCondition(String...expression){
         return setCondition(Expr.of(expression));

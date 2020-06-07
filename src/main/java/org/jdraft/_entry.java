@@ -83,15 +83,21 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
         this.astAnnMember = astAnnMember;
     }
 
+    public _feature._features<_entry> features(){
+        return FEATURES;
+    }
+
     @Override
     public _entry copy(){
         return of( this.astAnnMember.toString() );
     }
 
+    /*
     @Override
     public boolean is(String...stringRep){
         return is(Ast.annotationMemberDeclaration(stringRep));
     }
+     */
 
     @Override
     public boolean is(AnnotationMemberDeclaration amd ){

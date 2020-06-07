@@ -96,11 +96,18 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
         this.astStmt = rs;
     }
 
+    public _feature._features<_exprStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _exprStmt copy() {
         return new _exprStmt( this.astStmt.clone());
     }
 
+    //I should have a default override for this
+    // in _stmt
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -108,6 +115,7 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public ExpressionStmt ast(){
         return astStmt;

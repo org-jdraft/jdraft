@@ -215,6 +215,10 @@ public final class _annotation
         this.astAnnotation = astClass;
     }
 
+    public _feature._features<_annotation> features(){
+        return FEATURES;
+    }
+
     /**
      * the AST storing the state of the _class
      * the _class is simply a facade into the state astClass

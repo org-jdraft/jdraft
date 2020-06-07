@@ -146,6 +146,10 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
 
     public static _feature._features<_arrayInitExpr> FEATURES = _feature._features.of(_arrayInitExpr.class, INITS);
 
+    public _feature._features<_arrayInitExpr> features(){
+        return FEATURES;
+    }
+
     public ArrayInitializerExpr aie;
 
     public _arrayInitExpr(ArrayInitializerExpr aie){

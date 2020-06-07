@@ -131,6 +131,10 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     public static _feature._features<_switchExpr> FEATURES = _feature._features.of(_switchExpr.class, SELECTOR, SWITCH_ENTRIES );
 
 
+    public _feature._features<_switchExpr> features(){
+        return FEATURES;
+    }
+
     public SwitchExpr switchExpr;
 
     public _switchExpr(SwitchExpr stt){
@@ -142,6 +146,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return new _switchExpr( this.switchExpr.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try {
@@ -150,6 +155,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             return false;
         }
     }
+     */
 
     @Override
     public boolean is(SwitchExpr astNode) {

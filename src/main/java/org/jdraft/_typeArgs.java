@@ -87,6 +87,10 @@ public final class _typeArgs
         this.nwta = nwta;
     }
 
+    public _feature._features<_typeArgs> features(){
+        return FEATURES;
+    }
+
     public _typeArgs add(Class...clazz){
         return add(Arrays.stream(clazz).map(a -> _typeRef.of(a) ).collect(Collectors.toList()).toArray(new _typeRef[0]));
     }

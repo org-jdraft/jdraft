@@ -106,6 +106,10 @@ public final class _param
         this.astParameter = p;
     }
 
+    public _feature._features<_param> features(){
+        return FEATURES;
+    }
+
     @Override
     public Parameter ast() {
         return this.astParameter;
@@ -190,6 +194,7 @@ public final class _param
         return this.astParameter.getNameAsString().equals( name );
     }
 
+    /*
     @Override
     public boolean is( String... paramDecl ) {
         try {
@@ -199,6 +204,7 @@ public final class _param
         }
         return false;
     }
+     */
 
     @Override
     public boolean is( Parameter astParam ){

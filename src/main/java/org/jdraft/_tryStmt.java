@@ -97,6 +97,10 @@ public final class _tryStmt implements
         this.tryStmt = tryStmt;
     }
 
+    public _feature._features<_tryStmt> features(){
+        return FEATURES;
+    }
+
     public TryStmt ast(){
         return tryStmt;
     }
@@ -106,6 +110,7 @@ public final class _tryStmt implements
         return new _tryStmt( this.tryStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String...str ){
         try{
@@ -114,6 +119,7 @@ public final class _tryStmt implements
             return false;
         }
     }
+     */
 
     public _body getTryBody(){
         return _body.of( tryStmt.getTryBlock() );

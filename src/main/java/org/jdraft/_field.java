@@ -148,6 +148,10 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     public static _feature._features<_field> FEATURES = _feature._features.of(_field.class, ANNOS, MODIFIERS, TYPE, NAME, INIT );
 
+    public _feature._features<_field> features(){
+        return FEATURES;
+    }
+
     /**
      * Gets the (effective modifiers) which is the union of the explicit
      * modifiers (returned from {@link #getModifiers()} and the implied
@@ -174,6 +178,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         return of(vd).equals(this);
     }
 
+    /*
     public boolean is(String... fieldDeclaration) {
         try {
             return of(fieldDeclaration).equals(this);
@@ -181,6 +186,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             return false;
         }
     }
+     */
 
     public boolean is(FieldDeclaration fd) {
         return of(fd.getVariable(0))

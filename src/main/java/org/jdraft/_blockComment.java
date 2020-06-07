@@ -43,6 +43,10 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
 
     public BlockComment astComment;
 
+    public _feature._features<_blockComment> features(){
+        return FEATURES;
+    }
+
     public _blockComment(BlockComment lc ){
         this.astComment = lc;
     }
@@ -64,6 +68,7 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
         return astComment;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -73,6 +78,8 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
             return false;
         }
     }
+     */
+
 
     public boolean equals(Object o){
         if( o instanceof _blockComment){

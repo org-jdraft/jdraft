@@ -64,6 +64,10 @@ public final class _typeParams
         this.astNodeWithTypeParams = ntp;
     }
 
+    public _feature._features<_typeParams> features(){
+        return FEATURES;
+    }
+
     public _typeParams clear() {
         astNodeWithTypeParams.getTypeParameters().clear();
         return this;
@@ -103,6 +107,7 @@ public final class _typeParams
     public NodeList<TypeParameter> listAstElements() {
         return this.astNodeWithTypeParams.getTypeParameters();
     }
+
 
     public boolean is( String typeParameters ) {
         try {

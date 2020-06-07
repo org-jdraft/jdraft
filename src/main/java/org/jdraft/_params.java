@@ -97,6 +97,10 @@ public final class _params
         return new _params( np );
     }
 
+    public _feature._features<_params> features(){
+        return FEATURES;
+    }
+
     /**
      * Does the params list end with a varArg parameter
      * @return

@@ -116,11 +116,16 @@ public final class _forStmt implements
         this.astStmt = rs;
     }
 
+    public _feature._features<_forStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _forStmt copy() {
         return new _forStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -128,6 +133,7 @@ public final class _forStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public boolean hasInit(){
         return !this.astStmt.getInitialization().isEmpty();

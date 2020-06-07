@@ -156,8 +156,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return new _enum( astClass );
     }
 
-
-
     /**
      * ---Mostly called internally & from $enum $pattern --
      *
@@ -311,6 +309,10 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         this.astEnum = astClass;
     }
 
+    public _feature._features<_enum> features(){
+        return FEATURES;
+    }
+
     /**
      * the AST storing the state of the _class
      * the _class is simply a facade into the state astClass
@@ -331,6 +333,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return astEnum.isTopLevelType();
     }
 
+    /*
     @Override
     public boolean is(String...stringRep){
         try{
@@ -339,6 +342,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             return false;
         }
     }
+     */
     
     @Override
     public boolean is(EnumDeclaration ed){

@@ -44,6 +44,10 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
 
     public MethodReferenceExpr mre;
 
+    public _feature._features<_methodRefExpr> features(){
+        return FEATURES;
+    }
+
     public _methodRefExpr(MethodReferenceExpr mre){
         this.mre = mre;
     }

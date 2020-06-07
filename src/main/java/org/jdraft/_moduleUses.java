@@ -14,6 +14,10 @@ public final class _moduleUses implements _java._node<ModuleUsesDirective, _modu
 
     public static final Function<String, _moduleUses> PARSER = s-> _moduleUses.of(s);
 
+    public _feature._features<_moduleUses> features(){
+        return FEATURES;
+    }
+
     public static _moduleUses of(ModuleUsesDirective mod){
         return new _moduleUses(mod);
     }
@@ -75,10 +79,12 @@ public final class _moduleUses implements _java._node<ModuleUsesDirective, _modu
         return this.mod;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( of(stringRep ).mod, this.mod);
     }
+     */
 
     public int hashCode(){
         return 31 * this.mod.hashCode();

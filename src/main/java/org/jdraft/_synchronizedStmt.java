@@ -41,6 +41,10 @@ public final class _synchronizedStmt implements
 
     public static _feature._features<_synchronizedStmt> FEATURES = _feature._features.of(_synchronizedStmt.class, EXPRESSION, BODY );
 
+    public _feature._features<_synchronizedStmt> features(){
+        return FEATURES;
+    }
+
     private SynchronizedStmt astStmt;
 
     public _synchronizedStmt(SynchronizedStmt rs){
@@ -52,19 +56,23 @@ public final class _synchronizedStmt implements
         return new _synchronizedStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
+        /*
         AtomicInteger ai = new AtomicInteger();
         Consumer<Integer> ci =  (a)->{
             synchronized (ai){
                 System.out.println(1);
             }
         };
+
         try{
             return is( Stmt.synchronizedStmt(stringRep));
         } catch(Exception e){ }
         return false;
     }
+     */
 
     /*
     public _expression getExpression(){

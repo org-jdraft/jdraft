@@ -99,11 +99,16 @@ public final class _forEachStmt implements
         this.astStmt = rs;
     }
 
+    public _feature._features<_forEachStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _forEachStmt copy() {
         return new _forEachStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -111,6 +116,7 @@ public final class _forEachStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public boolean isVariable(String...expression){
         try {

@@ -56,6 +56,10 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
 
     public static _feature._features<_variablesExpr> FEATURES = _feature._features.of(_variablesExpr.class, ANNOS, MODIFIERS, VARIABLES);
 
+    public _feature._features<_variablesExpr> features(){
+        return FEATURES;
+    }
+
     public VariableDeclarationExpr varDeclEx;
 
     public _variablesExpr(VariableDeclarationExpr varDeclEx){
@@ -87,6 +91,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return this;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -94,6 +99,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         } catch(Exception e){ }
         return false;
     }
+     */
 
     /**
      * Is the variable at the index equal to the _v

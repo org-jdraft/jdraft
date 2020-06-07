@@ -115,11 +115,16 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         this.astStmt = astStmt;
     }
 
+    public _feature._features<_assertStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _assertStmt copy() {
         return new _assertStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -127,6 +132,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public boolean isCheck(String...checkCode){
         try{

@@ -38,6 +38,10 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
         this.astComment = lc;
     }
 
+    public _feature._features<_javadocComment> features(){
+        return FEATURES;
+    }
+
     public _java._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
             return (_java._node)_java.of( astComment.getCommentedNode().get());
@@ -55,11 +59,12 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
         return astComment;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( of( Text.combine(stringRep) ), this);
     }
-
+     */
 
     public boolean equals(Object o){
         if( o instanceof _javadocComment){

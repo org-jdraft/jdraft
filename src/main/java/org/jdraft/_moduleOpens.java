@@ -19,6 +19,10 @@ public final class _moduleOpens implements _java._node<ModuleOpensDirective, _mo
 
     public static final Function<String, _moduleOpens> PARSER = s-> _moduleOpens.of(s);
 
+    public _feature._features<_moduleOpens> features(){
+        return FEATURES;
+    }
+
     public static _moduleOpens of(ModuleOpensDirective mod){
         return new _moduleOpens(mod);
     }
@@ -131,10 +135,12 @@ public final class _moduleOpens implements _java._node<ModuleOpensDirective, _mo
         return this.mod;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( of(stringRep ).mod, this.mod);
     }
+     */
 
     public int hashCode(){
         return 31 * this.mod.hashCode();

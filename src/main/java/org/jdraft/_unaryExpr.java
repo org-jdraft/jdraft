@@ -81,11 +81,16 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
         this.unaryEx = unaryEx;
     }
 
+    public _feature._features<_unaryExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _unaryExpr copy() {
         return new _unaryExpr(this.unaryEx.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -93,6 +98,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._no
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public boolean isOperator(String operator ){
         return Objects.equals( getOperator().asString(), operator);

@@ -35,8 +35,11 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
             a -> a.getText(),
             (_lineComment a, String text) -> a.setText(text), PARSER);
 
-
     public static _feature._features<_lineComment> FEATURES = _feature._features.of(_lineComment.class, TEXT);
+
+    public _feature._features<_lineComment> features(){
+        return FEATURES;
+    }
 
     public LineComment astComment;
 
@@ -61,6 +64,7 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
         return astComment;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -70,6 +74,7 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
             return false;
         }
     }
+     */
 
     public boolean equals(Object o){
         if( o instanceof _lineComment){

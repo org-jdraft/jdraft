@@ -92,6 +92,10 @@ public final class _project {
             (_project a, List<_codeUnit> ps)-> a.set(ps), PARSER, s-> _codeUnit.of(s))
             .setOrdered(false);
 
+    public _feature._features<_project> features(){
+        return FEATURES;
+    }
+
     public static _feature._features<_project> FEATURES = _feature._features.of(_project.class, CODE_UNITS);
 
     public _project(){

@@ -163,6 +163,9 @@ public final class _initBlock
 
     public final InitializerDeclaration astInit;
 
+    public _feature._features<_initBlock> features(){
+        return FEATURES;
+    }
     @Override
     public _body getBody() {
         return _body.of(astInit);
@@ -176,7 +179,8 @@ public final class _initBlock
     public _initBlock copy(){
         return of( this.astInit.toString() );
     }
-    
+
+    /*
     @Override
     public boolean is( String... code ) {
         try {
@@ -185,6 +189,7 @@ public final class _initBlock
             return false;
         }
     }
+     */
 
     @Override
     public boolean is( InitializerDeclaration astId){

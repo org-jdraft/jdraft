@@ -135,6 +135,10 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
 
     public MemberValuePair mvp;
 
+    public _feature._features<_entryPair> features(){
+        return FEATURES;
+    }
+
     public _entryPair(MemberValuePair mvp){
         this.mvp = mvp;
     }
@@ -225,6 +229,7 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
         return isValue(Expr.of(d));
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -233,6 +238,7 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
             return false;
         }
     }
+     */
 
     public boolean equals(Object o){
         if( o instanceof _entryPair){

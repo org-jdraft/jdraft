@@ -45,11 +45,16 @@ public final class _yieldStmt implements
         this.yieldStmt = yieldStmt;
     }
 
+    public _feature._features<_yieldStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _yieldStmt copy() {
         return new _yieldStmt( this.yieldStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -57,6 +62,7 @@ public final class _yieldStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public YieldStmt ast(){
         return yieldStmt;

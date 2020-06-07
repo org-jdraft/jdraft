@@ -32,6 +32,10 @@ public final class _annoExprs
 
     public static final Function<String, _annoExprs> PARSER = s-> _annoExprs.of(s);
 
+    public _feature._features<_annoExprs> features(){
+        return FEATURES;
+    }
+
     public static _feature._many<_annoExprs, _annoExpr> ANNOS = new _feature._many<>(_annoExprs.class, _annoExpr.class,
             _feature._id.ANNOS, _feature._id.ANNO_EXPR,
             as->as.list(),

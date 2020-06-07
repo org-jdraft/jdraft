@@ -195,6 +195,10 @@ public final class _method
         return _m;
     }
 
+    public _feature._features<_method> features(){
+        return FEATURES;
+    }
+
     public static _method get( String fieldDef){
         return get(_field.of(fieldDef));
     }

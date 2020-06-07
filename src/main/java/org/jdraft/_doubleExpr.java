@@ -36,11 +36,16 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
         this.de = de;
     }
 
+    public _feature._features<_doubleExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _doubleExpr copy() {
         return new _doubleExpr(this.de.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -50,6 +55,7 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
         }
         return false;
     }
+     */
 
     @Override
     public boolean is(DoubleLiteralExpr astNode) {

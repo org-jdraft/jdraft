@@ -106,6 +106,10 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
         return new _fieldAccessExpr(this.fe.clone());
     }
 
+    public _feature._features<_fieldAccessExpr> features(){
+        return FEATURES;
+    }
+
     public FieldAccessExpr ast(){
         return fe;
     }

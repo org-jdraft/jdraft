@@ -65,6 +65,10 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         this.switchEntry = se;
     }
 
+    public _feature._features<_switchEntry> features(){
+        return FEATURES;
+    }
+
     public  _switchEntry setCaseExpressions(List<_expr> _es){
         this.switchEntry.getLabels().clear();
         _es.forEach( ce -> this.switchEntry.getLabels().add( ce.ast()));
@@ -499,6 +503,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
         return new _switchEntry( this.switchEntry.clone());
     }
 
+    /*
     @Override
     public boolean is(String... switchEntry ) {
         try {
@@ -507,6 +512,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
             return false;
         }
     }
+     */
 
     @Override
     public boolean is(SwitchEntry astNode) {

@@ -61,7 +61,11 @@ public final class _lambdaExpr
     public static <T extends Object,U extends Object, V extends Object> _lambdaExpr of(BiFunction<T, U, V> c ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return from( ste );
-    } 
+    }
+
+    public _feature._features<_lambdaExpr> features(){
+        return FEATURES;
+    }
 
     public boolean equals(Object o){
         if( o instanceof _lambdaExpr){
@@ -250,6 +254,7 @@ public final class _lambdaExpr
         return _lambdaExpr.of(this.astLambda.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -258,6 +263,7 @@ public final class _lambdaExpr
             return false;
         }
     }
+     */
 
     @Override
     public boolean is(LambdaExpr astNode) {

@@ -38,11 +38,16 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
         this.ile = ile;
     }
 
+    public _feature._features<_longExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _longExpr copy() {
         return new _longExpr(this.ile.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -50,6 +55,7 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
         } catch(Exception e){}
         return false;
     }
+     */
 
     public boolean is(long value){
         return this.ile.asLong() == value;

@@ -66,11 +66,16 @@ public final class _constructorCallStmt
         this.astStmt = astStmt;
     }
 
+    public _feature._features<_constructorCallStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _constructorCallStmt copy() {
         return new _constructorCallStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -78,6 +83,7 @@ public final class _constructorCallStmt
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public ExplicitConstructorInvocationStmt ast(){
         return astStmt;

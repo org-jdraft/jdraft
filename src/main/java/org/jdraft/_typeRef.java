@@ -40,6 +40,7 @@ public final class _typeRef<T extends Type>
      * </PRE>
      */
     public static _typeRef UNKNOWN = of( new UnknownType( ) );
+
     /**
      *
      * @param t
@@ -102,6 +103,10 @@ public final class _typeRef<T extends Type>
         List<AnnotationExpr> aes = new ArrayList<>();
         t.walk(AnnotationExpr.class, a->aes.add(a));
         return _annoExprs.of(aes);
+    }
+
+    public _feature._features<_typeRef> features(){
+        return FEATURES;
     }
 
     /**
@@ -508,7 +513,8 @@ public final class _typeRef<T extends Type>
             return false;
         }
     }
-    
+
+    /*
     @Override
     public boolean is( String... type  ){
         try{
@@ -518,6 +524,7 @@ public final class _typeRef<T extends Type>
             return false;
         }
     }
+     */
 
     @Override
     public boolean is( Type typeDecl ){

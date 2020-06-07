@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
+import org.jdraft.text.Stencil;
 
 import java.util.Objects;
 
@@ -10,7 +11,13 @@ public interface _expr<E extends Expression, _E extends _expr>
     default boolean is(String... stringRep) {
         try{
             Expression e = Expr.of(stringRep);
-            return Objects.equals( e, ast());
+            Stencil st = Stencil.of(e.toString(Print.PRINT_NO_COMMENTS));
+            if(st.isFixedText() ){
+                return equals(_expr.of(e));
+            } else {
+                return st.matches(ast().toString(Print.PRINT_NO_COMMENTS));
+            }
+            //return Objects.equals( e, ast());
         } catch(Exception e){ }
         return false;
     }

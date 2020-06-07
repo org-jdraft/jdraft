@@ -33,6 +33,10 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
 
     public CharLiteralExpr cle;
 
+    public _feature._features<_charExpr> features(){
+        return FEATURES;
+    }
+
     public _charExpr(CharLiteralExpr cle){
         this.cle = cle;
     }
@@ -41,6 +45,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
     public _charExpr copy() {
         return new _charExpr(this.cle.clone());
     }
+
 
     @Override
     public boolean is(String... stringRep) {

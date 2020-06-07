@@ -80,6 +80,10 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         this.bs = rs;
     }
 
+    public _feature._features<_blockStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _blockStmt copy() {
         return new _blockStmt( this.bs.clone());
@@ -280,6 +284,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         return this;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -287,6 +292,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public BlockStmt ast(){
         return bs;

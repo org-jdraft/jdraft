@@ -80,11 +80,16 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
         this.astStmt = rs;
     }
 
+    public _feature._features<_localClassStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _localClassStmt copy() {
         return new _localClassStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -92,6 +97,7 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public _class get_class(){
         return _class.of( this.astStmt.getClassDeclaration());

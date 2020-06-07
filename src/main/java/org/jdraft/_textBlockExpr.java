@@ -75,6 +75,10 @@ public final class _textBlockExpr implements _expr._literal<TextBlockLiteralExpr
 
     public TextBlockLiteralExpr tble;
 
+    public _feature._features<_textBlockExpr> features(){
+        return FEATURES;
+    }
+
     public _textBlockExpr(TextBlockLiteralExpr tble){
         this.tble = tble;
     }
@@ -84,10 +88,12 @@ public final class _textBlockExpr implements _expr._literal<TextBlockLiteralExpr
         return new _textBlockExpr(this.tble.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return is( new TextBlockLiteralExpr(Text.combine(stringRep)));
     }
+     */
 
     @Override
     public boolean is(TextBlockLiteralExpr astNode) {

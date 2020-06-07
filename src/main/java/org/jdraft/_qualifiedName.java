@@ -114,6 +114,12 @@ public final class _qualifiedName implements _java._node<Node, _qualifiedName> {
         this.name = sn;
     }
 
+    public _feature._features<_qualifiedName> FEATURES = _feature._features.of(_qualifiedName.class);
+
+    public _feature._features<_qualifiedName> features(){
+        return FEATURES;
+    }
+
     /** the underlying name */
     public Node name;
 

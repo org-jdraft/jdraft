@@ -41,10 +41,12 @@ public enum _modifier implements _java._node<Modifier, _modifier> {
         return this; //dont need to copy enums
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( Text.combine(stringRep), this.mod.getKeyword().asString());
     }
+     */
 
     public static _modifier of(com.github.javaparser.ast.Modifier astMod ){
         Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.mod.equals(astMod)).findFirst();
@@ -81,9 +83,10 @@ public enum _modifier implements _java._node<Modifier, _modifier> {
         return this.mod;
     }
 
-    public Map<_java.Feature, Object> features() {
-        return Collections.emptyMap();
+    public _feature._features<_modifier> features(){
+        return FEATURES;
     }
+
 
     /**
      * getting the modifiers reflectively will return a bitMask

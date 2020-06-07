@@ -14,6 +14,10 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
 
     public static final Function<String, _moduleRequires> PARSER = s-> _moduleRequires.of(s);
 
+    public _feature._features<_moduleRequires> features(){
+        return FEATURES;
+    }
+
     public static _moduleRequires of(ModuleRequiresDirective med){
         return new _moduleRequires(med);
     }
@@ -94,10 +98,12 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
         return this.me;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Objects.equals( of(stringRep ).me, this.me);
     }
+     */
 
     public int hashCode(){
         return 31 * this.me.hashCode();

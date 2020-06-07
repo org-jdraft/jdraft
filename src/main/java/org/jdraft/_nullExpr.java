@@ -32,15 +32,21 @@ public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExp
         this.nle = nle;
     }
 
+    public _feature._features<_nullExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _nullExpr copy() {
         return new _nullExpr(this.nle.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return Text.combine(stringRep).equals("null");
     }
+     */
 
     @Override
     public boolean is(NullLiteralExpr astNode) {

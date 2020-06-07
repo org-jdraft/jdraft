@@ -69,11 +69,16 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
         this.astNode = acl;
     }
 
+    public _feature._features<_arrayDimension> features(){
+        return FEATURES;
+    }
+
     @Override
     public _arrayDimension copy() {
         return _arrayDimension.of(this.astNode);
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -82,6 +87,7 @@ public final class _arrayDimension implements _java._node<ArrayCreationLevel, _a
             return false;
         }
     }
+     */
 
     public _expr getExpression(){
         if( this.astNode.getDimension() != null ) {

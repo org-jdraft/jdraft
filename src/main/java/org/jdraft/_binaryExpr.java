@@ -253,11 +253,16 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         this.astBe = astBe;
     }
 
+    public _feature._features<_binaryExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _binaryExpr copy() {
         return new _binaryExpr(this.astBe.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -265,6 +270,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(BinaryExpr astNode) {

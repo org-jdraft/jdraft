@@ -85,6 +85,10 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
 
     public InstanceOfExpr ioe;
 
+    public _feature._features<_instanceOfExpr> features(){
+        return FEATURES;
+    }
+
     public _instanceOfExpr(InstanceOfExpr ioe){
         this.ioe = ioe;
     }
@@ -94,6 +98,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         return new _instanceOfExpr(this.ioe.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -101,6 +106,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(InstanceOfExpr astNode) {

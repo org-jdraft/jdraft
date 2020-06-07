@@ -281,6 +281,10 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     public static _feature._features<_interface> FEATURES = _feature._features.of(_interface.class,
             PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, MEMBERS);
 
+    public _feature._features<_interface> features(){
+        return FEATURES;
+    }
+
     public _interface( ClassOrInterfaceDeclaration astClass ){
         this.astInterface = astClass;
     }
@@ -583,6 +587,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
      */
 
+    /*
     @Override
     public boolean is( String...interfaceDeclaration ){
         try{
@@ -591,6 +596,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             return false;
         }
     }
+     */
 
     @Override
     public boolean is( ClassOrInterfaceDeclaration astI){

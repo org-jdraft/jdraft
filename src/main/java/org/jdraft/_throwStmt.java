@@ -81,11 +81,16 @@ public final class _throwStmt implements
         this.astStmt = rs;
     }
 
+    public _feature._features<_throwStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _throwStmt copy() {
         return new _throwStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -93,6 +98,7 @@ public final class _throwStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public ThrowStmt ast(){
         return astStmt;

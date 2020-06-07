@@ -90,6 +90,10 @@ public final class _throws
         this.astNodeWithThrows = th;
     }
 
+    public _feature._features<_throws> features(){
+        return FEATURES;
+    }
+
     public NodeList<ReferenceType> ast() {
         return astNodeWithThrows.getThrownExceptions();
     }

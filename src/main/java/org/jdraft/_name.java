@@ -100,6 +100,10 @@ public final class _name implements _java._node<Node, _name> {
         this.name = sn;
     }
 
+    public _feature._features<_name> features(){
+        return FEATURES;
+    }
+
     /** the underlying name */
     public Node name;
 
@@ -120,10 +124,12 @@ public final class _name implements _java._node<Node, _name> {
         return name;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return of( Text.combine(stringRep) ).equals(this);
     }
+     */
 
     public Set<Use> getUse(){
         return Use.of(this.name);

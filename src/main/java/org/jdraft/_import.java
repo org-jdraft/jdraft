@@ -99,6 +99,10 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
     /** the underlying ast import declaration */
     public ImportDeclaration astId;
 
+    public _feature._features<_import> features(){
+        return FEATURES;
+    }
+
     /**
      * 
      * @return 
@@ -184,6 +188,7 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
         return is( astId, method);
     }
 
+    /*
     public boolean is( String importDeclaration){
         try{
             return is(Ast.importDeclaration(importDeclaration));
@@ -191,6 +196,7 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
             return false;
         }
     }
+     */
     
     /**
      * 

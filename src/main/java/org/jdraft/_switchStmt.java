@@ -144,6 +144,10 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
 
     public SwitchStmt switchStmt;
 
+    public _feature._features<_switchStmt> features(){
+        return FEATURES;
+    }
+
     /**
      * if SET to true, checks when statements are added to SwitchEntries that
      * end in either<UL>
@@ -181,6 +185,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
         return new _switchStmt( this.switchStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try {
@@ -189,6 +194,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
             return false;
         }
     }
+     */
 
     /*
     @Override

@@ -96,12 +96,16 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         this.astStmt = rs;
     }
 
+    public _feature._features<_labeledStmt> features(){
+        return FEATURES;
+    }
 
     @Override
     public _labeledStmt copy() {
         return new _labeledStmt( this.astStmt.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -109,6 +113,8 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         } catch(Exception e){ }
         return false;
     }
+
+     */
 
     public boolean isLabel(String label){
         return Objects.equals( this.astStmt.getLabel().asString(), label);

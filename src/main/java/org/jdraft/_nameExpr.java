@@ -37,15 +37,21 @@ public final class _nameExpr
         this.ne = ne;
     }
 
+    public _feature._features<_nameExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _nameExpr copy() {
         return new _nameExpr(this.ne.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         return is( new NameExpr(Text.combine(stringRep)));
     }
+     */
 
     @Override
     public boolean is(NameExpr astNode) {

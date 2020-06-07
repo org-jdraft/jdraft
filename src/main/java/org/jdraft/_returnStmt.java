@@ -81,11 +81,16 @@ public final class _returnStmt implements
         this.rs = rs;
     }
 
+    public _feature._features<_returnStmt> features(){
+        return FEATURES;
+    }
+
     @Override
     public _returnStmt copy() {
         return new _returnStmt( this.rs.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -93,6 +98,7 @@ public final class _returnStmt implements
         } catch(Exception e){ }
         return false;
     }
+     */
 
     /*
     @Override

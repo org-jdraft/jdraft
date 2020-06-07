@@ -32,6 +32,10 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
 
     public BooleanLiteralExpr be;
 
+    public _feature._features<_booleanExpr> features(){
+        return FEATURES;
+    }
+
     public _booleanExpr(BooleanLiteralExpr be){
         this.be = be;
     }

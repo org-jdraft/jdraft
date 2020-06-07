@@ -34,6 +34,10 @@ public final class _typeExpr
 
     public TypeExpr te;
 
+    public _feature._features<_typeExpr> features(){
+        return FEATURES;
+    }
+
     public _typeExpr(TypeExpr te){
         this.te = te;
     }

@@ -110,6 +110,10 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
 
     public CatchClause cc;
 
+    public _feature._features<_catch> features(){
+        return FEATURES;
+    }
+
     @Override
     public _catch copy() {
         return new _catch( this.cc.clone() );
@@ -295,6 +299,7 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
         return this;
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -303,6 +308,7 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
             return false;
         }
     }
+     */
 
     @Override
     public boolean is(CatchClause astNode) {

@@ -89,7 +89,12 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
 
     public static _feature._features<_castExpr> FEATURES = _feature._features.of(_castExpr.class, TYPE, EXPRESSION);
 
+    public _feature._features<_castExpr> features(){
+        return FEATURES;
+    }
+
     public CastExpr ce;
+
 
     public _castExpr(CastExpr ce){
         this.ce = ce;
@@ -100,6 +105,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         return new _castExpr(this.ce.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -107,6 +113,7 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(CastExpr astNode) {

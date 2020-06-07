@@ -70,6 +70,10 @@ public final class _receiverParam
         this.astReceiverParam = rp;
     }
 
+    public _feature._features<_receiverParam> features(){
+        return FEATURES;
+    }
+
     /**
      * Build and return an independent copy of this receiverParameter
      * @return 
@@ -77,7 +81,8 @@ public final class _receiverParam
     public _receiverParam copy(){
         return of( this.astReceiverParam.toString() );
     }
-    
+
+    /*
     @Override
     public boolean is( String... string ) {
         try {
@@ -86,6 +91,7 @@ public final class _receiverParam
             return false;
         }
     }
+     */
 
     @Override
     public boolean is ( ReceiverParameter astRp ){

@@ -38,11 +38,16 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
         this.ile = ile;
     }
 
+    public _feature._features<_thisExpr> features(){
+        return FEATURES;
+    }
+
     @Override
     public _thisExpr copy() {
         return new _thisExpr(this.ile.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -50,6 +55,7 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(ThisExpr astNode) {
