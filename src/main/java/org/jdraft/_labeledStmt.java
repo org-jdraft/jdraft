@@ -11,6 +11,16 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
 
+/**
+ *
+ * <PRE>
+ * label: System.out.println(1);
+ * label:{
+ *     System.out.println("labeled block");
+ *     call(doIt());
+ * }
+ * </PRE>
+ */
 public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         _java._node<LabeledStmt, _labeledStmt> {
 
@@ -112,6 +122,11 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
         return this.astStmt.getLabel().asString();
     }
 
+    public _labeledStmt setLabel(SimpleName label){
+        this.astStmt.setLabel( label );
+        return this;
+    }
+
     public _labeledStmt setLabel(String label){
         this.astStmt.setLabel( new SimpleName(label));
         return this;
@@ -174,7 +189,17 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
 
     public boolean equals(Object other){
         if( other instanceof _labeledStmt ){
-            return Objects.equals( ((_labeledStmt)other).ast(), this.ast() );
+            _labeledStmt _o = (_labeledStmt)other;
+            if( ! Objects.equals( getLabel(),_o.getLabel() )){
+                //System.out.println("LABELS NOT EQ");
+                return false;
+            }
+            if( ! Objects.equals( getStatement(),_o.getStatement() )){
+                //System.out.println("STATEMENTS NOT EQ "+getStatement().getClass()+" "+ _o.getStatement().getClass());
+                return false;
+            }
+            return true;
+            //return Objects.equals( ((_labeledStmt)other).ast(), this.ast() );
         }
         return false;
     }

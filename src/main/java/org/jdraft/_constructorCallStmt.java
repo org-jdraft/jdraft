@@ -58,7 +58,7 @@ public final class _constructorCallStmt
             a -> a.getTypeArgs(),
             (_constructorCallStmt a, _typeArgs _e) -> a.setTypeArgs(_e), PARSER);
 
-    public static _feature._features<_constructorCallStmt> FEATURES = _feature._features.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, ARGS);
+    public static _feature._features<_constructorCallStmt> FEATURES = _feature._features.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, EXPRESSION, ARGS);
 
     private ExplicitConstructorInvocationStmt astStmt;
 
@@ -164,7 +164,18 @@ public final class _constructorCallStmt
 
     public boolean equals(Object other){
         if( other instanceof _constructorCallStmt){
-            return Objects.equals( ((_constructorCallStmt)other).ast(), this.ast() );
+            _constructorCallStmt _o = (_constructorCallStmt)other;
+            if(!Objects.equals(getArgs(), _o.getArgs())){
+                return false;
+            }
+            if( !Objects.equals(getExpression(), _o.getExpression())){
+                return false;
+            }
+            if( !Objects.equals(getTypeArgs(), _o.getTypeArgs())){
+                return false;
+            }
+            return true;
+            //return Objects.equals( ((_constructorCallStmt)other).ast(), this.ast() );
         }
         return false;
     }

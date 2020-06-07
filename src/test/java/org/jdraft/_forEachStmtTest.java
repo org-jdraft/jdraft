@@ -12,6 +12,7 @@ public class _forEachStmtTest extends TestCase {
         assertEquals( _a, _b);
         assertEquals( _a.hashCode(), _b.hashCode());
 
+        //verify it doesnt matter which order the variables are in for equals and hashcode
         _a.setVariable("Object o, p");
         _b.setVariable("Object p, o");
 

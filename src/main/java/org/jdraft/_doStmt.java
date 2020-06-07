@@ -113,7 +113,6 @@ public final class _doStmt implements
         return false;
     }
 
-
     public _doStmt setCondition(String...expression){
         return setCondition(Expr.of(expression));
     }
@@ -131,10 +130,6 @@ public final class _doStmt implements
         return _expr.of(this.ast().getCondition());
     }
 
-
-
-
-
     public _body getBody(){
         return _body.of( this.astStmt.getBody() );
     }
@@ -149,13 +144,6 @@ public final class _doStmt implements
         this.astStmt.setBody(_st.ast());
         return this;
     }
-
-    /*
-    public _doStmt setBody(_body _bd){
-        this.astStmt.setBody(_bd.ast());
-        return this;
-    }
-     */
 
     public _doStmt clearBody(){
         this.astStmt.setBody( new BlockStmt());
@@ -181,7 +169,6 @@ public final class _doStmt implements
         BlockStmt bs = new BlockStmt();
         bs.addStatement(bd);
         for(int i=0;i<statements.length; i++) {
-            //bd.asBlockStmt().addStatement(1+startStatementIndex, statements[i]);
             bs.addStatement(i+startStatementIndex, statements[i]);
         }
         this.ast().setBody(bs);
@@ -192,22 +179,23 @@ public final class _doStmt implements
         return astStmt;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.CONDITION_EXPR, astStmt.getCondition());
-        comps.put(_java.Feature.BODY, astStmt.getBody());
-        return comps;
-    }
-     */
-
     public String toString(){
         return this.astStmt.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _doStmt ){
-            return Objects.equals( ((_doStmt)other).ast(), this.ast() );
+            _doStmt _o = (_doStmt)other;
+            if( ! Objects.equals( getCondition(), _o.getCondition())){
+                System.out.println("condition failed");
+                return false;
+            }
+            if( ! Objects.equals( getBody(), _o.getBody())){
+                System.out.println("body failed" +getBody()+" "+ _o.getBody());
+                return false;
+            }
+            return true;
+            //return Objects.equals( ((_doStmt)other).ast(), this.ast() );
         }
         return false;
     }

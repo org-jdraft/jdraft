@@ -1,5 +1,8 @@
 package org.jdraft;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.expr.SuperExpr;
+import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import junit.framework.TestCase;
 
 import static org.junit.Assert.*;
@@ -16,6 +19,25 @@ public class _constructorCallStmtTest extends TestCase {
         assertTrue(_ccs.isSuper());
         assertTrue(_ccs.isArgs("1, 2"));
         assertTrue( _ccs.isArgs(_a -> _a.size() == 2));
+    }
+
+    public void testCCS(){
+        _constructorCallStmt _ccs = _constructorCallStmt.of();
+        _ccs.setExpression(_superExpr.of("super(12)"));
+        System.out.println( _ccs);
+
+
+        //Ast.JAVAPARSER.parseExplicitConstructorInvocationStmt("")
+        //SuperExpr se = StaticJavaParser.parseExpression("World.super(100)");
+        //System.out.println( se );
+
+        ExplicitConstructorInvocationStmt ec = Ast.constructorCallStmt("super(15);");
+        Print.tree( ec );
+
+        ExplicitConstructorInvocationStmt ecs = new ExplicitConstructorInvocationStmt();
+
+        ecs.setExpression(new SuperExpr());
+        System.out.println( ecs );
     }
 
     public void testCC(){

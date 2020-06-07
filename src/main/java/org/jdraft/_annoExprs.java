@@ -329,7 +329,7 @@ public final class _annoExprs
     }
 
     public _annoExprs copy() {
-        FieldDeclaration fd = Ast.fieldDeclaration( "NOT_A_REAL_FIELD AST_ANNO_PARENT;" );
+        FieldDeclaration fd = Ast.fieldDeclaration( "UnknownType UNKNOWN;" );
         this.astAnnNode.getAnnotations().forEach( a -> fd.addAnnotation( ((AnnotationExpr)a).clone() ) );
         return new _annoExprs( fd );
     }

@@ -5,6 +5,10 @@ import junit.framework.TestCase;
 
 public class _exprStmtTest extends TestCase {
 
+    /**
+     * If we "did nothing" AST expressions which are semantically
+     * the same (but syntactically different) would not be equal
+     */
     public void testRawExprs(){
         ExpressionStmt a = Ast.expressionStmt("int i,j;");
         ExpressionStmt b = Ast.expressionStmt("int j,i;");
@@ -14,14 +18,11 @@ public class _exprStmtTest extends TestCase {
     }
 
     public void testEqualsHashcode(){
-
-
          _exprStmt _es = _exprStmt.of( ()-> {int i,j;});
          //
         assertTrue( _es.equals(_exprStmt.of(()-> {int i,j;} )));
         //even though the exprStmt has the order of the variables changed the equals works
         assertTrue( _es.equals(_exprStmt.of(()-> {int j, i;} )));
-
         assertEquals( _es.hashCode(), _exprStmt.of(()-> {int j, i;} ).hashCode());
     }
 

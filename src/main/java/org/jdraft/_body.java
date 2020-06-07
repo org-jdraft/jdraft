@@ -635,6 +635,18 @@ public final class _body implements _java._domain {
 
         Statement t = this.astStatement();
         Statement o = other.astStatement();
+        if( t instanceof EmptyStmt ){
+            return o instanceof EmptyStmt || o instanceof BlockStmt &&
+                    ( o.asBlockStmt().isEmpty() || (o.asBlockStmt().getStatements().size() ==1 && o.asBlockStmt().getStatement(0) instanceof EmptyStmt));
+        }
+        if( o instanceof EmptyStmt){
+            return t instanceof BlockStmt &&
+                    ( t.asBlockStmt().isEmpty() || (t.asBlockStmt().getStatements().size() ==1 && t.asBlockStmt().getStatement(0) instanceof EmptyStmt));
+        }
+        //System.out.println( t.getClass());
+        //System.out.println( o.getClass());
+        return Objects.equals( _stmt.of(t), _stmt.of(o));
+        /*
         String left = t.toString(Print.PRINT_NO_COMMENTS);
         String right =  o.toString(Print.PRINT_NO_COMMENTS);
 
@@ -643,6 +655,7 @@ public final class _body implements _java._domain {
         return Objects.equals(left, right);
         //return _stmt.of(t).equals( _stmt.of(o));
         //return Objects.equals( _stmt.of(t).toString(), _stmt.of(o));
+         */
         /*
         BlockStmt t = this.ast();
         BlockStmt o = other.ast();
@@ -756,13 +769,16 @@ public final class _body implements _java._domain {
                 return false;
             }
             _body _bd = _body.of(all);
+            System.out.println( "testing "+ listStatements()+" to "+ _bd.list());
             if(_bd.list().size() != this.listAstStatements().size()){
                 return false;
             }
             List<Statement> tst = this.listAstStatements();
+
             List<_stmt> st = _bd.list();
             for(int i=0;i<st.size(); i++){
                 if( !Objects.equals( st.get(i), _stmt.of(tst.get(i)) ) ){
+                    System.out.println("NOT EQ"+ st.get(i)+ " to "+tst.get(i));
                     return false;
                 }
             }
@@ -959,6 +975,15 @@ public final class _body implements _java._domain {
          */
         default _WB setBody(String... body) {
             return setBody(Ast.blockStmt(body));
+        }
+
+        default _WB setBody(_stmt _st){
+            if (_st instanceof _blockStmt) {
+                return setBody( ((_blockStmt) _st).ast());
+            }
+            BlockStmt bs = new BlockStmt();
+            bs.addStatement(_st.ast());
+            return setBody(bs);
         }
 
         /**

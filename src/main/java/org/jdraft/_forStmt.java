@@ -3,12 +3,22 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.stmt.*;
+import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.*;
 
 /**
- *
+ * <PRE>
+ *     //simple no
+ *     for(int i=0;i<100;i++)
+ *         System.out.println(i);
+ * </PRE>
+ * <PRE>
+ *     for(int i=0, j=100; i<100; i++,j--){
+ *           System.out.println(i);
+ *     }
+ * </PRE>
  */
 public final class _forStmt implements
         _stmt._conditional<ForStmt,_forStmt>,
@@ -83,7 +93,7 @@ public final class _forStmt implements
             _feature._id.UPDATES,
             _feature._id.UPDATE,
             a -> a.listUpdates(),
-            (_forStmt a, List<_expr> _e) -> a.setUpdates(_e), PARSER, s-> _expr.of(s))
+            (_forStmt a, List<_expr> _e) -> a.setUpdate(_e), PARSER, s-> _expr.of(s))
             .setOrdered(true);/** the order of the updates MAY matter */
 
 
@@ -97,15 +107,6 @@ public final class _forStmt implements
             return _variablesExpr.of( (VariableDeclarationExpr)es.get(0) );
           },
           (_forStmt a, _variablesExpr _e) -> a.setInit(_e), PARSER);
-
-    /*
-    public static _feature._many<_forStmt, _expr> INITS = new _feature._many<>(_forStmt.class, _expr.class,
-            _feature._id.INITS,
-            _feature._id.INIT,
-            a -> a.listInits(),
-            (_forStmt a, List<_expr> _e) -> a.setInits(_e), PARSER, s-> _expr.of(s))
-            .isOrdered(false); /** the order of the initializers doesnt matter (i.e. int i=0; int j=1 === int j=1, int i=0)
-    */
 
     public static _feature._features<_forStmt> FEATURES = _feature._features.of(_forStmt.class, INIT, COMPARE, UPDATES, BODY);
 
@@ -132,12 +133,69 @@ public final class _forStmt implements
         return !this.astStmt.getInitialization().isEmpty();
     }
 
+    /**
+     * i.e.
+     * <PRE>
+     * hasInit("int i=0");
+     * </PRE>
+     * @param varDeclaration
+     * @return
+     */
+    public boolean hasInit(String varDeclaration){
+        if (hasInit()) {
+            return hasInit( _variable.of(varDeclaration));
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param _v
+     * @return
+     */
+    public boolean hasInit(_variable _v){
+        if( hasInit()) {
+            return getInit().has(_v);
+        }
+        return false;
+    }
+
+    /**
+     * Checks if this forStmt has at least one initializer variable that is of this type (i.e. int.class)
+     * <PRE>
+     *     _forStmt _fs = _forStmt.of("int i=0;i<100;i++){}");
+     *     assertTrue( _fs.hasInit(int.class));
+     *     assertFalse( _fs.hasInit(long.class));
+     * </PRE>
+     * @param clazz
+     * @return
+     */
+    public boolean hasInit(Class clazz){
+        if( hasInit()){
+            return getInit().has(v-> v.isType(clazz));
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param _matchFn
+     * @return
+     */
+    public boolean hasInit( Predicate<_variable> _matchFn){
+        if( hasInit()) {
+            return getInit().has(_matchFn);
+        }
+        return false;
+    }
+
     public _variablesExpr getInit(){
         if( hasInit()){
             return _variablesExpr.of( (VariableDeclarationExpr)astStmt.getInitialization().get(0) );
         }
         return null;
     }
+
     public boolean isInit(_variablesExpr _ve){
         if( !this.hasInit() ){
             return false;
@@ -164,61 +222,29 @@ public final class _forStmt implements
         return _varsMatchFn.test(getInit());
     }
 
+    /**
+     * i.e. setInit("int i=0")
+     * NOTE: you can set muliptle variables on init, i.e.
+     * <PRE>
+     *     setInit("int i, j");
+     * </PRE>
+     * @param inits initializations for the forStmt
+     * @return the modified forStmt
+     */
+    public _forStmt setInit(String...inits){
+        String v = Text.combine(inits);
+        if( v.endsWith(";")){
+            v = v.substring(0, v.length()-1);
+        }
+        return setInit( _variablesExpr.of(v));
+    }
+
     public _forStmt setInit(_variablesExpr _ve){
         NodeList<Expression> nle = new NodeList<>();
         nle.add( _ve.ast() );
         this.astStmt.setInitialization(nle);
         return this;
     }
-
-    /*
-    public _forStmt forInits(Consumer<_expr> consumer){
-        listInits().forEach(consumer);
-        return this;
-    }
-
-    public List<_expr> listInits(){
-        List<_expr>init = new ArrayList<>();
-        this.astStmt.getInitialization().forEach(i -> init.add(_expr.of(i)));
-        return init;
-    }
-
-    public <_E extends _expr> List<_E> listInits(Class<_E> expressionClass){
-        return listInits( expressionClass, t->true);
-    }
-
-    public List<_expr> listInits(Predicate<_expr> matchFn){
-        return listInits(_expr.class, matchFn);
-    }
-
-    public <_E extends _expr> List<_E> listInits(Class<_E> expressionClass, Predicate<_E> matchFn){
-        List<_E> inits = new ArrayList<>();
-        this.astStmt.getInitialization().forEach(i -> {
-            _expr _e = _expr.of(i);
-            if( expressionClass.isAssignableFrom(_e.getClass()) && matchFn.test( (_E)_e)){
-                inits.add((_E)_e);
-            }
-        });
-        return inits;
-    }
-
-    public _forStmt addInits(_expr... _es){
-        Arrays.stream(_es).forEach(_e -> this.astStmt.getInitialization().add(_e.ast()));
-        return this;
-    }
-
-
-    public _forStmt setInits(List<_expr> _es){
-        return setInits( _es.toArray(new _expr[0]) );
-    }
-
-    public _forStmt setInits(_expr... es){
-        NodeList<Expression> init = new NodeList<>();
-        Arrays.stream(es).forEach(e-> init.add(e.ast()));
-        this.astStmt.setInitialization(init);
-        return this;
-    }
-    */
 
     public boolean hasCompare(){
         return !(this.getCompare() == null);
@@ -247,6 +273,14 @@ public final class _forStmt implements
         } catch(Exception e){
             return false;
         }
+    }
+
+    public <_I extends _expr> boolean isCompare(Class<_I> expressionImplementation, Predicate<_I> matchFn){
+        _expr _e = getCompare();
+        if( expressionImplementation.isAssignableFrom(_e.getClass())){
+            return matchFn.test( (_I)_e);
+        }
+        return false;
     }
 
     public boolean isCompare(BinaryExpr.Operator bo){
@@ -298,6 +332,11 @@ public final class _forStmt implements
         return !this.astStmt.getUpdate().isEmpty();
     }
 
+    public _forStmt removeUpdate(Predicate<_expr> _ex){
+        this.astStmt.getUpdate().removeIf(u-> _ex.test( _expr.of(u)));
+        return this;
+    }
+
     public _forStmt removeUpdate(_expr _ex){
         this.astStmt.getUpdate().removeIf(u-> Objects.equals(u, _ex.ast()) );
         return this;
@@ -338,8 +377,13 @@ public final class _forStmt implements
         return updates;
     }
 
-    public _forStmt setUpdates(List<_expr> es){
-        return setUpdates( es.toArray(new _expr[0]));
+    public _forStmt setUpdate(String...str ){
+        _args _as = _args.of(str);
+        return setUpdate( _as.list() );
+    }
+
+    public _forStmt setUpdate(List<_expr> es){
+        return setUpdate( es.toArray(new _expr[0]));
     }
 
     public boolean isUpdate( String updateExpr ){
@@ -370,10 +414,10 @@ public final class _forStmt implements
         return listUpdates().stream().anyMatch(predicate);
     }
 
-    public _forStmt setUpdates(_expr... es){
+    public _forStmt setUpdate(_expr... es){
         NodeList<Expression> upd = new NodeList<>();
         Arrays.stream(es).forEach(e-> upd.add(e.ast()));
-        this.astStmt.setInitialization(upd);
+        this.astStmt.setUpdate(upd);
         return this;
     }
 
@@ -419,27 +463,9 @@ public final class _forStmt implements
         return this;
     }
 
-    /*
-    @Override
-    public boolean is(ForStmt astNode) {
-        return this.toString(Print.PRINT_NO_COMMENTS).equals(astNode.toString(Print.PRINT_NO_COMMENTS));
-    }
-     */
-
     public ForStmt ast(){
         return astStmt;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.INIT_EXPR, astStmt.getInitialization());
-        comps.put(_java.Feature.UPDATE_EXPR, astStmt.getUpdate());
-        comps.put(_java.Feature.COMPARE_EXPR, astStmt.getCompare());
-        comps.put(_java.Feature.BODY, astStmt.getBody());
-        return comps;
-    }
-     */
 
     public String toString(){
         return this.astStmt.toString();
@@ -447,7 +473,22 @@ public final class _forStmt implements
 
     public boolean equals(Object other){
         if( other instanceof _forStmt ){
-            return Objects.equals( ((_forStmt)other).ast(), this.ast() );
+            _forStmt _o = (_forStmt)other;
+            if( !Objects.equals( getCompare(),_o.getCompare() )){
+                return false;
+            }
+            if( !Objects.equals( getInit(), _o.getInit())){
+                return false;
+            }
+            if( !Objects.equals( getBody(), _o.getBody())){
+                return false;
+            }
+            //doesnt matter the order of updates
+            Set<_expr> _tus = new HashSet<>();
+            _tus.addAll( listUpdates() );
+            Set<_expr> _ous = new HashSet<>();
+            _ous.addAll( _o.listUpdates() );
+            return Objects.equals(_tus, _ous);
         }
         return false;
     }

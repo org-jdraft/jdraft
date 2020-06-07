@@ -298,9 +298,18 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
 
     public boolean equals(Object other){
         if( other instanceof _blockStmt ){
-            this.toString(Print.PRINT_NO_COMMENTS).equals( ((_blockStmt)other).toString(Print.PRINT_NO_COMMENTS));
-            //return Objects.equals( )
-            //return Objects.equals( ((_blockStmt)other).ast(), this.ast() );
+            List<_stmt> tss = this.list();
+            List<_stmt> oss = ((_blockStmt) other).list();
+            if( tss.size() != oss.size() ){
+                return false;
+            }
+            for(int i=0;i<tss.size(); i++){
+                if( !Objects.equals( tss.get(i), oss.get(i) )) {
+                    return false;
+                }
+            }
+            return true;
+            //this.toString(Print.PRINT_NO_COMMENTS).equals( ((_blockStmt)other).toString(Print.PRINT_NO_COMMENTS));
         }
         return false;
     }

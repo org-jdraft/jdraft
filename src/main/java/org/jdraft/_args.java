@@ -279,7 +279,6 @@ public final class _args
      * {@link _constructorCallStmt}
      * {@link _newExpr}
      * (order matters list of {@link _expr} )
-     *
      */
     public interface _withArgs<N extends Node, _WA extends _java._node> extends _java._node<N, _WA> {
 
@@ -328,10 +327,20 @@ public final class _args
             return found.get(0);
         }
 
+        /**
+         * gets the argument at the index
+         * @param index
+         * @return
+         */
         default _expr getArg(int index){
             return _expr.of( ((NodeWithArguments)ast()).getArgument(index) );
         }
 
+        /**
+         * removes the arg at the index
+         * @param index
+         * @return
+         */
         default _WA removeArg(int index){
             ((NodeWithArguments)ast()).getArguments().remove(index);
             return (_WA)this;

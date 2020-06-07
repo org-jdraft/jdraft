@@ -1765,6 +1765,30 @@ public interface _java {
      */
     interface _withCondition <N extends Node, _WC extends _node> extends _node<N, _WC> {
 
+        /**
+         * Is the condition expression an instance of this exprImplClass?
+         * @param exprImplClass the expression implementation class
+         * @param <_CE> the condition expression implementation class
+         * @return
+         */
+        default <_CE extends _expr> boolean isCondition(Class<_CE> exprImplClass){
+            _expr _e = getCondition();
+            if( _e != null){
+                return exprImplClass.isAssignableFrom(_e.getClass());
+            }
+            return false;
+        }
+
+        default <_CE extends _expr> boolean isCondition(Class<_CE> exprImplClass, Predicate<_CE> _matchfn){
+            _expr _e = getCondition();
+            if( _e != null){
+                if( exprImplClass.isAssignableFrom(_e.getClass())){
+                    return _matchfn.test( (_CE)_e);
+                }
+            }
+            return false;
+        }
+
         default boolean isCondition(String...expression){
             try{
                 return isCondition(Expr.of(expression));

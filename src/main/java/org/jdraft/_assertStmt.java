@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.ForStmt;
 
@@ -154,7 +155,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
 
     public boolean isMessage(String message){
         try {
-            return isMessage(Expr.of(message));
+            return isMessage(Expr.of(message)) || isMessage(new StringLiteralExpr(message));
         }catch(Exception e){
             return false;
         }
@@ -231,24 +232,21 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
         return _expr.of(astStmt.getCheck());
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.EXPRESSION, astStmt.getCheck() );
-        if( astStmt.getMessage().isPresent()){
-            comps.put(_java.Feature.MESSAGE_EXPR, astStmt.getMessage().get());
-        }
-        return comps;
-    }
-     */
-
     public String toString(){
         return this.astStmt.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _assertStmt ){
-            return Objects.equals( ((_assertStmt)other).ast(), this.ast() );
+            _assertStmt _o = (_assertStmt)other;
+            if( !Objects.equals( getCheck(), _o.getCheck() )){
+                return false;
+            }
+            if( !Objects.equals( getMessage(), _o.getMessage())){
+                return false;
+            }
+            return true;
+            //return Objects.equals( ((_assertStmt)other).ast(), this.ast() );
         }
         return false;
     }

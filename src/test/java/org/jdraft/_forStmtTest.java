@@ -3,7 +3,100 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.BinaryExpr;
 import junit.framework.TestCase;
 
+import java.util.stream.Collectors;
+
 public class _forStmtTest extends TestCase {
+
+    public void testFromScratch(){
+        _forStmt _fs = _forStmt.of();
+        System.out.println( _fs );
+
+        _fs.setInit("int i=0;");
+        assertTrue( _fs.isInit("int i=0") );
+        assertTrue( _fs.isInit(v-> v.has("int i=0")) );
+
+        System.out.println( _fs );
+        _fs.setCompare("i<100");
+        assertTrue(_fs.isCompare(_binaryExpr.LESS));
+        assertTrue(_fs.isCompare(c-> c instanceof _binaryExpr ));
+
+        //this is an example of WHY we need all these seemingly OVER-MODELLED
+        //is(...) methods... because we often analyze the feature things that are on the composite thing
+        // and it becomes a huge strung together mess to extract and then test everything individually
+        // alternatively, is... makes these tests more composeable and readable
+        // (here, using isCompare( targetClass, predicate )
+        assertTrue(_fs.isCompare(_binaryExpr.class,
+                _b-> _b.isLessThan() && _b.isLeft(_nameExpr.class) && _b.isRight(_intExpr.class) ));
+
+        //alternatively the code might look like this (its more complex)
+        //its also "disjointed" because we have to define a temporary variable (_be)
+        _expr _e = _fs.getCompare();
+        if( _e instanceof _binaryExpr){
+            _binaryExpr _be = (_binaryExpr)_e;
+            assertTrue(_be.getOperator() == BinaryExpr.Operator.LESS
+                    && _be.getLeft() instanceof _nameExpr && _be.getRight() instanceof _intExpr);
+        }
+
+        System.out.println( _fs );
+        _fs.setUpdate("i++");
+
+        System.out.println( _fs );
+
+        _fs.setBody("{}");
+        assertTrue( _fs.isBody("{}") );
+    }
+
+    public void testNoInitHas(){
+        _forStmt _fs = _forStmt.of("for(;;){}");
+        assertFalse(_fs.hasInit());
+        assertFalse(_fs.hasInit("int i"));
+        assertFalse(_fs.hasInit(_i-> _i.isType(_intExpr.class)));
+    }
+
+    public void testMulitpleInitsMultipleUpdates(){
+        _forStmt _fs = _forStmt.of();
+        _fs.setInit("int i=0,j=100");
+        _fs.setCompare("i<j");
+        _fs.setUpdate("i++,j--");
+        System.out.println( _fs);
+
+        //verify the hasInit works with predicate
+        assertFalse(_fs.hasInit(_i-> _i.isType(String.class)));
+
+        assertTrue(_fs.hasInit(_i-> _i.isType(int.class)));
+
+        //simpler form the forStatement has an initializer variable that is of type
+        assertTrue(_fs.hasInit(int.class));
+
+        //make sure in order matches
+        assertEquals( _fs, _forStmt.of(()-> {for(int i=0,j=100;i<j;i++,j--) return;}));
+        //make sure out of order matches
+        assertEquals( _fs, _forStmt.of(()-> {for(int j=100,i=0;i<j;j--,i++) return;}));
+
+        //make sure hashcode matches
+        assertEquals(
+                _forStmt.of(()-> {for(int i=0,j=100;i<j;i++,j--) return;}).hashCode(),
+                _forStmt.of(()-> {for(int j=100,i=0;i<j;j--,i++) return;}).hashCode()
+        );
+    }
+
+    public void testWalk(){
+        _forStmt _fs = _forStmt.of( ()->{
+            for(int i=0;i<100;i++){
+                System.out.println(i);
+                assert 1==1 : "message";
+            }
+        });
+        assertEquals(4, _fs.walk().count(_intExpr.class));
+        _fs.walk().forEach(_intExpr.class, _i -> System.out.println(_i));
+
+        _fs.walk().forEach(_intExpr.class, _i-> _i.setValue(_i.getValue()+1));
+        _fs.walk().forEach(_intExpr.class, _i -> System.out.println(_i));
+
+        //
+        _fs.walk().stream(_intExpr.class).map( _i-> _i.getValue()).collect(Collectors.toList());
+
+    }
 
     public void testIs(){
         _forStmt _f  = _forStmt.of( ()-> {
