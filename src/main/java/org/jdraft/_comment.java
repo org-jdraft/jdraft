@@ -20,7 +20,7 @@ import java.util.Objects;
  * @see _javadocComment for a javadoc attributed to a AST node (i.e. must start with / * * end with * / AND
  * be
  */
-public interface _comment<C extends Comment, _C extends _comment> extends _java._node<C, _C>, _java._withText<_C> {
+public interface _comment<C extends Comment, _C extends _comment> extends _tree._node<C, _C>, _java._withText<_C> {
 
     static <_C extends _comment> _C of( String... comm ){
         String str = Text.combine(comm);
@@ -58,7 +58,7 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
      *
      * @return the commented node (or null if the comment is an orphaned node)
      */
-    _java._node getAttributedNode();
+    _tree._node getAttributedNode();
 
     /**
      * Is there attribution to an AST node for this
@@ -154,7 +154,7 @@ public interface _comment<C extends Comment, _C extends _comment> extends _java.
      * @param nodeClasses
      * @return true if the comment is attributed to
      */
-    default boolean isAttributedTo(Class<? extends _java._node>... nodeClasses){
+    default boolean isAttributedTo(Class<? extends _tree._node>... nodeClasses){
         if( this.getAttributedNode() != null){
             Arrays.stream( nodeClasses ).anyMatch( c-> c.isAssignableFrom(this.getAttributedNode().getClass()));
         }

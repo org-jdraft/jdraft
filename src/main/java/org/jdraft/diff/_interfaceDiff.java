@@ -7,12 +7,12 @@ import org.jdraft.diff._diff.*;
  * 
  */
 public final class _interfaceDiff
-        implements _differ<_interface, _java._node> {
+        implements _differ<_interface, _tree._node> {
 
     public static final _interfaceDiff INSTANCE = new _interfaceDiff();
     
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _interface left, _interface right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _interface left, _interface right) {
         _packageNameDiff.INSTANCE.diff(path, dt, left, right, left.getPackageName(), right.getPackageName());
         _importsDiff.INSTANCE.diff(path, dt, left, right, left, right);
         

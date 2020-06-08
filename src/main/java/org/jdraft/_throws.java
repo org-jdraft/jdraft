@@ -23,7 +23,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _throws
-        implements _java._set<ReferenceType, _typeRef, _throws> {
+        implements _tree._set<ReferenceType, _typeRef, _throws> {
 
     public static final Function<String, _throws> PARSER = s-> _throws.of(s);
 

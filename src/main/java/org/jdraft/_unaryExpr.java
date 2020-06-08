@@ -2,9 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.UnaryExpr;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -17,7 +15,7 @@ import java.util.stream.Stream;
  * ("x++") with postfix operator
  *
  */
-public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _java._node<UnaryExpr, _unaryExpr>,
+public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._node<UnaryExpr, _unaryExpr>,
         _java._withExpression<UnaryExpr, _unaryExpr> {
 
     public static final Function<String, _unaryExpr> PARSER = s-> _unaryExpr.of(s);

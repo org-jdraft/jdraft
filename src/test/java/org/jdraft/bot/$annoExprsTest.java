@@ -1,12 +1,9 @@
 package org.jdraft.bot;
 
-import com.github.javaparser.ast.CompilationUnit;
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft.pattern.$method;
 import org.jdraft.text.Tokens;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class $annoExprsTest extends TestCase {
@@ -130,7 +127,7 @@ public class $annoExprsTest extends TestCase {
     //public class $Print{}
     //public class $PrintTree{}
 
-    public static<_T extends _java._node, _F, $S> $bot<_T, $S> fromFeature(_feature<_T, _F> _f){
+    public static<_T extends _tree._node, _F, $S> $bot<_T, $S> fromFeature(_feature<_T, _F> _f){
         if(_f.getTargetClass() ==_method.class){
             if( _f.getFeatureId() == _feature._id.NAME ) {
                 return ($bot<_T, $S>)$name.of(_name.Use.METHOD_NAME);
@@ -140,9 +137,9 @@ public class $annoExprsTest extends TestCase {
         return null;
     }
 
-    public static class $List<_T extends _java._node, _F>{
+    public static class $List<_T extends _tree._node, _F>{
 
-        public  static<_T extends _java._node, _F> $List<_T, _F> of(_feature<_T, _F> _f){
+        public  static<_T extends _tree._node, _F> $List<_T, _F> of(_feature<_T, _F> _f){
             return new $List(_f);
         }
 

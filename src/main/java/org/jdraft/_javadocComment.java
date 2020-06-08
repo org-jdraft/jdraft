@@ -1,12 +1,11 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.comments.JavadocComment;
-import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.function.Function;
 
-public final class _javadocComment implements _comment<JavadocComment, _javadocComment>, _java._node<JavadocComment, _javadocComment> {
+public final class _javadocComment implements _comment<JavadocComment, _javadocComment>, _tree._node<JavadocComment, _javadocComment> {
 
     public static final Function<String, _javadocComment> PARSER = s-> _javadocComment.of(s);
 
@@ -42,9 +41,9 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
         return FEATURES;
     }
 
-    public _java._node getAttributedNode(){
+    public _tree._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
-            return (_java._node)_java.of( astComment.getCommentedNode().get());
+            return (_tree._node)_java.of( astComment.getCommentedNode().get());
         }
         return null;
     }

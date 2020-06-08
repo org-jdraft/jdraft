@@ -3,7 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.modules.*;
 import org.jdraft.text.Text;
 
-public interface _moduleDirective<N extends ModuleDirective, _N extends _moduleDirective> extends _java._node<N, _N> {
+public interface _moduleDirective<N extends ModuleDirective, _N extends _moduleDirective> extends _tree._node<N, _N> {
 
     /**
      * Builds and returns the appropriate _moduleDirective based on the string provided

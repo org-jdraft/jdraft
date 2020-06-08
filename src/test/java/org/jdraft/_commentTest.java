@@ -277,7 +277,7 @@ public class _commentTest extends TestCase {
         assertTrue( cs.get(2).getCommentedNode().isPresent() );
 
 
-        _java._node _n = (_java._node)_java.of( cs.get(2).getCommentedNode().get());
+        _tree._node _n = (_tree._node)_java.of( cs.get(2).getCommentedNode().get());
         System.out.println("N "+ _n );
         System.out.println("C "+ cs.get(2).toString() );
         System.out.println("N .ast() "+ _n.ast() );

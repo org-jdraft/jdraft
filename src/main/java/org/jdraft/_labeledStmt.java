@@ -5,8 +5,6 @@ import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
@@ -22,7 +20,7 @@ import java.util.function.*;
  * </PRE>
  */
 public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
-        _java._node<LabeledStmt, _labeledStmt> {
+        _tree._node<LabeledStmt, _labeledStmt> {
 
     public static final Function<String, _labeledStmt> PARSER = s-> _labeledStmt.of(s);
 
@@ -260,8 +258,8 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
      * @param labelName
      */
     public static void flattenLabel(_java._domain _j, String labelName){
-        if( _j instanceof _java._node){
-            Tree.flattenLabel( ((_java._node)_j).ast(), labelName);
+        if( _j instanceof _tree._node){
+            Tree.flattenLabel( ((_tree._node)_j).ast(), labelName);
             return;
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());

@@ -154,7 +154,7 @@ public enum Tree {
      * @param <_N>
      * @return
      */
-    public static <T, _N extends _java._node> Stream<T> stream(
+    public static <T, _N extends _tree._node> Stream<T> stream(
             Node.TreeTraversal tt, _N _node, Class<T> targetClass, Predicate<T> matchFn ) {
         return list(tt, _node, targetClass, matchFn).stream();
     }
@@ -190,7 +190,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, f -> found.add( f) );
             return found;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
         return found;
     }
 
@@ -228,7 +228,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, t->true, f -> found.add(f) );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, t->true, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -292,7 +292,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -351,7 +351,7 @@ public enum Tree {
 
 
 
-    public static <T, _N extends _java._node> List<T> list(
+    public static <T, _N extends _tree._node> List<T> list(
             Node.TreeTraversal tt, _N _node, Class<T> targetClass, Predicate<T> matchFn ) {
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return list( tt, ((_codeUnit) _node).astCompilationUnit(), targetClass, matchFn);
@@ -510,7 +510,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -591,7 +591,7 @@ public enum Tree {
             of( tt, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(tt, ((_java._node) _j).ast(), targetClass, matchFn, action );
+        of(tt, ((_tree._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -626,7 +626,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -662,7 +662,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, nodeMatchFn, action );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, nodeMatchFn, action );
         return _j;
     }
 
@@ -825,7 +825,7 @@ public enum Tree {
             of( PARENTS, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PARENTS, ((_java._node) _j).ast(), targetClass, matchFn, action );
+        of(PARENTS, ((_tree._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -867,7 +867,7 @@ public enum Tree {
             of( PARENTS, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_java._node) _j).ast(), targetClass, t->true, action );
+        of(PARENTS, ((_tree._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -905,7 +905,7 @@ public enum Tree {
             of( PARENTS, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_java._node) _j).ast(), Node.class, t->true, action );
+        of(PARENTS, ((_tree._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -970,7 +970,7 @@ public enum Tree {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_java._node) _j).ast(), targetClass, matchFn, action );
+        of(DIRECT_CHILDREN, ((_tree._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1011,7 +1011,7 @@ public enum Tree {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_java._node) _j).ast(), targetClass, t->true, action );
+        of(DIRECT_CHILDREN, ((_tree._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1048,7 +1048,7 @@ public enum Tree {
             of( DIRECT_CHILDREN, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_java._node) _j).ast(), Node.class, t->true, action );
+        of(DIRECT_CHILDREN, ((_tree._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1111,7 +1111,7 @@ public enum Tree {
             of( BREADTH_FIRST, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_java._node) _j).ast(), targetClass, matchFn, action );
+        of(BREADTH_FIRST, ((_tree._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1149,7 +1149,7 @@ public enum Tree {
             of( BREADTH_FIRST, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_java._node) _j).ast(), targetClass, t->true, action );
+        of(BREADTH_FIRST, ((_tree._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1184,7 +1184,7 @@ public enum Tree {
             of( BREADTH_FIRST, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_java._node) _j).ast(), Node.class, t->true, action );
+        of(BREADTH_FIRST, ((_tree._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1247,7 +1247,7 @@ public enum Tree {
             of( POST_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(POST_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, action );
+        of(POST_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1285,7 +1285,7 @@ public enum Tree {
             of( POST_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_java._node) _j).ast(), targetClass, t->true, action );
+        of(POST_ORDER, ((_tree._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1319,7 +1319,7 @@ public enum Tree {
             of( POST_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_java._node) _j).ast(), Node.class, t->true, action );
+        of(POST_ORDER, ((_tree._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1382,7 +1382,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1420,7 +1420,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), targetClass, t->true, action );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1454,7 +1454,7 @@ public enum Tree {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_java._node) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, t->true, action );
         return _j;
     }
 
@@ -2299,7 +2299,7 @@ public enum Tree {
         if(_j instanceof _body ){
             return Tree.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
         }
-        return Tree.first( tt, ((_java._node)_j).ast(), nodeTargetClass, nodeMatchFn);
+        return Tree.first( tt, ((_tree._node)_j).ast(), nodeTargetClass, nodeMatchFn);
     }
 
     public static <T> T first(Node.TreeTraversal tt, _java._domain _j, Class<T> nodeTargetClass ) {
@@ -2389,7 +2389,7 @@ public enum Tree {
                     }
                     //no need if its not matching _field
                 } else {
-                    _java._node _n = (_java._node) _java.of(n);
+                    _tree._node _n = (_tree._node) _java.of(n);
                     if (nodeTargetClass.isAssignableFrom(_n.getClass())) {
                         //System.out.println("testing " + _n.getClass() + " of " + _javaClass);
                         return nodeMatchFn.test((T)_n);
@@ -2551,10 +2551,10 @@ public enum Tree {
      * @param _j
      * @return
      */
-    public _java._node getParent( _java._node _j){
+    public _tree._node getParent(_tree._node _j){
         Optional<Node> on = _j.ast().getParentNode();
         if( on.isPresent() ){
-            return (_java._node)_java.of(on.get());
+            return (_tree._node)_java.of(on.get());
         }
         return null;
     }
@@ -2568,28 +2568,28 @@ public enum Tree {
      * @return true if the parent node exists, is of a particular type and complies with the predicate
      */
     public static <_J extends _java._domain> boolean isParent(_java._domain _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
-        if( _j instanceof _java._node){
+        if( _j instanceof _tree._node){
             AtomicBoolean ans = new AtomicBoolean(false);
-            in_java(Node.TreeTraversal.PARENTS, 1, ((_java._node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
+            in_java(Node.TreeTraversal.PARENTS, 1, ((_tree._node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
             return ans.get();
         }
         //need to handle _typeParameters, _parameters, _annos
         if( _j instanceof _typeParams){
             _typeParams _tps = (_typeParams)_j;
-            _java._node _n = (_java._node)_java.of( (Node)_tps.astHolder());
+            _tree._node _n = (_tree._node)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         if( _j instanceof _body){
             _body _tps = (_body)_j;
             Object par = _tps.astParentNode();
             if( par != null ){
-                _java._node _n = (_java._node)_java.of( (Node)par );
+                _tree._node _n = (_tree._node)_java.of( (Node)par );
                 return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
             }
         }
         if( _j instanceof _params){
             _params _tps = (_params)_j;
-            _java._node _n = (_java._node)_java.of( (Node)_tps.astHolder());
+            _tree._node _n = (_tree._node)_java.of( (Node)_tps.astHolder());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         return false;
@@ -2933,13 +2933,13 @@ public enum Tree {
         return atp.output(n, nodeFormat);
     }
 
-    public static String describe( _java._node n){
+    public static String describe( _tree._node n){
         ASCIITreePrinter atp = new ASCIITreePrinter(ASCIITreePrinter._NODE_SUMMARY_CLASS_RANGE_FORMAT);
         return atp.output(n);
     }
 
-    public static String describe( _java._node _n, Function<_java._node, String> _nodeFormat){
-        ASCIITreePrinter atp = new ASCIITreePrinter( n-> _nodeFormat.apply( (_java._node)_java.of(n) ) );
+    public static String describe(_tree._node _n, Function<_tree._node, String> _nodeFormat){
+        ASCIITreePrinter atp = new ASCIITreePrinter( n-> _nodeFormat.apply( (_tree._node)_java.of(n) ) );
         return atp.output(_n);
     }
 }

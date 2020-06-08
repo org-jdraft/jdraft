@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.comments.LineComment;
-import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -14,7 +13,7 @@ import java.util.function.Function;
  * System.out.println( "name" +name);
  * </CODE>
  */
-public final class _lineComment implements _comment<LineComment, _lineComment>, _java._node<LineComment, _lineComment> {
+public final class _lineComment implements _comment<LineComment, _lineComment>, _tree._node<LineComment, _lineComment> {
 
     public static final Function<String, _lineComment> PARSER = s-> _lineComment.of(s);
 
@@ -47,9 +46,9 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
         this.astComment = lc;
     }
 
-    public _java._node getAttributedNode(){
+    public _tree._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
-            return (_java._node)_java.of( astComment.getCommentedNode().get());
+            return (_tree._node)_java.of( astComment.getCommentedNode().get());
         }
         return null;
     }

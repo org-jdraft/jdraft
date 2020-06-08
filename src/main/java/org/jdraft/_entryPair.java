@@ -16,7 +16,7 @@ import java.util.function.Function;
  * NOTE: we also model the inferred/ hidden name (as "value") if it is not present
  * @A("val") ... (the key is inferred to be "value" and the value is the String "val")
  */
-public final class _entryPair implements _java._node<MemberValuePair, _entryPair>,
+public final class _entryPair implements _tree._node<MemberValuePair, _entryPair>,
         _java._withName<_entryPair>{
 
     public static final Function<String, _entryPair> PARSER = s-> _entryPair.of(s);

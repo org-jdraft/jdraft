@@ -15,7 +15,7 @@ import java.util.function.*;
  * </CODE></PRE>
  *
  */
-public final class _castExpr implements _expr<CastExpr, _castExpr>, _java._node<CastExpr, _castExpr>,
+public final class _castExpr implements _expr<CastExpr, _castExpr>, _tree._node<CastExpr, _castExpr>,
         _typeRef._withType<CastExpr, _castExpr>, _java._withExpression<CastExpr, _castExpr> {
 
     public static final Function<String, _castExpr> PARSER = s-> _castExpr.of(s);

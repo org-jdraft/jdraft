@@ -10,7 +10,7 @@ import java.util.function.Function;
  */
 public final class _typeExpr
         implements _expr<TypeExpr, _typeExpr>,
-        _java._node<TypeExpr, _typeExpr>,
+        _tree._node<TypeExpr, _typeExpr>,
         _typeRef._withType<TypeExpr, _typeExpr> {
 
     public static final Function<String, _typeExpr> PARSER = s-> _typeExpr.of(s);

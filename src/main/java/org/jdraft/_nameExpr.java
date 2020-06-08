@@ -2,14 +2,13 @@ package org.jdraft;
 
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
-import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.function.Function;
 
 public final class _nameExpr
         implements _expr<NameExpr, _nameExpr>,
-        _java._node<NameExpr, _nameExpr>,
+        _tree._node<NameExpr, _nameExpr>,
         _java._withName<_nameExpr> {
 
     public static final Function<String, _nameExpr> PARSER = s-> _nameExpr.of(s);

@@ -271,7 +271,7 @@ public class $switchEntry
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -315,7 +315,7 @@ public class $switchEntry
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast(), selectConstraint);
         }
-        return listSelectedIn((_java._node) _j, selectConstraint);
+        return listSelectedIn((_tree._node) _j, selectConstraint);
     }
     
     /**
@@ -385,7 +385,7 @@ public class $switchEntry
             forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
             return _j;
         }
-        forSelectedIn(((_java._node) _j).ast(), selectActionFn);
+        forSelectedIn(((_tree._node) _j).ast(), selectActionFn);
         return _j;
     }
     
@@ -408,7 +408,7 @@ public class $switchEntry
             forSelectedIn(_t.ast(), selectMatchFn, selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
             return _j;
         }
-        forSelectedIn(((_java._node) _j).ast(), selectMatchFn, selectActionFn);
+        forSelectedIn(((_tree._node) _j).ast(), selectMatchFn, selectActionFn);
         return _j;
     }
     

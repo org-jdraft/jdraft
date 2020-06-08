@@ -10,7 +10,7 @@ import java.util.stream.*;
  * Specifically designate a named feature and tools to get or set the value in an automated fashion
  * in the order the features appear within the AST
  *
- * <P>FROM a "Ast {@link com.github.javaparser.ast.Node} or {@link _java._node}s perspective, defines all of the
+ * <P>FROM a "Ast {@link com.github.javaparser.ast.Node} or {@link _tree._node}s perspective, defines all of the
  * underlying possible "feature" nodes "below" it that can be populated and tools for accessing
  * or setting these nodes.</P>
  *
@@ -561,14 +561,14 @@ public interface _feature<_T, _F>{
     }
 
     /**
-     * A tool for operating on a specific feature that is a single entity (i.e. a {@link _java._node})
+     * A tool for operating on a specific feature that is a single entity (i.e. a {@link _tree._node})
      * within an instance of the targetClass
      *
      * @param <_T>
      * @param <_F>
      */
     class _one<_T, _F> implements _feature<_T, _F> {
-        /** the concrete target ({@link _java._node}, {@link _java._set}, {@link _java._list}) implementation */
+        /** the concrete target ({@link _tree._node}, {@link _tree._set}, {@link _tree._list}) implementation */
         public final Class<_T> targetClass;
 
         /** the class or interface type of the feature */
@@ -638,7 +638,7 @@ public interface _feature<_T, _F>{
     }
 
     /**
-     * Immutable instance for all {@link _java._node} types: describes the ordered features (i.e. edges to child nodes)
+     * Immutable instance for all {@link _tree._node} types: describes the ordered features (i.e. edges to child nodes)
      * that can be get or set for this node within the AST (this allows programs to be written to automated tree
      * traversal on each node encounter)
      *

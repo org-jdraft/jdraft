@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfExpr>,
-        _java._node<InstanceOfExpr, _instanceOfExpr>,
+        _tree._node<InstanceOfExpr, _instanceOfExpr>,
         _typeRef._withType<InstanceOfExpr, _instanceOfExpr>,
         _java._withExpression<InstanceOfExpr, _instanceOfExpr>{
 

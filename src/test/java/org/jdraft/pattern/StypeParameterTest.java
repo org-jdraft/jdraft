@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
 import com.github.javaparser.ast.type.TypeParameter;
-import org.jdraft._java;
+import org.jdraft._tree;
 import org.jdraft._typeParam;
 import java.io.Serializable;
 import java.util.Map;
@@ -120,7 +120,7 @@ public class StypeParameterTest extends TestCase {
             int a;
             String b;
 
-            public <A extends Map & _java._node> A m() {
+            public <A extends Map & _tree._node> A m() {
                 return null;
             }
         }

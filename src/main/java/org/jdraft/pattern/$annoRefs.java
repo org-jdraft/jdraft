@@ -515,7 +515,7 @@ public class $annoRefs
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
         }
-        return selectFirstIn(((_java._node)_j).ast(), selectConstraint);
+        return selectFirstIn(((_tree._node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -615,7 +615,7 @@ public class $annoRefs
             return listSelectedIn(_t.ast(), selectConstraint);
         }
          
-        return listSelectedIn(((_java._node)_j).ast(), selectConstraint);
+        return listSelectedIn(((_tree._node)_j).ast(), selectConstraint);
     }
 
     @Override
@@ -710,7 +710,7 @@ public class $annoRefs
             forSelectedIn(_t.ast(), selectActionFn);
             return _j;
         }
-        forSelectedIn((_java._node) _j, t->true, selectActionFn);
+        forSelectedIn((_tree._node) _j, t->true, selectActionFn);
         return _j;
     }
 
@@ -733,7 +733,7 @@ public class $annoRefs
             forSelectedIn(_t.ast(), selectConstraint, selectActionFn);
             return _j;
         }
-        forSelectedIn( ((_java._node) _j).ast(), selectConstraint, selectActionFn);
+        forSelectedIn( ((_tree._node) _j).ast(), selectConstraint, selectActionFn);
         return _j;
     } 
     

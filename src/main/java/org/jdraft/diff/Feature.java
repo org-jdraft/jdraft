@@ -193,7 +193,7 @@ public enum Feature {
      * @param <_N>
      * @return
      */
-    public static <_N extends _java._node> Feature of(Class<_N> nodeClass) {
+    public static <_N extends _tree._node> Feature of(Class<_N> nodeClass) {
         Optional<Feature> op = Arrays.stream(Feature.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
         if (op.isPresent()) {
             return op.get();

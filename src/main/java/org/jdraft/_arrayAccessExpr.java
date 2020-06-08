@@ -4,8 +4,6 @@ import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -19,7 +17,7 @@ import java.util.function.Predicate;
  */
 public final class _arrayAccessExpr
         implements _expr<ArrayAccessExpr, _arrayAccessExpr>,
-        _java._node<ArrayAccessExpr, _arrayAccessExpr> {
+        _tree._node<ArrayAccessExpr, _arrayAccessExpr> {
 
     public static final Function<String, _arrayAccessExpr> PARSER = s-> _arrayAccessExpr.of(s);
 

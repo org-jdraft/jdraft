@@ -177,7 +177,7 @@ public final class $typeUse {
             replaceIn( ((_type) _j).ast(), replacement);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).ast(), replacement);
         return _j;
     }
     
@@ -233,7 +233,7 @@ public final class $typeUse {
             replaceIn( ((_type) _j).ast(), replacement);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).ast(), replacement);
         return _j;
     }
     
@@ -253,7 +253,7 @@ public final class $typeUse {
             replaceIn( ((_type) _j).ast(), replacement);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).ast(), replacement);
         return _j;
     }
     
@@ -265,7 +265,7 @@ public final class $typeUse {
         return (_CT)removeIn((_type) _type.of(clazz) );
     }
     
-    public <_N extends _java._node> _N removeIn(_N _n ) {
+    public <_N extends _tree._node> _N removeIn(_N _n ) {
         if( _n instanceof _codeUnit){
             if( ((_codeUnit) _n).isTopLevel()){
                 removeIn( ((_codeUnit) _n).astCompilationUnit() );
@@ -274,7 +274,7 @@ public final class $typeUse {
             removeIn( ((_type)_n).ast() );
             return _n;
         }
-        removeIn( ((_java._node)_n).ast() );
+        removeIn( ((_tree._node)_n).ast() );
         return _n;
     }
     
@@ -310,7 +310,7 @@ public final class $typeUse {
         return listIn((_type) _type.of(clazz));
     }
 
-    public <_N extends _java._node> List<Node> listIn(_N _node ){
+    public <_N extends _tree._node> List<Node> listIn(_N _node ){
         return listIn( _node.ast() );
     }
 

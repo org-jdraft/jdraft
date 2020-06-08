@@ -8,7 +8,6 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
-import org.jdraft.text.Text;
 
 /**
  * Model of a Java TypeParameter
@@ -16,7 +15,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _typeParam
-        implements _java._node<TypeParameter, _typeParam>,
+        implements _tree._node<TypeParameter, _typeParam>,
         _java._withName<_typeParam>, _annoExprs._withAnnoExprs<_typeParam> {
 
     public static final Function<String, _typeParam> PARSER = s-> _typeParam.of(s);

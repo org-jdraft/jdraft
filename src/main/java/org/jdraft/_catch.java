@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.function.*;
 import java.util.stream.Stream;
 
-public final class _catch implements _java._node<CatchClause, _catch>, _body._withBody<_catch> {
+public final class _catch implements _tree._node<CatchClause, _catch>, _body._withBody<_catch> {
 
     public static final Function<String, _catch> PARSER = s-> _catch.of(s);
 

@@ -338,7 +338,7 @@ public final class _initBlock
          * @return 
          */
         default List<_initBlock> listInitBlocks(){
-            NodeWithMembers nwm = (NodeWithMembers)((_java._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
             List<_initBlock> sbs = new ArrayList<>();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
@@ -355,7 +355,7 @@ public final class _initBlock
          * @return
          */
         default List<_initBlock> listStaticBlocks(){
-            NodeWithMembers nwm = (NodeWithMembers)((_java._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
             List<_initBlock> sbs = new ArrayList<>();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
@@ -372,7 +372,7 @@ public final class _initBlock
          * @return
          */
         default List<_initBlock> listStaticBlocks(Predicate<_initBlock> _matchFn){
-            NodeWithMembers nwm = (NodeWithMembers)((_java._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
             List<_initBlock> sbs = new ArrayList<>();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
@@ -387,7 +387,7 @@ public final class _initBlock
         }
 
         default _initBlock getStaticBlock(int index){
-            NodeWithMembers nwm = (NodeWithMembers)((_java._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
                 if( mem instanceof InitializerDeclaration && mem.asInitializerDeclaration().isStatic()){
@@ -405,7 +405,7 @@ public final class _initBlock
          * @return the index<SUP>th</SUP> static block declared in the _type 
          */
         default _initBlock getInitBlock(int index ){
-            NodeWithMembers nwm = (NodeWithMembers)((_java._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
                 if( mem instanceof InitializerDeclaration){

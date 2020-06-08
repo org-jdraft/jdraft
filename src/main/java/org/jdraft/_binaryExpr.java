@@ -5,8 +5,6 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
@@ -22,7 +20,7 @@ import java.util.function.*;
  * </UL>
  */
 public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
-        _java._node<BinaryExpr, _binaryExpr> {
+        _tree._node<BinaryExpr, _binaryExpr> {
 
     public static final Function<String, _binaryExpr> PARSER = s-> _binaryExpr.of(s);
 

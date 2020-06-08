@@ -2,7 +2,7 @@ package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
 import org.jdraft._project;
-import org.jdraft._java;
+import org.jdraft._tree;
 import org.jdraft._type;
 import org.jdraft.io._batch;
 
@@ -55,7 +55,7 @@ public interface $refactoring {
      * @param <_N>
      * @return
      */
-    <_N extends _java._node> _N in(_N _n);
+    <_N extends _tree._node> _N in(_N _n);
 
     /**
      * perform the refactoring on the source code within the given _batches and return all of the {@link org.jdraft._codeUnit}s of the _batches

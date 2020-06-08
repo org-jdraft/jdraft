@@ -1050,7 +1050,7 @@ public class $constructor
                 return null;
             }
         } else{
-            Optional<ConstructorDeclaration> f = ((_java._node)_j).ast().findFirst(
+            Optional<ConstructorDeclaration> f = ((_tree._node)_j).ast().findFirst(
                 ConstructorDeclaration.class, s -> {
                     Select sel = this.select(s);
                     return sel != null && selectConstraint.test(sel);
@@ -1145,7 +1145,7 @@ public class $constructor
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).ast());
     }
     
     /**

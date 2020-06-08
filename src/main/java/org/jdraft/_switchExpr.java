@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
-        _java._node<SwitchExpr, _switchExpr>, _switch<_switchExpr> {
+        _tree._node<SwitchExpr, _switchExpr>, _switch<_switchExpr> {
 
     public static final Function<String, _switchExpr> PARSER = s-> _switchExpr.of(s);
 

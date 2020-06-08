@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @see _import representation of a single import declaration
  * @author Eric
  */
-public final class _imports implements _java._set<ImportDeclaration, _import, _imports> {
+public final class _imports implements _tree._set<ImportDeclaration, _import, _imports> {
 
     public static final Function<String, _imports> PARSER = s-> _imports.of(s);
 

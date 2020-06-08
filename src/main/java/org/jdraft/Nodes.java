@@ -16,7 +16,7 @@ import java.util.Optional;
 
 /**
  * Enumerates mapping from the JavaParser {@link Node}
- * to an underlying {@link _java._node}
+ * to an underlying {@link _tree._node}
  *
  * (includes some interfaces/abstract classes)
  *
@@ -150,10 +150,10 @@ public enum Nodes {
     //_typeArguments
     //_typeParameters
 
-    public final Class<? extends _java._node> _n;
+    public final Class<? extends _tree._node> _n;
     public final Class<? extends Node> n;
 
-    Nodes(Class<? extends _java._node> _n, Class<? extends Node> n){
+    Nodes(Class<? extends _tree._node> _n, Class<? extends Node> n){
         this._n = _n;
         this.n = n;
     }
@@ -186,7 +186,7 @@ public enum Nodes {
         return null;
     }
 
-    public static Class<? extends _java._node> _node(Class _nodeClass){
+    public static Class<? extends _tree._node> _node(Class _nodeClass){
         Optional<Nodes> ncm = Arrays.stream(Nodes.values()).filter(n -> n.n == _nodeClass).findFirst();
         if( ncm.isPresent() ){
             return ncm.get()._n;

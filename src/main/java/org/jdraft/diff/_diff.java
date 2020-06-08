@@ -232,10 +232,10 @@ public interface _diff {
     List<_diffNode> list();
 
     /** gets the left root node of the diff (could be null for localized diffs) */
-    _java._node leftRoot();
+    _tree._node leftRoot();
 
     /** gets the right root node of the diff (could be null for localized diffs) */
-    _java._node rightRoot();
+    _tree._node rightRoot();
 
     /**
      * @return number of diffs
@@ -272,11 +272,11 @@ public interface _diff {
         return first(d -> d.path().equals(_p));
     }
     
-    default _diffNode on(Class<? extends _java._node> clazz){
+    default _diffNode on(Class<? extends _tree._node> clazz){
         return first( d-> d.on(clazz));
     }
     
-    default _diffNode on(Class<? extends _java._node> clazz, String id){
+    default _diffNode on(Class<? extends _tree._node> clazz, String id){
         return first( d-> d.on(clazz, id));
     }
     
@@ -292,11 +292,11 @@ public interface _diff {
         return first(d -> d.isLeftOnly() && d.path().equals(_p));
     }
     
-    default <_N extends _java._node> _diffNode leftOnlyAt(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode leftOnlyAt(Class<_N> nodeClass){
         return first(d -> d.isLeftOnly() && d.at(Feature.of(nodeClass)));
     }
     
-    default <_N extends _java._node> _diffNode leftOnlyAt(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node> _diffNode leftOnlyAt(Class<_N> nodeClass, String id){
         return first(d -> d.isLeftOnly() && d.at(Feature.of(nodeClass), id));
     }
     
@@ -312,7 +312,7 @@ public interface _diff {
         return first(d -> d.isLeftOnly() && d.at(feature, id));
     }
     
-    default <_N extends _java._node> _diffNode leftOnlyOn(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode leftOnlyOn(Class<_N> nodeClass){
         return first( d-> d.isLeftOnly() && d.on( Feature.of(nodeClass) ) );
     }
     
@@ -320,7 +320,7 @@ public interface _diff {
         return first( d-> d.isLeftOnly() && d.on( id ) );
     }
     
-    default <_N extends _java._node>_diffNode leftOnlyOn(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node>_diffNode leftOnlyOn(Class<_N> nodeClass, String id){
         return first( d-> d.isLeftOnly() && d.on( Feature.of(nodeClass), id ) );
     }
     
@@ -336,11 +336,11 @@ public interface _diff {
         return first(d -> d.isRightOnly() && d.path().equals(_p));
     }
     
-    default <_N extends _java._node> _diffNode rightOnlyAt(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode rightOnlyAt(Class<_N> nodeClass){
         return first(d -> d.isRightOnly() && d.at(Feature.of(nodeClass)));
     }
     
-    default <_N extends _java._node> _diffNode rightOnlyAt(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node> _diffNode rightOnlyAt(Class<_N> nodeClass, String id){
         return first(d -> d.isRightOnly() && d.at(Feature.of(nodeClass), id));
     }
     
@@ -356,7 +356,7 @@ public interface _diff {
         return first(d -> d.isRightOnly() && d.at(feature, id));
     }
     
-    default <_N extends _java._node> _diffNode rightOnlyOn(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode rightOnlyOn(Class<_N> nodeClass){
         return first( d-> d.isRightOnly() && d.on( Feature.of(nodeClass) ) );
     }
 
@@ -364,7 +364,7 @@ public interface _diff {
         return first( d-> d.isRightOnly() && d.on( id ) );
     }
     
-    default <_N extends _java._node>_diffNode rightOnlyOn(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node>_diffNode rightOnlyOn(Class<_N> nodeClass, String id){
         return first( d-> d.isRightOnly() && d.on( Feature.of(nodeClass), id ) );
     }
     
@@ -387,7 +387,7 @@ public interface _diff {
         return first(d -> d.isChange() && d.path().equals(_p));
     }
     
-    default <_N extends _java._node> _diffNode changeAt(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode changeAt(Class<_N> nodeClass){
         return first(d -> d.isChange() && d.at(Feature.of(nodeClass)));
     }
 
@@ -395,7 +395,7 @@ public interface _diff {
         return first(d -> d.isChange() && d.at(id));
     }
     
-    default <_N extends _java._node> _diffNode changeAt(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node> _diffNode changeAt(Class<_N> nodeClass, String id){
         return first(d -> d.isChange() && d.at(Feature.of(nodeClass), id));
     }
     
@@ -407,7 +407,7 @@ public interface _diff {
         return first(d -> d.isChange() && d.at(feature, id));
     }
     
-    default <_N extends _java._node> _diffNode changeOn(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode changeOn(Class<_N> nodeClass){
         return first( d-> d.isChange() && d.on( Feature.of(nodeClass) ) );
     }
     
@@ -415,7 +415,7 @@ public interface _diff {
         return first( d-> d.isChange() && d.on( id ) );
     }
     
-    default <_N extends _java._node>_diffNode changeOn(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node>_diffNode changeOn(Class<_N> nodeClass, String id){
         return first( d-> d.isChange() && d.on( Feature.of(nodeClass), id ) );
     }
     
@@ -445,7 +445,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> _diffNode editAt(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode editAt(Class<_N> nodeClass){
         return first(d -> d.isEdit() && d.at(Feature.of(nodeClass)));
     }
 
@@ -465,7 +465,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> _diffNode editAt(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node> _diffNode editAt(Class<_N> nodeClass, String id){
         return first(d -> d.isEdit() && d.at(Feature.of(nodeClass), id));
     }
 
@@ -494,7 +494,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> _diffNode editOn(Class<_N> nodeClass){
+    default <_N extends _tree._node> _diffNode editOn(Class<_N> nodeClass){
         return first( d-> d.isEdit() && d.on( Feature.of(nodeClass) ) );
     }
 
@@ -505,7 +505,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node>_diffNode editOn(Class<_N> nodeClass, String id){
+    default <_N extends _tree._node>_diffNode editOn(Class<_N> nodeClass, String id){
         return first( d-> d.isEdit() && d.on( Feature.of(nodeClass), id ) );
     }
 
@@ -572,7 +572,7 @@ public interface _diff {
      * @param c
      * @return 
      */
-    default <_N extends _java._node> boolean isAt(Class<_N> c ){
+    default <_N extends _tree._node> boolean isAt(Class<_N> c ){
         return isAt( Feature.of(c) );
     }    
     
@@ -597,7 +597,7 @@ public interface _diff {
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default <_N extends _java._node> boolean isAt(Class<_N>node, String id) {
+    default <_N extends _tree._node> boolean isAt(Class<_N>node, String id) {
         return isAt(Feature.of(node),id);
     }
     
@@ -617,7 +617,7 @@ public interface _diff {
      * @param c
      * @return 
      */
-    default <_N extends _java._node> boolean isOn(Class<_N> c ){
+    default <_N extends _tree._node> boolean isOn(Class<_N> c ){
         return isOn( Feature.of(c) );
     }    
 
@@ -653,7 +653,7 @@ public interface _diff {
      * @param id the identifier for the node
      * @return true if a Diff was found at this Node, false otherwise
      */
-    default <_N extends _java._node> boolean isOn(Class<_N>node, String id) {
+    default <_N extends _tree._node> boolean isOn(Class<_N>node, String id) {
         return isOn(Feature.of(node),id);
     }
     
@@ -727,7 +727,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasRightOnlyAt(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasRightOnlyAt(Class<_N> memClass) {
         return hasRightOnlyAt( Feature.of(memClass) );
     }
 
@@ -746,7 +746,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasLeftOnlyAt(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasLeftOnlyAt(Class<_N> memClass) {
         return hasLeftOnlyAt( Feature.of(memClass) );
     }
 
@@ -765,7 +765,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasChangeAt(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasChangeAt(Class<_N> memClass) {
         return hasChangeAt( Feature.of(memClass) );
     }
 
@@ -784,7 +784,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasEditAt(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasEditAt(Class<_N> memClass) {
         return hasEditAt( Feature.of(memClass) );
     }
 
@@ -805,7 +805,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasRightOnlyAt(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasRightOnlyAt(Class<_N> memClass, String id) {
         return hasRightOnlyAt( Feature.of(memClass) ,id);
     }
 
@@ -826,7 +826,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasLeftOnlyAt(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasLeftOnlyAt(Class<_N> memClass, String id) {
         return hasLeftOnlyAt( Feature.of(memClass) ,id);
     }
 
@@ -847,7 +847,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasChangeAt(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasChangeAt(Class<_N> memClass, String id) {
         return hasChangeAt( Feature.of(memClass) ,id);
     }
 
@@ -868,7 +868,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasEditAt(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasEditAt(Class<_N> memClass, String id) {
         return hasRightOnlyAt( Feature.of(memClass) ,id);
     }
 
@@ -887,7 +887,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasRightOnlyOn(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasRightOnlyOn(Class<_N> memClass) {
         return hasRightOnlyOn( Feature.of(memClass));
     }
 
@@ -906,7 +906,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasLeftOnlyOn(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasLeftOnlyOn(Class<_N> memClass) {
         return hasLeftOnlyOn( Feature.of(memClass));
     }
 
@@ -925,7 +925,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasChangeOn(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasChangeOn(Class<_N> memClass) {
         return hasChangeOn( Feature.of(memClass));
     }
 
@@ -944,7 +944,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasEditOn(Class<_N> memClass) {
+    default <_N extends _tree._node> boolean hasEditOn(Class<_N> memClass) {
         return hasEditOn( Feature.of(memClass));
     }
 
@@ -965,7 +965,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasRightOnlyOn(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasRightOnlyOn(Class<_N> memClass, String id) {
         return hasRightOnlyOn( Feature.of(memClass), id);
     }
 
@@ -986,7 +986,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasLeftOnlyOn(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasLeftOnlyOn(Class<_N> memClass, String id) {
         return hasLeftOnlyOn( Feature.of(memClass), id);
     }
 
@@ -1007,7 +1007,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasChangeOn(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasChangeOn(Class<_N> memClass, String id) {
         return hasChangeOn( Feature.of(memClass), id);
     }
 
@@ -1028,7 +1028,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> boolean hasEditOn(Class<_N> memClass, String id) {
+    default <_N extends _tree._node> boolean hasEditOn(Class<_N> memClass, String id) {
         return hasEditOn( Feature.of(memClass), id);
     }
 
@@ -1316,7 +1316,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> _diffNode firstOn(Class<_N> nodeClass) {
+    default <_N extends _tree._node> _diffNode firstOn(Class<_N> nodeClass) {
         return firstOn( Feature.of(nodeClass));
     }
     
@@ -1343,7 +1343,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> _diffNode firstOn(Class<_N> nodeClass, String id) {
+    default <_N extends _tree._node> _diffNode firstOn(Class<_N> nodeClass, String id) {
         return firstOn( Feature.of(nodeClass), id);
     }
     
@@ -1370,7 +1370,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> _diffNode firstAt(Class<_N> nodeClass) {
+    default <_N extends _tree._node> _diffNode firstAt(Class<_N> nodeClass) {
         return firstAt( Feature.of(nodeClass));
     }
 
@@ -1411,7 +1411,7 @@ public interface _diff {
      * @param <_N>
      * @return
      */
-    default <_N extends _java._node> _diffNode firstAt(Class<_N> nodeClass, String id) {
+    default <_N extends _tree._node> _diffNode firstAt(Class<_N> nodeClass, String id) {
         return firstAt( Feature.of(nodeClass), id);
     }
     
@@ -1489,7 +1489,7 @@ public interface _diff {
      * @param nodeClass
      * @return
      */
-    default <_N extends _java._node> List<_diffNode> listAt(Class<_N> nodeClass) {
+    default <_N extends _tree._node> List<_diffNode> listAt(Class<_N> nodeClass) {
         return listAt( Feature.of(nodeClass) );
     }
     
@@ -1502,7 +1502,7 @@ public interface _diff {
      * @param id
      * @return
      */
-    default <_N extends _java._node> List<_diffNode> listAt(Class<_N> nodeClass, String id) {
+    default <_N extends _tree._node> List<_diffNode> listAt(Class<_N> nodeClass, String id) {
         return listAt( Feature.of(nodeClass), id);
     }
     
@@ -1536,7 +1536,7 @@ public interface _diff {
      * @param nodeClass
      * @return
      */
-    default <_N extends _java._node> List<_diffNode> listOn(Class<_N> nodeClass) {
+    default <_N extends _tree._node> List<_diffNode> listOn(Class<_N> nodeClass) {
         return listOn( Feature.of(nodeClass) );
     }
 
@@ -1561,7 +1561,7 @@ public interface _diff {
      * @param id
      * @return
      */
-    default <_N extends _java._node> List<_diffNode> listOn(Class<_N> nodeClass, String id) {
+    default <_N extends _tree._node> List<_diffNode> listOn(Class<_N> nodeClass, String id) {
         return listOn(Feature.of(nodeClass), id);
     }
 
@@ -1601,7 +1601,7 @@ public interface _diff {
      * collection of diff _nodes that represent the deep differences between two
      * domain objects (two _class es, _methods, _fields)
      */
-    class _diffList<_RN extends _java._node>
+    class _diffList<_RN extends _tree._node>
             implements _diff, _diff._build {
 
         /**
@@ -1673,7 +1673,7 @@ public interface _diff {
      * @param <T> the diff node type
      * @param <_RN> the root node type
      */
-    interface _differ<T, _RN extends _java._node> {
+    interface _differ<T, _RN extends _tree._node> {
 
         /**
          *
@@ -1687,8 +1687,8 @@ public interface _diff {
             //we dont know if
             _diffList md = null;
 
-            if( left instanceof _java._node && right instanceof _java._node) {
-                md = new _diffList((_java._node)left, (_java._node) right);
+            if( left instanceof _tree._node && right instanceof _tree._node) {
+                md = new _diffList((_tree._node)left, (_tree._node) right);
             } else{
                 md = new _diffList(null, null);
             }
@@ -1719,7 +1719,7 @@ public interface _diff {
          * @param right the right node/element/property
          * @return the diffList with all diffs between the left and right nodes
          */
-        <_PN extends _java._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, T left, T right);
+        <_PN extends _tree._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, T left, T right);
     }
 
 }

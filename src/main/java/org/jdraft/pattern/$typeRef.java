@@ -537,7 +537,7 @@ public class $typeRef
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).ast());
     }
 
     /**
@@ -553,7 +553,7 @@ public class $typeRef
             }
             return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_tree._node)_j).ast(), selectConstraint);
     }
     
     /**

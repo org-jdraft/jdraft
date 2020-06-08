@@ -71,8 +71,8 @@ import java.util.stream.Stream;
  * </PRE>
  *
  */
-public class $ref implements $bot<_java._node, $ref>,
-        $selector<_java._node, $ref>, Template<_java._node>{
+public class $ref implements $bot<_tree._node, $ref>,
+        $selector<_tree._node, $ref>, Template<_tree._node>{
 
     public static final _name.Use ANNO_ENTRY_PAIR_NAME = _name.Use.ANNO_ENTRY_PAIR_NAME;
     public static final _name.Use ANNO_EXPR_NAME = _name.Use.ANNO_EXPR_NAME;
@@ -176,7 +176,7 @@ public class $ref implements $bot<_java._node, $ref>,
     public Set<_name.Use> excludedUses = new HashSet<>();
 
     /**  */
-    public Predicate<_java._node> predicate = t -> true;
+    public Predicate<_tree._node> predicate = t -> true;
 
     public $ref(){}
 
@@ -206,12 +206,12 @@ public class $ref implements $bot<_java._node, $ref>,
         return copy;
     }
 
-    public Predicate<_java._node> getPredicate(){
+    public Predicate<_tree._node> getPredicate(){
         return this.predicate;
     }
 
     @Override
-    public $ref setPredicate(Predicate<_java._node> predicate) {
+    public $ref setPredicate(Predicate<_tree._node> predicate) {
         this.predicate = predicate;
         return this;
     }
@@ -231,7 +231,7 @@ public class $ref implements $bot<_java._node, $ref>,
     }
 
     @Override
-    public $ref $and(Predicate<_java._node> matchFn) {
+    public $ref $and(Predicate<_tree._node> matchFn) {
         this.predicate = predicate.and(matchFn);
         return this;
     }
@@ -250,26 +250,26 @@ public class $ref implements $bot<_java._node, $ref>,
     }
 
     public boolean matches(String str ){
-        return select((_java._node)_java.of(Types.of(str))) != null;
+        return select((_tree._node)_java.of(Types.of(str))) != null;
     }
 
-    public Select<_java._node> select(String s){
-        return select( (_java._node)_java.of(Types.of(s)));
+    public Select<_tree._node> select(String s){
+        return select( (_tree._node)_java.of(Types.of(s)));
     }
 
-    public Select<_java._node> select( String...str){
+    public Select<_tree._node> select(String...str){
         return select( _name.of(str));
     }
 
-    public Select<_java._node> select( Node n ){
+    public Select<_tree._node> select(Node n ){
         if( n instanceof Name || n instanceof SimpleName || n instanceof Type || n instanceof ImportDeclaration){ //|| n instanceof MethodReferenceExpr
-            return select( (_java._node)_java.of(n) );
+            return select( (_tree._node)_java.of(n) );
         }
         return null;
     }
 
     @Override
-    public Select<_java._node> selectFirstIn(Node astNode, Predicate<Select<_java._node>> predicate) {
+    public Select<_tree._node> selectFirstIn(Node astNode, Predicate<Select<_tree._node>> predicate) {
         Optional<Node> on = astNode.stream().filter( n ->{
             Select sel = select( n);
             if( sel != null ){
@@ -503,7 +503,7 @@ public class $ref implements $bot<_java._node, $ref>,
      * @param candidate
      * @return
      */
-    protected boolean useCheck( _java._node candidate ){
+    protected boolean useCheck( _tree._node candidate ){
         //we only match "top level" parents names *NOT* name nodes nested within name nodes
         if( candidate.ast().getParentNode().isPresent() ){
             Node parent = candidate.ast().getParentNode().get();
@@ -551,7 +551,7 @@ public class $ref implements $bot<_java._node, $ref>,
         });
     }
 
-    public Select<_java._node > select(_java._node candidate){
+    public Select<_tree._node> select(_tree._node candidate){
         if( isMatchAny()){
             if(useCheck(candidate)) {
                 return new Select<>(candidate, new Tokens());
@@ -717,7 +717,7 @@ public class $ref implements $bot<_java._node, $ref>,
         }
 
         @Override
-        public Select<_java._node> select(_java._node _candidate) {
+        public Select<_tree._node> select(_tree._node _candidate) {
             Select commonSelect = super.select(_candidate);
             if(  commonSelect == null){
                 return null;
@@ -740,7 +740,7 @@ public class $ref implements $bot<_java._node, $ref>,
          * @param candidate
          * @return
          */
-        public $ref whichMatch(_java._node candidate){
+        public $ref whichMatch(_tree._node candidate){
             Optional<$ref> orsel  = $refBots.stream().filter($p-> $p.matches( candidate ) ).findFirst();
             if( orsel.isPresent() ){
                 return orsel.get();

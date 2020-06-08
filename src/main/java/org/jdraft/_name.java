@@ -32,7 +32,7 @@ import java.util.function.Predicate;
  * </UL>
  *
  */
-public final class _name implements _java._node<Node, _name> {
+public final class _name implements _tree._node<Node, _name> {
 
     public static final Function<String, _name> PARSER = s-> _name.of(s);
 
@@ -280,7 +280,7 @@ public final class _name implements _java._node<Node, _name> {
             this.useFn = useFn;
         }
 
-        public boolean is(_java._node _node){
+        public boolean is(_tree._node _node){
             return is(_node.ast());
         }
 

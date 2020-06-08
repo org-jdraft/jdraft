@@ -13,7 +13,7 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public final class _typeParamsDiff
-        implements _differ<_typeParams, _java._node> {
+        implements _differ<_typeParams, _tree._node> {
 
     public static final _typeParamsDiff INSTANCE = new _typeParamsDiff();
     
@@ -23,15 +23,15 @@ public final class _typeParamsDiff
 
     public _diff diff(_withTypeParams leftParent, _withTypeParams rightParent){
         return diff( _nodePath.of(),
-                new _diffList( (_java._node)leftParent, (_java._node)rightParent),
-                (_java._node)leftParent,
-                (_java._node)rightParent,
+                new _diffList( (_tree._node)leftParent, (_tree._node)rightParent),
+                (_tree._node)leftParent,
+                (_tree._node)rightParent,
                 leftParent.getTypeParams(),
                 rightParent.getTypeParams());
     }
 
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeParams left, _typeParams right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeParams left, _typeParams right) {
         
         if (!Types.equal( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(),
                 ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {

@@ -4,14 +4,10 @@ import com.github.javaparser.Position;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.Comment;
 import com.github.javaparser.ast.comments.JavadocComment;
-import org.jdraft._blockComment;
-import org.jdraft._codeUnit;
-import org.jdraft._java;
-import org.jdraft._javadocComment;
+import org.jdraft.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,7 +55,7 @@ public class ASCIITreePrinter {
      * Print a Tree to System.out defining the contents with the AST node
      * @param _rootNode any AST node to describe the contents of in tree form
      */
-    public static void print(_java._node _rootNode) {
+    public static void print(_tree._node _rootNode) {
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
             System.out.println(TNode.of(new TNode( ((_codeUnit)_rootNode).astCompilationUnit())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT));
         } else {
@@ -87,7 +83,7 @@ public class ASCIITreePrinter {
      * Return a String representation of the ASCII Tree defining the contents with the AST node
      * @param _rootNode any _jdraft AST node to describe the contents of in tree form
      */
-    public static String form(_java._node _rootNode) {
+    public static String form(_tree._node _rootNode) {
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
             return TNode.of(new TNode( ((_codeUnit)_rootNode).astCompilationUnit())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT);
         } else {
@@ -194,7 +190,7 @@ public class ASCIITreePrinter {
      * @param _rootNode
      * @return
      */
-    public String output(_java._node _rootNode) {
+    public String output(_tree._node _rootNode) {
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
             return TNode.of( new TNode(((_codeUnit)_rootNode).astCompilationUnit())).output(this.nodeFormat);
         }
@@ -206,11 +202,11 @@ public class ASCIITreePrinter {
      * @param _rootNode the root node to be
      * @return
      */
-    public String output(_java._node _rootNode, Function<_java._node, String> _nodeFormat){
+    public String output(_tree._node _rootNode, Function<_tree._node, String> _nodeFormat){
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
-            return TNode.of( new TNode(((_codeUnit)_rootNode).astCompilationUnit())).output((n) -> _nodeFormat.apply( (_java._node)_java.of(n)));
+            return TNode.of( new TNode(((_codeUnit)_rootNode).astCompilationUnit())).output((n) -> _nodeFormat.apply( (_tree._node)_java.of(n)));
         }
-        return TNode.of( new TNode(_rootNode.ast())).output((n) -> _nodeFormat.apply( (_java._node)_java.of(n)));
+        return TNode.of( new TNode(_rootNode.ast())).output((n) -> _nodeFormat.apply( (_tree._node)_java.of(n)));
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.function.*;
 
 public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallExpr>,
-        _java._node<MethodCallExpr, _methodCallExpr>,
+        _tree._node<MethodCallExpr, _methodCallExpr>,
         _java._withName<_methodCallExpr>,
         _java._withScope<MethodCallExpr, _methodCallExpr>,
         _args._withArgs<MethodCallExpr, _methodCallExpr>,

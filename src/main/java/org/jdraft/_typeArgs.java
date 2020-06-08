@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  * order doesnt matter
  */
 public final class _typeArgs
-        implements _java._set<Type, _typeRef, _typeArgs> {
+        implements _tree._set<Type, _typeRef, _typeArgs> {
 
     public static final Function<String, _typeArgs> PARSER = s-> _typeArgs.of(s);
 
@@ -239,7 +239,7 @@ public final class _typeArgs
      * {@link _newExpr}
      * (order matters list of {@link _typeRef} )
      */
-    public interface _withTypeArgs<N extends Node, _WTA extends _java._node> extends _java._node<N, _WTA> {
+    public interface _withTypeArgs<N extends Node, _WTA extends _tree._node> extends _tree._node<N, _WTA> {
 
         /**
          * Creates and returns an {@link _typeArgs} to model the whole arguments list

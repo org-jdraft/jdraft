@@ -14,7 +14,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public final class _throwsDiff implements _differ<_throws, _java._node> {
+public final class _throwsDiff implements _differ<_throws, _tree._node> {
 
     public static final _throwsDiff INSTANCE = new _throwsDiff();
     
@@ -23,11 +23,11 @@ public final class _throwsDiff implements _differ<_throws, _java._node> {
     }
 
     public _diff diff(_withThrows leftParent, _withThrows rightParent){
-        return diff( _nodePath.of(), new _diffList((_java._node)leftParent, (_java._node)rightParent), (_java._node)leftParent, (_java._node)rightParent, leftParent.getThrows(), rightParent.getThrows());
+        return diff( _nodePath.of(), new _diffList((_tree._node)leftParent, (_tree._node)rightParent), (_tree._node)leftParent, (_tree._node)rightParent, leftParent.getThrows(), rightParent.getThrows());
     }
     
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _throws left, _throws right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _throws left, _throws right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new _change_throws(path.in(Feature.THROWS), (_withThrows) _leftParent, (_withThrows) _rightParent));
         }

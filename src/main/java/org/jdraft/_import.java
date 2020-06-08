@@ -16,7 +16,7 @@ import org.jdraft.text.Text;
  * @see _imports representation of a set of _import s
  * @author Eric
  */
-public final class _import implements _java._node<ImportDeclaration, _import>,
+public final class _import implements _tree._node<ImportDeclaration, _import>,
         _java._withName<_import> {
 
     public static final Function<String, _import> PARSER = s-> _import.of(s);

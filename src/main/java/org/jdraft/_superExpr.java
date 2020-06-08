@@ -20,7 +20,7 @@ import java.util.function.Function;
  *
  * @see _constructorCallStmt
  */
-public final class _superExpr implements _expr<SuperExpr, _superExpr>, _java._node<SuperExpr, _superExpr> {
+public final class _superExpr implements _expr<SuperExpr, _superExpr>, _tree._node<SuperExpr, _superExpr> {
 
     public static final Function<String, _superExpr> PARSER = s-> _superExpr.of(s);
 

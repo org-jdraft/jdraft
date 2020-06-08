@@ -139,7 +139,7 @@ public interface Print {
         ASCIITreePrinter.print(n);
     }
 
-    static void tree(_java._node _n ){
+    static void tree(_tree._node _n ){
         ASCIITreePrinter.print(_n);
     }
 

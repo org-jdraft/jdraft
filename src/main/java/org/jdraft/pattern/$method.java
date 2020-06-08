@@ -1212,7 +1212,7 @@ public class $method
                 return selectFirstIn(((_type) _j).ast(), selectConstraint);
             }
         }
-        return selectFirstIn(((_java._node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_tree._node) _j).ast(), selectConstraint);
     }
 
     /**

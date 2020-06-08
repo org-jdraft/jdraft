@@ -4,7 +4,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithStaticModifier;
-import org.jdraft._java;
+import org.jdraft._tree;
 
 import java.lang.annotation.*;
 
@@ -34,7 +34,7 @@ public @interface _static  {
             to(node);
         }
 
-        public static <_N extends _java._node> _N to (_N _n){
+        public static <_N extends _tree._node> _N to (_N _n){
             to( _n.ast());
             return _n;
         }

@@ -9,21 +9,21 @@ import org.jdraft._receiverParam._withReceiverParam;
 import org.jdraft.diff._diff.*;
 
 public final class _receiverParamDiff
-        implements  _differ<_receiverParam, _java._node> {
+        implements  _differ<_receiverParam, _tree._node> {
 
     public static final _receiverParamDiff INSTANCE = new _receiverParamDiff();
     
     public _diff diff(_withReceiverParam left, _withReceiverParam right){
         return diff( _nodePath.of(),
-                new _diffList( (_java._node)left, (_java._node)right),
-                (_java._node)left,
-                (_java._node)right,
+                new _diffList( (_tree._node)left, (_tree._node)right),
+                (_tree._node)left,
+                (_tree._node)right,
                 left.getReceiverParam(),
                 right.getReceiverParam());
     }
     
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParam left, _receiverParam right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _receiverParam left, _receiverParam right) {
         if (!Objects.equals(left, right)) {
             dt.addDiff(new change_receiverParameter(path.in(Feature.RECEIVER_PARAM), (_withReceiverParam) _leftParent, (_withReceiverParam) _rightParent));
         }

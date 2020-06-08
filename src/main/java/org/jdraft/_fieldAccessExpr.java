@@ -15,7 +15,7 @@ import java.util.function.Function;
  *
  */
 public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAccessExpr>,
-        _java._node<FieldAccessExpr, _fieldAccessExpr>,
+        _tree._node<FieldAccessExpr, _fieldAccessExpr>,
         _java._withName<_fieldAccessExpr>,
         _typeArgs._withTypeArgs<FieldAccessExpr, _fieldAccessExpr>,
         _java._withScope<FieldAccessExpr, _fieldAccessExpr> {

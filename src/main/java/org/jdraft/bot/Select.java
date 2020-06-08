@@ -1,8 +1,8 @@
 package org.jdraft.bot;
 
 import com.github.javaparser.ast.Node;
-import org.jdraft._feature;
 import org.jdraft._jdraftException;
+import org.jdraft._tree;
 import org.jdraft.text.*;
 
 import java.util.*;
@@ -107,7 +107,7 @@ public class Select<S> {
         /** The target class containing the feature to be tested */
         public Class<_T> targetClass;
 
-        /** The type of the resolved feature class (i.e. a {@link org.jdraft._java._node}, or a Boolean, or Enum)*/
+        /** The type of the resolved feature class (i.e. a {@link _tree._node}, or a Boolean, or Enum)*/
         public Class<_F> featureClass;
 
         /**

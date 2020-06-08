@@ -7,8 +7,6 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.Type;
 
-import org.jdraft.text.Text;
-
 /**
  * model of a parameter declaration (for {@link _method}s or {@link _constructor}s)
  *
@@ -16,7 +14,7 @@ import org.jdraft.text.Text;
  */
 public final class _param
     implements _java._withNameType<Parameter, _param>, _annoExprs._withAnnoExprs<_param>,
-        _modifiers._withFinal<_param>, _java._node<Parameter, _param> {
+        _modifiers._withFinal<_param>, _tree._node<Parameter, _param> {
 
     public static final Function<String, _param> PARSER = s-> _param.of(s);
 

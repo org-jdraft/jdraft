@@ -23,7 +23,7 @@ import java.util.function.Predicate;
  *
  */
 public final class _params
-        implements _java._list<Parameter, _param, _params> {
+        implements _tree._list<Parameter, _param, _params> {
 
     public static final Function<String, _params> PARSER = s-> _params.of(s);
 

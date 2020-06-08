@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.comments.BlockComment;
-import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -13,7 +12,7 @@ import java.util.function.Function;
  * System.out.println( "name" +name);
  * </CODE>
  */
-public final class _blockComment implements _comment<BlockComment, _blockComment>, _java._node<BlockComment, _blockComment> {
+public final class _blockComment implements _comment<BlockComment, _blockComment>, _tree._node<BlockComment, _blockComment> {
 
     public static final Function<String, _blockComment> PARSER = s-> _blockComment.of(s);
 
@@ -51,9 +50,9 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
         this.astComment = lc;
     }
 
-    public _java._node getAttributedNode(){
+    public _tree._node getAttributedNode(){
         if( astComment.getCommentedNode().isPresent()){
-            return (_java._node)_java.of( astComment.getCommentedNode().get());
+            return (_tree._node)_java.of( astComment.getCommentedNode().get());
         }
         return null;
     }

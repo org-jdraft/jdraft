@@ -21,9 +21,9 @@ import java.util.function.Function;
  *  <br/>All the brackets are stored in the levels field, from left to right.
  */
 public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayExpr>,
-        _java._node<ArrayCreationExpr, _newArrayExpr>,
+        _tree._node<ArrayCreationExpr, _newArrayExpr>,
         _typeRef._withType<ArrayCreationExpr, _newArrayExpr>,
-        _java._list<ArrayCreationLevel, _arrayDimension, _newArrayExpr> {
+        _tree._list<ArrayCreationLevel, _arrayDimension, _newArrayExpr> {
 
     public static final Function<String, _newArrayExpr> PARSER = s-> _newArrayExpr.of(s);
 

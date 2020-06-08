@@ -348,7 +348,7 @@ public class $annoExpr
      * @param annoType
      * @return
      */
-    public <_J extends _java._node> _J replaceIn(_J _j, Class<? extends Annotation> annoType) {
+    public <_J extends _tree._node> _J replaceIn(_J _j, Class<? extends Annotation> annoType) {
         return (_J) replaceIn(_j, (Template) $annoExpr.of(annoType));
     }
 

@@ -14,7 +14,7 @@ import name.fraser.neil.plaintext.diff_match_patch;
  * @author Eric
  */
 public final class _bodyDiff
-        implements _differ<_body, _java._node> {
+        implements _differ<_body, _tree._node> {
 
     public static final _bodyDiff INSTANCE = new _bodyDiff();
     
@@ -26,15 +26,15 @@ public final class _bodyDiff
 
     public _diff diff(_withBody left, _withBody right){
         return diff( _nodePath.of(),
-                new _diffList((_java._node)left, (_java._node)right),
-                (_java._node)left,
-                (_java._node)right,
+                new _diffList((_tree._node)left, (_tree._node)right),
+                (_tree._node)left,
+                (_tree._node)right,
                 left.getBody(), 
                 right.getBody());
     }
 
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _body left, _body right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _body left, _body right) {
         if (left == right) {
             return (_diff) ds;
         }

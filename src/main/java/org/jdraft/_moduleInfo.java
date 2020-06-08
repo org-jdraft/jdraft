@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * 
  */
 public final class _moduleInfo
-        implements _codeUnit<_moduleInfo>, _java._node<CompilationUnit, _moduleInfo>,
+        implements _codeUnit<_moduleInfo>, _tree._node<CompilationUnit, _moduleInfo>,
         _java._withName<_moduleInfo>,
         _java._withComments<CompilationUnit, _moduleInfo> {
 

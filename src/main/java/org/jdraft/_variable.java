@@ -8,7 +8,7 @@ import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import java.util.Objects;
 import java.util.function.Function;
 
-public final class _variable implements _java._node<VariableDeclarator, _variable>,
+public final class _variable implements _tree._node<VariableDeclarator, _variable>,
         _java._withNameType<VariableDeclarator, _variable> {
 
     public static final Function<String, _variable> PARSER = s-> _variable.of(s);

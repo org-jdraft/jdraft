@@ -9,7 +9,7 @@ import java.util.function.Function;
  * 
  * <PRE><CODE>String.class</CODE></PRE>
  */
-public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef._withType<ClassExpr, _classExpr>, _java._node<ClassExpr, _classExpr> {
+public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef._withType<ClassExpr, _classExpr>, _tree._node<ClassExpr, _classExpr> {
 
     public static final Function<String, _classExpr> PARSER = s-> _classExpr.of(s);
 

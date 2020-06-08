@@ -11,7 +11,7 @@ import org.jdraft.text.Text;
  *
  */
 public final class _packageInfo
-        implements _codeUnit<_packageInfo>, _annoExprs._withAnnoExprs<_packageInfo>, _java._node<CompilationUnit, _packageInfo> {
+        implements _codeUnit<_packageInfo>, _annoExprs._withAnnoExprs<_packageInfo>, _tree._node<CompilationUnit, _packageInfo> {
 
     public static final Function<String, _packageInfo> PARSER = s-> _packageInfo.of(s);
 

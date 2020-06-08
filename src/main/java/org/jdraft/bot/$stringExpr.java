@@ -7,7 +7,6 @@ import org.jdraft.*;
 import org.jdraft._java._domain;
 import org.jdraft.io._batch;
 import org.jdraft.text.Stencil;
-import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -276,7 +275,7 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
      */
     public List<_stringExpr> matchReplaceIn(Stencil matchStencil, Stencil replaceStencil, _project..._cuss){
         List<_stringExpr> replaced = new ArrayList<>();
-        Arrays.stream( _cuss).forEach(_cus -> _cus.forEach(_cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        Arrays.stream( _cuss).forEach(_cus -> _cus.forEach(_cu -> replaced.addAll( matchReplaceIn( (_tree._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;
     }
 
@@ -289,7 +288,7 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
      */
     public List<_stringExpr> matchReplaceIn(String matchStencil, String replaceStencil, _project..._cuss){
         List<_stringExpr> replaced = new ArrayList<>();
-        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_tree._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;
     }
 
@@ -322,7 +321,7 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
      * @param replaceStencil
      * @return
      */
-    public List<_stringExpr> matchReplaceIn(_java._node _node, Stencil matchStencil, Stencil replaceStencil ){
+    public List<_stringExpr> matchReplaceIn(_tree._node _node, Stencil matchStencil, Stencil replaceStencil ){
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
@@ -336,7 +335,7 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
      * @param replaceStencil
      * @return
      */
-    public List<_stringExpr> matchReplaceIn(_java._node _node, String matchStencil, String replaceStencil ){
+    public List<_stringExpr> matchReplaceIn(_tree._node _node, String matchStencil, String replaceStencil ){
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }

@@ -27,17 +27,17 @@ public class _walk<_T extends _java._domain> {
     public Node.TreeTraversal treeTraversal = Node.TreeTraversal.PREORDER;
 
     /** The start node for where to begin the walk */
-    public _java._node _n;
+    public _tree._node _n;
 
     /** The target class to intercept along the walk */
     public Class<_T>targetClass;
 
-    public _walk(_java._node _n, Class<_T> targetClass){
+    public _walk(_tree._node _n, Class<_T> targetClass){
         this._n = _n;
         this.targetClass = targetClass;
     }
 
-    public _walk(Node.TreeTraversal tt, _java._node _n, Class<_T> targetClass){
+    public _walk(Node.TreeTraversal tt, _tree._node _n, Class<_T> targetClass){
         this._n = _n;
         this.treeTraversal = tt;
         this.targetClass = targetClass;
@@ -73,7 +73,7 @@ public class _walk<_T extends _java._domain> {
      */
 
     public int count(Stencil stencil){
-        return list(_n -> stencil.matches( ((_java._node)_n).toString(Print.PRINT_NO_COMMENTS))).size();
+        return list(_n -> stencil.matches( ((_tree._node)_n).toString(Print.PRINT_NO_COMMENTS))).size();
     }
 
     public void print(){
@@ -85,11 +85,11 @@ public class _walk<_T extends _java._domain> {
     }
 
     public void printTree(){
-        forEach(e-> Print.tree((_java._node)e));
+        forEach(e-> Print.tree((_tree._node)e));
     }
 
     public void printTree(Predicate<_T> _matchFn){
-        forEach(_matchFn, e-> Print.tree((_java._node)e));
+        forEach(_matchFn, e-> Print.tree((_tree._node)e));
     }
 
     public _T first(){

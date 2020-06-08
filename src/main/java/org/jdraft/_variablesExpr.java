@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
  * int i, j[], k;
  */
 public final class _variablesExpr implements _expr<VariableDeclarationExpr, _variablesExpr>,
-        _java._node<VariableDeclarationExpr, _variablesExpr>,
-        _java._set<VariableDeclarator, _variable, _variablesExpr>,
+        _tree._node<VariableDeclarationExpr, _variablesExpr>,
+        _tree._set<VariableDeclarator, _variable, _variablesExpr>,
         _annoExprs._withAnnoExprs<_variablesExpr>,
         _modifiers._withFinal<_variablesExpr>{
 

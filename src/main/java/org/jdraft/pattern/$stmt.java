@@ -1323,7 +1323,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
         if( _j instanceof _body ){
             return selectFirstIn( ((_body)_j).ast() );
         }
-        return selectFirstIn( ((_java._node) _j).ast() );
+        return selectFirstIn( ((_tree._node) _j).ast() );
     }
      
 
@@ -1354,7 +1354,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
             }
             return selectFirstIn( ((_type)_n).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._node)_n).ast(), selectConstraint );
+        return selectFirstIn( ((_tree._node)_n).ast(), selectConstraint );
     }
 
     /**
@@ -1750,7 +1750,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @param <_N> the node type
      * @return the modified node
      */
-    public <_N extends _java._node> _N unComment(_N _n){
+    public <_N extends _tree._node> _N unComment(_N _n){
         unComment( _n.ast() );
         return _n;
     }
@@ -1826,8 +1826,8 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        if( _j instanceof _java._node){
-            Tree.flattenLabel( ((_java._node) _j).ast(), "$replacement$");
+        if( _j instanceof _tree._node){
+            Tree.flattenLabel( ((_tree._node) _j).ast(), "$replacement$");
         }
         return (_J) _j;
     }

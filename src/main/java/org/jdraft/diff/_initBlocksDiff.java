@@ -8,7 +8,7 @@ import org.jdraft._initBlock._withInitBlocks;
 import org.jdraft.diff._diff.*;
 
 public final class _initBlocksDiff
-        implements _differ<List<_initBlock>, _java._node> {
+        implements _differ<List<_initBlock>, _tree._node> {
 
     public static final _initBlocksDiff INSTANCE = new _initBlocksDiff();
     
@@ -22,11 +22,11 @@ public final class _initBlocksDiff
     }
 
     public _diff diff(_withInitBlocks left, _withInitBlocks right){
-        return diff( _nodePath.of(), new _diffList( (_java._node)left, (_java._node)right), (_java._node)left, (_java._node)right, left.listInitBlocks(), right.listInitBlocks());
+        return diff( _nodePath.of(), new _diffList( (_tree._node)left, (_tree._node)right), (_tree._node)left, (_tree._node)right, left.listInitBlocks(), right.listInitBlocks());
     }
     
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_initBlock> left, List<_initBlock> right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_initBlock> left, List<_initBlock> right) {
         Set<_initBlock> ls = new HashSet<>();
         Set<_initBlock> rs = new HashSet<>();
         Set<_initBlock> both = new HashSet<>();

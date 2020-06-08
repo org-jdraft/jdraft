@@ -28,7 +28,7 @@ import static org.jdraft.Ast.fieldDeclaration;
  * @author Eric
  */
 public final class _annoExprs
-        implements _java._set<AnnotationExpr, _annoExpr, _annoExprs> {
+        implements _tree._set<AnnotationExpr, _annoExpr, _annoExprs> {
 
     public static final Function<String, _annoExprs> PARSER = s-> _annoExprs.of(s);
 

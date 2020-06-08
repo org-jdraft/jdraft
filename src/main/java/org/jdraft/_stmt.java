@@ -10,7 +10,7 @@ import java.util.function.Consumer;
  * @param <S> the JavaParser {@link Statement}
  * @param <_S> the _jdraft Implementataion {@link _stmt}
  */
-public interface _stmt<S extends Statement, _S extends _stmt> extends _java._node<S, _S>, _java._withComments<S, _S> {
+public interface _stmt<S extends Statement, _S extends _stmt> extends _tree._node<S, _S>, _java._withComments<S, _S> {
 
     /**
      * Return the AST for the _stmt implementation

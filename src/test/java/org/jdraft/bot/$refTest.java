@@ -69,7 +69,7 @@ public class $refTest extends TestCase {
 
         $ref.of().printEachTreeIn(_class.of("class C<T>{}").ast());
 
-        _java._node _n = $ref.of().listIn(_class.of("class C<T>{}")).get(1);
+        _tree._node _n = $ref.of().listIn(_class.of("class C<T>{}")).get(1);
         Print.tree(_n.ast());
 
         assertTrue($ref.TYPE_PARAM_NAME.is(_n));
@@ -237,7 +237,7 @@ public class $refTest extends TestCase {
     }
 
     public void testPrint(){
-        _java._node _jn = $ref.of(JavaParser.class).firstIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;"));
+        _tree._node _jn = $ref.of(JavaParser.class).firstIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;"));
         System.out.println( _jn.getClass());
         Print.tree($ref.of(JavaParser.class).firstIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;")));
         assertTrue(_name.Use.TYPE_REF_NAME.is(_jn.ast()));

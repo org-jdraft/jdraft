@@ -174,7 +174,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      */
     public List<_comment> matchReplaceIn( Stencil matchStencil, Stencil replaceStencil, _project..._cuss){
         List<_comment> replaced = new ArrayList<>();
-        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_tree._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;
     }
 
@@ -187,7 +187,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      */
     public List<_comment> matchReplaceIn( String matchStencil, String replaceStencil, _project..._cuss){
         List<_comment> replaced = new ArrayList<>();
-        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_java._node)_cu, matchStencil, replaceStencil) ) ));
+        Arrays.stream( _cuss).forEach( _cus -> _cus.forEach( _cu -> replaced.addAll( matchReplaceIn( (_tree._node)_cu, matchStencil, replaceStencil) ) ));
         return replaced;
     }
 
@@ -220,7 +220,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      * @param replaceStencil
      * @return
      */
-    public List<_comment> matchReplaceIn( _java._node _node, Stencil matchStencil, Stencil replaceStencil ){
+    public List<_comment> matchReplaceIn(_tree._node _node, Stencil matchStencil, Stencil replaceStencil ){
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
@@ -234,7 +234,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
      * @param replaceStencil
      * @return
      */
-    public List<_comment> matchReplaceIn( _java._node _node, String matchStencil, String replaceStencil ){
+    public List<_comment> matchReplaceIn(_tree._node _node, String matchStencil, String replaceStencil ){
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }

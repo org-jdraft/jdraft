@@ -1,12 +1,11 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Modifier;
-import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.Function;
 
-public enum _modifier implements _java._node<Modifier, _modifier> {
+public enum _modifier implements _tree._node<Modifier, _modifier> {
 
     /** Making the internal AST modifiers more accessible */
     PUBLIC( com.github.javaparser.ast.Modifier.publicModifier(), java.lang.reflect.Modifier.PUBLIC ),

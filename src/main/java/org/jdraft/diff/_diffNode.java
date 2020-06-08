@@ -140,11 +140,11 @@ public interface _diffNode<_PN extends _java._domain> {
         return path().has(id);
     }
     
-    default boolean on( Class<? extends _java._node> clazz){
+    default boolean on( Class<? extends _tree._node> clazz){
         return path().has(clazz);
     }
     
-    default boolean on(Class<? extends _java._node> clazz, String id){
+    default boolean on(Class<? extends _tree._node> clazz, String id){
         return path().has(clazz, id);
     }
         
@@ -189,11 +189,11 @@ public interface _diffNode<_PN extends _java._domain> {
      * @param id
      * @return 
      */
-    default <_N extends _java._node> boolean at(Class<_N> component, String id) {
+    default <_N extends _tree._node> boolean at(Class<_N> component, String id) {
         return path().isLeaf(component) && path().isLeafId(id);
     }
 
-    default <_N extends _java._node> boolean at(Class<_N> component) {
+    default <_N extends _tree._node> boolean at(Class<_N> component) {
         return path().isLeaf(component);
     }
 

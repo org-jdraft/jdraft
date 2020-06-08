@@ -5,7 +5,7 @@ import org.jdraft.*;
 
 import org.jdraft.diff._diff.*;
 
-public final class _constructorDiff implements _differ<_constructor, _java._node> {
+public final class _constructorDiff implements _differ<_constructor, _tree._node> {
 
     public static final _constructorDiff INSTANCE = new _constructorDiff();
     
@@ -33,7 +33,7 @@ public final class _constructorDiff implements _differ<_constructor, _java._node
     }
 
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _constructor left, _constructor right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _constructor left, _constructor right) {
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annoExprsDiff.INSTANCE.diff(path, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
         _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());

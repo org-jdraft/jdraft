@@ -23,7 +23,7 @@ import java.util.function.Function;
  * type
  *
  */
-public final class _qualifiedName implements _java._node<Node, _qualifiedName> {
+public final class _qualifiedName implements _tree._node<Node, _qualifiedName> {
 
     public String getNameString(){
         String firstPart = "";

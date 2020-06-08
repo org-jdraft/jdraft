@@ -77,7 +77,7 @@ public class _annoExprTest extends TestCase {
      * @param _b instance of _N to compare to _a
      * @return the featureEquals map
      */
-    public static <_N extends _java._node> Map<_feature, Boolean> featureEqualsMap(_N _a, _N _b) {
+    public static <_N extends _tree._node> Map<_feature, Boolean> featureEqualsMap(_N _a, _N _b) {
         try {
             Field f = _a.getClass().getField("FEATURES");
             _feature._features<_N> _mn = (_feature._features<_N>) f.get(null);
@@ -95,7 +95,7 @@ public class _annoExprTest extends TestCase {
      * @param _b instance of _N to compare to _a
      * @return the featureEquals map
      */
-    public static <_N extends _java._node> Map<_feature, Boolean> featureEqualsMap(_feature._features<_N> _features, _N _a, _N _b){
+    public static <_N extends _tree._node> Map<_feature, Boolean> featureEqualsMap(_feature._features<_N> _features, _N _a, _N _b){
         Map<_feature, Boolean> featureEqualsMap = new HashMap<>();
         _features.forEach(_a, f-> {
             //I need to check between

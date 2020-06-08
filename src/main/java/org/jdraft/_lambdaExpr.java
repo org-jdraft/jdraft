@@ -18,7 +18,7 @@ import org.jdraft._params._withParams;
  */
 public final class _lambdaExpr
     implements _expr<LambdaExpr, _lambdaExpr>,
-        _java._node<LambdaExpr, _lambdaExpr>,
+        _tree._node<LambdaExpr, _lambdaExpr>,
         _withParams<_lambdaExpr> {
 
     public static final Function<String, _lambdaExpr> PARSER = s-> _lambdaExpr.of(s);

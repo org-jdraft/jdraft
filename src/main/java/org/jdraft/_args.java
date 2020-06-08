@@ -6,7 +6,6 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
-import org.jdraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +25,7 @@ import java.util.stream.Collectors;
  * @see org.jdraft.bot.$args for a prototype version
  */
 public final class _args
-        implements _java._list<Expression, _expr, _args> {
+        implements _tree._list<Expression, _expr, _args> {
 
     public static final Function<String, _args> PARSER = s-> _args.of(s);
 
@@ -281,7 +280,7 @@ public final class _args
      * {@link _newExpr}
      * (order matters list of {@link _expr} )
      */
-    public interface _withArgs<N extends Node, _WA extends _java._node> extends _java._node<N, _WA> {
+    public interface _withArgs<N extends Node, _WA extends _tree._node> extends _tree._node<N, _WA> {
 
         /**
          * Creates and returns an {@link _args} to model the whole arguments list

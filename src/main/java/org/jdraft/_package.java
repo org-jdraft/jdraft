@@ -2,12 +2,11 @@ package org.jdraft;
 
 import com.github.javaparser.ast.PackageDeclaration;
 import com.github.javaparser.ast.expr.Name;
-import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.function.Function;
 
-public final class _package implements _java._node<PackageDeclaration, _package> {
+public final class _package implements _tree._node<PackageDeclaration, _package> {
 
     public static final Function<String, _package> PARSER = s-> _package.of(s);
 

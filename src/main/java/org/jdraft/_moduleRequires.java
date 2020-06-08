@@ -9,7 +9,7 @@ import org.jdraft.text.Text;
 import java.util.Objects;
 import java.util.function.Function;
 
-public final class _moduleRequires implements _java._node<ModuleRequiresDirective, _moduleRequires>,
+public final class _moduleRequires implements _tree._node<ModuleRequiresDirective, _moduleRequires>,
         _moduleDirective<ModuleRequiresDirective, _moduleRequires> {
 
     public static final Function<String, _moduleRequires> PARSER = s-> _moduleRequires.of(s);

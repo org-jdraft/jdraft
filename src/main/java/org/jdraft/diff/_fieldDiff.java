@@ -11,7 +11,7 @@ import org.jdraft.diff._diff.*;
  *
  * @author Eric
  */
-public final class _fieldDiff implements _differ<_field, _java._node> {
+public final class _fieldDiff implements _differ<_field, _tree._node> {
 
     public static final _fieldDiff INSTANCE = new _fieldDiff();
     
@@ -20,7 +20,7 @@ public final class _fieldDiff implements _differ<_field, _java._node> {
     }
 
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _field left, _field right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _field left, _field right) {
 
         _nodePath p = path.in(Feature.FIELD, left != null ? left.getName() : right.getName());
 

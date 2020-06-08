@@ -4,8 +4,6 @@ import com.github.javaparser.ast.expr.AssignExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
@@ -17,7 +15,7 @@ import java.util.stream.Stream;
  * a = b
  * </PRE>
  */
-public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java._node<AssignExpr, _assignExpr> {
+public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree._node<AssignExpr, _assignExpr> {
 
     public static final Function<String, _assignExpr> PARSER = s-> _assignExpr.of(s);
 

@@ -11,7 +11,7 @@ import org.jdraft._type._withImplements;
 import org.jdraft.diff._diff.*;
 
 public final class _implementsDiff implements
-        _differ<List<ClassOrInterfaceType>, _java._node> {
+        _differ<List<ClassOrInterfaceType>, _tree._node> {
 
     public static final _implementsDiff INSTANCE = new _implementsDiff();
 
@@ -36,7 +36,7 @@ public final class _implementsDiff implements
     }
     
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ClassOrInterfaceType> left, List<ClassOrInterfaceType> right) {
         
         //probably the best/easiest wasy is to put something in _type
         

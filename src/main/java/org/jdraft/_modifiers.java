@@ -16,7 +16,7 @@ import java.util.function.Function;
  *
  * @author Eric
  */
-public final class _modifiers implements _java._set<Modifier, _modifier, _modifiers> {
+public final class _modifiers implements _tree._set<Modifier, _modifier, _modifiers> {
 
     public static final Function<String, _modifiers> PARSER = s-> _modifiers.of(s);
 
@@ -689,7 +689,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         }
 
         default _WS setStatic(boolean toSet){
-            _java._node n = (_java._node)this;
+            _tree._node n = (_tree._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STATIC, toSet);
             return (_WS)this;
@@ -711,7 +711,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         }
 
         default _WS setSynchronized(boolean toSet){
-            _java._node n = (_java._node)this;
+            _tree._node n = (_tree._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.SYNCHRONIZED, toSet);
             return (_WS)this;
@@ -731,7 +731,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         }
 
         default _WA setAbstract(boolean toSet){
-            _java._node n = (_java._node)this;
+            _tree._node n = (_tree._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.ABSTRACT, toSet);
             return (_WA)this;
@@ -753,7 +753,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         }
 
         default _HV setVolatile(boolean toSet){
-           _java._node n = (_java._node)this;
+           _tree._node n = (_tree._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.VOLATILE, toSet);
             return (_HV)this;
@@ -775,7 +775,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         }
 
         default _HN setNative(boolean toSet){
-            _java._node n = (_java._node)this;
+            _tree._node n = (_tree._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.NATIVE, toSet);
             return (_HN)this;
@@ -797,7 +797,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         }
 
         default _HT setTransient(boolean toSet){
-            _java._node n = (_java._node)this;
+            _tree._node n = (_tree._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.TRANSIENT, toSet);
             return (_HT)this;
@@ -819,7 +819,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
         }
 
         default _HS setStrictFp(boolean toSet){
-            _java._node n = (_java._node)this;
+            _tree._node n = (_tree._node)this;
             NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
             nwm.setModifier(Modifier.Keyword.STRICTFP, toSet);
             return (_HS)this;

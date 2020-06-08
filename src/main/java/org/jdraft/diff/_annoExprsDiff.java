@@ -13,22 +13,22 @@ import org.jdraft.diff._diff.*;
  * @author Eric
  */
 public final class _annoExprsDiff
-    implements _differ<_annoExprs, _java._node> {
+    implements _differ<_annoExprs, _tree._node> {
 
     public static final _annoExprsDiff INSTANCE = new _annoExprsDiff();
     
      public _diff diff(_withAnnoExprs left, _withAnnoExprs right){
         return diff( 
                 _nodePath.of(),
-                new _diffList( (_java._node)left, (_java._node)right),
-                (_java._node)left,
-                (_java._node)right,
+                new _diffList( (_tree._node)left, (_tree._node)right),
+                (_tree._node)left,
+                (_tree._node)right,
                 left.getAnnoExprs(),
                 right.getAnnoExprs());
     }
      
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annoExprs left, _annoExprs right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annoExprs left, _annoExprs right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {

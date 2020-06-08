@@ -152,8 +152,8 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
     }
 
     public boolean match(_java._domain _j){
-        if( _j instanceof _java._node){
-            return match( ((_java._node)_j).ast());
+        if( _j instanceof _tree._node){
+            return match( ((_tree._node)_j).ast());
         }
         return false;
     }
@@ -275,7 +275,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             _type _t = (_type) _j; //only possible
             return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_java._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).ast());
     }
 
     /**
@@ -308,7 +308,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             }
             return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_tree._node)_j).ast(), selectConstraint);
     }
     
     private static boolean replaceNode( Node target, Node replacement ){
@@ -361,7 +361,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             replaceIn( ((_type) _j).ast(), $replacement);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), $replacement);
+        replaceIn( ((_tree._node) _j).ast(), $replacement);
         return _j;
     }
     
@@ -403,7 +403,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             replaceIn( ((_type) _j).ast(), replacement);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).ast(), replacement);
         return _j;
     }
 
@@ -470,7 +470,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             replaceIn( ((_type) _j).ast(), replacement);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).ast(), replacement);
         return _j;
     }
     
@@ -507,7 +507,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             forSelectedIn( ((_type) _j).ast(), nodeActionFn);
             return _j;
         }
-        forSelectedIn( ((_java._node) _j).ast(), nodeActionFn);
+        forSelectedIn( ((_tree._node) _j).ast(), nodeActionFn);
         return _j;
     }
     
@@ -546,7 +546,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
             forSelectedIn( ((_type) _j).ast(), nodeActionFn);
             return _j;
         }
-        forSelectedIn( ((_java._node) _j).ast(), nodeActionFn);
+        forSelectedIn( ((_tree._node) _j).ast(), nodeActionFn);
         return _j;
     }    
     

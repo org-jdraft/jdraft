@@ -363,7 +363,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     }
 
     public <_J extends _java._domain> _J findAndReplace(_J _c, Map<String, String> targetToReplacement){
-        if( _c instanceof _java._node){
+        if( _c instanceof _tree._node){
             if( _c instanceof _codeUnit) {
                 if (((_codeUnit) _c).isTopLevel()) {
                     findAndReplace(((_codeUnit) _c).astCompilationUnit(), targetToReplacement);
@@ -371,7 +371,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
                     findAndReplace(((_codeUnit) _c).astCompilationUnit(), targetToReplacement);
                 }
             } else {
-                findAndReplace(((_java._node) _c).ast(), targetToReplacement);
+                findAndReplace(((_tree._node) _c).ast(), targetToReplacement);
             }
         } else if( _c instanceof _body){
             findAndReplace(((_body) _c).ast(), targetToReplacement);
@@ -599,7 +599,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
      * @param <_J>
      * @return
      */
-    public <_J extends _java> _J forSelectedIn(_java._node _j, Consumer<Select> selectActionFn) {
+    public <_J extends _java> _J forSelectedIn(_tree._node _j, Consumer<Select> selectActionFn) {
         return forSelectedIn( _j, t-> true, selectActionFn);
     }
     
@@ -614,7 +614,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         return astNode;
     }
     
-    public <_J extends _java._node> _J forSelectedIn(_java._node _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
+    public <_J extends _tree._node> _J forSelectedIn(_tree._node _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
         if( _j instanceof _codeUnit && ((_codeUnit) _j).isTopLevel()){
             Comments.forEachIn( ((_codeUnit) _j).astCompilationUnit(), c->{
                 Select s = select(c);

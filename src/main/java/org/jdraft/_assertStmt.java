@@ -4,10 +4,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.stmt.AssertStmt;
-import com.github.javaparser.ast.stmt.ForStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
@@ -17,7 +14,7 @@ import java.util.function.*;
  * assert( true ); //check only
  * assert i==3 : "unexpected Expected this"; //check with optional message
  */
-public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java._node<AssertStmt,_assertStmt> {
+public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree._node<AssertStmt,_assertStmt> {
 
     public static final Function<String, _assertStmt> PARSER = s-> _assertStmt.of(s);
 

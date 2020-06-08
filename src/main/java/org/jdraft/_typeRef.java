@@ -10,8 +10,6 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.type.*;
 
-import org.jdraft.text.Text;
-
 import static org.jdraft.Types.of;
 
 /**
@@ -21,7 +19,7 @@ import static org.jdraft.Types.of;
  * @param <T> the Type implementation (i.e. ReferenceType)
  */
 public final class _typeRef<T extends Type>
-        implements _java._node<Type, _typeRef>, _annoExprs._withAnnoExprs<_typeRef> {
+        implements _tree._node<Type, _typeRef>, _annoExprs._withAnnoExprs<_typeRef> {
 
     public static final Function<String, _typeRef> PARSER = s-> _typeRef.of(s);
 
@@ -615,7 +613,7 @@ public final class _typeRef<T extends Type>
     }
 
 
-    public interface _withType<N extends Node, _WT extends _java._node> extends _java._node<N, _WT> {
+    public interface _withType<N extends Node, _WT extends _tree._node> extends _tree._node<N, _WT> {
 
         /**
          * @return they type

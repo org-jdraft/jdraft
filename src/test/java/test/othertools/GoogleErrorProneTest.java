@@ -51,7 +51,7 @@ public class GoogleErrorProneTest extends TestCase {
 
         //match any Return null where that is NOT within a Member of
         $stmt<ReturnStmt, _returnStmt> $returnNull = $.returnStmt("return null;")
-                .$and(r -> !$.hasAncestor( (_java._node) r, $memberAnnotatedWithNullable));
+                .$and(r -> !$.hasAncestor( (_tree._node) r, $memberAnnotatedWithNullable));
 
 
         class FFF{

@@ -4,8 +4,6 @@ import com.github.javaparser.ast.expr.ConditionalExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
@@ -19,7 +17,7 @@ import java.util.function.Function;
  */
 public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         _java._withCondition<ConditionalExpr, _ternaryExpr>,
-        _java._node<ConditionalExpr, _ternaryExpr> {
+        _tree._node<ConditionalExpr, _ternaryExpr> {
 
     public static final Function<String, _ternaryExpr> PARSER = s-> _ternaryExpr.of(s);
 

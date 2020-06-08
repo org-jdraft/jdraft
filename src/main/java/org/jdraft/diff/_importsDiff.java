@@ -8,7 +8,7 @@ import org.jdraft._imports;
 import org.jdraft.diff._diff.*;
 
 public final class _importsDiff
-        implements _differ<List<ImportDeclaration>, _java._node> {
+        implements _differ<List<ImportDeclaration>, _tree._node> {
 
     public static final _importsDiff INSTANCE = new _importsDiff();
     
@@ -36,7 +36,7 @@ public final class _importsDiff
                 _type.of(left.astCompilationUnit), _type.of(right.astCompilationUnit), left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports());
     }
     
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _type left, _type right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _type left, _type right) {
         if( left.isTopLevel() && right.isTopLevel() ){
             return diff( path, dt, leftParent, rightParent, left.astCompilationUnit().getImports(), right.astCompilationUnit().getImports() );
         }
@@ -60,12 +60,12 @@ public final class _importsDiff
             return dt;    
     }
     
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _imports left, _imports right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _imports left, _imports right) {
         return diff( path, dt, leftParent, rightParent, left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports() );
     }
     
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ImportDeclaration> left, List<ImportDeclaration> right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<ImportDeclaration> left, List<ImportDeclaration> right) {
         Set<ImportDeclaration> ls = new HashSet<>();
         Set<ImportDeclaration> rs = new HashSet<>();
         Set<ImportDeclaration> both = new HashSet<>();

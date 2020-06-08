@@ -8,7 +8,7 @@ import static org.jdraft._method.describeMethodSignature;
 import org.jdraft.diff._diff.*;
 
 public final class _methodsDiff
-        implements _differ<List<_method>, _java._node> {
+        implements _differ<List<_method>, _tree._node> {
 
     public static final _methodsDiff INSTANCE = new _methodsDiff();
     
@@ -44,15 +44,15 @@ public final class _methodsDiff
      public _diff diff(_method._withMethods leftParent, _method._withMethods rightParent){
         return diff( 
                 _nodePath.of(),
-                new _diffList( (_java._node)leftParent, (_java._node)rightParent),
-                (_java._node)leftParent,
-                (_java._node)rightParent,
+                new _diffList( (_tree._node)leftParent, (_tree._node)rightParent),
+                (_tree._node)leftParent,
+                (_tree._node)rightParent,
                 leftParent.listMethods(),
                 rightParent.listMethods());
     }
      
     @Override
-    public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_method> left, List<_method> right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, List<_method> left, List<_method> right) {
         Set<_method> ls = new HashSet<>();
         ls.addAll(left);
         Set<_method> rs = new HashSet<>();

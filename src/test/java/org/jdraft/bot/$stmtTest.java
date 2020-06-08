@@ -60,7 +60,7 @@ public class $stmtTest extends TestCase {
 		//ile.setComment(new BlockComment("Hello"));
 		WhileStmt ws = Stmt.whileStmt("while(true){}");
 		ws.setComment(new BlockComment("Hello"));
-		assertTrue( $s.not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ws));
+		assertTrue( $s.not( e -> ! ((_tree._node)e).ast().getComment().isPresent()).matches(ws));
 		//assertTrue( $e.of().$not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ile));
 	}
 	

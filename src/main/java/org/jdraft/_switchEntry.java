@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry> {
+public final class _switchEntry implements _tree._node<SwitchEntry, _switchEntry> {
 
     public static final Function<String, _switchEntry> PARSER = s-> _switchEntry.of(s);
 

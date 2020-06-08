@@ -214,7 +214,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $expr<
             return (N) this.target$Bot.forSelectedIn(astNode, refactorAction);
         }
 
-        public <_N extends _java._node> _N in(_N _n){
+        public <_N extends _tree._node> _N in(_N _n){
             return (_N) this.target$Bot.forSelectedIn(_n, refactorAction);
         }
 

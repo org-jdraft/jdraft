@@ -143,8 +143,8 @@ public class _allNodeUseTest extends TestCase {
                 (_expr._literal) _intExpr.of(1)
         };
         Arrays.stream(_instances).forEach(i-> {
-            if( i instanceof _java._node) {
-                Print.tree((_java._node) i);
+            if( i instanceof _tree._node) {
+                Print.tree((_tree._node) i);
             }
         } );
     }
@@ -183,7 +183,7 @@ public class _allNodeUseTest extends TestCase {
 
     public void testSetBasedInstances(){
         //semantically, order doesnt matter
-        _java._set[] setBased = {
+        _tree._set[] setBased = {
                 _annoExprs.of("@A @B"),
                 _imports.of( "import java.util.*;", "import java.net.*;"),
                 _variablesExpr.of("int i, j = 100"),
@@ -196,7 +196,7 @@ public class _allNodeUseTest extends TestCase {
 
     public void testListBasedInstances(){
         //semantically order matters
-        _java._list[] ls = {
+        _tree._list[] ls = {
                 _args.of("(1, 'c')"),
                 _params.of("(@ann int x, String...names)")
         };

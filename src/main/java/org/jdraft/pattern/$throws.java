@@ -452,7 +452,7 @@ public class $throws
             }
             return selectFirstIn( ((_type)_j).ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint );
+        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -531,7 +531,7 @@ public class $throws
             }
             return listSelectedIn( ((_type)_j).ast(), selectConstraint);
         }
-        return listSelectedIn( ((_java._node)_j).ast(), selectConstraint );
+        return listSelectedIn( ((_tree._node)_j).ast(), selectConstraint );
     }
 
     /**
@@ -602,7 +602,7 @@ public class $throws
             replaceIn( ((_type) _j).ast(), $throws.of(_replaceThrows));
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), $throws.of(_replaceThrows));
+        replaceIn( ((_tree._node) _j).ast(), $throws.of(_replaceThrows));
         return _j;
     }
     
@@ -634,7 +634,7 @@ public class $throws
             replaceIn( ((_type) _j).ast(), $replaceThrows);
             return _j;
         }
-        replaceIn( ((_java._node) _j).ast(), $replaceThrows);
+        replaceIn( ((_tree._node) _j).ast(), $replaceThrows);
         return _j;
     }
     

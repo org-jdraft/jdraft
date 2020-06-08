@@ -16,13 +16,12 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 /**
  * Entity capable of selection which entails both
  * <UL>
  *     <LI>determining if a "node" meets a criteria (usually via a {@link Predicate})</LI>
- *     <LI>extracting parameters within the text of the {@link _java._node} via a {@link Stencil}</LI>
+ *     <LI>extracting parameters within the text of the {@link _tree._node} via a {@link Stencil}</LI>
  * </UL>
  * @param <_S> the candidate type being selected (i.e. a {@link $methodCallExpr} -> {@link _methodCallExpr}
  * @param <$S> the underlying selector type  to "return itself modified" (i.e. {@link $methodCallExpr} returns {@link $methodCallExpr}
@@ -145,7 +144,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * @param _n
      * @return
      */
-    default $S $isInRange(_java._node _n ){
+    default $S $isInRange(_tree._node _n ){
         return $isInRange(_n.ast());
     }
 
@@ -170,8 +169,8 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
         Predicate<_S> pp = n -> {
             if (n instanceof Node) {
                 return ((Node)n).getRange().isPresent() && range.strictlyContains( ((Node) n).getRange().get());
-            } else if (n instanceof _java._node) {
-                Node node = ((_java._node)n).ast();
+            } else if (n instanceof _tree._node) {
+                Node node = ((_tree._node)n).ast();
                 return node.getRange().isPresent() && range.strictlyContains(node.getRange().get());
             }else if (n instanceof _body) {
                 Node node = ((_body)n).ast();
@@ -221,7 +220,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $isInCodeUnit( Predicate<_codeUnit> _codeUnitMatchFn){
         return $and( _n -> {
-            Optional<CompilationUnit> oc = ((_java._node)_n).ast().findCompilationUnit();
+            Optional<CompilationUnit> oc = ((_tree._node)_n).ast().findCompilationUnit();
             if( !oc.isPresent() ){
                 return false;
             }
@@ -252,7 +251,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $isInPackage(Predicate<_package> packageMatchFn){
         return $and(n -> {
-            Optional<CompilationUnit> ocu = ((_java._node)n).ast().findCompilationUnit();
+            Optional<CompilationUnit> ocu = ((_tree._node)n).ast().findCompilationUnit();
             if( ocu.isPresent() && ocu.get().getPackageDeclaration().isPresent() ){
                 _package _p = _package.of(ocu.get().getPackageDeclaration().get());
                 return packageMatchFn.test(_p);
@@ -290,7 +289,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $isImports(Predicate<_imports> _importsMatchFn){
         return $and(n -> {
-            Optional<CompilationUnit> ocu = ((_java._node)n).ast().findCompilationUnit();
+            Optional<CompilationUnit> ocu = ((_tree._node)n).ast().findCompilationUnit();
             if( ocu.isPresent() ){
                 _imports _is = _imports.of(ocu.get());
                 return _importsMatchFn.test(_is);
@@ -326,7 +325,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $isInType(Predicate<_type> _typeMatchFn){
         return $and(n -> {
-            Node node = ((_java._node)n).ast();
+            Node node = ((_tree._node)n).ast();
             Optional<Node> containingType = node.stream(Tree.PARENTS).filter( p-> p instanceof TypeDeclaration
                     && p.getParentNode().isPresent()
                     && !(p.getParentNode().get() instanceof ObjectCreationExpr)).findFirst();
@@ -370,7 +369,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $isInMember(Predicate<_java._member> _memberMatchFn){
         return $and(n -> {
-            Node node = ((_java._node)n).ast();
+            Node node = ((_tree._node)n).ast();
             Optional<Node> containingMember = node.stream(Tree.PARENTS).filter(p-> p instanceof BodyDeclaration
                     && p.getParentNode().isPresent()
                     && !(p.getParentNode().get() instanceof ObjectCreationExpr)).findFirst();
@@ -387,8 +386,8 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
         return $and(n -> {
             if (n instanceof Node) {
                 return Tree.isParent( (Node)n, parentClassTypes);
-            } else if (n instanceof _java._node) {
-                return Tree.isParent( ((_java._node)n).ast(), parentClassTypes);
+            } else if (n instanceof _tree._node) {
+                return Tree.isParent( ((_tree._node)n).ast(), parentClassTypes);
             } else if (n instanceof _body) {
                 return Tree.isParent( ((_body)n).ast(), parentClassTypes);
             } else if( n instanceof _variable){
@@ -421,8 +420,8 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
             Predicate<_S> pp = n -> {
                 if (n instanceof Node) {
                     return Tree.isParent((Node) n, c -> $b.matches(c));
-                } else if (n instanceof _java._node) {
-                    return Tree.isParent(((_java._node) n).ast(), c -> $b.matches(c));
+                } else if (n instanceof _tree._node) {
+                    return Tree.isParent(((_tree._node) n).ast(), c -> $b.matches(c));
                 } else if (n instanceof _body) {
                     return Tree.isParent(((_body) n).ast(), c -> $b.matches(c));
                 }
@@ -438,16 +437,16 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * @param _parentMatchFn
      * @return
      */
-    default $S $isParent(Predicate<_java._node> _parentMatchFn){
+    default $S $isParent(Predicate<_tree._node> _parentMatchFn){
         return $and(n -> {
-            if (n instanceof _java._node) {
-                if( ((_java._node)n).ast().getParentNode().isPresent()){
-                    return _parentMatchFn.test( (_java._node)_java.of(((_java._node)n).ast().getParentNode().get()) );
+            if (n instanceof _tree._node) {
+                if( ((_tree._node)n).ast().getParentNode().isPresent()){
+                    return _parentMatchFn.test( (_tree._node)_java.of(((_tree._node)n).ast().getParentNode().get()) );
                 }
                 return false;
             } else if (n instanceof _body) {
                 _body _b = (_body)n;
-                return _parentMatchFn.test( (_java._node)_java.of(_b.ast().getParentNode().get()) );
+                return _parentMatchFn.test( (_tree._node)_java.of(_b.ast().getParentNode().get()) );
             } else {
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $snip, $throws, $typeParameters
@@ -469,8 +468,8 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
         return $and(n -> {
             if (n instanceof Node) {
                 return Tree.isParent( (Node)n, c-> Arrays.stream($selectors).anyMatch($b->$b.matches(c)) );
-            } else if (n instanceof _java._node) {
-                return Tree.isParent( ((_java._node)n).ast(), c->Arrays.stream($selectors).anyMatch($b->$b.matches(c)) );
+            } else if (n instanceof _tree._node) {
+                return Tree.isParent( ((_tree._node)n).ast(), c->Arrays.stream($selectors).anyMatch($b->$b.matches(c)) );
             } else if (n instanceof _body) {
                 return Tree.isParent( ((_body)n).ast(), c->Arrays.stream($selectors).anyMatch($b->$b.matches(c)) );
             } else {
@@ -513,7 +512,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * @param _ancestorMatchFn
      * @return
      */
-    default $S $hasAncestor( Predicate<_java._node> _ancestorMatchFn ){
+    default $S $hasAncestor( Predicate<_tree._node> _ancestorMatchFn ){
         return $hasAncestor(Integer.MAX_VALUE -100, _ancestorMatchFn);
     }
 
@@ -523,10 +522,10 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * @param _ancestorMatchFn
      * @return
      */
-    default $S $hasAncestor( int levels, Predicate<_java._node> _ancestorMatchFn){
+    default $S $hasAncestor( int levels, Predicate<_tree._node> _ancestorMatchFn){
         return $and(n-> {
-            if (n instanceof _java._node) {
-                return ((_java._node)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch(c-> _ancestorMatchFn.test( (_java._node)_java.of(c) ) );
+            if (n instanceof _tree._node) {
+                return ((_tree._node)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch(c-> _ancestorMatchFn.test( (_tree._node)_java.of(c) ) );
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $throws, $typeParameters
@@ -549,8 +548,8 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $hasAncestor( int levels, $selector.$node... $selectors ){
         return $and(n-> {
-            if (n instanceof _java._node) {
-                return ((_java._node)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch(c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
+            if (n instanceof _tree._node) {
+                return ((_tree._node)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch(c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
             } else if (n instanceof _body) {
                 return ((_body)n).ast().stream(Tree.PARENTS).limit(levels).anyMatch( c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
             } else{
@@ -574,12 +573,12 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      * @param _descendantMatchFn
      * @return
      */
-    default $S $hasDescendant( Predicate<_java._node> _descendantMatchFn){
+    default $S $hasDescendant( Predicate<_tree._node> _descendantMatchFn){
         return $and(n-> {
-            if (n instanceof _java._node) {
-                return ((_java._node)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(d-> _descendantMatchFn.test( (_java._node)_java.of(d)) );
+            if (n instanceof _tree._node) {
+                return ((_tree._node)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(d-> _descendantMatchFn.test( (_tree._node)_java.of(d)) );
             } else if (n instanceof _body) {
-                return ((_body)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(d-> _descendantMatchFn.test( (_java._node)_java.of(d)) );
+                return ((_body)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(d-> _descendantMatchFn.test( (_tree._node)_java.of(d)) );
             } else{
                 //NEED TO MANUALLY IMPLEMENT FOR:
                 // $parameters, $annos, $throws, $typeParameters
@@ -601,8 +600,8 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
      */
     default $S $hasDescendant( $selector.$node... $selectors ){
         return $and(n-> {
-            if (n instanceof _java._node) {                        //skip yourself (only children)
-                return ((_java._node)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(c-> Arrays.stream($selectors).anyMatch($b ->$b.matches( c)) );
+            if (n instanceof _tree._node) {                        //skip yourself (only children)
+                return ((_tree._node)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch(c-> Arrays.stream($selectors).anyMatch($b ->$b.matches( c)) );
             } else if (n instanceof _body) {                   //skip yourself (only children)
                 return ((_body)n).ast().stream(Tree.PRE_ORDER).skip(1).anyMatch( c-> Arrays.stream($selectors).anyMatch($b ->$b.matches(c)));
             } else{
@@ -633,7 +632,7 @@ public interface $selector<_S, $S> extends Function<_S, Tokens> {
 
         Select<_S> select(Node n);
 
-        default Select<_S> select(_java._node _jn ){
+        default Select<_S> select(_tree._node _jn ){
             try{
                 return select( (_S) _jn );
             }catch(Exception e){

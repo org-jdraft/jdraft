@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * <br/><code>new int[][]{{1, 1}, {2, 2}};</code>
  */
 public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayInitExpr>,
-        _java._list<Expression, _expr, _arrayInitExpr> {
+        _tree._list<Expression, _expr, _arrayInitExpr> {
 
     public static final Function<String, _arrayInitExpr> PARSER = s-> _arrayInitExpr.of(s);
 

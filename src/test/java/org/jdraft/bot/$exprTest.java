@@ -59,7 +59,7 @@ public class $exprTest extends TestCase {
 		//assertFalse( $e.of().$not( e -> !e.ast().getComment().isPresent()).matches("100"));
 		IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		ile.setComment(new BlockComment("Hello"));
-		assertTrue( $e.not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ile));
+		assertTrue( $e.not( e -> ! ((_tree._node)e).ast().getComment().isPresent()).matches(ile));
 		//assertTrue( $e.of().$not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ile));
 	}
 	

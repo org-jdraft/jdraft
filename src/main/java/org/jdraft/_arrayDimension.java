@@ -19,7 +19,7 @@ import java.util.function.Function;
  *</UL>
  * @see _newArrayExpr where we use these _arrayDimensions to declare arrays
  */
-public final class _arrayDimension implements _java._node<ArrayCreationLevel, _arrayDimension>,
+public final class _arrayDimension implements _tree._node<ArrayCreationLevel, _arrayDimension>,
         _java._withExpression<ArrayCreationLevel, _arrayDimension> {
 
     public static final Function<String, _arrayDimension> PARSER = s-> _arrayDimension.of(s);

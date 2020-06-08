@@ -7,7 +7,6 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.type.Type;
-import org.jdraft.text.Text;
 
 /**
  * Representation of the source of a Java Receiver Parameter
@@ -30,7 +29,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _receiverParam
-        implements _java._node<ReceiverParameter, _receiverParam>,
+        implements _tree._node<ReceiverParameter, _receiverParam>,
         _java._withNameType<ReceiverParameter, _receiverParam>, _annoExprs._withAnnoExprs<_receiverParam> {
 
     public static final Function<String, _receiverParam> PARSER = s-> _receiverParam.of(s);
@@ -209,7 +208,7 @@ public final class _receiverParam
         }
         
         default ReceiverParameter getAstReceiverParam(){
-            Node n = (Node) ((_java._node)this).ast();
+            Node n = (Node) ((_tree._node)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 if(md.getReceiverParameter().isPresent()){
@@ -226,7 +225,7 @@ public final class _receiverParam
         
         default _WRP removeReceiverParam() {
             if( hasReceiverParam()){
-                Node n = (Node) ((_java._node)this).ast();
+                Node n = (Node) ((_tree._node)this).ast();
                 if( n instanceof MethodDeclaration ){
                     MethodDeclaration md = (MethodDeclaration)n;
                     md.removeReceiverParameter();
@@ -247,7 +246,7 @@ public final class _receiverParam
         }
         
         default _WRP setReceiverParam(ReceiverParameter rp ) {
-            Node n = (Node) ((_java._node)this).ast();
+            Node n = (Node) ((_tree._node)this).ast();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 md.setReceiverParameter(rp);

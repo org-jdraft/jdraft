@@ -741,7 +741,7 @@ public class $body implements Template<_body>,
             _type _t = (_type)_j; //only possible
             return selectFirstIn(_t.ast(), selectConstraint);
         }
-        return selectFirstIn( ((_java._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint);
     }
     
     /**
@@ -879,7 +879,7 @@ public class $body implements Template<_body>,
             forSelectedIn(_t.ast(), selectActionFn);
             return _j;
         }
-        forSelectedIn((_java._node) _j, selectActionFn);
+        forSelectedIn((_tree._node) _j, selectActionFn);
         return _j;
     }
     

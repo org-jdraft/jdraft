@@ -1,7 +1,7 @@
 package org.jdraft.bot;
 
 import org.jdraft._feature;
-import org.jdraft._java;
+import org.jdraft._tree;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
 
@@ -184,7 +184,7 @@ public class $featureBotList<_T, _F, $B extends $bot<_F, $B>> implements $featur
                 _F element = this.feature.elementParser.apply( keyValues.get(this.matchAllName).toString() );
                 //System.out.println( ">>>>>> generated "+element+" "+element.getClass());
 
-                this.botList.add( ($B)$bot.of( (_java._node)element) );
+                this.botList.add( ($B)$bot.of( (_tree._node)element) );
                 //System.out.println( ">>>>>> generated "+this.botList);
                 this.matchAllName = null;
             }

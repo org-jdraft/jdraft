@@ -29,13 +29,13 @@ import java.util.stream.Stream;
  *     <LI>    {@link org.jdraft._javadocComment} </LI>
  * </UL>
  */
-public class $withText implements $bot.$node<Node, _java._node, $withText> {
+public class $withText implements $bot.$node<Node, _tree._node, $withText> {
 
     public static $withText of(String contains){
          return new $withText( contains, $stringExpr.contains(contains), $textBlockExpr.contains(contains), $comment.contains(contains) );
     }
 
-    public Predicate<_java._node>predicate = t->true;
+    public Predicate<_tree._node>predicate = t->true;
 
     public String contains;
     private $stringExpr string;
@@ -50,19 +50,19 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
     }
 
     @Override
-    public Select<_java._node> select(Node n) {
+    public Select<_tree._node> select(Node n) {
         if( n instanceof Comment){
-            return select( (_java._node)_comment.of( (Comment)n) );
+            return select( (_tree._node)_comment.of( (Comment)n) );
         }else if( n instanceof StringLiteralExpr ){
-            return select( (_java._node) _stringExpr.of( (StringLiteralExpr) n) );
+            return select( (_tree._node) _stringExpr.of( (StringLiteralExpr) n) );
         }else if( n instanceof TextBlockLiteralExpr){
-            return select( (_java._node) _textBlockExpr.of( (TextBlockLiteralExpr) n) );
+            return select( (_tree._node) _textBlockExpr.of( (TextBlockLiteralExpr) n) );
         }
         return null;
     }
 
     @Override
-    public Select<_java._node> select(_java._node candidate) {
+    public Select<_tree._node> select(_tree._node candidate) {
         if( !this.predicate.test(candidate) ){
             return null;
         }
@@ -105,9 +105,9 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
     }
 
     @Override
-    public Select<_java._node> selectFirstIn(Node astNode, Predicate<Select<_java._node>> predicate) {
+    public Select<_tree._node> selectFirstIn(Node astNode, Predicate<Select<_tree._node>> predicate) {
         Optional<Node> on = astNode.stream().filter(n-> {
-            Select<_java._node> sn = select(n);
+            Select<_tree._node> sn = select(n);
             if( sn != null ){
                 return predicate.test(sn);
             }
@@ -120,12 +120,12 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
     }
 
     @Override
-    public Predicate<_java._node> getPredicate() {
+    public Predicate<_tree._node> getPredicate() {
         return this.predicate;
     }
 
     @Override
-    public $withText setPredicate(Predicate<_java._node> predicate) {
+    public $withText setPredicate(Predicate<_tree._node> predicate) {
         this.predicate = predicate;
         return this;
     }
@@ -143,7 +143,7 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
     }
 
     @Override
-    public _java._node draft(Translator translator, Map<String, Object> keyValues) {
+    public _tree._node draft(Translator translator, Map<String, Object> keyValues) {
         throw new _jdraftException("Cannot draft a $strings");
     }
 
@@ -190,12 +190,12 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
      * @param <N>
      * @return
      */
-    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select<_java._node>> matchFn, Consumer<Select<_java._node>> selectActionFn){
+    public <N extends Node> N forSelectedIn(N astNode, Predicate<Select<_tree._node>> matchFn, Consumer<Select<_tree._node>> selectActionFn){
 
-        List<Select<_java._node>> found = new ArrayList<>();
+        List<Select<_tree._node>> found = new ArrayList<>();
 
         astNode.getAllContainedComments().forEach(n -> {
-            Select<_java._node> sel = select(n);
+            Select<_tree._node> sel = select(n);
             if( sel != null && matchFn.test(sel)) {
                 found.add( sel );
             }
@@ -203,7 +203,7 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
 
         astNode.stream().forEach(n ->{
             if( !( n instanceof Comment )) { //we need to NOT do orphaned comments twice
-                Select<_java._node> sel = select(n);
+                Select<_tree._node> sel = select(n);
                 if (sel != null && matchFn.test(sel)) {
                     selectActionFn.accept(sel);
                 }
@@ -221,11 +221,11 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
      * @param <N>
      * @return
      */
-    public <N extends Node> N forEachIn(N astNode, Predicate<_java._node> matchFn, Consumer<_java._node> actionFn){
-        List<_java._node> found = new ArrayList<>();
+    public <N extends Node> N forEachIn(N astNode, Predicate<_tree._node> matchFn, Consumer<_tree._node> actionFn){
+        List<_tree._node> found = new ArrayList<>();
 
         astNode.getAllContainedComments().forEach(n -> {
-            Select<_java._node> sel = select(n);
+            Select<_tree._node> sel = select(n);
             if( sel != null && matchFn.test(sel.select)) {
                 found.add( sel.select);
             }
@@ -233,7 +233,7 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
 
         astNode.stream().forEach(n ->{
             if( !( n instanceof Comment )) { //we need to NOT do orphaned comments twice
-                Select<_java._node> sel = select(n);
+                Select<_tree._node> sel = select(n);
                 if (sel != null && matchFn.test(sel.select)) {
                     actionFn.accept(sel.select);
                 }
@@ -243,7 +243,7 @@ public class $withText implements $bot.$node<Node, _java._node, $withText> {
         return astNode;
     }
 
-    public <_J extends _java._node> _J replaceIn(_J _j, String...replacement) {
+    public <_J extends _tree._node> _J replaceIn(_J _j, String...replacement) {
         if( _j instanceof _codeUnit){
             if( ((_codeUnit) _j).isTopLevel() ) {
                 forSelectedIn(((_codeUnit) _j).astCompilationUnit(), t->true, s->{

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
-        _java._node<ObjectCreationExpr, _newExpr>,
+        _tree._node<ObjectCreationExpr, _newExpr>,
         _typeRef._withType<ObjectCreationExpr, _newExpr>,
         _java._withScope<ObjectCreationExpr, _newExpr>,
         _args._withArgs<ObjectCreationExpr, _newExpr>,

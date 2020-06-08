@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodRefExpr>,
-        _java._node<MethodReferenceExpr, _methodRefExpr>,
+        _tree._node<MethodReferenceExpr, _methodRefExpr>,
         _java._withScope<MethodReferenceExpr, _methodRefExpr>,
         _typeArgs._withTypeArgs<MethodReferenceExpr, _methodRefExpr> {
 

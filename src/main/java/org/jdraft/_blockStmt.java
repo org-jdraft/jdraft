@@ -2,7 +2,6 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.stmt.AssertStmt;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -10,7 +9,7 @@ import java.util.*;
 import java.util.function.*;
 
 public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
-        _java._list<Statement, _stmt, _blockStmt> {
+        _tree._list<Statement, _stmt, _blockStmt> {
 
     public static final Function<String, _blockStmt> PARSER = s-> _blockStmt.of(s);
 

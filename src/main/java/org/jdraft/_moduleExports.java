@@ -13,8 +13,8 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public final class _moduleExports implements _java._node<ModuleExportsDirective, _moduleExports>,
-        _java._set<Name, _name, _moduleExports>,
+public final class _moduleExports implements _tree._node<ModuleExportsDirective, _moduleExports>,
+        _tree._set<Name, _name, _moduleExports>,
         _moduleDirective<ModuleExportsDirective, _moduleExports> {
 
     public static final Function<String, _moduleExports> PARSER = s-> _moduleExports.of(s);

@@ -12,7 +12,7 @@ import java.util.function.Function;
  * <code>this.name</code> is a FieldAccessExpr of field greet, and a ThisExpr as its scope.
  * This ThisExpr has no typeName.
  */
-public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _java._node<ThisExpr, _thisExpr> {
+public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _tree._node<ThisExpr, _thisExpr> {
     public static _thisExpr of(){
         return new _thisExpr(new ThisExpr());
     }

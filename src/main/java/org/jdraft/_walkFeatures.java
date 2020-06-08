@@ -32,17 +32,17 @@ public class _walkFeatures<_F> {
     public Node.TreeTraversal treeTraversal = Node.TreeTraversal.PREORDER;
 
     /** The start node for where to begin the walk */
-    public _java._node _n;
+    public _tree._node _n;
 
     /** The relevant features to intercept*/
     public List<_feature<?, _F>> features;
 
-    public _walkFeatures(_java._node _n, _feature<?, _F>...features){
+    public _walkFeatures(_tree._node _n, _feature<?, _F>...features){
         this._n = _n;
         this.features = Stream.of(features).collect(Collectors.toList());
     }
 
-    public _walkFeatures(Node.TreeTraversal tt, _java._node _n, _feature<?, _F>...features){
+    public _walkFeatures(Node.TreeTraversal tt, _tree._node _n, _feature<?, _F>...features){
         this._n = _n;
         this.treeTraversal = tt;
         this.features = Stream.of(features).collect(Collectors.toList());

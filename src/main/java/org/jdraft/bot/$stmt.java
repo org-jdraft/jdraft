@@ -254,7 +254,7 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
             return (N) this.target$Bot.forSelectedIn(astNode, refactorAction);
         }
 
-        public <_N extends _java._node> _N in(_N _n){
+        public <_N extends _tree._node> _N in(_N _n){
             return (_N) this.target$Bot.forSelectedIn(_n, refactorAction);
         }
 
