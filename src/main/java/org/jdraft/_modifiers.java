@@ -192,9 +192,7 @@ public final class _modifiers implements _tree._set<Modifier, _modifier, _modifi
             _modifiers _ms = _modifiers.of( mods );
             return this.equals( _ms );
         }
-        catch( Exception e ) {
-
-        }
+        catch( Exception e ) { }
         return false;
     }
 

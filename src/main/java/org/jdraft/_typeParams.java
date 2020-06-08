@@ -109,7 +109,7 @@ public final class _typeParams
     }
 
 
-    public boolean is( String typeParameters ) {
+    public boolean is( String... typeParameters ) {
         try {
             _typeParams _tps = _typeParams.of(typeParameters);
             return _tps.equals(this);

@@ -9,6 +9,7 @@ import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -307,7 +308,7 @@ public interface _tree<_N> extends _java._domain {
          *
          * @return
          */
-        default <_D extends _java._domain> _walk<_D> walkParents(Class<_D> targetClass){
+        default <_D extends _tree> _walk<_D> walkParents(Class<_D> targetClass){
             return new _walk(Tree.PARENTS, this, targetClass);
         }
 
@@ -402,14 +403,37 @@ public interface _tree<_N> extends _java._domain {
          */
         default boolean is(String... stringRep){
             try{
-                _node _n = (_node) _java.of(_java.node( getClass(), Text.combine(stringRep)));
-                Stencil st = Stencil.of( _n.toString());
+                //_node _n = (_node) _java.of(_java.node( getClass(), Text.combine(stringRep)));
+                _N n = features().parse(stringRep);
+                Stencil st = Stencil.of( n.toString(Print.PRINT_NO_COMMENTS));
                 if( st.isFixedText() ){
                     //System.out.println ("ITS FIXED TEXT" + _n +System.lineSeparator() +this );
-                    return equals( _n );
+                    return equals( n );
                 } else {
+                    //extract all features from this and other map
+                    Map<_feature<_N, ?>, Object> ofm = this.features().featureMap(n);
+                    Map<_feature<_N, ?>, Object> tfm = this.features().featureMap((_N)this);
+
+                    //for ALL non null features in
+                    AtomicBoolean isSame = new AtomicBoolean(true);
+                    ofm.forEach( (_f, o)->{
+                        if( isSame.get() && o != null ){ //if the feature is NOT null
+                            Stencil s = Stencil.of( o.toString() );
+                            if( s.isMatchAny() ){ //its a variable thing, so it matches ANYTHING
+
+                            } else if( s.isFixedText() ){ //its fixed text, dont match the text, match the impl
+                                Object t = tfm.get(_f); //get the corresponding feature from the other one
+                                if( !Objects.equals(o, t) ){ //check equality at the feature object level
+                                    isSame.set(false);
+                                }
+                            } else { //its a mix of text and variables, so lets
+                                Object t = tfm.get(_f); //get the corresponding feature from the other one
+                            }
+                        }
+                    });
+                    return isSame.get();
                     //System.out.println ("ITS STENCIL TEXT");
-                    return st.matches(this.toString(Print.PRINT_NO_COMMENTS));
+                    //return st.matches(this.toString(Print.PRINT_NO_COMMENTS));
                 }
             } catch(Exception e){
                 //System.out.println( "FAILED YO "+ e);
@@ -487,6 +511,56 @@ public interface _tree<_N> extends _java._domain {
         default boolean allMatch(Predicate<_EL> _matchFn){
             return list().stream().allMatch(_matchFn);
         }
+
+        /**
+         * is the String representation equal to the _node entity
+         * (i.e. if we parse the string, does it create an AST entity that
+         * is equal to the node?)
+         *
+         * @param stringRep the string representation of the node
+         * (parsed as an AST and compared to this entity to see if equal)
+         * @return true if the Parsed String represents the entity
+
+        default boolean is(String... stringRep){
+            try{
+                _S _s = features().parse(stringRep);
+                //TODO fixy fixy
+                Stencil st = Stencil.of( _s.toString());
+                if( st.isFixedText() ){
+                    //System.out.println ("ITS FIXED TEXT" + _n +System.lineSeparator() +this );
+                    return equals( _s );
+                } else if( st.isMatchAny() ) {
+                    return true;
+                } else {
+                    //System.out.println ("ITS STENCIL TEXT");
+                    //TODO FIXY FIXY break down into components
+                    return st.matches( this.toString());
+                }
+            } catch(Exception e){
+                //System.out.println( "FAILED YO "+ e);
+                return false;
+            }
+        }
+        */
+
+        /**
+         * Pass in the AST Pretty Printer configuration which will determine how the code
+         * is formatted and return the formatted String representing the code.
+         *
+         * @see com.github.javaparser.printer.PrettyPrintVisitor the original visitor for walking and printing nodes in AST
+         * @see Print.PrintNoAnnotations a configurable subclass of PrettyPrintVisitor that will not print ANNOTATIONS
+         * @see PrettyPrinterConfiguration the configurations for spaces, Tabs, for printing
+         * @see Print#PRINT_NO_ANNOTATIONS_OR_COMMENTS a premade implementation for
+         * @see Print#PRINT_NO_COMMENTS
+         *
+         *   the details on how the code will be formatted (for this element and all sub ELEMENTS)
+         * @return A String representing the .java code
+
+        default String toString(PrettyPrinterConfiguration codeFormat) {
+            return ast ().toString(codeFormat);
+        }
+            */
+
 
         default boolean is(_EL... _els){
             Set<_EL> _arr = new HashSet<>();

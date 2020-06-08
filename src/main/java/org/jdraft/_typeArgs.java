@@ -40,6 +40,9 @@ public final class _typeArgs
     }
 
     public static _typeArgs of(String...args){
+        if( args.length == 0 ){
+            return of();
+        }
         if( args.length == 1){
             String a = args[0].trim();
             if( a.startsWith("<") && a.endsWith(">")){

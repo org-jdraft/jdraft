@@ -61,7 +61,7 @@ public final class _imports implements _tree._set<ImportDeclaration, _import, _i
             (_imports a, List<_import> es)-> a.set(es), PARSER, s-> _import.of(s))
             .setOrdered(false);
 
-    public static _feature._features<_imports> FEATURES = _feature._features.of(_imports.class,  PARSER, IMPORTS);
+    public static _feature._features<_imports> FEATURES = _feature._features.of(_imports.class, PARSER, IMPORTS);
 
     public CompilationUnit astCompilationUnit;
 
@@ -76,6 +76,15 @@ public final class _imports implements _tree._set<ImportDeclaration, _import, _i
     @Override
     public _imports copy() {
         return _imports.of(astCompilationUnit);
+    }
+
+    public boolean is(String...strings){
+        try{
+            _imports _o = of(strings);
+            return Objects.equals(_o, this);
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

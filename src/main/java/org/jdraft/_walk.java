@@ -20,6 +20,7 @@ import java.util.stream.Stream;
  * //list all lambda expressions with parameters within AClass.class
  * List<_lambda> _ls = _class.of(AClass.class).walk().list(_lambda.class, _l->_l.hasParameters());
  *
+ *
  */
 public class _walk<_T extends _java._domain> {
 
@@ -51,14 +52,14 @@ public class _walk<_T extends _java._domain> {
         return first(_matchFn) != null;
     }
 
+    public int count(){
+        return list(t->true).size();
+    }
 
     public int count(Predicate<_T> _matchFn){
         return list(_matchFn).size();
     }
 
-    public int count(){
-        return list(t->true).size();
-    }
 
     /*
     public <_N extends _node> int count(String... stencil){

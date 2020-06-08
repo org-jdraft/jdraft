@@ -7,6 +7,20 @@ import java.util.function.Predicate;
 
 public class _walkTest extends TestCase {
 
+    public void testInterface(){
+        _class _c = _class.of(_walkTest.class);
+        System.out.println( _c.walk(_intExpr.class).count());
+        //NOTE: _literal is an interface
+        _c.walk(_expr._literal.class).print();
+        _c.walk(_intExpr.class).print(_i-> _i.getValue() > 1);
+
+        _args _as = _args.of("(1,'c')");
+        assertTrue(_as.is("1, 'c'"));
+        assertFalse(_as.is("'c', 1"));
+
+        //_c.walk("System.out.println($any$);")
+    }
+
     public void testW(){
         class C{
             Predicate<String> ps = (s)->s.isEmpty();
@@ -16,7 +30,11 @@ public class _walkTest extends TestCase {
                 //
             }
         }
+
         _class _c = _class.of(C.class);
+        _c.walk(_intExpr.class).print( _i->_i.getValue() < 0);
+        _c.walk(_binaryExpr.class).print( _b->_b.isMinus());
+
         _walk _w = _c.walk();
 
         assertNotNull(_w.first(n-> n instanceof _binaryExpr));

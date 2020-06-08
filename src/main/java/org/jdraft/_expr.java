@@ -41,7 +41,11 @@ public interface _expr<E extends Expression, _E extends _expr>
     // reference
     //   anno, arrayAccess, classExpression, fieldAccess, methodReference, nameExpression, super, typeExpression, cast
     //
-    class Classes {
+
+    /**
+     * Underlying implementations of the _expr interface
+     */
+    class Impl {
         public static Class<_annoExpr> ANNO_EXPR = _annoExpr.class;
         public static Class<_arrayAccessExpr> ARRAY_ACCESS_EXPR = _arrayAccessExpr.class;
         public static Class<_assignExpr> ASSIGN_EXPR = _assignExpr.class;

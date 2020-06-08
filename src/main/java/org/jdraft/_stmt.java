@@ -85,7 +85,7 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _tree._nod
     /**
      * categories all of the available classes
      */
-    class Classes {
+    class Impl {
 
         Class<_assertStmt> ASSERT = _assertStmt.class;
         Class<_blockStmt> BLOCK = _blockStmt.class;          //scope

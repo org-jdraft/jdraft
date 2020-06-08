@@ -229,6 +229,16 @@ public interface _comment<C extends Comment, _C extends _comment> extends _tree.
         return (_C)this;
     }
 
+    /**
+     * Underlying implementations of the _comment interface
+     */
+    final class Impl{
+        public static Class<_lineComment> LINE_COMMENT = _lineComment.class;
+        public static Class<_blockComment> BLOCK_COMMENT = _blockComment.class;
+        public static Class<_javadocComment> JAVADOC_COMMENT = _javadocComment.class;
+        public static Class<? extends _comment>[] ALL = new Class[]{LINE_COMMENT, BLOCK_COMMENT, JAVADOC_COMMENT};
+    }
+
     /*
      * multi
      * line

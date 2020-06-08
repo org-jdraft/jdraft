@@ -98,7 +98,7 @@ public final class _args
             _feature._id.ARGS, _feature._id.ARG,
             a->a.list(),
             (_args a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s))
-            .featureImplementations(_expr.Classes.ALL) //could be expressions TODO make this a subset of expressions?
+            .featureImplementations(_expr.Impl.ALL) //could be expressions TODO make this a subset of expressions?
             .setOrdered(true); //order matters to _args { (1,'a') =/= ('a', 1) }
 
     public static _feature._features<_args> FEATURES = _feature._features.of(_args.class, PARSER,  ARGS);
@@ -139,6 +139,10 @@ public final class _args
 
     public _args add(String...args){
         return add(Arrays.stream(args).map(a -> _expr.of(a) ).collect(Collectors.toList()).toArray(new _expr[0]));
+    }
+
+    public boolean is(String...args){
+        return of(args).equals(this);
     }
 
     public boolean isAt(int index, int i){

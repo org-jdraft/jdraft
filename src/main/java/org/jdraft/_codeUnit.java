@@ -710,4 +710,17 @@ public interface _codeUnit<_CU> extends _java._domain {
         }
         throw new _jdraftException("No AST CompilationUnit of to add imports");
     }
+
+    class Impl{
+        public static Class<_class> CLASS = _class.class;
+        public static Class<_enum> ENUM = _enum.class;
+        public static Class<_interface> INTERFACE = _interface.class;
+        public static Class<_annotation> ANNOTATION = _annotation.class;
+
+        public static Class<_packageInfo> PACKAGE_INFO = _packageInfo.class;
+        public static Class<_moduleInfo> MODULE_INFO = _moduleInfo.class;
+
+        public static Class<? extends _codeUnit>[] ALL = new Class[]{
+                CLASS, ENUM, INTERFACE, ANNOTATION, PACKAGE_INFO, MODULE_INFO};
+    }
 }

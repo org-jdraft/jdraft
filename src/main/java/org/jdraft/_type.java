@@ -2154,5 +2154,17 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         _WE removeExtends(Class clazz);
 
         _WE removeExtends(ClassOrInterfaceType coit );
-    }            
+    }
+
+    /**
+     * Implementations of {@link _type}
+     */
+    class Impl{
+        public static final Class<_class> CLASS = _class.class;
+        public static final Class<_enum> ENUM = _enum.class;
+        public static final Class<_interface> INTERFACE = _interface.class;
+        public static final Class<_annotation> ANNOTATION = _annotation.class;
+
+        public static final Class<? extends _type>[] ALL = new Class[]{ CLASS, ENUM, INTERFACE, ANNOTATION};
+    }
 }
