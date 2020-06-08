@@ -35,7 +35,7 @@ public final class _modifiersDiff implements
     @Override
     public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, NodeList<Modifier> left, NodeList<Modifier> right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _changeModifiers(path.in(_java.Feature.MODIFIERS), (_withModifiers) _leftParent, (_withModifiers) _rightParent));
+            dt.addDiff(new _changeModifiers(path.in(Feature.MODIFIERS), (_withModifiers) _leftParent, (_withModifiers) _rightParent));
         }
         return dt;
     }

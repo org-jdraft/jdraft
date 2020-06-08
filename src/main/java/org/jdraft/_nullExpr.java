@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExpr> {
 
-    public static final Function<String, _newExpr> PARSER = s-> _newExpr.of(s);
+    public static final Function<String, _nullExpr> PARSER = s-> _nullExpr.of(s);
 
     public static _nullExpr of(){
         return new _nullExpr(new NullLiteralExpr());
@@ -24,7 +24,7 @@ public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExp
         throw new _jdraftException("invalid code for null literal "+System.lineSeparator()+ Text.combine(code));
     }
 
-    public static _feature._features<_nullExpr> FEATURES = _feature._features.of(_nullExpr.class);
+    public static _feature._features<_nullExpr> FEATURES = _feature._features.of(_nullExpr.class, PARSER);
 
     public NullLiteralExpr nle;
 

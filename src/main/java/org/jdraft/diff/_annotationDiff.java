@@ -69,14 +69,14 @@ public final class _annotationDiff implements _differ<_annotation, _java._node> 
                 _entry cc = sameName(f, rs);
                 if (cc != null) {
                     rs.remove(cc);
-                    ANNOTATION_ELEMENT_DIFF.diff(path.in(_java.Feature.ANNOTATION_ENTRY, f.getName()), ds, _leftParent, _rightParent, f, cc);
+                    ANNOTATION_ELEMENT_DIFF.diff(path.in(Feature.ANNOTATION_ENTRY, f.getName()), ds, _leftParent, _rightParent, f, cc);
                 } else {
-                    ds.addDiff(new _leftOnly_element(path.in(_java.Feature.ANNOTATION_ENTRY, f.getName()), (_annotation) _leftParent, (_annotation) _rightParent, f));
+                    ds.addDiff(new _leftOnly_element(path.in(Feature.ANNOTATION_ENTRY, f.getName()), (_annotation) _leftParent, (_annotation) _rightParent, f));
                 }
             });
 
             rs.forEach(f -> {
-                ds.addDiff(new _rightOnly_element(path.in(_java.Feature.ANNOTATION_ENTRY, f.getName()), (_annotation) _leftParent, (_annotation) _rightParent, f));
+                ds.addDiff(new _rightOnly_element(path.in(Feature.ANNOTATION_ENTRY, f.getName()), (_annotation) _leftParent, (_annotation) _rightParent, f));
             });
             return ds;
         }
@@ -214,7 +214,7 @@ public final class _annotationDiff implements _differ<_annotation, _java._node> 
         @Override
         public <_PN extends _java._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, Expression left, Expression right) {
             if (!Objects.equals(left, right)) {
-                ds.addDiff(new _changeDefault(path.in(_java.Feature.DEFAULT_EXPR), (_entry) _leftParent, (_entry) _rightParent));
+                ds.addDiff(new _changeDefault(path.in(Feature.DEFAULT_EXPR), (_entry) _leftParent, (_entry) _rightParent));
             }
             return (_diff) ds;
         }

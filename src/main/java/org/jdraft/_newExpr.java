@@ -148,7 +148,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
             .featureImplementations(_method.class, _field.class)
             .setOrdered(false);
 
-    public static _feature._features<_newExpr> FEATURES = _feature._features.of(_newExpr.class, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_BODY_MEMBERS);
+    public static _feature._features<_newExpr> FEATURES = _feature._features.of(_newExpr.class,  PARSER, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_BODY_MEMBERS);
 
 
     /*

@@ -37,7 +37,7 @@ public final class _yieldStmt implements
             a -> a.getExpression(),
             (_yieldStmt a, _expr _e) -> a.setExpression(_e), PARSER);
 
-    public static _feature._features<_yieldStmt> FEATURES = _feature._features.of(_yieldStmt.class, EXPRESSION);
+    public static _feature._features<_yieldStmt> FEATURES = _feature._features.of(_yieldStmt.class, PARSER, EXPRESSION);
 
     private YieldStmt yieldStmt;
 

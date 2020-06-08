@@ -3,7 +3,6 @@ package org.jdraft.diff;
 import java.util.Objects;
 
 import org.jdraft.*;
-import org.jdraft._java.Feature;
 
 import org.jdraft.diff._diff.*;
 

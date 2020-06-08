@@ -7,7 +7,7 @@ import com.github.javaparser.ast.expr.Expression;
 
 import org.jdraft.*;
 
-import static org.jdraft._java.Feature.*;
+import static org.jdraft.diff.Feature.*;
 import org.jdraft.diff._diff.*;
 
 /**

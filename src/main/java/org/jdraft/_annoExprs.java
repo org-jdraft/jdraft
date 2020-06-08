@@ -43,7 +43,7 @@ public final class _annoExprs
             PARSER, s-> _annoExpr.of(s))
             .setOrdered(false); /* the order of the annos isnt semantically important {@A @B @C === @B @A @C} */
 
-    public static _feature._features<_annoExprs> FEATURES = _feature._features.of(_annoExprs.class, ANNOS);
+    public static _feature._features<_annoExprs> FEATURES = _feature._features.of(_annoExprs.class,  PARSER, ANNOS);
 
     /** A reference to the container entity that is being annotated*/
     public final NodeWithAnnotations astAnnNode;

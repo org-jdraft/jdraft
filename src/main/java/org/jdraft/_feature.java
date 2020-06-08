@@ -1,5 +1,7 @@
 package org.jdraft;
 
+import org.jdraft.text.Text;
+
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
@@ -648,12 +650,15 @@ public interface _feature<_T, _F>{
      */
     class _features<_T>{
 
-        public static <_T> _features<_T> of(Class<_T> targetClass, _feature<_T,?>...features){
-            return new _features<>(targetClass, features);
+        public static <_T> _features<_T> of(Class<_T> targetClass, Function<String, _T> parser, _feature<_T,?>...features){
+            return new _features<>(targetClass, parser, features);
         }
 
         /** Class of the Container of the feature (i.e. {@link _method} class for the {@link _method#NAME} feature) */
         public final Class<_T> targetClass;
+
+        /** A Parser that can be used to convert from a String to a model instance */
+        public final Function<String, _T> parser;
 
         /**
          * Note: this should be the features IN THE ORDER THEY APPEAR IN THE LANGUAGE
@@ -685,14 +690,28 @@ public interface _feature<_T, _F>{
         public BiFunction<_T, List<_feature<_T, ?>>, List<_feature<_T, ?>>> featureOrder =
                 (_T instance, List<_feature<_T, ?>> baseOrder) -> baseOrder;
 
-        private _features(Class<_T> targetClass, _feature<_T, ?>... features ){
+        private _features(Class<_T> targetClass, Function<String,_T> parser, _feature<_T, ?>... features ){
             this.targetClass = targetClass;
+            this.parser = parser;
             this.featureList = Stream.of(features).collect(Collectors.toList());
         }
 
         /** get the target class for this specification */
         public Class<_T> getTargetClass(){
             return targetClass;
+        }
+
+        public Function<String, _T> getParser(){
+            return parser;
+        }
+
+        /**
+         * Parse the string into a _T instance
+         * @param code the code representing the _features entity
+         * @return a new instance of the _features entity
+         */
+        public _T parse(String...code){
+            return parser.apply( Text.combine(code));
         }
 
         /**

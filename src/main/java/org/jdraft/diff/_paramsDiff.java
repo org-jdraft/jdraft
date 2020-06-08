@@ -22,7 +22,7 @@ public final class _paramsDiff
     @Override
     public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _params left, _params right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _changeParams(path.in(_java.Feature.PARAMS), (_params._withParams) _leftParent, (_params._withParams) _rightParent));
+            dt.addDiff(new _changeParams(path.in(Feature.PARAMS), (_params._withParams) _leftParent, (_params._withParams) _rightParent));
         }
         return dt;
     }

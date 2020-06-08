@@ -91,7 +91,7 @@ public final class _forEachStmt implements
             a -> a.getVariable(),
             (_forEachStmt a, _variablesExpr _e) -> a.setVariable(_e), PARSER);
 
-    public static _feature._features<_forEachStmt> FEATURES = _feature._features.of(_forEachStmt.class, VARIABLES, ITERABLE, BODY);
+    public static _feature._features<_forEachStmt> FEATURES = _feature._features.of(_forEachStmt.class, PARSER,  VARIABLES, ITERABLE, BODY);
 
     private ForEachStmt astStmt;
 

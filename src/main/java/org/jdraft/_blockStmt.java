@@ -72,7 +72,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
             (_blockStmt a, List<_stmt> es)-> a.set(es), PARSER,s-> _stmt.of(s))
             .setOrdered(true);/** the order of the statements matter */
 
-    public static _feature._features<_blockStmt> FEATURES = _feature._features.of(_blockStmt.class, STATEMENTS);
+    public static _feature._features<_blockStmt> FEATURES = _feature._features.of(_blockStmt.class,  PARSER, STATEMENTS);
 
     private BlockStmt bs;
 

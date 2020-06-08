@@ -278,7 +278,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             (_interface a, List<_typeRef>mems) -> a.setExtends(mems), PARSER, s->_typeRef.of(s))
             .setOrdered(false);
 
-    public static _feature._features<_interface> FEATURES = _feature._features.of(_interface.class,
+    public static _feature._features<_interface> FEATURES = _feature._features.of(_interface.class, PARSER,
             PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, MEMBERS);
 
     public _feature._features<_interface> features(){

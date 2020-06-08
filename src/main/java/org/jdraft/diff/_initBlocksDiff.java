@@ -40,10 +40,10 @@ public final class _initBlocksDiff
         rs.removeAll(both);
 
         ls.forEach(s -> dt.addDiff(new _leftOnly_initBlock(
-                path.in(_java.Feature.INIT_BLOCK),
+                path.in(Feature.INIT_BLOCK),
                 (_withInitBlocks) _leftParent, (_withInitBlocks) _rightParent, s)));
         rs.forEach(s -> dt.addDiff(new _rightOnly_initBlock(
-                path.in(_java.Feature.INIT_BLOCK),
+                path.in(Feature.INIT_BLOCK),
                 (_withInitBlocks) _leftParent, (_withInitBlocks) _rightParent, s)));
         return dt;
     }

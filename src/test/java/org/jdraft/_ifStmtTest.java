@@ -61,31 +61,31 @@ public class _ifStmtTest extends TestCase {
         assertTrue(_is.isElse(_blockStmt.class));
         assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.size() == 2));
         //make sure the else stmt contains (2) _exprStmts
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class) == 2));
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count() == 2));
         //make sure the else block contains (2) methodCallExpr expressionStmts
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class, _e->_e.isExpression(_methodCallExpr.class)) == 2));
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(_e->_e.isExpression(_methodCallExpr.class)) == 2));
         //make sure the else block contains (2) methodCallExpr expressionStmts that are System.out.println s
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class,
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(
                 _e->_e.isExpression(_methodCallExpr.class, _mc-> _mc.isScope("System.out") && _mc.isNamed("println"))) == 2));
 
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class,
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(
                 _e->_e.isExpression(_methodCallExpr.class, _mc-> _mc.isScopedName("System.out.println"))) == 2));
 
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class,
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(
                 _e->_e.isExpression(_methodCallExpr.class, _mc-> _mc.is("System.out.println($any$)"))) == 2));
 
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class,
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(
                 _e-> _e.is("System.out.println($any$);")) ==2));
 
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class,
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(
                 Stencil.of("System.out.println($any$);")) ==2));
 
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class,
-                "System.out.println($any$);") ==2));
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(Stencil.of(
+                "System.out.println($any$);")) ==2));
 
         //verify we accept stylistic differences ( here space padded arg lists )
-        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk().count(_exprStmt.class,
-                "System.out.println( $any$ );") ==2));
+        assertTrue(_is.isElse(_blockStmt.class, _bs-> _bs.walk(_exprStmt.class).count(Stencil.of(
+                "System.out.println($any$);")) ==2));
 
         assertTrue(_is.walk(_exprStmt.EXPRESSION).has());
         assertEquals(_is.walk(_exprStmt.EXPRESSION).first(es-> es instanceof _methodCallExpr), _methodCallExpr.of("System.out.println(1)") );
@@ -109,8 +109,8 @@ public class _ifStmtTest extends TestCase {
            }
         });
 
-        assertTrue(_m.walk().first(_returnStmt.class).is("return 100+200+z;"));
-        assertTrue(_m.walk().first(_returnStmt.class).is("return 100+$any$+z;"));
+        assertTrue(_m.walk(_returnStmt.class).first().is("return 100+200+z;"));
+        assertTrue(_m.walk(_returnStmt.class).first().is("return 100+$any$+z;"));
         assertEquals(_nameExpr.of("x"), _m.walk(_binaryExpr.LEFT).first());
         assertEquals(_nameExpr.of("y"), _m.walk(_binaryExpr.RIGHT).first());
 

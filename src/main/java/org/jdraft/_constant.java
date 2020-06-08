@@ -68,7 +68,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
             .setOrdered(false);
 
 
-    public static _feature._features<_constant> FEATURES = _feature._features.of(_constant.class, ANNOS, NAME, ARGS, MEMBERS);
+    public static _feature._features<_constant> FEATURES = _feature._features.of(_constant.class,  PARSER, ANNOS, NAME, ARGS, MEMBERS);
 
 
     public _constant( EnumConstantDeclaration ecd ){

@@ -30,7 +30,7 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
             a -> a.getText(),
             (_javadocComment a, String text) -> a.setText(text), PARSER);
 
-    public static _feature._features<_javadocComment> FEATURES = _feature._features.of(_javadocComment.class, TEXT);
+    public static _feature._features<_javadocComment> FEATURES = _feature._features.of(_javadocComment.class, PARSER, TEXT);
 
     public JavadocComment astComment;
 

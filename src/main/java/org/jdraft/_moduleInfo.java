@@ -122,7 +122,7 @@ public final class _moduleInfo
             (_moduleInfo a, List<_moduleDirective> _ns) -> a.setModuleDirectives(_ns), PARSER, s-> _moduleDirective.of(s))
             .setOrdered(false);
 
-    public static _feature._features<_moduleInfo> FEATURES = _feature._features.of(_moduleInfo.class, IMPORTS, IS_OPEN, MODULE_NAME, MODULE_DIRECTIVES);
+    public static _feature._features<_moduleInfo> FEATURES = _feature._features.of(_moduleInfo.class, PARSER, IMPORTS, IS_OPEN, MODULE_NAME, MODULE_DIRECTIVES);
 
     /**
      * Decompose the entity into key-VALUE pairs

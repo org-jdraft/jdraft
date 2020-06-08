@@ -2,7 +2,6 @@ package org.jdraft.diff;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
-import org.jdraft._java.Feature;
 import org.jdraft.macro.*;
 
 /**

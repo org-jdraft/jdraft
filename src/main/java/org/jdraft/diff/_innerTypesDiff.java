@@ -58,21 +58,21 @@ public final class _innerTypesDiff implements _differ<List<_type>, _java._node> 
             
             if (cc != null) {
                 //System.out.println( ">>>>>>>>>>>>>>>>>> FOUND MATCH "+ f);
-                _typeDiff.INSTANCE.diff(path.in(_java.Feature.INNER_TYPE), dt, _leftParent, _rightParent, f, cc);
+                _typeDiff.INSTANCE.diff(path.in(Feature.INNER_TYPE), dt, _leftParent, _rightParent, f, cc);
                 rs.remove(cc);
             } else {
                 //System.out.println( "<<<<<<<<<<<<< NOT FOUND MATCH "+ cc);
                 if (f instanceof _class) {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.CLASS, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.CLASS, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 } else if (f instanceof _interface) {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.INTERFACE, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.INTERFACE, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 } else if (f instanceof _enum) {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.ENUM, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.ENUM, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 } else {
-                    dt.addDiff(new _leftOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.ANNOTATION, f.getName()),
+                    dt.addDiff(new _leftOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.ANNOTATION, f.getName()),
                             (_type) _leftParent, (_type) _rightParent, f));
                 }
             }
@@ -80,16 +80,16 @@ public final class _innerTypesDiff implements _differ<List<_type>, _java._node> 
 
         rs.forEach(f -> {
             if (f instanceof _class) {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.CLASS, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.CLASS, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             } else if (f instanceof _interface) {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.INTERFACE, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.INTERFACE, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             } else if (f instanceof _enum) {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.ENUM, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.ENUM, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             } else {
-                dt.addDiff(new _rightOnly_nest(path.in(_java.Feature.INNER_TYPE).in(_java.Feature.ANNOTATION, f.getName()),
+                dt.addDiff(new _rightOnly_nest(path.in(Feature.INNER_TYPE).in(Feature.ANNOTATION, f.getName()),
                         (_type) _leftParent, (_type) _rightParent, f));
             }
         });

@@ -96,7 +96,7 @@ public final class _project {
         return FEATURES;
     }
 
-    public static _feature._features<_project> FEATURES = _feature._features.of(_project.class, CODE_UNITS);
+    public static _feature._features<_project> FEATURES = _feature._features.of(_project.class, PARSER, CODE_UNITS);
 
     public _project(){
         this.cache = new ArrayList<>();

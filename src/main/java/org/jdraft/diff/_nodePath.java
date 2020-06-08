@@ -26,20 +26,20 @@ public final class _nodePath {
     public static _nodePath of(Object... pathAsTokens) {
         _nodePath _p = new _nodePath();
         for (int i = 0; i < pathAsTokens.length; i += 2) {
-            if (!(pathAsTokens[i] instanceof _java.Feature) && !(pathAsTokens[i] instanceof Class)) {
+            if (!(pathAsTokens[i] instanceof Feature) && !(pathAsTokens[i] instanceof Class)) {
                 throw new _jdraftException("element [" + i + "] MUST be a Component or _node Class ");
             }
             if ((pathAsTokens.length > i + 1) && pathAsTokens[i + 1] instanceof String) {
-                if( pathAsTokens[i] instanceof _java.Feature){
-                    _p = _p.in((_java.Feature) pathAsTokens[i], (String) pathAsTokens[i + 1]);
+                if( pathAsTokens[i] instanceof Feature){
+                    _p = _p.in((Feature) pathAsTokens[i], (String) pathAsTokens[i + 1]);
                 } else{
-                    _p = _p.in(_java.Feature.of( (Class<_java._node>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
+                    _p = _p.in(Feature.of( (Class<_java._node>)pathAsTokens[i]), (String) pathAsTokens[i + 1]);
                 }
             } else {
-                if( pathAsTokens[i] instanceof _java.Feature){
-                    _p = _p.in((_java.Feature) pathAsTokens[i]);
+                if( pathAsTokens[i] instanceof Feature){
+                    _p = _p.in((Feature) pathAsTokens[i]);
                 } else{
-                    _p = _p.in( _java.Feature.of( (Class<_java._node>)pathAsTokens[i]));
+                    _p = _p.in( Feature.of( (Class<_java._node>)pathAsTokens[i]));
                 }
             }
         }
@@ -60,7 +60,7 @@ public final class _nodePath {
      *
      * we build this as we traverse the class (when identifying diffs)
      */
-    public List<_java.Feature> featurePath;
+    public List<Feature> featurePath;
 
     /**
      * The identifying String of a member component (usually the name of the
@@ -98,7 +98,7 @@ public final class _nodePath {
      * @param feature
      * @return a new _path that has a leaf node at the component
      */
-    public _nodePath in(_java.Feature feature) {
+    public _nodePath in(Feature feature) {
         return in(feature, "");
     }
 
@@ -116,7 +116,7 @@ public final class _nodePath {
      *
      * @return the last component in the path (null if the path is empty)
      */
-    public _java.Feature leaf() {
+    public Feature leaf() {
         if (!this.featurePath.isEmpty()) {
             return this.featurePath.get(this.featurePath.size() - 1);
         }
@@ -157,7 +157,7 @@ public final class _nodePath {
      * @param feature the component type expected
      * @return true if the component at
      */
-    public boolean is(int index, _java.Feature feature) {
+    public boolean is(int index, Feature feature) {
         if (index <= this.size() && index >= 0) {
             return this.featurePath.get(index).equals(feature);
         }
@@ -173,7 +173,7 @@ public final class _nodePath {
      * @return true if the component at index has the component and id provided,
      * false otherwise
      */
-    public boolean is(int index, _java.Feature feature, String id) {
+    public boolean is(int index, Feature feature, String id) {
         if (index <= this.size() && index >= 0) {
             return this.featurePath.get(index).equals(feature)
                     && this.idPath.get(index).equals(id);
@@ -204,7 +204,7 @@ public final class _nodePath {
      * @param id the id
      * @return true if the path has the leaf at component and id
      */
-    public boolean isLeaf(_java.Feature feature, String id) {
+    public boolean isLeaf(Feature feature, String id) {
         return feature.equals(leaf()) && id.equals(leafId());
     }
 
@@ -223,7 +223,7 @@ public final class _nodePath {
      * @param feature the component
      * @return is the last component in the path this component?
      */
-    public boolean isLeaf(_java.Feature feature) {
+    public boolean isLeaf(Feature feature) {
         return feature.equals(leaf());
     }
 
@@ -273,8 +273,8 @@ public final class _nodePath {
      * @param features
      * @return true if the path contains all these components in ANY order
      */
-    public boolean has(_java.Feature... features) {
-        Set<_java.Feature> s = new HashSet<>();
+    public boolean has(Feature... features) {
+        Set<Feature> s = new HashSet<>();
         Arrays.stream(features).forEach(c -> s.add(c));
         return featurePath.containsAll(s);
     }
@@ -285,7 +285,7 @@ public final class _nodePath {
      * @param feature component to look for
      * @return true if the component occurs anywhere in the path
      */
-    public boolean has(_java.Feature feature) {
+    public boolean has(Feature feature) {
         return featurePath.contains(feature);
     }
 
@@ -313,7 +313,7 @@ public final class _nodePath {
      * @return true if the path contains part with this component & id, false
      * otherwise
      */
-    public boolean has(_java.Feature feature, String id) {
+    public boolean has(Feature feature, String id) {
         for (int i = 0; i < size(); i++) {
             if (this.featurePath.get(i).equals(feature)
                     && this.idPath.get(i).equals(id)) {
@@ -348,7 +348,7 @@ public final class _nodePath {
      * @param id the id for the component
      * @return a new _path advanced to the next component/id
      */
-    public _nodePath in(_java.Feature feature, String id) {
+    public _nodePath in(Feature feature, String id) {
         _nodePath _p = new _nodePath(this);
         _p.featurePath.add(feature);
         _p.idPath.add(id);

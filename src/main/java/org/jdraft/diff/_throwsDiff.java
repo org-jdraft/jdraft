@@ -29,7 +29,7 @@ public final class _throwsDiff implements _differ<_throws, _java._node> {
     @Override
     public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _throws left, _throws right) {
         if (!Objects.equals(left, right)) {
-            dt.addDiff(new _change_throws(path.in(_java.Feature.THROWS), (_withThrows) _leftParent, (_withThrows) _rightParent));
+            dt.addDiff(new _change_throws(path.in(Feature.THROWS), (_withThrows) _leftParent, (_withThrows) _rightParent));
         }
         return dt;
     }

@@ -72,7 +72,7 @@ public final class _localClassStmt implements _stmt<LocalClassDeclarationStmt, _
             a -> a.get_class(),
             (_localClassStmt a, _class _c) -> a.set_class(_c), PARSER);
 
-    public static _feature._features<_localClassStmt> FEATURES = _feature._features.of(_localClassStmt.class, CLASS );
+    public static _feature._features<_localClassStmt> FEATURES = _feature._features.of(_localClassStmt.class,  PARSER, CLASS );
 
     private LocalClassDeclarationStmt astStmt;
 

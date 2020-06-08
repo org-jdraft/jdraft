@@ -3,8 +3,6 @@ package org.jdraft.diff;
 import junit.framework.TestCase;
 import org.jdraft.*;
 
-import java.util.List;
-
 public class _diffCompanionTypeTest extends TestCase {
 
     /*
@@ -121,9 +119,9 @@ public class _diffCompanionTypeTest extends TestCase {
         _diff _d = _diff.of(_c, _cp);
         assertEquals( 1, _d.size()); //verify we have 1 diff
 
-        assertNotNull( _d.firstOn(_java.Feature.COMPANION_TYPE)); //there is a companion Type diff
-        assertNotNull( _d.rightOnlyOn(_java.Feature.CLASS, "D")); //the class is D
-        assertNotNull( _d.rightOnlyAt(_java.Feature.CLASS, "D")); //the class is D
+        assertNotNull( _d.firstOn(Feature.COMPANION_TYPE)); //there is a companion Type diff
+        assertNotNull( _d.rightOnlyOn(Feature.CLASS, "D")); //the class is D
+        assertNotNull( _d.rightOnlyAt(Feature.CLASS, "D")); //the class is D
 
         System.out.println( _d );
     }

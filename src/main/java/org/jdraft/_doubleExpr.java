@@ -28,7 +28,7 @@ public final class _doubleExpr implements _expr._literal<DoubleLiteralExpr, _dou
             (_doubleExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
-    public static _feature._features<_doubleExpr> FEATURES = _feature._features.of(_doubleExpr.class, LITERAL_VALUE);
+    public static _feature._features<_doubleExpr> FEATURES = _feature._features.of(_doubleExpr.class,  PARSER, LITERAL_VALUE);
 
     public DoubleLiteralExpr de;
 

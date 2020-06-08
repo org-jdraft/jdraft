@@ -54,7 +54,7 @@ public final class _moduleProvides implements _java._node<ModuleProvidesDirectiv
             a -> a.list(),
             (_moduleProvides a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s)).setOrdered(false);
 
-    public static _feature._features<_moduleProvides> FEATURES = _feature._features.of(_moduleProvides.class, MODULE_NAME, MODULE_NAMES);
+    public static _feature._features<_moduleProvides> FEATURES = _feature._features.of(_moduleProvides.class, PARSER, MODULE_NAME, MODULE_NAMES);
 
     public ModuleProvidesDirective me;
 

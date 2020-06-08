@@ -39,7 +39,7 @@ public final class _breakStmt
             a -> a.getLabel(),
             (_breakStmt a, String s) -> a.setLabel(s), PARSER);
 
-    public static _feature._features<_breakStmt> FEATURES = _feature._features.of(_breakStmt.class, LABEL);
+    public static _feature._features<_breakStmt> FEATURES = _feature._features.of(_breakStmt.class,  PARSER, LABEL);
 
     public _feature._features<_breakStmt> features(){
         return FEATURES;

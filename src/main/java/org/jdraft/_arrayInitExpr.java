@@ -144,7 +144,7 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
             (_arrayInitExpr a, List<_expr> es)-> a.set(es), PARSER, s-> _expr.of(s))
             .setOrdered(false);/** order of init exprs doesnt matter semantically { (int i=0; int j=1;) === (int j=1, int i=0) } */
 
-    public static _feature._features<_arrayInitExpr> FEATURES = _feature._features.of(_arrayInitExpr.class, INITS);
+    public static _feature._features<_arrayInitExpr> FEATURES = _feature._features.of(_arrayInitExpr.class,  PARSER, INITS);
 
     public _feature._features<_arrayInitExpr> features(){
         return FEATURES;

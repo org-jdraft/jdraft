@@ -148,11 +148,11 @@ public interface _diffNode<_PN extends _java._domain> {
         return path().has(clazz, id);
     }
         
-    default boolean on( _java.Feature feature){
+    default boolean on( Feature feature){
         return path().has(feature);
     }
     
-    default boolean on(_java.Feature feature, String id){
+    default boolean on(Feature feature, String id){
         /*
         _path p = path();
         for(int i=0;i<p.size(); i++){
@@ -178,7 +178,7 @@ public interface _diffNode<_PN extends _java._domain> {
      * @param id the identifying features of this path
      * @return true if this is the last part of the path
      */
-    default boolean at(_java.Feature feature, String id) {
+    default boolean at(Feature feature, String id) {
         return path().isLeaf(feature) && path().isLeafId(id);
     }
     
@@ -204,7 +204,7 @@ public interface _diffNode<_PN extends _java._domain> {
      * @param feature the expected leaf component
      * @return true if this node has a path ending with this component
      */
-    default boolean at(_java.Feature feature) {
+    default boolean at(Feature feature) {
         return path().isLeaf(feature);
     }
 

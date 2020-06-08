@@ -3,7 +3,7 @@ package org.jdraft.diff;
 import com.github.javaparser.utils.Log;
 import org.jdraft.*;
 
-import static org.jdraft._java.Feature.*;
+import static org.jdraft.diff.Feature.*;
 
 import org.jdraft.diff._diffNode._change;
 import org.jdraft.diff._diffNode._edit;

@@ -129,7 +129,7 @@ public final class _entryPair implements _java._node<MemberValuePair, _entryPair
             a->a.getValue(),
             (_entryPair a, _expr _e)-> a.setValue(_e), PARSER );
 
-    public static _feature._features<_entryPair> FEATURES = _feature._features.of(_entryPair.class, NAME, VALUE);
+    public static _feature._features<_entryPair> FEATURES = _feature._features.of(_entryPair.class,  PARSER, NAME, VALUE);
 
     public boolean isValueOnly = false;
 

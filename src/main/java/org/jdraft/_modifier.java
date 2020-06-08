@@ -26,7 +26,7 @@ public enum _modifier implements _java._node<Modifier, _modifier> {
 
     public static final Function<String, _modifier> PARSER = s-> _modifier.of(s);
 
-    public static _feature._features<_modifier> FEATURES = _feature._features.of(_modifier.class);
+    public static _feature._features<_modifier> FEATURES = _feature._features.of(_modifier.class, PARSER);
 
     public final int bitMask;
 

@@ -108,7 +108,7 @@ public final class _forStmt implements
           },
           (_forStmt a, _variablesExpr _e) -> a.setInit(_e), PARSER);
 
-    public static _feature._features<_forStmt> FEATURES = _feature._features.of(_forStmt.class, INIT, COMPARE, UPDATES, BODY);
+    public static _feature._features<_forStmt> FEATURES = _feature._features.of(_forStmt.class,  PARSER, INIT, COMPARE, UPDATES, BODY);
 
     private ForStmt astStmt;
 

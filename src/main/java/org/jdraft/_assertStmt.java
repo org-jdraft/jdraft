@@ -107,7 +107,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _java.
             (_assertStmt a, _expr _e) -> a.setMessage(_e), PARSER)
             .setNullable(true);
 
-    public static _feature._features<_assertStmt> FEATURES = _feature._features.of(_assertStmt.class, CHECK, MESSAGE);
+    public static _feature._features<_assertStmt> FEATURES = _feature._features.of(_assertStmt.class,  PARSER, CHECK, MESSAGE);
 
     private AssertStmt astStmt;
 

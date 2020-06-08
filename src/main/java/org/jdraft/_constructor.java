@@ -158,7 +158,7 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
             a -> a.getBody(),
             (_constructor a, _body _b) -> a.setBody(_b), PARSER);
 
-    public static _feature._features<_constructor> FEATURES = _feature._features.of(_constructor.class,
+    public static _feature._features<_constructor> FEATURES = _feature._features.of(_constructor.class, PARSER,
             JAVADOC, ANNOS, MODIFIERS, TYPE_PARAMS, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
 
     private final ConstructorDeclaration astCtor;

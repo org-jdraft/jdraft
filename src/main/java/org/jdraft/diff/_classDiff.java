@@ -12,7 +12,6 @@ public final class _classDiff implements _differ<_class, _java._node> {
         if( left.hasPackage() || right.hasPackage() ){
             _packageNameDiff.INSTANCE.diff(path, ds, left, right, left.getPackageName(), right.getPackageName());
         }
-        //_importsDiff.INSTANCE.diff(path, ds, left, right, left.listAstImports(), right.listAstImports());
         _importsDiff.INSTANCE.diff(path, ds, left, right, left, right);
         _javadocCommentDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
         _annoExprsDiff.INSTANCE.diff(path, ds, left, right, left.getAnnoExprs(), right.getAnnoExprs());

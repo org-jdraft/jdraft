@@ -1,7 +1,6 @@
 package org.jdraft.diff;
 
 import org.jdraft._annoExpr;
-import org.jdraft._java.Feature;
 import junit.framework.TestCase;
 
 /**

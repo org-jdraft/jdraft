@@ -43,7 +43,7 @@ public final class _variable implements _java._node<VariableDeclarator, _variabl
             a -> a.getInit(),
             (_variable a, _expr _e) -> a.setInit(_e), PARSER);
 
-    public static _feature._features<_variable> FEATURES = _feature._features.of(_variable.class, TYPE, NAME, INIT);
+    public static _feature._features<_variable> FEATURES = _feature._features.of(_variable.class,  PARSER, TYPE, NAME, INIT);
 
     public VariableDeclarator vd;
 

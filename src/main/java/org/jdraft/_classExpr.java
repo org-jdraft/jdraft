@@ -34,7 +34,7 @@ public final class _classExpr implements _expr<ClassExpr, _classExpr>, _typeRef.
             a -> a.getType(),
             (_classExpr a, _typeRef o) -> a.setType(o), PARSER);
 
-    public static _feature._features<_classExpr> FEATURES = _feature._features.of(_classExpr.class, TYPE);
+    public static _feature._features<_classExpr> FEATURES = _feature._features.of(_classExpr.class,  PARSER, TYPE);
 
     public ClassExpr ce;
 

@@ -32,7 +32,7 @@ public final class _javadocCommentDiff implements _differ<_javadocComment, _java
     @Override
     public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _javadocComment left, _javadocComment right) {
         if (!equivalent(left, right)) {
-            dt.addDiff(new _changeJavadoc(path.in(_java.Feature.JAVADOC), (_withJavadoc) _leftParent, (_withJavadoc) _rightParent));
+            dt.addDiff(new _changeJavadoc(path.in(Feature.JAVADOC), (_withJavadoc) _leftParent, (_withJavadoc) _rightParent));
         }
         return dt;
     }

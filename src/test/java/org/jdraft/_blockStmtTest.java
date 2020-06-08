@@ -28,9 +28,9 @@ public class _blockStmtTest extends TestCase {
                 assert(1==1) : "message";
             }
         });
-        assertEquals(2, _bs.walk().count(_assertStmt.class));
-        _bs.walk().forEach(_assertStmt.class, _as-> _as.hasMessage(), _as->_as.removeFromAst());
-        assertEquals(0, _bs.walk().count(_assertStmt.class));
+        assertEquals(2, _bs.walk(_assertStmt.class).count());
+        _bs.walk(_assertStmt.class).forEach( (_assertStmt _as)-> _as.hasMessage(), _as->_as.removeFromAst());
+        assertEquals(0, _bs.walk(_assertStmt.class).count());
     }
 
     public void testCount(){
@@ -56,8 +56,8 @@ public class _blockStmtTest extends TestCase {
         assertEquals(1, _bs.count(_assertStmt.class, _ifStmt.class));
         assertEquals(0, _bs.count(_stmt._goto.class));
 
-        assertEquals( _intExpr.of(0), _bs.walk().first(_intExpr.class));
-        assertTrue(_bs.walk().first(_stringExpr.class).isText("message"));
+        assertEquals( _intExpr.of(0), _bs.walk(_intExpr.class).first());
+        assertTrue(_bs.walk(_stringExpr.class).first().isText("message"));
     }
 
     public void testCountLoop(){
@@ -124,15 +124,15 @@ public class _blockStmtTest extends TestCase {
         });
 
         //verify I can find assertStmts
-        assertTrue(_bs.walk().has(_assertStmt.class));
+        assertTrue(_bs.walk(_assertStmt.class).has());
         //verify there is exactly 1 assertStmt in the blockStmt
-        assertEquals(1, _bs.walk().count(_assertStmt.class));
+        assertEquals(1, _bs.walk(_assertStmt.class).count());
 
         //walk & remove all assertsStmts that have messages
-        _bs.walk().forEach(_assertStmt.class,_as-> _as.hasMessage(), _as-> _as.removeFromAst());
+        _bs.walk(_assertStmt.class).forEach(_as-> _as.hasMessage(), _as-> _as.removeFromAst());
 
         //verify its been removed
-        assertFalse( _bs.walk().has(_assertStmt.class) ); //verify there are none
-        assertEquals(0, _bs.walk().count(_assertStmt.class)); //verify count is 0 after removing
+        assertFalse( _bs.walk(_assertStmt.class).has() ); //verify there are none
+        assertEquals(0, _bs.walk(_assertStmt.class).count()); //verify count is 0 after removing
     }
 }

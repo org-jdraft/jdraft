@@ -31,7 +31,7 @@ public final class _continueStmt implements _stmt._goto<ContinueStmt, _continueS
             a -> a.getLabel(),
             (_continueStmt a, String s) -> a.setLabel(s), PARSER);
 
-    public static _feature._features<_continueStmt> FEATURES = _feature._features.of(_continueStmt.class, LABEL);
+    public static _feature._features<_continueStmt> FEATURES = _feature._features.of(_continueStmt.class,  PARSER, LABEL);
 
     private ContinueStmt astStmt;
 

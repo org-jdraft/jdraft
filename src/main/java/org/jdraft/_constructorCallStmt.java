@@ -58,7 +58,8 @@ public final class _constructorCallStmt
             a -> a.getTypeArgs(),
             (_constructorCallStmt a, _typeArgs _e) -> a.setTypeArgs(_e), PARSER);
 
-    public static _feature._features<_constructorCallStmt> FEATURES = _feature._features.of(_constructorCallStmt.class, TYPE_ARGS, IS_THIS, IS_SUPER, EXPRESSION, ARGS);
+    public static _feature._features<_constructorCallStmt> FEATURES = _feature._features.of(
+            _constructorCallStmt.class, PARSER, TYPE_ARGS, IS_THIS, IS_SUPER, EXPRESSION, ARGS);
 
     private ExplicitConstructorInvocationStmt astStmt;
 

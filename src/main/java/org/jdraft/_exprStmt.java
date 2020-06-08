@@ -88,7 +88,7 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
             a -> a.getExpression(),
             (_exprStmt a, _expr _e) -> a.setExpression(_e), PARSER);
 
-    public static _feature._features<_exprStmt> FEATURES = _feature._features.of(_exprStmt.class, EXPRESSION);
+    public static _feature._features<_exprStmt> FEATURES = _feature._features.of(_exprStmt.class,  PARSER, EXPRESSION);
 
     private ExpressionStmt astStmt;
 

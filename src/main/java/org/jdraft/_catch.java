@@ -106,7 +106,7 @@ public final class _catch implements _java._node<CatchClause, _catch>, _body._wi
             a -> a.getBody(),
             (_catch a, _body _b) -> a.setBody(_b), PARSER);
 
-    public static _feature._features<_catch> FEATURES = _feature._features.of(_catch.class, PARAM, BODY);
+    public static _feature._features<_catch> FEATURES = _feature._features.of(_catch.class,  PARSER, PARAM, BODY);
 
     public CatchClause cc;
 

@@ -24,7 +24,7 @@ public final class _emptyStmt implements _stmt<EmptyStmt, _emptyStmt> {
         return new _emptyStmt(Stmt.emptyStmt( code));
     }
 
-    public static _feature._features<_emptyStmt> FEATURES = _feature._features.of(_emptyStmt.class);
+    public static _feature._features<_emptyStmt> FEATURES = _feature._features.of(_emptyStmt.class, PARSER);
 
     private EmptyStmt astStmt;
 

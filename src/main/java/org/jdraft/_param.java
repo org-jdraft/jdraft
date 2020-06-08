@@ -97,7 +97,7 @@ public final class _param
             a -> a.getName(),
             (_param p, String s) -> p.setName(s), PARSER);
 
-    public static _feature._features<_param> FEATURES = _feature._features.of(_param.class, ANNOS, IS_FINAL, TYPE, IS_VAR_ARG, VAR_ARG_ANNO_EXPRS, NAME)
+    public static _feature._features<_param> FEATURES = _feature._features.of(_param.class,  PARSER, ANNOS, IS_FINAL, TYPE, IS_VAR_ARG, VAR_ARG_ANNO_EXPRS, NAME)
             .setStrictlyOrdered(false);
 
     private final Parameter astParameter;

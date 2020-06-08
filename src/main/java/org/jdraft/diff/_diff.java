@@ -10,7 +10,6 @@ import org.jdraft._annoExprs._withAnnoExprs;
 import org.jdraft._body._withBody;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._field._withFields;
-import org.jdraft._java.Feature;
 import org.jdraft._javadocComment._withJavadoc;
 import org.jdraft._method._withMethods;
 import org.jdraft._modifiers._withModifiers;

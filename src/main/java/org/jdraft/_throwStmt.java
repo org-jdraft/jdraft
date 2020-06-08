@@ -73,7 +73,7 @@ public final class _throwStmt implements
             a -> a.getExpression(),
             (_throwStmt p, _expr _e) -> p.setExpression(_e), PARSER);
 
-    public static _feature._features<_throwStmt> FEATURES = _feature._features.of(_throwStmt.class, EXPRESSION );
+    public static _feature._features<_throwStmt> FEATURES = _feature._features.of(_throwStmt.class,  PARSER, EXPRESSION );
 
     private ThrowStmt astStmt;
 

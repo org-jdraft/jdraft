@@ -94,7 +94,7 @@ public final class _name implements _java._node<Node, _name> {
             a -> a.name,
             (_name a, Node n) -> a.set(n), PARSER);
 
-    public static _feature._features<_name> FEATURES = _feature._features.of(_name.class, NAME);
+    public static _feature._features<_name> FEATURES = _feature._features.of(_name.class, PARSER, NAME);
 
     public _name(Node sn){
         this.name = sn;

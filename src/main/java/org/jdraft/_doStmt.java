@@ -92,7 +92,7 @@ public final class _doStmt implements
             a -> a.getBody(),
             (_doStmt a, _body b) -> a.setBody(b), PARSER);
 
-    public static _feature._features<_doStmt> FEATURES = _feature._features.of(_doStmt.class, CONDITION, BODY );
+    public static _feature._features<_doStmt> FEATURES = _feature._features.of(_doStmt.class,  PARSER, CONDITION, BODY );
 
     private DoStmt astStmt;
 

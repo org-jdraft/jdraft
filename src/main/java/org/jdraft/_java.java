@@ -353,193 +353,6 @@ public interface _java {
     }
 
 
-
-    /**
-     * A "concrete" way of identifying/addressing elements and properties that are the components
-     * of a Java program. A way to consistently name things when we construct and deconstruct
-     * Components of Java programs (external tools for building & matching &
-     * diffing can be more valuable having the opportunity to compare like for
-     * like (by componentizing things out and comparing or matching on a part by
-     * part basis)
-     */
-    enum Feature {
-        MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
-        PACKAGE("package", _package.class),
-        /** i.e. @Deprecated */
-        ANNO_EXPR("annoExpr", _annoExpr.class),
-        /** i.e. @Deprecated @NotNull */
-        ANNO_EXPRS("annoExprs", _annoExprs.class),
-
-        CLASS("class", _class.class),
-        ENUM("enum", _enum.class),
-        INTERFACE("interface", _interface.class),
-        ANNOTATION("annotation", _annotation.class),
-        BODY("body", _body.class),
-
-        MODIFIER("modifier", _modifier.class),
-        MODIFIERS("modifiers", _modifiers.class), //List.class, Modifier.class),
-
-        HEADER_COMMENT("header", Comments.class),
-        JAVADOC("javadoc", _javadocComment.class),
-
-        LINE_COMMENT("lineComment", _lineComment.class),
-        BLOCK_COMMENT("blockComment", _blockComment.class),
-
-        PARAM("param", _param.class),
-        PARAMS("params", _params.class),
-
-        RECEIVER_PARAM("receiverParam", _receiverParam.class),
-        TYPE_PARAM("typeParam", _typeParam.class), //_typeParameter.class
-        TYPE_PARAMS("typeParams", _typeParams.class),
-        THROWS("throws", _throws.class),
-        NAME("name", String.class),
-
-        ANNO_EXPR_ENTRY_PAIR("annoExprEntryPair", MemberValuePair.class), //anno
-        ANNO_EXPR_ENTRY_PAIRS("annoExprEntryPairs", List.class, MemberValuePair.class), //anno
-
-        IMPORT("import", _import.class),
-        IMPORTS("imports", _imports.class),
-
-        IS_STATIC("isStatic", Boolean.class),
-        IS_WILDCARD("isWildcard", Boolean.class),
-
-        ANNOTATION_ENTRY("annotationEntry", _entry.class), //annotation
-        ANNOTATION_ENTRIES("annotationEntries", List.class, _entry.class), //_annotation
-
-        FIELD("field", _field.class),
-        FIELDS("fields", List.class, _field.class),
-
-        INNER_TYPE("innerType", _type.class),
-        INNER_TYPES("innerTypes", List.class, _type.class),
-
-        COMPANION_TYPE( "companionType", _type.class),
-        COMPANION_TYPES( "companionTypes", List.class, _type.class),
-
-        TYPE("type", _typeRef.class), //annotation.element
-        DEFAULT_EXPR("defaultExpr", Expression.class), //_annotation.element
-
-        EXTENDS_TYPES("extendsTypes", List.class, ClassOrInterfaceType.class), //_class, //_interface
-        IMPLEMENTS_TYPES("implementsTypes", List.class, ClassOrInterfaceType.class), //_class, _enum
-
-        INIT_BLOCK("initBlock", _initBlock.class), //class, _enum
-        INIT_BLOCKS("initBlocks", List.class, _initBlock.class), //class, _enum
-
-        CONSTRUCTOR("constructor", _constructor.class),
-        CONSTRUCTORS("constructors", List.class, _constructor.class), //class, _enum
-
-        METHOD("method", _method.class),
-        METHODS("methods", List.class, _method.class), //class, _enum, _interface, _enum._constant
-
-        CONSTANT("constant", _constant.class), //_enum
-        CONSTANTS("constants", List.class, _constant.class),
-
-        ARG_EXPR("arg", Expression.class), //_enum._constant
-        ARGS_EXPRS("args", List.class, Expression.class), //_enum._constant
-
-        INIT("init", Expression.class), //field
-        IS_FINAL("isFinal", Boolean.class), //_parameter
-        IS_VAR_ARG("isVarArg", Boolean.class), //parameter
-
-        AST_TYPE("astType", Type.class), //typeRef
-        ARRAY_LEVEL("arrayLevel", Integer.class), //_typeRef
-        ELEMENT_TYPE("elementType", Type.class), //array _typeRef
-
-        //new stuff for Statements and expressions
-        TRY_BODY("tryBody", BlockStmt.class),
-        CATCH_CLAUSES( "catchClauses", List.class, CatchClause.class), //tryStmt
-        FINALLY_BODY( "finallyBody", BlockStmt.class),
-        WITH_RESOURCES_EXPRS("withResourcesExpr", List.class, Expression.class), //tryStmt
-
-        STATEMENTS("statements", List.class, Statement.class), //statements of a switch entry
-        SWITCH_SELECTOR_EXPR("switchSelectorExpr", Expression.class),
-        SWITCH_ENTRIES("switchEntries", List.class, SwitchEntry.class), //TODO change to _switchEntry
-        SWITCH_BODY_TYPE("switchBodyType", com.github.javaparser.ast.stmt.SwitchEntry.Type.class),
-        SWITCH_LABEL_EXPRS("switchLabelExprs", List.class, Expression.class),
-        ARRAY_NAME("arrayName", Expression.class), //arrayAccess
-        INDEX_EXPR("indexExpr", Expression.class), //arrayAccess
-        VALUE_EXPRS("valueExprs", List.class, Expression.class), //ArrayInit
-        TARGET_EXPR("targetExpr", Expression.class), //assign
-        VALUE_EXPR("valueExpr", Expression.class), //assign
-        LEFT_EXPR( "leftExpr", Expression.class), //binaryExpr
-        RIGHT_EXPR( "rightExpr", Expression.class), //binaryExpr
-        BINARY_OPERATOR( "binaryOperator", BinaryExpr.Operator.class), //binaryExpr
-        UNARY_OPERATOR( "unaryOperator", UnaryExpr.Operator.class), //unaryExpr
-        EXPRESSION("expression", Expression.class), //CastExpr
-        CONDITION_EXPR("conditionExpr", Expression.class), //ternary
-        THEN_EXPR("thenExpr", Expression.class),    //ternary
-        ELSE_EXPR("else", Expression.class),   //ternary
-        INNER_EXPR("innerExpr", Expression.class), //parenthesizedExpr
-        SCOPE_EXPR("scopeExpr", Expression.class), //fieldAccessExpr
-        TYPE_ARGS("typeArgs", List.class, Type.class), //methodCall
-        IDENTIFIER("identifier", String.class),  //methodReference
-        ANONYMOUS_CLASS_BODY("anonymousClassBody", List.class, BodyDeclaration.class),//_new
-        TYPE_NAME("typeName", String.class), //_super superExpr
-        VARIABLES("variables", List.class, _variable.class), //VariableDeclarator.class),
-        CHECK_EXPR("checkExpr", Expression.class), //assertStmt
-        MESSAGE_EXPR("messageExpr", Expression.class), //assertStmt
-        LABEL("label", String.class), //breakStmt, labeledStmt
-        IS_THIS_CALL("isThisCall", Boolean.class), //constructorCallStmt
-        IS_SUPER_CALL("isSuperCall", Boolean.class), //constructorCallStmt
-        ITERABLE_EXPR("iterableExpr", Expression.class), //forEachStmt
-        VARIABLE("variable", VariableDeclarationExpr.class), //forEachStmt
-        INIT_EXPR("initExpr", List.class, Expression.class), //forStmt
-        UPDATE_EXPR("updateExpr", List.class, Expression.class),
-        COMPARE_EXPR("compareExpr", Expression.class),
-        STATEMENT("statement", Statement.class), //labeledStatment
-        ARRAY_DIMENSION("arrayDimension", Expression.class),
-        ARRAY_DIMENSIONS("arrayDimensions", List.class, ArrayCreationLevel.class), //arrayCreate
-        IS_ENCLOSED_PARAMS( "isEnclosedParams", Boolean.class),
-        LITERAL("literal", Object.class), //typeRef, textBlock
-        ASSIGN_OPERATOR("assignOperator", AssignExpr.Operator.class);
-
-        public final String name;
-        public final Class implementationClass;
-        public final Class elementClass;
-
-        Feature(String name, Class implementationClass) {
-            this.name = name;
-            this.implementationClass = implementationClass;
-            this.elementClass = null;
-        }
-
-        Feature(String name, Class containerClass, Class elementClass) {
-            this.name = name;
-            this.implementationClass = containerClass;
-            this.elementClass = elementClass;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public static Feature of(String name) {
-            Optional<Feature> op = Arrays.stream(Feature.values()).filter(p -> p.name.equals(name)).findFirst();
-            if (op.isPresent()) {
-                return op.get();
-            }
-            return null;
-        }
-
-        /**
-         *
-         * @param nodeClass
-         * @param <_N>
-         * @return
-         */
-        public static <_N extends _node> Feature of(Class<_N> nodeClass) {
-            Optional<Feature> op = Arrays.stream(Feature.values()).filter(p -> p.implementationClass.equals(nodeClass)).findFirst();
-            if (op.isPresent()) {
-                return op.get();
-            }
-            return null;
-        }
-    }
-
     /**
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
      * ...to jdraft _java models (i.e. {@link _annoExpr})
@@ -607,7 +420,6 @@ public interface _java {
         /**
          * The classes below are categorical interfaces that are applied to classes
          */
-        //Class<_multiPart> NODE = _multiPart.class;
         Class<_declared> MEMBER = _declared.class;
         Class<_withName> NAMED = _withName.class;
         Class<_withNameType> NAMED_TYPE = _withNameType.class;
@@ -966,7 +778,102 @@ public interface _java {
      */
     interface _node<N extends Node, _N extends _node> extends _domain {
 
-        public _feature._features<_N> features();
+        _feature._features<_N> features();
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default PRE_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * Preorder (Parent, then children) from (A) : A,B,D,E,C
+         * </PRE>
+         *
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default _walk<_node> walk(){
+            return new _walk(Tree.PRE_ORDER, this, _node.class);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * PostOrder ("leaves first", "bottom-up") from (A) : D,E,B,C,A
+         * </PRE>
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default _walk<_node> walkPostOrder(){
+            return new _walk(Tree.POST_ORDER, this, _node.class);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         * Breadth-First (or Level Order) from (A): A,B,C,D,E
+         * </PRE>
+         * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
+         */
+        default _walk<_node> walkBreadthFirst(){
+            return new _walk(Tree.BREADTH_FIRST, this, _node.class);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in default PARENTS fashion)
+         *
+         * <PRE>
+         *             A
+         *           /  \
+         *          B    C
+         *         / \
+         *        D   E
+         *
+         * "Parents" (or "up to root"):
+         *    from D: B, A
+         *    from E: B, A
+         *    from B: A
+         *    from C: A
+         * </PRE>
+         *
+         * @return
+         */
+        default _walk<_node> walkParents(){
+            return new _walk<_node>(Tree.PARENTS, this, _node.class);
+        }
+
+        /**
+         * Build and return a _walk object that will prepare walking the AST (in DIRECT_CHILDREN fashion)
+         *
+         * <PRE>
+         *            (A)
+         *           /  \
+         *         (B)   C
+         *         / \
+         *        D   E
+         * Direct Children
+         *     From (A): B, C
+         *     From (B): D, E
+         * </PRE>
+         *
+         * @return
+         */
+        default _walk<_node> walkDirectChildren(){
+            return new _walk<_node>(Tree.DIRECT_CHILDREN, this, _node.class);
+        }
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default PRE_ORDER fashion)
@@ -1077,8 +984,8 @@ public interface _java {
          *
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
-        default _walk walk(){
-            return new _walk(Tree.PRE_ORDER, this);
+        default <_D extends _java._domain> _walk<_D> walk(Class<_D> targetClass){
+            return new _walk(Tree.PRE_ORDER, this, targetClass);
         }
 
         /**
@@ -1094,8 +1001,8 @@ public interface _java {
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
-        default _walk walkPostOrder(){
-            return new _walk(Tree.POST_ORDER, this);
+        default <_D extends _java._domain> _walk<_D> walkPostOrder(Class<_D> targetClass){
+            return new _walk(Tree.POST_ORDER, this, targetClass);
         }
 
         /**
@@ -1111,8 +1018,8 @@ public interface _java {
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
-        default _walk walkBreadthFirst(){
-            return new _walk(Tree.BREADTH_FIRST, this);
+        default <_D extends _java._domain> _walk<_D> walkBreadthFirst(Class<_D> targetClass){
+            return new _walk(Tree.BREADTH_FIRST, this, targetClass);
         }
 
         /**
@@ -1134,8 +1041,8 @@ public interface _java {
          *
          * @return
          */
-        default _walk walkParents(){
-            return new _walk(Tree.PARENTS, this);
+        default <_D extends _java._domain> _walk<_D> walkParents(Class<_D> targetClass){
+            return new _walk(Tree.PARENTS, this, targetClass);
         }
 
         /**
@@ -1154,8 +1061,8 @@ public interface _java {
          *
          * @return
          */
-        default _walk walkDirectChildren(){
-            return new _walk(Tree.DIRECT_CHILDREN, this);
+        default <_D extends _java._domain> _walk<_D> walkDirectChildren(Class<_D> targetClass){
+            return new _walk(Tree.DIRECT_CHILDREN, this, targetClass);
         }
 
         /**
@@ -2064,245 +1971,6 @@ public interface _java {
 
         default _expr getExpression(){
             return _expr.of(((NodeWithExpression)ast()).getExpression());
-        }
-    }
-
-    /**
-     * Fluent intermediate object used to set up a walk through AST-nodes given:
-     * <UL>
-     * <LI>a starting node
-     * <LI>a treeTraversal strategy</LI>
-     * <LI>the target node type</LI>
-     *</UL>
-     *
-     * this simplifies "walk" queries where the target is known
-     *
-     * i.e.
-     * _class _c = _class.of(MyClass.class);
-     * //this is a walkTarget implementation
-     * assertEquals(2, _c.walk(_method.class).count(_m->_m.isStatic()));
-     * //this is a normal implementation
-     *
-     *
-     */
-    class _walkFeatures <_F> {
-
-        /** How to walk the AST */
-        public Node.TreeTraversal treeTraversal = Node.TreeTraversal.PREORDER;
-
-        /** The start node for where to begin the walk */
-        public _node _n;
-
-        /** The relevant features to intercept*/
-        public List<_feature<?, _F>> features;
-
-        public _walkFeatures(_node _n, _feature<?, _F>...features){
-            this._n = _n;
-            this.features = Stream.of(features).collect(Collectors.toList());
-        }
-
-        public _walkFeatures(Node.TreeTraversal tt, _node _n, _feature<?, _F>...features){
-            this._n = _n;
-            this.treeTraversal = tt;
-            this.features = Stream.of(features).collect(Collectors.toList());
-        }
-
-        public boolean has(){
-            return has(t->true);
-        }
-
-        public  boolean has(Predicate<_F> _matchFn){
-            return first(_matchFn) != null;
-        }
-
-        public _F first(){
-            return first( t->true);
-        }
-
-        public <_I extends _F> _I first(Class<_I> implClass){
-            return (_I) first( t-> implClass.isAssignableFrom(t.getClass()));
-        }
-
-
-        /**
-         *
-         *  List<_feature<?, _F>> featuresOnThisNode =
-         *     features.stream().filter( f-> f.getTargetClass().isAssignableFrom(n.getClass()) ).collect(Collectors.toList());
-         *
-         *  featuresOnThisNode.stream().filter( f-> _matchFn.test( f.getter( _n) ) );
-         * @param _matchFn
-         * @return
-         */
-        public <_T> _F first(Predicate<_F> _matchFn){
-            List<_F> found = new ArrayList<>();
-            this._n.walk().first(  n->{
-                for(int i=0; i<features.size();i++){
-                    _feature<_T, _F> _f = (_feature<_T, _F>) this.features.get(i);
-
-                    if( _f.getTargetClass().isAssignableFrom(n.getClass()) ){
-                        _F f = _f.get( (_T)n);
-                        if(_matchFn.test(f)){
-                            found.add(f);
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            });
-            if( found.isEmpty()){
-                return null;
-            }
-            return found.get(0);
-        }
-    }
-
-    /**
-     * Fluent intermediate object used to set up a walk through AST-nodes given:
-     * <UL>
-     * <LI>a starting node
-     * <LI>a treeTraversal strategy</LI>
-     *</UL>
-     * //print all of the int literals within the source of MyClass.class
-     * _class.of(MyClass.class).walk().print(_int.class);
-     *
-     * //list all lambda expressions with parameters within AClass.class
-     * List<_lambda> _ls = _class.of(AClass.class).walk().list(_lambda.class, _l->_l.hasParameters());
-     *
-     */
-    class _walk {
-
-        /** How to walk the AST */
-        public Node.TreeTraversal treeTraversal = Node.TreeTraversal.PREORDER;
-
-        /** The start node for where to begin the walk */
-        public _node _n;
-
-        public _walk(_node _n){
-            this._n = _n;
-        }
-
-        public _walk(Node.TreeTraversal tt, _node _n){
-            this._n = _n;
-            this.treeTraversal = tt;
-        }
-
-        public  boolean has(Predicate<_node> _matchFn){
-            return first(_node.class, _matchFn) != null;
-        }
-
-        public <_D extends _domain> boolean has(Class<_D> _nodeClass){
-            return first(_nodeClass, t->true) != null;
-        }
-
-        public <_D extends _domain> boolean has(Class<_D> _nodeClass, Predicate<_D> _matchFn){
-            return Tree.first(this.treeTraversal, this._n, _nodeClass, _matchFn) != null;
-        }
-
-        public int count(Predicate<_node> _matchFn){
-            return count(_node.class, _matchFn);
-        }
-
-        public <_D extends _domain> int count(Class<_D> _nodeClass){
-            return list(_nodeClass, t->true).size();
-        }
-
-        public <_D extends _domain> int count(Class<_D> _nodeClass, Predicate<_D> _matchFn){
-            return list(_nodeClass, _matchFn).size();
-        }
-
-        public <_N extends _node> int count(Class<_N> _nodeClass, String... stencil){
-            //this might seem strange at first, that we construct an entity and then write it to a string
-            //but it serves a valuable purpose... first it validates that the string IS a valid entity of _nodeClass,
-            //secondly it NORMALIZES the form so that (if we encounter a like entity), we don't exclude a match
-            //purely because it has "STYLISTIC" differences (i.e. spaces within parameters, "( 1 )" -vs- "(1)" etc.)
-            Stencil st = Stencil.of(_java.node(_nodeClass, stencil).toString(Print.PRINT_NO_COMMENTS));
-            return list(_nodeClass, _n -> st.matches( _n.toString(Print.PRINT_NO_COMMENTS))).size();
-        }
-
-        public <_N extends _node> int count(Class<_N> _nodeClass, Stencil stencil){
-            return list(_nodeClass, _n -> stencil.matches( _n.toString(Print.PRINT_NO_COMMENTS))).size();
-        }
-
-        public void print(Predicate<_node> _matchFn){
-            print(_node.class, _matchFn);
-        }
-
-        public <_D extends _domain> void print(Class<_D> _nodeClass){
-            forEach(_nodeClass, e-> System.out.println(e));
-        }
-
-        public <_D extends _domain> void print(Class<_D> _nodeClass, Predicate<_D> _matchFn){
-            forEach(_nodeClass, _matchFn, e-> System.out.println(e));
-        }
-
-        public void printTree(Predicate<_node> _matchFn){
-            printTree(_node.class, _matchFn);
-        }
-
-        public <_N extends _java._node> void printTree(Class<_N> _nodeClass){
-            forEach(_nodeClass, e-> System.out.println(e));
-        }
-
-        public <_N extends _java._node> void printTree(Class<_N> _nodeClass, Predicate<_N> _matchFn){
-            forEach(_nodeClass, _matchFn, e-> Print.tree(e));
-        }
-
-        public _node first(Predicate<_node> _matchFn){
-            return first(_node.class, _matchFn);
-        }
-
-        public <_D extends _domain> _D first(Class<_D> _nodeClass){
-            return first(_nodeClass, t->true);
-        }
-
-        public <_D extends _domain> _D first(Class<_D> _nodeClass, Predicate<_D> _matchFn){
-            return Tree.first(this.treeTraversal, this._n, _nodeClass, _matchFn);
-        }
-
-        public List<_node> list(Predicate<_node> _matchFn){
-            return list(_node.class, _matchFn);
-        }
-
-        public <_D extends _domain> List<_D> list(Class<_D> _nodeClass){
-            return list(_nodeClass, t->true);
-        }
-
-        public <_D extends _domain> List<_D> list(Class<_D> _nodeClass, Predicate<_D> _matchFn){
-            return Tree.list(this.treeTraversal, this._n, _nodeClass, _matchFn);
-        }
-
-        public Stream<_node> stream(Predicate<_node> _matchFn){
-            return stream(_node.class, _matchFn);
-        }
-
-        public <_D extends _domain> Stream<_D> stream(Class<_D> _nodeClass){
-            return stream(_nodeClass, t->true);
-        }
-
-        public <_D extends _domain> Stream<_D> stream(Class<_D> _nodeClass, Predicate<_D> _matchFn){
-            return Tree.stream(this.treeTraversal, this._n, _nodeClass, _matchFn);
-        }
-
-        public List<_node> forEach(Predicate<_node> _matchFn, Consumer<_node> actionFn){
-            return forEach(_node.class, _matchFn, actionFn);
-        }
-
-        public List<_node> forEach(Consumer<_node> actionFn){
-            List<_node> _l = list(_node.class, t->true);
-            _l.forEach(actionFn);
-            return _l;
-        }
-
-        public <_D extends _domain> List<_D> forEach(Class<_D> _nodeClass, Consumer<_D> actionFn){
-            List<_D> _l = list(_nodeClass, t->true);
-            _l.forEach(actionFn);
-            return _l;
-        }
-
-        public <_D extends _domain> List<_D> forEach(Class<_D> _nodeClass, Predicate<_D> _matchFn, Consumer<_D> actionFn){
-            List<_D> _l = Tree.list(this.treeTraversal, this._n, _nodeClass, _matchFn);
-            _l.forEach(actionFn);
-            return _l;
         }
     }
 

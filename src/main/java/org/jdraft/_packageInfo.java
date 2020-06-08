@@ -38,7 +38,7 @@ public final class _packageInfo
             a -> a.getImports(),
             (_packageInfo a, _imports b) -> a.setImports(b), PARSER);
 
-    public static _feature._features<_packageInfo> FEATURES = _feature._features.of(_packageInfo.class, PACKAGE, ANNOS, IMPORTS );
+    public static _feature._features<_packageInfo> FEATURES = _feature._features.of(_packageInfo.class, PARSER, PACKAGE, ANNOS, IMPORTS );
 
     public CompilationUnit astCompUnit;
 

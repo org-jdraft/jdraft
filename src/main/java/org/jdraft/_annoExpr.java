@@ -256,7 +256,7 @@ public final class _annoExpr
             PARSER, s-> _entryPair.of(s))
             .setOrdered(false); //the order of the entry pairs { @A(a=1,b=2) == @A(b=2,a=1)} isn't semantically important
 
-    public static _feature._features<_annoExpr> FEATURES = _feature._features.of(_annoExpr.class, NAME, ENTRY_PAIRS);
+    public static _feature._features<_annoExpr> FEATURES = _feature._features.of(_annoExpr.class, PARSER, NAME, ENTRY_PAIRS);
 
     public boolean hasEntryPair(String name, char value){
         return hasEntryPair( name, Expr.of(value));

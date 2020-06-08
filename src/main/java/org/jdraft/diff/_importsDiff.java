@@ -45,7 +45,7 @@ public final class _importsDiff
         }
         if( !left.isTopLevel() ){
             right.getImports().forEach( i -> dt.addDiff(new _rightOnly_import(
-                path.in(_java.Feature.IMPORT),
+                path.in(Feature.IMPORT),
                 (_type) leftParent,
                 (_type) rightParent,
                 i.astId )) );
@@ -53,7 +53,7 @@ public final class _importsDiff
         } 
         
         left.getImports().forEach( i -> dt.addDiff(new _leftOnly_import(
-                path.in(_java.Feature.IMPORT),
+                path.in(Feature.IMPORT),
                 (_type) leftParent,
                 (_type) rightParent,
                 i.astId )) );
@@ -79,12 +79,12 @@ public final class _importsDiff
         rs.removeAll(both);
 
         ls.forEach(c -> dt.addDiff(new _leftOnly_import(
-                path.in(_java.Feature.IMPORT),
+                path.in(Feature.IMPORT),
                 (_type) _leftParent,
                 (_type) _rightParent, c)));
 
         rs.forEach(c -> dt.addDiff(new _rightOnly_import(
-                path.in(_java.Feature.IMPORT),
+                path.in(Feature.IMPORT),
                 (_type) _leftParent,
                 (_type) _rightParent, c)));
 

@@ -81,7 +81,7 @@ public final class _instanceOfExpr implements _expr<InstanceOfExpr, _instanceOfE
             a -> a.getExpression(),
             (_instanceOfExpr a, _expr _e) -> a.setExpression(_e), PARSER);
 
-    public static _feature._features<_instanceOfExpr> FEATURES = _feature._features.of(_instanceOfExpr.class, TYPE, EXPRESSION );
+    public static _feature._features<_instanceOfExpr> FEATURES = _feature._features.of(_instanceOfExpr.class,  PARSER, TYPE, EXPRESSION );
 
     public InstanceOfExpr ioe;
 

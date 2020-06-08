@@ -49,7 +49,7 @@ public final class _typeParam
             a -> a.listExtendsTypeBound(),
             (_typeParam p, List<_typeRef> _ccs) -> p.setExtendsTypeBound(_ccs), PARSER, s->_typeRef.of(s)).setOrdered(false);
 
-    public static _feature._features<_typeParam> FEATURES = _feature._features.of(_typeParam.class, ANNOS, NAME, EXTENDS_TYPE_BOUND);
+    public static _feature._features<_typeParam> FEATURES = _feature._features.of(_typeParam.class,  PARSER, ANNOS, NAME, EXTENDS_TYPE_BOUND);
 
     private final TypeParameter typeParam;
 

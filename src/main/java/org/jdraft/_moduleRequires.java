@@ -48,7 +48,7 @@ public final class _moduleRequires implements _java._node<ModuleRequiresDirectiv
             a -> a.isTransitive(),
             (_moduleRequires a, Boolean b) -> a.setTransitive(b), PARSER);
 
-    public static _feature._features<_moduleRequires> FEATURES = _feature._features.of(_moduleRequires.class, IS_TRANSITIVE, MODULE_NAME);
+    public static _feature._features<_moduleRequires> FEATURES = _feature._features.of(_moduleRequires.class, PARSER, IS_TRANSITIVE, MODULE_NAME);
 
     public ModuleRequiresDirective  me;
 

@@ -75,7 +75,7 @@ public final class _entry implements _javadocComment._withJavadoc<_entry>,
             a->a.getDefaultValue(),
             (_entry a, _expr _e)-> a.setDefaultValue(_e), PARSER );
 
-    public static _feature._features<_entry> FEATURES = _feature._features.of(_entry.class, MODIFIERS, TYPE, NAME, DEFAULT);
+    public static _feature._features<_entry> FEATURES = _feature._features.of(_entry.class,  PARSER, MODIFIERS, TYPE, NAME, DEFAULT);
 
     protected final AnnotationMemberDeclaration astAnnMember;
 

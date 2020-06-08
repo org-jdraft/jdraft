@@ -30,7 +30,7 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
             (_longExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
-    public static _feature._features<_longExpr> FEATURES = _feature._features.of(_longExpr.class, LITERAL_VALUE);
+    public static _feature._features<_longExpr> FEATURES = _feature._features.of(_longExpr.class,  PARSER, LITERAL_VALUE);
 
     public LongLiteralExpr ile;
 

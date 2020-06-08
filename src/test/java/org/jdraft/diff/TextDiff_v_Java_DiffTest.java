@@ -1,7 +1,7 @@
 package org.jdraft.diff;
 
 import org.jdraft._interface;
-import org.jdraft._java;
+
 import java.lang.reflect.Modifier;
 import java.util.*;
 import junit.framework.TestCase;
@@ -87,7 +87,7 @@ public class TextDiff_v_Java_DiffTest extends TestCase {
         {    //java.diff between A1 and A2
             _diff _dl = _diff.of(_interface.of(A1.class), _interface.of(A2.class) );
             assertTrue(_dl.size() == 1 ); //ONLY 1 diff (name A1 vs A2)
-            assertTrue(_dl.firstAt(_java.Feature.NAME).isChange()); //is name change
+            assertTrue(_dl.firstAt(Feature.NAME).isChange()); //is name change
         }        
     }
     

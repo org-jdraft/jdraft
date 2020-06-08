@@ -87,14 +87,14 @@ public class _forStmtTest extends TestCase {
                 assert 1==1 : "message";
             }
         });
-        assertEquals(4, _fs.walk().count(_intExpr.class));
-        _fs.walk().forEach(_intExpr.class, _i -> System.out.println(_i));
+        assertEquals(4, _fs.walk(_intExpr.class).count());
+        _fs.walk(_intExpr.class).forEach(_i -> System.out.println(_i));
 
-        _fs.walk().forEach(_intExpr.class, _i-> _i.setValue(_i.getValue()+1));
-        _fs.walk().forEach(_intExpr.class, _i -> System.out.println(_i));
+        _fs.walk(_intExpr.class).forEach(_i-> _i.setValue(_i.getValue()+1));
+        _fs.walk(_intExpr.class).forEach(_i -> System.out.println(_i));
 
         //
-        _fs.walk().stream(_intExpr.class).map( _i-> _i.getValue()).collect(Collectors.toList());
+        _fs.walk(_intExpr.class).stream().map( _i-> _i.getValue()).collect(Collectors.toList());
 
     }
 

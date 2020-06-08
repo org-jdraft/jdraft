@@ -27,7 +27,7 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
             (_intExpr a, String value) -> a.ast().setValue(value), PARSER);
 
 
-    public static _feature._features<_intExpr> FEATURES = _feature._features.of(_intExpr.class, LITERAL_VALUE);
+    public static _feature._features<_intExpr> FEATURES = _feature._features.of(_intExpr.class, PARSER, LITERAL_VALUE);
 
     public IntegerLiteralExpr ile;
 

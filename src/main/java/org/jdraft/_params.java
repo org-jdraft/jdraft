@@ -133,7 +133,7 @@ public final class _params
             (_params a, List<_param> ps)-> a.set(ps), PARSER, s-> _param.of(s))
             .setOrdered(true);
 
-    public static _feature._features<_params> FEATURES = _feature._features.of(_params.class, PARAMS);
+    public static _feature._features<_params> FEATURES = _feature._features.of(_params.class,  PARSER, PARAMS);
 
     /**
      *

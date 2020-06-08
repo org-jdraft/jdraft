@@ -5,7 +5,6 @@ import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import org.jdraft.*;
 import org.jdraft._annoExprs._withAnnoExprs;
-import org.jdraft._java.Feature;
 import org.jdraft.diff._diff.*;
 
 /**

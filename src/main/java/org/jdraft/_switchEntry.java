@@ -57,7 +57,7 @@ public final class _switchEntry implements _java._node<SwitchEntry, _switchEntry
             a -> a.listStatements(),
             (_switchEntry p, List<_stmt> _st) -> p.setStatements(_st), PARSER, s->_stmt.of(s)).setOrdered(true);
 
-    public static _feature._features<_switchEntry> FEATURES = _feature._features.of(_switchEntry.class, CASE_EXPRESSIONS, BODY_TYPE, STATEMENTS );
+    public static _feature._features<_switchEntry> FEATURES = _feature._features.of(_switchEntry.class,  PARSER, CASE_EXPRESSIONS, BODY_TYPE, STATEMENTS );
 
     public SwitchEntry switchEntry;
 

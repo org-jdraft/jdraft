@@ -16,7 +16,7 @@ public final class _methodDiff implements _differ<_method, _java._node> {
 
     @Override
     public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _method left, _method right) {
-        _nodePath p = path.in(_java.Feature.METHOD, describeMethodSignature(left));
+        _nodePath p = path.in(Feature.METHOD, describeMethodSignature(left));
 
         _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annoExprsDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());

@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.jdraft.*;
 import org.jdraft._field._withFields;
-import org.jdraft._java.Feature;
 
 import org.jdraft.diff._diff.*;
 

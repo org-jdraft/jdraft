@@ -100,7 +100,7 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
             a -> a.getInit(),
             (_newArrayExpr a, _arrayInitExpr _t) -> a.setInit(_t), PARSER);
 
-    public static _feature._features<_newArrayExpr> FEATURES = _feature._features.of(_newArrayExpr.class, TYPE, DIMENSIONS, INIT );
+    public static _feature._features<_newArrayExpr> FEATURES = _feature._features.of(_newArrayExpr.class, PARSER, TYPE, DIMENSIONS, INIT );
 
     public _feature._features<_newArrayExpr> features(){
         return FEATURES;

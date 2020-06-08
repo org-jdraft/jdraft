@@ -128,7 +128,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s))
             .setOrdered(true); //this is true because of fall-through
 
-    public static _feature._features<_switchExpr> FEATURES = _feature._features.of(_switchExpr.class, SELECTOR, SWITCH_ENTRIES );
+    public static _feature._features<_switchExpr> FEATURES = _feature._features.of(_switchExpr.class, PARSER, SELECTOR, SWITCH_ENTRIES );
 
 
     public _feature._features<_switchExpr> features(){

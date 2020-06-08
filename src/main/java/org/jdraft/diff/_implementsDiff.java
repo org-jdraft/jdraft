@@ -5,7 +5,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 
 import org.jdraft.*;
 import static org.jdraft.Types.equal;
-import org.jdraft._java.Feature;
+
 import org.jdraft._type._withImplements;
 
 import org.jdraft.diff._diff.*;

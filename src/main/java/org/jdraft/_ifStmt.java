@@ -103,7 +103,7 @@ public final class _ifStmt implements
             a -> a.getElse(),
             (_ifStmt a, _stmt b) -> a.setElse(b), PARSER);
 
-    public static _feature._features<_ifStmt> FEATURES = _feature._features.of(_ifStmt.class, CONDITION, THEN, ELSE );
+    public static _feature._features<_ifStmt> FEATURES = _feature._features.of(_ifStmt.class,  PARSER, CONDITION, THEN, ELSE );
 
     private IfStmt astStmt;
 

@@ -12,6 +12,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Unify things that can use fully qualified names
@@ -106,15 +107,15 @@ public final class _qualifiedName implements _java._node<Node, _qualifiedName> {
             return of( Expr.methodReferenceExpr(str));
         }
         return of( new Name(str) );
-
-        //return new _name( new SimpleName( Text.combine(name)) );
     }
 
     public _qualifiedName(Node sn){
         this.name = sn;
     }
 
-    public _feature._features<_qualifiedName> FEATURES = _feature._features.of(_qualifiedName.class);
+    public static Function<String, _qualifiedName> PARSER = (s)->_qualifiedName.of(s);
+
+    public _feature._features<_qualifiedName> FEATURES = _feature._features.of(_qualifiedName.class, PARSER );
 
     public _feature._features<_qualifiedName> features(){
         return FEATURES;

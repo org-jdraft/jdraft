@@ -73,7 +73,7 @@ public final class _returnStmt implements
             a -> a.getExpression(),
             (_returnStmt p, _expr _e) -> p.setExpression(_e), PARSER);
 
-    public static _feature._features<_returnStmt> FEATURES = _feature._features.of(_returnStmt.class, EXPRESSION );
+    public static _feature._features<_returnStmt> FEATURES = _feature._features.of(_returnStmt.class,  PARSER, EXPRESSION );
 
     private ReturnStmt rs;
 

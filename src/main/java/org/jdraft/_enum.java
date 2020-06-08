@@ -302,7 +302,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             (_enum a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s-> _typeRef.of(s))
             .setOrdered(false);
 
-    public static _feature._features<_enum> FEATURES = _feature._features.of(_enum.class,
+    public static _feature._features<_enum> FEATURES = _feature._features.of(_enum.class, PARSER,
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, IMPLEMENTS, MEMBERS);
 
     public _enum( EnumDeclaration astClass ){

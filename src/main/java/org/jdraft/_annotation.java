@@ -577,8 +577,8 @@ public final class _annotation
             .featureImplementations(_entry.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class)
             .setOrdered(false);/** for the most part, the order of declarations doesnt matter */
 
-    public static _feature._features<_annotation> FEATURES = _feature._features.of(_annotation.class,
-            PACKAGE, IMPORTS, ANNOS, JAVADOC, MODIFIERS, MEMBERS);
+    public static _feature._features<_annotation> FEATURES = _feature._features.of(_annotation.class,  PARSER,
+                    PACKAGE, IMPORTS, ANNOS, JAVADOC, MODIFIERS, MEMBERS);
 
     /*
     public static _feature._many<_annotation, _annotation._entry> ANNOTATION_ENTRIES = new _feature._many<>(_annotation.class, _annotation._entry.class,

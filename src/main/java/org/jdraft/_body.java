@@ -266,7 +266,7 @@ public final class _body implements _java._domain {
             (_body a, List<_stmt> es)-> a.set(es), PARSER, s-> _stmt.of(s))
             .setOrdered(true);/** the order of the statements matter */
 
-    public static _feature._features<_body> FEATURES = _feature._features.of(_body.class, IS_IMPLEMENTED, STATEMENTS);
+    public static _feature._features<_body> FEATURES = _feature._features.of(_body.class,  PARSER, IS_IMPLEMENTED, STATEMENTS);
 
     /**
      * Private constructor, lets not confuse everyone by having a single Object

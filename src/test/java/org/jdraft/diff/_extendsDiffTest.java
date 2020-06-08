@@ -2,7 +2,7 @@ package org.jdraft.diff;
 
 import org.jdraft._interface;
 import junit.framework.TestCase;
-import static org.jdraft._java.Feature.*;
+import static org.jdraft.diff.Feature.*;
 
 /**
  *

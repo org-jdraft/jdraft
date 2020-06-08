@@ -91,7 +91,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _java.
             a -> a.getValue(),
             (_assignExpr a, _expr _e) -> a.setValue(_e), PARSER);
 
-    public static _feature._features<_assignExpr> FEATURES = _feature._features.of(_assignExpr.class, TARGET, OPERATOR, VALUE);
+    public static _feature._features<_assignExpr> FEATURES = _feature._features.of(_assignExpr.class,  PARSER, TARGET, OPERATOR, VALUE);
 
     public AssignExpr ae;
 

@@ -10,7 +10,7 @@ import static junit.framework.TestCase.assertTrue;
 import test.ComplexClass;
 import test.ComplexInterface;
 
-import static org.jdraft._java.Feature.*;
+import static org.jdraft.diff.Feature.*;
 import java.io.IOException;
 import org.jdraft.macro._toCtor;
 

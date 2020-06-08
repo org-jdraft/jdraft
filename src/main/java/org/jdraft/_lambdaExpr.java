@@ -230,7 +230,7 @@ public final class _lambdaExpr
             a -> a.getBody(),
             (_lambdaExpr a, _stmt _s) -> a.setBody(_s), PARSER);
 
-    public static _feature._features<_lambdaExpr> FEATURES = _feature._features.of(_lambdaExpr.class, IS_PARAM_PARENTHESIZED, PARAMS, BODY );
+    public static _feature._features<_lambdaExpr> FEATURES = _feature._features.of(_lambdaExpr.class,  PARSER, IS_PARAM_PARENTHESIZED, PARAMS, BODY );
 
     public final LambdaExpr astLambda;
     

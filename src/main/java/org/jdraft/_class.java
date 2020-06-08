@@ -484,8 +484,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             (_class a, List<_typeRef>mems) -> a.setImplements(mems), PARSER, s->_typeRef.of(s))
             .setOrdered(false);/** the order of declaring implements doesnt matter { class A implements B, C  === class A implements C, B }*/
 
-    public static _feature._features<_class> FEATURES = _feature._features.of(_class.class,
-            PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);
+    public static _feature._features<_class> FEATURES = _feature._features.of(_class.class, PARSER,
+                    PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);
 
     public _class( ClassOrInterfaceDeclaration astClass ){
         this.astClass = astClass;

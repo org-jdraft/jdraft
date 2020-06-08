@@ -90,7 +90,7 @@ public final class _modifiers implements _java._set<Modifier, _modifier, _modifi
             a -> a.list(),
             (_modifiers a, List<_modifier> _ms) -> a.set(_ms), PARSER, s->_modifier.of(s)).setOrdered(false);
 
-    public static _feature._features<_modifiers> FEATURES = _feature._features.of(_modifiers.class, MODIFIERS );
+    public static _feature._features<_modifiers> FEATURES = _feature._features.of(_modifiers.class,  PARSER, MODIFIERS );
 
     public _modifiers(NodeWithModifiers nm ) {
         this.node = nm;

@@ -29,7 +29,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
             (_charExpr a, Character b) -> a.setValue(b), PARSER);
 
 
-    public static _feature._features<_charExpr> FEATURES = _feature._features.of(_charExpr.class, LITERAL_VALUE);
+    public static _feature._features<_charExpr> FEATURES = _feature._features.of(_charExpr.class,  PARSER, LITERAL_VALUE);
 
     public CharLiteralExpr cle;
 

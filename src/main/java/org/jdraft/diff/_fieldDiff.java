@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.github.javaparser.ast.expr.Expression;
 
 import org.jdraft.*;
-import org.jdraft._java.Feature;
 import org.jdraft.diff._diff.*;
 
 /**

@@ -102,7 +102,7 @@ public final class _args
             .featureImplementations(_expr.Classes.ALL) //could be expressions TODO make this a subset of expressions?
             .setOrdered(true); //order matters to _args { (1,'a') =/= ('a', 1) }
 
-    public static _feature._features<_args> FEATURES = _feature._features.of(_args.class, ARGS);
+    public static _feature._features<_args> FEATURES = _feature._features.of(_args.class, PARSER,  ARGS);
 
     public _feature._features<_args> features(){
         return FEATURES;

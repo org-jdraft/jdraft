@@ -94,7 +94,7 @@ public final class _import implements _java._node<ImportDeclaration, _import>,
             (_import a, String name) -> a.setName(name), PARSER);
 
 
-    public static _feature._features<_import> FEATURES = _feature._features.of(_import.class, IS_STATIC, NAME, IS_WILDCARD);
+    public static _feature._features<_import> FEATURES = _feature._features.of(_import.class, PARSER, IS_STATIC, NAME, IS_WILDCARD);
 
     /** the underlying ast import declaration */
     public ImportDeclaration astId;

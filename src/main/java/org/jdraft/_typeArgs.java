@@ -79,7 +79,7 @@ public final class _typeArgs
             (_typeArgs p, List<_typeRef> _ccs) -> p.set(_ccs), PARSER, s->_typeRef.of(s))
             .setOrdered(false);
 
-    public static _feature._features<_typeArgs> FEATURES = _feature._features.of(_typeArgs.class, TYPE_ARGS );
+    public static _feature._features<_typeArgs> FEATURES = _feature._features.of(_typeArgs.class,  PARSER, TYPE_ARGS );
 
     public NodeWithTypeArguments nwta;
 

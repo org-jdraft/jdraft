@@ -89,7 +89,7 @@ public final class _tryStmt implements
             a -> a.listCatches(),
             (_tryStmt p, List<_catch> _ccs) -> p.setCatchClauses(_ccs), PARSER, s->_catch.of(s)).setOrdered(false);
 
-    public static _feature._features<_tryStmt> FEATURES = _feature._features.of(_tryStmt.class, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
+    public static _feature._features<_tryStmt> FEATURES = _feature._features.of(_tryStmt.class,  PARSER, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
 
     private TryStmt tryStmt;
 

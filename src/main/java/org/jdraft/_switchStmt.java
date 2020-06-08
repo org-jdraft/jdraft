@@ -140,7 +140,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
             (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s))
             .setOrdered(true);
 
-    public static _feature._features<_switchStmt> FEATURES = _feature._features.of(_switchStmt.class, SELECTOR, SWITCH_ENTRIES );
+    public static _feature._features<_switchStmt> FEATURES = _feature._features.of(_switchStmt.class,  PARSER, SELECTOR, SWITCH_ENTRIES );
 
     public SwitchStmt switchStmt;
 

@@ -39,7 +39,7 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
             (_blockComment a, String text) -> a.setText(text), PARSER);
 
 
-    public static _feature._features<_blockComment> FEATURES = _feature._features.of(_blockComment.class, TEXT);
+    public static _feature._features<_blockComment> FEATURES = _feature._features.of(_blockComment.class,  PARSER, TEXT);
 
     public BlockComment astComment;
 

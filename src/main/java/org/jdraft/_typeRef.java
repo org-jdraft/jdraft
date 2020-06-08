@@ -546,7 +546,7 @@ public final class _typeRef<T extends Type>
             a -> a.ast(),
             (_typeRef p, Type t) -> p.setType(t), PARSER);
 
-    public static _feature._features<_typeRef> FEATURES = _feature._features.of(_typeRef.class, ANNOS, TYPE);
+    public static _feature._features<_typeRef> FEATURES = _feature._features.of(_typeRef.class,  PARSER, ANNOS, TYPE);
 
     /*
     public Map<_java.Feature, Object> features( ) {

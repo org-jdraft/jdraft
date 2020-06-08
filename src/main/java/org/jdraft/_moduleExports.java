@@ -50,7 +50,7 @@ public final class _moduleExports implements _java._node<ModuleExportsDirective,
             a -> a.list(),
             (_moduleExports a, List<_name> _ns) -> a.set(_ns), PARSER, s->_name.of(s)).setOrdered(false);
 
-    public static _feature._features<_moduleExports> FEATURES = _feature._features.of(_moduleExports.class, MODULE_NAME, MODULE_NAMES);
+    public static _feature._features<_moduleExports> FEATURES = _feature._features.of(_moduleExports.class, PARSER, MODULE_NAME, MODULE_NAMES);
 
     public ModuleExportsDirective me;
 

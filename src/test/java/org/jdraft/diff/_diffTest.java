@@ -4,7 +4,6 @@ import org.jdraft.*;
 import org.jdraft.diff._namedDiff._changeName;
 import org.jdraft.diff._typeRefDiff._change_type;
 import org.jdraft.diff._diff._diffList;
-import org.jdraft._java.Feature;
 
 import java.io.IOException;
 import java.io.Serializable;

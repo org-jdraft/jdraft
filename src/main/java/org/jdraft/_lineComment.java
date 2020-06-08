@@ -35,7 +35,7 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
             a -> a.getText(),
             (_lineComment a, String text) -> a.setText(text), PARSER);
 
-    public static _feature._features<_lineComment> FEATURES = _feature._features.of(_lineComment.class, TEXT);
+    public static _feature._features<_lineComment> FEATURES = _feature._features.of(_lineComment.class,  PARSER, TEXT);
 
     public _feature._features<_lineComment> features(){
         return FEATURES;

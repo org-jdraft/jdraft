@@ -78,7 +78,7 @@ public final class _throws
             (_throws p, List<_typeRef> _ses) -> p.set(_ses), PARSER, s->_typeRef.of(s))
             .setOrdered(false);
 
-    public static _feature._features<_throws> FEATURES = _feature._features.of(_throws.class, THROWS );
+    public static _feature._features<_throws> FEATURES = _feature._features.of(_throws.class,  PARSER, THROWS );
 
     public final NodeWithThrownExceptions astNodeWithThrows;
 

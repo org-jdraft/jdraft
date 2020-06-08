@@ -30,14 +30,14 @@ public final class _typeDiff implements _differ<_type, _java._node> {
     @Override
     public <_PN extends _java._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _type left, _type right) {
         if (left instanceof _class) {
-            return _classDiff.INSTANCE.diff(path.in(_java.Feature.CLASS, left.getName()), dt, _leftParent, _rightParent, (_class) left, (_class) right);
+            return _classDiff.INSTANCE.diff(path.in(Feature.CLASS, left.getName()), dt, _leftParent, _rightParent, (_class) left, (_class) right);
         }
         if (left instanceof _interface) {
-            return _interfaceDiff.INSTANCE.diff(path.in(_java.Feature.INTERFACE, left.getName()), dt, _leftParent, _rightParent, (_interface) left, (_interface) right);
+            return _interfaceDiff.INSTANCE.diff(path.in(Feature.INTERFACE, left.getName()), dt, _leftParent, _rightParent, (_interface) left, (_interface) right);
         }
         if (left instanceof _annotation) {
-            return _annotationDiff.INSTANCE.diff(path.in(_java.Feature.ANNOTATION, left.getName()), dt, _leftParent, _rightParent, (_annotation) left, (_annotation) right);
+            return _annotationDiff.INSTANCE.diff(path.in(Feature.ANNOTATION, left.getName()), dt, _leftParent, _rightParent, (_annotation) left, (_annotation) right);
         }
-        return _enumDiff.INSTANCE.diff(path.in(_java.Feature.ENUM, left.getName()), dt, _leftParent, _rightParent, (_enum) left, (_enum) right);
+        return _enumDiff.INSTANCE.diff(path.in(Feature.ENUM, left.getName()), dt, _leftParent, _rightParent, (_enum) left, (_enum) right);
     }
 }
