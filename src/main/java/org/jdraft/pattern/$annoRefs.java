@@ -565,7 +565,7 @@ public class $annoRefs
     @Override
     public List<Select> listSelectedIn(Node astNode) {
         List<Select> found = new ArrayList<>();
-        Tree.in(astNode, Node.class, _ha-> {
+        Walk.in(astNode, Node.class, _ha-> {
             if( _ha instanceof NodeWithAnnotations ){
                 Select sel = select( (NodeWithAnnotations)_ha);
                 if( sel != null ){
@@ -620,7 +620,7 @@ public class $annoRefs
 
     @Override
     public <N extends Node> N forEachIn(N astNode, Predicate<_annoExprs> _annosMatchFn, Consumer<_annoExprs> _annosActionFn) {
-        return Tree.in(astNode, Node.class, n-> {
+        return Walk.in(astNode, Node.class, n-> {
             if( n instanceof NodeWithAnnotations ){
                 Select sel = select( (NodeWithAnnotations)n );
                 if( sel != null && _annosMatchFn.test(sel._anns)){

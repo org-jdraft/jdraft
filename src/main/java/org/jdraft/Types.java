@@ -184,7 +184,7 @@ public final class Types {
 
     public static List<String> normalizeTypeParam(TypeParameter tp) {
         List<String> tw = new ArrayList<>();
-        Tree.directChildren(tp, Node.class, t -> true, t -> {
+        Walk.directChildren(tp, Node.class, t -> true, t -> {
             if (t instanceof Type) {
                 List<String> toks = tokenize((Type) t);
                 toks.forEach(e -> {

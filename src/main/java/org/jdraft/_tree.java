@@ -6,7 +6,6 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
-import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -19,25 +18,25 @@ import java.util.stream.Stream;
  * Super interface for Java syntactical tree objects:
  * <UL>
  *     <LI>{@link _node}s containing individual entities within the Java syntax tree</LI>
- *     <LI>{@link _set}s containing semantically unordered monotonic entities within the Java syntax tree</LI>
- *     <LI>{@link _list}s containing semantically ordered monotonic entities within the Java syntax tree</LI>
+ *     <LI>{@link _group}s containing semantically unordered monotonic entities within the Java syntax tree</LI>
+ *     <LI>{@link _orderedGroup}s containing semantically ordered monotonic entities within the Java syntax tree</LI>
  * </UL>
- * @param <_N> the entity type
+ * @param <_T> the _tree implementation type
  */
-public interface _tree<_N> extends _java._domain {
+public interface _tree<_T> extends _java._domain {
 
     /**
      * Returns the features Object which defines the order of the features as well as the parser
-     * for the entity
-     * @return the features
+     * for the _tree entity
+     * @return the {@link _feature._features}
      */
-    _feature._features<_N> features();
+    _feature._features<_T> features();
 
     /**
-     * Build and return an (independent) copy of this _node entity
-     * @return an independent mutable copy
+     * Build and return an (independent/mutable) copy of this {@link _tree} entity
+     * @return an independent mutable copy of the entity
      */
-    _N copy();
+    _T copy();
 
     /**
      * A tree entity that maps 1-to-1 to an Ast (Syntax) entity in the syntax tree and JavaParser
@@ -62,7 +61,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default _walk<_node> walk(){
-            return new _walk(Tree.PRE_ORDER, this, _node.class);
+            return new _walk(Walk.PRE_ORDER, this, _node.class);
         }
 
         /**
@@ -79,7 +78,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default _walk<_node> walkPostOrder(){
-            return new _walk(Tree.POST_ORDER, this, _node.class);
+            return new _walk(Walk.POST_ORDER, this, _node.class);
         }
 
         /**
@@ -96,7 +95,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default _walk<_node> walkBreadthFirst(){
-            return new _walk(Tree.BREADTH_FIRST, this, _node.class);
+            return new _walk(Walk.BREADTH_FIRST, this, _node.class);
         }
 
         /**
@@ -119,7 +118,7 @@ public interface _tree<_N> extends _java._domain {
          * @return
          */
         default _walk<_node> walkParents(){
-            return new _walk<_node>(Tree.PARENTS, this, _node.class);
+            return new _walk<_node>(Walk.PARENTS, this, _node.class);
         }
 
         /**
@@ -139,7 +138,7 @@ public interface _tree<_N> extends _java._domain {
          * @return
          */
         default _walk<_node> walkDirectChildren(){
-            return new _walk<_node>(Tree.DIRECT_CHILDREN, this, _node.class);
+            return new _walk<_node>(Walk.DIRECT_CHILDREN, this, _node.class);
         }
 
         /**
@@ -157,7 +156,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default <_F> _walkFeatures<_F> walk(_feature<?, _F>...features){
-            return new _walkFeatures(Tree.PRE_ORDER, this, features);
+            return new _walkFeatures(Walk.PRE_ORDER, this, features);
         }
 
         /**
@@ -174,7 +173,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default <_F> _walkFeatures<_F> walkPostOrder(_feature<?, _F>...features){
-            return new _walkFeatures(Tree.POST_ORDER, this, features);
+            return new _walkFeatures(Walk.POST_ORDER, this, features);
         }
 
         /**
@@ -191,7 +190,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default <_F> _walkFeatures<_F> walkBreadthFirst(_feature<?, _F>...features){
-            return new _walkFeatures(Tree.BREADTH_FIRST, this, features);
+            return new _walkFeatures(Walk.BREADTH_FIRST, this, features);
         }
 
         /**
@@ -214,7 +213,7 @@ public interface _tree<_N> extends _java._domain {
          * @return
          */
         default <_F> _walkFeatures<_F> walkParents(_feature<?, _F>...features){
-            return new _walkFeatures(Tree.PARENTS, this);
+            return new _walkFeatures(Walk.PARENTS, this);
         }
 
         /**
@@ -234,7 +233,7 @@ public interface _tree<_N> extends _java._domain {
          * @return
          */
         default <_F> _walkFeatures<_F> walkDirectChildren(_feature<?, _F>...features){
-            return new _walkFeatures<_F>(Tree.DIRECT_CHILDREN, this, features);
+            return new _walkFeatures<_F>(Walk.DIRECT_CHILDREN, this, features);
         }
 
         /**
@@ -252,7 +251,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default <_D extends _java._domain> _walk<_D> walk(Class<_D> targetClass){
-            return new _walk(Tree.PRE_ORDER, this, targetClass);
+            return new _walk(Walk.PRE_ORDER, this, targetClass);
         }
 
         /**
@@ -269,7 +268,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default <_D extends _java._domain> _walk<_D> walkPostOrder(Class<_D> targetClass){
-            return new _walk(Tree.POST_ORDER, this, targetClass);
+            return new _walk(Walk.POST_ORDER, this, targetClass);
         }
 
         /**
@@ -286,7 +285,7 @@ public interface _tree<_N> extends _java._domain {
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
          */
         default <_D extends _java._domain> _walk<_D> walkBreadthFirst(Class<_D> targetClass){
-            return new _walk(Tree.BREADTH_FIRST, this, targetClass);
+            return new _walk(Walk.BREADTH_FIRST, this, targetClass);
         }
 
         /**
@@ -309,7 +308,7 @@ public interface _tree<_N> extends _java._domain {
          * @return
          */
         default <_D extends _tree> _walk<_D> walkParents(Class<_D> targetClass){
-            return new _walk(Tree.PARENTS, this, targetClass);
+            return new _walk(Walk.PARENTS, this, targetClass);
         }
 
         /**
@@ -329,7 +328,7 @@ public interface _tree<_N> extends _java._domain {
          * @return
          */
         default <_D extends _java._domain> _walk<_D> walkDirectChildren(Class<_D> targetClass){
-            return new _walk(Tree.DIRECT_CHILDREN, this, targetClass);
+            return new _walk(Walk.DIRECT_CHILDREN, this, targetClass);
         }
 
         /**
@@ -452,13 +451,13 @@ public interface _tree<_N> extends _java._domain {
     }
 
     /**
-     * A grouping of monotonic (same type) entities where the order doesnt matter
-     * to the semantics of the set.  While they may may be stored in NodeList<N>
+     * A grouping of monotonic (same type) entities where the order doesn't matter
+     * to the semantics of the group.  While they may may be stored in an ordered NodeList<N>
      * this represents the syntax, however in the semantic side, this:
      * <CODE>
      * void m() throws A, B
      * </CODE>
-     *
+     * (while not syntactically the same)
      * ...is semantically equivalent to this:
      * <CODE>
      *  void m() throws B, A
@@ -467,14 +466,19 @@ public interface _tree<_N> extends _java._domain {
      * @see _annoExprs < AnnotationExpr, _annoRef >
      * @see _imports<  ImportDeclaration ,_import>
      * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
-     * @see _typeParams < TypeParameter, _typeParam >
+     * @see _moduleExports
+     * @see _moduleOpens
+     * @see _moduleProvides
      * @see _throws<  ReferenceType ,_typeRef>
+     * @see _typeArgs
+     * @see _typeParams < TypeParameter, _typeParam >
+     * @see _variablesExpr
      *
-     * @param <EL>
-     * @param <_EL>
-     * @param <_S>
+     * @param <EL> the Ast syntax {@link Node} type of each element in the {@link _group}
+     * @param <_EL> the _jdraft {@link _node} type of each element in the {@link _group}
+     * @param <_G> the group implementation type
      */
-    interface _set<EL extends Node, _EL extends _node, _S extends _set> extends _tree<_S> {
+    interface _group<EL extends Node, _EL extends _node, _G extends _group> extends _tree<_G> {
 
         default boolean isEmpty(){
             return size() == 0;
@@ -500,67 +504,36 @@ public interface _tree<_N> extends _java._domain {
             return list().stream().filter(matchFn).collect(Collectors.toList());
         }
 
+        /**
+         * List the AST elements that match this predicate
+         * @param matchFn
+         * @return
+         */
         default List<EL> listAstElements(Predicate<EL> matchFn){
             return listAstElements().stream().filter(matchFn).collect(Collectors.toList());
         }
 
+        /**
+         * Does any element in the group match this predicate?
+         * @param _matchFn
+         * @return
+         */
         default boolean anyMatch(Predicate<_EL> _matchFn){
             return list().stream().anyMatch(_matchFn);
         }
 
+        /**
+         * Do ALL elements in the group match this predicate?
+         * @param _matchFn
+         * @return
+         */
         default boolean allMatch(Predicate<_EL> _matchFn){
             return list().stream().allMatch(_matchFn);
         }
 
-        /**
-         * is the String representation equal to the _node entity
-         * (i.e. if we parse the string, does it create an AST entity that
-         * is equal to the node?)
-         *
-         * @param stringRep the string representation of the node
-         * (parsed as an AST and compared to this entity to see if equal)
-         * @return true if the Parsed String represents the entity
+        String toString(PrettyPrinterConfiguration prettyPrinter);
 
-        default boolean is(String... stringRep){
-            try{
-                _S _s = features().parse(stringRep);
-                //TODO fixy fixy
-                Stencil st = Stencil.of( _s.toString());
-                if( st.isFixedText() ){
-                    //System.out.println ("ITS FIXED TEXT" + _n +System.lineSeparator() +this );
-                    return equals( _s );
-                } else if( st.isMatchAny() ) {
-                    return true;
-                } else {
-                    //System.out.println ("ITS STENCIL TEXT");
-                    //TODO FIXY FIXY break down into components
-                    return st.matches( this.toString());
-                }
-            } catch(Exception e){
-                //System.out.println( "FAILED YO "+ e);
-                return false;
-            }
-        }
-        */
-
-        /**
-         * Pass in the AST Pretty Printer configuration which will determine how the code
-         * is formatted and return the formatted String representing the code.
-         *
-         * @see com.github.javaparser.printer.PrettyPrintVisitor the original visitor for walking and printing nodes in AST
-         * @see Print.PrintNoAnnotations a configurable subclass of PrettyPrintVisitor that will not print ANNOTATIONS
-         * @see PrettyPrinterConfiguration the configurations for spaces, Tabs, for printing
-         * @see Print#PRINT_NO_ANNOTATIONS_OR_COMMENTS a premade implementation for
-         * @see Print#PRINT_NO_COMMENTS
-         *
-         *   the details on how the code will be formatted (for this element and all sub ELEMENTS)
-         * @return A String representing the .java code
-
-        default String toString(PrettyPrinterConfiguration codeFormat) {
-            return ast ().toString(codeFormat);
-        }
-            */
-
+        boolean is(String code);
 
         default boolean is(_EL... _els){
             Set<_EL> _arr = new HashSet<>();
@@ -592,11 +565,10 @@ public interface _tree<_N> extends _java._domain {
              */
         }
 
-
-        default _S set(List<_EL> els){
+        default _G set(List<_EL> els){
             listAstElements().clear();
             els.forEach( el -> listAstElements().add((EL)el.ast()));
-            return (_S)this;
+            return (_G)this;
         }
 
         default _EL first(Predicate<_EL> matchFn){
@@ -619,51 +591,51 @@ public interface _tree<_N> extends _java._domain {
             return !listAstElements( el-> el.equals(target)).isEmpty();
         }
 
-        default _S add(EL... astElements) {
+        default _G add(EL... astElements) {
             for( EL el : astElements ) {
                 this.listAstElements().add(el);
             }
-            return (_S)this;
+            return (_G)this;
         }
 
-        default _S add(_EL... elements) {
+        default _G add(_EL... elements) {
             for( _EL el : elements ) {
                 this.listAstElements().add( (EL)el.ast());
             }
-            return (_S)this;
+            return (_G)this;
         }
 
         /**
          * remove all elements from the set and return the modified empty entity
          */
-        default _S clear(){
+        default _G clear(){
             this.listAstElements().clear();
-            return (_S)this;
+            return (_G)this;
         }
 
-        default _S remove(_EL... _els) {
+        default _G remove(_EL... _els) {
             Arrays.stream( _els ).forEach(e -> this.listAstElements().remove( e.ast() ) );
-            return (_S)this;
+            return (_G)this;
         }
 
-        default _S remove(EL... els) {
+        default _G remove(EL... els) {
             Arrays.stream(els ).forEach( e -> this.listAstElements().remove( e ) );
-            return (_S)this;
+            return (_G)this;
         }
 
-        default _S remove(Predicate<_EL> _matchFn) {
+        default _G remove(Predicate<_EL> _matchFn) {
             this.list(_matchFn).stream().forEach( e-> remove(e) );
-            return (_S)this;
+            return (_G)this;
         }
 
-        default _S forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
+        default _G forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
             list(matchFn).forEach(consumer);
-            return (_S)this;
+            return (_G)this;
         }
 
-        default _S forEach(Consumer<_EL> consumer){
+        default _G forEach(Consumer<_EL> consumer){
             list().forEach(consumer);
-            return (_S)this;
+            return (_G)this;
         }
 
         /**
@@ -718,9 +690,9 @@ public interface _tree<_N> extends _java._domain {
         }
 
         /** remove the argument at this index */
-        default _S removeAt(int index){
+        default _G removeAt(int index){
             this.listAstElements().remove(index);
-            return (_S)this;
+            return (_G)this;
         }
 
         /**
@@ -729,11 +701,11 @@ public interface _tree<_N> extends _java._domain {
          * @param element the element to add
          * @return the modified list
          */
-        default _S addAt( int index, _EL... element){
+        default _G addAt(int index, _EL... element){
             for(int i=0;i<element.length;i++) {
                 this.listAstElements().add(index+i, (EL) element[i].ast());
             }
-            return (_S)this;
+            return (_G)this;
         }
 
         /**
@@ -742,11 +714,11 @@ public interface _tree<_N> extends _java._domain {
          * @param element the element to add
          * @return the modified list
          */
-        default _S addAt( int index, EL... element){
+        default _G addAt(int index, EL... element){
             for(int i=0;i<element.length;i++) {
                 this.listAstElements().add(index+i, element[i]);
             }
-            return (_S)this;
+            return (_G)this;
         }
 
         /**
@@ -755,9 +727,9 @@ public interface _tree<_N> extends _java._domain {
          * @param element
          * @return
          */
-        default _S setAt( int index, EL element){
+        default _G setAt(int index, EL element){
             this.listAstElements().set(index, element);
-            return (_S)this;
+            return (_G)this;
         }
 
         /**
@@ -766,9 +738,9 @@ public interface _tree<_N> extends _java._domain {
          * @param _element
          * @return
          */
-        default _S setAt( int index, _EL _element){
+        default _G setAt(int index, _EL _element){
             this.listAstElements().set(index, (EL)_element.ast());
-            return (_S)this;
+            return (_G)this;
         }
 
         /**
@@ -816,11 +788,13 @@ public interface _tree<_N> extends _java._domain {
      * Sometimes we have groupings of entities that do not
      * map to a specific Ast entity but a grouping of AST entities
      *
-     * @see _params (parameters are ordered)
-     * @see _newArrayExpr (the dimensions of the array are in an ordered list)
+     * @see _args (the order of arguments matter)
      * @see _arrayInitExpr (the elements located in the array are ordered)
+     * @see _blockStmt (the order of statements matter)
+     * @see _newArrayExpr (the dimensions of the array are in an ordered list)
+     * @see _params (parameters are ordered)
      */
-    interface _list<EL extends Node, _EL extends _node, _L extends _list> extends _set<EL, _EL, _L>, _tree<_L> {
+    interface _orderedGroup<EL extends Node, _EL extends _node, _OG extends _orderedGroup> extends _group<EL, _EL, _OG>, _tree<_OG> {
 
     }
 }

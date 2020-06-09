@@ -266,7 +266,7 @@ public class _javaTest extends TestCase {
         _class _c = _class.of(ComplexClass.class);
 
         //_c.walk( Node.class,
-        Tree.in(_c,
+        Walk.in(_c,
                 Node.class,
             n-> n instanceof MethodDeclaration 
             || n instanceof TypeDeclaration

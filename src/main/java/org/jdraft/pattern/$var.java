@@ -336,7 +336,7 @@ public class $var
     }
 
     public $var $local(){
-        return $and(v-> Tree.isParent(v, Ast.Classes.VAR_DECLARATION_EXPR));
+        return $and(v-> Walk.isParent(v, Ast.Classes.VAR_DECLARATION_EXPR));
     }
 
     /**
@@ -344,7 +344,7 @@ public class $var
      * @return
      */
     public $var $member(){
-        return $and(v-> Tree.isParent(v, Ast.Classes.FIELD_DECLARATION));
+        return $and(v-> Walk.isParent(v, Ast.Classes.FIELD_DECLARATION));
     }
 
     public $var $name( String name ){
@@ -805,7 +805,7 @@ public class $var
      * @return 
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, $var $replaceProto ){
-        Tree.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 sel.astVar.replace($replaceProto.draft(sel.tokens) );
@@ -832,7 +832,7 @@ public class $var
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
-        Tree.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
@@ -878,7 +878,7 @@ public class $var
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        Tree.in(_j, VariableDeclarator.class, e-> {
+        Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectConsumer.accept( sel );

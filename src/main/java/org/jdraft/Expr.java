@@ -346,7 +346,7 @@ public enum Expr {
         //What I need to do is to find the MethodCallExpr that is nested inside another MethodCallExpr
         //check if it begins before the stack trace line and ends aftrer the stack trace line
         List<MethodCallExpr> ln = //Ast.listAll(_walk.BREADTH_FIRST,
-            Tree.list(Tree.BREADTH_FIRST,
+            Walk.list(Walk.BREADTH_FIRST,
             _t.ast(),
             Ast.Classes.METHOD_CALL_EXPR,
             mce-> mce.getRange().isPresent() && mce.getRange().get().begin.line <= lineNumber
@@ -531,7 +531,7 @@ public enum Expr {
 
         //find all of the potential method calls that could be the call 
         //mentioned in the stack trace based on the line numbers 
-        List<MethodCallExpr> mces = Tree.list(Tree.POST_ORDER,
+        List<MethodCallExpr> mces = Walk.list(Walk.POST_ORDER,
                 _t.ast(),
                 Ast.Classes.METHOD_CALL_EXPR,
                 (MethodCallExpr mce) -> ((MethodCallExpr)mce).getRange().get().begin.line <= ste.getLineNumber() &&

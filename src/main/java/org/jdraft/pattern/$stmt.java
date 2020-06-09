@@ -1439,7 +1439,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select<S, _S>> selectedActionFn){
-        Tree.in(_j, this.statementClass, e->{
+        Walk.in(_j, this.statementClass, e->{
             Select<S, _S> sel = select( e );
             if( sel != null ){
                 selectedActionFn.accept( sel );
@@ -1486,7 +1486,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select<S, _S>> selectConstraint, Consumer<Select<S,_S>> selectedActionFn){
-        Tree.in(_j, this.statementClass, e->{
+        Walk.in(_j, this.statementClass, e->{
             Select<S, _S> sel = select( e );
             if( sel != null && selectConstraint.test(sel)){
                 selectedActionFn.accept( sel );
@@ -1557,7 +1557,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      */
     public List<Select<S, _S>> listSelectedIn(_java._domain _j, Predicate<Select<S, _S>> selectConstraint ){
         List<Select<S, _S>>sts = new ArrayList<>();
-        Tree.in(_j, this.statementClass, st->{
+        Walk.in(_j, this.statementClass, st->{
             Select sel = select(st);
             if (sel != null && selectConstraint.test(sel)){
                 sts.add(sel);
@@ -1760,7 +1760,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
     }
 
     public <N extends Node> N replaceIn( N node, $stmts $pat){
-        Tree.in(node, this.statementClass, st->{
+        Walk.in(node, this.statementClass, st->{
             $stmt.Select sel = select( st );
             if( sel != null ){
                 //construct the replacement snippet
@@ -1787,7 +1787,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        Tree.flattenLabel(node, "$replacement$");
+        Walk.flattenLabel(node, "$replacement$");
         return node;
     }
     /**
@@ -1799,7 +1799,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, $stmts $protoReplacement ){
         //AtomicInteger ai = new AtomicInteger(0);
-        Tree.in(_j, this.statementClass, st->{
+        Walk.in(_j, this.statementClass, st->{
             $stmt.Select sel = select( st );
             if( sel != null ){
                 //construct the replacement snippet
@@ -1827,7 +1827,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
             }
         });
         if( _j instanceof _tree._node){
-            Tree.flattenLabel( ((_tree._node) _j).ast(), "$replacement$");
+            Walk.flattenLabel( ((_tree._node) _j).ast(), "$replacement$");
         }
         return (_J) _j;
     }
@@ -1924,7 +1924,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      */
     public static <N extends Node> N parameterize$LabeledStmt(N node, Map<String,Object> tokens ){
         //separate into (2) operations, (dont WALK and MUTATE at the same time)
-        List<LabeledStmt> lss  = Tree.list(node, LabeledStmt.class, ls-> ls.getLabel().asString().startsWith("$") );
+        List<LabeledStmt> lss  = Walk.list(node, LabeledStmt.class, ls-> ls.getLabel().asString().startsWith("$") );
         lss.forEach(ls-> {
             //System.out.println( "  Found "+ ls+" in "+ node);
             Statement st = labelStmtReplacement(ls, tokens);
@@ -1944,7 +1944,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 LabeledStmt $TO_REPLACE = Stmt.labeledStmt("$TO_REPLACE: {}");
                 $TO_REPLACE.setStatement(st);
                 ls.replace( $TO_REPLACE );
-                Tree.flattenLabel(node, "$TO_REPLACE");
+                Walk.flattenLabel(node, "$TO_REPLACE");
             }
         });
         return node;

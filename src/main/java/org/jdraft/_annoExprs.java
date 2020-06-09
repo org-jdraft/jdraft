@@ -1,13 +1,16 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
+import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.lang.annotation.Annotation;
@@ -28,7 +31,7 @@ import static org.jdraft.Ast.fieldDeclaration;
  * @author Eric
  */
 public final class _annoExprs
-        implements _tree._set<AnnotationExpr, _annoExpr, _annoExprs> {
+        implements _tree._group<AnnotationExpr, _annoExpr, _annoExprs> {
 
     public static final Function<String, _annoExprs> PARSER = s-> _annoExprs.of(s);
 
@@ -258,6 +261,9 @@ public final class _annoExprs
         list( annotationClazz ).forEach(_annoAction );
     }
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
     /**
      * does this String array represent ALL of the annos?
      * @param annos representation of annos
@@ -279,6 +285,16 @@ public final class _annoExprs
             return "";
         }
         this.astAnnNode.getAnnotations().forEach( a -> sb.append( a ).append( System.lineSeparator() ) );
+        return sb.toString();
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        StringBuilder sb = new StringBuilder();
+        if( this.astAnnNode == null ){
+            return "";
+        }
+
+        this.astAnnNode.getAnnotations().forEach( a -> sb.append( ((Node)a).toString(ppc) ).append( System.lineSeparator() ) );
         return sb.toString();
     }
 

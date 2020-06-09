@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -23,7 +24,7 @@ import java.util.function.Predicate;
  *
  */
 public final class _params
-        implements _tree._list<Parameter, _param, _params> {
+        implements _tree._orderedGroup<Parameter, _param, _params> {
 
     public static final Function<String, _params> PARSER = s-> _params.of(s);
 
@@ -297,6 +298,10 @@ public final class _params
         return astNodeWithParams.hasParametersOfType( paramTypes );
     }
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
     /**
      *
      * @param _ps
@@ -347,6 +352,10 @@ public final class _params
 
     @Override
     public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
         StringBuilder sb = new StringBuilder();
         sb.append( "(" );
         int size = this.astNodeWithParams.getParameters().size();
@@ -354,7 +363,7 @@ public final class _params
             if( i > 0 ) {
                 sb.append( ", " );
             }
-            sb.append( this.astNodeWithParams.getParameter( i ).toString() );
+            sb.append( this.astNodeWithParams.getParameter( i ).toString(ppc) );
         }
         sb.append( ")" );
         return sb.toString();

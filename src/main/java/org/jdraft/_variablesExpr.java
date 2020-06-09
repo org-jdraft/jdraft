@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.util.*;
 import java.util.function.Function;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public final class _variablesExpr implements _expr<VariableDeclarationExpr, _variablesExpr>,
         _tree._node<VariableDeclarationExpr, _variablesExpr>,
-        _tree._set<VariableDeclarator, _variable, _variablesExpr>,
+        _tree._group<VariableDeclarator, _variable, _variablesExpr>,
         _annoExprs._withAnnoExprs<_variablesExpr>,
         _modifiers._withFinal<_variablesExpr>{
 
@@ -225,15 +226,22 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return false;
     }
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
     public int hashCode(){
         return 31 * this.varDeclEx.hashCode();
     }
-    
-    public String toString(){
+
+    public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
         if( varDeclEx.getVariables().size() == 0){
             return "";
         }
-        return this.varDeclEx.toString();
+        return this.varDeclEx.toString(ppc);
     }
 
 }

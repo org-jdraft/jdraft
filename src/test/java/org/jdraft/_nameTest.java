@@ -20,7 +20,7 @@ public class _nameTest extends TestCase {
 
     public void testImportName(){
         _import _i = _import.of("ffff.lang.dddd;");
-        _i.getNameNode().stream(Tree.PARENTS).forEach(e-> System.out.println( e.getClass()) );
+        _i.getNameNode().stream(Walk.PARENTS).forEach(e-> System.out.println( e.getClass()) );
 
         assertTrue(_name.of( _i.getNameNode()).isImportName());
         assertTrue(_name.of( _i.getNameNode().getQualifier().get()).isImportName());

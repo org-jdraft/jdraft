@@ -47,7 +47,7 @@ public enum Stmt {
      * @return the BlockStmt containing the  new Statement block or null if this task is unsuccessful
      */
     public static BlockStmt addStatementsBefore( Statement targetStatement, Statement...stmtsToAddBefore){
-        if( Tree.isParent(targetStatement, BlockStmt.class) ){
+        if( Walk.isParent(targetStatement, BlockStmt.class) ){
             BlockStmt parentStmt = (BlockStmt) targetStatement.getParentNode().get();
             int index = getStatementIndex(parentStmt,targetStatement );
             if( index == -1){
@@ -88,7 +88,7 @@ public enum Stmt {
      * @return the BlockStmt containing the  new Statement block or null if this task is unsuccessful
      */
     public static BlockStmt addStatementsAfter( Statement targetStatement, Statement...stmtsToAddAfter){
-        if( Tree.isParent(targetStatement, BlockStmt.class) ){
+        if( Walk.isParent(targetStatement, BlockStmt.class) ){
             BlockStmt parentStmt = (BlockStmt) targetStatement.getParentNode().get();
             int index = getStatementIndex(parentStmt,targetStatement );
             if( index == -1){
@@ -110,7 +110,7 @@ public enum Stmt {
      * @return
      */
     public static Statement previous(Statement st ){
-        if( Tree.isParent(st, BlockStmt.class) ) {
+        if( Walk.isParent(st, BlockStmt.class) ) {
             BlockStmt parentStmt = (BlockStmt) st.getParentNode().get();
             int index = getStatementIndex(parentStmt, st);
             if( index <=0 ){
@@ -128,7 +128,7 @@ public enum Stmt {
      * @return
      */
     public static Statement next(Statement st ){
-        if( Tree.isParent(st, BlockStmt.class) ) {
+        if( Walk.isParent(st, BlockStmt.class) ) {
             BlockStmt parentStmt = (BlockStmt) st.getParentNode().get();
             int index = getStatementIndex(parentStmt, st);
             if( index < 0 ){

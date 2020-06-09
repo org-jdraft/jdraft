@@ -4,6 +4,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  * @see _import representation of a single import declaration
  * @author Eric
  */
-public final class _imports implements _tree._set<ImportDeclaration, _import, _imports> {
+public final class _imports implements _tree._group<ImportDeclaration, _import, _imports> {
 
     public static final Function<String, _imports> PARSER = s-> _imports.of(s);
 
@@ -76,6 +77,11 @@ public final class _imports implements _tree._set<ImportDeclaration, _import, _i
     @Override
     public _imports copy() {
         return _imports.of(astCompilationUnit);
+    }
+
+
+    public boolean is(String code){
+        return is(new String[]{code});
     }
 
     public boolean is(String...strings){
@@ -276,7 +282,11 @@ public final class _imports implements _tree._set<ImportDeclaration, _import, _i
     }
 
     @Override
-    public String toString(){
+    public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
         StringBuilder sb = new StringBuilder();
         this.astCompilationUnit.getImports().forEach(i -> sb.append( i.toString() ) );
         return sb.toString();

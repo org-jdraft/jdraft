@@ -154,7 +154,7 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         //verify that we should NOT have UnaryExprs, only Int, Long, & Double literals
         assertFalse(_c.ast().findFirst(UnaryExpr.class).isPresent());
 
-        assertEquals(1, Tree.list(_c, _intExpr.class, _i-> _i.getValue()==-1).size());
+        assertEquals(1, Walk.list(_c, _intExpr.class, _i-> _i.getValue()==-1).size());
 
         //verify that we can find each
         assertTrue( _c.ast().findFirst(IntegerLiteralExpr.class, ile-> ile.getValue().startsWith("-")).isPresent());

@@ -183,7 +183,7 @@ public class _allNodeUseTest extends TestCase {
 
     public void testSetBasedInstances(){
         //semantically, order doesnt matter
-        _tree._set[] setBased = {
+        _tree._group[] setBased = {
                 _annoExprs.of("@A @B"),
                 _imports.of( "import java.util.*;", "import java.net.*;"),
                 _variablesExpr.of("int i, j = 100"),
@@ -196,7 +196,7 @@ public class _allNodeUseTest extends TestCase {
 
     public void testListBasedInstances(){
         //semantically order matters
-        _tree._list[] ls = {
+        _tree._orderedGroup[] ls = {
                 _args.of("(1, 'c')"),
                 _params.of("(@ann int x, String...names)")
         };

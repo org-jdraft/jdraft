@@ -5,9 +5,13 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -23,7 +27,7 @@ import java.util.stream.Collectors;
  * order doesnt matter
  */
 public final class _typeArgs
-        implements _tree._set<Type, _typeRef, _typeArgs> {
+        implements _tree._group<Type, _typeRef, _typeArgs> {
 
     public static final Function<String, _typeArgs> PARSER = s-> _typeArgs.of(s);
 
@@ -173,6 +177,11 @@ public final class _typeArgs
     }
 
     public String toString(){
+       return toString(new PrettyPrinterConfiguration());
+    }
+
+
+    public String toString(PrettyPrinterConfiguration ppc){
         if( this.isUsingDiamondOperator()){
             return "<>";
         }
@@ -185,16 +194,57 @@ public final class _typeArgs
             if( i > 0 ){
                 sb.append(", ");
             }
-            sb.append(trs.get(i));
+            sb.append(trs.get(i).toString(ppc));
         }
         return sb.toString();
     }
+
 
     public int hashCode(){
         if( !this.nwta.getTypeArguments().isPresent()){
             return 57;
         }
         return 31 * this.nwta.getTypeArguments().get().hashCode();
+    }
+
+
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
+    public boolean is(String...code){
+        String allCode = Text.combine(code);
+        //short circuit for matchAny
+        if( allCode.startsWith("$") && allCode.endsWith("$")){
+            Stencil st = Stencil.of(allCode);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
+        try {
+            _typeArgs _otas = PARSER.apply(allCode);
+            if( _otas.anyMatch(_ta-> !Stencil.of(_ta.toString()).isFixedText() )){
+                //if ANY of the type args have $var$ s
+                for(int i=0;i<_otas.size(); i++){
+                    _typeRef _t = _otas.getAt(i);
+                    Stencil st = Stencil.of(_t.toString());
+                    if( st.isFixedText() ){
+                        if( ! has(_t)){
+                            return false;
+                        }
+                    } else{
+                        if( ! has( tr-> st.matches(tr.toString()))){
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            } else {
+                return Objects.equals(this, _otas);
+            }
+        }catch(Exception e){
+            return false;
+        }
     }
 
     public boolean equals( Object o){

@@ -452,7 +452,7 @@ public class $parameters implements Template<_params>,
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> _parametersActionFn) {
-        Tree.in(_j, _params.class, n-> {
+        Walk.in(_j, _params.class, n-> {
             Select sel = select( n );
             if( sel != null ){
                 _parametersActionFn.accept(sel);            
@@ -481,7 +481,7 @@ public class $parameters implements Template<_params>,
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> _parametersActionFn) {
-        Tree.in(_j, _params.class, n-> {
+        Walk.in(_j, _params.class, n-> {
             Select sel = select( n );
             if( sel != null && selectConstraint.test(sel) ){
                 _parametersActionFn.accept(sel);            

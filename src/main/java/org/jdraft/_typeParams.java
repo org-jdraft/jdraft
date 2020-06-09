@@ -4,6 +4,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.TypeParameter;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
  * @author Eric
  */
 public final class _typeParams
-        implements _tree._set<TypeParameter, _typeParam, _typeParams> {
+        implements _tree._group<TypeParameter, _typeParam, _typeParams> {
 
     public static final Function<String, _typeParams> PARSER = s-> _typeParams.of(s);
 
@@ -156,8 +157,16 @@ public final class _typeParams
         return true;
     }
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
     @Override
     public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
         if( this.astNodeWithTypeParams.getTypeParameters().isNonEmpty() ) {
             NodeList<TypeParameter> tps = this.ast();
             StringBuilder sb = new StringBuilder();

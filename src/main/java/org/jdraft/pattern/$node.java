@@ -95,7 +95,7 @@ public class $node implements $pattern<Node, $node>, $body.$part, $method.$part,
      * @return
      */
     public static $node of( String pattern, Class...nodeTypes ){
-        return of(pattern).$and(n-> Tree.isNodeOfType(n, nodeTypes));
+        return of(pattern).$and(n-> Walk.isNodeOfType(n, nodeTypes));
     }
 
     public static $node.Or or( Node... _protos ){

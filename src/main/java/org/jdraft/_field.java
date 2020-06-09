@@ -290,7 +290,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     // it happens often enough  to want to shoot yourself
     public FieldDeclaration getFieldDeclaration() {
 
-        Optional<Node> on = astVar.stream(Tree.PARENTS).filter(n-> n instanceof FieldDeclaration).findFirst();
+        Optional<Node> on = astVar.stream(Walk.PARENTS).filter(n-> n instanceof FieldDeclaration).findFirst();
         if( on.isPresent() ){
             return (FieldDeclaration) on.get();
         }

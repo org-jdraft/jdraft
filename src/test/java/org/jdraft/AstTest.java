@@ -405,7 +405,7 @@ public class AstTest extends TestCase {
         Range range = c.getRange().get();
 
         //$stmt.of().$isBefore()
-        List<Statement> sts = Tree.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
+        List<Statement> sts = Walk.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
         assertTrue( sts.isEmpty() );
         //if there are NO statements before
         if( sts.isEmpty() ){
@@ -472,7 +472,7 @@ public class AstTest extends TestCase {
         com.github.javaparser.ast.comments.Comment c = cs.get(0);
         Range range = c.getRange().get();
 
-        List<Statement> sts = Tree.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
+        List<Statement> sts = Walk.list(_m, Statement.class, st-> st.getRange().get().isAfter(c.getRange().get().end));
         System.out.println( sts );
 
 
@@ -540,8 +540,8 @@ public class AstTest extends TestCase {
         Statement s5 = $stmt.of( ()->System.out.println(5)).firstIn(_c).ast();
         Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c).ast();
 
-        Node commonAncestor = Tree.commonAncestor(s5, s1);
-        assertTrue( Tree.isParent( commonAncestor, Ast.Classes.METHOD_DECLARATION));
+        Node commonAncestor = Walk.commonAncestor(s5, s1);
+        assertTrue( Walk.isParent( commonAncestor, Ast.Classes.METHOD_DECLARATION));
         //assertTrue( $.of().$hasParent($method.of()).match(commonAncestor) );
 
         assertTrue( commonAncestor instanceof BlockStmt );
@@ -554,7 +554,7 @@ public class AstTest extends TestCase {
             }
         });
         assertTrue(
-                Tree.isParent( _c.getField("x").getFieldDeclaration(),
+                Walk.isParent( _c.getField("x").getFieldDeclaration(),
                         ClassOrInterfaceDeclaration.class, c-> c.getNameAsString().equals("V")) );
     }
 
@@ -648,7 +648,7 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of( C.class);
-        Tree.flattenLabel(_c.astCompilationUnit(), "label");
+        Walk.flattenLabel(_c.astCompilationUnit(), "label");
         System.out.println( _c );
     }
    /*
@@ -784,7 +784,7 @@ public class AstTest extends TestCase {
         }
         CompilationUnit cu = Ast.of(P.class);
 
-        LambdaExpr le = Tree.first(cu,
+        LambdaExpr le = Walk.first(cu,
                 LambdaExpr.class,
                 (n) -> n.getRange().isPresent() && n.getRange().get().begin.line == 47 );
 
@@ -857,7 +857,7 @@ public class AstTest extends TestCase {
     public void testAstWalkList(){
         System.out.println( Comments.list( Ast.typeDeclaration( Ex.class) ));
 
-        Tree.in(Ast.typeDeclaration( Ex.class ), com.github.javaparser.ast.comments.Comment.class, c-> System.out.println(c.getClass()) );
+        Walk.in(Ast.typeDeclaration( Ex.class ), com.github.javaparser.ast.comments.Comment.class, c-> System.out.println(c.getClass()) );
         //Ast.walk( Ast.type( Ex.class ), Comment.class, c-> System.out.println(c.getClass()) );
 
     }
@@ -1167,21 +1167,21 @@ public class AstTest extends TestCase {
         //                jdc -> System.out.println( ((JavadocComment)jdc).getContent() )));
 
         System.out.println(
-               Tree.list( _class.of(L.class),
+               Walk.list( _class.of(L.class),
                     _javadocComment._withJavadoc.class,
                     jd -> jd.hasJavadoc() && jd.getJavadoc().getText().startsWith("TODO")));
 
         //List all entities that have TODO tags within the Javadocs
         System.out.println(
-                Tree.list(_class.of(L.class),
+                Walk.list(_class.of(L.class),
                 _javadocComment._withJavadoc.class,
                 jd -> jd.hasJavadoc() && jd.getJavadoc().getText().startsWith("TODO") ) );
 
         //find any TODO tags within the code
-        Tree.in( _class.of(L.class),
+        Walk.in( _class.of(L.class),
         //_class.of(L.class).walk(
                 _body._withBody.class,
-                m -> Tree.in(m.getBody().ast(),
+                m -> Walk.in(m.getBody().ast(),
                         com.github.javaparser.ast.comments.Comment.class,
                         c-> c.getContent().trim().startsWith("TODO"),
                         jdc -> System.out.println( jdc.getContent() )) );

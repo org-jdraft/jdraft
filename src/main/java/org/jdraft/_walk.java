@@ -94,27 +94,27 @@ public class _walk<_T extends _java._domain> {
     }
 
     public _T first(){
-        return Tree.first(this.treeTraversal, this._n, targetClass);
+        return Walk.first(this.treeTraversal, this._n, targetClass);
     }
 
     public _T first(Predicate<_T> _matchFn){
-        return Tree.first(this.treeTraversal, this._n, targetClass, _matchFn);
+        return Walk.first(this.treeTraversal, this._n, targetClass, _matchFn);
     }
 
     public List<_T> list(){
-        return Tree.list(this.treeTraversal, this._n, targetClass, t->true);
+        return Walk.list(this.treeTraversal, this._n, targetClass, t->true);
     }
 
     public List<_T> list(Predicate<_T> _matchFn){
-        return Tree.list(this.treeTraversal, this._n, targetClass, _matchFn);
+        return Walk.list(this.treeTraversal, this._n, targetClass, _matchFn);
     }
 
     public Stream<_T> stream(){
-        return Tree.stream(this.treeTraversal, this._n, targetClass, t->true);
+        return Walk.stream(this.treeTraversal, this._n, targetClass, t->true);
     }
 
     public Stream<_T> stream(Predicate<_T> _matchFn){
-        return Tree.stream(this.treeTraversal, this._n, targetClass, _matchFn);
+        return Walk.stream(this.treeTraversal, this._n, targetClass, _matchFn);
     }
 
     public List<_T> forEach(Consumer<_T> actionFn){
@@ -124,7 +124,7 @@ public class _walk<_T extends _java._domain> {
     }
 
     public List<_T> forEach(Predicate<_T> _matchFn, Consumer<_T> actionFn){
-        List<_T> _l = Tree.list(this.treeTraversal, this._n, targetClass, _matchFn);
+        List<_T> _l = Walk.list(this.treeTraversal, this._n, targetClass, _matchFn);
         _l.forEach(actionFn);
         return _l;
     }

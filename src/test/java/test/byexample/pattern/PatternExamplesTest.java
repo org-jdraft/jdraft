@@ -118,7 +118,7 @@ public class PatternExamplesTest extends TestCase {
         //_java.describe(_class.of(G.class));
         //$node $n = $.of(SimpleName.class); //any SimpleName
         $node $n = $.of(SimpleName.class)
-                .$and(n-> !Tree.hasAncestor(n, ClassOrInterfaceType.class)); //but not simpleNames making up fully qualified names
+                .$and(n-> !Walk.hasAncestor(n, ClassOrInterfaceType.class)); //but not simpleNames making up fully qualified names
 
 
         _class _c = _class.of( G.class);

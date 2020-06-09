@@ -163,7 +163,7 @@ public class _bodyTest extends TestCase {
         }
         _class _c = _class.of(G.class);
         //_c.getMethod("k").flattenLabel("label");
-        Tree.flattenLabel( _c.getMethod("k").ast(), "label");
+        Walk.flattenLabel( _c.getMethod("k").ast(), "label");
         //System.out.println( _c );
         //_c.getMethod("k").flattenLabel("label");
         //Ast.flattenLabel( _c.getMethod("k").ast(), "label");

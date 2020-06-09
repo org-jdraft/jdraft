@@ -259,7 +259,7 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
      */
     public static void flattenLabel(_java._domain _j, String labelName){
         if( _j instanceof _tree._node){
-            Tree.flattenLabel( ((_tree._node)_j).ast(), labelName);
+            Walk.flattenLabel( ((_tree._node)_j).ast(), labelName);
             return;
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());

@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -16,7 +17,7 @@ import java.util.function.Function;
  *
  * @author Eric
  */
-public final class _modifiers implements _tree._set<Modifier, _modifier, _modifiers> {
+public final class _modifiers implements _tree._group<Modifier, _modifier, _modifiers> {
 
     public static final Function<String, _modifiers> PARSER = s-> _modifiers.of(s);
 
@@ -102,6 +103,11 @@ public final class _modifiers implements _tree._set<Modifier, _modifier, _modifi
 
     public _feature._features<_modifiers> features(){
         return FEATURES;
+    }
+
+
+    public boolean is(String code){
+        return is(new String[]{code});
     }
 
     public _modifiers set(String... keywords ) {
@@ -399,7 +405,10 @@ public final class _modifiers implements _tree._set<Modifier, _modifier, _modifi
 
     @Override
     public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
 
+    public String toString(PrettyPrinterConfiguration ppc){
         String[] strs = this.asKeywords();
         StringBuilder sb = new StringBuilder();
         for( int i = 0; i < strs.length; i++ ) {

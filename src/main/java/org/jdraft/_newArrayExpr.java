@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -23,7 +24,7 @@ import java.util.function.Function;
 public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayExpr>,
         _tree._node<ArrayCreationExpr, _newArrayExpr>,
         _typeRef._withType<ArrayCreationExpr, _newArrayExpr>,
-        _tree._list<ArrayCreationLevel, _arrayDimension, _newArrayExpr> {
+        _tree._orderedGroup<ArrayCreationLevel, _arrayDimension, _newArrayExpr> {
 
     public static final Function<String, _newArrayExpr> PARSER = s-> _newArrayExpr.of(s);
 
@@ -156,6 +157,10 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
     }
      */
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
     public _newArrayExpr setInit(String...init){
         this.astNode.setInitializer(Expr.arrayInitializerExpr(init));
         return this;
@@ -279,7 +284,11 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
         return 31 * this.astNode.hashCode();
     }
 
-    public String toString(){
-        return this.astNode.toString();
+    public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        return this.astNode.toString(ppc);
     }
 }

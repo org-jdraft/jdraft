@@ -6,6 +6,7 @@ import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  * @see org.jdraft.bot.$args for a prototype version
  */
 public final class _args
-        implements _tree._list<Expression, _expr, _args> {
+        implements _tree._orderedGroup<Expression, _expr, _args> {
 
     public static final Function<String, _args> PARSER = s-> _args.of(s);
 
@@ -140,6 +141,8 @@ public final class _args
     public _args add(String...args){
         return add(Arrays.stream(args).map(a -> _expr.of(a) ).collect(Collectors.toList()).toArray(new _expr[0]));
     }
+
+    public boolean is(String args){ return is(new String[]{args}); }
 
     public boolean is(String...args){
         return of(args).equals(this);
@@ -271,6 +274,21 @@ public final class _args
                 sb.append(", ");
             }
             sb.append(nwa.getArgument(i));
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        //return this.nwa.getArguments().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        for(int i=0;i<this.nwa.getArguments().size();i++){
+
+            if( i > 0){
+                sb.append(", ");
+            }
+            sb.append(nwa.getArgument(i).toString(ppc));
         }
         sb.append(")");
         return sb.toString();

@@ -5,6 +5,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleOpensDirective;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _moduleOpens>,
-        _tree._set<Name, _name, _moduleOpens>,
+        _tree._group<Name, _name, _moduleOpens>,
         _moduleDirective<ModuleOpensDirective, _moduleOpens> {
 
     public static final Function<String, _moduleOpens> PARSER = s-> _moduleOpens.of(s);
@@ -125,6 +126,10 @@ public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _mo
         return this.mod.getModuleNames().stream().map(m-> _name.of(m)).collect(Collectors.toList());
     }
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
     @Override
     public NodeList<Name> listAstElements() {
         return this.mod.getModuleNames();
@@ -150,7 +155,11 @@ public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _mo
         return o instanceof _moduleOpens && Objects.equals( ((_moduleOpens)o).mod, this.mod);
     }
 
-    public String toString(){
-        return this.mod.toString();
+    public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        return this.mod.toString(ppc);
     }
 }

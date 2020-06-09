@@ -60,7 +60,7 @@ import java.util.stream.Stream;
  * </PRE>
  * @author Eric
  */
-public enum Tree {
+public enum Walk {
     ;
 
     /**
@@ -471,7 +471,7 @@ public enum Tree {
      * @return the modified root astNode
      */
     public static <RN extends Node, N extends Node> RN in( RN astRootNode, Class<N> targetNodeClass, Consumer<N> nodeActionFn) {
-        Tree.in(astRootNode, targetNodeClass, t -> true, nodeActionFn);
+        Walk.in(astRootNode, targetNodeClass, t -> true, nodeActionFn);
         return astRootNode;
     }
 
@@ -669,11 +669,11 @@ public enum Tree {
     /**
      * Walks the Ast using the
      * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
-     * {@link Tree#PRE_ORDER}
-     * {@link Tree#POST_ORDER}
-     * {@link Tree#BREADTH_FIRST}
-     * {@link Tree#PARENTS}
-     * {@link Tree#DIRECT_CHILDREN} starting from the astRootNode, searching
+     * {@link Walk#PRE_ORDER}
+     * {@link Walk#POST_ORDER}
+     * {@link Walk#BREADTH_FIRST}
+     * {@link Walk#PARENTS}
+     * {@link Walk#DIRECT_CHILDREN} starting from the astRootNode, searching
      * for matching targetNodeClass and selecting those who pass the
      * nodeMatchFn, to call the nodeActionFn
      *
@@ -715,11 +715,11 @@ public enum Tree {
     /**
      * Walks the Asts of all of the _sourceCode using the
      * {@link com.github.javaparser.ast.Node.TreeTraversal} strategy provided
-     * {@link Tree#PRE_ORDER}
-     * {@link Tree#POST_ORDER}
-     * {@link Tree#BREADTH_FIRST}
-     * {@link Tree#PARENTS}
-     * {@link Tree#DIRECT_CHILDREN} starting from the astRootNode, searching
+     * {@link Walk#PRE_ORDER}
+     * {@link Walk#POST_ORDER}
+     * {@link Walk#BREADTH_FIRST}
+     * {@link Walk#PARENTS}
+     * {@link Walk#DIRECT_CHILDREN} starting from the astRootNode, searching
      * for matching targetNodeClass and selecting those who pass the
      * nodeMatchFn, to call the nodeActionFn
      *
@@ -742,7 +742,7 @@ public enum Tree {
 
     /**
      * Walks the Asts of all of the _sourceCode using the
-     * {@link Tree#PRE_ORDER} strategy, searching for matching targetNodeClass
+     * {@link Walk#PRE_ORDER} strategy, searching for matching targetNodeClass
      * and selecting those who pass the nodeMatchFn, to call the nodeActionFn
      *
      * @param _sourceCode a Collection of source code to walk each of the ASTs
@@ -2069,11 +2069,11 @@ public enum Tree {
      * @return the first node that matches the criteria, else null
      */
     public static Node firstParent(Node astNode, Predicate<Node> nodeMatchFn) {
-        return Tree.first(PARENTS, astNode, Node.class, nodeMatchFn);
+        return Walk.first(PARENTS, astNode, Node.class, nodeMatchFn);
     }
 
     public static Node firstParent(_java._domain _j, Predicate<Node> nodeMatchFn){
-        return Tree.first(PARENTS, _j, Node.class, nodeMatchFn);
+        return Walk.first(PARENTS, _j, Node.class, nodeMatchFn);
     }
 
     /**
@@ -2100,7 +2100,7 @@ public enum Tree {
      * @return the first node that matches the criteria, else null
      */
     public static <T> T firstParent(Node astRootNode, Class<T> nodeTargetClass) {
-        return Tree.first(PARENTS, astRootNode, nodeTargetClass, n -> true);
+        return Walk.first(PARENTS, astRootNode, nodeTargetClass, n -> true);
     }
 
     /**
@@ -2128,7 +2128,7 @@ public enum Tree {
      * @return the first node that matches the criteria, else null
      */
     public static <T> T firstParent(Node astRootNode, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
-        return Tree.first(PARENTS, astRootNode, nodeTargetClass, nodeMatchFn);
+        return Walk.first(PARENTS, astRootNode, nodeTargetClass, nodeMatchFn);
     }
 
     /**
@@ -2150,7 +2150,7 @@ public enum Tree {
      * @return
      */
     public static <T> T first(Node astRootNode, Class<T> nodeTargetClass) {
-        return Tree.first(PRE_ORDER, astRootNode, nodeTargetClass, n -> true);
+        return Walk.first(PRE_ORDER, astRootNode, nodeTargetClass, n -> true);
     }
     
     /**
@@ -2172,7 +2172,7 @@ public enum Tree {
      * @return
      */
     public static <_J extends _java._domain, T> T first(_J _j, Class<T> nodeTargetClass) {
-        return Tree.first(PRE_ORDER, _j, nodeTargetClass, n -> true);
+        return Walk.first(PRE_ORDER, _j, nodeTargetClass, n -> true);
     }
 
     /**
@@ -2192,7 +2192,7 @@ public enum Tree {
      * @return
      */
     public static Node first(Node astRootNode, Predicate<Node> nodeMatchFn) {
-        return Tree.first(PRE_ORDER, astRootNode, Node.class, nodeMatchFn);
+        return Walk.first(PRE_ORDER, astRootNode, Node.class, nodeMatchFn);
     }
 
     /**
@@ -2213,7 +2213,7 @@ public enum Tree {
      * @return
      */
     public static <_J extends _java._domain> Node first(_J _j, Predicate<Node> nodeMatchFn) {
-        return Tree.first(PRE_ORDER, _j, Node.class, nodeMatchFn);
+        return Walk.first(PRE_ORDER, _j, Node.class, nodeMatchFn);
     }
     
     /**
@@ -2237,7 +2237,7 @@ public enum Tree {
      * @return the first node that matches the criteria, else null
      */
     public static <T> T first(Node astRootNode, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
-        return Tree.first(PRE_ORDER, astRootNode, nodeTargetClass, nodeMatchFn);
+        return Walk.first(PRE_ORDER, astRootNode, nodeTargetClass, nodeMatchFn);
     }
 
     /**
@@ -2261,7 +2261,7 @@ public enum Tree {
      * @return the first node that matches the criteria, else null
      */
     public static <T, _J extends _java._domain> T first(_J _j, Class<T> nodeTargetClass, Predicate<T> nodeMatchFn) {
-        return Tree.first(PRE_ORDER, _j, nodeTargetClass, nodeMatchFn);
+        return Walk.first(PRE_ORDER, _j, nodeTargetClass, nodeMatchFn);
     }
         
     /**
@@ -2292,14 +2292,14 @@ public enum Tree {
             if( ((_codeUnit) _j).isTopLevel()){
                 //System.out.println( " IS TOP LEVEL "+ ((_code) _j).astCompilationUnit() );
                 //System.out.println( " IS TOP LEVEL "+ nodeTargetClass );
-                return Tree.first( tt, ((_codeUnit) _j).astCompilationUnit(), nodeTargetClass, nodeMatchFn);
+                return Walk.first( tt, ((_codeUnit) _j).astCompilationUnit(), nodeTargetClass, nodeMatchFn);
             }
-            return Tree.first( tt, ((_type) _j).ast(), nodeTargetClass, nodeMatchFn);
+            return Walk.first( tt, ((_type) _j).ast(), nodeTargetClass, nodeMatchFn);
         }
         if(_j instanceof _body ){
-            return Tree.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
+            return Walk.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
         }
-        return Tree.first( tt, ((_tree._node)_j).ast(), nodeTargetClass, nodeMatchFn);
+        return Walk.first( tt, ((_tree._node)_j).ast(), nodeTargetClass, nodeMatchFn);
     }
 
     public static <T> T first(Node.TreeTraversal tt, _java._domain _j, Class<T> nodeTargetClass ) {
@@ -2319,7 +2319,7 @@ public enum Tree {
      * @return
      */
     public static <T, _C extends _codeUnit> T first(Collection<_C> jj, Class<T> nodeTargetClass, Predicate<T>nodeMatchFn ){
-        return first( Tree.PRE_ORDER, jj, nodeTargetClass, nodeMatchFn );
+        return first( Walk.PRE_ORDER, jj, nodeTargetClass, nodeMatchFn );
     }
 
     /**

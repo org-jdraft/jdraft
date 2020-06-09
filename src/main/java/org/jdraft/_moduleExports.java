@@ -5,6 +5,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleExportsDirective;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class _moduleExports implements _tree._node<ModuleExportsDirective, _moduleExports>,
-        _tree._set<Name, _name, _moduleExports>,
+        _tree._group<Name, _name, _moduleExports>,
         _moduleDirective<ModuleExportsDirective, _moduleExports> {
 
     public static final Function<String, _moduleExports> PARSER = s-> _moduleExports.of(s);
@@ -133,6 +134,10 @@ public final class _moduleExports implements _tree._node<ModuleExportsDirective,
         return this.me;
     }
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
     /*
     @Override
     public boolean is(String... stringRep) {
@@ -148,7 +153,11 @@ public final class _moduleExports implements _tree._node<ModuleExportsDirective,
         return o instanceof _moduleExports && Objects.equals( ((_moduleExports)o).me, this.me);
     }
 
-    public String toString(){
-        return this.me.toString();
+    public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        return this.me.toString(ppc);
     }
 }

@@ -574,7 +574,7 @@ public class $typeRef
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectConsumer ){
-        Tree.in(_j, Type.class, e-> {
+        Walk.in(_j, Type.class, e-> {
             Select sel = select( e );
             if( sel != null ){
                 selectConsumer.accept( sel );
@@ -602,7 +602,7 @@ public class $typeRef
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectConsumer ){
-        Tree.in(_j, Type.class, e-> {
+        Walk.in(_j, Type.class, e-> {
             Select sel = select( e );
             if( sel != null && selectConstraint.test(sel) ){
                 selectConsumer.accept( sel );
@@ -715,7 +715,7 @@ public class $typeRef
      * @return
      */
     public <_J extends _java._domain> _J replaceIn(_J _j, $typeRef $replacementType){
-        Tree.in(_j, Type.class, e -> {
+        Walk.in(_j, Type.class, e -> {
             Select select = select(e);
             if( select != null ){
                 if( !e.replace($replacementType.draft(select.tokens).ast() )){

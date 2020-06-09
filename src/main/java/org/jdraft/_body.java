@@ -13,7 +13,6 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt;
 import com.github.javaparser.ast.nodeTypes.NodeWithBody;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt;
-import com.github.javaparser.ast.nodeTypes.NodeWithStatements;
 import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
@@ -894,7 +893,7 @@ public final class _body implements _java._domain {
          * NOTE: this lists the "top statements" 
          * (this DOES NOT WALK INTO statements, like compound statements, 
          * statements in for loops and nested blocks)
-         * @see Tree#list(com.github.javaparser.ast.Node, java.lang.Class)
+         * @see Walk#list(com.github.javaparser.ast.Node, java.lang.Class)
          * @param <S> the statement class
          * @param stmtClass the statement class
          * @param stmtPredicate 
@@ -1540,7 +1539,7 @@ public final class _body implements _java._domain {
             if( !isImplemented() ){
                 return (_WB)this;
             }           
-            Tree.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
             return (_WB)this;
         }
         
@@ -1557,7 +1556,7 @@ public final class _body implements _java._domain {
             if( !isImplemented() ){
                 return (_WB)this;
             }
-            Tree.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
             return (_WB)this;
         }
         
@@ -1575,7 +1574,7 @@ public final class _body implements _java._domain {
             if( !isImplemented() ){
                 return (_WB)this;
             }
-            Tree.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
+            Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
             return (_WB)this;
         }
         

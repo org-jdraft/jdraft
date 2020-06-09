@@ -4,12 +4,13 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.util.*;
 import java.util.function.*;
 
 public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
-        _tree._list<Statement, _stmt, _blockStmt> {
+        _tree._orderedGroup<Statement, _stmt, _blockStmt> {
 
     public static final Function<String, _blockStmt> PARSER = s-> _blockStmt.of(s);
 
@@ -299,6 +300,14 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
 
     public String toString(){
         return this.bs.toString();
+    }
+
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        return this.bs.toString(ppc);
     }
 
     public boolean equals(Object other){

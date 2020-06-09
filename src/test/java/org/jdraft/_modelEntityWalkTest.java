@@ -38,18 +38,18 @@ public class _modelEntityWalkTest extends TestCase {
         _class _c = _class.of(_modelEntityWalkTest.class);
 
 
-        List<_type> ts = Tree.list(_c, _type.class);
+        List<_type> ts = Walk.list(_c, _type.class);
 
         assertEquals( 5, ts.size());
         ts.clear();
 
-        Tree.in( _c, _type.class, n->ts.add(n) );
+        Walk.in( _c, _type.class, n->ts.add(n) );
 
         //_c.walk(_type.class, n->ts.add(n) );
         assertEquals( 5, ts.size());
 
         List<Node> l = new ArrayList<>();
-        Tree.postOrder(_c, n-> l.add( n) );
+        Walk.postOrder(_c, n-> l.add( n) );
         //_c.walkPostOrder(n-> l.add( n) );
     }
 }

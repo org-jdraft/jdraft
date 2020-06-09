@@ -627,7 +627,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
      */
     public List<Select> listSelectedIn(_java._domain _j, Predicate<Select> selectConstraint) {
         List<Select> found = new ArrayList<>();
-        Tree.in(_j, _param.class, p-> {
+        Walk.in(_j, _param.class, p-> {
             Select sel = select(p);
             if( sel != null && selectConstraint.test(sel)){
                 found.add(sel);
@@ -690,7 +690,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Consumer<Select> selectActionFn) {
-        return Tree.in(_j, _param.class, p->{
+        return Walk.in(_j, _param.class, p->{
             Select sel = select(p);
             if( sel != null ){
                 selectActionFn.accept(sel);
@@ -736,7 +736,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
      * @return 
      */
     public <_J extends _java._domain> _J forSelectedIn(_J _j, Predicate<Select> selectConstraint, Consumer<Select> selectActionFn) {
-        return Tree.in(_j, _param.class, p->{
+        return Walk.in(_j, _param.class, p->{
             Select sel = select(p);
             if( sel != null && selectConstraint.test(sel)){
                 selectActionFn.accept(sel);

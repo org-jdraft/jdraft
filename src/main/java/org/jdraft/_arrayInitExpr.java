@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
  * <br/><code>new int[][]{{1, 1}, {2, 2}};</code>
  */
 public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayInitExpr>,
-        _tree._list<Expression, _expr, _arrayInitExpr> {
+        _tree._orderedGroup<Expression, _expr, _arrayInitExpr> {
 
     public static final Function<String, _arrayInitExpr> PARSER = s-> _arrayInitExpr.of(s);
 
@@ -202,6 +203,10 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
         }
     }
 
+    public boolean is(String code){
+        return is( new String[]{code});
+    }
+
     @Override
     public List<_expr> list(){
         List<_expr> vs = new ArrayList<>();
@@ -222,5 +227,9 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
 
     public String toString(){
         return this.aie.toString();
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        return this.aie.toString(ppc);
     }
 }

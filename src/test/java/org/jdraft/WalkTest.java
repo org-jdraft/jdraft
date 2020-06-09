@@ -21,7 +21,7 @@ import org.jdraft.macro._final;
 import org.jdraft.pattern.$;
 
 
-public class TreeTest extends TestCase {
+public class WalkTest extends TestCase {
 
     public class NestedClass{
         int i;
@@ -75,18 +75,18 @@ public class TreeTest extends TestCase {
         lts.add(_c);
         System.out.println(_io.describe());
         Log.setAdapter(new Log.SilentAdapter());
-        assertEquals( Tree.list(lts, _method.class ).size(), $.method().countIn(lts));
-        assertNull( Tree.first(lts, _field.class, f-> f.isFinal()));
-        assertNull( Tree.first(lts, _method.class, _method.IS_MAIN)); //find the first main method
+        assertEquals( Walk.list(lts, _method.class ).size(), $.method().countIn(lts));
+        assertNull( Walk.first(lts, _field.class, f-> f.isFinal()));
+        assertNull( Walk.first(lts, _method.class, _method.IS_MAIN)); //find the first main method
 
         //commented out for noise
         //_walk.in(lts.get(0), _method.class, m-> System.out.println( m));
         //_walk.in(lts, _method.class, m-> System.out.println( m) );
         //_walk.in(lts, _field.class, f-> System.out.println( f ));
 
-        assertEquals( Tree.list(lts, _field.class).size(), $.field().countIn(lts) );
-        assertEquals( Tree.list(lts, _method.class).size(), $.method().countIn(lts) );
-        assertEquals( Tree.list(lts, _constructor.class).size(), $.constructor().countIn(lts) );
+        assertEquals( Walk.list(lts, _field.class).size(), $.field().countIn(lts) );
+        assertEquals( Walk.list(lts, _method.class).size(), $.method().countIn(lts) );
+        assertEquals( Walk.list(lts, _constructor.class).size(), $.constructor().countIn(lts) );
 
         System.out.println( "C IS "+ _c );
         //verify we can find the equals method
@@ -101,20 +101,20 @@ public class TreeTest extends TestCase {
         _packageInfo _pi = _packageInfo.of("package aaaa.xxxx.gggg;", "import java.util.*;", "import java.net.URL;");
         //_walk.in(_pi, n -> System.out.println(n)); //walk nodes & do some action
         
-        List<_import> imports = Tree.list(_pi, _import.class);
+        List<_import> imports = Walk.list(_pi, _import.class);
         assertEquals(2, imports.size());
         
-        _import _i = Tree.first( Tree.PRE_ORDER, _pi, _import.class, t->true);
+        _import _i = Walk.first( Walk.PRE_ORDER, _pi, _import.class, t->true);
         assertEquals(_import.of("import java.util.*;"), _i);
         
-        _i = Tree.first( _pi, _import.class );
+        _i = Walk.first( _pi, _import.class );
         assertEquals(_import.of("import java.util.*;"), _i);
         
         
-        ImportDeclaration astI = Tree.first(Tree.PRE_ORDER, _pi, ImportDeclaration.class, t->true);
+        ImportDeclaration astI = Walk.first(Walk.PRE_ORDER, _pi, ImportDeclaration.class, t->true);
         assertEquals(Ast.importDeclaration("import java.util.*;"), astI);
         
-        astI = Tree.first(_pi, ImportDeclaration.class );
+        astI = Walk.first(_pi, ImportDeclaration.class );
         assertEquals(Ast.importDeclaration("import java.util.*;"), astI);
         
     }
@@ -129,15 +129,15 @@ public class TreeTest extends TestCase {
         
         //these arent TOO interesting, just some simple tests
         //do some stuff with ASTs...
-        assertEquals(3, Tree.list(_c, Ast.Classes.FIELD_DECLARATION).size());
-        assertEquals(2, Tree.list(_c, Ast.Classes.FIELD_DECLARATION, fd->fd.getVariable(0).getType().isPrimitiveType() ).size());
+        assertEquals(3, Walk.list(_c, Ast.Classes.FIELD_DECLARATION).size());
+        assertEquals(2, Walk.list(_c, Ast.Classes.FIELD_DECLARATION, fd->fd.getVariable(0).getType().isPrimitiveType() ).size());
 
 
         //using draft classes can also walk, a little more concise IMHO
-        assertEquals(3, Tree.list(_c, _field.class).size());
+        assertEquals(3, Walk.list(_c, _field.class).size());
 
-        assertEquals(2, Tree.list(_c, _field.class, fd->fd.isPrimitive()).size());
-        assertEquals(1, Tree.list(_c, _field.class, fd->fd.isInit(2)).size());
+        assertEquals(2, Walk.list(_c, _field.class, fd->fd.isPrimitive()).size());
+        assertEquals(1, Walk.list(_c, _field.class, fd->fd.isInit(2)).size());
 
     }
     
@@ -148,10 +148,10 @@ public class TreeTest extends TestCase {
 
         //_walk.in(_c, _class.class, c-> System.out.println(c));
         AtomicInteger at = new AtomicInteger(0);
-        Tree.in(_c, TypeDeclaration.class, td->at.incrementAndGet() );
+        Walk.in(_c, TypeDeclaration.class, td->at.incrementAndGet() );
         assertTrue(at.intValue() ==1);
         
-        assertTrue( Tree.list(_c, Ast.Classes.ENUM_DECLARATION).isEmpty());
+        assertTrue( Walk.list(_c, Ast.Classes.ENUM_DECLARATION).isEmpty());
         //_walk.in(_c, Ast.NODE_WITH_ABSTRACT_MOD, td->System.out.println(td) );
         //_walk.in(_c, Ast.IMPORT_DECLARATION, td->System.out.println(td) );
 
@@ -188,7 +188,7 @@ public class TreeTest extends TestCase {
 
         //List<Node>
         List<Node>parents = new ArrayList<Node>();
-        Tree.parents( _m, n -> parents.add( n ));
+        Walk.parents( _m, n -> parents.add( n ));
         assertTrue( parents.get(0) instanceof EnumConstantDeclaration);
         assertTrue( parents.get(1) instanceof EnumDeclaration);
         assertTrue( parents.get(2) instanceof ClassOrInterfaceDeclaration);
@@ -197,7 +197,7 @@ public class TreeTest extends TestCase {
 
         List<_java._domain>parentNodes = new ArrayList<>();
         //_m.walkParents(n -> parentNodes.add( _java.of( n ) ));
-        Tree.parents(_m, n -> parentNodes.add( _java.of( n ) ));
+        Walk.parents(_m, n -> parentNodes.add( _java.of( n ) ));
         assertTrue( parentNodes.get(0) instanceof _constant);
         assertTrue( parentNodes.get(1) instanceof _enum);
         assertTrue( parentNodes.get(2) instanceof _class);
@@ -215,7 +215,7 @@ public class TreeTest extends TestCase {
         //_walk.list(_a, StringLiteralExpr.class);
         List<StringLiteralExpr> l = new ArrayList<>();
         //Ast.walk(Node.TreeTraversal.POSTORDER, ast, Ast.STRING_LITERAL_EXPR, n->true, n-> l.add(n));
-        Tree.in(Tree.POST_ORDER, ast, Ast.Classes.STRING_LITERAL_EXPR, n-> true, n-> l.add(n));
+        Walk.in(Walk.POST_ORDER, ast, Ast.Classes.STRING_LITERAL_EXPR, n-> true, n-> l.add(n));
         assertEquals(6, l.size());
         assertEquals( "class", l.get(0).asString());
         assertEquals( "field", l.get(1).asString());
@@ -232,7 +232,7 @@ public class TreeTest extends TestCase {
 
         //Preorder postorder not really different when dealing with leaf nodes
         //_java.walk(Node.TreeTraversal.PREORDER, ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
-        Tree.preOrder(ast, Ast.Classes.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
+        Walk.preOrder(ast, Ast.Classes.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
         assertEquals(i.size(), 3);
         assertEquals( (Integer)100, i.get(0) );
         assertEquals( (Integer)1023, i.get(1) );
@@ -240,7 +240,7 @@ public class TreeTest extends TestCase {
 
         i.clear();
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, Ast.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
-        Tree.postOrder(ast, Ast.Classes.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
+        Walk.postOrder(ast, Ast.Classes.INT_LITERAL_EXPR, n->true, n-> i.add(n.asInt()));
         assertEquals(i.size(), 3);
         assertEquals( (Integer)100, i.get(0) );
         assertEquals( (Integer) 1023, i.get(1) );
@@ -250,7 +250,7 @@ public class TreeTest extends TestCase {
         //PRE ORDER processes ROOT NODES FIRST (then leaves)
         List<_annoExprs._withAnnoExprs> a = new ArrayList<>();
         //_java.walk(Node.TreeTraversal.PREORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
-        Tree.preOrder(ast, _annoExprs._withAnnoExprs.class, n-> n.hasAnnoExpr(ann.class), n-> a.add(n));
+        Walk.preOrder(ast, _annoExprs._withAnnoExprs.class, n-> n.hasAnnoExpr(ann.class), n-> a.add(n));
         assertEquals( 5, a.size());
         assertTrue( a.get(0).getAnnoExprs().is("@ann(\"class\")") );
         assertTrue( a.get(1).getAnnoExprs().is("@ann(\"field\")") );
@@ -260,7 +260,7 @@ public class TreeTest extends TestCase {
         a.clear();
 
         //for POST ORDER THE LEAF NODES ARE PROCESSED FIRST
-        Tree.postOrder(ast, _annoExprs._withAnnoExprs.class, n-> n.hasAnnoExpr(ann.class), n-> a.add(n));
+        Walk.postOrder(ast, _annoExprs._withAnnoExprs.class, n-> n.hasAnnoExpr(ann.class), n-> a.add(n));
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
 
         assertEquals( 5, a.size());

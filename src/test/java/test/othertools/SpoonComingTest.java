@@ -4,7 +4,7 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.Print;
-import org.jdraft.Tree;
+import org.jdraft.Walk;
 import org.jdraft._ifStmt;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$stmt;
@@ -55,7 +55,7 @@ public class SpoonComingTest extends TestCase {
      */
     public void testIfReturnConstraint(){
         $stmt<IfStmt, _ifStmt> $ifReturn = $.ifStmt().$and( (is) ->
-                Tree.hasDescendant( ((_ifStmt)is).ast().getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
+                Walk.hasDescendant( ((_ifStmt)is).ast().getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
         class Ex{
             public int ex(int a){
                 if( a > 0 ){

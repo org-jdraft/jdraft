@@ -9,7 +9,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.ReceiverParameter;
 import org.jdraft.Ast;
-import org.jdraft.Tree;
+import org.jdraft.Walk;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import junit.framework.TestCase;
@@ -47,7 +47,7 @@ public class ReceiverParameterUsage extends TestCase {
         assertEquals( 0, md.getParameters().size());
         assertTrue( md.getReceiverParameter().isPresent() );
         System.out.println( md );
-        Tree.in(tp, ReceiverParameter.class, t-> System.out.println(t) );
+        Walk.in(tp, ReceiverParameter.class, t-> System.out.println(t) );
         //Ast.walk( tp, ReceiverParameter.class, t-> System.out.println(t) );                
     }
     

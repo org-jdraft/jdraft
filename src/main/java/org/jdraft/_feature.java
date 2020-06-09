@@ -568,7 +568,7 @@ public interface _feature<_T, _F>{
      * @param <_F>
      */
     class _one<_T, _F> implements _feature<_T, _F> {
-        /** the concrete target ({@link _tree._node}, {@link _tree._set}, {@link _tree._list}) implementation */
+        /** the concrete target ({@link _tree._node}, {@link _tree._group}, {@link _tree._orderedGroup}) implementation */
         public final Class<_T> targetClass;
 
         /** the class or interface type of the feature */

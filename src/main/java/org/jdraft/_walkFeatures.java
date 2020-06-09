@@ -23,8 +23,6 @@ import java.util.stream.Stream;
  * //this is a walkTarget implementation
  * assertEquals(2, _c.walk(_method.class).count(_m->_m.isStatic()));
  * //this is a normal implementation
- *
- *
  */
 public class _walkFeatures<_F> {
 

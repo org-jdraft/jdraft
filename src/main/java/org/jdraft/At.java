@@ -468,7 +468,7 @@ public interface At {
         if( found instanceof BlockStmt ){
             return ((BlockStmt) found).asBlockStmt();
         }
-        Optional<Node> on = found.stream(Tree.PARENTS).filter(n -> BlockStmt.class.isAssignableFrom(n.getClass())).findFirst();
+        Optional<Node> on = found.stream(Walk.PARENTS).filter(n -> BlockStmt.class.isAssignableFrom(n.getClass())).findFirst();
         if( on.isPresent()){
             return (BlockStmt)on.get();
         }

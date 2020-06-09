@@ -80,8 +80,8 @@ public interface _java {
      * Marker interface for ALL models and interfaces related to Java Language Constructs
      *
      * @see _tree._node a one-to-one mapping between an AST (Node) and a <CODE>_javaDomain</CODE> ( _method <--> MethodDeclaration )
-     * @see _tree._list a one-to 0 or more ordered NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
-     * @see _tree._set a one-to 0 or more NodeList instances of AST nodes ( _modifiers <--> NodeList<Parameter> )
+     * @see _tree._orderedGroup a one-to 0 or more ordered NodeList instances of AST nodes ( _parameters <--> NodeList<Parameter> )
+     * @see _tree._group a one-to 0 or more NodeList instances of AST nodes ( _modifiers <--> NodeList<Parameter> )
      */
     interface _domain { }
 
@@ -606,13 +606,13 @@ public interface _java {
                 if( fd == null ){
                     return null;
                 }
-                BodyDeclaration bd = Tree.first(Tree.PARENTS, fd, BodyDeclaration.class);
+                BodyDeclaration bd = Walk.first(Walk.PARENTS, fd, BodyDeclaration.class);
                 if( bd != null ) {
                     return (_M) _java.of(bd);
                 }
                 return null; //we didnt find a parent that was a BodyDeclaration
             } else{
-                BodyDeclaration bd = Tree.first(Tree.PARENTS, ast(), BodyDeclaration.class);
+                BodyDeclaration bd = Walk.first(Walk.PARENTS, ast(), BodyDeclaration.class);
                 if( bd != null ) {
                     return (_M) _java.of(bd);
                 }

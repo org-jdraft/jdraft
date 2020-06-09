@@ -10,6 +10,7 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 /**
@@ -23,7 +24,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _throws
-        implements _tree._set<ReferenceType, _typeRef, _throws> {
+        implements _tree._group<ReferenceType, _typeRef, _throws> {
 
     public static final Function<String, _throws> PARSER = s-> _throws.of(s);
 
@@ -147,6 +148,10 @@ public final class _throws
         return false;
     }
 
+    public boolean is(String code){
+        return is(new String[]{code});
+    }
+
     /**
      *
      * @param str
@@ -255,6 +260,25 @@ public final class _throws
                 sb.append( ", " );
             }
             sb.append( this.astNodeWithThrows.getThrownExceptions().get( i ) );
+        }
+        return sb.toString();
+    }
+
+    //((Node)a).toString(ppc)
+
+
+    @Override
+    public String toString(PrettyPrinterConfiguration ppc) {
+        if( this.astNodeWithThrows.getThrownExceptions().isEmpty() ) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append( "throws " );
+        for( int i = 0; i < this.astNodeWithThrows.getThrownExceptions().size(); i++ ) {
+            if( i > 0 ) {
+                sb.append( ", " );
+            }
+            sb.append( this.astNodeWithThrows.getThrownExceptions().get( i ).toString(ppc) );
         }
         return sb.toString();
     }

@@ -5,6 +5,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleProvidesDirective;
+import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
 
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class _moduleProvides implements _tree._node<ModuleProvidesDirective, _moduleProvides>,
-        _tree._set<Name, _name, _moduleProvides>,
+        _tree._group<Name, _name, _moduleProvides>,
         _moduleDirective<ModuleProvidesDirective, _moduleProvides> {
 
     public static final Function<String, _moduleProvides> PARSER = s-> _moduleProvides.of(s);
@@ -70,6 +71,11 @@ public final class _moduleProvides implements _tree._node<ModuleProvidesDirectiv
     public _moduleProvides setName(String name){
         this.me.setName(name);
         return this;
+    }
+
+
+    public boolean is(String code){
+        return is(new String[]{code});
     }
 
     public String getName(){
@@ -149,7 +155,11 @@ public final class _moduleProvides implements _tree._node<ModuleProvidesDirectiv
         return o instanceof _moduleProvides && Objects.equals( ((_moduleProvides)o).me, this.me);
     }
 
-    public String toString(){
-        return this.me.toString();
+    public String toString() {
+        return toString( new PrettyPrinterConfiguration());
+    }
+
+    public String toString(PrettyPrinterConfiguration ppc){
+        return this.me.toString(ppc);
     }
 }
