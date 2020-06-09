@@ -7,6 +7,8 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithArguments;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -145,7 +147,15 @@ public final class _args
     public boolean is(String args){ return is(new String[]{args}); }
 
     public boolean is(String...args){
+        String str = Text.combine(args);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         return of(args).equals(this);
+
     }
 
     public boolean isAt(int index, int i){

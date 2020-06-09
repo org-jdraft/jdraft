@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import com.github.javaparser.ast.CompilationUnit;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -172,6 +173,13 @@ public final class _packageInfo
      */
     @Override
     public boolean is(String... stringRep) {
+        String str = Text.combine(stringRep);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
             return is(Ast.of(stringRep));
         } catch (Exception e) {

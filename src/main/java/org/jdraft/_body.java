@@ -17,6 +17,7 @@ import com.github.javaparser.ast.stmt.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
 import org.jdraft.macro._remove;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -452,6 +453,13 @@ public final class _body implements _java._domain {
      * @return 
      */
     public boolean is(String... body) {
+        String str = Text.combine(body);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         if( body == null || body.length == 0
                 || (body.length == 1 && body[0].trim().length()==0)
                 || (body.length == 1 && body[0].trim().equals(";"))) {

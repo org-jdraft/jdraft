@@ -11,6 +11,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 import java.lang.annotation.Annotation;
@@ -264,14 +265,35 @@ public final class _annoExprs
     public boolean is(String code){
         return is(new String[]{code});
     }
+
     /**
      * does this String array represent ALL of the annos?
      * @param annos representation of annos
      * @return true if they are the same
      */
     public boolean is( String... annos ) {
+        String allString = Text.combine(annos);
+        if( allString.startsWith("$") && allString.endsWith("$")){
+            Stencil st = Stencil.of(allString);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
-            return _annoExprs.of( annos ).equals( this );
+            _annoExprs _aes = _annoExprs.of( annos );
+            for(int i=0;i<_aes.size();i++){
+                Stencil st = Stencil.of(_aes.getAt(i).toString());
+                if( st.isFixedText() ){
+                    if( ! has(_aes.getAt(i)) ){
+                        return false;
+                    }
+                } else{
+                    if( !has(_a -> st.matches(_a.toString()))){
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
         catch( Exception e ) {
         }

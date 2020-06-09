@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import com.github.javaparser.ast.expr.Name;
 import org.jdraft.macro._remove;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -327,6 +328,13 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
 
     @Override
     public boolean is(String... stringRep) {
+        String str = Text.combine(stringRep);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try{
             return of( Text.combine(stringRep) ).equals(this);
         } catch(Exception e){

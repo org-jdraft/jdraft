@@ -140,6 +140,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return this.astConstant.getArguments().size() > 0;
     }
 
+    /*
     @Override
     public boolean is(String...stringRep){
         try{
@@ -149,6 +150,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
             return false;
         }
     }
+     */
 
     @Override
     public boolean is(EnumConstantDeclaration ecd ){

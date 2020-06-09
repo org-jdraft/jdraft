@@ -5,6 +5,8 @@ import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -85,6 +87,13 @@ public final class _imports implements _tree._group<ImportDeclaration, _import, 
     }
 
     public boolean is(String...strings){
+        String str = Text.combine(strings);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try{
             _imports _o = of(strings);
             return Objects.equals(_o, this);

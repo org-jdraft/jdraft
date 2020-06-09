@@ -871,6 +871,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return _annoExprs.of(this.astClass );
     }
 
+    /*
     @Override
     public boolean is( String...classDeclaration){
         try{
@@ -880,6 +881,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             return false;
         }
     }
+     */
 
     @Override
     public boolean is( ClassOrInterfaceDeclaration astC ){

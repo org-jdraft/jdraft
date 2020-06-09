@@ -5,6 +5,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -111,6 +112,13 @@ public final class _typeParams
 
 
     public boolean is( String... typeParameters ) {
+        String str = Text.combine(typeParameters);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
             _typeParams _tps = _typeParams.of(typeParameters);
             return _tps.equals(this);

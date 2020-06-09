@@ -9,6 +9,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.NodeWithOptionalScope;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 import java.util.Objects;
@@ -136,6 +137,13 @@ public final class _qualifiedName implements _tree._node<Node, _qualifiedName> {
 
     @Override
     public boolean is(String... stringRep) {
+        String str = Text.combine(stringRep);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         return Objects.equals( Text.combine(stringRep), getNameString());
     }
 

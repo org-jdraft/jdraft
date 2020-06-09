@@ -17,6 +17,7 @@ import com.github.javaparser.ast.type.*;
 
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -302,6 +303,13 @@ public final class _method
      * @return 
      */
     public boolean is(String... methodDecl) {
+        String str = Text.combine(methodDecl);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
             _method _mm = of(methodDecl);
 

@@ -6,6 +6,8 @@ import com.github.javaparser.ast.body.Parameter;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -119,6 +121,13 @@ public final class _params
      * @return
      */
     public boolean is( String... params ) {
+        String str = Text.combine(params);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
             return of( params ).equals( this );
         }

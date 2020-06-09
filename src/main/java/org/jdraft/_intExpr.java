@@ -1,6 +1,8 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 import java.util.function.Function;
 
@@ -44,8 +46,16 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
         return new _intExpr(this.ile.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
+        String str = Text.combine(stringRep);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try{
             return is( Expr.integerLiteralExpr(stringRep));
         } catch(Exception e){
@@ -53,6 +63,7 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
         }
         return false;
     }
+     */
 
     public boolean is(int value){
         return this.ile.asInt() == value;

@@ -4,6 +4,7 @@ import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 import java.util.*;
@@ -194,6 +195,13 @@ public final class _modifiers implements _tree._group<Modifier, _modifier, _modi
      * @return
      */
     public boolean is( String... mods ) {
+        String str = Text.combine(mods);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
             _modifiers _ms = _modifiers.of( mods );
             return this.equals( _ms );

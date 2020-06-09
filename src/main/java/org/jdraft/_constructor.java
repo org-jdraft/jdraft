@@ -19,6 +19,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -350,6 +351,13 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
 
     @Override
     public boolean is( String...constructorDeclaration ){
+        String str = Text.combine(constructorDeclaration);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
             _constructor _ct = of(constructorDeclaration);
             _ct.astCtor.setModifiers( Modifiers.merge(_ct.ast().getModifiers(), Modifiers.getImpliedModifiers( this.astCtor ) ) );

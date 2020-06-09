@@ -6,6 +6,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -401,6 +402,13 @@ public interface _tree<_T> extends _java._domain {
          * @return true if the Parsed String represents the entity
          */
         default boolean is(String... stringRep){
+            String str = Text.combine(stringRep);
+            if( str.startsWith("$") && str.endsWith("$")){
+                Stencil st = Stencil.of(str);
+                if( st.isMatchAny() ){
+                    return true;
+                }
+            }
             try{
                 //_node _n = (_node) _java.of(_java.node( getClass(), Text.combine(stringRep)));
                 _N n = features().parse(stringRep);

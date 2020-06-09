@@ -45,13 +45,16 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
         return new _booleanExpr(this.be.clone());
     }
 
+    /*
     @Override
     public boolean is(String... stringRep) {
+
         try{
             return is( Expr.booleanLiteralExpr(stringRep));
         } catch(Exception e){ }
         return false;
     }
+     */
 
     public boolean is(boolean b){
         return this.ast().getValue() == b;

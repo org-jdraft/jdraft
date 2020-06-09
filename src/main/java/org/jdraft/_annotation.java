@@ -22,6 +22,7 @@ import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -682,8 +683,17 @@ public final class _annotation
 
     @Override
     public boolean is( String...annotationDeclaration){
+        String str = Text.combine(annotationDeclaration);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
-            return is( (AnnotationDeclaration)Ast.typeDeclaration(annotationDeclaration));
+            //TODO feature scraping
+            return equals(_annotation.of(str) );
+            //return is( (AnnotationDeclaration)Ast.typeDeclaration(annotationDeclaration));
         }catch(Exception e){
             return false;
         }

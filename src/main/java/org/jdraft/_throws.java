@@ -11,6 +11,7 @@ import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -154,10 +155,17 @@ public final class _throws
 
     /**
      *
-     * @param str
+     * @param strs
      * @return
      */
-    public boolean is( String... str ) {
+    public boolean is( String... strs ) {
+        String str = Text.combine(strs);
+        if( str.startsWith("$") && str.endsWith("$")){
+            Stencil st = Stencil.of(str);
+            if( st.isMatchAny() ){
+                return true;
+            }
+        }
         try {
             return of( str ).equals( this );
         }

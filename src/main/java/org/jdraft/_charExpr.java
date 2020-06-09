@@ -47,6 +47,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
     }
 
 
+    /*
     @Override
     public boolean is(String... stringRep) {
         try{
@@ -54,6 +55,7 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
         } catch(Exception e){ }
         return false;
     }
+     */
 
     @Override
     public boolean is(CharLiteralExpr astNode) {

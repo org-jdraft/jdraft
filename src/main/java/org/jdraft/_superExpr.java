@@ -64,14 +64,6 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _tree._no
     }
 
     @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.superExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-
-    @Override
     public boolean is(SuperExpr astNode) {
         return this.ast( ).equals(astNode);
     }
