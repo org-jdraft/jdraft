@@ -8,6 +8,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
 import com.github.javaparser.ast.type.UnionType;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 
 import java.io.File;
 import java.io.IOException;

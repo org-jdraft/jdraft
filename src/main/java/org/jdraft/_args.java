@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @see org.jdraft.bot.$args for a prototype version
  */
 public final class _args
-        implements _tree._orderedGroup<Expression, _expr, _args> {
+        implements _tree._view<_args>, _tree._orderedGroup<Expression, _expr, _args> {
 
     public static final Function<String, _args> PARSER = s-> _args.of(s);
 

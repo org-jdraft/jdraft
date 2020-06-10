@@ -31,6 +31,7 @@ import org.jdraft.bot.$refactoring;
 import org.jdraft.bot.$stmt;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
+import org.jdraft.walk.Walk;
 
 /**
  * $ is a short circuit API to construct "Body and control flow" types of $prototypes.

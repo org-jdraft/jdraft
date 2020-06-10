@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 import com.github.javaparser.ast.type.WildcardType;
 import org.jdraft.*;
 import org.jdraft.text.*;
+import org.jdraft.walk.Walk;
 
 /**
  * Template for a Java Type {@link Type} Reference

@@ -15,6 +15,7 @@ import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
+import org.jdraft.walk.Walk;
 
 /**
  * Any Ast Node that can be matched, extracted, Selected, Removed, Replaced

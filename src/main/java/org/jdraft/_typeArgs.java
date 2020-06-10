@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * order doesnt matter
  */
 public final class _typeArgs
-        implements _tree._group<Type, _typeRef, _typeArgs> {
+        implements _tree._view<_typeArgs>, _tree._group<Type, _typeRef, _typeArgs> {
 
     public static final Function<String, _typeArgs> PARSER = s-> _typeArgs.of(s);
 
@@ -179,7 +179,6 @@ public final class _typeArgs
     public String toString(){
        return toString(new PrettyPrinterConfiguration());
     }
-
 
     public String toString(PrettyPrinterConfiguration ppc){
         if( this.isUsingDiamondOperator()){

@@ -42,7 +42,7 @@ public class _allNodeUseTest extends TestCase {
                 _body.of("print(3);"),
                 _booleanExpr.of("true"),
                 _breakStmt.of("break outer;"),
-                _caseGroup.of("case 1: case 3: case 5: return ODD;"),
+                _cases.of("case 1: case 3: case 5: return ODD;"),
                 _castExpr.of("(String)s"),
                 _catch.of("catch(IOException ioe){ throw new RuntimeException(ioe); }"),
                 _charExpr.of('a'), // or "'c'"

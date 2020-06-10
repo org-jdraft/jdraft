@@ -46,16 +46,16 @@ public interface _switch<_S extends _switch> extends _java._domain {
         return (_S)this;
     }
 
-    List<_caseGroup> listCaseGroups();
+    List<_cases> listCaseGroups();
 
-    List<_caseGroup> listCaseGroups(Predicate<_caseGroup>matchFn);
+    List<_cases> listCaseGroups(Predicate<_cases>matchFn);
 
-    default _S forCaseGroups(Consumer<_caseGroup> cs ){
+    default _S forCaseGroups(Consumer<_cases> cs ){
         listCaseGroups().forEach(cs);
         return (_S)this;
     }
 
-    default _S forCaseGroups(Predicate<_caseGroup> matchFn, Consumer<_caseGroup> cs ){
+    default _S forCaseGroups(Predicate<_cases> matchFn, Consumer<_cases> cs ){
         listCaseGroups(matchFn).stream().forEach(cs);
         return (_S)this;
     }

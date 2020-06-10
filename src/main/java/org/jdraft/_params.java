@@ -26,7 +26,7 @@ import java.util.function.Predicate;
  *
  */
 public final class _params
-        implements _tree._orderedGroup<Parameter, _param, _params> {
+        implements _tree._view<_params>, _tree._orderedGroup<Parameter, _param, _params> {
 
     public static final Function<String, _params> PARSER = s-> _params.of(s);
 

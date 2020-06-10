@@ -32,7 +32,7 @@ import static org.jdraft.Ast.fieldDeclaration;
  * @author Eric
  */
 public final class _annoExprs
-        implements _tree._group<AnnotationExpr, _annoExpr, _annoExprs> {
+        implements _tree._view<_annoExprs>, _tree._group<AnnotationExpr, _annoExpr, _annoExprs> {
 
     public static final Function<String, _annoExprs> PARSER = s-> _annoExprs.of(s);
 

@@ -6,6 +6,7 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.CatchClause;
 import com.github.javaparser.ast.type.*;
+import org.jdraft.walk.Walk;
 
 import java.lang.reflect.AnnotatedType;
 import java.util.*;

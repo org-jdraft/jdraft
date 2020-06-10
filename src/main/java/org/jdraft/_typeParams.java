@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * @author Eric
  */
 public final class _typeParams
-        implements _tree._group<TypeParameter, _typeParam, _typeParams> {
+        implements _tree._view<_typeParams>, _tree._group<TypeParameter, _typeParam, _typeParams> {
 
     public static final Function<String, _typeParams> PARSER = s-> _typeParams.of(s);
 

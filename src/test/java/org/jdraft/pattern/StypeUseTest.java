@@ -9,6 +9,7 @@ import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.walk.Walk;
 
 import java.io.IOException;
 import java.util.ArrayList;

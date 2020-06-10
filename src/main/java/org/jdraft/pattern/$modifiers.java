@@ -15,6 +15,7 @@ import org.jdraft._modifiers._withModifiers;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
+import org.jdraft.walk.Walk;
 
 /**
  * instead of directly matching (some expected set of modifiers) against a target

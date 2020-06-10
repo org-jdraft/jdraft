@@ -6,6 +6,7 @@ import com.github.javaparser.ast.type.*;
 import org.jdraft.*;
 import org.jdraft.pattern.*;
 import org.jdraft.text.*;
+import org.jdraft.walk.Walk;
 
 import java.util.*;
 import java.util.function.Consumer;

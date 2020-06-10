@@ -5,7 +5,7 @@ import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.type.Type;
 import org.jdraft.*;
-import org.jdraft.Walk;
+import org.jdraft.walk.Walk;
 import junit.framework.TestCase;
 
 import java.io.IOException;

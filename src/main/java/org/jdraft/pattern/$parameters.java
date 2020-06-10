@@ -16,6 +16,7 @@ import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
+import org.jdraft.walk.Walk;
 
 /**
  * Pattern for parameter list

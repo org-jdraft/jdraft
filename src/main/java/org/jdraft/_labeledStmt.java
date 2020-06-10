@@ -4,6 +4,7 @@ import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
+import org.jdraft.walk.Walk;
 
 import java.util.Objects;
 import java.util.Optional;

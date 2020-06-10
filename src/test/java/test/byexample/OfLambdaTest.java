@@ -22,7 +22,7 @@ public class OfLambdaTest extends TestCase {
                 _binaryExpr.of( ()-> 1 + 4 ),
                 _body.of( (a)->{ System.out.println(a); }),
                 _castExpr.of(o-> (String)o ),
-                _caseGroup.of( (Integer o)-> {
+                _cases.of( (Integer o)-> {
                     switch(o){
                         case 1: case 3: case 5: return "Odd";
                     }

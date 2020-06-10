@@ -2,7 +2,7 @@ package org.jdraft.runtime;
 
 import org.jdraft._codeUnit;
 import org.jdraft._type;
-import org.jdraft.Walk;
+import org.jdraft.walk.Walk;
 
 import java.io.*;
 import java.net.*;

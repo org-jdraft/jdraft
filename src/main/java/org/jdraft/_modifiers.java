@@ -18,7 +18,7 @@ import java.util.function.Function;
  *
  * @author Eric
  */
-public final class _modifiers implements _tree._group<Modifier, _modifier, _modifiers> {
+public final class _modifiers implements _tree._view<_modifiers>, _tree._group<Modifier, _modifier, _modifiers> {
 
     public static final Function<String, _modifiers> PARSER = s-> _modifiers.of(s);
 

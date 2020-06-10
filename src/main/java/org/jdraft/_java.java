@@ -31,6 +31,7 @@ import org.jdraft._type._withImplements;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
+import org.jdraft.walk.Walk;
 
 /**
  * <P>A "Meta-Model" implementation/view of entities for representing java source code

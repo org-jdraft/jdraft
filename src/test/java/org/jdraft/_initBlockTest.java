@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 
 import java.util.ArrayList;
 import java.util.List;

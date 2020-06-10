@@ -5,7 +5,7 @@
  */
 package org.jdraft.pattern;
 
-import org.jdraft.Walk;
+import org.jdraft.walk.Walk;
 import org.jdraft._class;
 import java.io.IOException;
 import java.net.BindException;

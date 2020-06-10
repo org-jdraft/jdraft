@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 
 import java.util.function.Predicate;
 

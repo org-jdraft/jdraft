@@ -8,6 +8,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.ExpressionStmt;
 import org.jdraft.macro._abstract;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 
 /**
  *

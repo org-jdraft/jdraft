@@ -12,6 +12,7 @@ import java.util.*;
 
 import junit.framework.TestCase;
 import org.jdraft.macro._static;
+import org.jdraft.walk.Walk;
 
 /**
  *

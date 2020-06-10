@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 
 import java.util.Set;
 

@@ -9,7 +9,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.ReceiverParameter;
 import org.jdraft.Ast;
-import org.jdraft.Walk;
+import org.jdraft.walk.Walk;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 import junit.framework.TestCase;

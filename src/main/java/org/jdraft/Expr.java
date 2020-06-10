@@ -22,6 +22,7 @@ import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.io._in;
 import org.jdraft.text.Text;
+import org.jdraft.walk.Walk;
 
 /**
  * Utility for converting free form Strings and Runtime entities (lambdas, Anonymous Objects)

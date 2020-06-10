@@ -4,7 +4,7 @@ import com.github.javaparser.ast.stmt.IfStmt;
 import com.github.javaparser.ast.stmt.ReturnStmt;
 import junit.framework.TestCase;
 import org.jdraft.Print;
-import org.jdraft.Walk;
+import org.jdraft.walk.Walk;
 import org.jdraft._ifStmt;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$stmt;

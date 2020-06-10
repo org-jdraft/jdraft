@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  *     default: return "C"; //this is a SwitchEntry
  * </CODE>
  *
- * @see _caseGroup a grouping of multiple case statements
+ * @see _cases a grouping of multiple case statements
  *
  */
 public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
@@ -175,9 +175,9 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * List the _caseGroups that exist in this _switch
      * @return
      */
-    public List<_caseGroup> listCaseGroups(){
-        List<_caseGroup> cgs = new ArrayList<>();
-        _caseGroup _cg = new _caseGroup(this.switchExpr);
+    public List<_cases> listCaseGroups(){
+        List<_cases> cgs = new ArrayList<>();
+        _cases _cg = new _cases(this.switchExpr);
         List<SwitchEntry> ses = this.switchExpr.getEntries();
         for(int i=0; i< ses.size(); i++){
             if( ses.get(i).getStatements().isEmpty() ){
@@ -185,7 +185,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             } else{
                 _cg.addSwitchEntry(ses.get(i));
                 cgs.add(_cg);
-                _cg = new _caseGroup(this.switchExpr);
+                _cg = new _cases(this.switchExpr);
             }
         }
         return cgs;
@@ -196,7 +196,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @param matchFn
      * @return
      */
-    public List<_caseGroup> listCaseGroups( Predicate<_caseGroup> matchFn){
+    public List<_cases> listCaseGroups(Predicate<_cases> matchFn){
         return listCaseGroups().stream().filter(matchFn).collect(Collectors.toList());
     }
 
@@ -418,7 +418,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @param caseGroups
      * @return
      */
-    public _switchExpr addCaseGroups(_caseGroup...caseGroups){
+    public _switchExpr addCaseGroups(_cases...caseGroups){
         Arrays.stream(caseGroups).forEach( cg-> this.switchExpr.getEntries().addAll(cg.switchEntries));
         return this;
     }

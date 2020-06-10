@@ -18,6 +18,7 @@ import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
+import org.jdraft.walk.Walk;
 
 /**
  * Prototype of (group of) {@link _annoExprs} for composing and query

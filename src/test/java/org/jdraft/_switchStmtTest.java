@@ -244,7 +244,7 @@ public class _switchStmtTest extends TestCase {
         //build and empty switch
         _switchStmt _s = _switchStmt.of();
         //build an empty caseGroup
-        _caseGroup _cg = _caseGroup.of();
+        _cases _cg = _cases.of();
         _s.addCaseGroups( _cg);
         assertTrue( _s.listCaseGroups().isEmpty() ); //adding empty caseGroup to empty switch
 
@@ -310,7 +310,7 @@ public class _switchStmtTest extends TestCase {
           }
         });
 
-        List<_caseGroup> _cgs = cg.listCaseGroups();
+        List<_cases> _cgs = cg.listCaseGroups();
         assertEquals( 3, _cgs.size());
 
         _cgs.get(0).addCase(5);

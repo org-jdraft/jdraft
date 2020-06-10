@@ -188,7 +188,7 @@ public class AutoCompleteTest extends TestCase {
              }
          });
 
-         _caseGroup _cg = _ss.listCaseGroups().get(0);
+         _cases _cg = _ss.listCaseGroups().get(0);
          _cg.listCases().forEach(cc -> System.out.println(" "+cc+ " "+cc.getClass()));
          System.out.println( _cg.listCases() );
 

@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.bot.$doubleExpr;
 import org.jdraft.bot.$intExpr;
+import org.jdraft.walk.Walk;
 
 public class NegativeLiteralNumberPostProcessorTest extends TestCase {
 

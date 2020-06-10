@@ -11,6 +11,7 @@ import org.jdraft.*;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
+import org.jdraft.walk.Walk;
 
 /**
  * prototype for querying and composing a {@link CatchClause}

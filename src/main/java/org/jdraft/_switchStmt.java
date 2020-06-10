@@ -220,28 +220,28 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
         return switchStmt;
     }
 
-    public _caseGroup getCaseGroup(String s){
+    public _cases getCaseGroup(String s){
         return getCaseGroup( new StringLiteralExpr(s));
     }
 
-    public _caseGroup getCaseGroup( char c){
+    public _cases getCaseGroup(char c){
         return getCaseGroup( new CharLiteralExpr(c));
     }
 
-    public _caseGroup getCaseGroup( int i){
+    public _cases getCaseGroup(int i){
         return getCaseGroup( new IntegerLiteralExpr(i));
     }
 
-    public _caseGroup getCaseGroup( Enum e ){
+    public _cases getCaseGroup(Enum e ){
         return getCaseGroup( new NameExpr(e.name()));
     }
 
-    public _caseGroup getCaseGroup(_expr _e){
+    public _cases getCaseGroup(_expr _e){
         return getCaseGroup( _e.ast() );
     }
 
-    public _caseGroup getCaseGroup(Expression e){
-        List<_caseGroup> lc = listCaseGroups(cg -> cg.hasCase(e));
+    public _cases getCaseGroup(Expression e){
+        List<_cases> lc = listCaseGroups(cg -> cg.hasCase(e));
         if( lc.isEmpty() ){
             return null;
         }
@@ -283,9 +283,9 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      * List the _caseGroups that exist in this _switch
      * @return
      */
-    public List<_caseGroup> listCaseGroups(){
-        List<_caseGroup> cgs = new ArrayList<>();
-        _caseGroup _cg = new _caseGroup(this.switchStmt);
+    public List<_cases> listCaseGroups(){
+        List<_cases> cgs = new ArrayList<>();
+        _cases _cg = new _cases(this.switchStmt);
         List<SwitchEntry> ses = this.switchStmt.getEntries();
         for(int i=0; i< ses.size(); i++){
             if( ses.get(i).getStatements().isEmpty() ){
@@ -294,13 +294,13 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
                 //System.out.println( "ADDING "+ ses.get(i));
                 _cg.addSwitchEntry(ses.get(i));
                 cgs.add(_cg);
-                _cg = new _caseGroup(this.switchStmt);
+                _cg = new _cases(this.switchStmt);
             }
         }
         return cgs;
     }
 
-    public List<_caseGroup> listCaseGroups( Predicate<_caseGroup> matchFn){
+    public List<_cases> listCaseGroups(Predicate<_cases> matchFn){
         return listCaseGroups().stream().filter(matchFn).collect(Collectors.toList());
     }
 
@@ -704,7 +704,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
     }
 
     public _switchStmt mapReturn(Enum[] vals, _expr returnValue){
-        _caseGroup _cg = _caseGroup.of();
+        _cases _cg = _cases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -717,7 +717,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
     }
 
     public _switchStmt mapReturn(String[] vals, _expr returnValue){
-        _caseGroup _cg = _caseGroup.of();
+        _cases _cg = _cases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -730,7 +730,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
     }
 
     public _switchStmt mapReturn(int[] vals, _expr returnValue){
-        _caseGroup _cg = _caseGroup.of();
+        _cases _cg = _cases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -744,7 +744,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
 
 
     public _switchStmt mapReturn(char[] cs, _expr returnValue){
-        _caseGroup _cg = _caseGroup.of();
+        _cases _cg = _cases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -1243,7 +1243,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      * @param caseGroups
      * @return
      */
-    public _switchStmt addCaseGroups(_caseGroup...caseGroups){
+    public _switchStmt addCaseGroups(_cases...caseGroups){
         Arrays.stream(caseGroups).forEach( cg-> this.switchStmt.getEntries().addAll(cg.switchEntries));
         return this;
     }

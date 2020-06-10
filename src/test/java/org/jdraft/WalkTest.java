@@ -19,6 +19,7 @@ import org.jdraft.io._io;
 import org.jdraft.macro._dto;
 import org.jdraft.macro._final;
 import org.jdraft.pattern.$;
+import org.jdraft.walk.Walk;
 
 
 public class WalkTest extends TestCase {

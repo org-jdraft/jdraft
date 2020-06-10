@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import junit.framework.TestCase;
+import org.jdraft.walk._walk;
 
 
 import java.util.function.Predicate;

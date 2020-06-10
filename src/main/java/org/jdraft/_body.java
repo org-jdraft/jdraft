@@ -19,6 +19,7 @@ import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.macro._remove;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
+import org.jdraft.walk.Walk;
 
 /**
  * The "body" part of methods, constructors, and static blocks (i.e.
@@ -27,9 +28,20 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _body implements _java._domain {
+public final class _body implements _tree._view<_body> {
+
 
     public static final Function<String, _body> PARSER = s-> _body.of(s);
+
+    /*
+    public static _feature._many<_body, _stmt> STATEMENTS = new _feature._many<>(_body.class, _stmt.class,
+            _feature._id.STATEMENTS, _feature._id.STATEMENT,
+            a->a.list(),
+            (_body a, List<_stmt> es)-> a.set(es), PARSER,s-> _stmt.of(s))
+            .setOrdered(true);/** the order of the statements matter
+
+    public static final _feature._features<_body> FEATURES = _feature._features.of(_body.class, PARSER, STATEMENTS);
+    */
 
     /**
      * NOTE: this is an Object, because it can EITHER be a {@link NodeWithBlockStmt}
@@ -47,7 +59,15 @@ public final class _body implements _java._domain {
     public static _body empty(){
         return of("{}");
     }
-    
+
+    public _feature._features<_body> features(){
+        return FEATURES;
+    }
+
+    public _body copy(){
+        _body _b = _body.of(astParentNode);
+        return _b;
+    }
     /**
      * 
      * @param body
@@ -209,6 +229,15 @@ public final class _body implements _java._domain {
      */
     public static _body of(Object anonymousClassWithMethodContainingBody){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+        if( anonymousClassWithMethodContainingBody instanceof NodeWithOptionalBlockStmt){
+            return of( (NodeWithOptionalBlockStmt)anonymousClassWithMethodContainingBody);
+        }
+        if( anonymousClassWithMethodContainingBody instanceof NodeWithBlockStmt){
+            return of( (NodeWithBlockStmt)anonymousClassWithMethodContainingBody);
+        }
+        if( anonymousClassWithMethodContainingBody instanceof NodeWithBody){
+            return of( (NodeWithBody)anonymousClassWithMethodContainingBody);
+        }
         ObjectCreationExpr oce = Expr.newExpr(ste);
         Optional<BodyDeclaration<?>> on = oce.getAnonymousClassBody().get().stream().filter(m -> 
                 m instanceof MethodDeclaration 

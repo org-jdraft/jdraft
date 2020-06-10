@@ -6,6 +6,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import junit.framework.TestCase;
 import org.jdraft.*;
 import org.jdraft.pattern.*;
+import org.jdraft.walk.Walk;
 
 import java.io.IOException;
 import java.io.Serializable;

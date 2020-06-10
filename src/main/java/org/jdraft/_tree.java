@@ -7,6 +7,9 @@ import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
+import org.jdraft.walk.Walk;
+import org.jdraft.walk._walk;
+import org.jdraft.walk._walkFeatures;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,6 +41,35 @@ public interface _tree<_T> extends _java._domain {
      * @return an independent mutable copy of the entity
      */
     _T copy();
+
+    /**
+     * a "view" tree node is a way to provide a user model that has no (1-to-1) physical counterpart
+     * within the AST syntax.  this is helpful when we want to "unify" the interface to the syntax
+     * in a logical way.
+     *
+     * For instance {@link _body} unifies the API behind multiple
+     *
+     * this provides a more convenient model for for instance, we
+     *
+     * @see _body unifies the API different AST entities that MAY contain a body
+     * <UL>
+     *     <LI>(i.e. MethodDeclaration which implements</LI>
+     * </UL>
+     * @see _annoExprs
+     * @see _args
+     * @see _body
+     * @see _cases
+     * @see _imports
+     * @see _modifiers
+     * @see _params
+     * @see _typeArgs
+     * @see _typeParams
+     *
+     * @param <_V> the view implementation
+     */
+    interface _view<_V extends _view> extends _tree<_V>{
+
+    }
 
     /**
      * A tree entity that maps 1-to-1 to an Ast (Syntax) entity in the syntax tree and JavaParser

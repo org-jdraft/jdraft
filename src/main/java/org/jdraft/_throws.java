@@ -25,7 +25,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _throws
-        implements _tree._group<ReferenceType, _typeRef, _throws> {
+        implements _tree._view<_throws>, _tree._group<ReferenceType, _typeRef, _throws> {
 
     public static final Function<String, _throws> PARSER = s-> _throws.of(s);
 

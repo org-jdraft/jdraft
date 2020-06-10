@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.function.*;
 
 import org.jdraft.text.Text;
+import org.jdraft.walk.Walk;
 
 /**
  * Translator for creating JavaParser AST {@link Statement} instances

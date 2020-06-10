@@ -10,6 +10,7 @@ import org.jdraft.macro._default;
 import org.jdraft.macro._remove;
 import org.jdraft.macro._static;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 import test.ComplexInterface;
 import test.subpkg.MarkerInterface;
 import test.subpkg.WithDefaultMethods;

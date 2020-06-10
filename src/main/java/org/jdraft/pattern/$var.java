@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft.text.*;
+import org.jdraft.walk.Walk;
 
 /**
  * prototype for querying and composing a {@link VariableDeclarator}

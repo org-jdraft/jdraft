@@ -27,6 +27,7 @@ import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.io._in;
 import org.jdraft.text.Text;
+import org.jdraft.walk.Walk;
 
 /**
  * Translator for Converting from a String or Java reflective classes to AST

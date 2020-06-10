@@ -2,6 +2,7 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 import org.jdraft.macro._equals;
+import org.jdraft.walk.Walk;
 
 public class FlattenTest extends TestCase {
 

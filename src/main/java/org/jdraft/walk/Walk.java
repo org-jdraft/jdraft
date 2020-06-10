@@ -1,4 +1,4 @@
-package org.jdraft;
+package org.jdraft.walk;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
@@ -11,6 +11,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.LabeledStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.printer.ASCIITreePrinter;
+import org.jdraft.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -46,13 +47,13 @@ import java.util.stream.Stream;
  * //... we can traverse the node graph looking for entities that are Node implementations
  *
  * // to find all Integer literals within the code:
- * Walk.in(_c, {@link Expr#INT_LITERAL}, i-> System.out.println(i));
+ * Walk.in(_c, IntExpr.class, i-> System.out.println(i));
  * // prints:
  * //    1
  * //    2
  *
  * // to find all types within the code:
- * Walk.in(_c, {@link Expr#TYPE}, i-> System.out.println(i));
+ * Walk.in(_c, _expr.class, i-> System.out.println(i));
  *  // prints:
  *  //    "int"
  *  //    "int"

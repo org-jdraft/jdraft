@@ -7,6 +7,7 @@ import java.util.List;
 import org.jdraft.pattern.$ex;
 import java.lang.annotation.ElementType;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 import test.ComplexAnnotationType;
 import test.subpkg.ann2;
 

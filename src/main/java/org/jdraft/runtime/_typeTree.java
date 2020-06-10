@@ -4,6 +4,7 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.utils.Log;
 //import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ClassGenerator;
 import org.jdraft.*;
+import org.jdraft.walk.Walk;
 
 import java.util.*;
 import java.util.function.Predicate;

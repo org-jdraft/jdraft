@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.Node;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 
 import java.util.ArrayList;
 import java.util.List;

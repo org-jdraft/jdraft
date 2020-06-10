@@ -26,7 +26,7 @@ public class OfTest extends TestCase {
                 _body.of(),
                 _booleanExpr.of(),
                 _breakStmt.of(),
-                _caseGroup.of(),
+                _cases.of(),
                 _castExpr.of(),
                 _catch.of(),
                 _charExpr.of(), // or "'c'"

@@ -8,6 +8,7 @@ import java.util.function.*;
 
 import org.jdraft.*;
 import org.jdraft.text.*;
+import org.jdraft.walk.Walk;
 
 /**
  * $pattern for any {@link com.github.javaparser.ast.expr.Expression}) implementation

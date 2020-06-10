@@ -20,6 +20,7 @@ import org.jdraft._typeParams;
 import org.jdraft.macro._remove;
 import org.jdraft.macro.macro;
 import org.jdraft.text.*;
+import org.jdraft.walk.Walk;
 
 /**
  *

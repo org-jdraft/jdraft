@@ -1,6 +1,9 @@
-package org.jdraft;
+package org.jdraft.walk;
 
 import com.github.javaparser.ast.Node;
+import org.jdraft.Print;
+import org.jdraft._java;
+import org.jdraft._tree;
 import org.jdraft.text.Stencil;
 
 import java.util.List;

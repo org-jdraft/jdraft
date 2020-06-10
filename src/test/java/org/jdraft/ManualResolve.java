@@ -11,6 +11,7 @@ import java.util.Optional;
 import junit.framework.TestCase;
 import org.jdraft.pattern.$;
 import org.jdraft.pattern.$var;
+import org.jdraft.walk.Walk;
 
 /**
  *

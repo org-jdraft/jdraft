@@ -16,6 +16,7 @@ import org.jdraft.*;
 import org.jdraft.Expr.QuadConsumer;
 import org.jdraft.Expr.TriConsumer;
 import org.jdraft.text.*;
+import org.jdraft.walk.Walk;
 
 /**
  * Pattern of a Java {@link Statement} that provides operations for

@@ -14,6 +14,7 @@ import org.jdraft.macro._abstract;
 import org.jdraft.macro._static;
 import junit.framework.TestCase;
 import org.jdraft.runtime._runtime;
+import org.jdraft.walk.Walk;
 
 /**
  *

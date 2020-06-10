@@ -19,6 +19,7 @@ import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
 import org.jdraft.pattern.$comment;
 import org.jdraft.pattern.$stmt;
+import org.jdraft.walk.Walk;
 
 import java.util.Arrays;
 import java.util.List;

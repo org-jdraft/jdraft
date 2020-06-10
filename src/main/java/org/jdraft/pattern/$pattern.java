@@ -24,6 +24,7 @@ import org.jdraft.io._batch;
 import org.jdraft.text.Template;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
+import org.jdraft.walk.Walk;
 
 /**
  * $pattern is similar to the new Pattern matching Switch features is Java 13/14:

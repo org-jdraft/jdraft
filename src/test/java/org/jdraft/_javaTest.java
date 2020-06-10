@@ -18,6 +18,7 @@ import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName;
 import junit.framework.TestCase;
+import org.jdraft.walk.Walk;
 import test.ComplexClass;
 
 import java.io.Serializable;

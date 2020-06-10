@@ -27,7 +27,7 @@ public class IsTest extends TestCase {
         assertTrue(_body.of("print(3);").is("$any$"));
         assertTrue(_booleanExpr.of("true").is("$any$"));
         assertTrue(_breakStmt.of("break outer;").is("$any$"));
-        //assertTrue(_caseGroup.of("case 1: case 3: case 5: return ODD;").is("$any$"));
+        assertTrue(_cases.of("case 1: case 3: case 5: return ODD;").is("$any$"));
         assertTrue(_castExpr.of("(String)s").is("$any$"));
         assertTrue(_catch.of("catch(IOException ioe){ throw new RuntimeException(ioe); }").is("$any$"));
         assertTrue(_charExpr.of('a').is("$any$"));

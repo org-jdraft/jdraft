@@ -21,6 +21,7 @@ import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.macro.macro;
+import org.jdraft.walk.Walk;
 
 /**
  * The Definition of a Java type (one of : class, enum, interface, @interface)

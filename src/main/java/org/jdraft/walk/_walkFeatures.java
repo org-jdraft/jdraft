@@ -1,6 +1,8 @@
-package org.jdraft;
+package org.jdraft.walk;
 
 import com.github.javaparser.ast.Node;
+import org.jdraft._feature;
+import org.jdraft._tree;
 
 import java.util.ArrayList;
 import java.util.List;

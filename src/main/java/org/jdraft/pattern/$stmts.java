@@ -17,6 +17,7 @@ import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 import org.jdraft.text.Translator;
+import org.jdraft.walk.Walk;
 
 /**
  * Template of a Java statements (one or more {@link Statement}s
