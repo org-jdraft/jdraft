@@ -3,6 +3,8 @@ package org.jdraft;
 import com.github.javaparser.ast.ImportDeclaration;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.stmt.BlockStmt;
+import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
@@ -42,34 +44,6 @@ public interface _tree<_T> extends _java._domain {
      */
     _T copy();
 
-    /**
-     * a "view" tree node is a way to provide a user model that has no (1-to-1) physical counterpart
-     * within the AST syntax.  this is helpful when we want to "unify" the interface to the syntax
-     * in a logical way.
-     *
-     * For instance {@link _body} unifies the API behind multiple
-     *
-     * this provides a more convenient model for for instance, we
-     *
-     * @see _body unifies the API different AST entities that MAY contain a body
-     * <UL>
-     *     <LI>(i.e. MethodDeclaration which implements</LI>
-     * </UL>
-     * @see _annoExprs
-     * @see _args
-     * @see _body
-     * @see _cases
-     * @see _imports
-     * @see _modifiers
-     * @see _params
-     * @see _typeArgs
-     * @see _typeParams
-     *
-     * @param <_V> the view implementation
-     */
-    interface _view<_V extends _view> extends _tree<_V>{
-
-    }
 
     /**
      * A tree entity that maps 1-to-1 to an Ast (Syntax) entity in the syntax tree and JavaParser
@@ -835,6 +809,63 @@ public interface _tree<_T> extends _java._domain {
      * @see _params (parameters are ordered)
      */
     interface _orderedGroup<EL extends Node, _EL extends _node, _OG extends _orderedGroup> extends _group<EL, _EL, _OG>, _tree<_OG> {
+
+    }
+
+    /**
+     * a "view" tree node is a way to provide a user model that has no (1-to-1) physical counterpart
+     * within the AST syntax. this is helpful when we want to "unify" the interface to the syntax in a logical way.
+     * (similar to a <A HREF="https://www.essentialsql.com/what-is-a-relational-database-view/">Database view</A>)
+     *
+     * For instance {@link _body} unifies the API behind multiple AST entities that
+     * <UL>
+     * <LI>MAY contain a body ({@link com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt}
+     *     <PRE>
+     *         //method with (empty) body
+     *         void m(){}
+     *     </PRE>
+     *     <PRE>
+     *         //method with NO BODY (i.e. "NOT IMPLEMENTED")
+     *         void m();
+     *     </PRE>
+     * <LI>Must contain a blockStmt body {@link com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt}
+     *     <PRE>
+     *         //constructor MUST have a body that is a {@link BlockStmt}, (it can be empty)
+     *         C(){}
+     *     </PRE>
+     * <LI>May have a single statement or BlockStmt body {@link com.github.javaparser.ast.nodeTypes.NodeWithBody}
+     *    <PRE>
+     *        //if statement with a single ({@link ReturnStmt}) statement body
+     *        if(true)
+     *           return 1;
+     *    </PRE>
+     *    <PRE>
+     *        //if statement with a {@link BlockStmt} body
+     *        if(true){
+     *           return 1;
+     *        }
+     *    </PRE>
+     * </UL>
+     * this provides a more convenient model for for instance, we
+     *
+     * @see _body unifies the API different AST entities that
+     *
+     * <UL>
+     *     <LI>(i.e. MethodDeclaration which implements</LI>
+     * </UL>
+     * @see _annoExprs
+     * @see _args
+     * @see _body
+     * @see _cases
+     * @see _imports
+     * @see _modifiers
+     * @see _params
+     * @see _typeArgs
+     * @see _typeParams
+     *
+     * @param <_V> the view implementation
+     */
+    interface _view<_V extends _view> extends _tree<_V>{
 
     }
 }
