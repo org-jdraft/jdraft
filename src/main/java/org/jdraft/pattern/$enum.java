@@ -606,7 +606,7 @@ public class $enum
     }
 
     public $enum $imports(_imports _is){
-        _is.forEach( i -> this.imports.add($import.of(i)));
+        _is.toEach(i -> this.imports.add($import.of(i)));
         return this;
     }
 

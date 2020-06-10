@@ -367,7 +367,7 @@ public interface _codeUnit<_CU> extends _java._domain {
 
     default _CU setImports(_imports _is){
         this.astCompilationUnit().getImports().clear();
-        _is.forEach(_i -> this.astCompilationUnit().getImports().add(_i.ast()));
+        _is.toEach(_i -> this.astCompilationUnit().getImports().add(_i.ast()));
         return (_CU)this;
     }
 
@@ -451,7 +451,7 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return the T
      */
     default _CU forImports(Consumer<_import> _importActionFn) {
-        getImports().forEach(_importActionFn);
+        getImports().toEach(_importActionFn);
         return (_CU) this;
     }
 
@@ -464,7 +464,7 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return the _C
      */
     default _CU forImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
-        getImports().forEach(_importMatchFn, _importActionFn);
+        getImports().toEach(_importMatchFn, _importActionFn);
         return (_CU) this;
     }
 

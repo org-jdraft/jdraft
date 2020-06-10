@@ -21,14 +21,14 @@ public class _throwsTest
         assertEquals(_ts.hashCode(), _ts.copy().hashCode());
 
         assertTrue(_ts.is(""));
-        assertFalse(_ts.has("anything"));
+        assertFalse(_ts.isThrown("anything"));
         assertTrue(_ts.is( new ArrayList<>()));
         assertTrue(_ts.isEmpty());
         assertEquals(0, _ts.size());
         assertTrue(_ts.list().isEmpty());
         assertTrue(_ts.listAstElements().isEmpty());
-        _ts.forEach(t-> System.out.println(t));
-        assertFalse(_ts.has(IOException.class));
+        _ts.toEach(t-> System.out.println(t));
+        assertFalse(_ts.isThrown(IOException.class));
     }
     public void testBuildFromScratch(){
         _throws _ts = _throws.of();

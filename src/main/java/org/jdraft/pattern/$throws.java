@@ -173,7 +173,7 @@ public class $throws
     //}
 
     private $throws(_throws proto ){
-        proto.forEach( t-> throws$ids.add($typeRef.of(t.toString())));
+        proto.toEach(t-> throws$ids.add($typeRef.of(t.toString())));
     }
 
     private $throws( Predicate<_throws> constraint ){        
@@ -866,19 +866,19 @@ public class $throws
         }
         
         public boolean has(Class clazz){
-            return thrown.has( clazz );
+            return thrown.isThrown( clazz );
         }
         
         public boolean has(Class... clazz){
-            return thrown.has( clazz );
+            return thrown.isThrown( clazz );
         }
         
         public boolean has(String thrown){
-            return this.thrown.has( thrown );
+            return this.thrown.isThrown( thrown );
         }
         
         public boolean has(String... throwNames){
-            return thrown.has( throwNames );
+            return thrown.isThrown( throwNames );
         }
         
         @Override

@@ -111,7 +111,7 @@ public class $typeParameters
             return none();
         }
         List<$typeParameter> $tps = new ArrayList<>();
-        _tps.forEach(t-> $tps.add($typeParameter.as(t) ) );
+        _tps.toEach(t-> $tps.add($typeParameter.as(t) ) );
         return of( $tps ).$and(_ttps -> _ttps.size() == _tps.size() );
     }
 
@@ -136,7 +136,7 @@ public class $typeParameters
     }
 
     private $typeParameters(_typeParams proto ){
-        proto.forEach(t-> typeParams.add(new $typeParameter(t )));
+        proto.toEach(t-> typeParams.add(new $typeParameter(t )));
     }
 
     private $typeParameters( List<$typeParameter> $tps){

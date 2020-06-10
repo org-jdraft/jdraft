@@ -136,7 +136,7 @@ public final class _param
 
     public _param setVarArgAnnoExprs( _annoExprs _aes){
         this.astParameter.getVarArgsAnnotations().clear();
-        _aes.forEach( a-> this.astParameter.getVarArgsAnnotations().add(a.ast()) );
+        _aes.toEach(a-> this.astParameter.getVarArgsAnnotations().add(a.ast()) );
         return this;
     }
 

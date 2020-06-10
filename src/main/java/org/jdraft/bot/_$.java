@@ -40,7 +40,7 @@ public @interface _$ {
                     _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
-                    _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
+                    _ai.toEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
 
                     if (ls.size() % 2 != 0) {
                         throw new _jdraftException("Expected an EVEN number of keyValue pairs for templating");
@@ -79,7 +79,7 @@ public @interface _$ {
                     _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
-                    _ai.forEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
+                    _ai.toEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
 
                     if (ls.size() % 2 != 0) {
                         throw new _jdraftException("Expected an EVEN number of keyValue pairs for templating");

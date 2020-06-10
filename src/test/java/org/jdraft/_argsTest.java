@@ -4,6 +4,56 @@ import junit.framework.TestCase;
 
 public class _argsTest extends TestCase {
 
+    public void testGroupApi(){
+        _args _as = _args.of( "1,2");
+        assertTrue(_as.is("1,2"));
+        assertFalse(_as.is("2,1")); //args are ordered, so thisll fail
+
+        assertTrue( _as.anyMatch(_intExpr.class) );
+        assertTrue( _as.anyMatch(_stringExpr.class, _intExpr.class) );
+        assertFalse( _as.anyMatch(_binaryExpr.class));
+
+        assertTrue( _as.allMatch(_intExpr.class) );
+        assertTrue( _as.allMatch(_stringExpr.class, _intExpr.class) );
+        assertFalse( _as.allMatch(_binaryExpr.class));
+
+        assertEquals(2, _as.count(_intExpr.class));
+        assertEquals(2, _as.count(_intExpr.class, _stringExpr.class));
+        assertEquals(1, _as.count(_intExpr.class, _i-> _i.getValue() >=2));
+
+        assertEquals(_intExpr.of(1), _as.first(_intExpr.class));
+        assertEquals(_intExpr.of(2), _as.first(_intExpr.class, _i-> _i.getValue() >1));
+
+        assertTrue(_as.has(_intExpr.class));
+        assertTrue(_as.has(_stringExpr.class, _intExpr.class));
+        assertTrue(_as.has(_expr._literal.class));
+        assertFalse(_as.has(_stringExpr.class));
+
+        //has with predicate
+        assertTrue(_as.has(_intExpr.class, _i-> (_i.getValue() % 2) == 1));
+
+        assertEquals(0, _as.indexOf(_intExpr.of(1)));
+        assertEquals(1, _as.indexOf(_intExpr.of(2)));
+
+        assertTrue(_as.is("1","2"));
+        assertTrue(_as.isAt(0, 1));
+        assertTrue(_as.isAt(1, 2));
+
+        assertTrue(_as.isAt(0, _intExpr.class, _i-> _i.is(1)));
+        assertTrue(_as.isAt(1, _intExpr.class, _i-> _i.is(2)));
+
+        //list with impl type
+        assertEquals( 2, _as.list(_intExpr.class).size());
+        assertEquals( 2, _as.list(_expr._literal.class).size());
+
+        //list with predicate
+        assertEquals( 1, _as.list(_intExpr.class, _i-> _i.getValue() >=2).size());
+
+        assertTrue(_as.isAt(0, _intExpr.class));
+        assertTrue(_as.isAt(0, _intExpr.class, _i->!_i.has_Separators()));
+
+    }
+
     public void testA(){
         _args _as = _args.of(); //no args
         assertEquals(0, _as.size());
@@ -12,7 +62,7 @@ public class _argsTest extends TestCase {
         assertFalse(_as.anyMatch( e-> e.is(Expr.of(1))));
         assertEquals( -1, _as.indexOf(_intExpr.of(1)));
         assertNull( _as.first(_e -> _e instanceof _expr._literal ));
-        _as.forEach(e-> fail() ); //there are none so we shouldnt fail
+        _as.toEach(e-> fail() ); //there are none so we shouldnt fail
         assertFalse(_as.has(_intExpr.of(2)));
 
         try{

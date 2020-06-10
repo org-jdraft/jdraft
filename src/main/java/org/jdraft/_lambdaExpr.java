@@ -245,7 +245,7 @@ public final class _lambdaExpr
 
     public _lambdaExpr setParams(_params _ps){
         this.astLambda.getParameters().clear();
-        _ps.forEach(_p -> this.astLambda.getParameters().add(_p.ast()));
+        _ps.toEach(_p -> this.astLambda.getParameters().add(_p.ast()));
         return this;
     }
 

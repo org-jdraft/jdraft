@@ -110,7 +110,7 @@ public class $parameters implements Template<_params>,
      * @param _ps prototype parameters 
      */
     private $parameters( _params _ps ){
-        _ps.forEach( p -> $params.add( $parameter.of(p)) );
+        _ps.toEach(p -> $params.add( $parameter.of(p)) );
     }
     
     private $parameters( Predicate<_params> constraint){

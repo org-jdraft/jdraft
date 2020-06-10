@@ -494,14 +494,26 @@ public interface _tree<_T> extends _java._domain {
      */
     interface _group<EL extends Node, _EL extends _node, _G extends _group> extends _tree<_G> {
 
+        /**
+         * is the group emtpy
+         * @return
+         */
         default boolean isEmpty(){
             return size() == 0;
         }
 
+        /**
+         * the size of the group
+         * @return
+         */
         default int size(){
             return listAstElements().size();
         }
 
+        /**
+         * Returns a list of the _EL elements
+         * @return the list of elements in the group in the order they are declared in the syntax
+         */
         List<_EL> list();
 
         /**
@@ -514,8 +526,50 @@ public interface _tree<_T> extends _java._domain {
          */
         NodeList<EL> listAstElements();
 
-        default List<_EL> list(Predicate<_EL> matchFn){
-            return list().stream().filter(matchFn).collect(Collectors.toList());
+        /**
+         * Find and return a list of the elements that match the predicate
+         * @param _matchFn the matching predicate
+         * @return the list of tree elements in the group (in the order they appear in the group) that match the predicate
+         */
+        default List<_EL> list(Predicate<_EL> _matchFn){
+            return list().stream().filter(_matchFn).collect(Collectors.toList());
+        }
+
+        /**
+         * returns a list of all instances in the group that are implementations of the implClass type
+         * @param implClass the implClass type (NOTE: could be an interface)
+         * @param <_EI> the element implementation type
+         * @return list of group instances of the implClass
+         */
+        default <_EI extends _EL> List<_EI> list( Class<_EI> implClass){
+            return list().stream().filter(e -> implClass.isAssignableFrom(e.getClass()))
+                    .map(e-> (_EI)e).collect(Collectors.toList());
+        }
+
+        /**
+         * List all of the elements of the group that are of the following implementation classes
+         * @param implClasses the implementation classes provided
+         * @return the list
+         */
+        default List<_EL> list(Class<? extends _EL>...implClasses){
+            return list().stream().filter(e-> Arrays.stream(implClasses).
+                    anyMatch(ec -> ec.isAssignableFrom(e.getClass()))).collect(Collectors.toList());
+        }
+
+        /**
+         * List elements of a particular implementation class that abide by the predicate
+         * @param implClass the element implementation class
+         * @param _matchFn predicate to match
+         * @param <_EI> elemednt implementation type
+         * @return a list containing all elements that are of the implClass and match the predicate
+         */
+        default <_EI extends _EL> List<_EI> list(Class<_EI>implClass, Predicate<_EI> _matchFn){
+            return list().stream().filter(el-> {
+                if( implClass.isAssignableFrom(el.getClass())){
+                    return _matchFn.test( (_EI)el);
+                }
+                return false;
+            }).map(el -> (_EI)el).collect(Collectors.toList());
         }
 
         /**
@@ -528,6 +582,15 @@ public interface _tree<_T> extends _java._domain {
         }
 
         /**
+         * Are ANY of the elements of the group implementers of the following implementation classes
+         * @param implClasses implementation classes
+         * @return
+         */
+        default boolean anyMatch(Class<? extends _EL>...implClasses){
+            return list(implClasses).size() > 0;
+        }
+
+        /**
          * Does any element in the group match this predicate?
          * @param _matchFn
          * @return
@@ -537,12 +600,43 @@ public interface _tree<_T> extends _java._domain {
         }
 
         /**
+         * Does any element in the group match this predicate?
+         * @param implClass the element implementation type
+         * @param _matchFn the predicate based on the element implementation type
+         * @param <_EI> the element implementation type
+         * @return true if any of the elements in the group match the type and predicate
+         */
+        default <_EI extends _EL> boolean anyMatch(Class<_EI>implClass, Predicate<_EI> _matchFn){
+            return list(implClass, _matchFn).size() > 0;
+        }
+
+        /**
          * Do ALL elements in the group match this predicate?
          * @param _matchFn
          * @return
          */
         default boolean allMatch(Predicate<_EL> _matchFn){
             return list().stream().allMatch(_matchFn);
+        }
+
+        /**
+         * Are all of the elements of the group implementers of the following implementation classes
+         * @param implClasses implementation classes
+         * @return
+         */
+        default boolean allMatch(Class<? extends _EL>...implClasses){
+            return list(implClasses).size() == size();
+        }
+
+        /**
+         * are all the elements of the group this implClass type and do they match the predicate?
+         * @param implClass
+         * @param _matchFn
+         * @param <_EI> element implementation type
+         * @return
+         */
+        default <_EI extends _EL> boolean allMatch(Class<_EI>implClass, Predicate<_EI> _matchFn){
+            return list(implClass, _matchFn).size() == size();
         }
 
         String toString(PrettyPrinterConfiguration prettyPrinter);
@@ -585,6 +679,23 @@ public interface _tree<_T> extends _java._domain {
             return (_G)this;
         }
 
+        default <_EI extends _EL> _EI first(Class<_EI> implClass){
+            List<_EI> _els = this.list(implClass);
+            if( _els.isEmpty() ){
+                return null;
+            }
+            return _els.get(0);
+        }
+
+        default <_EI extends _EL> _EI first(Class<_EI> implClass, Predicate<_EI> _matchFn){
+            List<_EI> _els = this.list(implClass, _matchFn);
+            if( _els.isEmpty() ){
+                return null;
+            }
+            return _els.get(0);
+        }
+
+
         default _EL first(Predicate<_EL> matchFn){
             List<_EL> _els = this.list(matchFn);
             if( _els.isEmpty() ){
@@ -599,6 +710,26 @@ public interface _tree<_T> extends _java._domain {
 
         default boolean has(Predicate<_EL> matchFn){
             return !list( matchFn).isEmpty();
+        }
+
+        /**
+         * Does the group have any elements that are of the implClasses
+         * @param implClasses the implementation classes
+         * @return true if the group contains elements of any of the implClasses, false otherwise
+         */
+        default boolean has(Class...implClasses ){
+            return !list( implClasses).isEmpty();
+        }
+
+        /**
+         * Does the group have any elements that are of the implClass and match the matchFn
+         * @param implClass
+         * @param _matchFn
+         * @param <_EI>
+         * @return
+         */
+        default <_EI extends _EL> boolean has(Class<_EI>implClass, Predicate<_EI>_matchFn){
+            return !list( implClass, _matchFn).isEmpty();
         }
 
         default boolean has(EL target){
@@ -642,12 +773,22 @@ public interface _tree<_T> extends _java._domain {
             return (_G)this;
         }
 
-        default _G forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
+        default <_EI extends _EL> _G remove(Class<_EI>implClass, Predicate<_EI> _matchFn){
+            this.list(implClass, _matchFn).stream().forEach( e-> remove(e) );
+            return (_G)this;
+        }
+
+        default <_EI extends _EL> _G toEach(Class<_EI>implClass, Predicate<_EI> _matchFn, Consumer<_EI> actionFn){
+            list(implClass, _matchFn).forEach(actionFn);
+            return (_G)this;
+        }
+
+        default _G toEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
             list(matchFn).forEach(consumer);
             return (_G)this;
         }
 
-        default _G forEach(Consumer<_EL> consumer){
+        default _G toEach(Consumer<_EL> consumer){
             list().forEach(consumer);
             return (_G)this;
         }
@@ -671,16 +812,16 @@ public interface _tree<_T> extends _java._domain {
         }
 
         /**
-         *
-         * @param instanceType
-         * @param _instanceMatchFn
-         * @param <_IT>
+         * Count the number of elements that are of the EI type and match the _instanceMatchFn
+         * @param implType
+         * @param _implMatchFn
+         * @param <_EI>
          * @return
          */
-        default <_IT extends _EL> int count(  Class<_IT> instanceType, Predicate<_IT> _instanceMatchFn){
+        default <_EI extends _EL> int count(Class<_EI> implType, Predicate<_EI> _implMatchFn){
             return list(e-> {
-                if( instanceType.isAssignableFrom(e.getClass()) ){
-                    return _instanceMatchFn.test( (_IT)e);
+                if( implType.isAssignableFrom(e.getClass()) ){
+                    return _implMatchFn.test( (_EI)e);
                 }
                 return false;
             }).size();
@@ -776,11 +917,31 @@ public interface _tree<_T> extends _java._domain {
          * @param classes the _expression classes for matching the argument
          * @return true if the argument matches any of these classes, false otherwise
          */
-        default boolean isAt( int index, Class<? extends _expr>...classes) {
+        default boolean isAt( int index, Class<? extends _EL>...classes) {
             if( index >= this.size()){
                 return false;
             }
             return Arrays.stream(classes).anyMatch( c-> c.isAssignableFrom( getAt(index).getClass() ));
+        }
+
+        /**
+         * Does
+         * @param index the index of the element
+         * @param implClass the element implementation class
+         * @param _matchFn the predicate for matching against the specific element implementation type
+         * @param <_EI> element implementation type
+         * @return
+         */
+        default <_EI extends _EL> boolean isAt(int index, Class<_EI>implClass, Predicate<_EI> _matchFn){
+            if( index >= this.size()){
+                return false;
+            }
+            return isAt(index, a-> {
+                if( implClass.isAssignableFrom(getAt(index).getClass())){
+                    return _matchFn.test( (_EI)getAt(index));
+                }
+                return false;
+            } );
         }
 
         /**
@@ -799,8 +960,8 @@ public interface _tree<_T> extends _java._domain {
 
     /**
      * ORDERED/ ORDER MATTERS TO THE SEMANTICS GROUP
-     * Sometimes we have groupings of entities that do not
-     * map to a specific Ast entity but a grouping of AST entities
+     * Sometimes we have groupings of entities where the ordering of the elements in the syntax matters to the
+     * semantics of the program
      *
      * @see _args (the order of arguments matter)
      * @see _arrayInitExpr (the elements located in the array are ordered)
@@ -810,6 +971,39 @@ public interface _tree<_T> extends _java._domain {
      */
     interface _orderedGroup<EL extends Node, _EL extends _node, _OG extends _orderedGroup> extends _group<EL, _EL, _OG>, _tree<_OG> {
 
+        /**
+         * Reimplementation of {@link #is(_node[])} since now ORDER MATTERS
+         * @param _els
+         * @return
+         */
+        default boolean is(_EL... _els){
+            if( this.size() != _els.length ){
+                return false;
+            }
+            for(int i=0;i<_els.length; i++){
+                if( !Objects.equals(this.getAt(i), _els[i])){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /**
+         * Reimplementation of {@link #is(List)} since now ORDER MATTERS
+         * @param _els
+         * @return
+         */
+        default boolean is(List<_EL> _els){
+            if( this.size() != _els.size() ){
+                return false;
+            }
+            for(int i=0;i<_els.size(); i++){
+                if( !Objects.equals(this.getAt(i), _els.get(i))){
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     /**

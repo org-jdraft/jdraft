@@ -6,7 +6,6 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
-import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithAnnotations;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.ast.type.TypeParameter;
@@ -159,7 +158,7 @@ public final class _annoExprs
     }
 
     public _annoExpr get(Class<? extends Annotation> clazz ) {
-        List<_annoExpr> a = this.list( clazz );
+        List<_annoExpr> a = this.listAstNodes( clazz );
         if( a.size() >= 1 ) {
             return a.get( 0 );
         }
@@ -191,7 +190,7 @@ public final class _annoExprs
      * @param clazz
      * @return
      */
-    public List<_annoExpr> list(Class<? extends Annotation> clazz ) {
+    public List<_annoExpr> listAstNodes(Class<? extends Annotation> clazz ) {
         return list( a -> a.getName().equals( clazz.getSimpleName() )
                 || a.getName().equals( clazz.getCanonicalName() )
                 || a.getName().endsWith( "."+clazz.getSimpleName() ) );
@@ -254,12 +253,12 @@ public final class _annoExprs
     }
 
     public boolean has(Class<? extends Annotation> clazz ) {
-        return list( clazz ).size() > 0;
+        return listAstNodes( clazz ).size() > 0;
     }
 
     public void forEach( Class<? extends Annotation> annotationClazz,
                          Consumer<_annoExpr> _annoAction ) {
-        list( annotationClazz ).forEach(_annoAction );
+        listAstNodes( annotationClazz ).forEach(_annoAction );
     }
 
     public boolean is(String code){
@@ -425,7 +424,7 @@ public final class _annoExprs
          * @return the modified T
          */
         default _WA forAnnoExprs(Consumer<_annoExpr> _annoActionFn){
-            getAnnoExprs().forEach(_annoActionFn);
+            getAnnoExprs().toEach(_annoActionFn);
             return (_WA) this;
         }
 
@@ -436,7 +435,7 @@ public final class _annoExprs
          * @return
          */
         default _WA forAnnoExprs(Predicate<_annoExpr> _annoMatchFn, Consumer<_annoExpr> _annoActionFn){
-            getAnnoExprs().forEach(_annoMatchFn, _annoActionFn);
+            getAnnoExprs().toEach(_annoMatchFn, _annoActionFn);
             return (_WA) this;
         }
 
@@ -518,11 +517,11 @@ public final class _annoExprs
         }
 
         default List<_annoExpr> listAnnoExprs(Class<? extends Annotation> annotationClass) {
-            return getAnnoExprs().list( annotationClass );
+            return getAnnoExprs().listAstNodes( annotationClass );
         }
 
         default _WA setAnnoExprs(_annoExprs _as){
-            _as.forEach( a -> getAnnoExprs().add(a) );
+            _as.toEach(a -> getAnnoExprs().add(a) );
             return (_WA)this;
         }
 

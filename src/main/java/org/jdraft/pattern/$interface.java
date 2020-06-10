@@ -119,7 +119,7 @@ public class $interface
         _c.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
-        _c.getTypeParams().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
+        _c.getTypeParams().toEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
         _c.listAstExtends().forEach(i -> $c.$extend(i));
         _c.forFields(f-> $c.fields.add($field.of(f)));
         _c.forMethods(m -> $c.$methods($method.of(m)));

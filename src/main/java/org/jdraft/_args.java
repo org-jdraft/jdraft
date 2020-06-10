@@ -23,9 +23,8 @@ import java.util.stream.Collectors;
  * {@link _constant}
  * {@link _constructorCallStmt}
  * {@link _newExpr}
- * order matters
+ * (order matters)
  *
- * @see org.jdraft.bot.$args for a prototype version
  */
 public final class _args
         implements _tree._view<_args>, _tree._orderedGroup<Expression, _expr, _args> {
@@ -155,7 +154,6 @@ public final class _args
             }
         }
         return of(args).equals(this);
-
     }
 
     public boolean isAt(int index, int i){

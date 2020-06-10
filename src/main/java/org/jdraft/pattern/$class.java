@@ -130,7 +130,7 @@ public class $class
         _c.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
-        _c.getTypeParams().forEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
+        _c.getTypeParams().toEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
         if( _c.getExtendsNode() != null) {
             $c.extend = $typeRef.of(_c.getExtendsNode());
         }

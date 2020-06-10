@@ -108,7 +108,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
      */
     public _blockStmt add(String...code){
          _blockStmt _bs = of( code );
-         _bs.forEach(s-> this.add(s));
+         _bs.toEach(s-> this.add(s));
          return this;
     }
 
@@ -223,7 +223,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         _stmt _s = _le.getBody();
         if( _s instanceof _blockStmt ){
             _blockStmt _bs = (_blockStmt)_s;
-            _bs.forEach(s-> this.add(s));
+            _bs.toEach(s-> this.add(s));
         } else{
             add( _s );
         }

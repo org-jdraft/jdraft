@@ -100,27 +100,27 @@ public final class _throws
         return astNodeWithThrows.getThrownExceptions();
     }
 
-    public boolean has( Class<? extends Throwable>... thrownType ){
-        Optional<Class<? extends Throwable>> oc = 
+    public boolean isThrown(Class<? extends Throwable>... thrownType ){
+        Optional<Class<? extends Throwable>> oc =
             Arrays.stream(thrownType).filter( t -> !astNodeWithThrows.isThrown(t) ).findFirst();
         return !oc.isPresent();
     }
     
-    public boolean has( String... thrownType ){
+    public boolean isThrown(String... thrownType ){
         Optional<String> oc = 
             Arrays.stream(thrownType).filter( t -> !astNodeWithThrows.isThrown(t) ).findFirst();
         return !oc.isPresent();
     }
     
-    public boolean has( Class<? extends Throwable> throwType ){
+    public boolean isThrown(Class<? extends Throwable> throwType ){
         return astNodeWithThrows.isThrown(throwType);
     }
     
-    public boolean has( String name ) {
+    public boolean isThrown(String name ) {
         return astNodeWithThrows.isThrown( name );
     }
 
-    public boolean has( Type rt ) {
+    public boolean isThrown(Type rt ) {
         return astNodeWithThrows.isThrown(rt.asString());
     }
 

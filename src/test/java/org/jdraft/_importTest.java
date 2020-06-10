@@ -29,7 +29,7 @@ public class _importTest extends TestCase {
         assertEquals(0, _ts.size());
         assertTrue(_ts.list().isEmpty());
         assertTrue(_ts.listAstElements().isEmpty());
-        _ts.forEach(t-> System.out.println(t));
+        _ts.toEach(t-> System.out.println(t));
 
     }
 

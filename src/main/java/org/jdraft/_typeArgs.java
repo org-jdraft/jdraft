@@ -471,13 +471,13 @@ public final class _typeArgs
 
         default _WTA forTypeArgs(Consumer<_typeRef> argFn){
             _typeArgs _ta = getTypeArgs();
-            _ta.forEach(argFn);
+            _ta.toEach(argFn);
             return (_WTA)this;
         }
 
         default _WTA forTypeArgs(Predicate<_typeRef> matchFn, Consumer<_typeRef> argFn){
             _typeArgs _ta = getTypeArgs();
-            _ta.forEach(matchFn, argFn);
+            _ta.toEach(matchFn, argFn);
             return (_WTA)this;
         }
     }

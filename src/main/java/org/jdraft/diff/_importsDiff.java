@@ -44,7 +44,7 @@ public final class _importsDiff
             return dt;
         }
         if( !left.isTopLevel() ){
-            right.getImports().forEach( i -> dt.addDiff(new _rightOnly_import(
+            right.getImports().toEach(i -> dt.addDiff(new _rightOnly_import(
                 path.in(Feature.IMPORT),
                 (_type) leftParent,
                 (_type) rightParent,
@@ -52,7 +52,7 @@ public final class _importsDiff
             return dt;
         } 
         
-        left.getImports().forEach( i -> dt.addDiff(new _leftOnly_import(
+        left.getImports().toEach(i -> dt.addDiff(new _leftOnly_import(
                 path.in(Feature.IMPORT),
                 (_type) leftParent,
                 (_type) rightParent,

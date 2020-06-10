@@ -14,18 +14,18 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 /**
- * <P>A "virtual" object to simplify logically interacting (mutating) <CODE>SwitchEntry</CODE> s in a
- * <CODE>SwitchStmt</CODE>, specifically if you have the scenario where multiple cases map to a
- * single action or (we call this a _caseGroup)  of actions, i.e.:
+ * <P>A "virtual" object to simplify logically interacting (mutating) multiple {@link SwitchEntry} s in a
+ * {@link SwitchStmt} or {@link SwitchExpr}, specifically if you have the scenario where multiple "cases" map to a
+ * single action or (we call this a {@link _cases}) of actions, i.e.:
  * <CODE>
  *     switch(dayOfWeek){
- *          case 1: case 2: case 3: case 4: case 5: //_caseGroup(1)
+ *          case 1: case 2: case 3: case 4: case 5: //{@link _cases}(1)
  *              System.out.println("Week Day !");
  *          break;
- *          case 6: case 7:                        //_caseGroup(2)
+ *          case 6: case 7:                        //{@link _cases}(2)
  *              System.out.println("Week End !");
  *          break;
- *          default:                              //_caseGroup(3)
+ *          default:                              //{@link _cases}(3)
  *                  throw new RuntimeException("bad day");
  *     }
  * </CODE>
@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
  * <P>NOTE: this only exists "virtually" for organization
  * (there is no corresponding JavaParser AST element)
  *
- * ALSO this is only ONE way of interacting with the SwitchStmt, you might want to interact directly with
- * SwitchEntries on the SwitchStmt alternatively
+ * ALSO this is only ONE way of interacting with the {@link SwitchStmt}, or {@link SwitchExpr} you might want to
+ * interact directly each {@link SwitchEntry} individually
  */
 public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<SwitchEntry, _switchEntry, _cases> {
 
@@ -61,8 +61,6 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
     public _cases copy(){
         _cases _cg = new _cases(this.parentSwitch);
         _cg.switchEntries = NodeList.nodeList(this.switchEntries);
-        //_cg.switchEntries = this.switchEntries.
-        //        stream().collect(Collectors.toList());
         return _cg;
     }
 

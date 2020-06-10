@@ -48,8 +48,8 @@ public class _variablesExprTest extends TestCase {
         assertEquals( 1, _vs.size());
         assertEquals( _variable.of("int i"), _vs.getAt(0));
 
-        _vs.forEach(v -> System.out.println( v) );
-        _vs.forEach(v-> v.isNamed("i"), v-> System.out.println(1));
+        _vs.toEach(v -> System.out.println( v) );
+        _vs.toEach(v-> v.isNamed("i"), v-> System.out.println(1));
         try{
             _vs.getAt(2);
             fail("expected exception ");
