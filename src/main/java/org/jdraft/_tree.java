@@ -695,7 +695,6 @@ public interface _tree<_T> extends _java._domain {
             return _els.get(0);
         }
 
-
         default _EL first(Predicate<_EL> matchFn){
             List<_EL> _els = this.list(matchFn);
             if( _els.isEmpty() ){
@@ -778,6 +777,33 @@ public interface _tree<_T> extends _java._domain {
             return (_G)this;
         }
 
+        /**
+         * Removes (AND returns) all elements from the group that match the match the predicate
+         *
+         * @param _matchFn function to determine if an element is to be removed
+         * @return a list of removed elements (in the order they were removed)
+         * @see #removeIf(Predicate) to remove and return the modified _group instead of returning the removed elements
+         */
+        default List<_EL> removeIf(Predicate<_EL> _matchFn) {
+            List<_EL> l = this.list(_matchFn);
+            l.stream().forEach( e-> remove(e) );
+            return l;
+        }
+
+        /**
+         * Removes (AND returns) all elements from the group of the implType that match the match the predicate
+         *
+         * @param implClass the implementation type
+         * @param _matchFn the function to determine if the element is to be removed
+         * @param <_EI> the element implementation type
+         * @return the removed elements
+         */
+        default <_EI extends _EL> List<_EI> removeIf(Class<_EI>implClass, Predicate<_EI> _matchFn){
+            List<_EI> l = this.list(implClass, _matchFn);
+            l.stream().forEach( e-> remove(e) );
+            return l;
+        }
+
         default <_EI extends _EL> _G toEach(Class<_EI>implClass, Predicate<_EI> _matchFn, Consumer<_EI> actionFn){
             list(implClass, _matchFn).forEach(actionFn);
             return (_G)this;
@@ -791,6 +817,24 @@ public interface _tree<_T> extends _java._domain {
         default _G toEach(Consumer<_EL> consumer){
             list().forEach(consumer);
             return (_G)this;
+        }
+
+        default <_EI extends _EL> List<_EI> forEach(Class<_EI>implClass, Predicate<_EI> _matchFn, Consumer<_EI> actionFn){
+            List<_EI> lei = list(implClass, _matchFn);
+            lei.forEach(actionFn);
+            return lei;
+        }
+
+        default List<_EL> forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
+            List<_EL> l = list(matchFn);
+            l.forEach(consumer);
+            return l;
+        }
+
+        default List<_EL> forEach(Consumer<_EL> consumer){
+            List<_EL> le = list();
+            le.forEach(consumer);
+            return le;
         }
 
         /**
