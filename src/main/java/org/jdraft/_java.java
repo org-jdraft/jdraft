@@ -16,7 +16,7 @@ import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._annoExprs._withAnnoExprs;
+import org.jdraft._annos._withAnnoExprs;
 import org.jdraft._body._withBody;
 
 import org.jdraft._modifiers.*;
@@ -121,7 +121,7 @@ public interface _java {
         if (_import.class == nodeClass) {
             return importDeclaration(Text.combine(code) );
         }
-        if (_annoExpr.class == nodeClass) {
+        if (_anno.class == nodeClass) {
             return annotationExpr(code);
         }
         if (_method.class == nodeClass) {
@@ -156,7 +156,7 @@ public interface _java {
         if (_constant.class == nodeClass) {
             return constantDeclaration(code);
         }
-        if (_entry.class == nodeClass) {
+        if (_annoMember.class == nodeClass) {
             return annotationMemberDeclaration(code);
         }
         if (_method.class == nodeClass) {
@@ -180,8 +180,8 @@ public interface _java {
      * handles:
      * all {@link _type}s:
      * {@link _annotation}, {@link _class}, {@link _enum}, {@link _interface}
-     * {@link _annoExpr}
-     * {@link _entry}
+     * {@link _anno}
+     * {@link _annoMember}
      * {@link _constructor}
      * {@link _constant}
      * {@link _field}
@@ -225,7 +225,7 @@ public interface _java {
             return _annotation.of((AnnotationDeclaration) astNode);
         }
         if (astNode instanceof AnnotationMemberDeclaration) {
-            return _entry.of((AnnotationMemberDeclaration) astNode);
+            return _annoMember.of((AnnotationMemberDeclaration) astNode);
         }
         if (astNode instanceof ClassOrInterfaceDeclaration) {
             ClassOrInterfaceDeclaration cois = (ClassOrInterfaceDeclaration) astNode;
@@ -347,7 +347,7 @@ public interface _java {
             return _moduleRequires.of( (ModuleRequiresDirective)astNode);
         }
         if( astNode instanceof MemberValuePair){
-            return _entryPair.of( (MemberValuePair)astNode);
+            return _annoEntryPair.of( (MemberValuePair)astNode);
         }
         throw new _jdraftException("Unable to create _java entity from " + astNode+" "+astNode.getClass());
     }
@@ -355,7 +355,7 @@ public interface _java {
 
     /**
      * Mappings from JavaParser AST models (i.e. {@link AnnotationExpr}) 
-     * ...to jdraft _java models (i.e. {@link _annoExpr})
+     * ...to jdraft _java models (i.e. {@link _anno})
      */
     class Classes {
 
@@ -393,13 +393,13 @@ public interface _java {
         Class<_constant> CONSTANT = _constant.class;
 
         /** Annotation Element i.e. @interface A{ int element(); }*/
-        Class<_entry> ELEMENT = _entry.class;
+        Class<_annoMember> ELEMENT = _annoMember.class;
 
         Class<_body> BODY = _body.class;
         /** an annotation use i.e. @Deprecated */
-        Class<_annoExpr> ANNO = _annoExpr.class;
+        Class<_anno> ANNO = _anno.class;
         /** group of annotation usages  on a single entity */
-        Class<_annoExprs> ANNOS = _annoExprs.class;
+        Class<_annos> ANNOS = _annos.class;
         Class<_import> IMPORT = _import.class;
         Class<_imports> IMPORTS = _imports.class;
 
@@ -459,7 +459,7 @@ public interface _java {
      * <LI>{@link _constructor} {@link ConstructorDeclaration}
      * <LI>{@link _method} {@link MethodDeclaration}
      * <LI>{@link _constant} {@link EnumConstantDeclaration}
-     * <LI>{@link _entry} {@link AnnotationMemberDeclaration}
+     * <LI>{@link _annoMember} {@link AnnotationMemberDeclaration}
      * <LI>{@link _type} {@link TypeDeclaration}
      * <LI>{@link _class} {@link ClassOrInterfaceDeclaration}
      * <LI>{@link _enum} {@link EnumDeclaration}
@@ -518,7 +518,7 @@ public interface _java {
      * <LI>{@link _constructor} {@link ConstructorDeclaration}
      * <LI>{@link _method} {@link MethodDeclaration}
      * <LI>{@link _constant} {@link EnumConstantDeclaration}
-     * <LI>{@link _entry} {@link AnnotationMemberDeclaration}
+     * <LI>{@link _annoMember} {@link AnnotationMemberDeclaration}
      * <LI>{@link _type} {@link TypeDeclaration}
      * <LI>{@link _class} {@link ClassOrInterfaceDeclaration}
      * <LI>{@link _enum} {@link EnumDeclaration}
@@ -929,9 +929,9 @@ public interface _java {
      * {@link _method}
      * {@link _field}
      * {@link _param}
-     * {@link _annoExpr}
+     * {@link _anno}
      * {@link _constant}
-     * {@link _entry}
+     * {@link _annoMember}
      * {@link _typeParam}
      *
      * {@link _methodCallExpr}
@@ -985,7 +985,7 @@ public interface _java {
      *     <LI>{@link _field}
      *     <LI>{@link _param}
      *     <LI>{@link _method}
-     *     <LI>{@link _entry}
+     *     <LI>{@link _annoMember}
      *     <LI>{@link _receiverParam}
      *     <LI>{@link _variable}
      * </UL>

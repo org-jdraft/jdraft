@@ -21,7 +21,7 @@ public class _toStringTest extends TestCase {
 
         _class _c  = _class.of(V.class);
 
-        assertTrue(_c.getMethod("toString").isType(String.class) );
+        assertTrue(_c.firstMethodNamed("toString").isType(String.class) );
 
         //make sure it compiles, load and create a new instance then print the toString
         //takes time System.out.println( _proxy.of(  ).toString());

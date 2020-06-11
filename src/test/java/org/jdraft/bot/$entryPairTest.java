@@ -11,7 +11,7 @@ public class $entryPairTest extends TestCase {
     }
 
     public void testE(){
-        $entryPair $ep = $entryPair.of();
+        $annoEntryPair $ep = $annoEntryPair.of();
         @I
         class Zero{ }
         assertEquals(0, $ep.countIn(Zero.class));

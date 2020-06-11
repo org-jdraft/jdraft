@@ -43,7 +43,7 @@ public class ManualResolve extends TestCase {
         _class _c = _class.of(C.class);
         _class _d = _class.of(D.class);
         
-        _method _m = _c.getMethod("localInst");
+        _method _m = _c.firstMethodNamed("localInst");
         List<MethodCallExpr> mces = new ArrayList<>();
         Walk.in( _m, Ast.Classes.METHOD_CALL_EXPR, mce ->{
         //_m.forExprs(Ast.METHOD_CALL_EXPR, mce-> {

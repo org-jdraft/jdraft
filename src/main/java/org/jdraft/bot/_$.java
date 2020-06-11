@@ -26,17 +26,17 @@ public @interface _$ {
     class Parameterize {
 
 
-        public static <C extends _java._member & _annoExprs._withAnnoExprs> C update(C _c) {
-            List<_annoExpr> _ps = _c.listAnnoExprs("_$");
+        public static <C extends _java._member & _annos._withAnnoExprs> C update(C _c) {
+            List<_anno> _ps = _c.listAnnoExprs("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoExprs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnoExprs((a) -> ((_anno) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();
 
                 for (int i = 0; i < _ps.size(); i++) {
-                    _annoExpr _a = _ps.get(i);
+                    _anno _a = _ps.get(i);
                     _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
@@ -65,17 +65,17 @@ public @interface _$ {
             return _c;
         }
 
-        public static <C extends _java._member & _annoExprs._withAnnoExprs> String toString(C _c) {
-            List<_annoExpr> _ps = _c.listAnnoExprs("_$");
+        public static <C extends _java._member & _annos._withAnnoExprs> String toString(C _c) {
+            List<_anno> _ps = _c.listAnnoExprs("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoExprs((a) -> ((_annoExpr) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnoExprs((a) -> ((_anno) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();
 
                 for (int i = 0; i < _ps.size(); i++) {
-                    _annoExpr _a = _ps.get(i);
+                    _anno _a = _ps.get(i);
                     _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValue("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();

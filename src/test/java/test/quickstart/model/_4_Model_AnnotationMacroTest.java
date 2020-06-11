@@ -23,8 +23,8 @@ public class _4_Model_AnnotationMacroTest extends TestCase {
         // the corresponding _class (_c) will remove the @_get annotation after processing
         assertFalse( _c.hasAnnoExprs() );
 
-        assertNotNull(_c.getMethod("getX")); //verify getX() is created
-        assertNotNull(_c.getMethod("getY")); //verify getY() is created
+        assertNotNull(_c.firstMethodNamed("getX")); //verify getX() is created
+        assertNotNull(_c.firstMethodNamed("getY")); //verify getY() is created
     }
 
     public void testApplyMacrosOnMultipleMembers(){
@@ -50,7 +50,7 @@ public class _4_Model_AnnotationMacroTest extends TestCase {
         assertTrue( _c.getField("ID").is("public static final int ID=1003;"));
         assertTrue( _c.getField("x").is("int x = 100;"));
         assertTrue( _c.getConstructor(0).is("public M(){ System.out.println(\"In constructor\"); }"));
-        assertTrue( _c.getMethod("method").is("public static final int method(){ return ID; }"));
+        assertTrue( _c.firstMethodNamed("method").is("public static final int method(){ return ID; }"));
 
     }
 

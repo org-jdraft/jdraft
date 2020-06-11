@@ -398,6 +398,10 @@ public interface _tree<_T> extends _java._domain {
             return matchFn.test((_N)this);
         }
 
+        default boolean is(Stencil stencil){
+            return stencil.matches(toString(Print.PRINT_NO_COMMENTS));
+        }
+
         /**
          * is the String representation equal to the _node entity
          * (i.e. if we parse the string, does it create an AST entity that
@@ -433,14 +437,36 @@ public interface _tree<_T> extends _java._domain {
                         if( isSame.get() && o != null ){ //if the feature is NOT null
                             Stencil s = Stencil.of( o.toString() );
                             if( s.isMatchAny() ){ //its a variable thing, so it matches ANYTHING
-
+                                System.out.println("IsMatchAny");
                             } else if( s.isFixedText() ){ //its fixed text, dont match the text, match the impl
                                 Object t = tfm.get(_f); //get the corresponding feature from the other one
                                 if( !Objects.equals(o, t) ){ //check equality at the feature object level
+                                    System.out.println("NOot same");
                                     isSame.set(false);
                                 }
                             } else { //its a mix of text and variables, so lets
+                                //System.out.println("Mix of text and vars");
                                 Object t = tfm.get(_f); //get the corresponding feature from the other one
+                                if( t instanceof _node){
+                                    _node _t = (_node)t;
+                                    if( !_t.is(s)){
+                                        //System.out.println( "NOt Same 1");
+                                        isSame.set(false);
+                                    }
+                                }else if( t instanceof _group){
+                                    _group _g = (_group)t;
+                                }
+                                else if( !s.matches(t.toString()) ){
+                                    //System.out.println( "NOt Same 2 "+s + t.toString());
+                                    if( t instanceof _annoEntryPair){
+                                        _annoEntryPair _ep = (_annoEntryPair)t;
+                                        if( _ep.isValueOnly() ){
+
+                                        }
+                                    } else {
+                                        isSame.set(false);
+                                    }
+                                }
                             }
                         }
                     });
@@ -477,7 +503,7 @@ public interface _tree<_T> extends _java._domain {
      *  void m() throws B, A
      * </CODE>
      *
-     * @see _annoExprs < AnnotationExpr, _annoRef >
+     * @see _annos < AnnotationExpr, _annoRef >
      * @see _imports<  ImportDeclaration ,_import>
      * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
      * @see _moduleExports
@@ -642,6 +668,16 @@ public interface _tree<_T> extends _java._domain {
         String toString(PrettyPrinterConfiguration prettyPrinter);
 
         boolean is(String code);
+
+        /*
+        default boolean is(Stencil stencil){
+            if( stencil.isMatchAny()){
+                return true;
+            }
+            //hmm I guess?
+            return stencil.matches(toString(Print.PRINT_NO_COMMENTS));
+        }
+         */
 
         default boolean is(_EL... _els){
             Set<_EL> _arr = new HashSet<>();
@@ -1052,7 +1088,10 @@ public interface _tree<_T> extends _java._domain {
 
     /**
      * a "view" tree node is a way to provide a user model that has no (1-to-1) physical counterpart
-     * within the AST syntax. this is helpful when we want to "unify" the interface to the syntax in a logical way.
+     * within the AST syntax. (Usually it represents a "logical" grouping of elements that are stored in the AST as
+     * a {@link NodeList}, but (instead of directly accessing the NodeList implementation, we build this virtual "wrapper"
+     * to make the API more intuitive.  this is helpful when we want to "unify" the interface to the syntax in a
+     * logical way.
      * (similar to a <A HREF="https://www.essentialsql.com/what-is-a-relational-database-view/">Database view</A>)
      *
      * For instance {@link _body} unifies the API behind multiple AST entities that
@@ -1084,21 +1123,20 @@ public interface _tree<_T> extends _java._domain {
      *        }
      *    </PRE>
      * </UL>
-     * this provides a more convenient model for for instance, we
-     *
-     * @see _body unifies the API different AST entities that
-     *
+     * this provides a more convenient model for users of the tool to access query or update the syntax
+     * in a consistent way.
      * <UL>
      *     <LI>(i.e. MethodDeclaration which implements</LI>
      * </UL>
-     * @see _annoExprs
-     * @see _args
-     * @see _body
-     * @see _cases
-     * @see _imports
-     * @see _modifiers
-     * @see _params
-     * @see _typeArgs
+     * @see _annos is annotations stored in a {@link NodeList}
+     * @see _args expressions stored in a {@link NodeList}
+     * @see _body statements (or the absense of statements) in {@link com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt},
+     * {@link com.github.javaparser.ast.nodeTypes.NodeWithBody}, {@link com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt}
+     * @see _cases {@link com.github.javaparser.ast.stmt.SwitchEntry}s stored that have the same statementBlock
+     * @see _imports imports stored within a {@link NodeList}
+     * @see _modifiers modifiers stored in a {@link NodeList}
+     * @see _params parameters stored in a {@link NodeList}
+     * @see _typeArgs type stored in a {@link NodeList}
      * @see _typeParams
      *
      * @param <_V> the view implementation

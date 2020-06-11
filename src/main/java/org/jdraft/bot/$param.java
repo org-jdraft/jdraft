@@ -105,7 +105,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
         return of()
                 .$name(_p.getName())
                 .$typeRef(_p.getType())
-                .$annoRefs($annoExprs.as(_p.ast()))
+                .$annoRefs($annos.as(_p.ast()))
                 .$isVarArg(_p.isVarArg())
                 .$isFinal(_p.isFinal());
     }
@@ -239,8 +239,8 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public Predicate<_param> predicate = d -> true;
 
-    public Select.$botSelect<$annoExprs, _param, _annoExprs> annoExprs =
-            Select.$botSelect.of(_param.class, _annoExprs.class, "annoRefs", p-> p.getAnnoExprs() );
+    public Select.$botSelect<$annos, _param, _annos> annoExprs =
+            Select.$botSelect.of(_param.class, _annos.class, "annoRefs", p-> p.getAnnoExprs() );
 
     public Select.$botSelect<$typeRef, _param, _typeRef> type =
             Select.$botSelect.of(_param.class, _typeRef.class, "type", p-> p.getType() );
@@ -258,7 +258,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public $param(_param _p){
         if( _p.hasAnnoExprs() ) {
-            annoExprs.setBot( $annoExprs.of(_p.ast()) );
+            annoExprs.setBot( $annos.of(_p.ast()) );
         }
         name.setBot( $name.of(_p.getName()) );
         type.setBot( $typeRef.of(_p.getType()));
@@ -411,13 +411,13 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
         return this;
     }
 
-    public $param $annoRefs($annoExprs $arfs){
+    public $param $annoRefs($annos $arfs){
         this.annoExprs.setBot($arfs);
         return this;
     }
 
-    public $param $annoRefs($annoExpr...$ars){
-        this.annoExprs.setBot( $annoExprs.of($ars));
+    public $param $annoRefs($anno...$ars){
+        this.annoExprs.setBot( $annos.of($ars));
         return this;
     }
 

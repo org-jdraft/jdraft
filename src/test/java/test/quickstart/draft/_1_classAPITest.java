@@ -130,7 +130,7 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.getField("i").is("public int i"));
         assertTrue(_FROM_STRING_PARTS.getField("uuid").is("public UUID uuid"));
         assertTrue(_FROM_STRING_PARTS.getConstructor(0).is("public C(int i){ this.i = i; }"));
-        assertTrue(_FROM_STRING_PARTS.getMethod("getUUID").is("public UUID getUUID(){ return this.uuid; }"));
+        assertTrue(_FROM_STRING_PARTS.firstMethodNamed("getUUID").is("public UUID getUUID(){ return this.uuid; }"));
         assertTrue(_FROM_STRING_PARTS.getInnerType("Describable") instanceof _interface);
     }
 
@@ -144,7 +144,7 @@ public class _1_classAPITest extends TestCase {
         //members/declared
         _FROM_STRING_PARTS.forConstructors(c-> System.out.println(c));
         _FROM_STRING_PARTS.forFields(f-> System.out.println(f));
-        _FROM_STRING_PARTS.forMethods(m-> System.out.println(m));
+        _FROM_STRING_PARTS.toMethods(m-> System.out.println(m));
         //nests
         _FROM_STRING_PARTS.forInnerTypes(n -> System.out.println(n));
 
@@ -160,7 +160,7 @@ public class _1_classAPITest extends TestCase {
         //members/declared
         _FROM_STRING_PARTS.forConstructors(c-> c.isVarArg(), c-> System.out.println(c));
         _FROM_STRING_PARTS.forFields(f-> f.isPublic(), f-> System.out.println(f));
-        _FROM_STRING_PARTS.forMethods(m-> m.isType(UUID.class), m-> System.out.println(m));
+        _FROM_STRING_PARTS.toMethods(m-> m.isType(UUID.class), m-> System.out.println(m));
         //nests
         _FROM_STRING_PARTS.forInnerTypes(n-> n instanceof _interface, n-> System.out.println(n));
     }

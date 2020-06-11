@@ -14,7 +14,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoExprs;
+import org.jdraft._annos;
 import org.jdraft._params;
 import org.jdraft._typeParams;
 import org.jdraft.macro._remove;
@@ -109,7 +109,7 @@ public class $method
      */
     public static $method of( Class clazz, String name ){
         _method._withMethods _hm = (_method._withMethods) _type.of(clazz);
-        return of( _hm.getMethod(name) );
+        return of( _hm.firstMethodNamed(name) );
     }       
     
     /**
@@ -727,7 +727,7 @@ public class $method
         return this;
     }
     
-    public $method $annos( Predicate<_annoExprs> as ){
+    public $method $annos( Predicate<_annos> as ){
         this.annos.$and(as);
         return this;
     }
@@ -747,7 +747,7 @@ public class $method
         return this;
     }
     
-    public $method $anno( _annoExpr _an){
+    public $method $anno( _anno _an){
         this.annos.$annosList.add($annoRef.of(_an) );
         return this;
     }

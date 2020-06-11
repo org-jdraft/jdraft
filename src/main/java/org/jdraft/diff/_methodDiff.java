@@ -19,7 +19,7 @@ public final class _methodDiff implements _differ<_method, _tree._node> {
         _nodePath p = path.in(Feature.METHOD, describeMethodSignature(left));
 
         _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
-        _annoExprsDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
+        _annosDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getType(), right.getType());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());

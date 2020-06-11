@@ -150,7 +150,7 @@ public class SstmtsTest extends TestCase {
         }
         _class _c = _class.of(D.class);
         $s.replaceIn(_c, $r);
-        assertTrue( _c.getMethod("g").getBody().is( 
+        assertTrue( _c.firstMethodNamed("g").getBody().is(
             "System.out.println(\"hey\");", 
             "System.out.println(\"hey\");", 
             "System.out.println(\"this\");",
@@ -161,7 +161,7 @@ public class SstmtsTest extends TestCase {
         $stmts.of("System.out.println($i$);").replaceIn( _c, "{System.out.println($i$); System.out.println($i$);}" );
         //System.out.println( _c );
 
-        assertTrue( _c.getMethod("g").getBody().is( 
+        assertTrue( _c.firstMethodNamed("g").getBody().is(
             "System.out.println(\"hey\");", 
             "System.out.println(\"hey\");", 
             "System.out.println(\"this\");",
@@ -220,8 +220,8 @@ public class SstmtsTest extends TestCase {
             s.statements.get(0).replace( $s.$sts.get(1).draft(s.tokens).ast() );
             s.statements.get(1).replace( $s.$sts.get(0).draft(s.tokens).ast() );
         });
-        assertTrue( _c.getMethod("m").getBody().getAstStatement(1) instanceof ExpressionStmt );
-        assertTrue( _c.getMethod("m").getBody().getAstStatement(2) instanceof AssertStmt);
+        assertTrue( _c.firstMethodNamed("m").getBody().getAstStatement(1) instanceof ExpressionStmt );
+        assertTrue( _c.firstMethodNamed("m").getBody().getAstStatement(2) instanceof AssertStmt);
     }
 
     //create a snip of many statements, and verify it matches

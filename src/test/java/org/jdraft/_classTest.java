@@ -480,7 +480,7 @@ public class _classTest extends TestCase {
             public void sortByLength(List<String> strings) {
             }
         }
-        _method _m = _class.of(L.class).getMethod("sortByLength");
+        _method _m = _class.of(L.class).firstMethodNamed("sortByLength");
 
         //System.out.println( );
         //Arrays.stream( L.class.getMethods()[0].getGenericParameterTypes() ).forEach(t -> System.out.println("&&&&&&& " + t));
@@ -676,14 +676,14 @@ public class _classTest extends TestCase {
         assertTrue( _c.getField("b").isType(int.class) );
 
         //verify we have a static main() method
-        assertTrue( _c.getMethod("main").isStatic() );
-        assertTrue( _c.getMethod("main").isVoid() );
-        assertTrue( _c.getMethod("main").getParam(0).isType(String[].class) );
+        assertTrue( _c.firstMethodNamed("main").isStatic() );
+        assertTrue( _c.firstMethodNamed("main").isVoid() );
+        assertTrue( _c.firstMethodNamed("main").getParam(0).isType(String[].class) );
         //verify we created the getters
-        assertTrue( _c.getMethod("getA" ).isType(int.class) );
-        assertTrue( _c.getMethod("getB" ).isType(int.class) );
-        assertTrue( _c.getMethod("getC" ).isType(int.class) );
-        assertTrue( _c.getMethod("getName" ).isType(String.class) );
+        assertTrue( _c.firstMethodNamed("getA" ).isType(int.class) );
+        assertTrue( _c.firstMethodNamed("getB" ).isType(int.class) );
+        assertTrue( _c.firstMethodNamed("getC" ).isType(int.class) );
+        assertTrue( _c.firstMethodNamed("getName" ).isType(String.class) );
 
         //verify that we manufactured a constructor, and it accepts a String (the final field NAME) as the constructor
         assertTrue( _c.getConstructor(0).getParam(0).isType(String.class) );
@@ -745,8 +745,8 @@ public class _classTest extends TestCase {
         _m1.equals(_m2);
         assertEquals( _m1, _m2);
         
-        assertEquals( _c.getMethod( "getpid"), _method.of( "native int getpid();" ));
-        assertTrue( _c.getMethod( "getpid").is( "native int getpid();" ));
+        assertEquals( _c.firstMethodNamed( "getpid"), _method.of( "native int getpid();" ));
+        assertTrue( _c.firstMethodNamed( "getpid").is( "native int getpid();" ));
         
         assertTrue( _c.hasMethods() );
         assertTrue( _c.hasInitBlocks() );
@@ -754,8 +754,8 @@ public class _classTest extends TestCase {
         _method _m = _c.getMethod(0);
         //System.out.println( _m );
         
-        assertTrue( _c.getMethod( "getpid").isNative());
-        assertTrue( _c.getMethod( "getpid").isType( int.class));
+        assertTrue( _c.firstMethodNamed( "getpid").isNative());
+        assertTrue( _c.firstMethodNamed( "getpid").isType( int.class));
         
     }
     
@@ -883,7 +883,7 @@ public class _classTest extends TestCase {
         assertTrue( _c.hasImport( "blah.dat.Blart"));
         assertTrue(_c.hasMethods());
         assertEquals(1, _c.listMethods().size());
-        _method _m = _c.getMethod("doIt");
+        _method _m = _c.firstMethodNamed("doIt");
         assertTrue( _m.hasJavadoc());
         assertTrue( _m.getJavadoc().getText().contains( "method JAVADOC" ));
         assertTrue( _m.hasAnnoExprs());

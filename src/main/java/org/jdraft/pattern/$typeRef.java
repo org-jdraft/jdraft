@@ -126,7 +126,7 @@ public class $typeRef
         $typeRef $t = of(_exact);
 
         $t.$and(_t->
-            _annoExprs.of(_t.ast()).equals(_annoExprs.of(_exact.ast())) && /* Type Annotations */
+            _annos.of(_t.ast()).equals(_annos.of(_exact.ast())) && /* Type Annotations */
             _t.getArrayDimensions() == _exact.getArrayDimensions() && /* Array Dimensions */
             Types.equal( _t.getTypeArguments(), _exact.getTypeArguments() ) && /* Type Arguments */
             Types.equal(_t.getBaseType().ast(), _exact.getBaseType().ast() )
@@ -419,7 +419,7 @@ public class $typeRef
                 }
             }
             Tokens ats = new Tokens();
-            _annoExprs _as = _typeRef.of(this.type).getAnnoExprs();
+            _annos _as = _typeRef.of(this.type).getAnnoExprs();
             if( _tr.hasAnnoExprs() && !_as.isEmpty() ){
                 //System.out.println ("BOTH HAVE ANNOS");
                 ats = $annoRefs.of(_as).parse(_tr.getAnnoExprs());

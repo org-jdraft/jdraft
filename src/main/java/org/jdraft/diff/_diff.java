@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoExprs._withAnnoExprs;
+import org.jdraft._annos._withAnnoExprs;
 import org.jdraft._body._withBody;
 import org.jdraft._constructor._withConstructors;
 import org.jdraft._field._withFields;
@@ -140,7 +140,7 @@ public interface _diff {
         return _enumDiff.ENUM_CONSTANT_DIFF.diff(_left, _right);
     }
 
-    static _diff of(_entry _left, _entry _right) {
+    static _diff of(_annoMember _left, _annoMember _right) {
         return _annotationDiff.ANNOTATION_ELEMENT_DIFF.diff(_left, _right);
     }
 
@@ -183,7 +183,7 @@ public interface _diff {
     }
 
     static _diff annosOf(_withAnnoExprs left, _withAnnoExprs right) {
-        return _annoExprsDiff.INSTANCE.diff(left, right);
+        return _annosDiff.INSTANCE.diff(left, right);
     }
 
     static _diff javadocOf(_withJavadoc left, _withJavadoc right) {

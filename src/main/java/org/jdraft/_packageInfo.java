@@ -12,7 +12,7 @@ import org.jdraft.text.Text;
  *
  */
 public final class _packageInfo
-        implements _codeUnit<_packageInfo>, _annoExprs._withAnnoExprs<_packageInfo>, _tree._node<CompilationUnit, _packageInfo> {
+        implements _codeUnit<_packageInfo>, _annos._withAnnoExprs<_packageInfo>, _tree._node<CompilationUnit, _packageInfo> {
 
     public static final Function<String, _packageInfo> PARSER = s-> _packageInfo.of(s);
 
@@ -24,10 +24,10 @@ public final class _packageInfo
         return new _packageInfo(astCu);
     }
 
-    public static _feature._one<_packageInfo, _annoExprs> ANNOS = new _feature._one<>(_packageInfo.class, _annoExprs.class,
+    public static _feature._one<_packageInfo, _annos> ANNOS = new _feature._one<>(_packageInfo.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_packageInfo a, _annoExprs o) -> a.setAnnoExprs(o), PARSER);
+            (_packageInfo a, _annos o) -> a.setAnnoExprs(o), PARSER);
 
     public static _feature._one<_packageInfo, _package> PACKAGE = new _feature._one<>(_packageInfo.class, _package.class,
             _feature._id.PACKAGE,
@@ -155,12 +155,12 @@ public final class _packageInfo
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
+    public _annos getAnnoExprs() {
         if (astCompilationUnit().getPackageDeclaration().isPresent()) {
             //annos are on the packageDeclaration
-            return _annoExprs.of(astCompilationUnit().getPackageDeclaration().get());
+            return _annos.of(astCompilationUnit().getPackageDeclaration().get());
         }
-        return _annoExprs.of(); //dont like this... but
+        return _annos.of(); //dont like this... but
     }
 
     /**

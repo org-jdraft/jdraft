@@ -164,8 +164,8 @@ public class AnonymousShortcutsTest extends TestCase {
         System.out.println( _c.getField("someStatic"));
         assertTrue( _c.getField("someStatic").is("public static final Map someStatic;") );
         assertTrue( _c.hasImport(Map.class)); //ohh... also, we read the public API and "auto import" the appropriate classes
-        assertTrue( _c.getMethod("g").isStatic());
-        assertTrue( _c.getMethod("g").hasThrow(FileNotFoundException.class));
+        assertTrue( _c.firstMethodNamed("g").isStatic());
+        assertTrue( _c.firstMethodNamed("g").hasThrow(FileNotFoundException.class));
         
         System.out.println(_c);
     }
@@ -193,8 +193,8 @@ public class AnonymousShortcutsTest extends TestCase {
         
         assertTrue( _c.isImplements(ToImplement.class));
         assertTrue( _c.getField("implemented").is("public static final boolean implemented = true;") );
-        assertTrue( _c.getMethod("implementedThisMethod").hasAnnoExpr(Override.class) );
-        assertTrue( _c.getMethod("anotherIncludedMethod").isStatic());
+        assertTrue( _c.firstMethodNamed("implementedThisMethod").hasAnnoExpr(Override.class) );
+        assertTrue( _c.firstMethodNamed("anotherIncludedMethod").isStatic());
         assertNull( _c.getField("someValueIDontWant")); 
     }
     
@@ -237,9 +237,9 @@ public class AnonymousShortcutsTest extends TestCase {
             }            
         });
         assertTrue( _i.hasImport(Map.class));//since map is on the API of, we auto import it  
-        assertTrue( _i.getMethod("aStaticMethod").isStatic() );
-        assertTrue( _i.getMethod("aDefaultMethod").isDefault() );
-        assertFalse( _i.getMethod("aMethodWhosBodyWillBeRemoved").hasBody());
+        assertTrue( _i.firstMethodNamed("aStaticMethod").isStatic() );
+        assertTrue( _i.firstMethodNamed("aDefaultMethod").isDefault() );
+        assertFalse( _i.firstMethodNamed("aMethodWhosBodyWillBeRemoved").hasBody());
         _runtime.compile(_i);
         System.out.println( _i );
     }

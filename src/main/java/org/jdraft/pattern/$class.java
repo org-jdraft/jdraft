@@ -141,7 +141,7 @@ public class $class
 
         _c.forConstructors(ct -> $c.ctors.add($constructor.of(_$.Parameterize.update(ct))));
         _c.forFields(f-> $c.fields.add($field.of(_$.Parameterize.update(f))));
-        _c.forMethods(m -> $c.$methods($method.of(_$.Parameterize.update(m))));
+        _c.toMethods(m -> $c.$methods($method.of(_$.Parameterize.update(m))));
 
         //hmm this loses the order of things
         //_c.forConstructors(ct -> $c.ctors.add($constructor.of(_$.Parameterize.toString(ct))));
@@ -293,7 +293,7 @@ public class $class
             }
             else if(parts[i] instanceof $method ){
                 final $method $fj = (($method)parts[i]);
-                Predicate<_class> aFn = a-> a.getMethod(e->$fj.match(e)) != null; //found one
+                Predicate<_class> aFn = a-> a.firstMethod(e->$fj.match(e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if(parts[i] instanceof $constructor ){
@@ -750,7 +750,7 @@ public class $class
         return this.annos;
     }
 
-    public $class $annos(Predicate<_annoExprs> annosMatchFn){
+    public $class $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

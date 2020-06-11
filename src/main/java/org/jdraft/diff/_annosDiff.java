@@ -4,18 +4,18 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import org.jdraft.*;
-import org.jdraft._annoExprs._withAnnoExprs;
+import org.jdraft._annos._withAnnoExprs;
 import org.jdraft.diff._diff.*;
 
 /**
- * Diff for: {@link _annoExpr} {@link _annoExprs} and {@link _withAnnoExprs}
+ * Diff for: {@link _anno} {@link _annos} and {@link _withAnnoExprs}
  *
  * @author Eric
  */
-public final class _annoExprsDiff
-    implements _differ<_annoExprs, _tree._node> {
+public final class _annosDiff
+    implements _differ<_annos, _tree._node> {
 
-    public static final _annoExprsDiff INSTANCE = new _annoExprsDiff();
+    public static final _annosDiff INSTANCE = new _annosDiff();
     
      public _diff diff(_withAnnoExprs left, _withAnnoExprs right){
         return diff( 
@@ -28,7 +28,7 @@ public final class _annoExprsDiff
     }
      
     @Override
-    public <_PN extends _tree._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annoExprs left, _annoExprs right) {
+    public <_PN extends _tree._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
         NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
         NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {
@@ -39,7 +39,7 @@ public final class _annoExprsDiff
             //if (!raes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 
                 ds.addDiff(new _leftOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _annoExpr.of(e)));
+                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _anno.of(e)));
             }
         }
         for (int i = 0; i < raes.size(); i++) {
@@ -49,21 +49,21 @@ public final class _annoExprsDiff
             if (!laes.stream().filter(a -> Expr.equal(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!laes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 ds.addDiff(new _rightOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _annoExpr.of(e)));
+                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _anno.of(e)));
             }
         }
         return ds;
     }
 
     public static class _leftOnly_anno
-            implements _diffNode<_withAnnoExprs>, _diffNode._leftOnly<_annoExpr> {
+            implements _diffNode<_withAnnoExprs>, _diffNode._leftOnly<_anno> {
 
         public _nodePath path;
         public _withAnnoExprs leftParent;
         public _withAnnoExprs rightParent;
-        public _annoExpr left;
+        public _anno left;
 
-        public _leftOnly_anno(_nodePath p, _withAnnoExprs left, _withAnnoExprs right, _annoExpr toRemove) {
+        public _leftOnly_anno(_nodePath p, _withAnnoExprs left, _withAnnoExprs right, _anno toRemove) {
             this.path = p;
             this.leftParent = left;
             this.rightParent = right;
@@ -86,7 +86,7 @@ public final class _annoExprsDiff
         }
 
         @Override
-        public _annoExpr left() {
+        public _anno left() {
             return left;
         }
 
@@ -111,14 +111,14 @@ public final class _annoExprsDiff
         }
     }
 
-    public static class _rightOnly_anno implements _diffNode<_withAnnoExprs>, _diffNode._rightOnly<_annoExpr> {
+    public static class _rightOnly_anno implements _diffNode<_withAnnoExprs>, _diffNode._rightOnly<_anno> {
 
         public _nodePath path;
         public _withAnnoExprs leftParent;
         public _withAnnoExprs rightParent;
-        public _annoExpr right;
+        public _anno right;
 
-        public _rightOnly_anno(_nodePath p, _withAnnoExprs leftParent, _withAnnoExprs rightParent, _annoExpr right) {
+        public _rightOnly_anno(_nodePath p, _withAnnoExprs leftParent, _withAnnoExprs rightParent, _anno right) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -141,7 +141,7 @@ public final class _annoExprsDiff
         }
 
         @Override
-        public _annoExpr right() {
+        public _anno right() {
             return right;
         }
 

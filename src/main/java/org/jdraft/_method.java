@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _method
-        implements _javadocComment._withJavadoc<_method>, _annoExprs._withAnnoExprs<_method>,
+        implements _javadocComment._withJavadoc<_method>, _annos._withAnnoExprs<_method>,
         _java._withNameType<MethodDeclaration, _method>, _body._withBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _params._withParams<_method>,
         _typeParams._withTypeParams<_method>, _receiverParam._withReceiverParam<_method>,
@@ -87,7 +87,7 @@ public final class _method
     public static _method of( Method m ){
         Class declClass = m.getDeclaringClass();
         _class _c = _class.of(declClass);
-        _method _mm =  _c.getMethod(_m -> _m.getName().equals(m.getName()) && _m.hasParamsOf(m));
+        _method _mm =  _c.firstMethod(_m -> _m.getName().equals(m.getName()) && _m.hasParamsOf(m));
         if( _mm != null ){
             _mm.ast().remove();
         }
@@ -400,10 +400,10 @@ public final class _method
             a -> a.getJavadoc(),
             (_method a, _javadocComment _jd) -> a.setJavadoc(_jd), PARSER);
 
-    public static _feature._one<_method, _annoExprs> ANNOS = new _feature._one<>(_method.class, _annoExprs.class,
+    public static _feature._one<_method, _annos> ANNOS = new _feature._one<>(_method.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_method a, _annoExprs _ta) -> a.setAnnoExprs(_ta), PARSER);
+            (_method a, _annos _ta) -> a.setAnnoExprs(_ta), PARSER);
 
     public static _feature._one<_method, _modifiers> MODIFIERS = new _feature._one<>(_method.class, _modifiers.class,
             _feature._id.MODIFIERS,
@@ -590,8 +590,8 @@ public final class _method
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of(astMethod);
+    public _annos getAnnoExprs() {
+        return _annos.of(astMethod);
     }
 
     public SimpleName getNameNode() { return this.astMethod.getName(); }
@@ -764,6 +764,14 @@ public final class _method
 
         List<_method> listMethods();
 
+        default List<_method> listMethods(String name) {
+            return listMethods().stream().filter(m -> m.getName().equals(name)).collect(Collectors.toList());
+        }
+
+        default List<_method> listMethods(Predicate<_method> _methodMatchFn){
+            return listMethods().stream().filter(_methodMatchFn).collect(Collectors.toList());
+        }
+
         default boolean hasMethods() {
             return !listMethods().isEmpty();
         }
@@ -777,15 +785,20 @@ public final class _method
             return listMethods().stream().allMatch(matchFn);
         }
 
-        default _method getMethod(String name) {
-            List<_method> lm = listMethods(name);
+        /**
+         * Find and return the first method declared in the _withMethods with this name
+         * @param methodName
+         * @return
+         */
+        default _method firstMethodNamed(String methodName) {
+            List<_method> lm = listMethods(methodName);
             if (lm.isEmpty()) {
                 return null;
             }
             return lm.get(0);
         }
 
-        default _method getMethod(Predicate<_method> _methodMatchFn){
+        default _method firstMethod(Predicate<_method> _methodMatchFn){
             List<_method> lm = listMethods(_methodMatchFn);
             if (lm.isEmpty()) {
                 return null;
@@ -793,29 +806,55 @@ public final class _method
             return lm.get(0);
         }
 
-        default List<_method> listMethods(String name) {
-            return listMethods().stream().filter(m -> m.getName().equals(name)).collect(Collectors.toList());
+        /**
+         * Apply this method Consumer to all methods and return the WithMethods container
+         * @param _actionFn the Consumer to apply to all methods
+         * @return the modified withMethods Consumer
+         */
+        default _WM toMethods(Consumer<_method> _actionFn) {
+            return toMethods(m -> true, _actionFn);
         }
 
-        List<_method> listMethods(Predicate<_method> _methodMatchFn);
-
-        default _WM forMethods(Consumer<_method> methodConsumer) {
-            return forMethods(m -> true, methodConsumer);
-        }
-
-        default _WM forMethods(Predicate<_method> methodMatchFn,
-                               Consumer<_method> methodConsumer) {
-            listMethods(methodMatchFn).forEach(methodConsumer);
+        /**
+         * Apply this method Consumer to all methods that match the _matchFn and return the withMethods Container
+         * @param _matchFn the predicate for matching which methods
+         * @param _actionFn the consumer to apply to all methods
+         * @return the modified withMethods container
+         */
+        default _WM toMethods(Predicate<_method> _matchFn, Consumer<_method> _actionFn) {
+            listMethods(_matchFn).forEach(_actionFn);
             return (_WM) this;
         }
 
+
+        /**
+         * Apply this method Consumer to all methods and return the _methods that were consumed
+         * @param _actionFn the Consumer to apply to all methods
+         * @return the modified withMethods Consumer
+         */
+        default List<_method> forMethods(Consumer<_method> _actionFn) {
+            return forMethods(m -> true, _actionFn);
+        }
+
+        /**
+         * Apply this method Consumer to all methods that match the _matchFn and return the _methods that were consumed
+         * @param _matchFn the predicate for matching which methods
+         * @param _actionFn the consumer to apply to all methods
+         * @return the modified withMethods container
+         */
+        default List<_method> forMethods(Predicate<_method> _matchFn, Consumer<_method> _actionFn) {
+            List<_method> matching = listMethods(_matchFn);
+            matching.forEach(_actionFn);
+            return matching;
+        }
+
         default _WM removeMethod(_method _m) {
-            this.forMethods(m -> m.equals(_m), m-> m.astMethod.removeForced() );
+            this.toMethods(m -> m.equals(_m), m-> m.astMethod.removeForced() );
             return removeMethod( _m.astMethod );
         }
 
         default _WM removeMethod(MethodDeclaration astM) {
-            this.forMethods(m -> m.equals(_method.of(astM)), m-> m.astMethod.removeForced() );
+            this.toMethods(m -> m.equals(_method.of(astM)), m-> m.astMethod.removeForced() );
             return (_WM) this;
         }
 

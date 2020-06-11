@@ -26,8 +26,8 @@ public class _allNodeUseTest extends TestCase {
     public void testNodesAlphabetical(){
         //_java._domain is the top-level interface for all instance AND interface abstractions
         _java._domain[] _instances = {
-                _annoExpr.of("@A"),
-                _annoExprs.of("@A @B"),
+                _anno.of("@A"),
+                _annos.of("@A @B"),
                 _annotation.of("@interface AI{}"),
                 _args.of("(1, 'c')"),
                 _arrayAccessExpr.of("a[1][call()]"),
@@ -106,7 +106,6 @@ public class _allNodeUseTest extends TestCase {
                 _packageInfo.of("/** information about jdraft */package org.jdraft;"),
                 _param.of("final int i"),
                 _params.of("(@ann int x, String...names)"),
-                _qualifiedName.of("org.jdraft._class"),
                 _receiverParam.of("@AnnotatedUsage Currency this"),
                 _returnStmt.of("return 12;"),
                 _stmt.of("System.out.println(1);"), //_statement creates any statement type
@@ -184,7 +183,7 @@ public class _allNodeUseTest extends TestCase {
     public void testSetBasedInstances(){
         //semantically, order doesnt matter
         _tree._group[] setBased = {
-                _annoExprs.of("@A @B"),
+                _annos.of("@A @B"),
                 _imports.of( "import java.util.*;", "import java.net.*;"),
                 _variablesExpr.of("int i, j = 100"),
                 _modifiers.of("public static final"),
@@ -228,7 +227,7 @@ public class _allNodeUseTest extends TestCase {
 
         //each precise _expression type, has an "of()..." static method for building the _expression
         _expr[] _es = {
-                _annoExpr.of("@A"),
+                _anno.of("@A"),
                 _arrayAccessExpr.of("a[1][call()]"),
                 _newArrayExpr.of("new a[1][2]"),
                 _arrayInitExpr.of("{1,2,3}"),

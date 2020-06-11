@@ -83,7 +83,7 @@ public class _mergeInterfaceToClass extends TestCase {
         _i.forImports( i-> _c.addImports(i));
 
         //copy all default methods (that are NOT explicitly implemented)
-        _i.forMethods(m-> m.isDefault(), m-> {
+        _i.toMethods(m-> m.isDefault(), m-> {
             _method _mc = m.copy(); //use a working copy as to not change the existing interface method
             _mc.getModifiers().setDefault(false).setPublic();
 
@@ -119,7 +119,7 @@ public class _mergeInterfaceToClass extends TestCase {
         assertTrue( _merged.hasImports(UUID.class) );
 
         assertEquals( Stmt.of("System.out.println(\"keep this one\");"),
-                _merged.getMethod("alreadyImplemented").getBody().getAstStatement(0));
+                _merged.firstMethodNamed("alreadyImplemented").getBody().getAstStatement(0));
 
         //for good measure, see if we can compile and load an instance
         _runtime.compile(_merged);

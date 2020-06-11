@@ -41,7 +41,7 @@ public class RoslynSyntaxTest extends TestCase {
         ClassOrInterfaceDeclaration programDeclaration = _c.ast();
 
         //get the _method
-        _method _main = _c.getMethod("main");
+        _method _main = _c.firstMethodNamed("main");
 
         _param _p = _main.getParam(0);
     }
@@ -66,7 +66,7 @@ public class RoslynSyntaxTest extends TestCase {
         //traditional (direct) walk walk the first method for the first parameter
         _c.getMethod(0).getParam(0);
         //find the main method and get the first parameter
-        _c.getMethod("main").getParam(0);
+        _c.firstMethodNamed("main").getParam(0);
 
         //protoype walk
         //get the first method named "main" in the type and get it['s first parameter

@@ -50,7 +50,7 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
         // when we ask the _class (_c) to getMethod(), it will create a wrapper _method (_m)
         // to the MethodDeclaration "on demand", you can use the _method (_m), and it'll get
         // garbage-collected when it goes at of scope (but it's stateless, so that's fine)
-        _method _m = _c.getMethod("setI");
+        _method _m = _c.firstMethodNamed("setI");
 
         // we can get the statements in the method
         // NOTE: Statements are "unwrapped" JavaParser Statement types, (no corresponding jdraft _models)
@@ -84,7 +84,7 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
         _field _f = _c.getField("val");
         assertTrue(_f.isInit(123)); //the init value of the field is 123
 
-        _method _m = _c.getMethod("id" );
+        _method _m = _c.firstMethodNamed("id" );
         assertTrue( _m.isType( UUID.class ) );
         assertTrue( _m.hasAnnoExpr( Deprecated.class ) );
         _m.setStatic().setFinal().setPublic();

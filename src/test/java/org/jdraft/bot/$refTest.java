@@ -418,14 +418,14 @@ public class $refTest extends TestCase {
 
     public void testAnnotationName(){
         //simple reference
-        assertEquals(1, $ref.of("annName").countIn(_annoExpr.of("annName")));
-        assertEquals(1, $ref.of("annName").countIn(_annoExpr.of("annName(1)")));
-        assertEquals(1, $ref.of("annName").countIn(_annoExpr.of("annName(key=2)")));
+        assertEquals(1, $ref.of("annName").countIn(_anno.of("annName")));
+        assertEquals(1, $ref.of("annName").countIn(_anno.of("annName(1)")));
+        assertEquals(1, $ref.of("annName").countIn(_anno.of("annName(key=2)")));
 
         //qualified reference
-        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoExpr.of("fully.qualified.AnnName")));
-        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoExpr.of("fully.qualified.AnnName(1)")));
-        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_annoExpr.of("fully.qualified.AnnName(key=2)")));
+        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_anno.of("fully.qualified.AnnName")));
+        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_anno.of("fully.qualified.AnnName(1)")));
+        assertEquals( 1, $ref.of("fully.qualified.AnnName").countIn(_anno.of("fully.qualified.AnnName(key=2)")));
     }
 
     public void testMethodReference(){

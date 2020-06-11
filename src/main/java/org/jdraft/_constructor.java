@@ -28,7 +28,7 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _constructor implements _annoExprs._withAnnoExprs<_constructor>,
+public final class _constructor implements _annos._withAnnoExprs<_constructor>,
         _javadocComment._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
         _body._withBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
         _params._withParams<_constructor>, _typeParams._withTypeParams<_constructor>,
@@ -119,10 +119,10 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
             a -> a.getJavadoc(),
             (_constructor a, _javadocComment _jd) -> a.setJavadoc(_jd), PARSER);
 
-    public static _feature._one<_constructor, _annoExprs> ANNOS = new _feature._one<>(_constructor.class, _annoExprs.class,
+    public static _feature._one<_constructor, _annos> ANNOS = new _feature._one<>(_constructor.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_constructor a, _annoExprs _ta) -> a.setAnnoExprs(_ta), PARSER);
+            (_constructor a, _annos _ta) -> a.setAnnoExprs(_ta), PARSER);
 
     public static _feature._one<_constructor, _modifiers> MODIFIERS = new _feature._one<>(_constructor.class, _modifiers.class,
             _feature._id.MODIFIERS,
@@ -390,8 +390,8 @@ public final class _constructor implements _annoExprs._withAnnoExprs<_constructo
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of( astCtor );
+    public _annos getAnnoExprs() {
+        return _annos.of( astCtor );
     }
 
     public SimpleName getNameNode() { return this.astCtor.getName(); }

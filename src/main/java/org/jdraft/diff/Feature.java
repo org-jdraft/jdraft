@@ -28,9 +28,9 @@ public enum Feature {
     MODULE_DECLARATION("moduleDeclaration", ModuleDeclaration.class),
     PACKAGE("package", _package.class),
     /** i.e. @Deprecated */
-    ANNO_EXPR("annoExpr", _annoExpr.class),
+    ANNO_EXPR("annoExpr", _anno.class),
     /** i.e. @Deprecated @NotNull */
-    ANNO_EXPRS("annoExprs", _annoExprs.class),
+    ANNO_EXPRS("annoExprs", _annos.class),
 
     CLASS("class", _class.class),
     ENUM("enum", _enum.class),
@@ -65,8 +65,8 @@ public enum Feature {
     IS_STATIC("isStatic", Boolean.class),
     IS_WILDCARD("isWildcard", Boolean.class),
 
-    ANNOTATION_ENTRY("annotationEntry", _entry.class), //annotation
-    ANNOTATION_ENTRIES("annotationEntries", List.class, _entry.class), //_annotation
+    ANNOTATION_ENTRY("annotationEntry", _annoMember.class), //annotation
+    ANNOTATION_ENTRIES("annotationEntries", List.class, _annoMember.class), //_annotation
 
     FIELD("field", _field.class),
     FIELDS("fields", List.class, _field.class),

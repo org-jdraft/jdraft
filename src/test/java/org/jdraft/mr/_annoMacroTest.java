@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class _annoExprMacroTest extends TestCase {
+public class _annoMacroTest extends TestCase {
 
     public void testApplyToField(){
         class GG{
@@ -56,8 +56,8 @@ public class _annoExprMacroTest extends TestCase {
             }
         }
         _class _c = _class.of( MM.class );
-        _annoMacro.Apply.to( MM.class, _c.getMethod("main").ast() );
-        _method _m = _c.getMethod("main");
+        _annoMacro.Apply.to( MM.class, _c.firstMethodNamed("main").ast() );
+        _method _m = _c.firstMethodNamed("main");
         assertTrue( _m.isStatic());
         assertTrue( _m.isPublic());
         assertTrue( _m.hasAnnoExpr(Deprecated.class));
@@ -73,11 +73,11 @@ public class _annoExprMacroTest extends TestCase {
             }
         }
         _class _c = _class.of(AMP.class);
-        _annoMacro.Apply.to(AMP.class, _c.getMethod("m").ast() );
+        _annoMacro.Apply.to(AMP.class, _c.firstMethodNamed("m").ast() );
 
-        assertTrue( _c.getMethod("m").getParam(0).isFinal() );
-        assertTrue( _c.getMethod("m").getParam(0).hasAnnoExpr(Deprecated.class) );
-        assertFalse( _c.getMethod("m").getParam(0).hasAnnoExpr(_final.class) );
+        assertTrue( _c.firstMethodNamed("m").getParam(0).isFinal() );
+        assertTrue( _c.firstMethodNamed("m").getParam(0).hasAnnoExpr(Deprecated.class) );
+        assertFalse( _c.firstMethodNamed("m").getParam(0).hasAnnoExpr(_final.class) );
     }
 
     @Target(ElementType.TYPE_USE)
@@ -116,15 +116,15 @@ public class _annoExprMacroTest extends TestCase {
         //CompilationUnit cu = StaticJavaParser.parse("class MRT{ public @_str int a(){ return 2; } }");
 
         //OK, manually add an annotation and process it
-        _c.getMethod("a").getType().ast().getAnnotations().add(Ast.annotationExpr("@_str"));
+        _c.firstMethodNamed("a").getType().ast().getAnnotations().add(Ast.annotationExpr("@_str"));
         //System.out.println( cu );
 
         //System.out.println( _c );
-        assertTrue( _c.getMethod("a").getType().hasAnnoExpr(_str.class));
-        _annoMacro.Apply.to(MRT.class, _c.getMethod("a").ast() );
+        assertTrue( _c.firstMethodNamed("a").getType().hasAnnoExpr(_str.class));
+        _annoMacro.Apply.to(MRT.class, _c.firstMethodNamed("a").ast() );
 
-        assertTrue( _c.getMethod("a").getType().is(String.class) );
-        assertFalse( _c.getMethod("a").getType().hasAnnoExpr(_str.class));
+        assertTrue( _c.firstMethodNamed("a").getType().is(String.class) );
+        assertFalse( _c.firstMethodNamed("a").getType().hasAnnoExpr(_str.class));
     }
 
     public void testApplyToMethodExceptionType(){
@@ -134,12 +134,12 @@ public class _annoExprMacroTest extends TestCase {
             }
         }
         _class _c = _class.of(MTE.class);
-        assertTrue( _c.getMethod("a").getThrows().ast().get(0).getAnnotation(0).getNameAsString().equals("_remove") );
+        assertTrue( _c.firstMethodNamed("a").getThrows().ast().get(0).getAnnotation(0).getNameAsString().equals("_remove") );
         //System.out.println( _c.getMethod("a").getThrows().ast().get(0).getAnnotation(0).getNameAsString().equals("_remove") );
-        _annoMacro.Apply.to(MTE.class, _c.getMethod("a").ast());
+        _annoMacro.Apply.to(MTE.class, _c.firstMethodNamed("a").ast());
 
         System.out.println(_c);
-        assertFalse( _c.getMethod("a").hasThrows() );
+        assertFalse( _c.firstMethodNamed("a").hasThrows() );
         //assertTrue( _c.getMethod("a").getThrows().ast().get(0).getAnnotations().isEmpty() ); //no annotation
     }
 

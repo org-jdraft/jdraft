@@ -47,10 +47,10 @@ public class _throwsTest
         
         _class _c = _class.of(C.class);
         System.out.println( _c );
-        _throws _ts = _c.getMethod("m").getThrows();
+        _throws _ts = _c.firstMethodNamed("m").getThrows();
         System.out.println(_ts.toString());
-        assertEquals( _annoExpr.of(Test.class).ast(), _ts.getAt(0).getAnnoExpr(0).ast());
-        assertEquals( _annoExpr.of(Test.class).ast(), _ts.getAt(1).getAnnoExpr(0).ast());
+        assertEquals( _anno.of(Test.class).ast(), _ts.getAt(0).getAnnoExpr(0).ast());
+        assertEquals( _anno.of(Test.class).ast(), _ts.getAt(1).getAnnoExpr(0).ast());
         
         System.out.println( _ts.getAt(0) );
     }

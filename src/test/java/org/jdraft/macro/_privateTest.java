@@ -30,7 +30,7 @@ public class _privateTest extends TestCase {
 
         assertTrue( _c.getField("g").isPrivate());
         assertFalse( _c.getField("g").hasAnnoExpr(_private.class));
-        assertTrue( _c.getMethod("b").isPrivate());
-        assertFalse( _c.getMethod("b").hasAnnoExpr(_private.class));
+        assertTrue( _c.firstMethodNamed("b").isPrivate());
+        assertFalse( _c.firstMethodNamed("b").hasAnnoExpr(_private.class));
     }
 }

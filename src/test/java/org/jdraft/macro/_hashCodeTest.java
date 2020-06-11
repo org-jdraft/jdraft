@@ -66,7 +66,7 @@ public class _hashCodeTest extends TestCase {
         System.out.println( _c );
 
         _hashCode.Act.to(_c);
-        _method _m = _c.getMethod("hashCode");
+        _method _m = _c.firstMethodNamed("hashCode");
 
         assertEquals(1, $stmt.of("int hash = $any$;").listIn(_m).size() );
         assertEquals(1, $stmt.of("int prime = $any$;").listIn(_m).size() );

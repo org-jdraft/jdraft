@@ -368,7 +368,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param as
      * @return
      */
-    public $field $annos( Predicate<_annoExprs> as ){
+    public $field $annos( Predicate<_annos> as ){
         this.annos.$and(as);
         return this;
     }
@@ -408,7 +408,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
      * @param _an
      * @return
      */
-    public $field $anno( _annoExpr _an){
+    public $field $anno( _anno _an){
         this.annos.$annosList.add($annoRef.of(_an) );
         return this;
     }

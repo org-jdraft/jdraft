@@ -300,11 +300,11 @@ public class _diffPatchTest
         System.out.println("DIFFS"+ dl);
         
         //there are many ways to find/signify the same diff
-        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
-        assertEquals( dl.firstOn("aFieldIAdded").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
-        assertEquals( dl.firstOn(FIELD).asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
-        assertEquals( dl.firstAt(ANNO_EXPR).asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
-        assertEquals( dl.firstAt(ANNO_EXPR, "Deprecated").asLeftOnly().left(), _annoExpr.of(Deprecated.class) );
+        assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asLeftOnly().left(), _anno.of(Deprecated.class) );
+        assertEquals( dl.firstOn("aFieldIAdded").asLeftOnly().left(), _anno.of(Deprecated.class) );
+        assertEquals( dl.firstOn(FIELD).asLeftOnly().left(), _anno.of(Deprecated.class) );
+        assertEquals( dl.firstAt(ANNO_EXPR).asLeftOnly().left(), _anno.of(Deprecated.class) );
+        assertEquals( dl.firstAt(ANNO_EXPR, "Deprecated").asLeftOnly().left(), _anno.of(Deprecated.class) );
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
@@ -428,7 +428,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
 
-        System.out.println("******** "+ _c.getMethod("doIt"));
+        System.out.println("******** "+ _c.firstMethodNamed("doIt"));
 
         _c.getMethod(0).addAnnoExprs("AGGGG");
         dl = _diff.of(_c, _c2);
@@ -438,10 +438,10 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
 
-        System.out.println("****>>>> "+ _c.getMethod("doIt"));
+        System.out.println("****>>>> "+ _c.firstMethodNamed("doIt"));
         
         _c.getMethod(0).setBody( new BlockStmt());
-        System.out.println("CBCBCBCB****>>>> "+ _c.getMethod("doIt"));
+        System.out.println("CBCBCBCB****>>>> "+ _c.firstMethodNamed("doIt"));
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(METHOD).isEdit() );                
@@ -450,7 +450,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
 
-        System.out.println("<<<<<<1>>>>>> "+ _c.getMethod("doIt"));
+        System.out.println("<<<<<<1>>>>>> "+ _c.firstMethodNamed("doIt"));
 
         _c.getMethod(0).setPrivate();
         dl = _diff.of(_c, _c2);
@@ -460,7 +460,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
 
-        System.out.println("AFTER "+ _c.getMethod("doIt"));
+        System.out.println("AFTER "+ _c.firstMethodNamed("doIt"));
         
         
         _c.getMethod(0).removeTypeParams();
@@ -572,10 +572,10 @@ public class _diffPatchTest
         System.out.println(_diff.of(_c, _c2) );
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getDeclared(_enum.class, "E").getMethod("main").addThrows(IOException.class);
+        _c.getDeclared(_enum.class, "E").firstMethodNamed("main").addThrows(IOException.class);
         
-        System.out.println( _c.getDeclared(_enum.class, "E").getMethod("main") );
-        System.out.println( _c2.getDeclared(_enum.class, "E").getMethod("main") );
+        System.out.println( _c.getDeclared(_enum.class, "E").firstMethodNamed("main") );
+        System.out.println( _c2.getDeclared(_enum.class, "E").firstMethodNamed("main") );
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         
@@ -635,7 +635,7 @@ public class _diffPatchTest
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(METHOD));
         assertTrue( dl.hasLeftOnlyAt(METHOD, "methodM()"));
-        assertTrue( dl.isDiffOf(_i.getMethod("methodM")));
+        assertTrue( dl.isDiffOf(_i.firstMethodNamed("methodM")));
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         

@@ -15,7 +15,7 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
         @_dto class C{ int x,y; }
 
         _class _c = _class.of(C.class); //macro processed here
-        assertNotNull( _c.getMethod("getX"));
+        assertNotNull( _c.firstMethodNamed("getX"));
     }
 
     public void testOnTypeUse_AnonymousClass(){
@@ -25,7 +25,7 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
         _class _c = _class.of(C.class);
                 //_class.of( "aaaa.C",
                 //new @_dto Object(){ int x,y;});
-        assertNotNull( _c.getMethod("getY"));
+        assertNotNull( _c.firstMethodNamed("getY"));
     }
 
     public void testOnNestedType(){
@@ -57,9 +57,9 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
         }
 
         _class _c = macro.to(M.class);
-        assertTrue( _c.getMethod("absM").isAbstract());
+        assertTrue( _c.firstMethodNamed("absM").isAbstract());
         assertTrue( _c.isAbstract());
-        assertTrue( _c.getMethod("m").is("public static final void m(){}"));
+        assertTrue( _c.firstMethodNamed("m").is("public static final void m(){}"));
     }
 
     public void testOnConstructor(){
@@ -80,8 +80,8 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
         }
         _class _c = macro.to(P.class);
         assertTrue( _c.getConstructor(0).getParam(0).is("final String n"));
-        assertTrue( _c.getMethod("m").getParam(0).is("final String name"));
-        assertTrue( _c.getMethod("m").getParam(1).is("final int y"));
+        assertTrue( _c.firstMethodNamed("m").getParam(0).is("final String name"));
+        assertTrue( _c.firstMethodNamed("m").getParam(1).is("final int y"));
         System.out.println( _c );
     }
 

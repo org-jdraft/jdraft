@@ -31,8 +31,8 @@ public class _setTest extends TestCase {
         }
         _class _c = _class.of(G.class);
         assertTrue( _c.listAnnoExprs(_set.class).isEmpty());
-        assertTrue( _c.getMethod("setA").isVoid());
-        assertTrue( _c.getMethod("setA").getParam(0).isType(int.class));
+        assertTrue( _c.firstMethodNamed("setA").isVoid());
+        assertTrue( _c.firstMethodNamed("setA").getParam(0).isType(int.class));
     }
 
     public void testSetMulti(){
@@ -45,13 +45,13 @@ public class _setTest extends TestCase {
 
         _class _c = _class.of(G.class);
         assertTrue( _c.listAnnoExprs(_set.class).isEmpty());
-        assertTrue( _c.getMethod("setA").isVoid());
-        assertTrue( _c.getMethod("setA").getParam(0).isType(int.class));
-        assertTrue( _c.getMethod("setB").isVoid());
-        assertTrue( _c.getMethod("setB").getParam(0).isType(int.class));
-        assertTrue( _c.getMethod("setC").isVoid());
-        assertTrue( _c.getMethod("setC").getParam(0).isType(int.class));
-        assertNull( _c.getMethod("setName")); //make sure there is no setName method (final field)
+        assertTrue( _c.firstMethodNamed("setA").isVoid());
+        assertTrue( _c.firstMethodNamed("setA").getParam(0).isType(int.class));
+        assertTrue( _c.firstMethodNamed("setB").isVoid());
+        assertTrue( _c.firstMethodNamed("setB").getParam(0).isType(int.class));
+        assertTrue( _c.firstMethodNamed("setC").isVoid());
+        assertTrue( _c.firstMethodNamed("setC").getParam(0).isType(int.class));
+        assertNull( _c.firstMethodNamed("setName")); //make sure there is no setName method (final field)
     }
 
 }

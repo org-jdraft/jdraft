@@ -25,7 +25,7 @@ public class SaTest extends TestCase {
         //
         $annoRefs $as = $annoRefs.as();
 
-        assertTrue($as.matches(_annoExprs.of()));
+        assertTrue($as.matches(_annos.of()));
         assertTrue($as.matches(""));
         assertFalse($as.matches("@A"));
 
@@ -57,8 +57,8 @@ public class SaTest extends TestCase {
         
         System.out.println( $annoRef.of("B").draftToString() + "" );
         
-        assertEquals(_annoExpr.of("B"), $annoRef.of().draft("$anno", "@B"));
-        assertEquals(_annoExpr.of("B").toString(), $annoRef.of()
+        assertEquals(_anno.of("B"), $annoRef.of().draft("$anno", "@B"));
+        assertEquals(_anno.of("B").toString(), $annoRef.of()
                 .draftToString("$anno", "@B"));
     }
     
@@ -70,7 +70,7 @@ public class SaTest extends TestCase {
             
         }        
         //override parameter
-        assertEquals(_annoExpr.of("E"), $annoRef.of().draft("$anno", "@E"));
+        assertEquals(_anno.of("E"), $annoRef.of().draft("$anno", "@E"));
         
     }
     
@@ -87,15 +87,15 @@ public class SaTest extends TestCase {
     
     public void testOutOfOrderKeyValues(){
         $annoRef a = $annoRef.of("@A(a=1,b=2)");
-        assertTrue( a.matches(_annoExpr.of("@A(b=2,a=1)")) );
+        assertTrue( a.matches(_anno.of("@A(b=2,a=1)")) );
     }
     
     public void testParensOrNoParens(){
         $annoRef a = $annoRef.of("@E");
         
-        assertTrue(a.matches(_annoExpr.of("@E")));
+        assertTrue(a.matches(_anno.of("@E")));
         //this doesnt work
-        assertTrue(a.matches(_annoExpr.of("@E()")));
+        assertTrue(a.matches(_anno.of("@E()")));
     }
     
     public void testFullyQualified(){
@@ -327,8 +327,8 @@ public class SaTest extends TestCase {
      
     public void testStatic$a(){
         $annoRef a = $annoRef.of("@name");
-        assertEquals( _annoExpr.of("@name"), a.draft());
-        assertTrue( a.matches(_annoExpr.of("@name")));
+        assertEquals( _anno.of("@name"), a.draft());
+        assertTrue( a.matches(_anno.of("@name")));
 
         @name
         class C{
@@ -346,14 +346,14 @@ public class SaTest extends TestCase {
         //any @NAME annotation with a prefix
         $annoRef a = $annoRef.of("@name(prefix=$any$)");
 
-        assertTrue( a.matches( _annoExpr.of("@name(prefix=\"1\")") ));
+        assertTrue( a.matches( _anno.of("@name(prefix=\"1\")") ));
         
-        assertNotNull( a.select( _annoExpr.of("@name(prefix=\"1\")") ));
+        assertNotNull( a.select( _anno.of("@name(prefix=\"1\")") ));
 
-        System.out.println( "GOTTEN " + a.select(_annoExpr.of("@name(prefix=\"1\")") ).tokens);
-        assertTrue( a.select(_annoExpr.of("@name(prefix=\"1\")") ).is("any", Expr.stringLiteralExpr("1")) );
+        System.out.println( "GOTTEN " + a.select(_anno.of("@name(prefix=\"1\")") ).tokens);
+        assertTrue( a.select(_anno.of("@name(prefix=\"1\")") ).is("any", Expr.stringLiteralExpr("1")) );
 
-        assertTrue( a.select(_annoExpr.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
+        assertTrue( a.select(_anno.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
         assertTrue( a.$list().contains("any"));
 
 
@@ -370,8 +370,8 @@ public class SaTest extends TestCase {
         a.replaceIn(_c, $annoRef.of("@name2(string=$any$)") );
         System.out.println(_c );
 
-        _annoExpr _a = a.draft("any", "\"Some String\"");
-        assertEquals( _annoExpr.of("@name(prefix=\"Some String\")"), _a );
+        _anno _a = a.draft("any", "\"Some String\"");
+        assertEquals( _anno.of("@name(prefix=\"Some String\")"), _a );
     }
 
 

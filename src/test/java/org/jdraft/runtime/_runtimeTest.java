@@ -156,10 +156,10 @@ public class _runtimeTest extends TestCase {
                 return 2;
             }
         });
-        _method _mm = _c.getMethod("m");
+        _method _mm = _c.firstMethodNamed("m");
         System.out.println( _mm );
 
-        _mm = _c.getMethod("m2");
+        _mm = _c.firstMethodNamed("m2");
         System.out.println( _mm );
     }
 

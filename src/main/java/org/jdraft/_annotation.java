@@ -106,11 +106,11 @@ public final class _annotation
         //each (non-static) field REALLY represents an annotation.element with a possible default
         bds.stream().filter( bd-> bd instanceof FieldDeclaration && !bd.asFieldDeclaration().isStatic() ).forEach( f-> {
             VariableDeclarator vd = ((FieldDeclaration) f).getVariable(0);
-            _entry _ae = null;
+            _annoMember _ae = null;
             if( vd.getInitializer().isPresent()){
-                _ae = _entry.of(vd.getType(), vd.getNameAsString(), vd.getInitializer().get());
+                _ae = _annoMember.of(vd.getType(), vd.getNameAsString(), vd.getInitializer().get());
             } else {
-                _ae = _entry.of(vd.getType(), vd.getNameAsString());
+                _ae = _annoMember.of(vd.getType(), vd.getNameAsString());
             }
             if( ((FieldDeclaration) f).getJavadocComment().isPresent()){
                 _ae.setJavadoc( ((FieldDeclaration) f).getJavadocComment().get());
@@ -372,8 +372,8 @@ public final class _annotation
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of(this.astAnnotation );
+    public _annos getAnnoExprs() {
+        return _annos.of(this.astAnnotation );
     }
 
     @Override
@@ -399,7 +399,7 @@ public final class _annotation
         return addEntry( Ast.annotationMemberDeclaration( str ));
     }
 
-    public _annotation addEntry(_entry _ae){
+    public _annotation addEntry(_annoMember _ae){
         this.astAnnotation.addMember( _ae.astAnnMember );
         return this;
     }
@@ -409,31 +409,31 @@ public final class _annotation
         return this;
     }
 
-    public _entry getEntry(Predicate<_entry> _ae){
-        List<_entry> lps = listEntries(_ae );
+    public _annoMember getEntry(Predicate<_annoMember> _ae){
+        List<_annoMember> lps = listEntries(_ae );
         if( lps.isEmpty() ){
             return null;
         }
         return lps.get(0);
     }
 
-    public _entry getEntry(String name ){
-        List<_entry> lps = listEntries(p -> p.getName().equals( name ) );
+    public _annoMember getEntry(String name ){
+        List<_annoMember> lps = listEntries(p -> p.getName().equals( name ) );
         if( lps.isEmpty() ){
             return null;
         }
         return lps.get(0);
     }
 
-    public List<_entry> listEntries(){
+    public List<_annoMember> listEntries(){
         NodeList<BodyDeclaration<?>> nb  = this.astAnnotation.getMembers();
-        List<_entry> ps = new ArrayList<>();
+        List<_annoMember> ps = new ArrayList<>();
         nb.stream().filter( b -> b instanceof AnnotationMemberDeclaration )
-                .forEach( am -> ps.add( _entry.of( (AnnotationMemberDeclaration)am) ));
+                .forEach( am -> ps.add( _annoMember.of( (AnnotationMemberDeclaration)am) ));
         return ps;
     }
 
-    public List<_entry> listEntries(Predicate<_entry> _elementMatchFn ){
+    public List<_annoMember> listEntries(Predicate<_annoMember> _elementMatchFn ){
         return listEntries().stream().filter( _elementMatchFn ).collect(Collectors.toList());
     }
 
@@ -479,8 +479,8 @@ public final class _annotation
             return false;
         }
 
-        Set<_entry> tp = new HashSet<>();
-        Set<_entry> op = new HashSet<>();
+        Set<_annoMember> tp = new HashSet<>();
+        Set<_annoMember> op = new HashSet<>();
         tp.addAll(this.listEntries() );
         op.addAll(other.listEntries() );
 
@@ -508,36 +508,36 @@ public final class _annotation
         return true;
     }
 
-    public _annotation forEntries(Consumer<_entry> entryConsumer ){
+    public _annotation forEntries(Consumer<_annoMember> entryConsumer ){
         listEntries().forEach(entryConsumer);
         return this;
     }
 
-    public _annotation forEntries(Predicate<_entry> entryMatchFn, Consumer<_entry> entryConsumer ){
+    public _annotation forEntries(Predicate<_annoMember> entryMatchFn, Consumer<_annoMember> entryConsumer ){
         listEntries(entryMatchFn).forEach(entryConsumer);
         return this;
     }
 
-    public _annotation setEntries(List<_entry> entries){
+    public _annotation setEntries(List<_annoMember> entries){
         this.astAnnotation.getMembers().removeIf(m -> m instanceof AnnotationMemberDeclaration);
         entries.forEach( e-> this.addEntry(e.ast()) );
         return this;
     }
 
     public _annotation removeEntry(String entryName ){
-        _entry _e = this.getEntry(entryName );
+        _annoMember _e = this.getEntry(entryName );
         if( _e != null ) {
             this.astAnnotation.remove(_e.astAnnMember);
         }
         return this;
     }
 
-    public _annotation removeEntry(_entry _e ){
+    public _annotation removeEntry(_annoMember _e ){
         listEntries(e -> e.equals(_e)).forEach(e-> e.ast().removeForced() );
         return this;
     }
 
-    public _annotation removeEntries(Predicate<_entry> _pe ){
+    public _annotation removeEntries(Predicate<_annoMember> _pe ){
         listEntries(_pe).forEach(e -> removeEntry(e));
         return this;
     }
@@ -554,10 +554,10 @@ public final class _annotation
             (_annotation a, _package b) -> a.setPackage(b), PARSER)
             .setNullable(true);
 
-    public static _feature._one<_annotation, _annoExprs> ANNOS = new _feature._one<>(_annotation.class, _annoExprs.class,
+    public static _feature._one<_annotation, _annos> ANNOS = new _feature._one<>(_annotation.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_annotation a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
+            (_annotation a, _annos b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_annotation, _javadocComment> JAVADOC = new _feature._one<>(_annotation.class, _javadocComment.class,
             _feature._id.JAVADOC,
@@ -575,7 +575,7 @@ public final class _annotation
             _feature._id.MEMBER,
             a -> a.listMembers(),
             (_annotation a, List<_java._member>mems) -> a.setMembers(mems), PARSER, s-> _java._member.of(_annotation.class, s))
-            .featureImplementations(_entry.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class)
+            .featureImplementations(_annoMember.class, _field.class, /*inner type*/_class.class, _enum.class, _annotation.class, _interface.class)
             .setOrdered(false);/** for the most part, the order of declarations doesnt matter */
 
     public static _feature._features<_annotation> FEATURES = _feature._features.of(_annotation.class,  PARSER,
@@ -642,7 +642,7 @@ public final class _annotation
         fields.addAll( this.listFields() );
         hash = 13 * hash + Objects.hashCode( fields );
 
-        Set<_entry> elements = new HashSet<>();
+        Set<_annoMember> elements = new HashSet<>();
         elements.addAll(this.listEntries() );
         hash = 13 * hash + Objects.hashCode( elements );
 

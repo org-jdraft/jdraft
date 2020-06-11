@@ -1478,7 +1478,7 @@ public enum Walk {
      * ({@link _field}, {@link _method}, {@link _constant}...)
      *
      * <LI>Logical interfaces
-     * ({@link _javadocComment._withJavadoc}, {@link _method._withMethods}, {@link _annoExprs._withAnnoExprs}, ...)
+     * ({@link _javadocComment._withJavadoc}, {@link _method._withMethods}, {@link _annos._withAnnoExprs}, ...)
      * </UL>
      *
      * @param <T> the target Class TYPE ..we need this BECAUSE Node classes/interfaces dont have a common ancestor

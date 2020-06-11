@@ -10,64 +10,64 @@ public class $annoExprsTest extends TestCase {
 
     public void testMatchAny(){
         //verify that "anyMatch" matches no annotations
-        assertTrue( $annoExprs.of().matches(""));
+        assertTrue( $annos.of().matches(""));
 
         //singe annotations
-        assertTrue( $annoExprs.of().matches("@A"));
-        assertTrue( $annoExprs.of().matches("@A(1)"));
-        assertTrue( $annoExprs.of().matches("@A(k=1,v=2)"));
+        assertTrue( $annos.of().matches("@A"));
+        assertTrue( $annos.of().matches("@A(1)"));
+        assertTrue( $annos.of().matches("@A(k=1,v=2)"));
 
         //multiple annotations
-        assertTrue( $annoExprs.of().matches("@A @B"));
-        assertTrue( $annoExprs.of().matches("@A(1) @B(1)"));
-        assertTrue( $annoExprs.of().matches("@A(k=1,v=2) @C(k=1,v=2)"));
+        assertTrue( $annos.of().matches("@A @B"));
+        assertTrue( $annos.of().matches("@A(1) @B(1)"));
+        assertTrue( $annos.of().matches("@A(k=1,v=2) @C(k=1,v=2)"));
     }
 
     public void testMatchAsSingle() {
-        assertTrue($annoExprs.as("@A").matches("@A"));
-        assertFalse($annoExprs.as("@A").matches("@B"));
-        assertFalse($annoExprs.as("@A").matches("@A @B"));
-        assertFalse($annoExprs.as("@A").matches("@A(1)"));
-        assertFalse($annoExprs.as("@A").matches("@A(key=1,value=2)"));
+        assertTrue($annos.as("@A").matches("@A"));
+        assertFalse($annos.as("@A").matches("@B"));
+        assertFalse($annos.as("@A").matches("@A @B"));
+        assertFalse($annos.as("@A").matches("@A(1)"));
+        assertFalse($annos.as("@A").matches("@A(key=1,value=2)"));
 
-        assertTrue($annoExprs.as("@A(1)").matches("@A(1)"));
-        assertFalse($annoExprs.as("@A(1)").matches("@A"));
-        assertTrue($annoExprs.as("@A(1)").matches("@A(value=1)"));
-        assertFalse($annoExprs.as("@A(1)").matches("@A(value=1,other=2)"));
+        assertTrue($annos.as("@A(1)").matches("@A(1)"));
+        assertFalse($annos.as("@A(1)").matches("@A"));
+        assertTrue($annos.as("@A(1)").matches("@A(value=1)"));
+        assertFalse($annos.as("@A(1)").matches("@A(value=1,other=2)"));
 
-        assertTrue($annoExprs.as("@A(k=1,v=2)").matches("@A(k=1,v=2)"));
-        assertTrue($annoExprs.as("@A(k=1,v=2)").matches("@A(v=2,k=1)")); //order doenst matter for properties
+        assertTrue($annos.as("@A(k=1,v=2)").matches("@A(k=1,v=2)"));
+        assertTrue($annos.as("@A(k=1,v=2)").matches("@A(v=2,k=1)")); //order doenst matter for properties
 
-        assertFalse($annoExprs.as("@A(k=1,v=2)").matches("@A(k=2,v=1)"));
+        assertFalse($annos.as("@A(k=1,v=2)").matches("@A(k=2,v=1)"));
 
         //draft
-        assertEquals(_annoExprs.of("@A(k=1,v=2)"), $annoExprs.as("@A(k=1,v=2)").draft());
+        assertEquals(_annos.of("@A(k=1,v=2)"), $annos.as("@A(k=1,v=2)").draft());
     }
 
     public void testMatchMultiple(){
-        assertTrue($annoExprs.of("@A @B").matches("@A @B"));
-        assertTrue($annoExprs.of("@A @B").matches("@A(1) @B(2)"));
-        assertTrue($annoExprs.of("@A @B").matches("@A(key=1) @B(val=1,v=3)"));
-        assertTrue($annoExprs.of("@A @B").matches("@B @A")); //order doesnt matter (for annotations)
+        assertTrue($annos.of("@A @B").matches("@A @B"));
+        assertTrue($annos.of("@A @B").matches("@A(1) @B(2)"));
+        assertTrue($annos.of("@A @B").matches("@A(key=1) @B(val=1,v=3)"));
+        assertTrue($annos.of("@A @B").matches("@B @A")); //order doesnt matter (for annotations)
 
         //As
-        assertTrue($annoExprs.as("@A @B").matches("@B @A")); //order doesnt matter (for annotations)
-        assertTrue($annoExprs.as("@A(1) @B").matches("@A(1) @B"));
-        assertTrue($annoExprs.as("@A(1) @B").matches("@B @A(1)"));
-        assertFalse($annoExprs.as("@A(1) @B").matches("@A(1) @B(2)"));
+        assertTrue($annos.as("@A @B").matches("@B @A")); //order doesnt matter (for annotations)
+        assertTrue($annos.as("@A(1) @B").matches("@A(1) @B"));
+        assertTrue($annos.as("@A(1) @B").matches("@B @A(1)"));
+        assertFalse($annos.as("@A(1) @B").matches("@A(1) @B(2)"));
 
-        assertTrue($annoExprs.as("@A @B").matches("@A @B"));
-        assertTrue($annoExprs.as("@A @B").matches("@B @A")); //order doesnt matter (for annotations)
+        assertTrue($annos.as("@A @B").matches("@A @B"));
+        assertTrue($annos.as("@A @B").matches("@B @A")); //order doesnt matter (for annotations)
     }
 
     public void test$List(){
-        assertEquals( $annoExprs.of("@my$name$(key=$value$)").$list().get(0), "name");
-        assertEquals( $annoExprs.of("@my$name$(key=$value$)").$list().get(1), "value");
+        assertEquals( $annos.of("@my$name$(key=$value$)").$list().get(0), "name");
+        assertEquals( $annos.of("@my$name$(key=$value$)").$list().get(1), "value");
     }
 
     public void test$ListNormalized(){
-        assertEquals( $annoExprs.of("@my$name$(key=$value$)").$listNormalized().get(0), "name");
-        assertEquals( $annoExprs.of("@my$name$(key=$value$)").$listNormalized().get(1), "value");
+        assertEquals( $annos.of("@my$name$(key=$value$)").$listNormalized().get(0), "name");
+        assertEquals( $annos.of("@my$name$(key=$value$)").$listNormalized().get(1), "value");
     }
 
     @interface A{}
@@ -75,29 +75,29 @@ public class $annoExprsTest extends TestCase {
     @interface C{}
 
     public void testFromClass(){
-        _annoExprs _ars = _annoExprs.of("@A");
+        _annos _ars = _annos.of("@A");
         assertTrue(_ars.is("@A"));
-        $annoExprs $ars = $annoExprs.of(_ars);
+        $annos $ars = $annos.of(_ars);
         assertTrue( $ars.matches("@A"));
 
-        _ars = _annoExprs.of(B.class);
+        _ars = _annos.of(B.class);
         assertTrue( _ars.is("@B"));
 
-        assertTrue($annoExprs.of(_annoExpr.of(B.class)).matches("@B"));
+        assertTrue($annos.of(_anno.of(B.class)).matches("@B"));
 
-        $annoExprs.of(B.class).matches("@B");
+        $annos.of(B.class).matches("@B");
 
-        $annoExprs.of(_annoExpr.of(B.class)).matches("@B");
+        $annos.of(_anno.of(B.class)).matches("@B");
     }
 
     public void test$Or(){
 
-        $annoExprs $BandC = $annoExprs.of(B.class, C.class);
+        $annos $BandC = $annos.of(B.class, C.class);
         assertTrue($BandC.matches("@B @C"));
         assertTrue($BandC.matches("@C @B"));
 
         //EITHER BOTH A OR B and C
-        $annoExprs $ars = $annoExprs.or( $annoExprs.of(A.class), $annoExprs.of(B.class, C.class));
+        $annos $ars = $annos.or( $annos.of(A.class), $annos.of(B.class, C.class));
 
         assertTrue($ars.matches("@A"));
         assertTrue($ars.matches("@B @C"));
@@ -109,7 +109,7 @@ public class $annoExprsTest extends TestCase {
     }
 
     public void testHardCodeInd() {
-        $annoExpr $ae = $annoExpr.of("@A($value$)");
+        $anno $ae = $anno.of("@A($value$)");
         assertTrue($ae.entryPairs.isMatchAll());
         assertTrue($ae.matches("@A(1)"));
         assertTrue($ae.matches("@A(2)"));
@@ -171,7 +171,7 @@ public class $annoExprsTest extends TestCase {
     }
 
     public void testExprs(){
-        $annoExprs $aes = $annoExprs.of( $annoExpr.of("@A($value$)") );
+        $annos $aes = $annos.of( $anno.of("@A($value$)") );
         assertTrue($aes.annosList.getBot(0).entryPairs.isMatchAll());
 
         assertTrue($aes.matches("@A(1)"));
@@ -179,11 +179,11 @@ public class $annoExprsTest extends TestCase {
         assertTrue($aes.matches("@A('f')"));
 
         $aes.$hardcode(Tokens.of("value", 1));
-        assertNotNull( $aes.annosList.getBot(0).entryPairs.selectFrom(_annoExpr.of("A(1)")) );
+        assertNotNull( $aes.annosList.getBot(0).entryPairs.selectFrom(_anno.of("A(1)")) );
         //System.out.println( "LIST BOTS"+ $aes.$annoExprsList );
         //System.out.println( "FIRST BOT"+ $aes.$annoExprsList.get(0) );
         //System.out.println("BOTTTTTT"+( $aes.$annoExprsList.get(0).entryPairs.getBot(0)) );
-        assertNull( $aes.annosList.getBot(0).entryPairs.selectFrom(_annoExpr.of("A(2)")) );
+        assertNull( $aes.annosList.getBot(0).entryPairs.selectFrom(_anno.of("A(2)")) );
         assertFalse($aes.annosList.getBot(0).entryPairs.isMatchAll());
         assertTrue($aes.matches("@A(1)"));
         assertFalse($aes.matches("@A('c')"));
@@ -191,7 +191,7 @@ public class $annoExprsTest extends TestCase {
 
     }
     public void testHardCode(){
-        $annoExprs $ars = $annoExprs.or( $annoExprs.of("@A($value$)"), $annoExprs.of("@my$name$($key$=2)") );
+        $annos $ars = $annos.or( $annos.of("@A($value$)"), $annos.of("@my$name$($key$=2)") );
 
         assertTrue( $ars.matches("@A(1)"));
         assertTrue( $ars.matches("@A(2)"));

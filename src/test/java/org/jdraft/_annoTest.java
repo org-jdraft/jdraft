@@ -26,45 +26,45 @@ import org.jdraft.text.Tokens;
  *
  * @author Eric
  */
-public class _annoExprTest extends TestCase {
+public class _annoTest extends TestCase {
 
     public void testFeatures() {
-        _annoExpr _a = _annoExpr.of("@A");
+        _anno _a = _anno.of("@A");
 
-        assertEquals("A", _annoExpr.NAME.get(_a));
-        _annoExpr.NAME.set(_a, "Blah");
-        assertEquals("Blah", _annoExpr.NAME.get(_a));
-        System.out.println(_annoExpr.ENTRY_PAIRS.get(_a));
+        assertEquals("A", _anno.NAME.get(_a));
+        _anno.NAME.set(_a, "Blah");
+        assertEquals("Blah", _anno.NAME.get(_a));
+        System.out.println(_anno.ENTRY_PAIRS.get(_a));
     }
 
     public void testMetaFeatureList(){
-        _annoExpr _a = _annoExpr.of("@A");
-        assertEquals( _annoExpr.FEATURES.list(_a).get(0), _annoExpr.NAME);
-        assertEquals( _annoExpr.FEATURES.list(_a).get(1), _annoExpr.ENTRY_PAIRS);
+        _anno _a = _anno.of("@A");
+        assertEquals( _anno.FEATURES.list(_a).get(0), _anno.NAME);
+        assertEquals( _anno.FEATURES.list(_a).get(1), _anno.ENTRY_PAIRS);
     }
 
     public void testFeatureFunction() {
-        _annoExpr _a = _annoExpr.of("@A");
-        _annoExpr _b = _annoExpr.of("@Blah");
+        _anno _a = _anno.of("@A");
+        _anno _b = _anno.of("@Blah");
 
         Tokens keyValues = new Tokens();
 
         //this is an META Ensemble operation
-        _annoExpr.FEATURES.forEach(_a, s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
+        _anno.FEATURES.forEach(_a, s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
 
         System.out.println(keyValues);
 
 
-        _annoExpr.FEATURES.forEach(_a, s -> s instanceof _feature._many,
+        _anno.FEATURES.forEach(_a, s -> s instanceof _feature._many,
                 s -> keyValues.put(s.getFeatureId().name, s.get(_a)));
     }
 
     //_biMetaFunction
     public void testMetaEquals(){
-        _annoExpr _a = _annoExpr.of("@A");
-        _annoExpr _b = _annoExpr.of("@Blah");
+        _anno _a = _anno.of("@A");
+        _anno _b = _anno.of("@Blah");
 
-        Map<_feature, Boolean> featureEqualsMap = featureEqualsMap(_annoExpr.FEATURES, _a, _b);
+        Map<_feature, Boolean> featureEqualsMap = featureEqualsMap(_anno.FEATURES, _a, _b);
 
         //what about a compareTo
         System.out.println("FEATURES EQUAL " + featureEqualsMap);
@@ -155,38 +155,38 @@ public class _annoExprTest extends TestCase {
      *
      */
     public void testMetaFunctionEntryPair() {
-        _entryPair _epA = _annoExpr.of("@A(1)").getEntryPair(0);
-        _entryPair _epB = _annoExpr.of("@A(1)").getEntryPair(0);
+        _annoEntryPair _epA = _anno.of("@A(1)").getEntryPair(0);
+        _annoEntryPair _epB = _anno.of("@A(1)").getEntryPair(0);
         Map<_feature, Boolean> m = featureEqualsMap(_epA, _epB);
 
         //verify all true
         assertTrue(m.values().stream().allMatch(b -> b.booleanValue()));
 
-        m = featureEqualsMap( _entryPair.of("1"), _entryPair.of("1"));
+        m = featureEqualsMap( _annoEntryPair.of("1"), _annoEntryPair.of("1"));
         assertTrue(m.values().stream().allMatch(b -> b.booleanValue()));
 
-        m = featureEqualsMap(_entryPair.of("1"), _entryPair.of("value=1"));
+        m = featureEqualsMap(_annoEntryPair.of("1"), _annoEntryPair.of("value=1"));
         assertTrue(m.values().stream().allMatch(b -> b.booleanValue()));
 
 
         //verify the value is not the same
-        m = featureEqualsMap(_entryPair.of("1"), _entryPair.of("2"));
+        m = featureEqualsMap(_annoEntryPair.of("1"), _annoEntryPair.of("2"));
         assertFalse(m.values().stream().allMatch(b -> b.booleanValue()));
-        assertTrue(m.get(_entryPair.VALUE) == false);
+        assertTrue(m.get(_annoEntryPair.VALUE) == false);
 
-        m = featureEqualsMap(_entryPair.of("A=1"), _entryPair.of("B=1"));
+        m = featureEqualsMap(_annoEntryPair.of("A=1"), _annoEntryPair.of("B=1"));
         assertFalse(m.values().stream().allMatch(b -> b.booleanValue()));
-        assertTrue(m.get(_entryPair.NAME) == false);
-        assertTrue(m.get(_entryPair.VALUE) == true);
+        assertTrue(m.get(_annoEntryPair.NAME) == false);
+        assertTrue(m.get(_annoEntryPair.VALUE) == true);
     }
 
     public void testMetaFunctionAnnoExpr(){
         //try a meta function
-        Map<_feature, Boolean>m2 = featureEqualsMap(_annoExpr.of("@A(1)"), _annoExpr.of("@A(1)"));
+        Map<_feature, Boolean>m2 = featureEqualsMap(_anno.of("@A(1)"), _anno.of("@A(1)"));
         assertTrue( m2.values().stream().allMatch(b-> b.booleanValue()));
 
-        m2 = featureEqualsMap(_annoExpr.of("@A(1)"), _annoExpr.of("@A(2)"));
-        assertEquals( m2.get(_annoExpr.ENTRY_PAIRS), Boolean.FALSE );
+        m2 = featureEqualsMap(_anno.of("@A(1)"), _anno.of("@A(2)"));
+        assertEquals( m2.get(_anno.ENTRY_PAIRS), Boolean.FALSE );
     }
 
     public enum E{
@@ -224,14 +224,14 @@ public class _annoExprTest extends TestCase {
     }
 
     public void testRemovePair(){
-        _annoExpr _ae = _annoExpr.of("@A(1)");
+        _anno _ae = _anno.of("@A(1)");
         assertTrue( _ae.isSingleMember() );
-        _ae.removeEntryPair(_entryPair.of("value", 1));
+        _ae.removeEntryPair(_annoEntryPair.of("value", 1));
         assertTrue( _ae.isMarker() );
 
         System.out.println( _ae );
 
-        _ae = _annoExpr.of("@A(k=1)");
+        _ae = _anno.of("@A(k=1)");
         _ae.removeEntryPairs(p-> p.isNamed("k"));
         assertEquals(0, _ae.listEntryPairs().size() );
         assertTrue(_ae.isMarker() );
@@ -239,31 +239,31 @@ public class _annoExprTest extends TestCase {
 
     @AI(is={1,2,3,4,5})
     public void testAnnoUse(){
-        _annoExpr.of("A").addEntryPair("i", 1);
-        _annoExpr.of("A").addEntryPair("i", 1,2,3);
+        _anno.of("A").addEntryPair("i", 1);
+        _anno.of("A").addEntryPair("i", 1,2,3);
 
-        _annoExpr.of("A").addEntryPair("i", 'a');
-        _annoExpr.of("A").addEntryPair("i", 'a', 'b');
+        _anno.of("A").addEntryPair("i", 'a');
+        _anno.of("A").addEntryPair("i", 'a', 'b');
 
-        _annoExpr.of("A").addEntryPair("i", true);
-        _annoExpr.of("A").addEntryPair("i", true, false);
-        _annoExpr.of("A").addEntryPair("i", new boolean[]{true});
-        System.out.println( _annoExpr.of("A").addEntryPair("i", String.class, Map.class ) );
+        _anno.of("A").addEntryPair("i", true);
+        _anno.of("A").addEntryPair("i", true, false);
+        _anno.of("A").addEntryPair("i", new boolean[]{true});
+        System.out.println( _anno.of("A").addEntryPair("i", String.class, Map.class ) );
 
-        _annoExpr.of("A").addEntryPair("i", _annoExpr.of("@A(1)"), _annoExpr.of("@A(2)") );
+        _anno.of("A").addEntryPair("i", _anno.of("@A(1)"), _anno.of("@A(2)") );
 
-        _annoExpr _ap = _annoExpr.of("A").addEntryPair("i", 1L);
-
-
-        System.out.println(_annoExpr.of("A").addEntryPair("i", 1L, 2L));
+        _anno _ap = _anno.of("A").addEntryPair("i", 1L);
 
 
-        System.out.println( _annoExpr.of("A").addEntryPair(_entryPair.of("i", 1,2,3,4)) );
+        System.out.println(_anno.of("A").addEntryPair("i", 1L, 2L));
 
-        _annoExpr.of("A").addEntryPair("f", 1.0f);
-        _annoExpr.of("A").addEntryPair("f", 1.0f, 2.0f);
-        _annoExpr.of("A").addEntryPair(_entryPair.of("fs", 1.0f));
-        _annoExpr.of("A").addEntryPair(_entryPair.of("fs", 1.0f,2.0f,3.0f,4.0f));
+
+        System.out.println( _anno.of("A").addEntryPair(_annoEntryPair.of("i", 1,2,3,4)) );
+
+        _anno.of("A").addEntryPair("f", 1.0f);
+        _anno.of("A").addEntryPair("f", 1.0f, 2.0f);
+        _anno.of("A").addEntryPair(_annoEntryPair.of("fs", 1.0f));
+        _anno.of("A").addEntryPair(_annoEntryPair.of("fs", 1.0f,2.0f,3.0f,4.0f));
 
         @AI
         class C{ }
@@ -278,7 +278,7 @@ public class _annoExprTest extends TestCase {
         //System.out.println( mvp.getNameAsString() );
         //System.out.println( mvp.getValue() );
 
-        _entryPair _mv = _entryPair.of("value");
+        _annoEntryPair _mv = _annoEntryPair.of("value");
         assertTrue( _mv.isValueOnly() );
         assertEquals("value", _mv.getName());
         assertEquals("value", _mv.getValue().toString());
@@ -288,19 +288,19 @@ public class _annoExprTest extends TestCase {
         assertTrue( _mv.isValue("value") );
 
         //key & value
-        _mv = _entryPair.of("value=3");
+        _mv = _annoEntryPair.of("value=3");
         assertTrue( _mv.isNamed("value") );
         assertTrue( _mv.isValue("3") );
         assertTrue( _mv.isValue(3) );
 
-        _mv = _entryPair.of("value='c'");
+        _mv = _annoEntryPair.of("value='c'");
         assertTrue( _mv.isValue("'c'") );
         assertTrue( _mv.isValue('c') );
     }
 
     public void testHasMemberValuePair(){
 
-        _annoExpr _a = _annoExpr.of("@A(k=1,v=2)");
+        _anno _a = _anno.of("@A(k=1,v=2)");
 
         assertTrue( _a.hasEntryPair("k",1));
         assertTrue( _a.hasEntryPair("v",2));
@@ -332,7 +332,7 @@ public class _annoExprTest extends TestCase {
      */
 
     public void testAnn(){
-        _annoExpr _a = _annoExpr.of()
+        _anno _a = _anno.of()
                 .setName("n")
                 .addEntryPair("i", 100);
 
@@ -414,8 +414,8 @@ public class _annoExprTest extends TestCase {
         //the runtime values of these annotations is equal
         assertEquals( ii, i2);
         
-        _annoExpr _a = _annoExpr.of("a(1)");
-        _annoExpr _b = _annoExpr.of("a(value=1)");
+        _anno _a = _anno.of("a(1)");
+        _anno _b = _anno.of("a(value=1)");
         
         assertEquals(_a, _b);        
         assertEquals(_a.hashCode(), _b.hashCode());
@@ -479,13 +479,13 @@ public class _annoExprTest extends TestCase {
         }
         _class _c = _class.of( TTTT.class );
         
-        assertEquals(1, $annoRef.of(Test.class).countIn( _c.getMethod("m").getThrows().getAt(0) ));
+        assertEquals(1, $annoRef.of(Test.class).countIn( _c.firstMethodNamed("m").getThrows().getAt(0) ));
     }
     
     public class NestedClass{}
     
     public void testNestedClassAnno(){
-        NestedClass nc = new _annoExprTest. @Test NestedClass();
+        NestedClass nc = new _annoTest. @Test NestedClass();
         Statement st = Stmt.of("NestedClass nc = new _annoTest. @Test NestedClass();");
         System.out.println( st );
         assertEquals(1, $annoRef.of(Test.class).countIn( st ));
@@ -511,7 +511,7 @@ public class _annoExprTest extends TestCase {
             public <E extends @Test Serializable & @Test III> void foo() {  }        
         }
         _class _c = _class.of(DDDDL.class);
-        assertEquals( 2, $annoRef.of(Test.class).countIn( _c.getMethod("foo") ));
+        assertEquals( 2, $annoRef.of(Test.class).countIn( _c.firstMethodNamed("foo") ));
         System.out.println( _c );
     }
     
@@ -607,8 +607,8 @@ public class _annoExprTest extends TestCase {
     }
     
     public void testAnnoHasAttr(){
-        _annoExpr _a = _annoExpr.of("a(1)");
-        _annoExpr _b = _annoExpr.of("a(x=1)");
+        _anno _a = _anno.of("a(1)");
+        _anno _b = _anno.of("a(x=1)");
         assertTrue( _a.hasEntryPair("value", Expr.of(1)) );
         assertTrue( _a.hasEntryPair("value", 1) );
         assertTrue( _b.hasEntryPair("x", Expr.of(1)) );
@@ -639,20 +639,20 @@ public class _annoExprTest extends TestCase {
 
 
     public void testIsValue(){
-        _annoExpr _a = _annoExpr.of("A(1)");
+        _anno _a = _anno.of("A(1)");
 
         assertTrue( _a.hasEntryPair("value", 1) );
         assertTrue( _a.hasEntryPair("value", 1));
 
         Expr.arrayInitializerExpr(new int[]{1,2,3});
-        _annoExpr _b = _annoExpr.of("B(k=1,v={'a','b'})");
+        _anno _b = _anno.of("B(k=1,v={'a','b'})");
         assertTrue( _b.hasEntryPair("k", 1) );
         assertTrue( _b.hasEntryPair("v", new char[]{'a', 'b'}) );
         assertTrue( _b.hasEntryPair("v", Expr.arrayInitializerExpr('a', 'b')) );
     }
 
     public void test23Draft(){
-        _annoExpr _a = _annoExpr.of(new Object(){
+        _anno _a = _anno.of(new Object(){
             @HeaderList({
                     @Header(name="Accept", value="application/json; charset=utf-8"),
                     @Header(name="User-Agent", value="Square Cash"),
@@ -693,8 +693,8 @@ public class _annoExprTest extends TestCase {
         //assertTrue(ae1.hashCode() != ae2.hashCode());
 
         //IF we wrap the AnnotationExprs as _anno s
-        _annoExpr _a1 = _annoExpr.of( ae1 );
-        _annoExpr _a2 = _annoExpr.of( ae2 );
+        _anno _a1 = _anno.of( ae1 );
+        _anno _a2 = _anno.of( ae2 );
 
         //they ARE equal
         assertEquals( _a1, _a2);
@@ -705,8 +705,8 @@ public class _annoExprTest extends TestCase {
 
     public void test_annEqualsHashCode(){
         //here we compensate by
-        _annoExpr a1 = _annoExpr.of( "@ann(k1=1,k2=2)");
-        _annoExpr a2 = _annoExpr.of( "@ann(k2=2,k1=1)");
+        _anno a1 = _anno.of( "@ann(k1=1,k2=2)");
+        _anno a2 = _anno.of( "@ann(k2=2,k1=1)");
 
         //THIS SHOULD PRODUCE THE SAME HASHCODE (it does)
         assertEquals( a1.hashCode(), a2.hashCode() );
@@ -719,7 +719,7 @@ public class _annoExprTest extends TestCase {
     public void testExcalateImplementation(){
         FieldDeclaration fd = Ast.fieldDeclaration( "@ann int f;");
         //go from a MarkerAnnotation
-        _annoExpr _a = new _annoExpr(fd.getAnnotation( 0 ));
+        _anno _a = new _anno(fd.getAnnotation( 0 ));
 
         //to a Single Value Annotation
         _a.setEntryPairValue( 0, 100 );
@@ -751,7 +751,7 @@ public class _annoExprTest extends TestCase {
     public void testChildParent(){
         //the underlying field has to change the implementation from
         FieldDeclaration fd = Ast.fieldDeclaration( "@a(1) public int i=100;");
-        _annoExpr _a = new _annoExpr(fd.getAnnotation( 0 ));
+        _anno _a = new _anno(fd.getAnnotation( 0 ));
         _a.addEntryPair( "Key", 1000 );
 
         assertTrue( _a.is("@a(Key=1000)"));
@@ -761,7 +761,7 @@ public class _annoExprTest extends TestCase {
 
         AnnotationExpr ae = fd.getAnnotation(0).clone();
         System.out.println( ae.getParentNode().isPresent() );
-        _annoExpr _aNoParent = new _annoExpr(ae);
+        _anno _aNoParent = new _anno(ae);
         _aNoParent.addEntryPair( "Key", 9999 );
         assertTrue( _aNoParent.is("@a(Key=9999)") );
         //System.out.println( _aNoParent );

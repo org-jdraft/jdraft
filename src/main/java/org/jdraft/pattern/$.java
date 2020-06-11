@@ -23,7 +23,7 @@ import java.util.Set;
 import java.util.function.*;
 
 import org.jdraft.*;
-import org.jdraft._annoExprs;
+import org.jdraft._annos;
 import org.jdraft._params;
 import org.jdraft._typeParams;
 import org.jdraft.bot.$expr;
@@ -1874,7 +1874,7 @@ public final class $ {
         return $annoRef.of(name, memberValues);
     }
     
-    public static $annoRef anno(Predicate<_annoExpr> constraint){
+    public static $annoRef anno(Predicate<_anno> constraint){
         return $annoRef.of().$and(constraint);
     }
     
@@ -1882,7 +1882,7 @@ public final class $ {
         return $annoRef.of(pattern);
     }
     
-    public static $annoRef anno(String pattern, Predicate<_annoExpr> constraint){
+    public static $annoRef anno(String pattern, Predicate<_anno> constraint){
         return $annoRef.of(pattern).$and(constraint);
     }
     
@@ -1890,7 +1890,7 @@ public final class $ {
         return $annoRef.of(clazz);
     }
     
-    public static $annoRef anno(Class<? extends Annotation> clazz, Predicate<_annoExpr> constraint){
+    public static $annoRef anno(Class<? extends Annotation> clazz, Predicate<_anno> constraint){
         return $annoRef.of(clazz).$and(constraint);
     }
     
@@ -1898,15 +1898,15 @@ public final class $ {
         return $annoRefs.of();
     }
     
-    public static $annoRefs annos(Predicate<_annoExprs> constraint ){
+    public static $annoRefs annos(Predicate<_annos> constraint ){
         return $annoRefs.of().$and(constraint);
     }
     
-    public static $annoRefs annos(_annoExprs _anns ){
+    public static $annoRefs annos(_annos _anns ){
         return $annoRefs.of(_anns);
     }
     
-    public static $annoRefs annos(_annoExprs _anns, Predicate<_annoExprs> constraint){
+    public static $annoRefs annos(_annos _anns, Predicate<_annos> constraint){
         return $annoRefs.of(_anns).$and(constraint);
     }
     

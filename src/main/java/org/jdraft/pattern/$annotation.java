@@ -545,7 +545,7 @@ public class $annotation
         return this.annos;
     }
 
-    public $annotation $annos(Predicate<_annoExprs> annosMatchFn){
+    public $annotation $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

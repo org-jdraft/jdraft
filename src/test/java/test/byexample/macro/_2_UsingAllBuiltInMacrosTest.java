@@ -26,7 +26,7 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
 
         _class _a = _class.of(A.class);
         assertTrue( _a.isAbstract());
-        assertTrue(_a.getMethod("m").isAbstract());
+        assertTrue(_a.firstMethodNamed("m").isAbstract());
 
         // here the _autoConstructor macro will know that the field a needs to be passed
         // in on the constructor (NOTE: the "members" (fields, methods, constructors) will
@@ -49,20 +49,20 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
             int getValue() { return 101; }
         });
 
-        assertTrue( _i.getMethod("getValue").isDefault());
+        assertTrue( _i.firstMethodNamed("getValue").isDefault());
 
         //dto is a "composite macro" it calls many other macros:
         // @_get, @_set, @_equals, @_hashCode, @_autoConstructor
         @_dto class D{ int x,y; }
         _class _d = _class.of(D.class);
 
-        assertTrue(_d.getMethod("getX").isType(int.class));
-        assertTrue(_d.getMethod("getY").isType(int.class));
-        assertTrue(_d.getMethod("setX").getParams().is("int x"));
-        assertTrue(_d.getMethod("setY").getParams().is("int y"));
-        assertNotNull( _d.getMethod("equals"));
-        assertNotNull( _d.getMethod("hashCode"));
-        assertNotNull( _d.getMethod("toString"));
+        assertTrue(_d.firstMethodNamed("getX").isType(int.class));
+        assertTrue(_d.firstMethodNamed("getY").isType(int.class));
+        assertTrue(_d.firstMethodNamed("setX").getParams().is("int x"));
+        assertTrue(_d.firstMethodNamed("setY").getParams().is("int y"));
+        assertNotNull( _d.firstMethodNamed("equals"));
+        assertNotNull( _d.firstMethodNamed("hashCode"));
+        assertNotNull( _d.firstMethodNamed("toString"));
         assertNotNull( _d.getConstructor(0));
 
         //equals will synthesize an equals method based on the fields on the type
@@ -96,16 +96,16 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         _class _f = macro.to(F.class);
         assertTrue(_f.isFinal() );
         assertTrue( _f.getField("a").isFinal());
-        assertTrue( _f.getMethod("g").isFinal());
+        assertTrue( _f.firstMethodNamed("g").isFinal());
         System.out.println( _f );
-        assertTrue( _f.getMethod("h").getParam(0).isFinal());
+        assertTrue( _f.firstMethodNamed("h").getParam(0).isFinal());
 
         //get works on classes (creates getter methods getX(), getY())
         @_get class G{ int x, y; }
 
         _class _g = _class.of(G.class);
-        assertTrue( _g.getMethod("getX").isType(int.class));
-        assertTrue( _g.getMethod("getY").isType(int.class));
+        assertTrue( _g.firstMethodNamed("getX").isType(int.class));
+        assertTrue( _g.firstMethodNamed("getY").isType(int.class));
 
         //get works on enums (creates getter methods getX(), getY())
         //_enum _e = _enum.of("GE", new @_get Object(){ int x, y; });
@@ -117,7 +117,7 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         @_hashCode class H{ int x, y; }
 
         _class _h = _class.of(H.class);
-        assertNotNull( _h.getMethod("hashCode") );
+        assertNotNull( _h.firstMethodNamed("hashCode") );
 
         //@_init works on fields to set the initial value
         class I{ @_init("100") int val; }

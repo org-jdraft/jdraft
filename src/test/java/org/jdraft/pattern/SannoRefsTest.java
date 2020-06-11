@@ -1,7 +1,7 @@
 package org.jdraft.pattern;
 
-import org.jdraft._annoExpr;
-import org.jdraft._annoExprs;
+import org.jdraft._anno;
+import org.jdraft._annos;
 import org.jdraft._class;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
@@ -16,10 +16,10 @@ public class SannoRefsTest extends TestCase {
     
     public void testAnnosSingleMember(){
         $annoRef $a = $annoRef.of("A(2)" );
-        _annoExpr _a = $a.draft();
+        _anno _a = $a.draft();
         
-        _annoExpr _aa = _annoExpr.of("A(4)");
-        _annoExprs _aaa = _annoExprs.of("@A(2)");
+        _anno _aa = _anno.of("A(4)");
+        _annos _aaa = _annos.of("@A(2)");
         
         $annoRefs $as = $annoRefs.of("@A(1)");
         $as.draft();
@@ -40,13 +40,13 @@ public class SannoRefsTest extends TestCase {
     
     public void testComposeAny(){
         $annoRefs $as = $annoRefs.of();
-        _annoExprs _as = $as.draft(); //should work fine... empty annos
+        _annos _as = $as.draft(); //should work fine... empty annos
         assertTrue( _as.isEmpty() );
         
         //here you can OVERRIDE
         _as = $as.draft("$annos", "@A" );
         
-        assertTrue( _as.has(_annoExpr.of("@A")));
+        assertTrue( _as.has(_anno.of("@A")));
         
     }
     

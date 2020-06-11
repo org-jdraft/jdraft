@@ -155,7 +155,7 @@ public class APIIntegrationTest extends TestCase {
         _d = _diff.of(_a, _b);
         assertEquals( 1, _d.size());
         assertTrue( _d.hasRightOnly());
-        assertTrue( _d.hasRightOnlyAt(_annoExpr.class));
+        assertTrue( _d.hasRightOnlyAt(_anno.class));
         
         _d.patchRightToLeft(); //apply right changes to left
         

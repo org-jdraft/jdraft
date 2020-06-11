@@ -226,7 +226,7 @@ public class _enumTest extends TestCase {
         assertTrue( _f.getModifiers().is( "public static final"));
         assertEquals( Expr.of(12233), _f.getInitNode() );
         
-        _method _m = _c.getMethod("getNum");
+        _method _m = _c.firstMethodNamed("getNum");
         assertTrue( _m.hasJavadoc() );
         _m.getModifiers().is( "public final");
         assertTrue( _m.isType( int.class));
@@ -261,7 +261,7 @@ public class _enumTest extends TestCase {
         
         
         assertTrue( _e.hasMethods());
-        _m = _e.getMethod( "AMethod");
+        _m = _e.firstMethodNamed( "AMethod");
         assertTrue( _m.getModifiers().is("public static"));
         assertTrue( _m.isVoid() );
         assertTrue( _m.isVarArg() );

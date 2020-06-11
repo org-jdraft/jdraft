@@ -40,22 +40,22 @@ import org.jdraft.text.Text;
  * @name(key1="value1", key2="value2")
  * }</PRE>
  *
- * @see _annoExprs which represents ALL annotations applied to an AnnotatedEntity
+ * @see _annos which represents ALL annotations applied to an {@link AnnotatedEntity}
  * @author Eric
  */
-public final class _annoExpr
-        implements _expr<AnnotationExpr, _annoExpr>, _java._withName<_annoExpr>, _tree._node<AnnotationExpr, _annoExpr> {
+public final class _anno
+        implements _expr<AnnotationExpr, _anno>, _java._withName<_anno>, _tree._node<AnnotationExpr, _anno> {
 
-    public static _annoExpr of(String anno ){
+    public static _anno of(String anno ){
         return of( new String[]{anno} );
     }
 
-    public static _annoExpr of(){
-        return new _annoExpr( new MarkerAnnotationExpr() );
+    public static _anno of(){
+        return new _anno( new MarkerAnnotationExpr() );
     }
 
-    public static _annoExpr of(String... annotation ) {
-        return new _annoExpr( Ast.annotationExpr( annotation ) );
+    public static _anno of(String... annotation ) {
+        return new _anno( Ast.annotationExpr( annotation ) );
     }
 
     /**
@@ -64,7 +64,7 @@ public final class _annoExpr
      * @param anonymousObject an anonymous Object containing an annotated entity
      * @return the _anno _draft object
      */
-    public static _annoExpr of(Object anonymousObject ){
+    public static _anno of(Object anonymousObject ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expr.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
@@ -72,26 +72,26 @@ public final class _annoExpr
         return of( bd.getAnnotation(0) );
     }
 
-    public _feature._features<_annoExpr> features(){
+    public _feature._features<_anno> features(){
         return FEATURES;
     }
 
-    public static _annoExpr of(Class<? extends Annotation> annotationClass){
+    public static _anno of(Class<? extends Annotation> annotationClass){
         return of( new MarkerAnnotationExpr(annotationClass.getSimpleName()));
     }
-    public static _annoExpr of(AnnotationExpr astAnno ) {
-        return new _annoExpr( astAnno );
+    public static _anno of(AnnotationExpr astAnno ) {
+        return new _anno( astAnno );
     }
     
     private AnnotationExpr astAnno;
 
-    public _annoExpr(AnnotationExpr astAnno ) {
+    public _anno(AnnotationExpr astAnno ) {
         this.astAnno = astAnno;
     }
 
     @Override
-    public _annoExpr copy() {
-        return new _annoExpr( this.astAnno.clone() );
+    public _anno copy() {
+        return new _anno( this.astAnno.clone() );
     }
 
     @Override
@@ -101,13 +101,13 @@ public final class _annoExpr
 
     public Name getNameNode(){ return this.astAnno.getName(); }
 
-    public _annoExpr setName(_name _n){
+    public _anno setName(_name _n){
         this.astAnno.setName( _n.toString() );
         return this;
     }
 
     @Override
-    public _annoExpr setName(String name ){
+    public _anno setName(String name ){
         this.astAnno.setName(name);
         return this;
     }
@@ -117,7 +117,7 @@ public final class _annoExpr
      * @param index
      * @return
      */
-    public _entryPair getEntryPair(int index ){
+    public _annoEntryPair getEntryPair(int index ){
         return this.listEntryPairs().get(index);
     }
 
@@ -183,7 +183,7 @@ public final class _annoExpr
      * @param _actionFn the action to take on all matching candidate pairs
      * @return yourself
      */
-    public _annoExpr forEntryPairs(Consumer<_entryPair> _actionFn){
+    public _anno forEntryPairs(Consumer<_annoEntryPair> _actionFn){
         return forEntryPairs(t-> true, _actionFn);
     }
 
@@ -193,7 +193,7 @@ public final class _annoExpr
      * @param _actionFn the action to take on all matching canididate pairs
      * @return yourself
      */
-    public _annoExpr forEntryPairs(Predicate<_entryPair> _matchFn, Consumer<_entryPair> _actionFn){
+    public _anno forEntryPairs(Predicate<_annoEntryPair> _matchFn, Consumer<_annoEntryPair> _actionFn){
         listEntryPairs(_matchFn).forEach(_actionFn);
         return this;
     }
@@ -203,7 +203,7 @@ public final class _annoExpr
      * @param memberValueMatchFn
      * @return
      */
-    public boolean hasEntryPair(Predicate<_entryPair> memberValueMatchFn){
+    public boolean hasEntryPair(Predicate<_annoEntryPair> memberValueMatchFn){
         return listEntryPairs().stream().anyMatch(memberValueMatchFn);
     }
 
@@ -221,7 +221,7 @@ public final class _annoExpr
      * @param pairMatchFn
      * @return
      */
-    public List<_entryPair> listEntryPairs(Predicate<_entryPair> pairMatchFn){
+    public List<_annoEntryPair> listEntryPairs(Predicate<_annoEntryPair> pairMatchFn){
         return listEntryPairs().stream().filter(pairMatchFn).collect(Collectors.toList());
     }
 
@@ -229,34 +229,36 @@ public final class _annoExpr
      *
      * @return
      */
-    public List<_entryPair> listEntryPairs(){
-        List<_entryPair> _mvs = new ArrayList<>();
+    public List<_annoEntryPair> listEntryPairs(){
+        List<_annoEntryPair> _mvs = new ArrayList<>();
         if( this.astAnno.isSingleMemberAnnotationExpr()){
             //infer the that "name" is value for a singleMemberAnnotationExpr
-            _mvs.add( new _entryPair(new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue())));
+            _annoEntryPair _ep = new _annoEntryPair(new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
+            _ep.isValueOnly =true;
+            _mvs.add(_ep);
         }
         else if( this.astAnno.isNormalAnnotationExpr()){
-            this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p-> _mvs.add( new _entryPair(p) ));
+            this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p-> _mvs.add( new _annoEntryPair(p) ));
         }
         return _mvs;
     }
 
-    public static final Function<String, _annoExpr> PARSER = s-> _annoExpr.of(s);
+    public static final Function<String, _anno> PARSER = s-> _anno.of(s);
 
-    public static _feature._one<_annoExpr, String> NAME = new _feature._one<>(_annoExpr.class, String.class,
+    public static _feature._one<_anno, String> NAME = new _feature._one<>(_anno.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_annoExpr a, String name) -> a.setName(name),
+            (_anno a, String name) -> a.setName(name),
             PARSER );
 
-    public static _feature._many<_annoExpr, _entryPair> ENTRY_PAIRS = new _feature._many<>(_annoExpr.class, _entryPair.class,
+    public static _feature._many<_anno, _annoEntryPair> ENTRY_PAIRS = new _feature._many<>(_anno.class, _annoEntryPair.class,
             _feature._id.ENTRY_PAIRS, _feature._id.ENTRY_PAIR,
             a->a.listEntryPairs(),
-            (_annoExpr a, List<_entryPair> pairs)-> a.setEntryPairs(pairs),
-            PARSER, s-> _entryPair.of(s))
+            (_anno a, List<_annoEntryPair> pairs)-> a.setEntryPairs(pairs),
+            PARSER, s-> _annoEntryPair.of(s))
             .setOrdered(false); //the order of the entry pairs { @A(a=1,b=2) == @A(b=2,a=1)} isn't semantically important
 
-    public static _feature._features<_annoExpr> FEATURES = _feature._features.of(_annoExpr.class, PARSER, NAME, ENTRY_PAIRS);
+    public static _feature._features<_anno> FEATURES = _feature._features.of(_anno.class, PARSER, NAME, ENTRY_PAIRS);
 
     public boolean hasEntryPair(String name, char value){
         return hasEntryPair( name, Expr.of(value));
@@ -306,12 +308,12 @@ public final class _annoExpr
         }
     }
 
-    public boolean hasEntryPair(_entryPair _mv){
+    public boolean hasEntryPair(_annoEntryPair _mv){
         return hasEntryPair(_mv.getName(), _mv.getValue().ast());
     }
 
     public boolean hasEntryPair(MemberValuePair mvp){
-        return hasEntryPair(_entryPair.of(mvp) );
+        return hasEntryPair(_annoEntryPair.of(mvp) );
     }
 
     public boolean hasEntryPair(String name, int value){
@@ -348,10 +350,10 @@ public final class _annoExpr
      * @return 
      */
     public boolean hasEntryPair(String attrName, Predicate<Expression> astExprMatchFn){
-        return !this.listEntryPairs( (_entryPair p)-> Objects.equals(p.getName(), attrName) && astExprMatchFn.test(p.mvp.getValue())).isEmpty();
+        return !this.listEntryPairs( (_annoEntryPair p)-> Objects.equals(p.getName(), attrName) && astExprMatchFn.test(p.mvp.getValue())).isEmpty();
     }
 
-    public boolean hasEntryPairs(_entryPair...mvs){
+    public boolean hasEntryPairs(_annoEntryPair...mvs){
         for(int i=0;i<mvs.length; i++){
             if( ! hasEntryPair(mvs[i])){
                 return false;
@@ -375,11 +377,11 @@ public final class _annoExpr
      * @return
      */
     public boolean isEntryPairs(MemberValuePair...mvs){
-        return isEntryPairs( Arrays.stream(mvs).map(mv -> _entryPair.of(mv)).collect(Collectors.toList()).toArray(new _entryPair[0]));
+        return isEntryPairs( Arrays.stream(mvs).map(mv -> _annoEntryPair.of(mv)).collect(Collectors.toList()).toArray(new _annoEntryPair[0]));
     }
 
-    public boolean isEntryPairs(_entryPair...mvs){
-        List<_entryPair> tmvs = listEntryPairs();
+    public boolean isEntryPairs(_annoEntryPair...mvs){
+        List<_annoEntryPair> tmvs = listEntryPairs();
         if( mvs.length == tmvs.size() ){
             for(int i=0;i<mvs.length;i++){
                 if( ! hasEntryPair(mvs[i])){
@@ -392,12 +394,12 @@ public final class _annoExpr
     }
 
     public boolean isEntryPairs(String... keyValuePairs){
-        _annoExpr _a = _annoExpr.of("@"+this.getName()+"("+Text.combine(keyValuePairs)+")");
+        _anno _a = _anno.of("@"+this.getName()+"("+Text.combine(keyValuePairs)+")");
 
-        List<_entryPair> mvs = _a.listEntryPairs();
+        List<_annoEntryPair> mvs = _a.listEntryPairs();
 
         //System.out.println( mvs );
-        List<_entryPair> tmvs = listEntryPairs();
+        List<_annoEntryPair> tmvs = listEntryPairs();
         //System.out.println( tmvs );
         if( mvs.size() == tmvs.size() ){
             for(int i=0;i<mvs.size();i++){
@@ -429,7 +431,7 @@ public final class _annoExpr
     @Override
     public boolean is( AnnotationExpr astExpr ){
         try {
-            return _annoExpr.of(astExpr).equals( this );
+            return _anno.of(astExpr).equals( this );
         }
         catch( Exception e ) {
             return false;
@@ -468,7 +470,7 @@ public final class _annoExpr
     }
      */
 
-    public _annoExpr removeEntryPairs() {
+    public _anno removeEntryPairs() {
         if( this.astAnno instanceof MarkerAnnotationExpr ) {
             return this;
         }
@@ -481,67 +483,67 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr addEntryPair(String key, char c ) {
+    public _anno addEntryPair(String key, char c ) {
         return addEntryPair( key, Expr.of( c ) );
     }
 
-    public _annoExpr addEntryPair(String key, Class c ) {
+    public _anno addEntryPair(String key, Class c ) {
         return addEntryPair( key, Expr.classExpr( c ) );
     }
 
-    public _annoExpr addEntryPair(String key, boolean b ) {
+    public _anno addEntryPair(String key, boolean b ) {
         return addEntryPair( key, Expr.of( b ) );
     }
 
-    public _annoExpr addEntryPair(String key, int value ) {
+    public _anno addEntryPair(String key, int value ) {
         return addEntryPair( key, Expr.of( value ) );
     }
 
-    public _annoExpr addEntryPair(String key, long value ) {
+    public _anno addEntryPair(String key, long value ) {
         return addEntryPair( key, Expr.of( value ) );
     }
 
-    public _annoExpr addEntryPair(String key, float f ) {
+    public _anno addEntryPair(String key, float f ) {
         return addEntryPair( key, Expr.of( f ) );
     }
 
-    public _annoExpr addEntryPair(String key, Class...classes ) {
-        return addEntryPair( _entryPair.of(key, classes) );
+    public _anno addEntryPair(String key, Class...classes ) {
+        return addEntryPair( _annoEntryPair.of(key, classes) );
     }
 
-    public _annoExpr addEntryPair(String key, double d ) {
+    public _anno addEntryPair(String key, double d ) {
         return addEntryPair( key, Expr.of( d ) );
     }
 
-    public _annoExpr addEntryPair(String key, char... cs ) {
-        return addEntryPair( _entryPair.of(key, cs ) );
+    public _anno addEntryPair(String key, char... cs ) {
+        return addEntryPair( _annoEntryPair.of(key, cs ) );
     }
 
-    public _annoExpr addEntryPair(String key, boolean... bs ) {
-        return addEntryPair( _entryPair.of(key, bs ) );
+    public _anno addEntryPair(String key, boolean... bs ) {
+        return addEntryPair( _annoEntryPair.of(key, bs ) );
     }
 
-    public _annoExpr addEntryPair(String key, int... is ) {
-        return addEntryPair( _entryPair.of(key, is ) );
+    public _anno addEntryPair(String key, int... is ) {
+        return addEntryPair( _annoEntryPair.of(key, is ) );
     }
 
-    public _annoExpr addEntryPair(String key, long... ls ) {
-        return addEntryPair( _entryPair.of(key, ls ) );
+    public _anno addEntryPair(String key, long... ls ) {
+        return addEntryPair( _annoEntryPair.of(key, ls ) );
     }
 
-    public _annoExpr addEntryPair(String key, float... fs ) {
-        return addEntryPair( _entryPair.of(key, fs ) );
+    public _anno addEntryPair(String key, float... fs ) {
+        return addEntryPair( _annoEntryPair.of(key, fs ) );
     }
 
-    public _annoExpr addEntryPair(String key, double... ds ) {
-        return addEntryPair( _entryPair.of(key, ds ) );
+    public _anno addEntryPair(String key, double... ds ) {
+        return addEntryPair( _annoEntryPair.of(key, ds ) );
     }
 
-    public _annoExpr addEntryPair(String key, _annoExpr... es ) {
-        return addEntryPair( _entryPair.of(key, es ) );
+    public _anno addEntryPair(String key, _anno... es ) {
+        return addEntryPair( _annoEntryPair.of(key, es ) );
     }
 
-    public _annoExpr addEntryPair(_entryPair _p) {
+    public _anno addEntryPair(_annoEntryPair _p) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
             n.getPairs().add(_p.mvp);
@@ -560,7 +562,7 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr addEntryPair(String key, Expression astExpr ) {
+    public _anno addEntryPair(String key, Expression astExpr ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
             n.addPair(key, astExpr );
@@ -576,45 +578,45 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr addEntryPair(String key, String value ) {
+    public _anno addEntryPair(String key, String value ) {
         return addEntryPair(key, Expr.stringLiteralExpr(value));
     }
 
-    public _annoExpr setEntryPairValue(String key, char c ) {
+    public _anno setEntryPairValue(String key, char c ) {
         return setEntryPairValue( key, Expr.of( c ) );
     }
 
-    public _annoExpr setEntryPairValue(String key, boolean b ) {
+    public _anno setEntryPairValue(String key, boolean b ) {
         return setEntryPairValue( key, Expr.of( b ) );
     }
 
-    public _annoExpr setEntryPairValue(String key, int value ) {
+    public _anno setEntryPairValue(String key, int value ) {
         return setEntryPairValue( key, Expr.of( value ) );
     }
 
-    public _annoExpr setEntryPairValue(String key, long value ) {
+    public _anno setEntryPairValue(String key, long value ) {
         return setEntryPairValue( key, Expr.of( value ) );
     }
 
-    public _annoExpr setEntryPairValue(String key, float f ) {
+    public _anno setEntryPairValue(String key, float f ) {
         return setEntryPairValue( key, Expr.of( f ) );
     }
 
-    public _annoExpr setEntryPairValue(String key, double d ) {
+    public _anno setEntryPairValue(String key, double d ) {
         return setEntryPairValue( key, Expr.of( d ) );
     }
 
-    public _annoExpr setEntryPairValue(String name, String expression ) {
+    public _anno setEntryPairValue(String name, String expression ) {
         return setEntryPairValue( name, Expr.stringLiteralExpr( expression ) );
     }
 
-    public _annoExpr removeEntryPairs(Predicate<_entryPair> _matchFn){
+    public _anno removeEntryPairs(Predicate<_annoEntryPair> _matchFn){
         listEntryPairs(_matchFn).forEach(p -> this.removeEntryPair(p));
         return this;
     }
 
 
-    public _annoExpr removeEntryPair(_entryPair _p ){
+    public _anno removeEntryPair(_annoEntryPair _p ){
 
         if( this.astAnno.isSingleMemberAnnotationExpr() && _p.getName().equals("value")){
             //infer the that "name" is value for a singleMemberAnnotationExpr
@@ -641,7 +643,7 @@ public final class _annoExpr
         }
         return this;
     }
-    public _annoExpr removeEntryPair(String name ) {
+    public _anno removeEntryPair(String name ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
             nae.getPairs().removeIf( mvp -> mvp.getNameAsString().equals( name ) );
@@ -653,7 +655,7 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr removeEntryPair(int index ) {
+    public _anno removeEntryPair(int index ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
             nae.getPairs().remove( index );
@@ -673,50 +675,50 @@ public final class _annoExpr
         return this;
     }
 
-    public _annoExpr setEntryPairs(List<_entryPair> pairs){
+    public _anno setEntryPairs(List<_annoEntryPair> pairs){
         this.removeEntryPairs();
         pairs.forEach(p -> addEntryPair(p));
         return this;
     }
 
-    public _annoExpr addEntryPairs(List<_entryPair> pairs ){
+    public _anno addEntryPairs(List<_annoEntryPair> pairs ){
         pairs.forEach(p -> addEntryPair(p));
         return this;
     }
 
-    public _annoExpr setEntryPairValue(String name, Expression e ) {
+    public _anno setEntryPairValue(String name, Expression e ) {
         if( name == "value" || name == null ){
-            List<_entryPair> _eps = listEntryPairs(p-> p.getName() == null || p.getName().equals("value"));
+            List<_annoEntryPair> _eps = listEntryPairs(p-> p.getName() == null || p.getName().equals("value"));
             forEntryPairs(p-> p.getName() == null || p.getName().equals("value"), p-> p.setValue(e.clone()));
         }
         return this;
     }
 
-    public _annoExpr setEntryPairValue(int index, String stringLiteral ) {
+    public _anno setEntryPairValue(int index, String stringLiteral ) {
         return setEntryPairValue( index, Expr.stringLiteralExpr( stringLiteral ) );
     }
     
-    public _annoExpr setEntryPairValue(int index, int intLiteral) {
+    public _anno setEntryPairValue(int index, int intLiteral) {
         return setEntryPairValue( index, Expr.of( intLiteral ) );
     }
 
-    public _annoExpr setEntryPairValue(int index, boolean boolLiteral) {
+    public _anno setEntryPairValue(int index, boolean boolLiteral) {
         return setEntryPairValue( index, Expr.of( boolLiteral ) );
     }
     
-    public _annoExpr setEntryPairValue(int index, char charLiteral) {
+    public _anno setEntryPairValue(int index, char charLiteral) {
         return setEntryPairValue( index, Expr.of( charLiteral ) );
     }
     
-    public _annoExpr setEntryPairValue(int index, float floatLiteral) {
+    public _anno setEntryPairValue(int index, float floatLiteral) {
         return setEntryPairValue( index, Expr.of( floatLiteral ) );
     }
     
-    public _annoExpr setEntryPairValue(int index, double doubleLiteral) {
+    public _anno setEntryPairValue(int index, double doubleLiteral) {
         return setEntryPairValue( index, Expr.of( doubleLiteral ) );
     }
     
-    public _annoExpr setEntryPairValue(int index, Expression value ) {
+    public _anno setEntryPairValue(int index, Expression value ) {
         if( index == 0 && this.astAnno instanceof MarkerAnnotationExpr ) {
             MarkerAnnotationExpr ma = (MarkerAnnotationExpr)this.astAnno;
             SingleMemberAnnotationExpr sv = new SingleMemberAnnotationExpr( ma.getName(), value );
@@ -804,7 +806,7 @@ public final class _annoExpr
         if( getClass() != obj.getClass() ) {
             return false;
         }
-        final _annoExpr other = (_annoExpr)obj;
+        final _anno other = (_anno)obj;
 
         return Expr.equal(astAnno, other.astAnno);
     }

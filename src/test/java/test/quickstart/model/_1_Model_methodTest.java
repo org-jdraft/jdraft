@@ -45,7 +45,7 @@ public class _1_Model_methodTest extends TestCase {
         // other _method _models
             _typeParams _tps = _m.getTypeParams();
             _throws _ts = _m.getThrows();
-            _annoExprs _as = _m.getAnnoExprs();
+            _annos _as = _m.getAnnoExprs();
             _javadocComment _jd = _m.getJavadoc();
             _receiverParam _rp = _m.getReceiverParam();
 
@@ -91,9 +91,9 @@ public class _1_Model_methodTest extends TestCase {
 
         Class<? extends _java._domain>[] _MODEL_TYPES = new Class[]{
             _type.class, _class.class, _interface.class, _enum.class, _annotation.class,
-            _field.class, _constructor.class, _initBlock.class, _constant.class, _entry.class,
-            _param.class, _params.class, _typeRef.class, _modifiers.class, _annoExpr.class,
-            _annoExprs.class, _body.class, _import.class, _throws.class, _typeParam.class,
+            _field.class, _constructor.class, _initBlock.class, _constant.class, _annoMember.class,
+            _param.class, _params.class, _typeRef.class, _modifiers.class, _anno.class,
+            _annos.class, _body.class, _import.class, _throws.class, _typeParam.class,
             _typeParams.class};
     }
 }

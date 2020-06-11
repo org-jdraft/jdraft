@@ -57,7 +57,7 @@ public class WhatKindaStuff extends TestCase {
 
         System.out.println( src );
 
-        _class.of(A.class).forMethods( m -> $.of( NodeWithBlockStmt.class ).countIn(m) );
+        _class.of(A.class).toMethods(m -> $.of( NodeWithBlockStmt.class ).countIn(m) );
 
         //print all TODO comments found in source jar file
         //$.comment("TODO").printIn( _archive.of("C:\\spring-core-5.1.9.RELEASE-sources.jar") );

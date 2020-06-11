@@ -116,15 +116,15 @@ public class _bodyTest extends TestCase {
             }            
         }
         _class _c = _class.of(C.class);
-        _body _wComment = _c.getMethod("withComment").getBody();
-        _body _woComment = _c.getMethod("withoutComment").getBody();
+        _body _wComment = _c.firstMethodNamed("withComment").getBody();
+        _body _woComment = _c.firstMethodNamed("withoutComment").getBody();
         
 
         assertEquals( _wComment.hashCode(), _woComment.hashCode());
         assertEquals( _wComment, _woComment);
         
-        _body _noBody = _c.getMethod("noBody").getBody();
-        _body _noBodyComment = _c.getMethod("noBodyComment").getBody();
+        _body _noBody = _c.firstMethodNamed("noBody").getBody();
+        _body _noBodyComment = _c.firstMethodNamed("noBodyComment").getBody();
         
         assertEquals( _noBody, _noBodyComment);
         assertEquals( _noBody.hashCode(), _noBodyComment.hashCode());
@@ -139,7 +139,7 @@ public class _bodyTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        _method _m = _c.getMethod("f");
+        _method _m = _c.firstMethodNamed("f");
         System.out.println( _m.getBody() );
         _m.add("/** comment */" );
         System.out.println( _m.getBody() );
@@ -164,7 +164,7 @@ public class _bodyTest extends TestCase {
         }
         _class _c = _class.of(G.class);
         //_c.getMethod("k").flattenLabel("label");
-        Walk.flattenLabel( _c.getMethod("k").ast(), "label");
+        Walk.flattenLabel( _c.firstMethodNamed("k").ast(), "label");
         //System.out.println( _c );
         //_c.getMethod("k").flattenLabel("label");
         //Ast.flattenLabel( _c.getMethod("k").ast(), "label");
@@ -193,8 +193,8 @@ public class _bodyTest extends TestCase {
     
     public void testBody(){
         _interface _i = _interface.of(bodyTypes.class);
-        _method _m = _i.getMethod("noBody");
-        _method _sm = _i.getMethod("someBody");
+        _method _m = _i.firstMethodNamed("noBody");
+        _method _sm = _i.firstMethodNamed("someBody");
         _class _c = _class.of(F.class);
         _initBlock _sb = _c.getInitBlock(0);
         _constructor _ct = _c.getConstructor( 0 );

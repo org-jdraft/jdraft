@@ -138,7 +138,7 @@ public class AstImpliedModifiersTest extends TestCase {
     }
     
     public void testEffectiveModifiersEnumMethod() throws NoSuchMethodException{                
-        _method _m = _enum.of(EM.class).getMethod("m");
+        _method _m = _enum.of(EM.class).firstMethodNamed("m");
         assertEquals(                 
                 EM.class.getDeclaredMethod("m", new Class[0]).getModifiers(), 
                 _m.getModifiersAsBitMask() );

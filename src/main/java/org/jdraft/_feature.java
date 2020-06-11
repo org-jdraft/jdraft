@@ -107,11 +107,11 @@ public interface _feature<_T, _F>{
      */
     enum _id {
 
-        /**{@link org.jdraft._annoExprs._withAnnoExprs} {@link _annoExprs#ANNOS} {@link _annotation#ANNOS}
+        /**{@link _annos._withAnnoExprs} {@link _annos#ANNOS} {@link _annotation#ANNOS}
          * {@link _class#ANNOS} {@link _constructor#ANNOS}, {@link _field#ANNOS} {@link _interface#ANNOS}
          * {@link _method#ANNOS} {@link _param#ANNOS} {@link _receiverParam#ANNOS} {@link _variablesExpr#ANNOS}... */
-        ANNOS("annos", _annoExprs._withAnnoExprs.class), /** i.e. @Deprecated @NotNull */
-        /**{@link _annoExprs#ANNOS} */
+        ANNOS("annos", _annos._withAnnoExprs.class), /** i.e. @Deprecated @NotNull */
+        /**{@link _annos#ANNOS} */
         ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
 
         /** {@link _newExpr#ANONYMOUS_BODY_MEMBERS} */
@@ -166,15 +166,15 @@ public interface _feature<_T, _F>{
          * {@link _ternaryExpr#CONDITION}, {@link _whileStmt#CONDITION} */
         CONDITION("condition", _java._withCondition.class),
 
-        /** {@link _entry#DEFAULT} */
+        /** {@link _annoMember#DEFAULT} */
         DEFAULT("default"),
 
         /**{@link _ifStmt#ELSE}, {@link _ternaryExpr#ELSE}*/
         ELSE("else"),
 
-        /** {@link _annoExpr#ENTRY_PAIRS} */
+        /** {@link _anno#ENTRY_PAIRS} */
         ENTRY_PAIRS("entryPairs"),
-        /** {@link _annoExpr#ENTRY_PAIRS} */
+        /** {@link _anno#ENTRY_PAIRS} */
         ENTRY_PAIR("entryPair"),
 
         /**
@@ -287,7 +287,7 @@ public interface _feature<_T, _F>{
 
         /**
          * {@link _annotation#MODIFIERS}, {@link _class#MODIFIERS},{@link _constructor#MODIFIERS},
-         * {@link _entry#MODIFIERS}, {@link _enum#MODIFIERS}, {@link _field#MODIFIERS},{@link _interface#MODIFIERS},
+         * {@link _annoMember#MODIFIERS}, {@link _enum#MODIFIERS}, {@link _field#MODIFIERS},{@link _interface#MODIFIERS},
          * {@link _method#MODIFIERS}, {@link _modifiers#MODIFIERS}, {@link _variablesExpr#MODIFIERS}
          */
         MODIFIERS("modifiers", _modifiers._withModifiers.class),
@@ -305,8 +305,8 @@ public interface _feature<_T, _F>{
          * {@link _moduleRequires#MODULE_NAME}*/
         MODULE_NAME("moduleName"),
 
-        /**{@link _annoExpr#NAME}, {@link _arrayAccessExpr#NAME}, {@link _class#NAME}, {@link _constant#NAME},
-         * {@link _constructor#NAME}, {@link _entry#NAME}, {@link _entryPair#NAME}, {@link _enum#NAME},
+        /**{@link _anno#NAME}, {@link _arrayAccessExpr#NAME}, {@link _class#NAME}, {@link _constant#NAME},
+         * {@link _constructor#NAME}, {@link _annoMember#NAME}, {@link _annoEntryPair#NAME}, {@link _enum#NAME},
          * {@link _field#NAME}, {@link _fieldAccessExpr#NAME}, {@link _import#NAME}, {@link _interface#NAME},
          * {@link _method#NAME}, {@link _methodCallExpr#NAME}, {@link _name#NAME}, {@link _nameExpr#NAME},
          * {@link _package#NAME}, {@link _param#NAME}, {@link _receiverParam#NAME}, {@link _variable#NAME}
@@ -364,7 +364,7 @@ public interface _feature<_T, _F>{
         /**{@link _tryStmt#TRY_BODY}*/
         TRY_BODY("tryBody"),
 
-        /**{@link _newArrayExpr#TYPE}, {@link _castExpr#TYPE} {@link _classExpr#TYPE}, {@link _entry#TYPE},
+        /**{@link _newArrayExpr#TYPE}, {@link _castExpr#TYPE} {@link _classExpr#TYPE}, {@link _annoMember#TYPE},
          * {@link _field#TYPE}, {@link _instanceOfExpr#TYPE},{@link _method#TYPE}, {@link _newExpr#TYPE},
          * {@link _param#TYPE}, {@link _receiverParam#TYPE},{@link _typeExpr#TYPE}, {@link _typeRef#TYPE},
          * {@link _variable#TYPE}...*/
@@ -388,7 +388,7 @@ public interface _feature<_T, _F>{
         /**{@link _forStmt#UPDATES}*/
         UPDATE("update"),
 
-        /**{@link _assignExpr#VALUE}, {@link _entryPair#VALUE}*/
+        /**{@link _assignExpr#VALUE}, {@link _annoEntryPair#VALUE}*/
         VALUE("value"),
 
         /**{@link _forEachStmt#VARIABLES} {@link _variablesExpr#VARIABLES} */
@@ -642,9 +642,9 @@ public interface _feature<_T, _F>{
      * that can be get or set for this node within the AST (this allows programs to be written to automated tree
      * traversal on each node encounter)
      *
-     * for example an {@link _annoExpr} has
+     * for example an {@link _anno} has
      *
-     * @see _annoExpr#FEATURES
+     * @see _anno#FEATURES
      *
      * @param <_T>
      */

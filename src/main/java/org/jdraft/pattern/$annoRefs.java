@@ -12,8 +12,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoExprs;
-import org.jdraft._annoExprs._withAnnoExprs;
+import org.jdraft._annos;
+import org.jdraft._annos._withAnnoExprs;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
@@ -21,13 +21,13 @@ import org.jdraft.text.Translator;
 import org.jdraft.walk.Walk;
 
 /**
- * Prototype of (group of) {@link _annoExprs} for composing and query
+ * Prototype of (group of) {@link _annos} for composing and query
  * @author Eric
  */
 public class $annoRefs
-    implements Template<_annoExprs>,
+    implements Template<_annos>,
         //$pattern<_annos, $annos>,
-        $pattern.$java<_annoExprs, $annoRefs>, $constructor.$part, $method.$part,
+        $pattern.$java<_annos, $annoRefs>, $constructor.$part, $method.$part,
         $field.$part, $parameter.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part, $type.$part {
 
@@ -50,7 +50,7 @@ public class $annoRefs
      * @param constraint
      * @return 
      */
-    public static $annoRefs of(Predicate<_annoExprs> constraint ){
+    public static $annoRefs of(Predicate<_annos> constraint ){
        return of().$and(constraint);
     }
     
@@ -75,7 +75,7 @@ public class $annoRefs
     }
 
     public static $annoRefs of(List<AnnotationExpr> annos){
-        return of( _annoExprs.of(annos));
+        return of( _annos.of(annos));
     }
 
     /**
@@ -92,7 +92,7 @@ public class $annoRefs
      * @param annos
      * @return
      */
-    public static $annoRefs of(_annoExprs annos){
+    public static $annoRefs of(_annos annos){
         return new $annoRefs(annos);
     }
 
@@ -130,10 +130,10 @@ public class $annoRefs
      * @return
      */
     public static $annoRefs as(String...annoPatterns){
-        return as(_annoExprs.of(annoPatterns));
+        return as(_annos.of(annoPatterns));
     }
 
-    public static $annoRefs as(_annoExprs _anns){
+    public static $annoRefs as(_annos _anns){
         if( _anns.size() == 0 ){
             return none();
         }
@@ -154,14 +154,14 @@ public class $annoRefs
      * @param annoPatterns
      */
     public $annoRefs(String...annoPatterns ){
-        this(_annoExprs.of(annoPatterns));
+        this(_annos.of(annoPatterns));
     }
 
     /**
      *
      * @param _anns
      */
-    public $annoRefs(_annoExprs _anns){
+    public $annoRefs(_annos _anns){
         if( _anns != null ){
             for(int i=0;i<_anns.size();i++){
                 $annoRef a = $annoRef.of(_anns.getAt(i) );
@@ -179,10 +179,10 @@ public class $annoRefs
     /**
      * A Matching predicate for _annos
      */
-    public Predicate<_annoExprs> constraint = t-> true;
+    public Predicate<_annos> constraint = t-> true;
 
-    public Class<_annoExprs> _modelType(){
-        return _annoExprs.class;
+    public Class<_annos> _modelType(){
+        return _annos.class;
     }
 
     /**
@@ -198,7 +198,7 @@ public class $annoRefs
      * @param constraint
      * @return 
      */
-    public $annoRefs $and(Predicate<_annoExprs> constraint ){
+    public $annoRefs $and(Predicate<_annos> constraint ){
         this.constraint = this.constraint.and(constraint);
         return this;
     }
@@ -260,8 +260,8 @@ public class $annoRefs
     }
     
     @Override
-    public _annoExprs draft(Translator translator, Map<String, Object> keyValues) {
-        _annoExprs _as = _annoExprs.of();
+    public _annos draft(Translator translator, Map<String, Object> keyValues) {
+        _annos _as = _annos.of();
         for(int i=0;i<$annosList.size();i++){            
             _as.add( $annosList.get(i).draft(translator, keyValues) );
         }
@@ -284,7 +284,7 @@ public class $annoRefs
     }
 
     @Override
-    public Template<_annoExprs> $hardcode(Translator translator, Map<String, Object> keyValues) {
+    public Template<_annos> $hardcode(Translator translator, Map<String, Object> keyValues) {
         return null;
     }
 
@@ -344,13 +344,13 @@ public class $annoRefs
 
     public boolean matches(String...anns){
         try{
-            return matches( _annoExprs.of(anns));
+            return matches( _annos.of(anns));
         }catch(Exception e){
             return false;
         }
     }
 
-    public boolean matches( _annoExprs _as) {
+    public boolean matches( _annos _as) {
         return select(_as)!= null;
     }
     
@@ -359,7 +359,7 @@ public class $annoRefs
     }
     
     public Select select( NodeWithAnnotations astAnnoNode ){
-        return select(_annoExprs.of(astAnnoNode) );
+        return select(_annos.of(astAnnoNode) );
     }
 
     public Tokens parse( _withAnnoExprs _ha ){
@@ -371,22 +371,22 @@ public class $annoRefs
      * @param _anns
      * @return
      */
-    public Tokens parse( _annoExprs _anns ){
+    public Tokens parse( _annos _anns ){
         if( ! this.constraint.test(_anns)){
             return null;
         }
-        List<_annoExpr> annosLeft = new ArrayList<>();
+        List<_anno> annosLeft = new ArrayList<>();
         annosLeft.addAll(_anns.list());
         Tokens tokens = new Tokens();
         for(int i=0;i<this.$annosList.size();i++){
 
             $annoRef $a = $annosList.get(i);
-            Optional<_annoExpr> oa = annosLeft.stream().filter(a-> $a.matches(a)).findFirst();
+            Optional<_anno> oa = annosLeft.stream().filter(a-> $a.matches(a)).findFirst();
             if( !oa.isPresent() ){
                 //System.out.println("NO MATCHING "+ $a);
                 return null; //didnf find a matching anno
             }
-            _annoExpr got = oa.get();
+            _anno got = oa.get();
             annosLeft.remove(got);
             $annoRef.Select $as = $a.select(oa.get());
             if( tokens.isConsistent($as.tokens.asTokens())){ //args are consistent
@@ -403,7 +403,7 @@ public class $annoRefs
      * @param _anns
      * @return
      */
-    public Select select( _annoExprs _anns ){
+    public Select select( _annos _anns ){
 
         Tokens tokens = parse(_anns );
         if( tokens == null ){
@@ -442,7 +442,7 @@ public class $annoRefs
      * @return
      */
     public Tokens parseTo(NodeWithAnnotations nwa, Tokens allTokens){
-        return parseTo( _annoExprs.of(nwa), allTokens);
+        return parseTo( _annos.of(nwa), allTokens);
     }
 
     /**
@@ -451,7 +451,7 @@ public class $annoRefs
      * @param allTokens
      * @return
      */
-    public Tokens parseTo(_annoExprs _as, Tokens allTokens ){
+    public Tokens parseTo(_annos _as, Tokens allTokens ){
         if(allTokens == null){
             return allTokens;
         }
@@ -472,7 +472,7 @@ public class $annoRefs
      * @return 
      */
     @Override
-    public _annoExprs firstIn(Node astNode, Predicate<_annoExprs> _annosMatchFn){
+    public _annos firstIn(Node astNode, Predicate<_annos> _annosMatchFn){
         Optional<Node> f =                 
             astNode.findFirst( Node.class,
                 n -> {
@@ -486,7 +486,7 @@ public class $annoRefs
             );         
         
         if( f.isPresent()){
-            return _annoExprs.of( (NodeWithAnnotations)f.get());
+            return _annos.of( (NodeWithAnnotations)f.get());
         }
         return null;
     }    
@@ -620,7 +620,7 @@ public class $annoRefs
     }
 
     @Override
-    public <N extends Node> N forEachIn(N astNode, Predicate<_annoExprs> _annosMatchFn, Consumer<_annoExprs> _annosActionFn) {
+    public <N extends Node> N forEachIn(N astNode, Predicate<_annos> _annosMatchFn, Consumer<_annos> _annosActionFn) {
         return Walk.in(astNode, Node.class, n-> {
             if( n instanceof NodeWithAnnotations ){
                 Select sel = select( (NodeWithAnnotations)n );
@@ -775,17 +775,17 @@ public class $annoRefs
         }
 
         @Override
-        public _annoExprs fill(Object...vals){
+        public _annos fill(Object...vals){
             throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
         }
 
         @Override
-        public _annoExprs fill(Translator tr, Object...vals){
+        public _annos fill(Translator tr, Object...vals){
             throw new _jdraftException("Cannot draft/fill "+getClass()+" pattern"+ this );
         }
 
         @Override
-        public _annoExprs draft(Translator tr, Map<String,Object> map){
+        public _annos draft(Translator tr, Map<String,Object> map){
             throw new _jdraftException("Cannot draft "+getClass()+" pattern"+ this );
         }
 
@@ -815,7 +815,7 @@ public class $annoRefs
          * @param astNode
          * @return
          */
-        public $annoRefs.Select select(_annoExprs astNode){
+        public $annoRefs.Select select(_annos astNode){
             $annoRefs $a = whichMatch(astNode);
             if( $a != null ){
                 return $a.select(astNode);
@@ -833,7 +833,7 @@ public class $annoRefs
          * @param ae
          * @return
          */
-        public $annoRefs whichMatch(_annoExprs ae){
+        public $annoRefs whichMatch(_annos ae){
             if( !this.constraint.test( ae ) ){
                 return null;
             }
@@ -844,7 +844,7 @@ public class $annoRefs
             return null;
         }
 
-        public Tokens parse(_annoExprs _a){
+        public Tokens parse(_annos _a){
             $annoRefs $a = whichMatch(_a);
             if( $a != null) {
                 return $a.parse(_a);
@@ -862,16 +862,16 @@ public class $annoRefs
      * inside of some Node or _node
      */
     public static class Select
-        implements $pattern.selected, select_java<_annoExprs> {
+        implements $pattern.selected, select_java<_annos> {
 
-        public final _annoExprs _anns;
+        public final _annos _anns;
         public final $tokens tokens;
 
-        public Select(_annoExprs _a, Tokens tokens) {
+        public Select(_annos _a, Tokens tokens) {
             this(_a, $tokens.of(tokens));
         }
 
-        public Select(_annoExprs _as, $tokens tokens) {
+        public Select(_annos _as, $tokens tokens) {
             this._anns = _as;
             this.tokens = tokens;
         }
@@ -890,7 +890,7 @@ public class $annoRefs
         }
 
         @Override
-        public _annoExprs _node() {
+        public _annos _node() {
             return _anns;
         }
     }

@@ -60,7 +60,7 @@ public class SannoRefTest extends TestCase {
 
         $aor.printIn(C.class);
 
-        assertNotNull($aor.parse(_annoExpr.of("@Deprecated") ));
+        assertNotNull($aor.parse(_anno.of("@Deprecated") ));
         _class _c = $aor.removeIn(C.class); //remove em
         assertEquals(0, $aor.countIn(_c)); //verify them some
 
@@ -116,7 +116,7 @@ public class SannoRefTest extends TestCase {
     
     public void testConstruct(){
         $annoRef $a = $annoRef.of("A");
-        assertEquals(_annoExpr.of("A"), $a.draft());
+        assertEquals(_anno.of("A"), $a.draft());
         
         $a = $annoRef.of(a-> a.isMarker() );
         
@@ -125,7 +125,7 @@ public class SannoRefTest extends TestCase {
         //assertEquals(_anno.of("A"), $a.construct("name", "A"));
         
         //override construct
-        assertEquals(_annoExpr.of("A"), $a.draft("$anno", "@A"));
+        assertEquals(_anno.of("A"), $a.draft("$anno", "@A"));
     }
     
     public void testFullQualified(){
@@ -289,8 +289,8 @@ public class SannoRefTest extends TestCase {
      
     public void testStatic$anno(){
         $annoRef $a = $annoRef.of("@name");
-        assertEquals( _annoExpr.of("@name"), $a.draft());
-        assertTrue( $a.matches(_annoExpr.of("@name")));
+        assertEquals( _anno.of("@name"), $a.draft());
+        assertTrue( $a.matches(_anno.of("@name")));
 
         @name
         class C{
@@ -308,11 +308,11 @@ public class SannoRefTest extends TestCase {
         //any @NAME annotation with a prefix
         $annoRef $a = $annoRef.of("@name(prefix=$any$)");
 
-        assertTrue( $a.matches( _annoExpr.of("@name(prefix=\"1\")") ));
+        assertTrue( $a.matches( _anno.of("@name(prefix=\"1\")") ));
 
-        assertTrue( $a.select(_annoExpr.of("@name(prefix=\"1\")") ).is("any", "1") );
+        assertTrue( $a.select(_anno.of("@name(prefix=\"1\")") ).is("any", "1") );
 
-        assertTrue( $a.select(_annoExpr.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
+        assertTrue( $a.select(_anno.of("@name(prefix=\"ABCD\")")).is("any", "ABCD"));
         assertTrue( $a.$list().contains("any"));
 
 
@@ -329,8 +329,8 @@ public class SannoRefTest extends TestCase {
         $a.replaceIn(_c, $annoRef.of("@name2(string=$any$)") );
         System.out.println(_c );
 
-        _annoExpr _a = $a.draft("any", "\"Some String\"");
-        assertEquals( _annoExpr.of("@name(prefix=\"Some String\")"), _a );
+        _anno _a = $a.draft("any", "\"Some String\"");
+        assertEquals( _anno.of("@name(prefix=\"Some String\")"), _a );
     }
 
 

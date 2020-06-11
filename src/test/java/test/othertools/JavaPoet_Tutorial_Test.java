@@ -107,7 +107,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         _c.addMethod($m.draft("name", "eminem"));
         _c.addMethod($m.draft("name", "marshallMathers"));
 
-        _c.forMethods(m-> m.setPublic()); //lets make all methods public so we can test them
+        _c.toMethods(m-> m.setPublic()); //lets make all methods public so we can test them
 
         //ok lets compile/load and test that it works
         _runtime _r = _runtime.of(_c );
@@ -116,7 +116,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         assertNotNull( "eminem", _r.eval("new HelloWorld().eminem()"));
         assertNotNull( "marshallMathers", _r.eval("new HelloWorld().marshallMathers()"));
 
-        _c.forMethods(m->m.setPackagePrivate()); //set all methods back to packagePrivate
+        _c.toMethods(m->m.setPackagePrivate()); //set all methods back to packagePrivate
     }
 
     /** https://github.com/square/javapoet#t-for-types */
@@ -231,8 +231,8 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         }
         _class _c = _class.of(HelloWorld.class);
         assertTrue( _c.isAbstract() );
-        assertTrue( _c.getMethod("flux").isAbstract() );
-        assertFalse( _c.getMethod("flux").isImplemented() );
+        assertTrue( _c.firstMethodNamed("flux").isAbstract() );
+        assertFalse( _c.firstMethodNamed("flux").isImplemented() );
     }
 
     /** https://github.com/square/javapoet#constructors */
@@ -374,7 +374,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         assertTrue( _m.hasAnnoExpr(Override.class));
 
         //we can create annotations individually:
-        _annoExpr _a = _annoExpr.of(Override.class);
+        _anno _a = _anno.of(Override.class);
 
         //we can add annotations to existing _draft entities (_field, _class, _method, etc.)
         _m = _method.of( new Object(){
@@ -401,7 +401,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
     public void testAnnotations2(){
         //for "complicated" annotations, pass in an anonymous Object
         // with the correct instance annotated (here a Class)
-        _annoExpr _a = _annoExpr.of(new Object(){
+        _anno _a = _anno.of(new Object(){
                 @HeaderList({
                         @Header(name="Accept", value="application/json; charset=utf-8"),
                         @Header(name="User-Agent", value="Square Cash"),

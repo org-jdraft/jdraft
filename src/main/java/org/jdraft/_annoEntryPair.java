@@ -9,143 +9,143 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * each name-value pair within an {@link _annoExpr}
+ * each name-value pair within an {@link _anno}
  * i.e.
  * @A(key="value") (the "key="value"" part)
  *
  * NOTE: we also model the inferred/ hidden name (as "value") if it is not present
  * @A("val") ... (the key is inferred to be "value" and the value is the String "val")
  */
-public final class _entryPair implements _tree._node<MemberValuePair, _entryPair>,
-        _java._withName<_entryPair>{
+public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoEntryPair>,
+        _java._withName<_annoEntryPair>{
 
-    public static final Function<String, _entryPair> PARSER = s-> _entryPair.of(s);
+    public static final Function<String, _annoEntryPair> PARSER = s-> _annoEntryPair.of(s);
 
-    public static _entryPair of(MemberValuePair mvp){
-        return new _entryPair( mvp);
+    public static _annoEntryPair of(MemberValuePair mvp){
+        return new _annoEntryPair( mvp);
     }
 
-    public static _entryPair of(SingleMemberAnnotationExpr se ){
-        return new _entryPair( new MemberValuePair("value", se.getMemberValue()) );
+    public static _annoEntryPair of(SingleMemberAnnotationExpr se ){
+        return new _annoEntryPair( new MemberValuePair("value", se.getMemberValue()) );
     }
-    public static _entryPair of(String name, int value){
+    public static _annoEntryPair of(String name, int value){
         return of( new MemberValuePair(name, new IntegerLiteralExpr(value)));
     }
 
-    public static _entryPair of(String name, boolean value){
+    public static _annoEntryPair of(String name, boolean value){
         return of( new MemberValuePair(name, new BooleanLiteralExpr(value)));
     }
 
-    public static _entryPair of(String name, char value){
+    public static _annoEntryPair of(String name, char value){
         return of( new MemberValuePair(name, new CharLiteralExpr(value)));
     }
 
-    public static _entryPair of(String name, float value){
+    public static _annoEntryPair of(String name, float value){
         return of( new MemberValuePair(name, new DoubleLiteralExpr(value)));
     }
 
-    public static _entryPair of(String name, double value){
+    public static _annoEntryPair of(String name, double value){
         return of( new MemberValuePair(name, new DoubleLiteralExpr(value)));
     }
 
-    public static _entryPair of(String name, long value){
+    public static _annoEntryPair of(String name, long value){
         return of( new MemberValuePair(name, new LongLiteralExpr(value)));
     }
 
-    public static _entryPair of(String name, _annoExpr _anno){
+    public static _annoEntryPair of(String name, _anno _anno){
         return of( new MemberValuePair(name, _anno.ast()));
     }
 
     //arrays:
-    public static _entryPair of(String name, int... value){
+    public static _annoEntryPair of(String name, int... value){
         return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
     }
 
-    public static _entryPair of(String name, boolean... value){
+    public static _annoEntryPair of(String name, boolean... value){
         return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
     }
 
-    public static _entryPair of(String name, char... value){
+    public static _annoEntryPair of(String name, char... value){
         return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
     }
 
-    public static _entryPair of(String name, float... value){
+    public static _annoEntryPair of(String name, float... value){
         return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
     }
 
-    public static _entryPair of(String name, double... value){
+    public static _annoEntryPair of(String name, double... value){
         return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
     }
 
-    public static _entryPair of(String name, long... value){
+    public static _annoEntryPair of(String name, long... value){
         return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
     }
 
-    public static _entryPair of(String name, _annoExpr... _anno){
+    public static _annoEntryPair of(String name, _anno... _anno){
         return of( new MemberValuePair(name, _arrayInitExpr.of(_anno).ast()));
     }
 
-    public static _entryPair of(String name, String value){
+    public static _annoEntryPair of(String name, String value){
         return of( new MemberValuePair(name, new StringLiteralExpr(value)));
     }
 
-    public static _entryPair of(String name, Class value){
+    public static _annoEntryPair of(String name, Class value){
         return of( new MemberValuePair(name, new ClassExpr(_typeRef.of(value.getCanonicalName()).ast())));
     }
 
-    public static _entryPair of(String name, Class... values){
+    public static _annoEntryPair of(String name, Class... values){
         return of( new MemberValuePair(name, _arrayInitExpr.of(values).ast()));
     }
 
-    public static _entryPair of(String s){
+    public static _annoEntryPair of(String s){
         return of( new String[]{s});
     }
 
-    public static _entryPair of (String...str ){
+    public static _annoEntryPair of (String...str ){
         AnnotationExpr ae =
-                _annoExpr.of( "@UNKNOWN("+ Text.combine( str)+")" ).ast() ;
+                _anno.of( "@UNKNOWN("+ Text.combine( str)+")" ).ast() ;
                 //StaticJavaParser.parseAnnotation( "@UNKNOWN("+ Text.combine( str)+")" );
         if( ae.isNormalAnnotationExpr() ){
-            return new _entryPair(ae.asNormalAnnotationExpr().getPairs().get(0));
+            return new _annoEntryPair(ae.asNormalAnnotationExpr().getPairs().get(0));
         }
         else{
             SingleMemberAnnotationExpr sma = (SingleMemberAnnotationExpr)ae;
             MemberValuePair mvp = new MemberValuePair();
             mvp.setValue( sma.getMemberValue() );
             mvp.setName("value");
-            _entryPair _mv = new _entryPair(mvp);
+            _annoEntryPair _mv = new _annoEntryPair(mvp);
             _mv.isValueOnly = true;
             return _mv;
         }
     }
 
-    public static _feature._one<_entryPair, String> NAME = new _feature._one<>(_entryPair.class, String.class,
+    public static _feature._one<_annoEntryPair, String> NAME = new _feature._one<>(_annoEntryPair.class, String.class,
             _feature._id.NAME,
             a -> a.getName(),
-            (_entryPair a, String name) -> a.setName(name), PARSER);
+            (_annoEntryPair a, String name) -> a.setName(name), PARSER);
 
-    public static _feature._one<_entryPair, _expr> VALUE = new _feature._one<>(_entryPair.class, _expr.class,
+    public static _feature._one<_annoEntryPair, _expr> VALUE = new _feature._one<>(_annoEntryPair.class, _expr.class,
             _feature._id.VALUE,
             a->a.getValue(),
-            (_entryPair a, _expr _e)-> a.setValue(_e), PARSER );
+            (_annoEntryPair a, _expr _e)-> a.setValue(_e), PARSER );
 
-    public static _feature._features<_entryPair> FEATURES = _feature._features.of(_entryPair.class,  PARSER, NAME, VALUE);
+    public static _feature._features<_annoEntryPair> FEATURES = _feature._features.of(_annoEntryPair.class,  PARSER, NAME, VALUE);
 
     public boolean isValueOnly = false;
 
     public MemberValuePair mvp;
 
-    public _feature._features<_entryPair> features(){
+    public _feature._features<_annoEntryPair> features(){
         return FEATURES;
     }
 
-    public _entryPair(MemberValuePair mvp){
+    public _annoEntryPair(MemberValuePair mvp){
         this.mvp = mvp;
     }
 
     @Override
-    public _entryPair copy() {
-        return new _entryPair( this.mvp.clone() );
+    public _annoEntryPair copy() {
+        return new _annoEntryPair( this.mvp.clone() );
     }
 
     @Override
@@ -165,7 +165,7 @@ public final class _entryPair implements _tree._node<MemberValuePair, _entryPair
         return this.mvp.getName();
     }
 
-    public _entryPair setName(String name){
+    public _annoEntryPair setName(String name){
         this.mvp.setName(name);
         return this;
     }
@@ -174,17 +174,17 @@ public final class _entryPair implements _tree._node<MemberValuePair, _entryPair
         return _expr.of(this.mvp.getValue());
     }
 
-    public _entryPair setValue(String... ex){
+    public _annoEntryPair setValue(String... ex){
         this.mvp.setValue(Expr.of(ex));
         return this;
     }
 
-    public _entryPair setValue(_expr _e){
+    public _annoEntryPair setValue(_expr _e){
         this.mvp.setValue(_e.ast());
         return this;
     }
 
-    public _entryPair setValue(Expression e){
+    public _annoEntryPair setValue(Expression e){
         this.mvp.setValue(e);
         return this;
     }
@@ -241,8 +241,8 @@ public final class _entryPair implements _tree._node<MemberValuePair, _entryPair
      */
 
     public boolean equals(Object o){
-        if( o instanceof _entryPair){
-            _entryPair ot = (_entryPair)o;
+        if( o instanceof _annoEntryPair){
+            _annoEntryPair ot = (_annoEntryPair)o;
 
             boolean same = Objects.equals( ot.getName(), this.mvp.getNameAsString() )
                     && Objects.equals( ot.getValue().toString(), this.mvp.getValue().toString() );
@@ -261,6 +261,7 @@ public final class _entryPair implements _tree._node<MemberValuePair, _entryPair
 
     public String toString(){
         if( this.mvp.getNameAsString().equals("value") && this.isValueOnly ){
+
             return mvp.getValue().toString();
         }
         return mvp.toString();
@@ -268,7 +269,7 @@ public final class _entryPair implements _tree._node<MemberValuePair, _entryPair
 
     public String toString( PrettyPrinterConfiguration ppc ){
         if( this.mvp.getNameAsString().equals("value") && this.isValueOnly ){
-            return mvp.toString();
+            return mvp.getValue().toString(ppc);
         }
         return mvp.toString(ppc);
     }

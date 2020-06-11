@@ -70,8 +70,8 @@ public class _variablesExprTest extends TestCase {
         assertTrue( _vs.hasAnnoExprs() );
         assertTrue( _vs.hasAnnoExpr("A"));
         assertTrue( _vs.hasAnnoExpr(a->a.isNamed("A")));
-        assertEquals( _annoExpr.of("@A"), _vs.getAnnoExpr(0) );
-        _vs.addAnnoExprs(_annoExpr.of("@B(1)"), _annoExpr.of("@C(k=2)"));
+        assertEquals( _anno.of("@A"), _vs.getAnnoExpr(0) );
+        _vs.addAnnoExprs(_anno.of("@B(1)"), _anno.of("@C(k=2)"));
 
         _vs.remove(_variable.of("int i"));
 

@@ -15,8 +15,8 @@ public class OfStringTest extends TestCase {
                 _type.of("class C{", "int i;", "}"), //infers a line separator between each string
                 _codeUnit.of("module org.astro{", "exports org.astro;","}"),
 
-                _annoExpr.of("@A"),
-                _annoExprs.of("@A @B"),
+                _anno.of("@A"),
+                _annos.of("@A @B"),
                 _annotation.of("@interface AI{}"),
                 _args.of("(1, 'c')"),
                 _arrayAccessExpr.of("a[1][call()]"),
@@ -84,7 +84,6 @@ public class OfStringTest extends TestCase {
                 _packageInfo.of("/** information about jdraft */package org.jdraft;"),
                 _param.of("final int i"),
                 _params.of("(@ann int x, String...names)"),
-                _qualifiedName.of("org.jdraft._class"),
                 _receiverParam.of("@AnnotatedUsage Currency this"),
                 _returnStmt.of("return 12;"),
                 _stringExpr.of("A String literal"),

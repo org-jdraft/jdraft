@@ -47,7 +47,7 @@ public class SstmtTest extends TestCase {
 
         //1) uncomment & return the _class
         _class _c = (_class)$println.unComment(C.class);
-        _method _m = _c.getMethod("m");
+        _method _m = _c.firstMethodNamed("m");
         //    verify the Statement I uncommented
         assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0));
         //System.out.println( _c );
@@ -83,7 +83,7 @@ public class SstmtTest extends TestCase {
 
         //1) uncomment & return the _class
         _class _c = (_class)$println.unComment(C.class);
-        _method _m = _c.getMethod("m");
+        _method _m = _c.firstMethodNamed("m");
         //    verify the Statement I uncommented
         //System.out.println( _c );
         assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0).asBlockStmt().getStatement(0));

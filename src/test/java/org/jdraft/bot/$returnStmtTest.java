@@ -23,8 +23,8 @@ public class $returnStmtTest extends TestCase {
         assertEquals( 2, $returnStmt.of().$isInLineRange(0, 100).countIn(_c));
         assertEquals( 2, $returnStmt.of().$isInRange(_c).countIn(_c));
         assertEquals( 2, $returnStmt.of().$isInRange(_c.ast()).countIn(_c));
-        assertEquals( 1, $returnStmt.of().$isInRange(_c.getMethod("t")).countIn(_c));
-        assertEquals( 1, $returnStmt.of().$isInRange(_c.getMethod("r").ast()).countIn(_c));
+        assertEquals( 1, $returnStmt.of().$isInRange(_c.firstMethodNamed("t")).countIn(_c));
+        assertEquals( 1, $returnStmt.of().$isInRange(_c.firstMethodNamed("r").ast()).countIn(_c));
     }
 
     /*

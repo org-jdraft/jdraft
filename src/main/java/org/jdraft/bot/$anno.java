@@ -20,52 +20,52 @@ import java.util.stream.Stream;
  *
  * @author Eric
  */
-public class $annoExpr
-        extends $botEnsemble<_annoExpr, $annoExpr>
-        implements Template<_annoExpr>,
-        $bot.$node<AnnotationExpr, _annoExpr, $annoExpr>,
-        $selector.$node<_annoExpr, $annoExpr>,
+public class $anno
+        extends $botEnsemble<_anno, $anno>
+        implements Template<_anno>,
+        $bot.$node<AnnotationExpr, _anno, $anno>,
+        $selector.$node<_anno, $anno>,
         $constructor.$part, $method.$part,
         $field.$part, $typeParameter.$part, $class.$part, $interface.$part, $enum.$part, $annotation.$part,
         $enumConstant.$part, $type.$part {
 
-    public static $annoExpr of() {
-        return new $annoExpr($id.of());
+    public static $anno of() {
+        return new $anno($id.of());
     }
 
-    public static $annoExpr of($id name, $entryPair... memberValues) {
-        return new $annoExpr(name, memberValues);
+    public static $anno of($id name, $annoEntryPair... memberValues) {
+        return new $anno(name, memberValues);
     }
 
-    public static $annoExpr of(String codePattern) {
-        return new $annoExpr(_annoExpr.of(codePattern));
+    public static $anno of(String codePattern) {
+        return new $anno(_anno.of(codePattern));
     }
 
-    public static $annoExpr of(String... codePattern) {
-        return new $annoExpr(_annoExpr.of(codePattern));
+    public static $anno of(String... codePattern) {
+        return new $anno(_anno.of(codePattern));
     }
 
-    public static $annoExpr of(Predicate<_annoExpr> constraint) {
+    public static $anno of(Predicate<_anno> constraint) {
         return of().$and(constraint);
     }
 
-    public static $annoExpr of(String codePattern, Predicate<_annoExpr> constraint) {
-        return new $annoExpr(_annoExpr.of(codePattern)).$and(constraint);
+    public static $anno of(String codePattern, Predicate<_anno> constraint) {
+        return new $anno(_anno.of(codePattern)).$and(constraint);
     }
 
-    public static $annoExpr of(_annoExpr _an) {
-        return new $annoExpr(_an);
+    public static $anno of(_anno _an) {
+        return new $anno(_an);
     }
 
-    public static $annoExpr of(_annoExpr _an, Predicate<_annoExpr> constraint) {
-        return new $annoExpr(_an).$and(constraint);
+    public static $anno of(_anno _an, Predicate<_anno> constraint) {
+        return new $anno(_an).$and(constraint);
     }
 
-    public static $annoExpr of(Class<? extends Annotation> sourceAnnoClass) {
-        return new $annoExpr(_annoExpr.of(sourceAnnoClass));
+    public static $anno of(Class<? extends Annotation> sourceAnnoClass) {
+        return new $anno(_anno.of(sourceAnnoClass));
     }
 
-    public static $annoExpr of(Class<? extends Annotation> sourceAnnoClass, Predicate<_annoExpr> constraint) {
+    public static $anno of(Class<? extends Annotation> sourceAnnoClass, Predicate<_anno> constraint) {
         return of(sourceAnnoClass).$and(constraint);
     }
 
@@ -73,59 +73,59 @@ public class $annoExpr
      * @param anonymousObjectWithAnnotation
      * @return
      */
-    public static $annoExpr of(Object anonymousObjectWithAnnotation) {
+    public static $anno of(Object anonymousObjectWithAnnotation) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expr.newExpr(ste);
         NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
         BodyDeclaration bd = bds.stream().filter(b -> b.getAnnotations().isNonEmpty()).findFirst().get();
-        return of(_annoExpr.of(bd.getAnnotation(0)));
+        return of(_anno.of(bd.getAnnotation(0)));
     }
 
-    public static $annoExpr.Or or(Class<? extends Annotation>... annClasses) {
-        $annoExpr[] $ac = new $annoExpr[annClasses.length];
+    public static $anno.Or or(Class<? extends Annotation>... annClasses) {
+        $anno[] $ac = new $anno[annClasses.length];
         for (int i = 0; i < annClasses.length; i++) {
-            $ac[i] = $annoExpr.of(annClasses[i]);
+            $ac[i] = $anno.of(annClasses[i]);
         }
         return or($ac);
     }
 
-    public static $annoExpr.Or or(_annoExpr... anns) {
-        $annoExpr[] $ac = new $annoExpr[anns.length];
+    public static $anno.Or or(_anno... anns) {
+        $anno[] $ac = new $anno[anns.length];
         for (int i = 0; i < anns.length; i++) {
-            $ac[i] = $annoExpr.of(anns[i]);
+            $ac[i] = $anno.of(anns[i]);
         }
         return or($ac);
     }
 
-    public static $annoExpr.Or or($annoExpr... $as) {
+    public static $anno.Or or($anno... $as) {
         return new Or($as);
     }
 
-    public static $annoExpr as(String... codePattern) {
-        return as(_annoExpr.of(codePattern));
+    public static $anno as(String... codePattern) {
+        return as(_anno.of(codePattern));
     }
 
-    public static $annoExpr as(_annoExpr _an) {
-        $annoExpr $a = of(_an);
+    public static $anno as(_anno _an) {
+        $anno $a = of(_an);
         //add a constraint to verify there are EXACTLY only the same
         $a.$and(_a -> _an.listEntryPairs().size() == _a.listEntryPairs().size());
         return $a;
     }
 
-    public $featureBot<_annoExpr, String, $id> name =
-            $featureBot.of(_annoExpr.NAME);
+    public $featureBot<_anno, String, $id> name =
+            $featureBot.of(_anno.NAME);
 
-    public $featureBotList<_annoExpr, _entryPair, $entryPair> entryPairs =
-            $featureBotList.of(_annoExpr.ENTRY_PAIRS);
+    public $featureBotList<_anno, _annoEntryPair, $annoEntryPair> entryPairs =
+            $featureBotList.of(_anno.ENTRY_PAIRS);
 
-    public $annoExpr copy() {
-        $annoExpr $copy = of(this.predicate.and(t -> true));
+    public $anno copy() {
+        $anno $copy = of(this.predicate.and(t -> true));
         $copy.name = this.name.copy();
         $copy.entryPairs = this.entryPairs.copy();
         return $copy;
     }
 
-    public $annoExpr $not( $annoExpr... $sels ){
+    public $anno $not($anno... $sels ){
         return $not( t-> Stream.of($sels).anyMatch($s -> (($bot)$s).matches(t) ) );
     }
 
@@ -133,23 +133,23 @@ public class $annoExpr
      * @param name
      * @param mvs
      */
-    private $annoExpr($id name, $entryPair... mvs) {
+    private $anno($id name, $annoEntryPair... mvs) {
         this.name.setBot(name);
         this.entryPairs.setBotList(Stream.of(mvs).collect(Collectors.toList()));
     }
 
-    protected $annoExpr() { }
+    protected $anno() { }
 
     /**
      * @param proto
      */
-    public $annoExpr(_annoExpr proto) {
+    public $anno(_anno proto) {
         this.name.setBot($id.of(proto.getName()));
         AnnotationExpr astAnn = proto.ast();
         if (astAnn instanceof NormalAnnotationExpr) {
             NormalAnnotationExpr na = (NormalAnnotationExpr) astAnn;
 
-            na.getPairs().forEach(mv -> entryPairs.add($entryPair.of(mv.getNameAsString(), mv.getValue())));
+            na.getPairs().forEach(mv -> entryPairs.add($annoEntryPair.of(mv.getNameAsString(), mv.getValue())));
         } else if (astAnn instanceof SingleMemberAnnotationExpr) {
 
             SingleMemberAnnotationExpr sa = (SingleMemberAnnotationExpr) astAnn;
@@ -157,7 +157,7 @@ public class $annoExpr
             if (st.isMatchAny()) { //i.e. @A($any$) which matches @A, @A(1), @A(k=1), @A(k=1v=2)...
                 entryPairs.setMatchAll(st.$list().get(0));
             } else {
-                entryPairs.add($entryPair.of(sa.getMemberValue()));
+                entryPairs.add($annoEntryPair.of(sa.getMemberValue()));
             }
         }
     }
@@ -165,7 +165,7 @@ public class $annoExpr
     /**
      * @return
      */
-    public $annoExpr $name() {
+    public $anno $name() {
         this.name.setBot(null);
         return this;
     }
@@ -176,7 +176,7 @@ public class $annoExpr
      * @param name
      * @return
      */
-    public $annoExpr $name($id name) {
+    public $anno $name($id name) {
         this.name.setBot(name);
         return this;
     }
@@ -187,7 +187,7 @@ public class $annoExpr
      * @param name
      * @return
      */
-    public $annoExpr $name(String name) {
+    public $anno $name(String name) {
         this.name.setBot($id.of(name));
         return this;
     }
@@ -197,7 +197,7 @@ public class $annoExpr
      * @param $keyValuePairs
      * @return
      */
-    public $annoExpr $entryPairs(List<$entryPair> $keyValuePairs) {
+    public $anno $entryPairs(List<$annoEntryPair> $keyValuePairs) {
         this.entryPairs.setBotList($keyValuePairs);
         return this;
     }
@@ -213,7 +213,7 @@ public class $annoExpr
      * @param $keyValuePair
      * @return
      */
-    public $annoExpr $entryPair($entryPair $keyValuePair) {
+    public $anno $entryPair($annoEntryPair $keyValuePair) {
         this.entryPairs.add($keyValuePair);
         return this;
     }
@@ -223,8 +223,8 @@ public class $annoExpr
      * @param value
      * @return
      */
-    public $annoExpr $entryPair(String key, Expression value) {
-        this.entryPairs.add(new $entryPair(key, value));
+    public $anno $entryPair(String key, Expression value) {
+        this.entryPairs.add(new $annoEntryPair(key, value));
         return this;
     }
 
@@ -233,19 +233,19 @@ public class $annoExpr
      * @param value
      * @return
      */
-    public $annoExpr $entryPair(String key, String value) {
-        this.entryPairs.add(new $entryPair(key, value));
+    public $anno $entryPair(String key, String value) {
+        this.entryPairs.add(new $annoEntryPair(key, value));
         return this;
     }
 
     @Override
-    public $annoExpr $hardcode(Translator translator, Tokens kvs) {
+    public $anno $hardcode(Translator translator, Tokens kvs) {
 
         this.name.$hardcode(translator, kvs);
 
         Object val = kvs.get(this.entryPairs.getMatchAllName());
         if (val != null) {
-            this.entryPairs.add($entryPair.of(Expr.of(val.toString())));
+            this.entryPairs.add($annoEntryPair.of(Expr.of(val.toString())));
             this.entryPairs.setMatchAll(false);
         }
         this.entryPairs.$hardcode(translator, kvs);
@@ -253,7 +253,7 @@ public class $annoExpr
     }
 
     @Override
-    public List<$feature<_annoExpr, ?, ?>> $listFeatures() {
+    public List<$feature<_anno, ?, ?>> $listFeatures() {
         return Stream.of(this.name, this.entryPairs).collect(Collectors.toList());
     }
 
@@ -262,10 +262,10 @@ public class $annoExpr
     }
 
     public boolean matches(String... anno) {
-        return matches(_annoExpr.of(anno));
+        return matches(_anno.of(anno));
     }
 
-    public boolean matches(_annoExpr _a) {
+    public boolean matches(_anno _a) {
         return select(_a) != null;
     }
 
@@ -276,29 +276,29 @@ public class $annoExpr
     public String draftToString(Translator translator, Map<String, Object> keyValues) {
         if (keyValues.get("$annoExpr") != null) {
             //override parameter passed in
-            $annoExpr $a = $annoExpr.of(keyValues.get("$annoExpr").toString());
+            $anno $a = $anno.of(keyValues.get("$annoExpr").toString());
             Map<String, Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$annoExpr"); //remove to avoid stackOverflow
             return $a.draftToString(translator, kvs);
         }
-        _annoExpr _a = _annoExpr.of();
+        _anno _a = _anno.of();
         _a.setName(name.draft(translator, keyValues).toString());
         _a.setEntryPairs(entryPairs.draft(translator, keyValues));
         return _a.toString();
     }
 
     @Override
-    public _annoExpr draft(Translator translator, Map<String, Object> keyValues) {
+    public _anno draft(Translator translator, Map<String, Object> keyValues) {
         if (keyValues.get("$annoExpr") != null) {
             //override parameter passed in
-            $annoExpr $a = $annoExpr.of(keyValues.get("$annoExpr").toString());
+            $anno $a = $anno.of(keyValues.get("$annoExpr").toString());
             Map<String, Object> kvs = new HashMap<>();
             kvs.putAll(keyValues);
             kvs.remove("$annoExpr"); //remove to avoid stackOverflow
             return $a.draft(translator, kvs);
         }
-        return _annoExpr.of(draftToString(translator, keyValues));
+        return _anno.of(draftToString(translator, keyValues));
     }
 
     public boolean match(Node node) {
@@ -308,7 +308,7 @@ public class $annoExpr
         return false;
     }
 
-    public Select<_annoExpr> select(String str) {
+    public Select<_anno> select(String str) {
         try {
             return select(Ast.annotationExpr(str));
         } catch (Exception e) {
@@ -316,19 +316,19 @@ public class $annoExpr
         }
     }
 
-    public Select<_annoExpr> select(Node n) {
+    public Select<_anno> select(Node n) {
         if (n instanceof AnnotationExpr) {
             return select((AnnotationExpr) n);
         }
         return null;
     }
 
-    public Select<_annoExpr> select(AnnotationExpr astAnn) {
-        return select(_annoExpr.of(astAnn));
+    public Select<_anno> select(AnnotationExpr astAnn) {
+        return select(_anno.of(astAnn));
     }
 
-    public Select<_annoExpr> select(String... anno) {
-        return select(_annoExpr.of(anno));
+    public Select<_anno> select(String... anno) {
+        return select(_anno.of(anno));
     }
 
     /**
@@ -339,7 +339,7 @@ public class $annoExpr
      * @return
      */
     public _type replaceIn(Class clazz, Class<? extends Annotation> annoType) {
-        return replaceIn(clazz, $annoExpr.of(annoType));
+        return replaceIn(clazz, $anno.of(annoType));
     }
 
     /**
@@ -349,7 +349,7 @@ public class $annoExpr
      * @return
      */
     public <_J extends _tree._node> _J replaceIn(_J _j, Class<? extends Annotation> annoType) {
-        return (_J) replaceIn(_j, (Template) $annoExpr.of(annoType));
+        return (_J) replaceIn(_j, (Template) $anno.of(annoType));
     }
 
     /**
@@ -359,7 +359,7 @@ public class $annoExpr
      * @return
      */
     public <N extends Node> N replaceIn(N astNode, Class<? extends Annotation> annoType) {
-        return replaceIn(astNode, $annoExpr.of(annoType));
+        return replaceIn(astNode, $anno.of(annoType));
     }
 
     /**
@@ -388,15 +388,15 @@ public class $annoExpr
      * An Or entity that can match against any of the $bot instances provided
      * NOTE: template features (draft/fill) are suppressed.
      */
-    public static class Or extends $annoExpr {
+    public static class Or extends $anno {
 
-        final List<$annoExpr> $annoExprBots = new ArrayList<>();
+        final List<$anno> $annoBots = new ArrayList<>();
 
-        public Or($annoExpr... $as) {
+        public Or($anno... $as) {
             super();
             this.name.setBot(null);
             //this.entryPairs = new Select.$botSetSelect(_annoExpr.class, _entryPair.class, "pairs", _ae -> ((_annoExpr) _ae).listPairs());
-            Arrays.stream($as).forEach($a -> $annoExprBots.add($a));
+            Arrays.stream($as).forEach($a -> $annoBots.add($a));
         }
 
         /**
@@ -405,9 +405,9 @@ public class $annoExpr
          * @return
          */
         public Or copy() {
-            List<$annoExpr> copyBots = new ArrayList<>();
-            this.$annoExprBots.forEach(a -> copyBots.add(a.copy()));
-            Or theCopy = new Or(copyBots.toArray(new $annoExpr[0]));
+            List<$anno> copyBots = new ArrayList<>();
+            this.$annoBots.forEach(a -> copyBots.add(a.copy()));
+            Or theCopy = new Or(copyBots.toArray(new $anno[0]));
 
             //now copy the predicate and all underlying bots on the baseBot
             theCopy.predicate = this.predicate.and(t -> true);
@@ -419,29 +419,29 @@ public class $annoExpr
         public List<String> $list() {
             List<String> list = new ArrayList<>();
             list.addAll(super.$list());
-            this.$annoExprBots.forEach($ar -> list.addAll($ar.$list()));
+            this.$annoBots.forEach($ar -> list.addAll($ar.$list()));
             return list;
         }
 
         public List<String> $listNormalized() {
             List<String> list = new ArrayList<>();
             list.addAll(super.$listNormalized());
-            this.$annoExprBots.forEach($ar -> list.addAll($ar.$listNormalized()));
+            this.$annoBots.forEach($ar -> list.addAll($ar.$listNormalized()));
             return list.stream().distinct().collect(Collectors.toList());
         }
 
         @Override
-        public _annoExpr fill(Object... vals) {
+        public _anno fill(Object... vals) {
             throw new _jdraftException("Cannot draft/fill " + getClass() + " pattern" + this);
         }
 
         @Override
-        public _annoExpr fill(Translator tr, Object... vals) {
+        public _anno fill(Translator tr, Object... vals) {
             throw new _jdraftException("Cannot draft/fill " + getClass() + " pattern" + this);
         }
 
         @Override
-        public _annoExpr draft(Translator tr, Map<String, Object> map) {
+        public _anno draft(Translator tr, Map<String, Object> map) {
             throw new _jdraftException("Cannot draft " + getClass() + " pattern" + this);
         }
 
@@ -460,7 +460,7 @@ public class $annoExpr
             StringBuilder sb = new StringBuilder();
             sb.append("$annoExpr.Or{");
             sb.append(System.lineSeparator());
-            $annoExprBots.forEach($a -> sb.append(Text.indent($a.toString())));
+            $annoBots.forEach($a -> sb.append(Text.indent($a.toString())));
             sb.append("}");
             return sb.toString();
         }
@@ -469,12 +469,12 @@ public class $annoExpr
          * @param _a
          * @return
          */
-        public Select<_annoExpr> select(_annoExpr _a) {
+        public Select<_anno> select(_anno _a) {
             Select commonSelect = super.select(_a);
             if (commonSelect == null) {
                 return null;
             }
-            $annoExpr $whichBot = whichMatch(_a);
+            $anno $whichBot = whichMatch(_a);
             if ($whichBot == null) {
                 return null;
             }
@@ -490,18 +490,18 @@ public class $annoExpr
             return false;
         }
 
-        public List<$annoExpr> $listOrSelectors() {
-            return this.$annoExprBots;
+        public List<$anno> $listOrSelectors() {
+            return this.$annoBots;
         }
 
-        public $annoExpr.Or $hardcode(Translator tr, Tokens ts) {
+        public $anno.Or $hardcode(Translator tr, Tokens ts) {
             super.$hardcode(tr, ts);
-            this.$annoExprBots.forEach($ar -> $ar.$hardcode(tr, ts));
+            this.$annoBots.forEach($ar -> $ar.$hardcode(tr, ts));
             return this;
         }
 
 
-        public $annoExpr whichMatch(_annoExpr _a) {
+        public $anno whichMatch(_anno _a) {
             return whichMatch(_a.ast());
         }
 
@@ -511,11 +511,11 @@ public class $annoExpr
          * @param ae
          * @return
          */
-        public $annoExpr whichMatch(AnnotationExpr ae) {
-            if (!this.predicate.test(_annoExpr.of(ae))) {
+        public $anno whichMatch(AnnotationExpr ae) {
+            if (!this.predicate.test(_anno.of(ae))) {
                 return null;
             }
-            Optional<$annoExpr> orsel = this.$annoExprBots.stream().filter($p -> $p.match(ae)).findFirst();
+            Optional<$anno> orsel = this.$annoBots.stream().filter($p -> $p.match(ae)).findFirst();
             if (orsel.isPresent()) {
                 return orsel.get();
             }

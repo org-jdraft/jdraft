@@ -50,8 +50,8 @@ public class botCopyTest extends TestCase {
     }
 
     public void test$annoClone(){
-        $annoExpr $a = $annoExpr.of();
-        $annoExpr $b = $a.copy();
+        $anno $a = $anno.of();
+        $anno $b = $a.copy();
         $b.$name("A");
 
         assertTrue($a.matches("@A"));

@@ -1,13 +1,13 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.*;
-import org.jdraft.text.Stencil;
 
 import java.util.Objects;
 
 public interface _expr<E extends Expression, _E extends _expr>
         extends _tree._node<E, _E>, _java._withComments<E, _E> {
 
+    /*
     default boolean is(String... stringRep) {
         try{
             Expression e = Expr.of(stringRep);
@@ -21,6 +21,7 @@ public interface _expr<E extends Expression, _E extends _expr>
         } catch(Exception e){ }
         return false;
     }
+     */
 
     default boolean is(Expression e){
         return Objects.equals( e, ast());
@@ -46,7 +47,7 @@ public interface _expr<E extends Expression, _E extends _expr>
      * Underlying implementations of the _expr interface
      */
     class Impl {
-        public static Class<_annoExpr> ANNO_EXPR = _annoExpr.class;
+        public static Class<_anno> ANNO_EXPR = _anno.class;
         public static Class<_arrayAccessExpr> ARRAY_ACCESS_EXPR = _arrayAccessExpr.class;
         public static Class<_assignExpr> ASSIGN_EXPR = _assignExpr.class;
         public static Class<_arrayInitExpr> ARRAY_INIT_EXPR = _arrayInitExpr.class;
@@ -139,7 +140,7 @@ public interface _expr<E extends Expression, _E extends _expr>
             }
         }
         if( e instanceof AnnotationExpr ){
-            return _annoExpr.of( (AnnotationExpr)e);
+            return _anno.of( (AnnotationExpr)e);
         }
         if( e instanceof ArrayCreationExpr){
             return new _newArrayExpr( (ArrayCreationExpr)e);

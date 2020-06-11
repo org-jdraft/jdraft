@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class _field implements _javadocComment._withJavadoc<_field>, _annoExprs._withAnnoExprs<_field>,
+public final class _field implements _javadocComment._withJavadoc<_field>, _annos._withAnnoExprs<_field>,
         _modifiers._withModifiers<_field>, _modifiers._withFinal<_field>, _modifiers._withStatic<_field>,
         _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
         _java._withNameType<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
@@ -120,10 +120,10 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         return new _field(fd.getVariable(0));
     }
 
-    public static _feature._one<_field, _annoExprs> ANNOS = new _feature._one<>(_field.class, _annoExprs.class,
+    public static _feature._one<_field, _annos> ANNOS = new _feature._one<>(_field.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_field a, _annoExprs _e) -> a.setAnnoExprs(_e), PARSER);
+            (_field a, _annos _e) -> a.setAnnoExprs(_e), PARSER);
 
 
     public static _feature._one<_field, _modifiers> MODIFIERS = new _feature._one<>(_field.class, _modifiers.class,
@@ -299,17 +299,17 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
+    public _annos getAnnoExprs() {
 
         if( this.getFieldDeclaration() != null && this.astVar != null && this.astVar.getParentNode().isPresent()) {
 
-            return _annoExprs.of(getFieldDeclaration());
+            return _annos.of(getFieldDeclaration());
         }
         //FIELDS are a pain this avoids issues if the FieldDeclaration if removed and the errant VarDeclarator
         //exists (not knowing it has been effectively deleted /removed from the model)
         // you SHOULDNT EVER HAVE a VarDeclarator w/o a FieldDeclaration, but (in practice) this
         // saves trying to double removeIn when the parent was removed
-        return _annoExprs.of();
+        return _annos.of();
     }
 
     public SimpleName getNameNode() { return this.astVar.getName(); }

@@ -299,7 +299,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _entry
+     * @see _annoMember
      *
      * @param clazz
      * @param line
@@ -338,7 +338,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _entry
+     * @see _annoMember
      *
      * @param top the top node
      * @param line a 1-based line number (we start with line 1)
@@ -367,7 +367,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _entry
+     * @see _annoMember
      *
      * @param clazz the runtime Class
      * @param line a 1-based line number (we start with line 1)
@@ -391,7 +391,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _entry
+     * @see _annoMember
      *
      * @param _mem
      * @param line
@@ -415,7 +415,7 @@ public interface At {
      * @see _field
      * @see _initBlock
      * @see _constant
-     * @see _entry
+     * @see _annoMember
      *
      * @param top the top node
      * @param line a 1-based line number (we start with line 1)

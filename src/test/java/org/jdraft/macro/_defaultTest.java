@@ -13,8 +13,8 @@ public class _defaultTest extends TestCase {
         _interface _i = _interface.of(I.class);
         //System.out.println( _i);
 
-        assertTrue( _i.getMethod("getY").isDefault());
-        assertFalse( _i.getMethod("getY").hasAnnoExpr(_default.class));
+        assertTrue( _i.firstMethodNamed("getY").isDefault());
+        assertFalse( _i.firstMethodNamed("getY").hasAnnoExpr(_default.class));
 
         //manually apply the _macro to the method
         _method _m = _method.of("public static int getY(){ return 1; }");

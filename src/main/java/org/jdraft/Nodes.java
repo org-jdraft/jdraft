@@ -24,11 +24,11 @@ import java.util.Optional;
 public enum Nodes {
 
       //_anno implementations are a single class in _jdraft, multiple implementation classes in JavaParser
-      ANNO(_annoExpr.class, AnnotationExpr.class),
-         ANNO_EXPR_MARKER(_annoExpr.class, MarkerAnnotationExpr.class),
-         ANNO_EXPR_SINGLE(_annoExpr.class, SingleMemberAnnotationExpr.class),
-         ANNO_EXPR_KEYVALUE(_annoExpr.class, NormalAnnotationExpr.class),
-      ANNO_ENTRY(_entry.class, AnnotationMemberDeclaration.class),
+      ANNO(_anno.class, AnnotationExpr.class),
+         ANNO_EXPR_MARKER(_anno.class, MarkerAnnotationExpr.class),
+         ANNO_EXPR_SINGLE(_anno.class, SingleMemberAnnotationExpr.class),
+         ANNO_EXPR_KEYVALUE(_anno.class, NormalAnnotationExpr.class),
+      ANNO_ENTRY(_annoMember.class, AnnotationMemberDeclaration.class),
       ANNOTATION(_annotation.class, AnnotationDeclaration.class),
       ARRAY_ACCESS_EXPR(_arrayAccessExpr.class, ArrayAccessExpr.class),
       ARRAY_CREATE_EXPR(_newArrayExpr.class, ArrayCreationExpr.class),
@@ -96,8 +96,6 @@ public enum Nodes {
         PACKAGE_INFO(_packageInfo.class, CompilationUnit.class), /***/
         PARAM(_param.class, Parameter.class),
         PARENTHESIZED_EXPRESSION(_parenthesizedExpr.class, EnclosedExpr.class),
-    //_JAVA_TO_AST_NODE_CLASSES.put(_parameters.class, Name.class);
-        QUALIFIED_NAME(_qualifiedName.class, Name.class), /** VIRTUAL */
         RECEIVER_PARAM(_receiverParam.class, ReceiverParameter.class),
         RETURN_STMT(_returnStmt.class, ReturnStmt.class),
         STRING_EXPR(_stringExpr.class, StringLiteralExpr.class),

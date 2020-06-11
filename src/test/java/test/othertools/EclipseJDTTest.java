@@ -184,10 +184,10 @@ public class EclipseJDTTest{ //extends TestCase
             public @_static void main(String[] args){
             }
         });
-        _c.getMethod("main").add( ()->System.out.println("Hello, World!") );
+        _c.firstMethodNamed("main").add( ()->System.out.println("Hello, World!") );
         //System.out.println( _c );
         assertEquals( Stmt.of( ()->System.out.println("Hello, World!")),
-                _c.getMethod("main").getAstStatement(0) );
+                _c.firstMethodNamed("main").getAstStatement(0) );
     }
 
     /**
@@ -257,7 +257,7 @@ public class EclipseJDTTest{ //extends TestCase
 
         //System.out.println(_c);
         assertEquals( Stmt.of( ()->System.out.println("Hello, World!")),
-                _c.getMethod("main").getAstStatement(0));
+                _c.firstMethodNamed("main").getAstStatement(0));
     }
 
     /**

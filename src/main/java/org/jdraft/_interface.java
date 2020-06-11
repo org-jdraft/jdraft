@@ -199,7 +199,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         
         //actually, all methods that are NOT static or default need to have their
         //bodies removed with ; (since it's an interface)
-        _i.forMethods(m-> !m.isDefault() && !m.isStatic(), 
+        _i.toMethods(m-> !m.isDefault() && !m.isStatic(),
                 m -> m.ast().removeBody() );
         return _i;
     }
@@ -238,10 +238,10 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
             a -> a.getPackage(),
             (_interface a, _package b) -> a.setPackage(b), PARSER);
 
-    public static _feature._one<_interface, _annoExprs> ANNOS = new _feature._one<>(_interface.class, _annoExprs.class,
+    public static _feature._one<_interface, _annos> ANNOS = new _feature._one<>(_interface.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_interface a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
+            (_interface a, _annos b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_interface, _javadocComment> JAVADOC = new _feature._one<>(_interface.class, _javadocComment.class,
             _feature._id.JAVADOC,
@@ -441,8 +441,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of(this.astInterface);
+    public _annos getAnnoExprs() {
+        return _annos.of(this.astInterface);
     }
     
     @Override

@@ -251,19 +251,19 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of(HH.class);
-        MethodDeclaration md =  _c.getMethod("commentInNestedBlock").ast();
+        MethodDeclaration md =  _c.firstMethodNamed("commentInNestedBlock").ast();
         List<com.github.javaparser.ast.comments.Comment> cs = md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(3);") );
         System.out.println( md );
         assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).ast().getThenStmt().asBlockStmt().getStatement(1));
 
-        md =  _c.getMethod("lastComment").ast();
+        md =  _c.firstMethodNamed("lastComment").ast();
         cs  =md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(2);") );
         System.out.println( md );
         assertEquals(Stmt.of("System.out.println(2);"), _method.of(md).getAstStatement(1));
 
-        md =  _c.getMethod("onlyComment").ast();
+        md =  _c.firstMethodNamed("onlyComment").ast();
         cs  =md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(1);") );
         assertEquals(Stmt.of("System.out.println(1);"), _method.of(md).getAstStatement(0));
@@ -280,7 +280,7 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of(T.class);
-        MethodDeclaration md = _c.getMethod("t").ast();
+        MethodDeclaration md = _c.firstMethodNamed("t").ast();
         com.github.javaparser.ast.comments.Comment c = md.getAllContainedComments().get(0);
         Comments.replace(c, Stmt.of( ()->System.out.println(1)));
 
@@ -288,7 +288,7 @@ public class AstTest extends TestCase {
         //insertStatement(_c.astCompilationUnit(), Stmt.of("System.out.println(1);"), c.getRange().get().begin);
 
         _c = _class.of(T.class);
-        md = _c.getMethod("t").ast();
+        md = _c.firstMethodNamed("t").ast();
         c = md.getAllContainedComments().get(0);
         Comments.replace(c, Stmt.of( ()->System.out.println(1)),
                 Stmt.of( ()->System.out.println(2)) );
@@ -319,7 +319,7 @@ public class AstTest extends TestCase {
         }
         _class _c =_class.of(C.class);
         System.out.println(_c );
-        _method _m = _c.getMethod("m2");
+        _method _m = _c.firstMethodNamed("m2");
         _m.getAstStatement(0).replace(Stmt.of("assert(1==1)"));
         System.out.println(_c);
 
@@ -362,7 +362,7 @@ public class AstTest extends TestCase {
         System.out.println( _c.toString(Print.EMPTY_STATEMENT_COMMENT_PRINTER));
 
         _c = _class.of(C.class);
-        MethodDeclaration b = _c.getMethod("b").ast();
+        MethodDeclaration b = _c.firstMethodNamed("b").ast();
         System.out.println( b.getRange().get() );
         System.out.println( b.getOrphanComments() );
 
@@ -371,7 +371,7 @@ public class AstTest extends TestCase {
         System.out.println( b.getRange().get() );
         System.out.println( b.getOrphanComments() );
 
-        MethodDeclaration md =_c.getMethod("m").ast();
+        MethodDeclaration md =_c.firstMethodNamed("m").ast();
         Statement st1 = md.getBody().get().getStatement(0);
         LineComment lc = new LineComment("//ORPHAN LINE");
 
@@ -399,7 +399,7 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        _method _m = _c.getMethod("m");
+        _method _m = _c.firstMethodNamed("m");
         List<com.github.javaparser.ast.comments.Comment> cs = _m.ast().getAllContainedComments();
         //System.out.println( cs );
         com.github.javaparser.ast.comments.Comment c = cs.get(0);
@@ -467,7 +467,7 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        _method _m = _c.getMethod("m");
+        _method _m = _c.firstMethodNamed("m");
         List<com.github.javaparser.ast.comments.Comment> cs = _m.ast().getAllContainedComments();
         //System.out.println( cs );
         com.github.javaparser.ast.comments.Comment c = cs.get(0);
@@ -624,7 +624,7 @@ public class AstTest extends TestCase {
 
         assertTrue( Ast.root(_f.ast()) instanceof FieldDeclaration );
 
-        _annoExpr _a = _annoExpr.of("@R");
+        _anno _a = _anno.of("@R");
 
         assertTrue( Ast.root(_a.ast()) instanceof AnnotationExpr );
 
@@ -715,8 +715,8 @@ public class AstTest extends TestCase {
     }
     
     public void testAnnoExprEqualsAndHash(){
-        _annoExpr _a = _annoExpr.of("a(1)");
-        _annoExpr _b = _annoExpr.of("a(value=1)");
+        _anno _a = _anno.of("a(1)");
+        _anno _b = _anno.of("a(value=1)");
         
         assertEquals( _a, _b);
         assertEquals(_a.hashCode(), _b.hashCode());
@@ -747,8 +747,8 @@ public class AstTest extends TestCase {
         System.out.println("B MODIFIERS " + F.class.getDeclaredMethod("b", new Class[0]).getModifiers());
         _class _c = _class.of( F.class );
         
-        _method _m1 = _c.getMethod("a");
-        _method _m2 = _c.getMethod("b");
+        _method _m1 = _c.firstMethodNamed("a");
+        _method _m2 = _c.firstMethodNamed("b");
         
         System.out.println( _m1.getEffectiveModifiers() );
         System.out.println( _m2.getEffectiveModifiers() );

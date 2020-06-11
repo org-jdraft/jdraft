@@ -120,7 +120,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_annoExpr)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_anno)a) ) != null;
                 $and( pf  );
             }
             else if( parts[i] instanceof $annoRefs){
@@ -162,7 +162,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 final $method $fj = (($method)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _method._withMethods){
-                        return ((_method._withMethods)a).getMethod(e->$fj.match((_method)e)) != null; //found one
+                        return ((_method._withMethods)a).firstMethod(e->$fj.match((_method)e)) != null; //found one
                     }
                     return false;
                 };
@@ -216,7 +216,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_annoExpr)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_anno)a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
@@ -258,7 +258,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 final $method $fj = (($method)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _method._withMethods){
-                        return ((_method._withMethods)a).getMethod(e->$fj.match((_method)e)) != null; //found one
+                        return ((_method._withMethods)a).firstMethod(e->$fj.match((_method)e)) != null; //found one
                     }
                     return false;
                 };
@@ -377,7 +377,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         return this.annos;
     }
 
-    public $type $annos(Predicate<_annoExprs> annosMatchFn){
+    public $type $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

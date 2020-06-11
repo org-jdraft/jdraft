@@ -270,10 +270,10 @@ public class _typeRefTest extends TestCase {
 
    public void testGenericTypes(){
       _class _c = _class.of( GenericTypes.class ); //make sure we can read thesein
-      _typeParams _args = _c.getMethod( "intersection" ).getTypeParams();
+      _typeParams _args = _c.firstMethodNamed( "intersection" ).getTypeParams();
       //Type t = mds.getAt( 0 ).getType();
       //System.out.println( _typeParams );
-      _typeRef wc = _c.getMethod("wildcard").getType();
+      _typeRef wc = _c.firstMethodNamed("wildcard").getType();
       //assertTrue( wc.is( "List<? extends GenericTypes>") );
       //NodeList<Type> args = wc.getTypeArgs();
       //assertEquals( "List", wc.getRootTypeName() );

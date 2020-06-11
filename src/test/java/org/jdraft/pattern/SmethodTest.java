@@ -443,13 +443,13 @@ public class SmethodTest extends TestCase {
         System.out.println( _me);
         
         System.out.println( _c );
-        String strs = _c.getMethod("setX").toString();
+        String strs = _c.firstMethodNamed("setX").toString();
         System.out.println( strs );
         assertNotNull( $setFleunt.select(strs) );
         
-        System.out.println( "METHOD TYPE " + _c.getMethod("setX").getType() );
+        System.out.println( "METHOD TYPE " + _c.firstMethodNamed("setX").getType() );
         
-        assertNotNull( $setFleunt.select(_c.getMethod("setX") ) );
+        assertNotNull( $setFleunt.select(_c.firstMethodNamed("setX") ) );
         assertNotNull( $setFleunt.firstIn(_c));
         
         //verify there are (2) setFluents
@@ -567,7 +567,7 @@ public class SmethodTest extends TestCase {
 
         //find all (3) getter METHODS in the TYPE above
         assertEquals( 3, $get.listSelectedIn(_c).size());
-        assertEquals($get.select(_c.getMethod("getX") )._m, _method.of("public int getX(){ return x; }") );
+        assertEquals($get.select(_c.firstMethodNamed("getX") )._m, _method.of("public int getX(){ return x; }") );
         assertEquals( 3, $set.listSelectedIn(_c).size());
 
         //print all get METHODS

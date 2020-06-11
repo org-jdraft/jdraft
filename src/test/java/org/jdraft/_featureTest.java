@@ -8,8 +8,8 @@ import java.net.URISyntaxException;
 public class _featureTest extends TestCase {
 
     public void testFeatureInstanceMap(){
-        assertEquals( _annoExpr.FEATURES.size(), _annoExpr.FEATURES.featureMap(_annoExpr.of("@A(k=1,v=2)")).size());
-        assertEquals( _annoExprs.FEATURES.size(), _annoExprs.FEATURES.featureMap( _annoExprs.of("@A @B @C @D")).size());
+        assertEquals( _anno.FEATURES.size(), _anno.FEATURES.featureMap(_anno.of("@A(k=1,v=2)")).size());
+        assertEquals( _annos.FEATURES.size(), _annos.FEATURES.featureMap( _annos.of("@A @B @C @D")).size());
         assertEquals( _annotation.FEATURES.size(), _annotation.FEATURES.featureMap( _annotation.of("A").addEntry("int val()").addInnerType(_class.of("B")) ).size());
         assertEquals( _args.FEATURES.size(), _args.FEATURES.featureMap(_args.of("1,'c'")).size());
         assertEquals( _newArrayExpr.FEATURES.size(), _newArrayExpr.FEATURES.featureMap(_newArrayExpr.of("int [1][2][3]")).size());
@@ -60,8 +60,8 @@ public class _featureTest extends TestCase {
 
     //here we go through all the "many" features and make sure the getters work
     public void testManyGet(){
-        assertEquals( 2, _annoExpr.ENTRY_PAIRS.get(_annoExpr.of("@A(k=1,v=2)")).size());
-        assertEquals( 4, _annoExprs.ANNOS.get( _annoExprs.of("@A @B @C @D")).size());
+        assertEquals( 2, _anno.ENTRY_PAIRS.get(_anno.of("@A(k=1,v=2)")).size());
+        assertEquals( 4, _annos.ANNOS.get( _annos.of("@A @B @C @D")).size());
         assertEquals( 2, _annotation.MEMBERS.get( _annotation.of("A").addEntry("int val()").addInnerType(_class.of("B")) ).size());
         assertEquals( 2, _args.ARGS.get(_args.of("1,'c'")).size());
         assertEquals( 3, _newArrayExpr.DIMENSIONS.get(_newArrayExpr.of("int [1][2][3]")).size());

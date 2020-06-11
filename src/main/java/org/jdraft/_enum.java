@@ -264,10 +264,10 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             a -> a.getPackage(),
             (_enum a, _package b) -> a.setPackage(b), PARSER);
 
-    public static _feature._one<_enum, _annoExprs> ANNO_EXPRS = new _feature._one<>(_enum.class, _annoExprs.class,
+    public static _feature._one<_enum, _annos> ANNO_EXPRS = new _feature._one<>(_enum.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_enum a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
+            (_enum a, _annos b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_enum, _javadocComment> JAVADOC = new _feature._one<>(_enum.class, _javadocComment.class,
             _feature._id.JAVADOC,
@@ -378,8 +378,8 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of(this.astEnum );
+    public _annos getAnnoExprs() {
+        return _annos.of(this.astEnum );
     }
    
     @Override

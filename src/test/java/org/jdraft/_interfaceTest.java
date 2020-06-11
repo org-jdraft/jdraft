@@ -76,9 +76,9 @@ public class _interfaceTest extends TestCase {
                 return ""+ii + a;
             }
         });
-        assertTrue( _i.getMethod("print").isDefault() );
-        assertTrue( _i.getMethod("getR").isAbstract() );
-        assertTrue( _i.getMethod("doIt").isStatic() );
+        assertTrue( _i.firstMethodNamed("print").isDefault() );
+        assertTrue( _i.firstMethodNamed("getR").isAbstract() );
+        assertTrue( _i.firstMethodNamed("doIt").isStatic() );
         assertNull( _i.getField("a"));
     }
 
@@ -191,16 +191,16 @@ public class _interfaceTest extends TestCase {
         //System.out.println( _i.getMethod( "doIt" ).hashCode());
         //System.out.println( _interface.of( ComplexInterface.class ).getMethod( "doIt" ).hashCode());
         //System.out.println( _interface.of( ComplexInterface.class ).getMethod( "doIt" ).hashCode() );
-        assertEquals(_i.getMethod("doIt"), _interface.of(ComplexInterface.class).getMethod("doIt"));
-        assertEquals(_i.getMethod("doIt").hashCode(), _interface.of(ComplexInterface.class).getMethod("doIt").hashCode());
+        assertEquals(_i.firstMethodNamed("doIt"), _interface.of(ComplexInterface.class).firstMethodNamed("doIt"));
+        assertEquals(_i.firstMethodNamed("doIt").hashCode(), _interface.of(ComplexInterface.class).firstMethodNamed("doIt").hashCode());
         
         //System.out.println( _i.getMethod( "getValue" ).hashCode());
         //System.out.println( _interface.of( ComplexInterface.class ).getMethod( "getValue" ).hashCode());
-        assertEquals(_i.getMethod("getValue"),_interface.of(ComplexInterface.class).getMethod("getValue"));
-        assertEquals(_i.getMethod("getValue").hashCode(), _interface.of(ComplexInterface.class).getMethod("getValue").hashCode());
+        assertEquals(_i.firstMethodNamed("getValue"),_interface.of(ComplexInterface.class).firstMethodNamed("getValue"));
+        assertEquals(_i.firstMethodNamed("getValue").hashCode(), _interface.of(ComplexInterface.class).firstMethodNamed("getValue").hashCode());
 
-        assertEquals(_i.getMethod("genMethod"),_interface.of(ComplexInterface.class).getMethod("genMethod"));
-        assertEquals(_i.getMethod("genMethod").hashCode(), _interface.of(ComplexInterface.class).getMethod("genMethod").hashCode());
+        assertEquals(_i.firstMethodNamed("genMethod"),_interface.of(ComplexInterface.class).firstMethodNamed("genMethod"));
+        assertEquals(_i.firstMethodNamed("genMethod").hashCode(), _interface.of(ComplexInterface.class).firstMethodNamed("genMethod").hashCode());
 
         //System.out.println( _diff.of( _i, _interface.of(ComplexInterface.class)) );
 
@@ -231,7 +231,7 @@ public class _interfaceTest extends TestCase {
             "@ann @ann2(k='2',v=3)",
             "static final int VALUE = 120;"));
         
-        _method _m = _i.getMethod( "getValue" );
+        _method _m = _i.firstMethodNamed( "getValue" );
 
         /*
         _m.tokenize().forEach( (s, o)->{

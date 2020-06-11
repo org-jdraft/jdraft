@@ -158,7 +158,7 @@ public class _fieldTest extends TestCase {
         _field _f = _field.of("/** JAVADOC */", "@ann(1)", "@ann2(3)", "public static final int W = 103 + 45;");
         assertNotNull( _f.getJavadoc() );
         assertTrue( _f.getJavadoc().getText().contains( "JAVADOC"));
-        _annoExprs _as = _f.getAnnoExprs();
+        _annos _as = _f.getAnnoExprs();
         assertEquals( 2, _as.size() );
         assertTrue( _as.is("@ann(1)", "@ann2(3)") );
         

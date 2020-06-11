@@ -80,7 +80,7 @@ import org.jdraft.walk.Walk;
  * AST & NodeWithAnnotations
  */
 public interface _type<AST extends TypeDeclaration, _T extends _type>
-    extends _javadocComment._withJavadoc<_T>, _annoExprs._withAnnoExprs<_T>, _modifiers._withModifiers<_T>,
+    extends _javadocComment._withJavadoc<_T>, _annos._withAnnoExprs<_T>, _modifiers._withModifiers<_T>,
         _field._withFields<_T>, _java._declared<AST, _T>, _codeUnit<_T>, _tree._node<AST, _T> {
 
     /**
@@ -649,7 +649,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * Adds {@link _initBlock}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _entry}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annoMember}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) to the BODY of the {@link _type} and return the modified {@link _type}
      * @param members the members to be added
      * @return the modified _type
@@ -808,7 +808,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._member}s: ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,
-     * {@link _constant}s, {@link _entry}s) , and inner{@link _type}s, {@link _enum}s,
+     * {@link _constant}s, {@link _annoMember}s) , and inner{@link _type}s, {@link _enum}s,
      * {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @return a List of {@link _java._member}s on the {@link _type}
      */
@@ -838,7 +838,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._member}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
-     * {@link _constructor}s,{@link _constant}s, {@link _entry}s) , and inner {@link _type}s,
+     * {@link _constructor}s,{@link _constant}s, {@link _annoMember}s) , and inner {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
@@ -858,7 +858,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._member}s of the memberClass: ({@link _initBlock}s, {@link _field}s, {@link _method}s,
-     * {@link _constructor}s,{@link _constant}s, {@link _entry}s) , and inner {@link _type}s,
+     * {@link _constructor}s,{@link _constant}s, {@link _annoMember}s) , and inner {@link _type}s,
      * {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s) on the _type
      * @param memberClass
      * @param <_M>
@@ -997,7 +997,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * remove all members ({@link _initBlock}s, {@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _entry}s, and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annoMember}s, and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type that are of the declarationClass and match the _declarationMatchFn
      * @param <_M> the _member type (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
      * @param memberClass the Class (i.e. _initBlock.class, _method.class, _field.class, _constructor.class, _initBlock.class)
@@ -1057,7 +1057,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * Iterate & apply the action function to all {@link _java._declared}s ({@link _field}s,
-     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _entry}s),
+     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annoMember}s),
      * and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      * that satisfy the _declarationMatchFn
      * @param _declarationMatchFn function for selecting which _declarations to apply the _declarationActionFn
@@ -1071,7 +1071,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List the {@link _java._declared}s ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _entry}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annoMember}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type
      * @return a List of {@link _java._declared}s on the _type
      */
@@ -1081,7 +1081,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * List all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _entry}s) , and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annoMember}s) , and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type matching the _declarationMatchFn
      * @param _declarationMatchFn
      * @return a list of _declarations
@@ -1092,7 +1092,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     
     /**
      * list all _declared ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _entry}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annoMember}s), and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) oon the _type that are of the declarationClass
      * @param <_D> the _declaration type (i.e. _method.class, _field.class, _staticBlock.class)
      * @param declarationClass the Class (i.e. _method.class, _field.class, _staticBlock.class)
@@ -1104,7 +1104,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     
     /**
      * list all _declarations ({@link _field}s, {@link _method}s, {@link _constructor}s,{@link _constant}s,
-     * {@link _entry}s, and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
+     * {@link _annoMember}s, and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s,
      * {@link _annotation}s) on the _type that are of the declarationClass
      * @param <_D> the _declaration type (i.e. _method.class, _field.class, _constructor.class)
      * @param declarationClass the Class (i.e. _method.class, _field.class, _constructor.class)
@@ -1159,7 +1159,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
     /**
      * finds the first declaration {@link _java._declared}s of Class: ({@link _field}s,
-     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _entry}s) ,
+     * {@link _method}s, {@link _constructor}s,{@link _constant}s, {@link _annoMember}s) ,
      * and inner {@link _type}s, {@link _enum}s, {@link _class}es, {@link _interface}s, {@link _annotation}s)
      *  with the name and returns it
      *

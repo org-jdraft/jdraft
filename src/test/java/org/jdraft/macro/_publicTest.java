@@ -28,7 +28,7 @@ public class _publicTest extends TestCase {
         assertTrue( _c.getField("g").isPublic());
         assertFalse( _c.getField("g").hasAnnoExpr(_public.class));
 
-        assertTrue( _c.getMethod("b").isPublic());
-        assertFalse( _c.getMethod("b").hasAnnoExpr(_public.class));
+        assertTrue( _c.firstMethodNamed("b").isPublic());
+        assertFalse( _c.firstMethodNamed("b").hasAnnoExpr(_public.class));
     }
 }

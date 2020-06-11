@@ -122,7 +122,7 @@ public class $interface
         _c.getTypeParams().toEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
         _c.listAstExtends().forEach(i -> $c.$extend(i));
         _c.forFields(f-> $c.fields.add($field.of(f)));
-        _c.forMethods(m -> $c.$methods($method.of(m)));
+        _c.toMethods(m -> $c.$methods($method.of(m)));
         _c.forInnerTypes(n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
@@ -462,7 +462,7 @@ public class $interface
             }
             else if(parts[i] instanceof $method ){
                 final $method $fj = (($method)parts[i]);
-                Predicate<_interface> aFn = a-> a.getMethod(e->$fj.matches(e)) != null; //found one
+                Predicate<_interface> aFn = a-> a.firstMethod(e->$fj.matches(e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $import) {
@@ -608,7 +608,7 @@ public class $interface
         return this.annos;
     }
 
-    public $interface $annos(Predicate<_annoExprs> annosMatchFn){
+    public $interface $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

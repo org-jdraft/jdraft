@@ -114,7 +114,7 @@ public class $enum
         _e.forInitBlocks(ib -> $e.initBlocks.add($initBlock.of(ib.ast())));
         _e.forConstructors(ct -> $e.ctors.add($constructor.of(ct)));
         _e.forFields(f-> $e.fields.add($field.of(f)));
-        _e.forMethods(m -> $e.$methods($method.of(m)));
+        _e.toMethods(m -> $e.$methods($method.of(m)));
         _e.forInnerTypes(n -> {
             if( n instanceof _class) {
                 $e.$hasChild( $class.of((_class)n) );
@@ -250,7 +250,7 @@ public class $enum
             }
             else if(parts[i] instanceof $method ){
                 final $method $fj = (($method)parts[i]);
-                Predicate<_enum> aFn = a-> a.getMethod(e->$fj.match(e)) != null; //found one
+                Predicate<_enum> aFn = a-> a.firstMethod(e->$fj.match(e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if(parts[i] instanceof $enumConstant ){
@@ -654,7 +654,7 @@ public class $enum
         return this.annos;
     }
 
-    public $enum $annos(Predicate<_annoExprs> annosMatchFn){
+    public $enum $annos(Predicate<_annos> annosMatchFn){
         this.annos.$and(annosMatchFn);
         return this;
     }

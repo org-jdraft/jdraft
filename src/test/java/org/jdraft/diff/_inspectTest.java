@@ -243,7 +243,7 @@ public class _inspectTest extends TestCase {
     public void testMethodDiff(){
         _class _c1 = _class.of("C").addMethod("void m(){}");
         _class _c2 = _class.of("C").addMethod("void m(){}");
-        _c2.forMethods(m-> m.addAnnoExprs(Deprecated.class));
+        _c2.toMethods(m-> m.addAnnoExprs(Deprecated.class));
         
         //System.out.println( _c2 );
         _diff dt = _diff.of(_c1, _c2);
@@ -255,7 +255,7 @@ public class _inspectTest extends TestCase {
         assertNotNull(dt.firstOn(_method.class, "m()"));
         assertNotNull(dt.firstAt(ANNO_EXPR));
        
-        _c1.forMethods(m -> m.setFinal());
+        _c1.toMethods(m -> m.setFinal());
         
         dt = _diff.of(_c1, _c2);
         //System.out.println( dt );
@@ -301,7 +301,7 @@ public class _inspectTest extends TestCase {
         dt.forEach(d -> System.out.println( d.path().featurePath) );
         assertTrue(dt.listAt(CONSTRUCTOR).size() >= 1);
         
-        _c1.getMethod("m").addAnnoExprs(Deprecated.class);
+        _c1.firstMethodNamed("m").addAnnoExprs(Deprecated.class);
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(ANNO_EXPR) instanceof _leftOnly); //its removed from left -> right
         

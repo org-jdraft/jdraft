@@ -186,8 +186,8 @@ public class _methodTest extends TestCase {
     }
 
     public void testImpliedModifiers(){
-        _method _m = _interface.of(I.class).getMethod("m");
-        _method _m2 = _interface.of(I2.class).getMethod("m");
+        _method _m = _interface.of(I.class).firstMethodNamed("m");
+        _method _m2 = _interface.of(I2.class).firstMethodNamed("m");
         _method _m3 = _method.of("int m();");
         _method _m4 = _method.of("public abstract int m();");
 
@@ -409,7 +409,7 @@ public class _methodTest extends TestCase {
 
         _class _c = _class.of( _methodTest.class ).getDeclared("Internal");
         //_class _c = _class.of( Internal.class );
-        System.out.println( "JAVADOC "+ _c.getMethod("add").getJavadoc() );
+        System.out.println( "JAVADOC "+ _c.firstMethodNamed("add").getJavadoc() );
         System.out.println( _c );
     }
     public void testIsMain(){
@@ -444,7 +444,7 @@ public class _methodTest extends TestCase {
         _dict.getImports().clear();
 
         System.out.println( _dict );
-        assertTrue( _dict.getMethod( "getDefinition" ).isAbstract() );
+        assertTrue( _dict.firstMethodNamed( "getDefinition" ).isAbstract() );
         //_javac.of( _dict );
     }
 
@@ -497,7 +497,7 @@ public class _methodTest extends TestCase {
                     && ((MethodCallExpr)m.asExpressionStmt().getExpression()).getScope().get().toString().equals("System.out");
 
     public void testMethodRemoveStatements(){
-        _method _ih = _class.of( Inner.class).getMethod( "ih");
+        _method _ih = _class.of( Inner.class).firstMethodNamed( "ih");
         final List<ExpressionStmt> sof = new ArrayList<>();
         Walk.in( _ih.getBody().ast(), ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );
         //_ih.walkBody( ExpressionStmt.class, MATCH_SYSTEM_OUT_ST_FN, e-> sof.add(e) );

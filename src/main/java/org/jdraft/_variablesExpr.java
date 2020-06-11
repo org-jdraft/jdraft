@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public final class _variablesExpr implements _expr<VariableDeclarationExpr, _variablesExpr>,
         _tree._node<VariableDeclarationExpr, _variablesExpr>,
         _tree._group<VariableDeclarator, _variable, _variablesExpr>,
-        _annoExprs._withAnnoExprs<_variablesExpr>,
+        _annos._withAnnoExprs<_variablesExpr>,
         _modifiers._withFinal<_variablesExpr>{
 
     public static final Function<String, _variablesExpr> PARSER = s-> _variablesExpr.of(s);
@@ -38,10 +38,10 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return new _variablesExpr(Expr.variablesExpr(code));
     }
 
-    public static _feature._one<_variablesExpr, _annoExprs> ANNOS = new _feature._one<>(_variablesExpr.class, _annoExprs.class,
+    public static _feature._one<_variablesExpr, _annos> ANNOS = new _feature._one<>(_variablesExpr.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_variablesExpr p, _annoExprs _ccs) -> p.setAnnoExprs(_ccs), PARSER);
+            (_variablesExpr p, _annos _ccs) -> p.setAnnoExprs(_ccs), PARSER);
 
     public static _feature._one<_variablesExpr, _modifiers> MODIFIERS = new _feature._one<>(_variablesExpr.class, _modifiers.class,
             _feature._id.MODIFIERS,
@@ -198,8 +198,8 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of(this.varDeclEx);
+    public _annos getAnnoExprs() {
+        return _annos.of(this.varDeclEx);
     }
 
     public boolean equals(Object other){

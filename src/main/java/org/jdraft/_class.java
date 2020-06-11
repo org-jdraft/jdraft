@@ -439,10 +439,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             a -> a.getPackage(),
             (_class a, _package b) -> a.setPackage(b), PARSER);
 
-    public static _feature._one<_class, _annoExprs> ANNOS = new _feature._one<>(_class.class, _annoExprs.class,
+    public static _feature._one<_class, _annos> ANNOS = new _feature._one<>(_class.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_class a, _annoExprs b) -> a.setAnnoExprs(b), PARSER);
+            (_class a, _annos b) -> a.setAnnoExprs(b), PARSER);
 
     public static _feature._one<_class, _javadocComment> JAVADOC = new _feature._one<>(_class.class, _javadocComment.class,
             _feature._id.JAVADOC,
@@ -867,8 +867,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of(this.astClass );
+    public _annos getAnnoExprs() {
+        return _annos.of(this.astClass );
     }
 
     /*

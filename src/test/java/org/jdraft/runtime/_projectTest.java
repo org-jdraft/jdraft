@@ -112,7 +112,7 @@ public class _projectTest extends TestCase {
         System.out.println( "AST COMP UNIT "+ _cc.astCompilationUnit().toString() +" <><><><><><><<>");
         
         assertTrue( _cc.hasMain() );
-        assertTrue( _cc.getMethod("main").isMain() );
+        assertTrue( _cc.firstMethodNamed("main").isMain() );
         
         System.out.println( _cc );
         _runtime _p = _runtime.of(_class.of( L.class));

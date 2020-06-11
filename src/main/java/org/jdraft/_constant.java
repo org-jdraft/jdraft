@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class _constant implements _java._declared<EnumConstantDeclaration, _constant>,
         _javadocComment._withJavadoc<_constant>,
-        _annoExprs._withAnnoExprs<_constant>,
+        _annos._withAnnoExprs<_constant>,
         _method._withMethods<_constant>,
         _field._withFields<_constant>,
         _args._withArgs<EnumConstantDeclaration, _constant> {
@@ -44,10 +44,10 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return new _constant( ecd);
     }
 
-    public static _feature._one<_constant, _annoExprs> ANNOS = new _feature._one<>(_constant.class, _annoExprs.class,
+    public static _feature._one<_constant, _annos> ANNOS = new _feature._one<>(_constant.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_constant a, _annoExprs o) -> a.setAnnoExprs(o), PARSER);
+            (_constant a, _annos o) -> a.setAnnoExprs(o), PARSER);
 
     public static _feature._one<_constant, String> NAME = new _feature._one<>(_constant.class, String.class,
             _feature._id.NAME,
@@ -244,8 +244,8 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of(this.astConstant );
+    public _annos getAnnoExprs() {
+        return _annos.of(this.astConstant );
     }
 
 

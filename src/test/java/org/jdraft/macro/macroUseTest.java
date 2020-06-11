@@ -88,12 +88,12 @@ public class macroUseTest extends TestCase {
         }
         _c = _class.of(D.class);
         assertTrue(_c.getConstructor(0).getParam(0).isType(int.class));
-        assertNotNull(_c.getMethod("equals"));
-        assertNotNull(_c.getMethod("hashCode"));
-        assertNotNull(_c.getMethod("toString"));
-        assertNotNull(_c.getMethod("getX"));
-        assertNotNull(_c.getMethod("getI"));
-        assertNotNull(_c.getMethod("setZ").getParam(0).isType(int.class));
+        assertNotNull(_c.firstMethodNamed("equals"));
+        assertNotNull(_c.firstMethodNamed("hashCode"));
+        assertNotNull(_c.firstMethodNamed("toString"));
+        assertNotNull(_c.firstMethodNamed("getX"));
+        assertNotNull(_c.firstMethodNamed("getI"));
+        assertNotNull(_c.firstMethodNamed("setZ").getParam(0).isType(int.class));
     }
     public void testAutoEquals(){
         @_equals
@@ -106,7 +106,7 @@ public class macroUseTest extends TestCase {
             UUID[] uuids;
         }
         _class _c = _class.of(E.class);
-        assertNotNull( _c.getMethod("equals") );
+        assertNotNull( _c.firstMethodNamed("equals") );
         //System.out.println( "EEEEEEEEEEEEEEEEEEEEEEEEE " + _c.getMethod("equals"));
         //assertEquals(1, _equals.$primitive.listSelectedIn(_c).size());  //int a;
         //assertEquals(1, _equals.$float.listSelectedIn(_c).size());      //float f
@@ -124,9 +124,9 @@ public class macroUseTest extends TestCase {
             static final int r = 100; //no getter
         }
         _class _c = _class.of(A.class);
-        assertTrue( _c.getMethod("getX").isType(int.class));
-        assertTrue( _c.getMethod("getG").isType(String.class));
-        assertNull( _c.getMethod("getR") );
+        assertTrue( _c.firstMethodNamed("getX").isType(int.class));
+        assertTrue( _c.firstMethodNamed("getG").isType(String.class));
+        assertNull( _c.firstMethodNamed("getR") );
     }
 
     public void testAutoSet(){
@@ -139,10 +139,10 @@ public class macroUseTest extends TestCase {
         }
         _class _c = _class.of(A.class);
         System.out.println( _c );
-        assertTrue( _c.getMethod("setX").getParam(0).isType(int.class));
-        assertTrue( _c.getMethod("setG").getParam(0).isType(String.class));
-        assertNull( _c.getMethod("setFin") );
-        assertNull( _c.getMethod("setR") );
+        assertTrue( _c.firstMethodNamed("setX").getParam(0).isType(int.class));
+        assertTrue( _c.firstMethodNamed("setG").getParam(0).isType(String.class));
+        assertNull( _c.firstMethodNamed("setFin") );
+        assertNull( _c.firstMethodNamed("setR") );
     }
 
     public void testAutoSetFluent(){
@@ -154,12 +154,12 @@ public class macroUseTest extends TestCase {
             static final int r = 100; //no setter
         }
         _class _c = _class.of(C.class);
-        assertTrue( _c.getMethod("setX").getParam(0).isType(int.class));
-        assertTrue( _c.getMethod("setG").getParam(0).isType(String.class));
-        assertTrue( _c.getMethod("setG").isType(C.class));
-        assertTrue( _c.getMethod("setX").isType(C.class));
-        assertNull( _c.getMethod("setFin") );
-        assertNull( _c.getMethod("setR") );
+        assertTrue( _c.firstMethodNamed("setX").getParam(0).isType(int.class));
+        assertTrue( _c.firstMethodNamed("setG").getParam(0).isType(String.class));
+        assertTrue( _c.firstMethodNamed("setG").isType(C.class));
+        assertTrue( _c.firstMethodNamed("setX").isType(C.class));
+        assertNull( _c.firstMethodNamed("setFin") );
+        assertNull( _c.firstMethodNamed("setR") );
     }
 
     public void testAutoToString(){
@@ -170,7 +170,7 @@ public class macroUseTest extends TestCase {
             UUID[] uuids;
         }
         _class _c = _class.of(E.class);
-        assertNotNull( _c.getMethod("toString") );
+        assertNotNull( _c.firstMethodNamed("toString") );
         System.out.println( _c );
         //assertEquals(1, _toString.$simple.listSelectedIn(_c).size());  //String s;
         //assertEquals(1, _toString.$arrayOfObjects.listSelectedIn(_c).size());      //uuids f
@@ -213,7 +213,7 @@ public class macroUseTest extends TestCase {
         _class _c = _class.of(C.class);
         assertTrue( _c.isFinal());
         assertTrue( _c.getField("a").isFinal());
-        assertTrue( _c.getMethod("m").isFinal());
+        assertTrue( _c.firstMethodNamed("m").isFinal());
 
         System.out.println( _c);
         assertTrue( ((_class)_c.getDeclared("F")).isFinal());
@@ -250,7 +250,7 @@ public class macroUseTest extends TestCase {
         _class _c = _class.of(VV.class);
         assertTrue( !_c.isStatic());
         assertTrue( !_c.getField("f").isStatic());
-        assertTrue( !_c.getMethod("getF").isStatic());
+        assertTrue( !_c.firstMethodNamed("getF").isStatic());
     }
 
     public void testPackage(){
@@ -275,7 +275,7 @@ public class macroUseTest extends TestCase {
         _class _c = _class.of(C.class);
         assertTrue( _c.isPrivate());
         assertTrue( _c.getField("f").isPrivate());
-        assertTrue( _c.getMethod("m").isPrivate());
+        assertTrue( _c.firstMethodNamed("m").isPrivate());
         assertTrue( _c.getDeclared(_class.class,"F").isPrivate());
     }
 
@@ -306,7 +306,7 @@ public class macroUseTest extends TestCase {
         _class _c = _class.of(O.class);
         assertTrue( _c.isProtected() );
         assertTrue( _c.getField("g").isProtected() );
-        assertTrue( _c.getMethod("m").isProtected() );
+        assertTrue( _c.firstMethodNamed("m").isProtected() );
     }
 
     public void testPublic(){
@@ -362,7 +362,7 @@ public class macroUseTest extends TestCase {
 
         assertTrue(_c.isStatic());
         assertTrue(_c.getField("f").isStatic());
-        assertTrue(_c.getMethod("m").isStatic());
+        assertTrue(_c.firstMethodNamed("m").isStatic());
     }
 
     public void testTransient(){

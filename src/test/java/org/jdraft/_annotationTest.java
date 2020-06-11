@@ -49,7 +49,7 @@ public class _annotationTest extends TestCase  {
 
         System.out.println( _a );
 
-        assertTrue( _a.getEntry("value").equals(_entry.of("/** A Javadoc */ int value() default 100;")));
+        assertTrue( _a.getEntry("value").equals(_annoMember.of("/** A Javadoc */ int value() default 100;")));
         assertTrue( _a.getEntry("name").is("String name() default \"Eric\";"));
     }
 
@@ -118,7 +118,7 @@ public class _annotationTest extends TestCase  {
         assertTrue( _an.getField("V").isType( int.class));
         assertEquals( Expr.of( 102), _an.getField("V").getInitNode());
 
-        _entry _p = _an.getEntry("value");
+        _annoMember _p = _an.getEntry("value");
         assertTrue(_p.getAnnoExprs().is( "@ann", "@ann2(k='3',v=2)"));
         assertTrue(_p.getJavadoc().getText().contains( "javadoc"));
         assertFalse( _p.hasDefaultValue());

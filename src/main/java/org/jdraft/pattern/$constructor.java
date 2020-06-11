@@ -18,7 +18,7 @@ import java.util.function.*;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoExprs;
+import org.jdraft._annos;
 import org.jdraft._params;
 import org.jdraft._typeParams;
 import org.jdraft.macro._remove;
@@ -617,7 +617,7 @@ public class $constructor
         return this;
     }
     
-    public $constructor $annos( Predicate<_annoExprs> constraint ){
+    public $constructor $annos( Predicate<_annos> constraint ){
         this.annos.$and(constraint);
         return this;
     }

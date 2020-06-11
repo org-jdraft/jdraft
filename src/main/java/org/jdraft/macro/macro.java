@@ -55,7 +55,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
         if( node instanceof VariableDeclarator ){
             _field.of( (VariableDeclarator)node).removeAnnoExprs(annClass);
         } else {
-            _annoExprs.of((NodeWithAnnotations) node).remove(annClass);
+            _annos.of((NodeWithAnnotations) node).remove(annClass);
         }
         return node;
     }

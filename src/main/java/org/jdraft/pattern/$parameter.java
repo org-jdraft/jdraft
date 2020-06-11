@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.jdraft.*;
-import org.jdraft._annoExprs;
+import org.jdraft._annos;
 import org.jdraft.text.*;
 import org.jdraft.walk.Walk;
 
@@ -295,7 +295,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
         return this;
     }
     
-    public $parameter $annos( Predicate<_annoExprs> annosPredicate){
+    public $parameter $annos( Predicate<_annos> annosPredicate){
         this.annos.$and(annosPredicate);
         return this;
     }

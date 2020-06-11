@@ -13,7 +13,7 @@ import com.github.javaparser.ast.type.Type;
  * @author Eric
  */
 public final class _param
-    implements _java._withNameType<Parameter, _param>, _annoExprs._withAnnoExprs<_param>,
+    implements _java._withNameType<Parameter, _param>, _annos._withAnnoExprs<_param>,
         _modifiers._withFinal<_param>, _tree._node<Parameter, _param> {
 
     public static final Function<String, _param> PARSER = s-> _param.of(s);
@@ -65,10 +65,10 @@ public final class _param
     }
 
 
-    public static _feature._one<_param, _annoExprs> ANNOS = new _feature._one<>(_param.class, _annoExprs.class,
+    public static _feature._one<_param, _annos> ANNOS = new _feature._one<>(_param.class, _annos.class,
             _feature._id.ANNOS,
             a -> a.getAnnoExprs(),
-            (_param p, _annoExprs _ae) -> p.setAnnoExprs(_ae), PARSER);
+            (_param p, _annos _ae) -> p.setAnnoExprs(_ae), PARSER);
 
     public static _feature._one<_param, Boolean> IS_FINAL = new _feature._one<>(_param.class, Boolean.class,
             _feature._id.IS_FINAL,
@@ -85,10 +85,10 @@ public final class _param
             a -> a.isVarArg(),
             (_param p, Boolean b) -> p.setVarArg(b), PARSER);
 
-    public static _feature._one<_param, _annoExprs> VAR_ARG_ANNO_EXPRS = new _feature._one<>(_param.class, _annoExprs.class,
+    public static _feature._one<_param, _annos> VAR_ARG_ANNO_EXPRS = new _feature._one<>(_param.class, _annos.class,
             _feature._id.VAR_ARG_ANNO_EXPRS,
             a -> a.getVarArgAnnoExprs(),
-            (_param p, _annoExprs _aes) -> p.setVarArgAnnoExprs(_aes), PARSER);
+            (_param p, _annos _aes) -> p.setVarArgAnnoExprs(_aes), PARSER);
 
     public static _feature._one<_param, String> NAME = new _feature._one<>(_param.class, String.class,
             _feature._id.NAME,
@@ -130,11 +130,11 @@ public final class _param
      *
      * @return
      */
-    public _annoExprs getVarArgAnnoExprs(){
-        return _annoExprs.of(this.astParameter.getVarArgsAnnotations());
+    public _annos getVarArgAnnoExprs(){
+        return _annos.of(this.astParameter.getVarArgsAnnotations());
     }
 
-    public _param setVarArgAnnoExprs( _annoExprs _aes){
+    public _param setVarArgAnnoExprs( _annos _aes){
         this.astParameter.getVarArgsAnnotations().clear();
         _aes.toEach(a-> this.astParameter.getVarArgsAnnotations().add(a.ast()) );
         return this;
@@ -159,8 +159,8 @@ public final class _param
     }
 
     @Override
-    public _annoExprs getAnnoExprs() {
-        return _annoExprs.of( this.astParameter );
+    public _annos getAnnoExprs() {
+        return _annos.of( this.astParameter );
     }
 
     public _param setVarArg(boolean b ){

@@ -89,7 +89,7 @@ public class _0_CustomAnnotation_MacroTest extends TestCase {
         assertFalse( _c.hasAnnoExpr(_count.class)); // macro (_count.Impl) removed the @_count annotation
         assertFalse( _c.getField("i").hasAnnoExpr(_count.class)); // macro (_count.Impl) removed the @_count annotation
         assertFalse( _c.getConstructor(0).hasAnnoExpr(_count.class)); // macro (_count.Impl) removed the @_count annotation
-        assertFalse( _c.getMethod("m").hasAnnoExpr(_count.class)); // macro (_count.Impl) removed the @_count annotation
+        assertFalse( _c.firstMethodNamed("m").hasAnnoExpr(_count.class)); // macro (_count.Impl) removed the @_count annotation
         assertEquals( "4", System.getProperty("count")); //make sure the macro was called (4) times
     }
 

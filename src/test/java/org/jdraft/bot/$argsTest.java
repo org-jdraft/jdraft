@@ -53,7 +53,7 @@ public class $argsTest extends TestCase {
     }
 
     public void testArgsContains(){
-        $annoExprs $aes = $annoExprs.of( $annoExpr.of("A(1)"));
+        $annos $aes = $annos.of( $anno.of("A(1)"));
         assertTrue($aes.matches( "@B(2) @A(1)"));
 
 

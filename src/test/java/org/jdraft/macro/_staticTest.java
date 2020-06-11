@@ -24,8 +24,8 @@ public class _staticTest extends TestCase {
         assertTrue( _c.getField("g").isStatic() );
         assertFalse( _c.getField("g").hasAnnoExpr(_static.class));
 
-        assertTrue( _c.getMethod("method").isStatic() );
-        assertFalse( _c.getMethod("method").hasAnnoExpr(_static.class));
+        assertTrue( _c.firstMethodNamed("method").isStatic() );
+        assertFalse( _c.firstMethodNamed("method").hasAnnoExpr(_static.class));
 
         System.out.println( _c);
         //System.out.println( _macro.to(F.class, _class.of(F.class)) );

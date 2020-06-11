@@ -4,7 +4,7 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.jdraft._annoExpr;
+import org.jdraft._anno;
 import org.jdraft._class;
 import org.jdraft._field;
 import org.jdraft._typeParam;
@@ -115,17 +115,17 @@ public class TypeUseAnnotationsTest
         $ex.newEx().firstIn(_c);
         
         _typeParam _tp = _c.getTypeParams().getAt(0);
-        assertEquals( _annoExpr.of(TypeAnno.class), _tp.getAnnoExpr(0) );
-        assertEquals( _annoExpr.of(TA2.class), _tp.getAnnoExpr(1) );
+        assertEquals( _anno.of(TypeAnno.class), _tp.getAnnoExpr(0) );
+        assertEquals( _anno.of(TA2.class), _tp.getAnnoExpr(1) );
         
         ClassOrInterfaceType coit = _c.getExtendsNode();
-        assertEquals(_annoExpr.of(TypeAnno.class).ast(), coit.getAnnotation(0));
-        assertEquals(_annoExpr.of(TA2.class).ast(), coit.getAnnotation(1));
+        assertEquals(_anno.of(TypeAnno.class).ast(), coit.getAnnotation(0));
+        assertEquals(_anno.of(TA2.class).ast(), coit.getAnnotation(1));
         
         List<ClassOrInterfaceType> impls = _c.listAstImplements();
         coit = impls.get(0);
-        assertEquals(_annoExpr.of(TypeAnno.class).ast(), coit.getAnnotation(0));
-        assertEquals(_annoExpr.of(TA2.class).ast(), coit.getAnnotation(1));
+        assertEquals(_anno.of(TypeAnno.class).ast(), coit.getAnnotation(0));
+        assertEquals(_anno.of(TA2.class).ast(), coit.getAnnotation(1));
         
         _field _f = _c.getField("o");
         assertTrue( _f.hasAnnoExpr(TypeAnno.class));
@@ -138,10 +138,10 @@ public class TypeUseAnnotationsTest
         
         //System.out.println( astFd.getVariable(0).getType().getAnnotations() );
         
-        assertEquals( _annoExpr.of(TypeAnno.class).ast(),
+        assertEquals( _anno.of(TypeAnno.class).ast(),
             astFd.getVariable(0).getType().getAnnotations().get(0) );
         
-        assertEquals( _annoExpr.of(TA2.class).ast(),
+        assertEquals( _anno.of(TA2.class).ast(),
             astFd.getVariable(0).getType().getAnnotations().get(1) );
         
         //assertTrue( _f.hasAnno(TypeAnno.class));

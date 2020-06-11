@@ -44,8 +44,8 @@ public interface $bot<_B, $B>
         if(_n instanceof  _name){
             return $name.of( (_name)_n);
         }
-        if( _n instanceof _entryPair ){
-            return $entryPair.of( (_entryPair)_n);
+        if( _n instanceof _annoEntryPair){
+            return $annoEntryPair.of( (_annoEntryPair)_n);
         }
         /* TODO FILL THIS OUT */
         return null;

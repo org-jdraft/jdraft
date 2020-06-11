@@ -102,7 +102,7 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.getMethod("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         System.out.println( "COMMENT RANGE" + c.getRange().get() );
@@ -126,7 +126,7 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.getMethod("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         System.out.println( "COMMENT RANGE" + c.getRange().get() );
@@ -148,7 +148,7 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.getMethod("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         //System.out.println( "COMMENT RANGE" + c.getRange().get() );
@@ -166,7 +166,7 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.getMethod("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         //System.out.println( "COMMENT RANGE" + c.getRange().get() );
