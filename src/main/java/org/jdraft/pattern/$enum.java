@@ -270,7 +270,7 @@ public class $enum
             }
             else if( parts[i] instanceof $import) {
                 final $import $fj = (($import)parts[i]);
-                Predicate<_enum> aFn = a-> a.getImport(im->$fj.match(im)) != null; //found one
+                Predicate<_enum> aFn = a-> a.firstImport(im->$fj.match(im)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $package ) {

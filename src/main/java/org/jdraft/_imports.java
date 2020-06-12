@@ -7,6 +7,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
+import org.jdraft.text.Tokens;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -131,20 +132,46 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
      * @return
      */
     public boolean isImpliedImport(String className){
-        if( this.astCompilationUnit == null ){
+        if (this.astCompilationUnit == null) {
             return false;
         }
-        if(astCompilationUnit.getPackageDeclaration().isPresent()){
+        Stencil stencil = Stencil.of(className);
+        if( stencil.isFixedText() ) {
+            if (astCompilationUnit.getPackageDeclaration().isPresent()) {
 
+                String pkgName = astCompilationUnit.getPackageDeclaration().get().getNameAsString();
+                if (className.startsWith(pkgName)) {
+                    String left = className.substring(pkgName.length() + 1);
+                    return !left.contains(".");
+                }
+                return false;
+            }
+            //its in the base package, so anything in the base package is fair game
+            return !className.contains(".");
+        }
+        if( stencil.isMatchAny()){
+            return true;
+        }
+        if (astCompilationUnit.getPackageDeclaration().isPresent()) {
+            //System.out.println( "Not a fixed text stencil");
             String pkgName = astCompilationUnit.getPackageDeclaration().get().getNameAsString();
-            if( className.startsWith(pkgName) ){
-                String left = className.substring(pkgName.length() + 1 );
-                return !left.contains(".");
+
+            Tokens ts = stencil.parseFirst(pkgName);
+            if( ts != null){
+                //for inner types, we know they inherit the types in the same package as the PARENT (TOP LEVEL)
+                String dpn = stencil.draft(ts);
+                //System.out.println( "created "+dpn);
+                if (pkgName.startsWith(dpn)) {
+                    //System.out.println( "checking "+pkgName+" with "+dpn);
+                    String left = pkgName.substring(dpn.length());
+                    return !left.contains(".");
+                }
             }
             return false;
         }
         //its in the base package, so anything in the base package is fair game
         return !className.contains(".");
+
     }
 
     public boolean hasImport(Class clazz) {
@@ -159,7 +186,7 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
         return isImpliedImport(className) ||
                 (astCompilationUnit != null &&
                         astCompilationUnit.getImports().stream().anyMatch(i -> {
-                            return _import.hasImport(i, className);
+                            return _import.matchImport(i, className);
                         }));
     }
 

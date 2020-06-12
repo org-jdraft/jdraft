@@ -21,6 +21,7 @@ import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Stencil;
 import org.jdraft.walk.Walk;
 
 /**
@@ -831,8 +832,6 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
                 _ms.add((_java._member) _java.of(b));
             }
         } );
-
-
         return _ms;
     }
 
@@ -978,7 +977,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _memberMatchFn
      * @return
      */
-    default List<_java._member> removeMembers(Predicate<_java._member> _memberMatchFn){
+    default List<_java._member> removeMembersIf(Predicate<_java._member> _memberMatchFn){
         List<_java._member> mbp = listMembers(_java._member.class, _memberMatchFn);
         mbp.forEach(m -> removeMembers(m) );
         return mbp;
@@ -993,7 +992,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @param _memberMatchFn function for matching a specific member type to remove
      * @return the removed {@link _java._member}s
      */
-    default <_M extends _java._member> List<_M> removeMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
+    default <_M extends _java._member> List<_M> removeMembersIf(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         List<_M> ms = listMembers( memberClass, _memberMatchFn);
         ms.forEach( m -> this.ast().remove(m.ast()) );
         return ms;
@@ -1224,25 +1223,6 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         CompilationUnit cu = astCompilationUnit();
         cu.setPackageDeclaration( packageName );        
         return (_T)this;
-    }
-
-    /**
-     * Does this type reside in this package
-     * @param packageName
-     * @return 
-     */
-    default boolean isInPackage( String packageName){
-        String pn  = getPackageName();
-        if( pn == null){
-            return packageName == null || packageName.length() == 0;
-        }
-        if( Objects.equals(pn, packageName) ){
-            return true;
-        }
-        if( packageName !=null ){
-            return packageName.indexOf(pn) == 0;
-        }
-        return false;
     }
 
     @Override
@@ -1923,14 +1903,81 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             return !listAstImplements().isEmpty();
         }
 
+        default boolean hasImplements(String implType ){
+            Stencil st = Stencil.of(implType);
+            if( st.isMatchAny() ){
+                return true;
+            }
+            if( st.isFixedText() ){
+                try {
+                    return hasImplements(_typeRef.of(implType));
+                }catch(Exception e){
+                    return false;
+                }
+            }
+            _typeRef _ti = _typeRef.of(implType);
+            final Stencil ns = Stencil.of(_ti.toString());
+            return listImplements().stream().anyMatch(t-> ns.matches(t.toString()));
+        }
+
+        default boolean hasImplements(Class... clazzes){
+            for(int i=0;i<clazzes.length; i++){
+                _typeRef _aI = _typeRef.of(clazzes[i]);
+                if( !listImplements().stream().anyMatch(t-> t.equals(_aI))){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        default boolean hasImplements(_typeRef... _impls){
+            for(int i=0;i<_impls.length; i++){
+                _typeRef _aI = _impls[i];
+                if( !listImplements().stream().anyMatch(t-> t.equals(_aI))){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        default boolean hasImplements(Predicate<_typeRef> _matchFn){
+            return listImplements().stream().anyMatch(_matchFn);
+        }
+
         default List<_typeRef> listImplements(){
             return listAstImplements().stream().map(i-> _typeRef.of(i)).collect(Collectors.toList());
+        }
+
+        default List<_typeRef> listImplements(Predicate<_typeRef> matchFn){
+            return listAstImplements().stream().map(i-> _typeRef.of(i)).filter(matchFn).collect(Collectors.toList());
         }
 
         default _HI setImplements( List<_typeRef> trs){
             ((NodeWithImplements)((_type)this).ast()).getImplementedTypes().clear();
             addImplements(trs);
             return (_HI) this;
+        }
+
+        default _HI toImplements(Consumer<_typeRef> _actionFn){
+            listImplements().forEach(_actionFn);
+            return (_HI)this;
+        }
+
+        default _HI toImplements(Predicate<_typeRef> _matchFn, Consumer<_typeRef> _actionFn){
+            listImplements(_matchFn).forEach(_actionFn);
+            return (_HI)this;
+        }
+
+        default List<_typeRef> forImplements(Consumer<_typeRef> _actionFn){
+            List<_typeRef> is = listImplements();
+            is.forEach(_actionFn);
+            return is;
+        }
+
+        default List<_typeRef> forImplements(Predicate<_typeRef> _matchFn, Consumer<_typeRef> _actionFn){
+            List<_typeRef> is = listImplements(_matchFn);
+            is.forEach(_actionFn);
+            return is;
         }
 
         default List<ClassOrInterfaceType> listAstImplements(){
@@ -1976,14 +2023,34 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
          * @param clazz
          * @return
          */
-        _HI removeImplements(Class clazz );
+        default _HI removeImplements(Class clazz ){
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            _typeRef _tr = _typeRef.of(clazz);
+            nwi.getImplementedTypes().removeIf(t-> t.equals( _tr.ast()));
+            return (_HI)this;
+        }
+
+
+        /**
+         * removes all implements and returns the type
+         * @return
+         */
+        default _HI removeImplements(){
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            nwi.getImplementedTypes().clear();
+            return (_HI)this;
+        }
 
         /**
          *
          * @param coit
          * @return
          */
-        _HI removeImplements(ClassOrInterfaceType coit );
+        default _HI removeImplements(ClassOrInterfaceType coit ){
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            nwi.getImplementedTypes().remove(coit);
+            return (_HI)this;
+        }
 
         /**
          * If you pass in a fully qualified name, this will remove ONLY this name i.e. "aaaa.bbbb.C"
@@ -2011,7 +2078,6 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         default _HI removeImplements(_interface _i){
             removeImplements(_i.getSimpleName());
             removeImplements(_i.getFullName());
-            //Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
             return (_HI)this;
         }
     }

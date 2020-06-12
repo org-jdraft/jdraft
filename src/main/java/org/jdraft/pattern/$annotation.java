@@ -97,7 +97,7 @@ public class $annotation
         _a.toAnnos(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_a.getModifiers());
         $c.$name(_a.getSimpleName());
-        _a.forEntries(e -> $c.$elements($annotationEntry.of(e)));
+        _a.toAnnoMembers(e -> $c.$elements($annotationEntry.of(e)));
         _a.toFields(f-> $c.fields.add($field.of(f)));
 
         _a.toInnerTypes(n -> {
@@ -217,7 +217,7 @@ public class $annotation
             }
             else if( parts[i] instanceof $import) {
                 final $import $fj = (($import)parts[i]);
-                Predicate<_annotation> aFn = a-> a.getImport(im->$fj.match(im)) != null; //found one
+                Predicate<_annotation> aFn = a-> a.firstImport(im->$fj.match(im)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $package ) {
@@ -237,7 +237,7 @@ public class $annotation
             }
             else if(parts[i] instanceof $annotationEntry){
                 final $annotationEntry $fj = (($annotationEntry)parts[i]);
-                Predicate<_annotation> aFn = a-> a.getEntry(e->$fj.match(e)) != null;
+                Predicate<_annotation> aFn = a-> a.getAnnoMember(e->$fj.match(e)) != null;
                 $and( aFn.negate() );
             }
         }
@@ -437,7 +437,7 @@ public class $annotation
         for(int i=0;i<$protoTypes.size(); i++) {
             final $annotationEntry t = $protoTypes.get(i);
             List<$annotationEntry.Select>matches = new ArrayList<>();
-            _a.listEntries().forEach(c ->{
+            _a.listAnnoMembers().forEach(c ->{
                 $annotationEntry.Select sel = t.select( c );
                 if( sel != null ){
                     matches.add(sel);

@@ -140,7 +140,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             }
             else if( parts[i] instanceof $import) {
                 final $import $fj = (($import)parts[i]);
-                Predicate<_type> aFn = a-> a.getImport(im->$fj.match((_import)im)) != null; //found one
+                Predicate<_type> aFn = a-> a.firstImport(im->$fj.match((_import)im)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $package ) {
@@ -192,7 +192,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 final $annotationEntry $fj = (($annotationEntry)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _annotation ) {
-                        return ((_annotation)a).getEntry(e -> $fj.match(e)) != null;
+                        return ((_annotation)a).getAnnoMember(e -> $fj.match(e)) != null;
                     }
                     return false;
                 };
@@ -236,7 +236,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             }
             else if( parts[i] instanceof $import) {
                 final $import $fj = (($import)parts[i]);
-                Predicate<_type> aFn = a-> a.getImport(im->$fj.match((_import)im)) != null; //found one
+                Predicate<_type> aFn = a-> a.firstImport(im->$fj.match((_import)im)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $package ) {
@@ -288,7 +288,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
                 final $annotationEntry $fj = (($annotationEntry)parts[i]);
                 Predicate<_type> aFn = a-> {
                     if( a instanceof _annotation ) {
-                        return ((_annotation)a).getEntry(e -> $fj.match(e)) != null;
+                        return ((_annotation)a).getAnnoMember(e -> $fj.match(e)) != null;
                     }
                     return false;
                 };

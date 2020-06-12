@@ -118,7 +118,7 @@ public final class _annotation
             if( !f.getAnnotations().isEmpty()){
                 _ae.addAnnos( f.getAnnotations());
             }
-            _a.addEntry(_ae);
+            _a.addAnnoMember(_ae);
         });
 
         //static fields are static fields on the annotation
@@ -384,48 +384,49 @@ public final class _annotation
         return this.astAnnotation.toString();        
     }
 
-    public boolean hasEntries(){
-        return !listEntries().isEmpty();
+    public boolean hasAnnoMembers(){
+        return !listAnnoMembers().isEmpty();
     }
 
-    public _annotation addEntry(){
-        return addEntry( new AnnotationMemberDeclaration( ));
+    public _annotation addAnnoMember(){
+        return addAnnoMember( new AnnotationMemberDeclaration( ));
     }
-    public _annotation addEntry(String... entryDeclaration ){
-        String str = Text.combine(entryDeclaration );
+
+    public _annotation addAnnoMember(String... annoMemberDeclaration ){
+        String str = Text.combine(annoMemberDeclaration );
         if( !str.endsWith(";")){
             str = str + ";";
         }
-        return addEntry( Ast.annotationMemberDeclaration( str ));
+        return addAnnoMember( Ast.annotationMemberDeclaration( str ));
     }
 
-    public _annotation addEntry(_annoMember _ae){
+    public _annotation addAnnoMember(_annoMember _ae){
         this.astAnnotation.addMember( _ae.astAnnMember );
         return this;
     }
 
-    public _annotation addEntry(AnnotationMemberDeclaration annotationEntry){
-        this.astAnnotation.addMember( annotationEntry );
+    public _annotation addAnnoMember(AnnotationMemberDeclaration annoMember){
+        this.astAnnotation.addMember( annoMember );
         return this;
     }
 
-    public _annoMember getEntry(Predicate<_annoMember> _ae){
-        List<_annoMember> lps = listEntries(_ae );
+    public _annoMember getAnnoMember(Predicate<_annoMember> _ae){
+        List<_annoMember> lps = listAnnoMembers(_ae );
         if( lps.isEmpty() ){
             return null;
         }
         return lps.get(0);
     }
 
-    public _annoMember getEntry(String name ){
-        List<_annoMember> lps = listEntries(p -> p.getName().equals( name ) );
+    public _annoMember getAnnoMember(String name ){
+        List<_annoMember> lps = listAnnoMembers(p -> p.getName().equals( name ) );
         if( lps.isEmpty() ){
             return null;
         }
         return lps.get(0);
     }
 
-    public List<_annoMember> listEntries(){
+    public List<_annoMember> listAnnoMembers(){
         NodeList<BodyDeclaration<?>> nb  = this.astAnnotation.getMembers();
         List<_annoMember> ps = new ArrayList<>();
         nb.stream().filter( b -> b instanceof AnnotationMemberDeclaration )
@@ -433,8 +434,8 @@ public final class _annotation
         return ps;
     }
 
-    public List<_annoMember> listEntries(Predicate<_annoMember> _elementMatchFn ){
-        return listEntries().stream().filter( _elementMatchFn ).collect(Collectors.toList());
+    public List<_annoMember> listAnnoMembers(Predicate<_annoMember> _elementMatchFn ){
+        return listAnnoMembers().stream().filter( _elementMatchFn ).collect(Collectors.toList());
     }
 
     @Override
@@ -481,8 +482,8 @@ public final class _annotation
 
         Set<_annoMember> tp = new HashSet<>();
         Set<_annoMember> op = new HashSet<>();
-        tp.addAll(this.listEntries() );
-        op.addAll(other.listEntries() );
+        tp.addAll(this.listAnnoMembers() );
+        op.addAll(other.listAnnoMembers() );
 
         if( !Objects.equals( tp, op)){
             return false;
@@ -508,38 +509,56 @@ public final class _annotation
         return true;
     }
 
-    public _annotation forEntries(Consumer<_annoMember> entryConsumer ){
-        listEntries().forEach(entryConsumer);
+    public _annotation toAnnoMembers(Consumer<_annoMember> actionFn ){
+        listAnnoMembers().forEach(actionFn);
         return this;
     }
 
-    public _annotation forEntries(Predicate<_annoMember> entryMatchFn, Consumer<_annoMember> entryConsumer ){
-        listEntries(entryMatchFn).forEach(entryConsumer);
+    public _annotation toAnnoMembers(Predicate<_annoMember> _matchFn, Consumer<_annoMember> _actionFn ){
+        listAnnoMembers(_matchFn).forEach(_actionFn);
         return this;
     }
 
-    public _annotation setEntries(List<_annoMember> entries){
+    public List<_annoMember> forAnnoMembers(Consumer<_annoMember> actionFn ){
+        List<_annoMember> ams = listAnnoMembers();
+        ams.forEach(actionFn);
+        return ams;
+    }
+
+    public List<_annoMember> forAnnoMembers(Predicate<_annoMember> _matchFn, Consumer<_annoMember> _actionFn ){
+        List<_annoMember> ams = listAnnoMembers(_matchFn);
+        ams.forEach(_actionFn);
+        return ams;
+    }
+
+    public _annotation setAnnoMembers(List<_annoMember> entries){
         this.astAnnotation.getMembers().removeIf(m -> m instanceof AnnotationMemberDeclaration);
-        entries.forEach( e-> this.addEntry(e.ast()) );
+        entries.forEach( e-> this.addAnnoMember(e.ast()) );
         return this;
     }
 
-    public _annotation removeEntry(String entryName ){
-        _annoMember _e = this.getEntry(entryName );
+    public _annotation removeAnnoMember(String entryName ){
+        _annoMember _e = this.getAnnoMember(entryName );
         if( _e != null ) {
             this.astAnnotation.remove(_e.astAnnMember);
         }
         return this;
     }
 
-    public _annotation removeEntry(_annoMember _e ){
-        listEntries(e -> e.equals(_e)).forEach(e-> e.ast().removeForced() );
+    public _annotation removeAnnoMember(_annoMember _e ){
+        listAnnoMembers(e -> e.equals(_e)).forEach(e-> e.ast().removeForced() );
         return this;
     }
 
-    public _annotation removeEntries(Predicate<_annoMember> _pe ){
-        listEntries(_pe).forEach(e -> removeEntry(e));
+    public _annotation removeAnnoMembers(Predicate<_annoMember> _pe ){
+        listAnnoMembers(_pe).forEach(e -> removeAnnoMember(e));
         return this;
+    }
+
+    public List<_annoMember> removeAnnoMembersIf(Predicate<_annoMember> _pe ){
+        List<_annoMember> ams = listAnnoMembers(_pe);
+        ams.forEach(e -> removeAnnoMember(e));
+        return ams;
     }
 
     /** could be a single statement, or a block stmt */
@@ -643,7 +662,7 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( fields );
 
         Set<_annoMember> elements = new HashSet<>();
-        elements.addAll(this.listEntries() );
+        elements.addAll(this.listAnnoMembers() );
         hash = 13 * hash + Objects.hashCode( elements );
 
         Set<_type> inners = new HashSet<>();

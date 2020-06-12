@@ -666,7 +666,7 @@ public class _annoTest extends TestCase {
         _a.hasEntryPair("Accept", "application/json; charset=utf-8");
         _a.hasEntryPair("User-Agent", "Square Cash");
 
-        Expression e = _a.getEntryValue("value");
+        Expression e = _a.getEntryValueExpression("value");
         /*
         Map<String,Expression> keyValues = _a.getPairsMap();
         Expression val = keyValues.get("value");
@@ -723,16 +723,16 @@ public class _annoTest extends TestCase {
 
         //to a Single Value Annotation
         _a.setEntryPairValue( 0, 100 );
-        assertEquals( _a.getEntryValue( 0 ), Expr.of(100) );
+        assertEquals( _a.getEntryValueExpression( 0 ), Expr.of(100) );
 
         //to a Normal Annotation
         _a.addEntryPair( "k", 200 );
-        assertEquals( _a.getEntryValue( 0 ), Expr.of(200) );
-        assertEquals( _a.getEntryValue( "k" ), Expr.of(200) );
+        assertEquals( _a.getEntryValueExpression( 0 ), Expr.of(200) );
+        assertEquals( _a.getEntryValueExpression( "k" ), Expr.of(200) );
 
         _a.addEntryPair( "v", 300 );
-        assertEquals( _a.getEntryValue( 1 ), Expr.of(300) );
-        assertEquals( _a.getEntryValue( "v" ), Expr.of(300) );
+        assertEquals( _a.getEntryValueExpression( 1 ), Expr.of(300) );
+        assertEquals( _a.getEntryValueExpression( "v" ), Expr.of(300) );
 
         assertEquals( 2, _a.listEntryPairs().size());
 

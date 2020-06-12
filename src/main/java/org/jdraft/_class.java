@@ -185,7 +185,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @return
      */
     public static _class of(JavaParser javaParser, URL url) {
-
         try {
             InputStream inStream = url.openStream();
             return of(javaParser, inStream);
@@ -427,7 +426,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return _c;
     }
 
-
     /** could be a single statement, or a block stmt */
     public static _feature._one<_class, _imports> IMPORTS = new _feature._one<>(_class.class, _imports.class,
             _feature._id.IMPORTS,
@@ -560,10 +558,15 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return addImplements(new _interface[]{_i});
     }
 
-    @Override
     public _class removeImplements( Class toRemove ){
         this.astClass.getImplementedTypes().removeIf( im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
                 im.getNameAsString().equals(toRemove.getCanonicalName()) );
+        return this;
+    }
+
+    @Override
+    public _class removeImplements( ClassOrInterfaceType toRemove ){
+        this.astClass.getImplementedTypes().remove( toRemove );
         return this;
     }
 
@@ -574,11 +577,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return this;
     }
 
-    @Override
-    public _class removeImplements( ClassOrInterfaceType toRemove ){
-        this.astClass.getImplementedTypes().remove( toRemove );
-        return this;
-    }
 
     @Override
     public _class removeExtends( ClassOrInterfaceType toRemove ){
@@ -883,6 +881,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
      */
 
+    /*
     @Override
     public boolean is( ClassOrInterfaceDeclaration astC ){
         try{
@@ -892,6 +891,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             return false;
         }
     }
+     */
     
     @Override
     public boolean isAbstract(){

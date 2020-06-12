@@ -161,7 +161,7 @@ public interface _diff {
     }
 
     static _diff elementsOf(_annotation left, _annotation right) {
-        return _annotationDiff.ANNOTATION_ELEMENTS_DIFF.diff(left.listEntries(), right.listEntries());
+        return _annotationDiff.ANNOTATION_ELEMENTS_DIFF.diff(left.listAnnoMembers(), right.listAnnoMembers());
     }
 
     //so if a _hasConstructor has a no arg construstor with no body, it should be 

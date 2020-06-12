@@ -965,7 +965,11 @@ public interface _java {
          * @return
          */
         default boolean isNamed(String name) {
-            return Objects.equals(getName(), name);
+            Stencil st = Stencil.of(name);
+            if( st.isFixedText() ){
+                return Objects.equals(getName(), name);
+            }
+            return st.matches(getName());
         }
 
         /**

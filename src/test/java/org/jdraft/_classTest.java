@@ -33,7 +33,7 @@ public class _classTest extends TestCase {
         _class _c = _class.of(_classTest.class);
 
         _c.toAnnos(_a-> System.out.println("a"));
-        _c.toAnnos(_a->_a.isEntryPairedMembers(), _a->System.out.println("a"));
+        _c.toAnnos(_a->_a.isPairedMembers(), _a->System.out.println("a"));
 
         _c.toAllComments(c-> c.setText("hello"));
 

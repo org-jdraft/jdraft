@@ -256,27 +256,39 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
         return _import.hasImport( astId, clazz );        
     }
 
-    static boolean hasImport(ImportDeclaration astId, String importClass) {
-        ImportDeclaration testAstId = null;
-        try{
-            testAstId = Ast.importDeclaration(importClass);
+    /**
+     * Now takes into account $parameters$
+     * @param astId
+     * @param importClass
+     * @return
+     */
+    static boolean matchImport(ImportDeclaration astId, String importClass) {
+        Stencil st = Stencil.of(importClass);
+        if( st.isMatchAny() ){
+            return true;
         }
-        catch(Exception e ){
+        if( st.isFixedText() ) {
+            ImportDeclaration testAstId = null;
+            try {
+                testAstId = Ast.importDeclaration(importClass);
+            } catch (Exception e) {
+                return false;
+            }
+            if (astId.equals(testAstId)) {
+                return true;
+            }
+            if (astId.getNameAsString().equals(testAstId.getNameAsString())) {
+                return true;
+            }
+            if (astId.isAsterisk()) {
+                if (importClass.startsWith(astId.getNameAsString())) {
+                    String ln = importClass.substring(astId.getNameAsString().length() + 1);
+                    return !ln.contains(".");
+                }
+            }
             return false;
         }
-        if( astId.equals(testAstId) ){
-            return true;
-        }
-        if( astId.getNameAsString().equals(testAstId.getNameAsString()) ){
-            return true;
-        }
-        if (astId.isAsterisk()) {
-            if (importClass.startsWith(astId.getNameAsString())) {
-                String ln = importClass.substring(astId.getNameAsString().length() + 1);
-                return !ln.contains(".");
-            }            
-        }
-        return false;
+        return st.matches( astId.getNameAsString() ) || st.matches( astId.toString() );
     }
     
     static boolean hasImport(ImportDeclaration astId, Class clazz) {

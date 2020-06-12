@@ -226,7 +226,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         return _e;
     }
 
-
     /**
      * Allows the definition of the Enum AND _constants
      * <PRE>
@@ -251,7 +250,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         return of(signature, anonymousBody, ste);
     }
-
 
     /** could be a single statement, or a block stmt */
     public static _feature._one<_enum, _imports> IMPORTS = new _feature._one<>(_enum.class, _imports.class,
@@ -343,11 +341,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         }
     }
      */
-    
+
+    /*
     @Override
     public boolean is(EnumDeclaration ed){
         return of(ed).equals(this);
     }
+     */
 
     @Override
     public _enum setJavadoc(String... content) {
@@ -657,19 +657,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             return false;
         }
         return true;
-    }
-
-    @Override
-    public _enum removeImplements( ClassOrInterfaceType toRemove ){
-        this.astEnum.getImplementedTypes().remove( toRemove );
-        return this;
-    }
-
-    @Override
-    public _enum removeImplements( Class toRemove ){
-        this.astEnum.getImplementedTypes().removeIf( im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
-                im.getNameAsString().equals(toRemove.getCanonicalName()) );
-        return this;
     }
 
     public _enum removeConstant( _constant _c ){

@@ -268,18 +268,6 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
         return true;
     }
 
-    /*
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
-        parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Feature.NAME, this.getName() );
-        parts.put( _java.Feature.TYPE, this.getTypeRef() );
-        parts.put( _java.Feature.DEFAULT_EXPR, this.getDefaultAstValue() );
-        return parts;
-    }
-     */
-
     @Override
     public int hashCode() {
         int hash = 7;

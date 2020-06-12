@@ -6,6 +6,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.*;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
+import org.jdraft.text.Stencil;
 
 import java.io.File;
 import java.io.IOException;
@@ -232,6 +233,24 @@ public interface _codeUnit<_CU> extends _java._domain {
      */
     String getFullName();
 
+
+    /**
+     * Does this type reside in this package
+     * @param packageName
+     * @return
+     */
+    default boolean isInPackage( String packageName){
+        String pn  = getPackageName();
+        if( pn == null){
+            return packageName == null || packageName.length() == 0;
+        }
+        if( Objects.equals(pn, packageName) ){
+            return true;
+        }
+        Stencil st = Stencil.of(packageName);
+        return st.matches(packageName);
+    }
+
     /**
      * Determines the package this class is in
      * @return
@@ -274,6 +293,8 @@ public interface _codeUnit<_CU> extends _java._domain {
         return (_CU)this;
     }
 
+    //TODO isPackage(String) using
+    //TODO hasImport(String)
     /**
      * Sets the package name
      * @param packageName
@@ -315,7 +336,7 @@ public interface _codeUnit<_CU> extends _java._domain {
     }
 
     /**
-     * Sets the header comment (i.e. the copywrite)
+     * Sets the header comment (i.e. the copyright)
      *
      * @param commentLines the lines in the header comment
      * @return the modified T
@@ -338,20 +359,11 @@ public interface _codeUnit<_CU> extends _java._domain {
     }
 
     /**
-     * Gets the index(th) import for the compilationUnit
-     * @param index
-     * @return
-     */
-    default _import getImport(int index ){
-        return _import.of(this.astCompilationUnit().getImport(index));
-    }
-
-    /**
      *
      * @param _importMatchFn
      * @return
      */
-    default _import getImport(Predicate<_import> _importMatchFn){
+    default _import firstImport(Predicate<_import> _importMatchFn){
         List<_import> _is = this.listImports(_importMatchFn);
         if( _is.isEmpty()){
             return null;
@@ -380,6 +392,17 @@ public interface _codeUnit<_CU> extends _java._domain {
     default _CU removeImports(Predicate<_import> _importMatchFn) {
         getImports().remove(_importMatchFn);
         return (_CU) this;
+    }
+
+    /**
+     * Remove imports and return the removed imports
+     * @param _matchFn
+     * @return
+     */
+    default List<_import> removeImportsIf(Predicate<_import> _matchFn){
+        List<_import> _is = getImports().list(_matchFn);
+        _is.forEach(_i -> _i.ast().remove());
+        return _is;
     }
 
     /**
@@ -468,7 +491,6 @@ public interface _codeUnit<_CU> extends _java._domain {
         return (_CU) this;
     }
 
-
     /**
      * Apply a function to all imports and return them
      *
@@ -495,16 +517,21 @@ public interface _codeUnit<_CU> extends _java._domain {
         return is;
     }
 
-
-
-
-
     /**
      *
      * @return
      */
     default List<_import> listImports() {
         return getImports().list();
+    }
+
+    /**
+     *
+     * @param _importMatchFn
+     * @return
+     */
+    default List<_import> listImports(Predicate<_import> _importMatchFn) {
+        return this.getImports().list().stream().filter(_importMatchFn).collect(Collectors.toList());
     }
 
     /**
@@ -541,7 +568,10 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return
      */
     default boolean hasImport(String className) {
-        return _imports.of(astCompilationUnit()).hasImport(className);
+        if( astCompilationUnit() != null) {
+            return _imports.of(astCompilationUnit()).hasImport(className);
+        }
+        return false;
     }
 
     /**
@@ -550,7 +580,10 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return true if the _code entity imports all the classes, false otherwise
      */
     default boolean hasImports(Class... clazzes) {
-        return _imports.of(astCompilationUnit()).hasImports(clazzes);
+        if( astCompilationUnit() != null ) {
+            return _imports.of(astCompilationUnit()).hasImports(clazzes);
+        }
+        return false;
     }
 
     /**
@@ -559,7 +592,10 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return
      */
     default boolean hasImport(Class clazz) {
-        return _imports.of(astCompilationUnit()).hasImport(clazz);
+        if( astCompilationUnit() != null ){
+            return _imports.of(astCompilationUnit()).hasImport(clazz);
+        }
+        return false;
     }
 
     /**
@@ -578,15 +614,6 @@ public interface _codeUnit<_CU> extends _java._domain {
      */
     default boolean hasImport(_import _i) {
         return listImports(i -> i.equals(_i)).size() > 0;
-    }
-
-    /**
-     *
-     * @param _importMatchFn
-     * @return
-     */
-    default List<_import> listImports(Predicate<_import> _importMatchFn) {
-        return this.getImports().list().stream().filter(_importMatchFn).collect(Collectors.toList());
     }
 
     /**
@@ -742,6 +769,9 @@ public interface _codeUnit<_CU> extends _java._domain {
         throw new _jdraftException("No AST CompilationUnit of to add imports");
     }
 
+    /**
+     * Implementations of the _codeUnit class
+     */
     class Impl{
         public static Class<_class> CLASS = _class.class;
         public static Class<_enum> ENUM = _enum.class;

@@ -122,6 +122,14 @@ public final class _arrayAccessExpr
         return Objects.equals( _e, this.getName());
     }
 
+    public <_IE extends _expr> boolean isNamed(Class<_IE>classIe, Predicate<_IE>_matchFn ){
+        _expr _ee = getName();
+        if( classIe.isAssignableFrom(_ee.getClass())){
+            return _matchFn.test( (_IE)_ee);
+        }
+        return false;
+    }
+
     public boolean isNamed(Predicate<_expr> namePredicate){
         return namePredicate.test(this.getName());
     }
@@ -136,6 +144,10 @@ public final class _arrayAccessExpr
 
     public boolean isIndex(Predicate<_expr> indexPredicate){
         return indexPredicate.test(this.getIndex());
+    }
+
+    public <_IE extends _expr> boolean isIndex(Class<_IE>implClass, Predicate<_IE> indexPredicate){
+        return implClass.isAssignableFrom(getIndex().getClass()) && indexPredicate.test( (_IE)this.getIndex());
     }
 
     public boolean isIndex(int i){

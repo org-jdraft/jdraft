@@ -49,8 +49,8 @@ public class _annotationTest extends TestCase  {
 
         System.out.println( _a );
 
-        assertTrue( _a.getEntry("value").equals(_annoMember.of("/** A Javadoc */ int value() default 100;")));
-        assertTrue( _a.getEntry("name").is("String name() default \"Eric\";"));
+        assertTrue( _a.getAnnoMember("value").equals(_annoMember.of("/** A Javadoc */ int value() default 100;")));
+        assertTrue( _a.getAnnoMember("name").is("String name() default \"Eric\";"));
     }
 
     public void testHeader(){
@@ -97,9 +97,9 @@ public class _annotationTest extends TestCase  {
             int[] vs = {1,2,3,4,5};
             String ss = "Some String";
         });
-        assertEquals(5, _a.listEntries().size());
-        assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getEntry("vs").getDefaultAstValue()));
-        assertTrue($ex.stringLiteralEx("Some String").matches(_a.getEntry("ss").getDefaultAstValue()));
+        assertEquals(5, _a.listAnnoMembers().size());
+        assertTrue($ex.of("{1,2,3,4,5}").matches(_a.getAnnoMember("vs").getDefaultAstValue()));
+        assertTrue($ex.stringLiteralEx("Some String").matches(_a.getAnnoMember("ss").getDefaultAstValue()));
     }
 
     public void testImport(){
@@ -118,19 +118,19 @@ public class _annotationTest extends TestCase  {
         assertTrue( _an.fieldNamed("V").isType( int.class));
         assertEquals( Expr.of( 102), _an.fieldNamed("V").getInitNode());
 
-        _annoMember _p = _an.getEntry("value");
+        _annoMember _p = _an.getAnnoMember("value");
         assertTrue(_p.getAnnos().is( "@ann", "@ann2(k='3',v=2)"));
         assertTrue(_p.getJavadoc().getText().contains( "javadoc"));
         assertFalse( _p.hasDefaultValue());
         assertTrue( _p.isType( int.class));
 
-        _p = _an.getEntry("s");
+        _p = _an.getAnnoMember("s");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());
         assertEquals( Expr.stringLiteralExpr( "String"), _p.getDefaultAstValue());
 
-        _p = _an.getEntry("clazz");
+        _p = _an.getAnnoMember("clazz");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());
@@ -139,7 +139,7 @@ public class _annotationTest extends TestCase  {
         assertTrue( _p.isType(Class[].class) );
         assertEquals( Expr.arrayInitializerExpr( "{}"),_p.getDefaultAstValue());
 
-        _p = _an.getEntry("vval");
+        _p = _an.getAnnoMember("vval");
         assertFalse( _p.hasJavadoc() );
         assertFalse( _p.hasAnnos() );
         assertTrue( _p.hasDefaultValue());

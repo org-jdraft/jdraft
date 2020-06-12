@@ -467,7 +467,7 @@ public class $interface
             }
             else if( parts[i] instanceof $import) {
                 final $import $fj = (($import)parts[i]);
-                Predicate<_interface> aFn = a-> a.getImport(im->$fj.matches(im)) != null; //found one
+                Predicate<_interface> aFn = a-> a.firstImport(im->$fj.matches(im)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $package ) {

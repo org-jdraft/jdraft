@@ -19,7 +19,7 @@ public final class _annotationDiff implements _differ<_annotation, _tree._node> 
         _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
         _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _fieldsDiff.INSTANCE.diff(path, ds, left, right, left.listFields(), right.listFields());
-        ANNOTATION_ELEMENTS_DIFF.diff(path, ds, left, right, left.listEntries(), right.listEntries());
+        ANNOTATION_ELEMENTS_DIFF.diff(path, ds, left, right, left.listAnnoMembers(), right.listAnnoMembers());
         _innerTypesDiff.INSTANCE.diff(path, ds, left, right, left.listInnerTypes(), right.listInnerTypes());
 
         _companionTypeDiff.INSTANCE.diff(path, ds, left, right, left.listCompanionTypes(), right.listCompanionTypes());
@@ -49,7 +49,7 @@ public final class _annotationDiff implements _differ<_annotation, _tree._node> 
         }
 
         public _diff diff( _annotation left, _annotation right ){
-            return diff( _nodePath.of(), new _diffList(left, right), left, right, left.listEntries(), right.listEntries());
+            return diff( _nodePath.of(), new _diffList(left, right), left, right, left.listAnnoMembers(), right.listAnnoMembers());
         }
         
         @Override
@@ -107,16 +107,16 @@ public final class _annotationDiff implements _differ<_annotation, _tree._node> 
 
             @Override
             public void patchLeftToRight() {
-                leftParent.removeEntry(right);
-                rightParent.removeEntry(right);
+                leftParent.removeAnnoMember(right);
+                rightParent.removeAnnoMember(right);
             }
 
             @Override
             public void patchRightToLeft() {
-                leftParent.removeEntry(right);
-                rightParent.removeEntry(right);
-                leftParent.addEntry(right);
-                rightParent.addEntry(right);
+                leftParent.removeAnnoMember(right);
+                rightParent.removeAnnoMember(right);
+                leftParent.addAnnoMember(right);
+                rightParent.addAnnoMember(right);
             }
 
             @Override
@@ -161,16 +161,16 @@ public final class _annotationDiff implements _differ<_annotation, _tree._node> 
 
             @Override
             public void patchLeftToRight() {
-                leftParent.removeEntry(left);
-                rightParent.removeEntry(left);
+                leftParent.removeAnnoMember(left);
+                rightParent.removeAnnoMember(left);
             }
 
             @Override
             public void patchRightToLeft() {
-                leftParent.removeEntry(left);
-                rightParent.removeEntry(left);
-                leftParent.addEntry(left);
-                rightParent.addEntry(left);
+                leftParent.removeAnnoMember(left);
+                rightParent.removeAnnoMember(left);
+                leftParent.addAnnoMember(left);
+                rightParent.addAnnoMember(left);
             }
 
             @Override

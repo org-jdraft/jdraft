@@ -164,7 +164,7 @@ public final class _anno
      * }</PRE>
      * @return 
      */
-    public boolean isEntryPairedMembers(){
+    public boolean isPairedMembers(){
         return this.astAnno.isNormalAnnotationExpr();
     }
     
@@ -183,7 +183,27 @@ public final class _anno
      * @param _actionFn the action to take on all matching candidate pairs
      * @return yourself
      */
-    public _anno forEntryPairs(Consumer<_annoEntryPair> _actionFn){
+    public _anno toEntryPairs(Consumer<_annoEntryPair> _actionFn){
+        return toEntryPairs(t-> true, _actionFn);
+    }
+
+    /**
+     * Perform some action on all matching pairs
+     * @param _matchFn the function to match candidate pairs
+     * @param _actionFn the action to take on all matching canididate pairs
+     * @return yourself
+     */
+    public _anno toEntryPairs(Predicate<_annoEntryPair> _matchFn, Consumer<_annoEntryPair> _actionFn){
+        listEntryPairs(_matchFn).forEach(_actionFn);
+        return this;
+    }
+
+    /**
+     * Perform some action on all matching pairs
+     * @param _actionFn the action to take on all matching candidate pairs
+     * @return yourself
+     */
+    public List<_annoEntryPair> forEntryPairs(Consumer<_annoEntryPair> _actionFn){
         return forEntryPairs(t-> true, _actionFn);
     }
 
@@ -193,10 +213,12 @@ public final class _anno
      * @param _actionFn the action to take on all matching canididate pairs
      * @return yourself
      */
-    public _anno forEntryPairs(Predicate<_annoEntryPair> _matchFn, Consumer<_annoEntryPair> _actionFn){
-        listEntryPairs(_matchFn).forEach(_actionFn);
-        return this;
+    public List<_annoEntryPair> forEntryPairs(Predicate<_annoEntryPair> _matchFn, Consumer<_annoEntryPair> _actionFn){
+        List<_annoEntryPair> lep = listEntryPairs(_matchFn);
+        lep.forEach(_actionFn);
+        return lep;
     }
+
 
     /**
      * Does this anno have a specific member value
@@ -279,7 +301,7 @@ public final class _anno
     }
 
     public boolean hasEntryPair(String name, Expression value){
-        Expression e = this.getEntryValue(name);
+        Expression e = this.getEntryValueExpression(name);
         if( e != null ){
             return Objects.equals(e, value);
         }
@@ -413,7 +435,7 @@ public final class _anno
         //return mvs.containsAll(tmvs) && tmvs.containsAll(mvs);
     }
 
-    public Expression getEntryValue(String name ) {
+    public Expression getEntryValueExpression(String name ) {
         if( this.astAnno instanceof NormalAnnotationExpr ) {
             NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
             Optional<MemberValuePair> om = n.getPairs().stream()
@@ -423,7 +445,7 @@ public final class _anno
             }
         }
         if( this.astAnno instanceof SingleMemberAnnotationExpr && name.equals("value") ){
-            return getEntryValue(0);
+            return getEntryValueExpression(0);
         }
         return null;
     }
@@ -689,7 +711,7 @@ public final class _anno
     public _anno setEntryPairValue(String name, Expression e ) {
         if( name == "value" || name == null ){
             List<_annoEntryPair> _eps = listEntryPairs(p-> p.getName() == null || p.getName().equals("value"));
-            forEntryPairs(p-> p.getName() == null || p.getName().equals("value"), p-> p.setValue(e.clone()));
+            toEntryPairs(p-> p.getName() == null || p.getName().equals("value"), p-> p.setValue(e.clone()));
         }
         return this;
     }
@@ -751,7 +773,7 @@ public final class _anno
         return !(this.astAnno instanceof MarkerAnnotationExpr);
     }
 
-    public Expression getEntryValue(int index ) {
+    public Expression getEntryValueExpression(int index ) {
         if( !this.hasValues() ) {
             throw new _jdraftException( "No Values on Marker annotation " + this.toString() );
         }

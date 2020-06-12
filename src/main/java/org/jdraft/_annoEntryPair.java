@@ -7,6 +7,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * each name-value pair within an {@link _anno}
@@ -203,6 +204,17 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
 
     public boolean isValue( Expression e){
         return Expr.equal(this.mvp.getValue(), e);
+    }
+
+    public boolean isValue(Predicate<_expr> _matchFn){
+        return _matchFn.test( getValue() );
+    }
+
+    public <_IC extends _expr> boolean isValue( Class<_IC> valueImpl, Predicate<_IC> _matchFn){
+        if( valueImpl.isAssignableFrom( getValue().getClass() )){
+            return _matchFn.test( (_IC)getValue() );
+        }
+        return false;
     }
 
     public boolean isValue( boolean b){

@@ -6,6 +6,7 @@ import org.jdraft.text.Text;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * An expression representing a single Array dimension
@@ -91,7 +92,10 @@ public final class _arrayDimension implements _tree._node<ArrayCreationLevel, _a
 
     public _expr getExpression(){
         if( this.astNode.getDimension() != null ) {
-            return _expr.of(this.astNode.getDimension().get());
+            if( this.astNode.getDimension().isPresent() ) {
+                return _expr.of(this.astNode.getDimension().get());
+            }
+            return null;
         }
         return null;
     }
@@ -113,6 +117,23 @@ public final class _arrayDimension implements _tree._node<ArrayCreationLevel, _a
     @Override
     public boolean is(ArrayCreationLevel astNode) {
         return Objects.equals(this.astNode, astNode);
+    }
+
+    public <_IE extends _expr> boolean is(Class<_IE> implClass ){
+        _expr _e = getExpression();
+        if( _e != null ) {
+            return implClass.isAssignableFrom(_e.getClass());
+        }
+        return false;
+    }
+
+    public <_IE extends _expr> boolean is(Class<_IE> implClass, Predicate<_IE> _matchFn){
+
+        _expr _e = getExpression();
+        if( _e != null ) {
+            return implClass.isAssignableFrom(_e.getClass()) && _matchFn.test( (_IE)_e);
+        }
+        return false;
     }
 
     @Override
