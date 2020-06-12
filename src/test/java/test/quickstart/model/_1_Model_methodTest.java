@@ -35,7 +35,7 @@ public class _1_Model_methodTest extends TestCase {
         // other simple questions you can ask
             assertFalse( _m.hasJavadoc() );
             assertFalse( _m.hasThrows() );
-            assertFalse( _m.hasAnnoExprs() );
+            assertFalse( _m.hasAnnos() );
 
         // the _method can also return other _models that are also part of the _method
         _modifiers _ms = _m.getModifiers();
@@ -45,7 +45,7 @@ public class _1_Model_methodTest extends TestCase {
         // other _method _models
             _typeParams _tps = _m.getTypeParams();
             _throws _ts = _m.getThrows();
-            _annos _as = _m.getAnnoExprs();
+            _annos _as = _m.getAnnos();
             _javadocComment _jd = _m.getJavadoc();
             _receiverParam _rp = _m.getReceiverParam();
 

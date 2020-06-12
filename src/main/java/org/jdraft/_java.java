@@ -16,7 +16,7 @@ import com.github.javaparser.ast.type.*;
 
 import static org.jdraft.Ast.*;
 
-import org.jdraft._annos._withAnnoExprs;
+import org.jdraft._annos._withAnnos;
 import org.jdraft._body._withBody;
 
 import org.jdraft._modifiers.*;
@@ -426,7 +426,7 @@ public interface _java {
 
         Class<_withThrows> HAS_THROWS = _withThrows.class;
         Class<_withBody> HAS_BODY = _withBody.class;
-        Class<_withAnnoExprs> HAS_ANNOS = _withAnnoExprs.class;
+        Class<_withAnnos> HAS_ANNOS = _withAnnos.class;
         Class<_withConstructors> HAS_CONSTRUCTORS = _withConstructors.class;
         Class<_withJavadoc> HAS_JAVADOC = _withJavadoc.class;
         Class<_withMethods> HAS_METHODS = _withMethods.class;
@@ -471,14 +471,14 @@ public interface _java {
      * <LI>{@link _initBlock} {@link InitializerDeclaration}
      * is a {@link _member} but is NOT {@link _declared} (primarily because it is not
      * callable/referenceable/accessible outside of the Class where it is defined and does
-     * not satisfy the {@link _withName} {@link _withAnnoExprs} or {@link _withJavadoc} interfaces
+     * not satisfy the {@link _withName} {@link _withAnnos} or {@link _withJavadoc} interfaces
      * (Not available via reflection at runtime)
      *
      * @param <N> the AST node type (i.e. {@link MethodDeclaration})
      * @param <_D> the meta-representation declaration type (i.e. {@link _method})
      */
-    interface _declared<N extends Node, _D extends _withName & _withAnnoExprs & _withJavadoc & _withComments>
-            extends _member<N, _D>, _withName<_D>, _withAnnoExprs<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
+    interface _declared<N extends Node, _D extends _withName & _withAnnos & _withJavadoc & _withComments>
+            extends _member<N, _D>, _withName<_D>, _withAnnos<_D>, _withJavadoc<_D>, _withComments<N, _D>  {
 
         @Override
         default _javadocComment getJavadoc() {
@@ -723,8 +723,8 @@ public interface _java {
          * @param actionFn function to apply to the _comment
          * @return the _N node
          */
-        default _N forAllComments(Consumer<_comment> actionFn){
-            return forAllComments(t-> true, actionFn);
+        default _N toAllComments(Consumer<_comment> actionFn){
+            return toAllComments(t-> true, actionFn);
         }
 
         /**
@@ -733,7 +733,7 @@ public interface _java {
          * @param actionFn
          * @return
          */
-        default _N forAllComments(Predicate<_comment> matchFn, Consumer<_comment> actionFn){
+        default _N toAllComments(Predicate<_comment> matchFn, Consumer<_comment> actionFn){
             Node basedNode = null;
             if( this instanceof _codeUnit && ((_codeUnit)this).isTopLevel() ){
                 basedNode = ((_codeUnit)this).astCompilationUnit();

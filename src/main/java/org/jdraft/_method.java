@@ -31,7 +31,7 @@ import org.jdraft.text.Text;
  * @author Eric
  */
 public final class _method
-        implements _javadocComment._withJavadoc<_method>, _annos._withAnnoExprs<_method>,
+        implements _javadocComment._withJavadoc<_method>, _annos._withAnnos<_method>,
         _java._withNameType<MethodDeclaration, _method>, _body._withBody<_method>, _throws._withThrows<_method>,
         _modifiers._withModifiers<_method>, _params._withParams<_method>,
         _typeParams._withTypeParams<_method>, _receiverParam._withReceiverParam<_method>,
@@ -402,8 +402,8 @@ public final class _method
 
     public static _feature._one<_method, _annos> ANNOS = new _feature._one<>(_method.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_method a, _annos _ta) -> a.setAnnoExprs(_ta), PARSER);
+            a -> a.getAnnos(),
+            (_method a, _annos _ta) -> a.setAnnos(_ta), PARSER);
 
     public static _feature._one<_method, _modifiers> MODIFIERS = new _feature._one<>(_method.class, _modifiers.class,
             _feature._id.MODIFIERS,
@@ -590,7 +590,7 @@ public final class _method
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of(astMethod);
     }
 

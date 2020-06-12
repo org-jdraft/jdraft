@@ -74,14 +74,14 @@ public class SclassUseTest extends TestCase {
         });
         $typeUse.of(Ann.class).replaceIn(_c, Stan.class);
         //System.out.println( _c );
-        assertTrue( _c.getField("a").hasAnnoExpr(Stan.class));
-        assertFalse( _c.getField("a").hasAnnoExpr(Ann.class));
-        assertTrue( _c.getField("b").hasAnnoExpr(Stan.class));
-        assertFalse( _c.getField("b").hasAnnoExpr(Ann.class));
-        assertTrue( _c.getField("c").hasAnnoExpr(Stan.class));
-        assertFalse( _c.getField("c").hasAnnoExpr(Ann.class));
-        assertTrue( _c.getField("d").hasAnnoExpr(Stan.class));
-        assertFalse( _c.getField("d").hasAnnoExpr(Ann.class));
+        assertTrue( _c.fieldNamed("a").hasAnno(Stan.class));
+        assertFalse( _c.fieldNamed("a").hasAnno(Ann.class));
+        assertTrue( _c.fieldNamed("b").hasAnno(Stan.class));
+        assertFalse( _c.fieldNamed("b").hasAnno(Ann.class));
+        assertTrue( _c.fieldNamed("c").hasAnno(Stan.class));
+        assertFalse( _c.fieldNamed("c").hasAnno(Ann.class));
+        assertTrue( _c.fieldNamed("d").hasAnno(Stan.class));
+        assertFalse( _c.fieldNamed("d").hasAnno(Ann.class));
         
         $typeUse.of(Base.class).replaceIn(_c,Replace.class);
         $typeUse.of(Inter.class).replaceIn(_c,Outer.class);

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.jdraft.*;
 import org.jdraft._annos;
-import org.jdraft._annos._withAnnoExprs;
+import org.jdraft._annos._withAnnos;
 import org.jdraft.text.Template;
 import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
@@ -59,8 +59,8 @@ public class $annoRefs
      * @param _ha
      * @return 
      */
-    public static $annoRefs of(_withAnnoExprs _ha){
-        return new $annoRefs( _ha.getAnnoExprs() );
+    public static $annoRefs of(_withAnnos _ha){
+        return new $annoRefs( _ha.getAnnos() );
     }
     
     /**
@@ -97,7 +97,7 @@ public class $annoRefs
     }
 
 
-    public static $annoRefs.Or or(_withAnnoExprs... _protos ){
+    public static $annoRefs.Or or(_withAnnos... _protos ){
         $annoRefs[] arr = new $annoRefs[_protos.length];
         for(int i=0;i<_protos.length;i++){
             arr[i] = $annoRefs.of( _protos[i]);
@@ -119,8 +119,8 @@ public class $annoRefs
      * @param _ha
      * @return
      */
-    public static $annoRefs as(_withAnnoExprs _ha){
-        return as( _ha.getAnnoExprs() );
+    public static $annoRefs as(_withAnnos _ha){
+        return as( _ha.getAnnos() );
     }
 
 
@@ -354,7 +354,7 @@ public class $annoRefs
         return select(_as)!= null;
     }
     
-    public boolean matches( _withAnnoExprs _ha) {
+    public boolean matches( _withAnnos _ha) {
         return select(_ha)!= null;
     }
     
@@ -362,8 +362,8 @@ public class $annoRefs
         return select(_annos.of(astAnnoNode) );
     }
 
-    public Tokens parse( _withAnnoExprs _ha ){
-        return parse(_ha.getAnnoExprs());
+    public Tokens parse( _withAnnos _ha ){
+        return parse(_ha.getAnnos());
     }
 
     /**
@@ -417,8 +417,8 @@ public class $annoRefs
      * @param _annotated
      * @return
      */
-    public Select select( _withAnnoExprs _annotated ){
-        return select( _annotated.getAnnoExprs() );
+    public Select select( _withAnnos _annotated ){
+        return select( _annotated.getAnnos() );
     }
 
     public boolean match( Node astNode){
@@ -429,8 +429,8 @@ public class $annoRefs
     }
 
     public boolean match( _java _j){
-        if( _j instanceof _withAnnoExprs){
-            return matches( (_withAnnoExprs)_j);
+        if( _j instanceof _withAnnos){
+            return matches( (_withAnnos)_j);
         }
         return false;
     }

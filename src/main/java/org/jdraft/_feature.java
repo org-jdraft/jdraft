@@ -107,10 +107,10 @@ public interface _feature<_T, _F>{
      */
     enum _id {
 
-        /**{@link _annos._withAnnoExprs} {@link _annos#ANNOS} {@link _annotation#ANNOS}
+        /**{@link _annos._withAnnos} {@link _annos#ANNOS} {@link _annotation#ANNOS}
          * {@link _class#ANNOS} {@link _constructor#ANNOS}, {@link _field#ANNOS} {@link _interface#ANNOS}
          * {@link _method#ANNOS} {@link _param#ANNOS} {@link _receiverParam#ANNOS} {@link _variablesExpr#ANNOS}... */
-        ANNOS("annos", _annos._withAnnoExprs.class), /** i.e. @Deprecated @NotNull */
+        ANNOS("annos", _annos._withAnnos.class), /** i.e. @Deprecated @NotNull */
         /**{@link _annos#ANNOS} */
         ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
 

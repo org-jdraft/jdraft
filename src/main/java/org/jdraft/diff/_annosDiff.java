@@ -4,11 +4,11 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
 import org.jdraft.*;
-import org.jdraft._annos._withAnnoExprs;
+import org.jdraft._annos._withAnnos;
 import org.jdraft.diff._diff.*;
 
 /**
- * Diff for: {@link _anno} {@link _annos} and {@link _withAnnoExprs}
+ * Diff for: {@link _anno} {@link _annos} and {@link _withAnnos}
  *
  * @author Eric
  */
@@ -17,14 +17,14 @@ public final class _annosDiff
 
     public static final _annosDiff INSTANCE = new _annosDiff();
     
-     public _diff diff(_withAnnoExprs left, _withAnnoExprs right){
+     public _diff diff(_withAnnos left, _withAnnos right){
         return diff( 
                 _nodePath.of(),
                 new _diffList( (_tree._node)left, (_tree._node)right),
                 (_tree._node)left,
                 (_tree._node)right,
-                left.getAnnoExprs(),
-                right.getAnnoExprs());
+                left.getAnnos(),
+                right.getAnnos());
     }
      
     @Override
@@ -39,7 +39,7 @@ public final class _annosDiff
             //if (!raes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 
                 ds.addDiff(new _leftOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _anno.of(e)));
+                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnos) _leftParent, (_withAnnos) _rightParent, _anno.of(e)));
             }
         }
         for (int i = 0; i < raes.size(); i++) {
@@ -49,21 +49,21 @@ public final class _annosDiff
             if (!laes.stream().filter(a -> Expr.equal(e, (AnnotationExpr) a)).findFirst().isPresent()) {
             //if (!laes.stream().filter(a -> Ast.annotationEqual(e, (AnnotationExpr) a)).findFirst().isPresent()) {
                 ds.addDiff(new _rightOnly_anno( //in LEFT not in RIGHT means REMOVE
-                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnoExprs) _leftParent, (_withAnnoExprs) _rightParent, _anno.of(e)));
+                        path.in(Feature.ANNO_EXPR, e.getNameAsString()), (_withAnnos) _leftParent, (_withAnnos) _rightParent, _anno.of(e)));
             }
         }
         return ds;
     }
 
     public static class _leftOnly_anno
-            implements _diffNode<_withAnnoExprs>, _diffNode._leftOnly<_anno> {
+            implements _diffNode<_withAnnos>, _diffNode._leftOnly<_anno> {
 
         public _nodePath path;
-        public _withAnnoExprs leftParent;
-        public _withAnnoExprs rightParent;
+        public _withAnnos leftParent;
+        public _withAnnos rightParent;
         public _anno left;
 
-        public _leftOnly_anno(_nodePath p, _withAnnoExprs left, _withAnnoExprs right, _anno toRemove) {
+        public _leftOnly_anno(_nodePath p, _withAnnos left, _withAnnos right, _anno toRemove) {
             this.path = p;
             this.leftParent = left;
             this.rightParent = right;
@@ -71,12 +71,12 @@ public final class _annosDiff
         }
 
         @Override
-        public _withAnnoExprs leftParent() {
+        public _withAnnos leftParent() {
             return leftParent;
         }
 
         @Override
-        public _withAnnoExprs rightParent() {
+        public _withAnnos rightParent() {
             return rightParent;
         }
 
@@ -92,17 +92,17 @@ public final class _annosDiff
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeAnnoExpr(left.ast());
-            rightParent.removeAnnoExpr(left.ast());
+            leftParent.removeAnno(left.ast());
+            rightParent.removeAnno(left.ast());
         }
 
         @Override
         public void patchLeftToRight() {
             
-            leftParent.removeAnnoExpr(left.ast());
-            leftParent.addAnnoExprs(left);
-            rightParent.removeAnnoExpr(left.ast());
-            rightParent.addAnnoExprs(left);
+            leftParent.removeAnno(left.ast());
+            leftParent.addAnnos(left);
+            rightParent.removeAnno(left.ast());
+            rightParent.addAnnos(left);
         }
 
         @Override
@@ -111,14 +111,14 @@ public final class _annosDiff
         }
     }
 
-    public static class _rightOnly_anno implements _diffNode<_withAnnoExprs>, _diffNode._rightOnly<_anno> {
+    public static class _rightOnly_anno implements _diffNode<_withAnnos>, _diffNode._rightOnly<_anno> {
 
         public _nodePath path;
-        public _withAnnoExprs leftParent;
-        public _withAnnoExprs rightParent;
+        public _withAnnos leftParent;
+        public _withAnnos rightParent;
         public _anno right;
 
-        public _rightOnly_anno(_nodePath p, _withAnnoExprs leftParent, _withAnnoExprs rightParent, _anno right) {
+        public _rightOnly_anno(_nodePath p, _withAnnos leftParent, _withAnnos rightParent, _anno right) {
             this.path = p;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
@@ -126,12 +126,12 @@ public final class _annosDiff
         }
 
         @Override
-        public _withAnnoExprs leftParent() {
+        public _withAnnos leftParent() {
             return leftParent;
         }
 
         @Override
-        public _withAnnoExprs rightParent() {
+        public _withAnnos rightParent() {
             return rightParent;
         }
 
@@ -148,17 +148,17 @@ public final class _annosDiff
         @Override
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnnoExpr(right.ast());
-            leftParent.addAnnoExprs(right);
-            rightParent.removeAnnoExpr(right.ast());
-            rightParent.addAnnoExprs(right);
+            leftParent.removeAnno(right.ast());
+            leftParent.addAnnos(right);
+            rightParent.removeAnno(right.ast());
+            rightParent.addAnnos(right);
         }
 
         @Override
         public void patchLeftToRight() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnnoExpr(right.ast());
-            rightParent.removeAnnoExpr(right.ast());
+            leftParent.removeAnno(right.ast());
+            rightParent.removeAnno(right.ast());
         }
 
         @Override

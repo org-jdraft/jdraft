@@ -13,7 +13,7 @@ public class _getTest extends TestCase {
         class D{
         }
         _class _c = _class.of( D.class);
-        assertFalse( _c.hasAnnoExpr(_get.class)); //verify we removed the annotation
+        assertFalse( _c.hasAnno(_get.class)); //verify we removed the annotation
         assertTrue( _c.listMethods().isEmpty());
     }
     public void testGetSingle(){
@@ -22,7 +22,7 @@ public class _getTest extends TestCase {
             int x;
         }
         _class _c = _class.of( DD.class);
-        assertFalse( _c.hasAnnoExpr(_get.class)); //verify we removed the annotation
+        assertFalse( _c.hasAnno(_get.class)); //verify we removed the annotation
         assertTrue( _c.firstMethodNamed("getX").isType(int.class));
     }
 }

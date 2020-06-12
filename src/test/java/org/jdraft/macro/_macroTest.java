@@ -80,7 +80,7 @@ public class _macroTest extends TestCase {
         class C{}
 
         _class _c = _class.of(C.class);
-        assertTrue( _c.getField("ID").isStatic() );
+        assertTrue( _c.fieldNamed("ID").isStatic() );
         System.out.println( _c );
     }
 
@@ -124,7 +124,7 @@ public class _macroTest extends TestCase {
         }
 
         _class _c = _class.of( C.class);
-        _c.addAnnoExprs(removePrintlns.class);
+        _c.addAnnos(removePrintlns.class);
 
         //verify that AFTER I run the _macro, there are no matching $printlns left
         //assertEquals(0, removePrintlns.$println.selectAllIn(_c).size());

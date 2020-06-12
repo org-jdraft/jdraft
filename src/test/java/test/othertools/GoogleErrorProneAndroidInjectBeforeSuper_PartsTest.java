@@ -182,7 +182,7 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
         // lets copy of the .java source, adding the @Suppress... annotations to each method
         // then retesting and verifying there are no matches
         _project SUPPRESS_ANNO = FAILURES.copy();
-        SUPPRESS_ANNO.forEach( _type.class, _t -> _t.forMembers(_method.class, _m -> ((_method)_m).addAnnoExprs($SUPPRESS_WARNING_ANNO.draft())) );
+        SUPPRESS_ANNO.forEach( _type.class, _t -> _t.toMembers(_method.class, _m -> ((_method)_m).addAnnos($SUPPRESS_WARNING_ANNO.draft())) );
         //assertEquals(4, $SUPPRESS_WARNING_ANNO.count(SUPPRESS_ANNO));
         assertEquals(4, $method.of($SUPPRESS_WARNING_ANNO).countIn(SUPPRESS_ANNO)); //all (4) methods have the suppress anno
         System.out.println( SUPPRESS_ANNO.list() );
@@ -225,13 +225,13 @@ public class GoogleErrorProneAndroidInjectBeforeSuper_PartsTest extends TestCase
 
         //OK, lets MODIFY COPIES of each _class to ADD the @Suppress annotation to verify
         // that it will NOT match if it did
-        _class _cp = $method.of().forEachIn( _FAIL_InFragment.copy(), m -> m.addAnnoExprs( $SUPPRESS_WARNING_ANNO.draft()));
+        _class _cp = $method.of().forEachIn( _FAIL_InFragment.copy(), m -> m.addAnnos( $SUPPRESS_WARNING_ANNO.draft()));
         assertFalse( $METHODS.isIn(_cp) ); //wont match because @SuppressWarnings anno
-        _cp = $method.of().forEachIn( _FAIL_InjBeforeSuperInBetween.copy(), m -> m.addAnnoExprs( $SUPPRESS_WARNING_ANNO.draft()));
+        _cp = $method.of().forEachIn( _FAIL_InjBeforeSuperInBetween.copy(), m -> m.addAnnos( $SUPPRESS_WARNING_ANNO.draft()));
         assertFalse( $METHODS.isIn(_cp) ); //wont match because @SuppressWarnings anno
-        _cp = $method.of().forEachIn( _FAIL_InjectBeforeSuperOnAttach.copy(), m -> m.addAnnoExprs( $SUPPRESS_WARNING_ANNO.draft()));
+        _cp = $method.of().forEachIn( _FAIL_InjectBeforeSuperOnAttach.copy(), m -> m.addAnnos( $SUPPRESS_WARNING_ANNO.draft()));
         assertFalse( $METHODS.isIn(_cp) ); //wont match because @SuppressWarnings anno
-        _cp = $method.of().forEachIn( _FAIL_InjectBeforeSuperActivity.copy(), m -> m.addAnnoExprs( $SUPPRESS_WARNING_ANNO.draft()));
+        _cp = $method.of().forEachIn( _FAIL_InjectBeforeSuperActivity.copy(), m -> m.addAnnos( $SUPPRESS_WARNING_ANNO.draft()));
         assertFalse( $METHODS.isIn(_cp) ); //wont match because @SuppressWarnings anno
     }
 

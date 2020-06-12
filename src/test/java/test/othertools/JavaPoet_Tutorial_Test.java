@@ -371,7 +371,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                return "Hoverboard";
             }
         });
-        assertTrue( _m.hasAnnoExpr(Override.class));
+        assertTrue( _m.hasAnno(Override.class));
 
         //we can create annotations individually:
         _anno _a = _anno.of(Override.class);
@@ -382,9 +382,9 @@ public class JavaPoet_Tutorial_Test extends TestCase {
                 return "Hoverboard";
             }
         });
-        assertFalse( _m.hasAnnoExpr(Override.class));
-        _m.addAnnoExprs(_a);
-        assertTrue( _m.hasAnnoExpr(Override.class));
+        assertFalse( _m.hasAnno(Override.class));
+        _m.addAnnos(_a);
+        assertTrue( _m.hasAnno(Override.class));
     }
 
 
@@ -410,7 +410,7 @@ public class JavaPoet_Tutorial_Test extends TestCase {
         });
 
         _method _m = _method.of("public abstract LogReceipt recordEvent(LogRecord logRecord);")
-                .addAnnoExprs(_a);
+                .addAnnos(_a);
 
         System.out.println( _m);
     }

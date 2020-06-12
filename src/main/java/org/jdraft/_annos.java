@@ -392,21 +392,21 @@ public final class _annos
      *
      * @param <_WA> the container type (that has Annos)
      */
-    public interface _withAnnoExprs<_WA extends _withAnnoExprs>
+    public interface _withAnnos<_WA extends _withAnnos>
         extends _java._domain {
 
         /**
          * @return the annos
          */
-        _annos getAnnoExprs();
+        _annos getAnnos();
 
         /**
          * Check if all individual annos match the function
          * @param matchFn
          * @return
          */
-        default boolean isAllAnnoExprs(Predicate<_anno> matchFn){
-            return listAnnoExprs().stream().allMatch(matchFn);
+        default boolean isAllAnnos(Predicate<_anno> matchFn){
+            return listAnnos().stream().allMatch(matchFn);
         }
 
         /**
@@ -414,8 +414,8 @@ public final class _annos
          * @param index
          * @return
          */
-        default _anno getAnnoExpr(int index) {
-            return listAnnoExprs().get(index);
+        default _anno getAnno(int index) {
+            return listAnnos().get(index);
         }
 
         /**
@@ -423,8 +423,8 @@ public final class _annos
          * @param _annoActionFn
          * @return the modified T
          */
-        default _WA forAnnoExprs(Consumer<_anno> _annoActionFn){
-            getAnnoExprs().toEach(_annoActionFn);
+        default _WA toAnnos(Consumer<_anno> _annoActionFn){
+            getAnnos().toEach(_annoActionFn);
             return (_WA) this;
         }
 
@@ -434,9 +434,28 @@ public final class _annos
          * @param _annoActionFn
          * @return
          */
-        default _WA forAnnoExprs(Predicate<_anno> _annoMatchFn, Consumer<_anno> _annoActionFn){
-            getAnnoExprs().toEach(_annoMatchFn, _annoActionFn);
+        default _WA toAnnos(Predicate<_anno> _annoMatchFn, Consumer<_anno> _annoActionFn){
+            getAnnos().toEach(_annoMatchFn, _annoActionFn);
             return (_WA) this;
+        }
+
+        /**
+         * apply a function to all annos
+         * @param _annoActionFn
+         * @return the modified T
+         */
+        default List<_anno> forAnnos(Consumer<_anno> _annoActionFn){
+            return getAnnos().forEach(_annoActionFn);
+        }
+
+        /**
+         * Selectively apply a function to annos
+         * @param _annoMatchFn
+         * @param _annoActionFn
+         * @return
+         */
+        default List<_anno> forAnnos(Predicate<_anno> _annoMatchFn, Consumer<_anno> _annoActionFn){
+            return getAnnos().forEach(_annoMatchFn, _annoActionFn);
         }
 
         /**
@@ -445,8 +464,8 @@ public final class _annos
          * @param _annoMatchFn
          * @return the first matching {@link _anno}, or null if none query
          */
-        default _anno getAnnoExpr(Predicate<_anno> _annoMatchFn) {
-            return getAnnoExprs().first( _annoMatchFn );
+        default _anno getAnno(Predicate<_anno> _annoMatchFn) {
+            return getAnnos().first( _annoMatchFn );
         }
 
         /**
@@ -455,8 +474,8 @@ public final class _annos
          * @param annotationClass the annotationClass
          * @return the first annotation that is of the annotationClass or null
          */
-        default _anno getAnnoExpr(Class<? extends Annotation> annotationClass) {
-            return getAnnoExprs().get( annotationClass );
+        default _anno getAnno(Class<? extends Annotation> annotationClass) {
+            return getAnnos().get( annotationClass );
         }
 
         /**
@@ -465,20 +484,20 @@ public final class _annos
          * @param annoName the NAME of the anno
          * @return the first _anno that has the NAME, or null
          */
-        default _anno getAnnoExpr(String annoName) {
+        default _anno getAnno(String annoName) {
             if( annoName.startsWith("@")){
-                return getAnnoExprs().get(annoName.substring(1));
+                return getAnnos().get(annoName.substring(1));
             }
-            return getAnnoExprs().get( annoName );
+            return getAnnos().get( annoName );
         }
 
-        default boolean isAnnoExprs(_anno... _as){
-            _annos _tas = getAnnoExprs();
+        default boolean isAnnos(_anno... _as){
+            _annos _tas = getAnnos();
             return Objects.equals(_tas, of(_as));
         }
 
-        default boolean isAnnoExprs(_annos _as){
-            _annos _tas = getAnnoExprs();
+        default boolean isAnnos(_annos _as){
+            _annos _tas = getAnnos();
             return Objects.equals(_tas, _as);
         }
 
@@ -487,8 +506,8 @@ public final class _annos
          * @param annotationClass
          * @return
          */
-        default boolean hasAnnoExpr(Class<? extends Annotation> annotationClass) {
-            return getAnnoExpr( annotationClass ) != null;
+        default boolean hasAnno(Class<? extends Annotation> annotationClass) {
+            return getAnno( annotationClass ) != null;
         }
 
         /**
@@ -496,37 +515,37 @@ public final class _annos
          * @param name the name of the anno
          * @return
          */
-        default boolean hasAnnoExpr(String name) {
-            return getAnnoExpr( name ) != null;
+        default boolean hasAnno(String name) {
+            return getAnno( name ) != null;
         }
 
-        default boolean hasAnnoExpr(Predicate<_anno> _annoMatchFn) {
-            return getAnnoExpr( _annoMatchFn ) != null;
+        default boolean hasAnno(Predicate<_anno> _annoMatchFn) {
+            return getAnno( _annoMatchFn ) != null;
         }
 
-        default List<_anno> listAnnoExprs() {
-            return getAnnoExprs().list();
+        default List<_anno> listAnnos() {
+            return getAnnos().list();
         }
 
-        default List<_anno> listAnnoExprs(Predicate<_anno> _annMatchFn) {
-            return getAnnoExprs().list( _annMatchFn );
+        default List<_anno> listAnnos(Predicate<_anno> _annMatchFn) {
+            return getAnnos().list( _annMatchFn );
         }
 
-        default List<_anno> listAnnoExprs(String annoName) {
-            return getAnnoExprs().list( annoName );
+        default List<_anno> listAnnos(String annoName) {
+            return getAnnos().list( annoName );
         }
 
-        default List<_anno> listAnnoExprs(Class<? extends Annotation> annotationClass) {
-            return getAnnoExprs().listAstNodes( annotationClass );
+        default List<_anno> listAnnos(Class<? extends Annotation> annotationClass) {
+            return getAnnos().listAstNodes( annotationClass );
         }
 
-        default _WA setAnnoExprs(_annos _as){
-            _as.toEach(a -> getAnnoExprs().add(a) );
+        default _WA setAnnos(_annos _as){
+            _as.toEach(a -> getAnnos().add(a) );
             return (_WA)this;
         }
 
-        default _WA addAnnoExprs(List<AnnotationExpr> astAnnoList){
-            astAnnoList.forEach( a -> getAnnoExprs().add(a) );
+        default _WA addAnnos(List<AnnotationExpr> astAnnoList){
+            astAnnoList.forEach( a -> getAnnos().add(a) );
             return (_WA)this;
         }
 
@@ -536,8 +555,8 @@ public final class _annos
          * @param _anns ANNOTATIONS to to
          * @return the annotated entity
          */
-        default _WA addAnnoExprs(_anno... _anns) {
-            getAnnoExprs().add(_anns );
+        default _WA addAnnos(_anno... _anns) {
+            getAnnos().add(_anns );
             return (_WA)this;
         }
 
@@ -547,8 +566,8 @@ public final class _annos
          * @param annoClasses
          * @return
          */
-        default _WA addAnnoExprs(Class<? extends Annotation>... annoClasses) {
-            getAnnoExprs().add(annoClasses );
+        default _WA addAnnos(Class<? extends Annotation>... annoClasses) {
+            getAnnos().add(annoClasses );
             return (_WA)this;
         }
 
@@ -558,8 +577,8 @@ public final class _annos
          * @param annotations
          * @return
          */
-        default _WA addAnnoExprs(String... annotations) {
-            getAnnoExprs().add( annotations );
+        default _WA addAnnos(String... annotations) {
+            getAnnos().add( annotations );
             return (_WA)this;
         }
 
@@ -568,8 +587,8 @@ public final class _annos
          * @param astAnn the annotation
          * @return
          */
-        default _WA removeAnnoExpr(AnnotationExpr astAnn){
-            getAnnoExprs().remove(astAnn);
+        default _WA removeAnno(AnnotationExpr astAnn){
+            getAnnos().remove(astAnn);
             return (_WA)this;
         }
 
@@ -578,8 +597,8 @@ public final class _annos
          * @param _a
          * @return the modified T
          */
-        default _WA removeAnnoExpr(_anno _a){
-            return removeAnnoExpr( _a.ast() );
+        default _WA removeAnno(_anno _a){
+            return removeAnno( _a.ast() );
         }
 
         /**
@@ -588,8 +607,8 @@ public final class _annos
          * @param _annoMatchFn
          * @return
          */
-        default _WA removeAnnoExprs(Predicate<_anno> _annoMatchFn) {
-            getAnnoExprs().remove( _annoMatchFn );
+        default _WA removeAnnos(Predicate<_anno> _annoMatchFn) {
+            getAnnos().remove( _annoMatchFn );
             return (_WA)this;
         }
 
@@ -597,8 +616,8 @@ public final class _annos
          *
          * @return
          */
-        default boolean hasAnnoExprs() {
-            return !getAnnoExprs().isEmpty();
+        default boolean hasAnnos() {
+            return !getAnnos().isEmpty();
         }
 
         /**
@@ -607,8 +626,8 @@ public final class _annos
          * @param annotationClass
          * @return
          */
-        default _WA removeAnnoExprs(Class<? extends Annotation> annotationClass) {
-            getAnnoExprs().remove( annotationClass );
+        default _WA removeAnnos(Class<? extends Annotation> annotationClass) {
+            getAnnos().remove( annotationClass );
             return (_WA)this;
         }
 
@@ -618,8 +637,8 @@ public final class _annos
          * @param annoNames
          * @return
          */
-        default _WA removeAnnoExprs(String... annoNames) {
-            getAnnoExprs().remove( annoNames );
+        default _WA removeAnnos(String... annoNames) {
+            getAnnos().remove( annoNames );
             return (_WA)this;
         }
 
@@ -629,8 +648,8 @@ public final class _annos
          * @param _annosToRemove
          * @return
          */
-        default _WA removeAnnoExprs(List<_anno> _annosToRemove) {
-            getAnnoExprs().remove(_annosToRemove.toArray( new _anno[ 0 ] ) );
+        default _WA removeAnnos(List<_anno> _annosToRemove) {
+            getAnnos().remove(_annosToRemove.toArray( new _anno[ 0 ] ) );
             return (_WA)this;
         }
     }

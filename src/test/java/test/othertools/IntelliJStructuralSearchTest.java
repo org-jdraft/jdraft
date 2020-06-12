@@ -156,13 +156,13 @@ public class IntelliJStructuralSearchTest{
         __( $.initBlock(i-> i.isStatic()) );
 
         //Annotated Classes
-        __( $class.of(c-> c.hasAnnoExprs() ) );
+        __( $class.of(c-> c.hasAnnos() ) );
 
         //Annotated Fields
-        __( $field.of(f->f.hasAnnoExprs() ) );
+        __( $field.of(f->f.hasAnnos() ) );
 
         //Annotated Methods
-        __( $method.of(m->m.hasAnnoExprs() ) );
+        __( $method.of(m->m.hasAnnos() ) );
 
         //Annotation Type Declarations
         __( $annotation.of() );
@@ -384,7 +384,7 @@ public class IntelliJStructuralSearchTest{
         __( $class.of(c-> c.allFields(f-> f.isFinal()) ) );
         __( $class.of(c-> c.allInitBlocks(i-> i.isStatic() ) ) );
         __( $class.of(c-> c.allTypeParams(tp-> !tp.hasExtendsTypeBound() ) ) );
-        __( $class.of(c-> c.isAllAnnoExprs(a-> !a.isNamed("todo") ) ) );
+        __( $class.of(c-> c.isAllAnnos(a-> !a.isNamed("todo") ) ) );
 
         //Singletons
         // OR classes that HAVE defined constructors that are ALL private

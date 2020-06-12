@@ -115,7 +115,7 @@ public class SinterfaceTest extends TestCase {
         assertFalse($i.matches(_interface.of("C").setJavadoc("not compilant")));
 
         $i = $interface.of($.anno(Deprecated.class));
-        assertTrue( $i.matches(_interface.of("F").addAnnoExprs(Deprecated.class)));
+        assertTrue( $i.matches(_interface.of("F").addAnnos(Deprecated.class)));
         assertFalse( $i.matches(_interface.of("F")));
 
         $i = $interface.of($.name("AC$afterPrefix$"));

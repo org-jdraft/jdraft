@@ -91,7 +91,7 @@ public class SannotationTest extends TestCase {
         assertFalse($c.matches(_annotation.of("C").setJavadoc("not compilant")));
 
         $c = $annotation.of($.anno(Deprecated.class));
-        assertTrue( $c.matches(_annotation.of("F").addAnnoExprs(Deprecated.class)));
+        assertTrue( $c.matches(_annotation.of("F").addAnnos(Deprecated.class)));
         assertFalse( $c.matches(_annotation.of("F")));
 
         $c = $annotation.of($.name("AC$afterPrefix$"));

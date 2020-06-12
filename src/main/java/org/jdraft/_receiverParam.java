@@ -30,7 +30,7 @@ import com.github.javaparser.ast.type.Type;
  */
 public final class _receiverParam
         implements _tree._node<ReceiverParameter, _receiverParam>,
-        _java._withNameType<ReceiverParameter, _receiverParam>, _annos._withAnnoExprs<_receiverParam> {
+        _java._withNameType<ReceiverParameter, _receiverParam>, _annos._withAnnos<_receiverParam> {
 
     public static final Function<String, _receiverParam> PARSER = s-> _receiverParam.of(s);
 
@@ -48,8 +48,8 @@ public final class _receiverParam
 
     public static _feature._one<_receiverParam, _annos> ANNOS = new _feature._one<>(_receiverParam.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_receiverParam p, _annos _e) -> p.setAnnoExprs(_e), PARSER);
+            a -> a.getAnnos(),
+            (_receiverParam p, _annos _e) -> p.setAnnos(_e), PARSER);
 
     public static _feature._one<_receiverParam, _typeRef> TYPE = new _feature._one<>(_receiverParam.class, _typeRef.class,
             _feature._id.TYPE,
@@ -128,7 +128,7 @@ public final class _receiverParam
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of( this.astReceiverParam );
     }
 

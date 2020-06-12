@@ -29,6 +29,26 @@ import test.NativeMethod;
  */
 public class _classTest extends TestCase {
 
+    public void testToApi(){
+        _class _c = _class.of(_classTest.class);
+
+        _c.toAnnos(_a-> System.out.println("a"));
+        _c.toAnnos(_a->_a.isEntryPairedMembers(), _a->System.out.println("a"));
+
+        _c.toAllComments(c-> c.setText("hello"));
+
+        _c.toMethods(_m -> _m.getName().equals("blah"), _m-> System.out.println(_m) );
+        _c.toFields(_f-> _f.hasInit(), _f-> _f.removeInit());
+
+        _c.toConstructors(_ct -> System.out.println( _ct ));
+
+        _c.toImports(i-> System.out.println(i));
+
+
+        //_c.forDeclared()
+        System.out.println( _c );
+    }
+
     public void testAddBefore(){
         class C{
             int i;
@@ -530,7 +550,7 @@ public class _classTest extends TestCase {
         });
         System.out.println( _c );
 
-        _c.forFields( f-> f.isType(int.class), f-> System.out.println(f) );
+        _c.toFields(f-> f.isType(int.class), f-> System.out.println(f) );
     }
     
     
@@ -659,7 +679,7 @@ public class _classTest extends TestCase {
         //_c = _class.of("D").constructor((final @_annotat String s)->System.out.println("in constructor with "+s));
         //_c = _class.of("D").constructor(new Object(final @_annotat String s)->System.out.println("in constructor with "+s));
         _c = _class.of("D").addConstructor(new Object(){ public void c(final @annotat String s){System.out.println("in constructor with "+s);} } );
-        assertTrue( _c.getConstructor(0).getParam("s").hasAnnoExpr(annotat.class));
+        assertTrue( _c.getConstructor(0).getParam("s").hasAnno(annotat.class));
         //System.out.println( _c );
     }
 
@@ -670,10 +690,10 @@ public class _classTest extends TestCase {
         assertTrue( _c.getPackageName().equals("aaaa.bbbb") );
         assertTrue( _c.getPackage().equals(_package.of("aaaa.bbbb")) );
         assertTrue( _c.isInPackage("aaaa.bbbb"));
-        assertTrue( _c.getField("a").isPublic() );
-        assertTrue( _c.getField("a").isType(int.class) );
-        assertTrue( _c.getField("b").isPublic() );
-        assertTrue( _c.getField("b").isType(int.class) );
+        assertTrue( _c.fieldNamed("a").isPublic() );
+        assertTrue( _c.fieldNamed("a").isType(int.class) );
+        assertTrue( _c.fieldNamed("b").isPublic() );
+        assertTrue( _c.fieldNamed("b").isType(int.class) );
 
         //verify we have a static main() method
         assertTrue( _c.firstMethodNamed("main").isStatic() );
@@ -712,7 +732,7 @@ public class _classTest extends TestCase {
         assertTrue( _c.getPackage() == null );
 
         _c = _class.of( "aaaa.bbbb.F", new Object(){ @_static int a;} );
-        assertTrue( _c.getField("a").isStatic() );
+        assertTrue( _c.fieldNamed("a").isStatic() );
     }
 
     //TODO _class.of("pav.asda.CC");
@@ -771,7 +791,7 @@ public class _classTest extends TestCase {
         _class _c = _class.of("class C{}");
         assertEquals("C", _c.getName());
         assertTrue( _c.getModifiers().is("") );
-        assertFalse( _c.hasAnnoExprs());
+        assertFalse( _c.hasAnnos());
         assertFalse( _c.hasJavadoc());
         assertFalse( _c.hasExtends());
         assertFalse( _c.hasImplements());
@@ -794,7 +814,7 @@ public class _classTest extends TestCase {
         assertTrue( _c.listConstructors().isEmpty() );
         assertNull( _c.getExtendsNode() );
         assertTrue( _c.listAstImplements().isEmpty() );
-        assertTrue( _c.listAnnoExprs( ).isEmpty());
+        assertTrue( _c.listAnnos( ).isEmpty());
     }
     
     
@@ -806,7 +826,7 @@ public class _classTest extends TestCase {
         _c.addImports(Map.class,HashMap.class);
         _c.addImports( "aaaa.bbbb.C", "blah.dat.*");
         _c.setJavadoc("class JAVADOC");
-        _c.addAnnoExprs( "@ann", "@ann(k=1,v='y')");
+        _c.addAnnos( "@ann", "@ann(k=1,v='y')");
         _c.setPublic();
         _c.setName("Cgg");
         _c.setTypeParams("<T extends Impl>");
@@ -886,8 +906,8 @@ public class _classTest extends TestCase {
         _method _m = _c.firstMethodNamed("doIt");
         assertTrue( _m.hasJavadoc());
         assertTrue( _m.getJavadoc().getText().contains( "method JAVADOC" ));
-        assertTrue( _m.hasAnnoExprs());
-        assertTrue( _m.getAnnoExprs().is("@ann","@ann2(k=3,v='i')"));
+        assertTrue( _m.hasAnnos());
+        assertTrue( _m.getAnnos().is("@ann","@ann2(k=3,v='i')"));
         assertTrue( _m.getModifiers().is("public static"));
         assertTrue(_m.hasTypeParams());
         assertTrue(_m.getTypeParams().is("<e extends Fuzz>"));
@@ -905,8 +925,8 @@ public class _classTest extends TestCase {
         _constructor _ct = _c.getConstructor(0);
         assertTrue(_ct.hasJavadoc());
         assertTrue(_ct.getJavadoc().getText().contains("ctor JAVADOC"));
-        assertTrue(_ct.hasAnnoExprs());
-        assertTrue( _ct.getAnnoExprs().is("@ann","@ann2(k=3,v='i')"));
+        assertTrue(_ct.hasAnnos());
+        assertTrue( _ct.getAnnos().is("@ann","@ann2(k=3,v='i')"));
         assertTrue( _ct.getModifiers().is("protected"));
         assertTrue( _ct.hasTypeParams());
         assertTrue( _ct.getTypeParams().is( "<e extends Element>"));
@@ -921,16 +941,16 @@ public class _classTest extends TestCase {
         assertEquals(2, _ct.listParams().size() );
         _param _p = _ct.getParam( 0 );
         assertTrue( _p.is( "@ann @ann2(k=5)final String s" ));
-        assertTrue( _p.hasAnnoExprs());
-        assertEquals( 2, _p.listAnnoExprs().size());
+        assertTrue( _p.hasAnnos());
+        assertEquals( 2, _p.listAnnos().size());
         assertTrue( _p.isFinal());
         assertTrue( _p.isType( String.class));
         assertEquals("s", _p.getName());
         assertFalse( _p.isVarArg() );
         _p = _ct.getParam( 1 );
         assertTrue( _p.is( "int...varArgs3" ));
-        assertFalse( _p.hasAnnoExprs());
-        assertEquals( 0, _p.listAnnoExprs().size());
+        assertFalse( _p.hasAnnos());
+        assertEquals( 0, _p.listAnnos().size());
         assertFalse( _p.isFinal());
         assertTrue( _p.isType( int.class));
         assertEquals("varArgs3", _p.getName());
@@ -940,11 +960,11 @@ public class _classTest extends TestCase {
         _params _ps = _ct.getParams();
         
         assertEquals(1, _c.listFields().size());
-        _field _f = _c.getField("l");
+        _field _f = _c.fieldNamed("l");
         assertTrue( _f.hasJavadoc());
         assertTrue( _f.getJavadoc().getText().contains("field JAVADOC"));
-        assertTrue( _f.hasAnnoExprs() );
-        assertTrue( _f.getAnnoExprs().is("@ann","@ann2(k=2,v='g')") );
+        assertTrue( _f.hasAnnos() );
+        assertTrue( _f.getAnnos().is("@ann","@ann2(k=2,v='g')") );
         assertTrue( _f.getModifiers().is( "public static final"));
         assertTrue( _f.isType( "List<String>"));
         assertTrue( _f.getName().equals( "l"));
@@ -953,12 +973,12 @@ public class _classTest extends TestCase {
         
         assertTrue(_c.hasJavadoc());
         assertTrue(_c.getJavadoc().getText().contains( "class JAVADOC") );
-        assertTrue(_c.hasAnnoExprs());
-        assertEquals(2, _c.listAnnoExprs().size() );
+        assertTrue(_c.hasAnnos());
+        assertEquals(2, _c.listAnnos().size() );
         
-        assertTrue( _c.getAnnoExpr(0).is( "@ann") );
-        assertTrue( _c.getAnnoExpr(1).is( "@ann2(k=1,v='y')") );
-        assertTrue( _c.getAnnoExprs().is( "@ann","@ann2(k=1,v='y')"));
+        assertTrue( _c.getAnno(0).is( "@ann") );
+        assertTrue( _c.getAnno(1).is( "@ann2(k=1,v='y')") );
+        assertTrue( _c.getAnnos().is( "@ann","@ann2(k=1,v='y')"));
         assertTrue( _c.getModifiers().is("public"));
         assertEquals("Cgg", _c.getName());
         assertTrue( _c.hasTypeParams() );

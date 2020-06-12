@@ -118,7 +118,7 @@ public class _constructorTest extends TestCase {
                     }
                 });
         _constructor _ct = _c.getConstructor(0);
-        assertTrue( _ct.hasAnnoExpr(Deprecated.class));
+        assertTrue( _ct.hasAnno(Deprecated.class));
         assertTrue( _ct.getJavadoc().getText().contains("This is a constructor"));
         assertTrue( _ct.getParam(0).is("int x"));
         assertTrue( _ct.getParam(1).is("int y"));
@@ -132,7 +132,7 @@ public class _constructorTest extends TestCase {
         assertTrue( _ct.hasBody() );
         assertFalse( _ct.hasJavadoc());
         assertFalse( _ct.hasParams());
-        assertFalse( _ct.hasAnnoExprs() );
+        assertFalse( _ct.hasAnnos() );
         assertFalse( _ct.hasThrows());
         assertFalse( _ct.hasTypeParams() );
         
@@ -154,9 +154,9 @@ public class _constructorTest extends TestCase {
             "}"); 
         assertTrue( _ct.hasJavadoc() );
         assertTrue( _ct.getJavadoc().getText().contains( "ctor JAVADOC"));
-        assertTrue( _ct.hasAnnoExprs() );
-        assertTrue( _ct.getAnnoExpr( 0 ).is( "@ann") );
-        assertTrue( _ct.getAnnoExpr( 1 ).is( "@ann2(k=1,v='t')") );
+        assertTrue( _ct.hasAnnos() );
+        assertTrue( _ct.getAnno( 0 ).is( "@ann") );
+        assertTrue( _ct.getAnno( 1 ).is( "@ann2(k=1,v='t')") );
         assertTrue( _ct.getModifiers().is( "public"));
         assertTrue( _ct.hasTypeParams() );
         assertTrue( _ct.getTypeParams().is( "<E extends element>") );

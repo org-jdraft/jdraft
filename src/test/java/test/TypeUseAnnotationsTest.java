@@ -115,8 +115,8 @@ public class TypeUseAnnotationsTest
         $ex.newEx().firstIn(_c);
         
         _typeParam _tp = _c.getTypeParams().getAt(0);
-        assertEquals( _anno.of(TypeAnno.class), _tp.getAnnoExpr(0) );
-        assertEquals( _anno.of(TA2.class), _tp.getAnnoExpr(1) );
+        assertEquals( _anno.of(TypeAnno.class), _tp.getAnno(0) );
+        assertEquals( _anno.of(TA2.class), _tp.getAnno(1) );
         
         ClassOrInterfaceType coit = _c.getExtendsNode();
         assertEquals(_anno.of(TypeAnno.class).ast(), coit.getAnnotation(0));
@@ -127,11 +127,11 @@ public class TypeUseAnnotationsTest
         assertEquals(_anno.of(TypeAnno.class).ast(), coit.getAnnotation(0));
         assertEquals(_anno.of(TA2.class).ast(), coit.getAnnotation(1));
         
-        _field _f = _c.getField("o");
-        assertTrue( _f.hasAnnoExpr(TypeAnno.class));
-        assertTrue( _f.hasAnnoExpr(TA2.class));
+        _field _f = _c.fieldNamed("o");
+        assertTrue( _f.hasAnno(TypeAnno.class));
+        assertTrue( _f.hasAnno(TA2.class));
         
-        _f = _c.getField("n");
+        _f = _c.fieldNamed("n");
         //System.out.println(_f);
         //VariableDeclarator vd = _f.ast();
         FieldDeclaration astFd = _f.getFieldDeclaration();

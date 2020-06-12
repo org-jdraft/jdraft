@@ -50,8 +50,8 @@ public class $enumConstant
 
     public static $enumConstant of( _constant _ec ){
         $enumConstant ec = new $enumConstant();
-        if( _ec.hasAnnoExprs() ) {
-            ec.annos = $annoRefs.of(_ec.getAnnoExprs());
+        if( _ec.hasAnnos() ) {
+            ec.annos = $annoRefs.of(_ec.getAnnos());
         }
         if( _ec.hasJavadoc()) {
             ec.javadoc = $comment.javadocComment(_ec.getJavadoc());
@@ -107,8 +107,8 @@ public class $enumConstant
 
     public static $enumConstant as( _constant _ec ){
         $enumConstant ec = new $enumConstant();
-        if( _ec.hasAnnoExprs() ) {
-            ec.annos = $annoRefs.as(_ec.getAnnoExprs());
+        if( _ec.hasAnnos() ) {
+            ec.annos = $annoRefs.as(_ec.getAnnos());
         } else{
             ec.annos = $annoRefs.none();
         }

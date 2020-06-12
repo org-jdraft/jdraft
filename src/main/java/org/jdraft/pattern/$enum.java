@@ -92,7 +92,7 @@ public class $enum
         List<Node>nots = new ArrayList<>();
 
         //remove _$not things
-        _e.forDeclared( d -> d.hasAnnoExpr(_$not.class), d-> {
+        _e.toDeclared(d -> d.hasAnno(_$not.class), d-> {
             //System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -106,16 +106,16 @@ public class $enum
 
 
         $e.$javadoc(_e.getJavadoc());
-        _e.forAnnoExprs(a-> $e.annos.add($annoRef.of(a)));
+        _e.toAnnos(a-> $e.annos.add($annoRef.of(a)));
         $e.modifiers = $modifiers.of(_e.getModifiers());
         $e.$name(_e.getSimpleName());
         _e.listAstImplements().forEach(i -> $e.$implement(i));
         _e.forConstants(cn -> $e.$constant($enumConstant.of(cn)));
-        _e.forInitBlocks(ib -> $e.initBlocks.add($initBlock.of(ib.ast())));
-        _e.forConstructors(ct -> $e.ctors.add($constructor.of(ct)));
-        _e.forFields(f-> $e.fields.add($field.of(f)));
+        _e.toInitBlocks(ib -> $e.initBlocks.add($initBlock.of(ib.ast())));
+        _e.toConstructors(ct -> $e.ctors.add($constructor.of(ct)));
+        _e.toFields(f-> $e.fields.add($field.of(f)));
         _e.toMethods(m -> $e.$methods($method.of(m)));
-        _e.forInnerTypes(n -> {
+        _e.toInnerTypes(n -> {
             if( n instanceof _class) {
                 $e.$hasChild( $class.of((_class)n) );
             }
@@ -230,12 +230,12 @@ public class $enum
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_enum> pf = an-> an.getAnnoExpr(a ->$fa.match(a) ) != null;
+                Predicate<_enum> pf = an-> an.getAnno(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_enum> pf = an-> $fa.matches(an.getAnnoExprs());
+                Predicate<_enum> pf = an-> $fa.matches(an.getAnnos());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -245,7 +245,7 @@ public class $enum
             }
             else if(parts[i] instanceof $field ){
                 final $field $fj = (($field)parts[i]);
-                Predicate<_enum> aFn = a-> a.getField(e->$fj.match(e)) != null; //found one
+                Predicate<_enum> aFn = a-> a.firstField(e->$fj.match(e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if(parts[i] instanceof $method ){

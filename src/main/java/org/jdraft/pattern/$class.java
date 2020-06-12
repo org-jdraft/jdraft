@@ -60,7 +60,7 @@ public class $class
         List<BodyDeclaration> nots = new ArrayList<>();
 
         //only _declared members can have annotations (i.e. @_$not )
-        _c.forDeclared(d -> d.hasAnnoExpr(_$not.class), d -> {
+        _c.toDeclared(d -> d.hasAnno(_$not.class), d -> {
             if( d instanceof _field ){
                 nots.add(((_field) d).getFieldDeclaration());
                 ((_field)d).getFieldDeclaration().remove(); //remove it from the AST so we dont treat it as an $and
@@ -127,7 +127,7 @@ public class $class
         /** end of parameterizing @_$ class level annotations in the source code */
 
         $c.$javadoc(_c.getJavadoc());
-        _c.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
+        _c.toAnnos(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
         _c.getTypeParams().toEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
@@ -136,11 +136,11 @@ public class $class
         }
         _c.listAstImplements().forEach(i -> $c.$implements(i));
 
-        _c.forInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
+        _c.toInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
 
 
-        _c.forConstructors(ct -> $c.ctors.add($constructor.of(_$.Parameterize.update(ct))));
-        _c.forFields(f-> $c.fields.add($field.of(_$.Parameterize.update(f))));
+        _c.toConstructors(ct -> $c.ctors.add($constructor.of(_$.Parameterize.update(ct))));
+        _c.toFields(f-> $c.fields.add($field.of(_$.Parameterize.update(f))));
         _c.toMethods(m -> $c.$methods($method.of(_$.Parameterize.update(m))));
 
         //hmm this loses the order of things
@@ -153,7 +153,7 @@ public class $class
         _c.forMethods(m -> $c.$methods($method.of(m)));
         */
 
-        _c.forInnerTypes(n -> {
+        _c.toInnerTypes(n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }
@@ -273,12 +273,12 @@ public class $class
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_class> pf = an-> an.getAnnoExpr(a ->$fa.match(a) ) != null;
+                Predicate<_class> pf = an-> an.getAnno(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_class> pf = an-> $fa.matches(an.getAnnoExprs());
+                Predicate<_class> pf = an-> $fa.matches(an.getAnnos());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -288,7 +288,7 @@ public class $class
             }
             else if(parts[i] instanceof $field ){
                 final $field $fj = (($field)parts[i]);
-                Predicate<_class> aFn = a-> a.getField(e->$fj.match(e)) != null; //found one
+                Predicate<_class> aFn = a-> a.firstField(e->$fj.match(e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if(parts[i] instanceof $method ){
@@ -368,7 +368,7 @@ public class $class
         }
         this.implement.forEach(i -> _c.addImplement( i.draft(translator, base).toString() ) );
 
-        _c.addAnnoExprs( this.annos.draft(translator, base).ast() );
+        _c.addAnnos( this.annos.draft(translator, base).ast() );
         this.initBlocks.forEach(ib -> _c.addInitBlock( ib.draft(translator, base)));
         this.methods.forEach(m -> _c.addMethod( m.draft(translator, base)) );
         this.fields.forEach(f-> _c.addField(f.draft(translator, base)));

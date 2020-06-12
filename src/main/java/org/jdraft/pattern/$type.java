@@ -120,12 +120,12 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_anno)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnno(a -> $fa.match( (_anno)a) ) != null;
                 $and( pf  );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_type> pf = an-> $fa.matches(an.getAnnoExprs());
+                Predicate<_type> pf = an-> $fa.matches(an.getAnnos());
                 $and( pf );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -135,7 +135,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             }
             else if(parts[i] instanceof $field ){
                 final $field $fj = (($field)parts[i]);
-                Predicate<_type> aFn = a-> a.getField(e->$fj.match( (_field)e)) != null; //found one
+                Predicate<_type> aFn = a-> a.firstField(e->$fj.match( (_field)e)) != null; //found one
                 $and( aFn  );
             }
             else if( parts[i] instanceof $import) {
@@ -216,12 +216,12 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
         for (int i = 0; i < parts.length; i++) {
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_type> pf = an-> an.getAnnoExpr(a -> $fa.match( (_anno)a) ) != null;
+                Predicate<_type> pf = an-> an.getAnno(a -> $fa.match( (_anno)a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_type> pf = an-> $fa.matches(an.getAnnoExprs());
+                Predicate<_type> pf = an-> $fa.matches(an.getAnnos());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -231,7 +231,7 @@ public class $type implements $pattern<_type, $type>, $declared<_type, $type> {
             }
             else if(parts[i] instanceof $field ){
                 final $field $fj = (($field)parts[i]);
-                Predicate<_type> aFn = a-> a.getField(e->$fj.match( (_field)e)) != null; //found one
+                Predicate<_type> aFn = a-> a.firstField(e->$fj.match( (_field)e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $import) {

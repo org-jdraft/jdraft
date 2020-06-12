@@ -249,27 +249,27 @@ public class WalkTest extends TestCase {
 
 
         //PRE ORDER processes ROOT NODES FIRST (then leaves)
-        List<_annos._withAnnoExprs> a = new ArrayList<>();
+        List<_annos._withAnnos> a = new ArrayList<>();
         //_java.walk(Node.TreeTraversal.PREORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
-        Walk.preOrder(ast, _annos._withAnnoExprs.class, n-> n.hasAnnoExpr(ann.class), n-> a.add(n));
+        Walk.preOrder(ast, _annos._withAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         assertEquals( 5, a.size());
-        assertTrue( a.get(0).getAnnoExprs().is("@ann(\"class\")") );
-        assertTrue( a.get(1).getAnnoExprs().is("@ann(\"field\")") );
-        assertTrue( a.get(2).getAnnoExprs().is("@ann(\"enum\")") );
-        assertTrue( a.get(3).getAnnoExprs().is("@ann(\"constant\")") );
-        assertTrue( a.get(4).getAnnoExprs().is("@ann(\"method\")") );
+        assertTrue( a.get(0).getAnnos().is("@ann(\"class\")") );
+        assertTrue( a.get(1).getAnnos().is("@ann(\"field\")") );
+        assertTrue( a.get(2).getAnnos().is("@ann(\"enum\")") );
+        assertTrue( a.get(3).getAnnos().is("@ann(\"constant\")") );
+        assertTrue( a.get(4).getAnnos().is("@ann(\"method\")") );
         a.clear();
 
         //for POST ORDER THE LEAF NODES ARE PROCESSED FIRST
-        Walk.postOrder(ast, _annos._withAnnoExprs.class, n-> n.hasAnnoExpr(ann.class), n-> a.add(n));
+        Walk.postOrder(ast, _annos._withAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
         //_java.walk(Node.TreeTraversal.POSTORDER, ast, _anno._hasAnnos.class, n-> n.hasAnno(ann.class), n-> a.add(n));
 
         assertEquals( 5, a.size());
-        assertTrue( a.get(0).getAnnoExprs().is("@ann(\"field\")") );
-        assertTrue( a.get(1).getAnnoExprs().is("@ann(\"method\")") );
-        assertTrue( a.get(2).getAnnoExprs().is("@ann(\"constant\")") );
-        assertTrue( a.get(3).getAnnoExprs().is("@ann(\"enum\")")  );
-        assertTrue( a.get(4).getAnnoExprs().is("@ann(\"class\")") );
+        assertTrue( a.get(0).getAnnos().is("@ann(\"field\")") );
+        assertTrue( a.get(1).getAnnos().is("@ann(\"method\")") );
+        assertTrue( a.get(2).getAnnos().is("@ann(\"constant\")") );
+        assertTrue( a.get(3).getAnnos().is("@ann(\"enum\")")  );
+        assertTrue( a.get(4).getAnnos().is("@ann(\"class\")") );
 
         //List<StringLiteralExpr> l = new ArrayList<>();
         //Ast.walk(Node.TreeTraversal.POSTORDER, ast, Ast.STRING_LITERAL_EXPR, n->true, n-> l.add(n));

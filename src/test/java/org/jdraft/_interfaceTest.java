@@ -79,7 +79,7 @@ public class _interfaceTest extends TestCase {
         assertTrue( _i.firstMethodNamed("print").isDefault() );
         assertTrue( _i.firstMethodNamed("getR").isAbstract() );
         assertTrue( _i.firstMethodNamed("doIt").isStatic() );
-        assertNull( _i.getField("a"));
+        assertNull( _i.fieldNamed("a"));
     }
 
     public void testFullyQualified(){
@@ -145,7 +145,7 @@ public class _interfaceTest extends TestCase {
         _i.setPackage("test");
         _i.addImports( Serializable.class, MarkerInterface.class, WithDefaultMethods.class, ann2.class);
         _i.setJavadoc( "javadocs", "@author Eric", "@param <Y>", "@param <Z>");
-        _i.addAnnoExprs( "@ann", "@ann2(k='d')");
+        _i.addAnnos( "@ann", "@ann2(k='d')");
         _i.setPublic();
         _i.setTypeParams( "<Y, Z extends Base>");
         _i.addExtend( "MarkerInterface<String>").addExtend( "WithDefaultMethods<Serializable>");
@@ -219,14 +219,14 @@ public class _interfaceTest extends TestCase {
         assertTrue( _i.hasImport( ann2.class));
         
         assertTrue( _i.getJavadoc().getText().contains("javadocs"));
-        assertTrue( _i.getAnnoExprs().is("@ann", "@ann2(k='d')"));
+        assertTrue( _i.getAnnos().is("@ann", "@ann2(k='d')"));
         assertTrue( _i.getModifiers().is( "public"));
         assertTrue( _i.getTypeParams().is( "<Y, Z extends Base>"));
         assertTrue( _i.isExtends("MarkerInterface<String>"));
         assertTrue( _i.isExtends( "WithDefaultMethods<Serializable>"));
         
         assertTrue( _i.hasFields());
-        _field _f = _i.getField("VALUE");
+        _field _f = _i.fieldNamed("VALUE");
         assertTrue(_f.is("/** field javadoc */",
             "@ann @ann2(k='2',v=3)",
             "static final int VALUE = 120;"));

@@ -364,7 +364,7 @@ public class SconstructorTest extends TestCase {
         });
         _constructor _ct = $ct.draft();
         //verify that the ANNOTATIONS and JAVADOC are transposed
-        assertTrue( _ct.hasAnnoExpr(Deprecated.class));
+        assertTrue( _ct.hasAnno(Deprecated.class));
         assertTrue( _ct.getJavadoc().getText().contains("Some Javadoc"));
     }
 

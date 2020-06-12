@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  *
  * @author Eric
  */
-public final class _field implements _javadocComment._withJavadoc<_field>, _annos._withAnnoExprs<_field>,
+public final class _field implements _javadocComment._withJavadoc<_field>, _annos._withAnnos<_field>,
         _modifiers._withModifiers<_field>, _modifiers._withFinal<_field>, _modifiers._withStatic<_field>,
         _modifiers._withTransient<_field>, _modifiers._withVolatile<_field>,
         _java._withNameType<VariableDeclarator, _field>, _java._declared<VariableDeclarator, _field> {
@@ -122,8 +122,8 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     public static _feature._one<_field, _annos> ANNOS = new _feature._one<>(_field.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_field a, _annos _e) -> a.setAnnoExprs(_e), PARSER);
+            a -> a.getAnnos(),
+            (_field a, _annos _e) -> a.setAnnos(_e), PARSER);
 
 
     public static _feature._one<_field, _modifiers> MODIFIERS = new _feature._one<>(_field.class, _modifiers.class,
@@ -299,7 +299,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
 
         if( this.getFieldDeclaration() != null && this.astVar != null && this.astVar.getParentNode().isPresent()) {
 
@@ -365,8 +365,8 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         if (this.hasJavadoc()) {
             sb.append(this.getJavadoc());
         }
-        if (this.hasAnnoExprs()) {
-            sb.append(this.getAnnoExprs());
+        if (this.hasAnnos()) {
+            sb.append(this.getAnnos());
         }
         String mods = this.getModifiers().toString();
         if (mods.trim().length() > 0) {
@@ -449,7 +449,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         } else{
             //if this is ONLY a var
             return other.getFieldDeclaration() == null || 
-                    other.getAnnoExprs().isEmpty() && other.getModifiers().ast().isEmpty();
+                    other.getAnnos().isEmpty() && other.getModifiers().ast().isEmpty();
         }       
         return true;
     }
@@ -705,14 +705,25 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             return listFields().stream().filter(_fieldMatchFn).collect(Collectors.toList());
         }
 
-        default _WF forFields(Consumer<_field> fieldConsumer) {
+        default _WF toFields(Consumer<_field> fieldConsumer) {
+            return toFields(f -> true, fieldConsumer);
+        }
+
+        default _WF toFields(Predicate<_field> fieldMatchFn,
+                             Consumer<_field> fieldConsumer) {
+            listFields(fieldMatchFn).forEach(fieldConsumer);
+            return (_WF) this;
+        }
+
+        default List<_field> forFields(Consumer<_field> fieldConsumer) {
             return forFields(f -> true, fieldConsumer);
         }
 
-        default _WF forFields(Predicate<_field> fieldMatchFn,
-                              Consumer<_field> fieldConsumer) {
-            listFields(fieldMatchFn).forEach(fieldConsumer);
-            return (_WF) this;
+        default List<_field> forFields(Predicate<_field> fieldMatchFn,
+                             Consumer<_field> fieldConsumer) {
+            List<_field> _fs = listFields(fieldMatchFn);
+            _fs.forEach(fieldConsumer);
+            return _fs;
         }
 
         default _WF removeField(String fieldName){
@@ -748,15 +759,27 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             return (_WF)this;
         }
 
-        default _field getField(String name) {
-            return getField(f -> f.getName().equals(name));
+        default List<_field> removeFieldIf( Predicate<_field> _matchFn){
+            List<_field> _fs = this.listFields(_matchFn);
+            _fs.forEach(f-> {
+                if(f.getFieldDeclaration().getVariables().size() == 1){
+                    f.getFieldDeclaration().removeForced();
+                } else {
+                    f.astVar.removeForced();
+                }
+            });
+            return _fs;
+        }
+
+        default _field fieldNamed(String name) {
+            return firstField(f -> f.getName().equals(name));
         }
 
         default _field getField(int index) {
             return listFields().get(index);
         }
 
-        default _field getField(Predicate<_field> _fieldMatchFn) {
+        default _field firstField(Predicate<_field> _fieldMatchFn) {
             Optional<_field> of = listFields().stream().filter(_fieldMatchFn).findFirst();
             if (of.isPresent()) {
                 return of.get();

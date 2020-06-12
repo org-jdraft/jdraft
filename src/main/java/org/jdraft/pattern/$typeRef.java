@@ -409,7 +409,7 @@ public class $typeRef
                 }
                 return null; //couldnt match either the super OR extended Type
             }
-            if( _tr.hasAnnoExprs() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
+            if( _tr.hasAnnos() && this.type.getAnnotations().isEmpty()){ //the candidate has annotation(s) the target does not
                 try {
                     return select(_tr.toString(Print.PRINT_NO_ANNOTATIONS_OR_COMMENTS));
                 } catch(Exception e){
@@ -419,10 +419,10 @@ public class $typeRef
                 }
             }
             Tokens ats = new Tokens();
-            _annos _as = _typeRef.of(this.type).getAnnoExprs();
-            if( _tr.hasAnnoExprs() && !_as.isEmpty() ){
+            _annos _as = _typeRef.of(this.type).getAnnos();
+            if( _tr.hasAnnos() && !_as.isEmpty() ){
                 //System.out.println ("BOTH HAVE ANNOS");
-                ats = $annoRefs.of(_as).parse(_tr.getAnnoExprs());
+                ats = $annoRefs.of(_as).parse(_tr.getAnnos());
                 if( ats == null ){
                     //System.out.println( "Tokens not equal");
                     return null;

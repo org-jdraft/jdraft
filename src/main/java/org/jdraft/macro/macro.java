@@ -53,7 +53,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     /** Remove the annotation from the AST Node (after completing the macro task, clean up and remove th annotation */
     public static <N extends Node> N removeAnnotation(N node, Class<? extends Annotation> annClass){
         if( node instanceof VariableDeclarator ){
-            _field.of( (VariableDeclarator)node).removeAnnoExprs(annClass);
+            _field.of( (VariableDeclarator)node).removeAnnos(annClass);
         } else {
             _annos.of((NodeWithAnnotations) node).remove(annClass);
         }

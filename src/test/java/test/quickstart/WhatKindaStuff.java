@@ -30,7 +30,7 @@ public class WhatKindaStuff extends TestCase {
         // open up an IDE and manually make these changes
 
         // Simple Programs
-        String aSrc = _class.of(A.class).forConstructors(m ->m.forParams(p-> p.setFinal())).toString();
+        String aSrc = _class.of(A.class).toConstructors(m ->m.forParams(p-> p.setFinal())).toString();
         System.out.println(aSrc);
 
         @_dto @_packageName("graph") class Point{

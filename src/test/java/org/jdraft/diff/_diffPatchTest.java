@@ -85,7 +85,7 @@ public class _diffPatchTest
             }
             
             @_toCtor public void L(){}
-        }).addAnnoExprs(Deprecated.class);
+        }).addAnnos(Deprecated.class);
                 
         assertTrue(_diff.of(_c1,_c2).hasRightOnlyAt(FIELD) );
         assertTrue(_diff.fieldsOf(_c1,_c2).hasRightOnlyAt(FIELD) );
@@ -229,7 +229,7 @@ public class _diffPatchTest
                
         assertEquals("NESTST  5 ", 1, _c.listInnerTypes().size() );
         
-        _c.addAnnoExprs("@AAAAA");
+        _c.addAnnos("@AAAAA");
         System.out.println(_diff.of(_c, _c2));
         assertNotNull(_diff.of(_c, _c2).firstOn(ANNO_EXPR) );
         dl = _diff.of(_c, _c2);
@@ -291,7 +291,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getField("aFieldIAdded").addAnnoExprs(Deprecated.class);
+        _c.fieldNamed("aFieldIAdded").addAnnos(Deprecated.class);
         
         dl = _diff.of(_c, _c2);
         //System.out.println(_c.getField("aFieldIAdded"));
@@ -308,7 +308,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getField("aFieldIAdded").setInit(54321);
+        _c.fieldNamed("aFieldIAdded").setInit(54321);
         dl = _diff.of(_c, _c2);
         assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().right(), Expr.of(1023) );
         assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Expr.of(54321) );
@@ -316,7 +316,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());        
         
-        _c.getField("aFieldIAdded").setStatic();
+        _c.fieldNamed("aFieldIAdded").setStatic();
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertEquals( dl.at(FIELD, "aFieldIAdded", MODIFIERS).asChange().left(), _modifiers.of("public", "static").ast() );
@@ -326,10 +326,10 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getField("aFieldIAdded").removeInit();
-        _c2.getField("aFieldIAdded").removeInit();
+        _c.fieldNamed("aFieldIAdded").removeInit();
+        _c2.fieldNamed("aFieldIAdded").removeInit();
         
-        _c.getField("aFieldIAdded").setType(float.class);
+        _c.fieldNamed("aFieldIAdded").setType(float.class);
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertEquals( dl.at(FIELD, "aFieldIAdded", TYPE).asChange().left(), _typeRef.of(float.class));
@@ -337,7 +337,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getField("aFieldIAdded").setJavadoc("field javadoc");
+        _c.fieldNamed("aFieldIAdded").setJavadoc("field javadoc");
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertNotNull( dl.at(FIELD, "aFieldIAdded", JAVADOC) );        
@@ -348,7 +348,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         //--------------CONSTRUCTOR ON CLASS------------------
-        _c.getConstructor(0).addAnnoExprs(Deprecated.class);
+        _c.getConstructor(0).addAnnos(Deprecated.class);
          dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(ANNO_EXPR).isLeftOnly() );        
@@ -362,7 +362,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getConstructor(0).addAnnoExprs("AGGGG");
+        _c.getConstructor(0).addAnnos("AGGGG");
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(CONSTRUCTOR).isLeftOnly() );                
@@ -412,7 +412,7 @@ public class _diffPatchTest
         */
 
         /** ----METHOD ON CLASS */
-        _c.getMethod(0).addAnnoExprs(Deprecated.class);
+        _c.getMethod(0).addAnnos(Deprecated.class);
          dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(ANNO_EXPR).isLeftOnly() );        
@@ -430,7 +430,7 @@ public class _diffPatchTest
 
         System.out.println("******** "+ _c.firstMethodNamed("doIt"));
 
-        _c.getMethod(0).addAnnoExprs("AGGGG");
+        _c.getMethod(0).addAnnos("AGGGG");
         dl = _diff.of(_c, _c2);
         //System.out.println( dl);
         assertNotNull( dl.firstOn(METHOD).isLeftOnly() );                
@@ -499,7 +499,7 @@ public class _diffPatchTest
         System.out.println( _c.listInnerTypes() );
         assertEquals(1, _c.listInnerTypes().size() );
         
-        _c.getDeclared(_enum.class, "E").setJavadoc("Nested Enum Javadoc");
+        _c.getMember(_enum.class, e-> e.isNamed("E")).setJavadoc("Nested Enum Javadoc");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isChange());
         assertTrue( dl.firstOn(JAVADOC).isChange());
@@ -507,7 +507,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                   
         assertTrue(_diff.of(_c, _c2).isEmpty());        
         
-        _c.getDeclared(_enum.class, "E").addAnnoExprs("AFG");
+        _c.getMember(_enum.class, e-> e.isNamed("E")).addAnnos("AFG");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(ANNO_EXPR).isLeftOnly());
@@ -515,7 +515,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getDeclared(_enum.class, "E").setPrivate();
+        _c.getMember(_enum.class, e->e.isNamed("E")).setPrivate();
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isChange());
         assertTrue( dl.firstOn(MODIFIERS).isChange());
@@ -524,7 +524,7 @@ public class _diffPatchTest
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
         
-        _c.getDeclared(_enum.class, "E").addImplements("IM");
+        _c.getMember(_enum.class, e->e.isNamed("E")).addImplements("IM");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(IMPLEMENTS_TYPES).isLeftOnly());
@@ -532,7 +532,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
      
-        _c.getDeclared(_enum.class, "E").addField("int aa = 11;");
+        _c.getMember(_enum.class, e->e.isNamed("E")).addField("int aa = 11;");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(FIELD).isLeftOnly());
@@ -541,7 +541,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();                     
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getDeclared(_enum.class, "E").addConstant("D(2)");
+        _c.getMember(_enum.class, e->e.isNamed("E")).addConstant("D(2)");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(CONSTANT).isLeftOnly());
@@ -551,7 +551,7 @@ public class _diffPatchTest
         System.out.println(_diff.of(_c, _c2) );
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getDeclared(_enum.class, "E").addConstructor("(String s){}");
+        _c.getMember(_enum.class, e->e.isNamed("E")).addConstructor("(String s){}");
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(CONSTRUCTOR).isLeftOnly());
@@ -563,7 +563,7 @@ public class _diffPatchTest
         
         
         
-        _c.getDeclared(_enum.class, "E").main(()-> System.out.println("MainMethod"));
+        _c.getMember(_enum.class, e->e.isNamed("E")).main(()-> System.out.println("MainMethod"));
         dl = _diff.of(_c, _c2);
         assertTrue( dl.firstOn(ENUM).isLeftOnly());
         assertTrue( dl.firstOn(METHOD).isLeftOnly());
@@ -572,10 +572,10 @@ public class _diffPatchTest
         System.out.println(_diff.of(_c, _c2) );
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.getDeclared(_enum.class, "E").firstMethodNamed("main").addThrows(IOException.class);
+        _c.getMember(_enum.class, e->e.isNamed("E")).firstMethodNamed("main").addThrows(IOException.class);
         
-        System.out.println( _c.getDeclared(_enum.class, "E").firstMethodNamed("main") );
-        System.out.println( _c2.getDeclared(_enum.class, "E").firstMethodNamed("main") );
+        System.out.println( _c.getMember(_enum.class, e->e.isNamed("E")).firstMethodNamed("main") );
+        System.out.println( _c2.getMember(_enum.class, e->e.isNamed("E")).firstMethodNamed("main") );
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         
@@ -606,7 +606,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _i.addAnnoExprs("Annop");
+        _i.addAnnos("Annop");
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasLeftOnlyAt(ANNO_EXPR));
         dl.patchLeftToRight();
@@ -653,7 +653,7 @@ public class _diffPatchTest
         
         //--------------------------NESTED INNER CLASS
         
-        _class _c = _i.getDeclared(_class.class, "C");
+        _class _c = _i.getMember(_class.class, c->c.isNamed("C"));
         _c.setStatic(false);
         dl = _diff.of(_i, _i2);
         assertTrue( dl.hasChangeAt(MODIFIERS));        
@@ -685,7 +685,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();
         assertTrue(_diff.of(_i, _i2).isEmpty());
         
-        _c.addAnnoExprs("Annoed");
+        _c.addAnnos("Annoed");
         dl = _diff.of(_i, _i2);
         System.out.println( dl);
         assertTrue( dl.hasLeftOnlyAt(ANNO_EXPR, "Annoed"));        

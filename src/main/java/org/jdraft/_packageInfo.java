@@ -12,7 +12,7 @@ import org.jdraft.text.Text;
  *
  */
 public final class _packageInfo
-        implements _codeUnit<_packageInfo>, _annos._withAnnoExprs<_packageInfo>, _tree._node<CompilationUnit, _packageInfo> {
+        implements _codeUnit<_packageInfo>, _annos._withAnnos<_packageInfo>, _tree._node<CompilationUnit, _packageInfo> {
 
     public static final Function<String, _packageInfo> PARSER = s-> _packageInfo.of(s);
 
@@ -26,8 +26,8 @@ public final class _packageInfo
 
     public static _feature._one<_packageInfo, _annos> ANNOS = new _feature._one<>(_packageInfo.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_packageInfo a, _annos o) -> a.setAnnoExprs(o), PARSER);
+            a -> a.getAnnos(),
+            (_packageInfo a, _annos o) -> a.setAnnos(o), PARSER);
 
     public static _feature._one<_packageInfo, _package> PACKAGE = new _feature._one<>(_packageInfo.class, _package.class,
             _feature._id.PACKAGE,
@@ -155,7 +155,7 @@ public final class _packageInfo
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         if (astCompilationUnit().getPackageDeclaration().isPresent()) {
             //annos are on the packageDeclaration
             return _annos.of(astCompilationUnit().getPackageDeclaration().get());

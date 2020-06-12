@@ -53,8 +53,8 @@ public class _fieldTest extends TestCase {
     }
 
     public void testFieldImpliedModifiers(){
-        _field _f1 = _interface.of(I.class).getField("x");
-        _field _f2 = _interface.of(I2.class).getField("x");
+        _field _f1 = _interface.of(I.class).fieldNamed("x");
+        _field _f2 = _interface.of(I2.class).fieldNamed("x");
 
         /**
          * these fields _f3 and _f4 are "disconnected", because they don't have
@@ -135,7 +135,7 @@ public class _fieldTest extends TestCase {
         assertTrue( _f.isType( "int") );
         assertTrue( _f.isType( int.class) );
         assertFalse( _f.hasInit());
-        assertFalse( _f.hasAnnoExprs());
+        assertFalse( _f.hasAnnos());
         
         assertTrue( _f.isPrimitive() );
         assertFalse( _f.isArray() );
@@ -158,7 +158,7 @@ public class _fieldTest extends TestCase {
         _field _f = _field.of("/** JAVADOC */", "@ann(1)", "@ann2(3)", "public static final int W = 103 + 45;");
         assertNotNull( _f.getJavadoc() );
         assertTrue( _f.getJavadoc().getText().contains( "JAVADOC"));
-        _annos _as = _f.getAnnoExprs();
+        _annos _as = _f.getAnnos();
         assertEquals( 2, _as.size() );
         assertTrue( _as.is("@ann(1)", "@ann2(3)") );
         

@@ -12,7 +12,7 @@ public class _setFluentTest extends TestCase {
 
         }
         _class _c = _class.of(C.class);
-        assertTrue( _c.listAnnoExprs(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
         assertTrue(_c.listMethods().isEmpty());
 
         @_setFluent
@@ -20,7 +20,7 @@ public class _setFluentTest extends TestCase {
             final int f = 100;
         }
         _c = _class.of(D.class);
-        assertTrue( _c.listAnnoExprs(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
         assertTrue(_c.listMethods().isEmpty());
     }
 
@@ -32,7 +32,7 @@ public class _setFluentTest extends TestCase {
         }
         _class _c = _class.of(G.class);
         System.out.println( _c );
-        assertTrue( _c.listAnnoExprs(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
         assertTrue( _c.firstMethodNamed("setA").isType(G.class));
         assertTrue( _c.firstMethodNamed("setA").getParam(0).isType(int.class));
     }
@@ -46,7 +46,7 @@ public class _setFluentTest extends TestCase {
         }
 
         _class _c = _class.of(G.class);
-        assertTrue( _c.listAnnoExprs(_setFluent.class).isEmpty());
+        assertTrue( _c.listAnnos(_setFluent.class).isEmpty());
         assertTrue( _c.firstMethodNamed("setA").isType(G.class));
         assertTrue( _c.firstMethodNamed("setA").getParam(0).isType(int.class));
         assertTrue( _c.firstMethodNamed("setB").isType(G.class));

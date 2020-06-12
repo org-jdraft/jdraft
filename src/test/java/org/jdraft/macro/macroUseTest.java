@@ -68,7 +68,7 @@ public class macroUseTest extends TestCase {
         }
         _class _c = _class.of(F.class);
         assertTrue( _c.hasImport(UUID.class));
-        assertFalse(_c.hasAnnoExpr(U.class));
+        assertFalse(_c.hasAnno(U.class));
     }
 
     public void testT() {
@@ -212,7 +212,7 @@ public class macroUseTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         assertTrue( _c.isFinal());
-        assertTrue( _c.getField("a").isFinal());
+        assertTrue( _c.fieldNamed("a").isFinal());
         assertTrue( _c.firstMethodNamed("m").isFinal());
 
         System.out.println( _c);
@@ -249,7 +249,7 @@ public class macroUseTest extends TestCase {
     public void testNonStatic(){
         _class _c = _class.of(VV.class);
         assertTrue( !_c.isStatic());
-        assertTrue( !_c.getField("f").isStatic());
+        assertTrue( !_c.fieldNamed("f").isStatic());
         assertTrue( !_c.firstMethodNamed("getF").isStatic());
     }
 
@@ -274,7 +274,7 @@ public class macroUseTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         assertTrue( _c.isPrivate());
-        assertTrue( _c.getField("f").isPrivate());
+        assertTrue( _c.fieldNamed("f").isPrivate());
         assertTrue( _c.firstMethodNamed("m").isPrivate());
         assertTrue( _c.getDeclared(_class.class,"F").isPrivate());
     }
@@ -305,7 +305,7 @@ public class macroUseTest extends TestCase {
         }
         _class _c = _class.of(O.class);
         assertTrue( _c.isProtected() );
-        assertTrue( _c.getField("g").isProtected() );
+        assertTrue( _c.fieldNamed("g").isProtected() );
         assertTrue( _c.firstMethodNamed("m").isProtected() );
     }
 
@@ -361,7 +361,7 @@ public class macroUseTest extends TestCase {
         _class _c = _class.of(F.class);
 
         assertTrue(_c.isStatic());
-        assertTrue(_c.getField("f").isStatic());
+        assertTrue(_c.fieldNamed("f").isStatic());
         assertTrue(_c.firstMethodNamed("m").isStatic());
     }
 
@@ -370,7 +370,7 @@ public class macroUseTest extends TestCase {
             @_transient int f;
         }
         _class _c = _class.of(C.class);
-        assertTrue( _c.getField("f").isTransient());
+        assertTrue( _c.fieldNamed("f").isTransient());
     }
 
     public void testVolatile(){
@@ -378,7 +378,7 @@ public class macroUseTest extends TestCase {
             @_volatile int f;
         }
         _class _c = _class.of(C.class);
-        assertTrue( _c.getField("f").isVolatile());
+        assertTrue( _c.fieldNamed("f").isVolatile());
     }
 
 }

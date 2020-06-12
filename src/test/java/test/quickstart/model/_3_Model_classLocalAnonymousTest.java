@@ -81,12 +81,12 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
         assertEquals( "aaaa.bbbb.C", _c.getFullName() );
 
         // each time we get or list elements (like _field, _method, _constructor,...)
-        _field _f = _c.getField("val");
+        _field _f = _c.fieldNamed("val");
         assertTrue(_f.isInit(123)); //the init value of the field is 123
 
         _method _m = _c.firstMethodNamed("id" );
         assertTrue( _m.isType( UUID.class ) );
-        assertTrue( _m.hasAnnoExpr( Deprecated.class ) );
+        assertTrue( _m.hasAnno( Deprecated.class ) );
         _m.setStatic().setFinal().setPublic();
 
         // the _class has methods to add elements (like _field/_method/_constructor/_initBlock) using Strings

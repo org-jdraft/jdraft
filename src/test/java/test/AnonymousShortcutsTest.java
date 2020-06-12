@@ -161,8 +161,8 @@ public class AnonymousShortcutsTest extends TestCase {
                 System.out.println("hello");
             }            
         });
-        System.out.println( _c.getField("someStatic"));
-        assertTrue( _c.getField("someStatic").is("public static final Map someStatic;") );
+        System.out.println( _c.fieldNamed("someStatic"));
+        assertTrue( _c.fieldNamed("someStatic").is("public static final Map someStatic;") );
         assertTrue( _c.hasImport(Map.class)); //ohh... also, we read the public API and "auto import" the appropriate classes
         assertTrue( _c.firstMethodNamed("g").isStatic());
         assertTrue( _c.firstMethodNamed("g").hasThrow(FileNotFoundException.class));
@@ -192,10 +192,10 @@ public class AnonymousShortcutsTest extends TestCase {
         });
         
         assertTrue( _c.isImplements(ToImplement.class));
-        assertTrue( _c.getField("implemented").is("public static final boolean implemented = true;") );
-        assertTrue( _c.firstMethodNamed("implementedThisMethod").hasAnnoExpr(Override.class) );
+        assertTrue( _c.fieldNamed("implemented").is("public static final boolean implemented = true;") );
+        assertTrue( _c.firstMethodNamed("implementedThisMethod").hasAnno(Override.class) );
         assertTrue( _c.firstMethodNamed("anotherIncludedMethod").isStatic());
-        assertNull( _c.getField("someValueIDontWant")); 
+        assertNull( _c.fieldNamed("someValueIDontWant"));
     }
     
     public void testEnum(){

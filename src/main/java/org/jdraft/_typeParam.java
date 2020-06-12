@@ -16,7 +16,7 @@ import com.github.javaparser.ast.type.TypeParameter;
  */
 public final class _typeParam
         implements _tree._node<TypeParameter, _typeParam>,
-        _java._withName<_typeParam>, _annos._withAnnoExprs<_typeParam> {
+        _java._withName<_typeParam>, _annos._withAnnos<_typeParam> {
 
     public static final Function<String, _typeParam> PARSER = s-> _typeParam.of(s);
 
@@ -34,8 +34,8 @@ public final class _typeParam
 
     public static _feature._one<_typeParam, _annos> ANNOS = new _feature._one<>(_typeParam.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_typeParam p, _annos _ae) -> p.setAnnoExprs(_ae), PARSER);
+            a -> a.getAnnos(),
+            (_typeParam p, _annos _ae) -> p.setAnnos(_ae), PARSER);
 
     public static _feature._one<_typeParam, String> NAME = new _feature._one<>(_typeParam.class, String.class,
             _feature._id.TYPE_PARAM,
@@ -275,7 +275,7 @@ public final class _typeParam
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of( this.typeParam);
     }
 

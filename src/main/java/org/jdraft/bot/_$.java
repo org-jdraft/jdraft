@@ -26,11 +26,11 @@ public @interface _$ {
     class Parameterize {
 
 
-        public static <C extends _java._member & _annos._withAnnoExprs> C update(C _c) {
-            List<_anno> _ps = _c.listAnnoExprs("_$");
+        public static <C extends _java._member & _annos._withAnnos> C update(C _c) {
+            List<_anno> _ps = _c.listAnnos("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoExprs((a) -> ((_anno) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnos((a) -> ((_anno) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();
@@ -65,11 +65,11 @@ public @interface _$ {
             return _c;
         }
 
-        public static <C extends _java._member & _annos._withAnnoExprs> String toString(C _c) {
-            List<_anno> _ps = _c.listAnnoExprs("_$");
+        public static <C extends _java._member & _annos._withAnnos> String toString(C _c) {
+            List<_anno> _ps = _c.listAnnos("_$");
             if (_ps != null) {
                 C _cl = (C) _c.copy(); //make a copy as to not modify the original
-                _cl.removeAnnoExprs((a) -> ((_anno) a).getName().equals("_$")); //remove the @_$ annotations from the clone
+                _cl.removeAnnos((a) -> ((_anno) a).getName().equals("_$")); //remove the @_$ annotations from the clone
 
                 //create me the full source as a String (after removing the annos)
                 String sourceString = _cl.toString();

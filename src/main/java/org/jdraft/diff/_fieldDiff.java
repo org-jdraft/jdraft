@@ -28,7 +28,7 @@ public final class _fieldDiff implements _differ<_field, _tree._node> {
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getType(), right.getType());
         _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
         _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
-        _annosDiff.INSTANCE.diff(p, dt, left, right, left.getAnnoExprs(), right.getAnnoExprs());
+        _annosDiff.INSTANCE.diff(p, dt, left, right, left.getAnnos(), right.getAnnos());
 
         if (!Objects.equals(left.getInitNode(), right.getInitNode())) {
             dt.addDiff(new _changeInit(p.in(Feature.INIT), left, right));

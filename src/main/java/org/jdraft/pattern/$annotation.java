@@ -81,7 +81,7 @@ public class $annotation
         List<Node>nots = new ArrayList<>();
 
         //remove _$not things
-        _a.forDeclared( d -> d.hasAnnoExpr(_$not.class), d-> {
+        _a.toDeclared(d -> d.hasAnno(_$not.class), d-> {
             //System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -94,13 +94,13 @@ public class $annotation
         } );
 
         $c.$javadoc(_a.getJavadoc());
-        _a.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
+        _a.toAnnos(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_a.getModifiers());
         $c.$name(_a.getSimpleName());
         _a.forEntries(e -> $c.$elements($annotationEntry.of(e)));
-        _a.forFields(f-> $c.fields.add($field.of(f)));
+        _a.toFields(f-> $c.fields.add($field.of(f)));
 
-        _a.forInnerTypes(n -> {
+        _a.toInnerTypes(n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }
@@ -197,12 +197,12 @@ public class $annotation
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_annotation> pf = an-> an.getAnnoExpr(a ->$fa.match(a) ) != null;
+                Predicate<_annotation> pf = an-> an.getAnno(a ->$fa.match(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_annotation> pf = an-> $fa.matches(an.getAnnoExprs());
+                Predicate<_annotation> pf = an-> $fa.matches(an.getAnnos());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ) {
@@ -212,7 +212,7 @@ public class $annotation
             }
             else if(parts[i] instanceof $field ){
                 final $field $fj = (($field)parts[i]);
-                Predicate<_annotation> aFn = a-> a.getField(e->$fj.match(e)) != null; //found one
+                Predicate<_annotation> aFn = a-> a.firstField(e->$fj.match(e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if( parts[i] instanceof $import) {

@@ -153,7 +153,7 @@ public class _typeRefTest extends TestCase {
         t.walk(AnnotationExpr.class, a-> System.out.println( "PARENT " + a.getParentNode().get().getClass() ));
         assertTrue( t.getAnnotations().isNonEmpty() );
         
-        assertNotNull( _tr.getAnnoExprs().getAt(0) );
+        assertNotNull( _tr.getAnnos().getAt(0) );
     }
 
     public void testSimplify(){

@@ -113,7 +113,7 @@ public class _typeParamTest extends TestCase {
         System.out.println( _tp );
         System.out.println( astTp );
         
-        assertEquals( 1, _tp.listAnnoExprs().size());
+        assertEquals( 1, _tp.listAnnos().size());
         assertTrue( _tp.is(s) );
         
         

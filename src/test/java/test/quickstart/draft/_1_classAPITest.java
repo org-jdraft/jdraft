@@ -19,7 +19,7 @@ public class _1_classAPITest extends TestCase {
             .setPackage("math.entity")
             .addImports("java.util.UUID", "java.io.Serializable;", "java.beans.Encoder")
             .setJavadoc("This is the class", "javadoc")
-            .addAnnoExprs("@Deprecated")
+            .addAnnos("@Deprecated")
             .setFinal()
             .addExtend("java.beans.Encoder")
             .addImplement("java.io.Serializable")
@@ -40,7 +40,7 @@ public class _1_classAPITest extends TestCase {
             .setHeaderComment("Some License Here")
             .addImports(UUID.class, Serializable.class, Encoder.class)
             .setJavadoc("This is the class", "javadoc")
-            .addAnnoExprs(Deprecated.class)
+            .addAnnos(Deprecated.class)
             .setFinal()
             .setTypeParams("<T extends Serializable>")
             .addExtend(java.beans.Encoder.class)
@@ -120,15 +120,15 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.isInPackage("math.entity"));
         assertTrue(_FROM_STRING_PARTS.hasImport(UUID.class));
         assertTrue(_FROM_STRING_PARTS.getJavadoc().contains("This is the class"));
-        assertTrue(_FROM_STRING_PARTS.hasAnnoExpr("@Deprecated"));
+        assertTrue(_FROM_STRING_PARTS.hasAnno("@Deprecated"));
         assertTrue(_FROM_STRING_PARTS.isFinal());
         assertTrue(_FROM_STRING_PARTS.isExtends("Encoder"));
         assertTrue(_FROM_STRING_PARTS.isImplements(Serializable.class));
         assertTrue(_FROM_STRING_PARTS.getTypeParams().is("<T extends Serializable>"));
         assertTrue(_FROM_STRING_PARTS.hasInitBlocks());
         assertTrue(_FROM_STRING_PARTS.getInitBlock(0).is("static{System.out.println(\"static block \" + UUID.randomUUID().toString());}"));
-        assertTrue(_FROM_STRING_PARTS.getField("i").is("public int i"));
-        assertTrue(_FROM_STRING_PARTS.getField("uuid").is("public UUID uuid"));
+        assertTrue(_FROM_STRING_PARTS.fieldNamed("i").is("public int i"));
+        assertTrue(_FROM_STRING_PARTS.fieldNamed("uuid").is("public UUID uuid"));
         assertTrue(_FROM_STRING_PARTS.getConstructor(0).is("public C(int i){ this.i = i; }"));
         assertTrue(_FROM_STRING_PARTS.firstMethodNamed("getUUID").is("public UUID getUUID(){ return this.uuid; }"));
         assertTrue(_FROM_STRING_PARTS.getInnerType("Describable") instanceof _interface);
@@ -137,31 +137,31 @@ public class _1_classAPITest extends TestCase {
     public void test_iterate_for(){
         //iterate over members/properties
         //properties
-        _FROM_STRING_PARTS.forImports(i-> System.out.println(i));
-        _FROM_STRING_PARTS.forAnnoExprs(a-> System.out.println(a));
+        _FROM_STRING_PARTS.toImports(i-> System.out.println(i));
+        _FROM_STRING_PARTS.toAnnos(a-> System.out.println(a));
         //members
-        _FROM_STRING_PARTS.forInitBlocks(i-> System.out.println(i));
+        _FROM_STRING_PARTS.toInitBlocks(i-> System.out.println(i));
         //members/declared
-        _FROM_STRING_PARTS.forConstructors(c-> System.out.println(c));
-        _FROM_STRING_PARTS.forFields(f-> System.out.println(f));
+        _FROM_STRING_PARTS.toConstructors(c-> System.out.println(c));
+        _FROM_STRING_PARTS.toFields(f-> System.out.println(f));
         _FROM_STRING_PARTS.toMethods(m-> System.out.println(m));
         //nests
-        _FROM_STRING_PARTS.forInnerTypes(n -> System.out.println(n));
+        _FROM_STRING_PARTS.toInnerTypes(n -> System.out.println(n));
 
         //iterate over all members / declared
-        _FROM_STRING_PARTS.forMembers(m-> System.out.println(m)); //members are all _class entities (including init/staticBlocks)
-        _FROM_STRING_PARTS.forDeclared(d-> System.out.println(d)); //declared are members with names (no init/staticBlocks)
+        _FROM_STRING_PARTS.toMembers(m-> System.out.println(m)); //members are all _class entities (including init/staticBlocks)
+        //_FROM_STRING_PARTS.forDeclared(d-> System.out.println(d)); //declared are members with names (no init/staticBlocks)
 
         //selectively iterate over members/properties
-        _FROM_STRING_PARTS.forImports(i-> i.isWildcard(), i-> System.out.println(i));
-        _FROM_STRING_PARTS.forAnnoExprs(a-> a.isInstance(Deprecated.class), a->System.out.println(a) );
+        _FROM_STRING_PARTS.toImports(i-> i.isWildcard(), i-> System.out.println(i));
+        _FROM_STRING_PARTS.toAnnos(a-> a.isInstance(Deprecated.class), a->System.out.println(a) );
         //members
-        _FROM_STRING_PARTS.forInitBlocks(i-> i.isStatic(), i-> System.out.println(i));
+        _FROM_STRING_PARTS.toInitBlocks(i-> i.isStatic(), i-> System.out.println(i));
         //members/declared
-        _FROM_STRING_PARTS.forConstructors(c-> c.isVarArg(), c-> System.out.println(c));
-        _FROM_STRING_PARTS.forFields(f-> f.isPublic(), f-> System.out.println(f));
+        _FROM_STRING_PARTS.toConstructors(c-> c.isVarArg(), c-> System.out.println(c));
+        _FROM_STRING_PARTS.toFields(f-> f.isPublic(), f-> System.out.println(f));
         _FROM_STRING_PARTS.toMethods(m-> m.isType(UUID.class), m-> System.out.println(m));
         //nests
-        _FROM_STRING_PARTS.forInnerTypes(n-> n instanceof _interface, n-> System.out.println(n));
+        _FROM_STRING_PARTS.toInnerTypes(n-> n instanceof _interface, n-> System.out.println(n));
     }
 }

@@ -116,7 +116,7 @@ public final class _annotation
                 _ae.setJavadoc( ((FieldDeclaration) f).getJavadocComment().get());
             }
             if( !f.getAnnotations().isEmpty()){
-                _ae.addAnnoExprs( f.getAnnotations());
+                _ae.addAnnos( f.getAnnotations());
             }
             _a.addEntry(_ae);
         });
@@ -237,22 +237,22 @@ public final class _annotation
 
     public _annotation setRetentionPolicyRuntime(){
         this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnoExprs(Retention.class); //remove if one already exists
-        addAnnoExprs( "Retention(RetentionPolicy.RUNTIME)");
+        this.removeAnnos(Retention.class); //remove if one already exists
+        addAnnos( "Retention(RetentionPolicy.RUNTIME)");
         return this;
     }
 
     public _annotation setRetentionPolicyClass(){
         this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnoExprs(Retention.class);
-        addAnnoExprs( "Retention(RetentionPolicy.CLASS)");
+        this.removeAnnos(Retention.class);
+        addAnnos( "Retention(RetentionPolicy.CLASS)");
         return this;
     }
 
     public _annotation setRetentionPolicySource(){
         this.addImports(Retention.class, RetentionPolicy.class);
-        this.removeAnnoExprs(Retention.class);
-        addAnnoExprs( "Retention(RetentionPolicy.SOURCE)");
+        this.removeAnnos(Retention.class);
+        addAnnos( "Retention(RetentionPolicy.SOURCE)");
         return this;
     }
 
@@ -264,12 +264,12 @@ public final class _annotation
      */
     public _annotation setTargets(ElementType...elementTypes ){
         if( elementTypes.length == 0 ){
-            this.removeAnnoExprs( Target.class);
+            this.removeAnnos( Target.class);
         }
         this.addImports(Target.class, ElementType.class);
         if( elementTypes.length == 1 ){
-            this.removeAnnoExprs( Target.class);
-            return addAnnoExprs("Target(ElementType."+elementTypes[0].name()+")" );
+            this.removeAnnos( Target.class);
+            return addAnnos("Target(ElementType."+elementTypes[0].name()+")" );
         }
         StringBuilder sb = new StringBuilder();
         for(int i=0;i<elementTypes.length; i++){
@@ -278,76 +278,76 @@ public final class _annotation
             }
             sb.append("ElementType.").append(elementTypes[i].name() );
         }
-        return addAnnoExprs("Target({"+sb.toString()+"})");
+        return addAnnos("Target({"+sb.toString()+"})");
     }
 
     public _annotation setTargetMethod(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.METHOD)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.METHOD)");
         return this;
     }
 
     public _annotation setTargetParameter(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.PARAMETER)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.PARAMETER)");
         return this;
     }
 
     public _annotation setTargetTypeUse(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.TYPE_USE)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.TYPE_USE)");
         return this;
     }
 
     public _annotation setTargetType(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.TYPE)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.TYPE)");
         return this;
     }
 
     public _annotation setTargetTypeParameter(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.TYPE_PARAMETER)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.TYPE_PARAMETER)");
         return this;
     }
 
     public _annotation setTargetLocalVariable(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.LOCAL_VARIABLE)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.LOCAL_VARIABLE)");
         return this;
     }
 
     public _annotation setTargetAnnotationType(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.ANNOTATION_TYPE)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.ANNOTATION_TYPE)");
         return this;
     }
 
     public _annotation setTargetPackage(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.PACKAGE)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.PACKAGE)");
         return this;
     }
 
     public _annotation setTargetConstructor(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.CONSTRUCTOR)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.CONSTRUCTOR)");
         return this;
     }
 
     public _annotation setTargetField(){
         this.addImports( Target.class, ElementType.class );
-        removeAnnoExprs(Target.class);
-        addAnnoExprs("Target(ElementType.FIELD)");
+        removeAnnos(Target.class);
+        addAnnos("Target(ElementType.FIELD)");
         return this;
     }
 
@@ -372,7 +372,7 @@ public final class _annotation
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of(this.astAnnotation );
     }
 
@@ -556,8 +556,8 @@ public final class _annotation
 
     public static _feature._one<_annotation, _annos> ANNOS = new _feature._one<>(_annotation.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_annotation a, _annos b) -> a.setAnnoExprs(b), PARSER);
+            a -> a.getAnnos(),
+            (_annotation a, _annos b) -> a.setAnnos(b), PARSER);
 
     public static _feature._one<_annotation, _javadocComment> JAVADOC = new _feature._one<>(_annotation.class, _javadocComment.class,
             _feature._id.JAVADOC,

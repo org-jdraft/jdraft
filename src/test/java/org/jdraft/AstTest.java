@@ -555,7 +555,7 @@ public class AstTest extends TestCase {
             }
         });
         assertTrue(
-                Walk.isParent( _c.getField("x").getFieldDeclaration(),
+                Walk.isParent( _c.fieldNamed("x").getFieldDeclaration(),
                         ClassOrInterfaceDeclaration.class, c-> c.getNameAsString().equals("V")) );
     }
 
@@ -596,7 +596,7 @@ public class AstTest extends TestCase {
         }
 
         _class _c = _class.of(ROOT.class);
-        Node n = Ast.root( _c.getField("a").getInitNode() );
+        Node n = Ast.root( _c.fieldNamed("a").getInitNode() );
 
         assertTrue( n instanceof CompilationUnit );
 

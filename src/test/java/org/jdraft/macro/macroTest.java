@@ -15,8 +15,8 @@ public class macroTest extends TestCase {
         _class _c = _class.of("aaaa.B", new Object(){
             int x, y;
         });
-        assertTrue(_c.getField("x").isType(int.class));
-        assertTrue(_c.getField("y").isType(int.class));
+        assertTrue(_c.fieldNamed("x").isType(int.class));
+        assertTrue(_c.fieldNamed("y").isType(int.class));
     }
 
     /* Style 1: Roll your own Field Consumer Lambda on the Annotation */
@@ -48,8 +48,8 @@ public class macroTest extends TestCase {
         assertEquals("true",System.getProperty(_annConsumerField.class.getSimpleName()));
 
         //verify the model doesn't still have the macro
-        assertFalse(_c.hasAnnoExprs()); //verify we cleaned up the annotation on the class
-        assertFalse(_c.hasAnnoExpr(_annConsumerField.class));
+        assertFalse(_c.hasAnnos()); //verify we cleaned up the annotation on the class
+        assertFalse(_c.hasAnno(_annConsumerField.class));
         //System.out.println(_c );
     }
 
@@ -83,7 +83,7 @@ public class macroTest extends TestCase {
         //apply the macro
         _class _c = macro.to(D.class);
         assertEquals( "true", System.getProperty(_annInstanceNoArg.class.getSimpleName()));
-        assertFalse( _c.hasAnnoExpr(_annInstanceNoArg.class));
+        assertFalse( _c.hasAnno(_annInstanceNoArg.class));
         //List<Consumer<Node>> macros = macro.from(D.class);
         //assertEquals( 1, macros.size());
     }
@@ -124,7 +124,7 @@ public class macroTest extends TestCase {
         assertEquals( "true", System.getProperty(_annInstanceArgs.class.getSimpleName()));
 
         //verify we cleaned up at the end
-        assertFalse( _c.hasAnnoExpr(_annInstanceArgs.class));
+        assertFalse( _c.hasAnno(_annInstanceArgs.class));
     }
 
     public void setUp(){

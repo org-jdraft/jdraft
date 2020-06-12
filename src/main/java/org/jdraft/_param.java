@@ -13,7 +13,7 @@ import com.github.javaparser.ast.type.Type;
  * @author Eric
  */
 public final class _param
-    implements _java._withNameType<Parameter, _param>, _annos._withAnnoExprs<_param>,
+    implements _java._withNameType<Parameter, _param>, _annos._withAnnos<_param>,
         _modifiers._withFinal<_param>, _tree._node<Parameter, _param> {
 
     public static final Function<String, _param> PARSER = s-> _param.of(s);
@@ -67,8 +67,8 @@ public final class _param
 
     public static _feature._one<_param, _annos> ANNOS = new _feature._one<>(_param.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_param p, _annos _ae) -> p.setAnnoExprs(_ae), PARSER);
+            a -> a.getAnnos(),
+            (_param p, _annos _ae) -> p.setAnnos(_ae), PARSER);
 
     public static _feature._one<_param, Boolean> IS_FINAL = new _feature._one<>(_param.class, Boolean.class,
             _feature._id.IS_FINAL,
@@ -159,7 +159,7 @@ public final class _param
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of( this.astParameter );
     }
 

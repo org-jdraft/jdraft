@@ -445,7 +445,7 @@ public final class _initBlock
          * @param _staticBlockAction action to take on static blocks
          * @return the modified T
          */
-        default _WIB forInitBlocks(Consumer<_initBlock> _staticBlockAction ){
+        default _WIB toInitBlocks(Consumer<_initBlock> _staticBlockAction ){
             listInitBlocks().forEach(_staticBlockAction );
             return (_WIB)this;
         }
@@ -456,9 +456,32 @@ public final class _initBlock
          * @param _staticBlockAction the action to take on matching _staticBlocks
          * @return the modified T
          */
-        default _WIB forInitBlocks(Predicate<_initBlock> _staticBlockMatchFn, Consumer<_initBlock> _staticBlockAction ){
+        default _WIB toInitBlocks(Predicate<_initBlock> _staticBlockMatchFn, Consumer<_initBlock> _staticBlockAction ){
             listInitBlocks(_staticBlockMatchFn).forEach(_staticBlockAction );
             return (_WIB)this;
+        }
+
+        /**
+         * Apply an "action" function to all init blocks
+         * @param _actionFn action to take on init blocks
+         * @return the modified T
+         */
+        default List<_initBlock> forInitBlocks(Consumer<_initBlock> _actionFn ){
+            List<_initBlock> _ibs = listInitBlocks();
+            _ibs.forEach(_actionFn );
+            return _ibs;
+        }
+
+        /**
+         * Apply an action function to all init blocks that match the function and returns the initBlocks
+         * @param _matchFn matches init blocks to act on
+         * @param _actionFn the action to take on matching _initBlocks
+         * @return the modified T
+         */
+        default List<_initBlock> forInitBlocks(Predicate<_initBlock> _matchFn, Consumer<_initBlock> _actionFn ){
+            List<_initBlock> _ibs = listInitBlocks(_matchFn);
+            _ibs.forEach(_actionFn );
+            return _ibs;
         }
 
         /**

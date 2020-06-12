@@ -97,9 +97,9 @@ public class _enumTest extends TestCase {
             public static final String NAME = "Eric";
         }).addConstants("A", "B", "C", "D", "E");
            
-        _e.forDeclared(_field.class, f-> f.isStatic(), f->System.out.println(f));
+        _e.toDeclared(_field.class, f-> f.isStatic(), f->System.out.println(f));
         
-        _e.forFields( f-> f.isStatic(), f-> System.out.println(f));
+        _e.toFields(f-> f.isStatic(), f-> System.out.println(f));
     }
     
     public void testConstants(){
@@ -213,15 +213,15 @@ public class _enumTest extends TestCase {
         
         _constant _c = _e.getConstant("B");
         
-        assertTrue(_c.hasAnnoExprs());
+        assertTrue(_c.hasAnnos());
         assertTrue(_c.hasJavadoc());
         assertTrue(_c.hasFields());
         assertTrue(_c.hasArgs());
         assertEquals( 2, _c.listArgs().size());
         assertEquals( _intExpr.of(1), _c.getArg(0));
         assertEquals( _stringExpr.of("String"), _c.getArg(1));
-        assertTrue( _c.getAnnoExprs().is("@ann", "@ann2(k='o')"));
-        _field _f = _c.getField( "num");
+        assertTrue( _c.getAnnos().is("@ann", "@ann2(k='o')"));
+        _field _f = _c.fieldNamed( "num");
         assertNotNull( _f);
         assertTrue( _f.getModifiers().is( "public static final"));
         assertEquals( Expr.of(12233), _f.getInitNode() );
@@ -252,9 +252,9 @@ public class _enumTest extends TestCase {
         assertTrue(_ct.getBody().isEmpty() );
         
         _ct = _e.getConstructor( 1 );
-        assertTrue( _ct.hasAnnoExprs() );
-        System.out.println( _ct.getAnnoExprs() );
-        assertTrue( _ct.getAnnoExprs().is("@ann","@ann2(k='y')"));
+        assertTrue( _ct.hasAnnos() );
+        System.out.println( _ct.getAnnos() );
+        assertTrue( _ct.getAnnos().is("@ann","@ann2(k='y')"));
         assertTrue( _ct.isPrivate());
         assertTrue( _ct.getParam( 0 ).is( "@ann @ann2(k='l',v=6) int i"));
         assertTrue( _ct.getParam( 1 ).is( "String...s"));

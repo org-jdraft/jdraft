@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public final class _variablesExpr implements _expr<VariableDeclarationExpr, _variablesExpr>,
         _tree._node<VariableDeclarationExpr, _variablesExpr>,
         _tree._group<VariableDeclarator, _variable, _variablesExpr>,
-        _annos._withAnnoExprs<_variablesExpr>,
+        _annos._withAnnos<_variablesExpr>,
         _modifiers._withFinal<_variablesExpr>{
 
     public static final Function<String, _variablesExpr> PARSER = s-> _variablesExpr.of(s);
@@ -40,8 +40,8 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
 
     public static _feature._one<_variablesExpr, _annos> ANNOS = new _feature._one<>(_variablesExpr.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_variablesExpr p, _annos _ccs) -> p.setAnnoExprs(_ccs), PARSER);
+            a -> a.getAnnos(),
+            (_variablesExpr p, _annos _ccs) -> p.setAnnos(_ccs), PARSER);
 
     public static _feature._one<_variablesExpr, _modifiers> MODIFIERS = new _feature._one<>(_variablesExpr.class, _modifiers.class,
             _feature._id.MODIFIERS,
@@ -198,7 +198,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of(this.varDeclEx);
     }
 
@@ -210,7 +210,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
                 return false;
             }
             //they have the same number of variables
-            if( !Objects.equals( this.getAnnoExprs(), _o.getAnnoExprs() ) ){
+            if( !Objects.equals( this.getAnnos(), _o.getAnnos() ) ){
                 return false;
             }
             if( !Objects.equals( this.getModifiers(), _o.getModifiers() ) ){

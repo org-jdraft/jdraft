@@ -103,7 +103,7 @@ public class $interface
         List<Node> nots = new ArrayList<>();
 
         //remove _$not things
-        _c.forDeclared( d -> d.hasAnnoExpr(_$not.class), d-> {
+        _c.toDeclared(d -> d.hasAnno(_$not.class), d-> {
             System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
@@ -116,14 +116,14 @@ public class $interface
         } );
 
         $c.$javadoc(_c.getJavadoc());
-        _c.forAnnoExprs(a-> $c.annos.add($annoRef.of(a)));
+        _c.toAnnos(a-> $c.annos.add($annoRef.of(a)));
         $c.modifiers = $modifiers.of(_c.getModifiers());
         $c.$name(_c.getSimpleName());
         _c.getTypeParams().toEach(tp-> $c.typeParameters.$add($typeParameter.of(tp)));
         _c.listAstExtends().forEach(i -> $c.$extend(i));
-        _c.forFields(f-> $c.fields.add($field.of(f)));
+        _c.toFields(f-> $c.fields.add($field.of(f)));
         _c.toMethods(m -> $c.$methods($method.of(m)));
-        _c.forInnerTypes(n -> {
+        _c.toInnerTypes(n -> {
             if( n instanceof _class) {
                 $c.$hasChild( $class.of((_class)n) );
             }
@@ -432,12 +432,12 @@ public class $interface
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_interface> pf = an-> an.getAnnoExpr(a ->$fa.matches(a) ) != null;
+                Predicate<_interface> pf = an-> an.getAnno(a ->$fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $annoRefs){
                 final $annoRefs $fa = (($annoRefs)parts[i]);
-                Predicate<_interface> pf = an-> $fa.matches(an.getAnnoExprs());
+                Predicate<_interface> pf = an-> $fa.matches(an.getAnnos());
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $typeParameters){
@@ -457,7 +457,7 @@ public class $interface
             }
             else if(parts[i] instanceof $field ){
                 final $field $fj = (($field)parts[i]);
-                Predicate<_interface> aFn = a-> a.getField(e->$fj.matches(e)) != null; //found one
+                Predicate<_interface> aFn = a-> a.firstField(e->$fj.matches(e)) != null; //found one
                 $and( aFn.negate() );
             }
             else if(parts[i] instanceof $method ){

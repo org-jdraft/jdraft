@@ -19,6 +19,6 @@ public class _initTest extends TestCase {
                 @_init("1") int f;
             //}
         });
-        assertEquals( Expr.of(1), _c.getField("f").getInitNode());
+        assertEquals( Expr.of(1), _c.fieldNamed("f").getInitNode());
     }
 }

@@ -552,7 +552,7 @@ public final class _runtime {
                 //System.out.println( "checking "+_c.getFullName() );
                 if(_c instanceof _field._withFields){
 
-                    return ((_field._withFields)_c).getField( (f)-> ((_field)f).getName().equals(expr.toString())
+                    return ((_field._withFields)_c).firstField( (f)-> ((_field)f).getName().equals(expr.toString())
                             && ((_field)f).isPublic() && ((_field)f).isStatic() ) != null;
                 }
                 return false;
@@ -1070,7 +1070,7 @@ public final class _runtime {
     public void main(){
         Optional<_codeUnit> oc =
             this.fileManager.classLoader.list_code().stream()
-                .filter( _c-> _c instanceof _type && ((_type)_c).getDeclared(_method.class, m-> ((_method)m).isMain()) !=null )
+                .filter( _c-> _c instanceof _type && ((_type)_c).getMember(_method.class, m-> ((_method)m).isMain()) !=null )
                     .findFirst();
         if( !oc.isPresent() ){
             throw new _runtimeException("cannot find type with a public static void main(String[] args) method");

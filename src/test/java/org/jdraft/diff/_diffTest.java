@@ -72,7 +72,7 @@ public class _diffTest extends TestCase {
         });
         _c1.setPackage("aaaa.bbbb");
         _c1.setName("B");
-        _c1.addAnnoExprs(Deprecated.class);
+        _c1.addAnnos(Deprecated.class);
         _c1.addExtend("G");
         _c1.addConstructor("public C(){System.out.println(1);}");
         _c1.setTypeParams("<T extends base>");
@@ -201,7 +201,7 @@ public class _diffTest extends TestCase {
         _a1.addMethod("int m(){ return 1; }");
         _a1.addField("int i=100;");
         _a1.addArg(0);
-        _a1.addAnnoExprs(Deprecated.class);
+        _a1.addAnnos(Deprecated.class);
         _a1.setJavadoc("Javadoc ");
         
         _enumDiff.ENUM_CONSTANT_DIFF.diff(path, dt, leftRoot, rightRoot, _a1, _a2);

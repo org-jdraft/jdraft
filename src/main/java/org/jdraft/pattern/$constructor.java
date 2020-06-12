@@ -200,8 +200,8 @@ public class $constructor
         if( _ct.hasJavadoc() ){
             $ct.javadoc = $comment.javadocComment(_ct.getJavadoc());
         }
-        if( _ct.hasAnnoExprs() ){
-            $ct.annos = $annoRefs.as(_ct.getAnnoExprs() );
+        if( _ct.hasAnnos() ){
+            $ct.annos = $annoRefs.as(_ct.getAnnos() );
         } else{
             $ct.annos = $annoRefs.none();
         }
@@ -262,8 +262,8 @@ public class $constructor
             _ct.setJavadoc(theMethod.getJavadocComment().get());
         }
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.addAnnoExprs( theMethod.getAnnotations()); //add annos
-        _ct.removeAnnoExprs(_toCtor.class); //remove the _ctor anno if it exists
+        _ct.addAnnos( theMethod.getAnnotations()); //add annos
+        _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         return _ct;
     }
@@ -415,8 +415,8 @@ public class $constructor
         if( _ct.hasJavadoc() ){
             javadoc = $comment.javadocComment(_ct.getJavadoc());
         }        
-        if( _ct.hasAnnoExprs() ){
-            annos = $annoRefs.of(_ct.getAnnoExprs() );
+        if( _ct.hasAnnos() ){
+            annos = $annoRefs.of(_ct.getAnnos() );
         }
         modifiers = $modifiers.of(_ct );        
         if( !_ct.hasTypeParams() ){
@@ -796,7 +796,7 @@ public class $constructor
         _ct.setJavadoc(this.javadoc.draft(translator, keyValues));
         _ct.setTypeParams(this.typeParameters.draft(translator, keyValues));
         _ct.setBody(this.body.draft(translator, keyValues));
-        _ct.setAnnoExprs(this.annos.draft(translator, keyValues));
+        _ct.setAnnos(this.annos.draft(translator, keyValues));
 
         return _ct;
         /*
@@ -867,7 +867,7 @@ public class $constructor
         } else{
             all = javadoc.parseTo(null, all);
         }
-        all = annos.parseTo(_ct.getAnnoExprs(), all);
+        all = annos.parseTo(_ct.getAnnos(), all);
         all = typeParameters.parseTo(_ct.getTypeParams(), all);
         all = name.parseTo(_ct.getName(), all);
         all = parameters.parseTo(_ct.getParams(), all);

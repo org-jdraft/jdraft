@@ -240,8 +240,8 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
 
     public static _feature._one<_interface, _annos> ANNOS = new _feature._one<>(_interface.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_interface a, _annos b) -> a.setAnnoExprs(b), PARSER);
+            a -> a.getAnnos(),
+            (_interface a, _annos b) -> a.setAnnos(b), PARSER);
 
     public static _feature._one<_interface, _javadocComment> JAVADOC = new _feature._one<>(_interface.class, _javadocComment.class,
             _feature._id.JAVADOC,
@@ -441,7 +441,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of(this.astInterface);
     }
     

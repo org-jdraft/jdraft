@@ -206,8 +206,8 @@ public class $method
         if( _m.hasJavadoc() ){
             $m.javadoc = $comment.javadocComment(_m.getJavadoc());
         }
-        if( _m.hasAnnoExprs() ){
-            $m.annos = $annoRefs.as(_m.getAnnoExprs() );
+        if( _m.hasAnnos() ){
+            $m.annos = $annoRefs.as(_m.getAnnos() );
         } else{
             $m.annos = $annoRefs.none();
         }
@@ -370,8 +370,8 @@ public class $method
         if( _m.hasJavadoc() ){
             javadoc = $comment.javadocComment(_m.getJavadoc() );
         }        
-        if( _m.hasAnnoExprs() ){
-            annos = $annoRefs.of(_m.getAnnoExprs() );
+        if( _m.hasAnnos() ){
+            annos = $annoRefs.of(_m.getAnnos() );
         }
         modifiers = $modifiers.of(_m);
         type = $typeRef.of(_m.getType() );
@@ -547,7 +547,7 @@ public class $method
         for(int i=0;i<parts.length;i++){
             if( parts[i] instanceof $annoRef){
                 final $annoRef $fa = (($annoRef)parts[i]);
-                Predicate<_method> pf = f-> f.getAnnoExprs().first(a -> $fa.matches(a) ) != null;
+                Predicate<_method> pf = f-> f.getAnnos().first(a -> $fa.matches(a) ) != null;
                 $and( pf.negate() );
             }
             else if( parts[i] instanceof $modifiers ){
@@ -1040,7 +1040,7 @@ public class $method
                 return null;
             }
         }
-        all = annos.parseTo(_m.getAnnoExprs(), all);
+        all = annos.parseTo(_m.getAnnos(), all);
         all = typeParameters.parseTo(_m.getTypeParams(), all);
         all = type.parseTo(_m.getType(), all);
         all = name.parseTo(_m.getName(), all);

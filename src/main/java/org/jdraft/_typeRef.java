@@ -19,7 +19,7 @@ import static org.jdraft.Types.of;
  * @param <T> the Type implementation (i.e. ReferenceType)
  */
 public final class _typeRef<T extends Type>
-        implements _tree._node<Type, _typeRef>, _annos._withAnnoExprs<_typeRef> {
+        implements _tree._node<Type, _typeRef>, _annos._withAnnos<_typeRef> {
 
     public static final Function<String, _typeRef> PARSER = s-> _typeRef.of(s);
 
@@ -76,7 +76,7 @@ public final class _typeRef<T extends Type>
         return new _typeRef( Types.of( string ) );
     }
 
-    public _annos getAnnoExprs(){
+    public _annos getAnnos(){
         /** this is a hack... because right now accessing the annotations from the Type AST is a mess frought with danger
          * often when there ARE annotations that are applied at the wrong level... it
          * s not JavaParsers fault, but rather the sheer ambiguity of how Annotaitons can be applied to BOTH
@@ -120,7 +120,7 @@ public final class _typeRef<T extends Type>
      * this is why we need to strip off the Generics before looking
      * @return
      */
-    public boolean hasAnnoExprs(){
+    public boolean hasAnnos(){
         return getErasedType(this.astType).findFirst(AnnotationExpr.class).isPresent();
     }
 
@@ -536,8 +536,8 @@ public final class _typeRef<T extends Type>
 
     public static _feature._one<_typeRef, _annos> ANNOS = new _feature._one<>(_typeRef.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_typeRef t, _annos _ae) -> t.setAnnoExprs(_ae), PARSER);
+            a -> a.getAnnos(),
+            (_typeRef t, _annos _ae) -> t.setAnnos(_ae), PARSER);
 
     public static _feature._one<_typeRef, Type> TYPE = new _feature._one<>(_typeRef.class, Type.class,
             _feature._id.TYPE,

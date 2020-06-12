@@ -154,7 +154,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
 
     public static $parameter as( _param _p){
         $annoRefs $as = $annoRefs.none();
-        if( _p.hasAnnoExprs() ){
+        if( _p.hasAnnos() ){
             $as = $annoRefs.as(_p); //set the EXACT annos
         }
         $name $nm = $name.of( _p.getName() );
@@ -277,7 +277,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
         }
         this.name.nameStencil = Stencil.of(_p.getName() );
         this.type = $typeRef.of(_p.getType());
-        this.annos = $annoRefs.of( _p.getAnnoExprs() );
+        this.annos = $annoRefs.of( _p.getAnnos() );
     }
     
     public $parameter $anno(){
@@ -935,7 +935,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
         }
         
         public boolean hasAnno( Class<? extends Annotation> annotationClass){            
-            return _param.hasAnnoExpr(annotationClass);
+            return _param.hasAnno(annotationClass);
         }
         
         public boolean is(String...expectedParameter ){            

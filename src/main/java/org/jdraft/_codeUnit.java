@@ -450,7 +450,7 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @param _importActionFn function to apply to the imports
      * @return the T
      */
-    default _CU forImports(Consumer<_import> _importActionFn) {
+    default _CU toImports(Consumer<_import> _importActionFn) {
         getImports().toEach(_importActionFn);
         return (_CU) this;
     }
@@ -463,10 +463,41 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @param _importActionFn function to apply to the imports
      * @return the _C
      */
-    default _CU forImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
+    default _CU toImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
         getImports().toEach(_importMatchFn, _importActionFn);
         return (_CU) this;
     }
+
+
+    /**
+     * Apply a function to all imports and return them
+     *
+     * @param _importActionFn function to apply to the imports
+     * @return the T
+     */
+    default List<_import> forImports(Consumer<_import> _importActionFn) {
+        List<_import> is = listImports();
+        is.forEach(_importActionFn);
+        return is;
+    }
+
+    /**
+     * Select some imports based on the astImportPredicate and apply the
+     * astImportActionFn on the selected Imports
+     *
+     * @param _importMatchFn selects the Imports to act on
+     * @param _importActionFn function to apply to the imports
+     * @return the _C
+     */
+    default List<_import> forImports(Predicate<_import> _importMatchFn, Consumer<_import> _importActionFn) {
+        List<_import> is = listImports(_importMatchFn);
+        is.forEach(_importActionFn);
+        return is;
+    }
+
+
+
+
 
     /**
      *

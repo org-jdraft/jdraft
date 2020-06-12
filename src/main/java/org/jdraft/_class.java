@@ -441,8 +441,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
     public static _feature._one<_class, _annos> ANNOS = new _feature._one<>(_class.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_class a, _annos b) -> a.setAnnoExprs(b), PARSER);
+            a -> a.getAnnos(),
+            (_class a, _annos b) -> a.setAnnos(b), PARSER);
 
     public static _feature._one<_class, _javadocComment> JAVADOC = new _feature._one<>(_class.class, _javadocComment.class,
             _feature._id.JAVADOC,
@@ -867,7 +867,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of(this.astClass );
     }
 
@@ -1087,7 +1087,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         sbs.addAll( this.listInitBlocks());
 
         hash = 47 * hash + Objects.hash( this.getPackage(), this.getName(),
-                this.getJavadoc(), this.getAnnoExprs(), this.getModifiers(),
+                this.getJavadoc(), this.getAnnos(), this.getModifiers(),
                 this.getTypeParams(), Types.hash(this.getExtendsNode()),
                 sbs, Types.hash( ast().getImplementedTypes() ),
                 Expr.hashAnnos(astClass),

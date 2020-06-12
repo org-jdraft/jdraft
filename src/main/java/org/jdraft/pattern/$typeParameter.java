@@ -102,7 +102,7 @@ public class $typeParameter
 
     public static $typeParameter as( _typeParam _tp ){
         $annoRefs $as = $annoRefs.none();
-        if( _tp.hasAnnoExprs() ){
+        if( _tp.hasAnnos() ){
             $as = $annoRefs.as(_tp);
         }
         $name $nm = $name.as( _tp.getName() );
@@ -640,7 +640,7 @@ public class $typeParameter
         }
         
         public _annos annos(){
-            return _tp.getAnnoExprs();
+            return _tp.getAnnos();
         }
 
         @Override

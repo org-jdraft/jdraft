@@ -227,7 +227,7 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of(this.astAnnMember );
     }
 

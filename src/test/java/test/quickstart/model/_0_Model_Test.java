@@ -37,7 +37,7 @@ public class _0_Model_Test extends TestCase {
         // jdraft models make modifying code easy
         _m.setName("getValue")
                 .setProtected()
-                .addAnnoExprs(Deprecated.class)
+                .addAnnos(Deprecated.class)
                 .setFinal();
 
         // internally jdraft models wrap a JavaParser Ast instance

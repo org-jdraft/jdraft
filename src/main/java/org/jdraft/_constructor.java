@@ -28,7 +28,7 @@ import org.jdraft.text.Text;
  *
  * @author Eric
  */
-public final class _constructor implements _annos._withAnnoExprs<_constructor>,
+public final class _constructor implements _annos._withAnnos<_constructor>,
         _javadocComment._withJavadoc<_constructor>, _throws._withThrows<_constructor>,
         _body._withBody<_constructor>, _modifiers._withModifiers<_constructor>, //_modifiers._hasModifiers<_constructor>,
         _params._withParams<_constructor>, _typeParams._withTypeParams<_constructor>,
@@ -81,8 +81,8 @@ public final class _constructor implements _annos._withAnnoExprs<_constructor>,
         }
         //System.out.println( "Setting throws");
         _ct.setThrows( theMethod.getThrownExceptions() );
-        _ct.addAnnoExprs( theMethod.getAnnotations()); //add annos
-        _ct.removeAnnoExprs(_toCtor.class); //remove the _ctor anno if it exists
+        _ct.addAnnos( theMethod.getAnnotations()); //add annos
+        _ct.removeAnnos(_toCtor.class); //remove the _ctor anno if it exists
         _ct.setBody( theMethod.getBody().get() ); //BODY
         
         return _ct;
@@ -121,8 +121,8 @@ public final class _constructor implements _annos._withAnnoExprs<_constructor>,
 
     public static _feature._one<_constructor, _annos> ANNOS = new _feature._one<>(_constructor.class, _annos.class,
             _feature._id.ANNOS,
-            a -> a.getAnnoExprs(),
-            (_constructor a, _annos _ta) -> a.setAnnoExprs(_ta), PARSER);
+            a -> a.getAnnos(),
+            (_constructor a, _annos _ta) -> a.setAnnos(_ta), PARSER);
 
     public static _feature._one<_constructor, _modifiers> MODIFIERS = new _feature._one<>(_constructor.class, _modifiers.class,
             _feature._id.MODIFIERS,
@@ -390,7 +390,7 @@ public final class _constructor implements _annos._withAnnoExprs<_constructor>,
     }
 
     @Override
-    public _annos getAnnoExprs() {
+    public _annos getAnnos() {
         return _annos.of( astCtor );
     }
 
@@ -558,8 +558,8 @@ public final class _constructor implements _annos._withAnnoExprs<_constructor>,
          * @param constructorConsumer
          * @return 
          */
-        default _WC forConstructors(Consumer<_constructor> constructorConsumer ) {
-            return forConstructors( m -> true, constructorConsumer );
+        default _WC toConstructors(Consumer<_constructor> constructorConsumer ) {
+            return toConstructors(m -> true, constructorConsumer );
         }
 
         /**
@@ -568,11 +568,35 @@ public final class _constructor implements _annos._withAnnoExprs<_constructor>,
          * @param constructorConsumer
          * @return 
          */
-        default _WC forConstructors(
+        default _WC toConstructors(
             Predicate<_constructor> constructorMatchFn,
             Consumer<_constructor> constructorConsumer ) {
             listConstructors( constructorMatchFn ).forEach( constructorConsumer );
             return (_WC)this;
+        }
+
+
+        /**
+         *
+         * @param constructorConsumer
+         * @return
+         */
+        default List<_constructor> forConstructors(Consumer<_constructor> constructorConsumer ) {
+            return forConstructors(m -> true, constructorConsumer );
+        }
+
+        /**
+         *
+         * @param constructorMatchFn
+         * @param constructorConsumer
+         * @return
+         */
+        default List<_constructor> forConstructors(
+                Predicate<_constructor> constructorMatchFn,
+                Consumer<_constructor> constructorConsumer ) {
+            List<_constructor> _ctors = listConstructors( constructorMatchFn );
+            _ctors.forEach( constructorConsumer );
+            return _ctors;
         }
 
         /**
@@ -636,7 +660,7 @@ public final class _constructor implements _annos._withAnnoExprs<_constructor>,
             }
             _ct.setThrows( theMethod.getThrownExceptions() ); 
             _ct.setBody( theMethod.getBody().get() ); //BODY
-            _ct.addAnnoExprs( theMethod.getAnnotations() ); //ANNOTATIONS
+            _ct.addAnnos( theMethod.getAnnotations() ); //ANNOTATIONS
             if( theMethod.hasJavaDocComment() ){
                 _ct.ast().setJavadocComment( theMethod.getJavadocComment().get());
             }

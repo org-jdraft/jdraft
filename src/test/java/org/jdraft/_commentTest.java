@@ -175,8 +175,8 @@ public class _commentTest extends TestCase {
         _cs = _c.listAllComments(c-> c instanceof _javadocComment);
         assertEquals( 2, _cs.size());
 
-        _c.forAllComments(c -> System.out.println( c ));
-        _c.forAllComments(c-> c.isAttributed(), c-> System.out.println("ATTRIBUTED"+c.getAttributedNode()));
+        _c.toAllComments(c -> System.out.println( c ));
+        _c.toAllComments(c-> c.isAttributed(), c-> System.out.println("ATTRIBUTED"+c.getAttributedNode()));
 
     }
 

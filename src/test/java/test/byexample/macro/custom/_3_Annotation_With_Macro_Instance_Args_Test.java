@@ -75,7 +75,7 @@ public class _3_Annotation_With_Macro_Instance_Args_Test extends TestCase {
         assertEquals("0", System.getProperty("y"));
 
         //verify we cleaned up at the end
-        assertFalse(_c.hasAnnoExpr(_annInstanceArgs.class));
+        assertFalse(_c.hasAnno(_annInstanceArgs.class));
     }
 
     public void testPassAnnoArgs(){
@@ -91,7 +91,7 @@ public class _3_Annotation_With_Macro_Instance_Args_Test extends TestCase {
         assertEquals( "200", System.getProperty("y"));
 
         //verify we cleaned up at the end
-        assertFalse( _c.hasAnnoExpr(_annInstanceArgs.class));
+        assertFalse( _c.hasAnno(_annInstanceArgs.class));
     }
 
     public void setUp(){

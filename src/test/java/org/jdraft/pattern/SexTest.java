@@ -560,7 +560,7 @@ public class SexTest extends TestCase {
 
         System.out.println( $ex.of("1").replaceIn(_c, "2") );
         
-        assertTrue( $ex.of("1").replaceIn(_c,"2").getField("i").isInit(2));
+        assertTrue( $ex.of("1").replaceIn(_c,"2").fieldNamed("i").isInit(2));
         
         //assertTrue( $expr.replace(_c, "1", "2").getField("i").initIs("2"));
         

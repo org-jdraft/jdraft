@@ -137,7 +137,7 @@ public class SenumTest extends TestCase {
         assertFalse($c.matches(_enum.of("C").setJavadoc("not compilant")));
 
         $c = $enum.of($.anno(Deprecated.class));
-        assertTrue( $c.matches(_enum.of("F").addAnnoExprs(Deprecated.class)));
+        assertTrue( $c.matches(_enum.of("F").addAnnos(Deprecated.class)));
         assertFalse( $c.matches(_enum.of("F")));
 
         $c = $enum.of($.name("AC$afterPrefix$"));

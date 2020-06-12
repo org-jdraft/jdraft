@@ -240,7 +240,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
     public Predicate<_param> predicate = d -> true;
 
     public Select.$botSelect<$annos, _param, _annos> annoExprs =
-            Select.$botSelect.of(_param.class, _annos.class, "annoRefs", p-> p.getAnnoExprs() );
+            Select.$botSelect.of(_param.class, _annos.class, "annoRefs", p-> p.getAnnos() );
 
     public Select.$botSelect<$typeRef, _param, _typeRef> type =
             Select.$botSelect.of(_param.class, _typeRef.class, "type", p-> p.getType() );
@@ -257,7 +257,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
     public $param() { }
 
     public $param(_param _p){
-        if( _p.hasAnnoExprs() ) {
+        if( _p.hasAnnos() ) {
             annoExprs.setBot( $annos.of(_p.ast()) );
         }
         name.setBot( $name.of(_p.getName()) );
@@ -369,7 +369,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public _param draft(Translator tr, Map<String,Object> keyValues){
         _param _p = _param.of();
-        _p.setAnnoExprs( this.annoExprs.draft(tr, keyValues) );
+        _p.setAnnos( this.annoExprs.draft(tr, keyValues) );
         _p.setName(this.name.draft(tr, keyValues).name.toString());
         _p.setType(this.type.draft(tr, keyValues));
         if( this.isFinal.getExpected() ){

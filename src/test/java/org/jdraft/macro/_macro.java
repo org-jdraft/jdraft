@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
  *
  * @param <M> the TYPE to apply the
  */
-public interface _macro<M extends _annos._withAnnoExprs>
+public interface _macro<M extends _annos._withAnnos>
         extends Function<M,M> {
 
     /**
@@ -107,7 +107,7 @@ public interface _macro<M extends _annos._withAnnoExprs>
      * @param <T> the underlying TYPE of the model (some _anno._hasAnnos)
      * @return the modified _model (with all {@link _macro}s applied)
      */
-    static <T extends _annos._withAnnoExprs> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
+    static <T extends _annos._withAnnos> T applyAllAnnotationMacros(T _model, AnnotatedElement ae ) {
         //Arrays.stream(ae.getAnnotations()).forEach( a-> System.out.println( a ) );
         //System.out.println( "Applying macros to "+ae.getAnnotations());
         Annotation[] anns = ae.getAnnotations();
@@ -121,7 +121,7 @@ public interface _macro<M extends _annos._withAnnoExprs>
                     //the _macro expansion MAY have actually removed the
                     // entity entirely, so double check... if not, make sure the
                     // annotation is removed after the _macro processes
-                    _model = (T)_model.removeAnnoExprs(anns[i].annotationType());
+                    _model = (T)_model.removeAnnos(anns[i].annotationType());
                 }
                 //System.out.println( "After "+_ma+" "+_model);
             }
@@ -148,7 +148,7 @@ public interface _macro<M extends _annos._withAnnoExprs>
 
     static _method to( Class clazz, _method _mm ){
         
-        if( !_mm.hasAnnoExprs()){
+        if( !_mm.hasAnnos()){
             return _mm;
         }
         Method mm = null;
@@ -207,7 +207,7 @@ public interface _macro<M extends _annos._withAnnoExprs>
         // and this SINGLE FieldDeclaration represents (3) _field models
         // so, we only process the annotation once (the first one)
         Set<FieldDeclaration> fds = new HashSet<>();
-        _t.forFields(_f -> {
+        _t.toFields(_f -> {
             _field _fl = (_field)_f;
             if( _fl.ast() != null
                     && _fl.ast().getParentNode().isPresent()
@@ -227,7 +227,7 @@ public interface _macro<M extends _annos._withAnnoExprs>
         });
         //We process CONSTRUCTORS 
         if (_t instanceof _constructor._withConstructors) {
-            ((_constructor._withConstructors) _t).forConstructors(_c -> to(clazz, (_constructor)_c));
+            ((_constructor._withConstructors) _t).toConstructors(_c -> to(clazz, (_constructor)_c));
         }
         //Process methods
         if (_t instanceof _method._withMethods) {
@@ -263,7 +263,7 @@ public interface _macro<M extends _annos._withAnnoExprs>
         List<Class> nestedClasses = Arrays.stream(declaredClazzes).collect(Collectors.toList());
 
         //process nested classes
-        _t.forInnerTypes(_nt -> {
+        _t.toInnerTypes(_nt -> {
             //System.out.println( "IN NESTED CLASS ");
             Optional<Class> foundClass = nestedClasses.stream().filter(c -> c.getSimpleName().equals(((_type) _nt).getName())).findFirst();
             if (!foundClass.isPresent()) {
@@ -283,7 +283,7 @@ public interface _macro<M extends _annos._withAnnoExprs>
      * @return 
      */
     static _constructor to(Class clazz, _constructor _c ) {
-        if( !_c.hasAnnoExprs() ){
+        if( !_c.hasAnnos() ){
             return _c;
         }
         List<Constructor> cs = Arrays.stream(clazz.getDeclaredConstructors()).collect(Collectors.toList());

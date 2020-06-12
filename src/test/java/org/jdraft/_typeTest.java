@@ -55,7 +55,7 @@ public class _typeTest extends TestCase {
         assertEquals( 1, _c.listMembers(_interface.class).size()); //nested interface
         assertEquals( 1, _c.listMembers(_annotation.class).size()); //nested annotation
 
-        assertEquals(10, _c.listDeclared().size()); //initBlocks are NOT declarations
+        assertEquals(10, _c.listMembers(_java._declared.class).size()); //initBlocks are NOT declarations
         assertNotNull(_c.getDeclared("NC")); //list the thing declares
     }
     public void testMembersDeclarations(){
@@ -124,16 +124,16 @@ public class _typeTest extends TestCase {
 
         }
         _type _t = _type.of(PP.class);
-        List<_method> _ms = _t.listDeclared(_method.class);
+        List<_method> _ms = _t.listMembers(_method.class);
         assertTrue( _ms.isEmpty() );
-        _ms = _t.listDeclared(_method.class, _m-> ((_method)_m).isImplemented() );
+        _ms = _t.listMembers(_method.class, _m-> ((_method)_m).isImplemented() );
         assertTrue( _ms.isEmpty() );
         _ms = _t.listMethods(_m -> ((_method)_m).isImplemented());
         assertTrue( _ms.isEmpty() );
 
         List<_field> _fs = _t.listFields();
         assertTrue( _fs.isEmpty() );
-        _fs = _t.listFields( (_f)-> ((_field)_f).hasAnnoExprs());
+        _fs = _t.listFields( (_f)-> ((_field)_f).hasAnnos());
         assertTrue( _fs.isEmpty() );
 
         _t.setHeaderComment("This is a header comment", "on multiple lines");
@@ -151,7 +151,7 @@ public class _typeTest extends TestCase {
         assertNotNull( _t.getCompanionType("AnotherPackagePrivateClass") );
         assertNotNull( _t.getCompanionType(_class.class, "AnotherPackagePrivateClass") );
         
-        _t.forDeclared(_method.class, _m-> System.out.println(_m) );
+        _t.toDeclared(_method.class, _m-> System.out.println(_m) );
         
         List<_class> _cs = _t.listCompanionTypes(_class.class);
         assertEquals(1, _cs.size() );
@@ -161,7 +161,7 @@ public class _typeTest extends TestCase {
         
         //_cs = _t.listPackagePrivateTypes(_class.class, (_class c)-> ((_class)c).listMembers().isEmpty() );
         
-        _t.forCompanionTypes(_class.class, c-> ((_class)c).addImplement(Serializable.class));
+        _t.toCompanionTypes(_class.class, c-> ((_class)c).addImplement(Serializable.class));
         
         List<TypeDeclaration<?>> astTypes = _t.astCompilationUnit().getTypes();        
         assertNotNull(_t.astCompilationUnit().getPrimaryType().get() );
@@ -206,7 +206,7 @@ public class _typeTest extends TestCase {
         
         System.out.println( _t.getPrimaryType().getName() );
         
-        _t.forCompanionTypes(t -> assertTrue( ((_type)t).
+        _t.toCompanionTypes(t -> assertTrue( ((_type)t).
             getPrimaryType().getName().equals( test.PublicTypeWithPackagePrivateTypes.class.getSimpleName())) );
         
         List<_type> ppts = _t.listCompanionTypes();        
@@ -305,6 +305,6 @@ public class _typeTest extends TestCase {
         _type _t = _class.of("C").addField("int x");
 
         //Not sure WHY I have to do this (_field)cast
-        _t.forFields( f-> ((_field)f).isType(int.class) );
+        _t.toFields(f-> ((_field)f).isType(int.class) );
     }
 }

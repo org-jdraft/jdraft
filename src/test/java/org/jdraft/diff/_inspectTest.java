@@ -48,7 +48,7 @@ public class _inspectTest extends TestCase {
         });
         
         //move ALL members from _v2 to _v1
-        _v1.add(_v2.listDeclared().toArray(new _java._declared[0]));
+        _v1.add(_v2.listMembers().toArray(new _java._member[0]));
         assertEquals( _v1, _v2);        
     }
 
@@ -169,11 +169,11 @@ public class _inspectTest extends TestCase {
         System.out.println( dt );
         assertTrue(dt.at(_nodePath.of(FIELD,"a",INIT)) instanceof _change); //field init is change from left to right
         _f2.setInit(1);
-        _f2.addAnnoExprs("@Ann");
+        _f2.addAnnos("@Ann");
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(ANNO_EXPR) instanceof _rightOnly);
         
-        _f1.addAnnoExprs("@Ann");
+        _f1.addAnnos("@Ann");
         _f1.setPrivate();
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(MODIFIERS) instanceof _change ); 
@@ -243,7 +243,7 @@ public class _inspectTest extends TestCase {
     public void testMethodDiff(){
         _class _c1 = _class.of("C").addMethod("void m(){}");
         _class _c2 = _class.of("C").addMethod("void m(){}");
-        _c2.toMethods(m-> m.addAnnoExprs(Deprecated.class));
+        _c2.toMethods(m-> m.addAnnos(Deprecated.class));
         
         //System.out.println( _c2 );
         _diff dt = _diff.of(_c1, _c2);
@@ -301,7 +301,7 @@ public class _inspectTest extends TestCase {
         dt.forEach(d -> System.out.println( d.path().featurePath) );
         assertTrue(dt.listAt(CONSTRUCTOR).size() >= 1);
         
-        _c1.firstMethodNamed("m").addAnnoExprs(Deprecated.class);
+        _c1.firstMethodNamed("m").addAnnos(Deprecated.class);
         dt = _diff.of(_c1, _c2);
         assertTrue(dt.firstAt(ANNO_EXPR) instanceof _leftOnly); //its removed from left -> right
         

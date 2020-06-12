@@ -66,7 +66,7 @@ public class _mergeInterfaceToClass extends TestCase {
     public static _class merge(_interface _i, _class _c){
         //copy all static members from the interface to the class:
         //making the members explicitly public (since they are implicitly public on interface)
-        _i.forMembers( _m -> {
+        _i.toMembers(_m -> {
             if( _m instanceof _modifiers._withStatic && ((_modifiers._withStatic) _m).isStatic()){
                 _modifiers._withModifiers _wm = ((_modifiers._withModifiers)_m.copy());
                 _wm.getModifiers().setPublic().setStatic();
@@ -80,7 +80,7 @@ public class _mergeInterfaceToClass extends TestCase {
         });
 
         //transpose all imports from interface to class
-        _i.forImports( i-> _c.addImports(i));
+        _i.toImports(i-> _c.addImports(i));
 
         //copy all default methods (that are NOT explicitly implemented)
         _i.toMethods(m-> m.isDefault(), m-> {

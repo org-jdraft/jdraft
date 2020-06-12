@@ -17,18 +17,18 @@ public class _variablesExprTest extends TestCase {
         _vs.has("int x");
         _vs.has("int y = -2");
 
-        assertTrue( _vs.hasAnnoExpr("A"));
-        assertTrue( _vs.hasAnnoExpr("B"));
-        assertTrue( _vs.hasAnnoExpr("C"));
+        assertTrue( _vs.hasAnno("A"));
+        assertTrue( _vs.hasAnno("B"));
+        assertTrue( _vs.hasAnno("C"));
 
-        assertNotNull(_vs.getAnnoExpr("A"));
-        assertNotNull(_vs.getAnnoExpr("B"));
-        assertNotNull(_vs.getAnnoExpr("C"));
+        assertNotNull(_vs.getAnno("A"));
+        assertNotNull(_vs.getAnno("B"));
+        assertNotNull(_vs.getAnno("C"));
 
-        assertNotNull(_vs.getAnnoExpr(a-> a.hasEntryPair("value", 1)));
-        assertNotNull(_vs.getAnnoExpr(a-> a.hasEntryPair("k", 2)));
+        assertNotNull(_vs.getAnno(a-> a.hasEntryPair("value", 1)));
+        assertNotNull(_vs.getAnno(a-> a.hasEntryPair("k", 2)));
 
-        assertEquals(3, _vs.listAnnoExprs().size());
+        assertEquals(3, _vs.listAnnos().size());
 
         assertEquals(1, _vs.list(_v-> _v.isInit(100)).size());
     }
@@ -67,11 +67,11 @@ public class _variablesExprTest extends TestCase {
 
     public void testAnno(){
         _variablesExpr _vs = _variablesExpr.of( "@A final int i");
-        assertTrue( _vs.hasAnnoExprs() );
-        assertTrue( _vs.hasAnnoExpr("A"));
-        assertTrue( _vs.hasAnnoExpr(a->a.isNamed("A")));
-        assertEquals( _anno.of("@A"), _vs.getAnnoExpr(0) );
-        _vs.addAnnoExprs(_anno.of("@B(1)"), _anno.of("@C(k=2)"));
+        assertTrue( _vs.hasAnnos() );
+        assertTrue( _vs.hasAnno("A"));
+        assertTrue( _vs.hasAnno(a->a.isNamed("A")));
+        assertEquals( _anno.of("@A"), _vs.getAnno(0) );
+        _vs.addAnnos(_anno.of("@B(1)"), _anno.of("@C(k=2)"));
 
         _vs.remove(_variable.of("int i"));
 
