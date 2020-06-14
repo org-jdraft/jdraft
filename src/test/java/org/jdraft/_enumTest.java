@@ -238,7 +238,7 @@ public class _enumTest extends TestCase {
         assertEquals(_stringExpr.of("Blah"), _cc.getArg(1));
         
         assertTrue( _e.hasInitBlocks() );
-        assertTrue( _e.getInitBlock(0).is("System.out.println(12231);"));
+        assertTrue( _e.getInitBlock(0).isBody("System.out.println(12231);"));
         
         assertTrue( _e.hasConstructors());
         _constructor _ct = _e.getConstructor( 0 );

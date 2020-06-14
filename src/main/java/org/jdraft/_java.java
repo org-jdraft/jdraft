@@ -103,8 +103,8 @@ public interface _java {
         if( nodeClass == _variable.class){
             return _variable.of(code).ast();
         }
-        if( nodeClass == _switchEntry.class){
-            return _switchEntry.of(code).ast();
+        if( nodeClass == _switchCase.class){
+            return _switchCase.of(code).ast();
         }
         if( nodeClass == _package.class){
             return _package.of(Text.combine( code)).ast();
@@ -308,7 +308,7 @@ public interface _java {
             return _name.of( (SimpleName)astNode);
         }
         if( astNode instanceof SwitchEntry){
-            return _switchEntry.of( (SwitchEntry)astNode);
+            return _switchCase.of( (SwitchEntry)astNode);
         }
         if( astNode instanceof com.github.javaparser.ast.Modifier){
             return _modifier.of( (Modifier)astNode);

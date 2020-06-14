@@ -6,7 +6,7 @@ import org.jdraft.Ast;
 import org.jdraft.Expr;
 import java.util.ArrayList;
 import junit.framework.TestCase;
-import org.jdraft._switchEntry;
+import org.jdraft._switchCase;
 
 /**
  *
@@ -58,7 +58,7 @@ public class ScaseTest extends TestCase {
     }
     
     public void testConstructAny(){
-        _switchEntry se =
+        _switchCase se =
             $switchEntry.of().draft("$label", Expr.of(1),
                 "$statements", "System.out.println(1);");
         System.out.println( se );

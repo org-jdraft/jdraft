@@ -2,11 +2,11 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
-public class _switchEntryTest extends TestCase {
+public class _switchCaseTest extends TestCase {
 
 
     public void testApi(){
-        _switchEntry _se = _switchEntry.of();
+        _switchCase _se = _switchCase.of();
 
         System.out.println( _se.getBodyType());
     }
@@ -35,7 +35,7 @@ public class _switchEntryTest extends TestCase {
     }
 
     public void testBuildFromScratch(){
-        _switchEntry _se = _switchEntry.of();
+        _switchCase _se = _switchCase.of();
         System.out.println( _se );
         assertTrue( _se.isDefault());
         assertTrue( _se.isStatementGroup() );
@@ -57,10 +57,10 @@ public class _switchEntryTest extends TestCase {
 
     public void testHasCase(){
         //test String default
-        _switchEntry _se = _switchEntry.of("default: System.out.println(1);");
+        _switchCase _se = _switchCase.of("default: System.out.println(1);");
         assertTrue( _se.isDefault() );
 
-        _se = _switchEntry.of("case 1: return 'a';");
+        _se = _switchCase.of("case 1: return 'a';");
         assertFalse( _se.isDefault() );
 
         assertTrue( _se.hasCaseConstant(1) );

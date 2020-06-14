@@ -985,7 +985,7 @@ public final class $ {
         return $switchEntry.of(se);
     }
 
-    public static $switchEntry switchCase(Predicate<_switchEntry> se){
+    public static $switchEntry switchCase(Predicate<_switchCase> se){
         return $switchEntry.of().$and(se);
     }
 

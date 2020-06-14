@@ -136,7 +136,7 @@ public class _initBlockTest extends TestCase {
 
     public void testC(){
         _initBlock sb = _initBlock.of("System.out.println(1);").setStatic(true);
-        assertTrue( sb.is( "System.out.println(1);") );
+        assertTrue( sb.is( "static{System.out.println(1);}") );
         sb.setJavadoc( "Javadoc" );
         assertFalse( sb.is( "System.out.println(1);") );
         System.out.println( sb );

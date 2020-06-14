@@ -770,7 +770,7 @@ public class _classTest extends TestCase {
         
         assertTrue( _c.hasMethods() );
         assertTrue( _c.hasInitBlocks() );
-        assertTrue( _c.getInitBlock(0).is( " System.loadLibrary(\"getpid\");"));
+        assertTrue( _c.getInitBlock(0).isBody( " System.loadLibrary(\"getpid\");"));
         _method _m = _c.getMethod(0);
         //System.out.println( _m );
         

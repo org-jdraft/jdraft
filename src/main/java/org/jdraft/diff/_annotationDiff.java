@@ -17,7 +17,7 @@ public final class _annotationDiff implements _differ<_annotation, _tree._node> 
         _annosDiff.INSTANCE.diff(path, ds, left, right, left.getAnnos(), right.getAnnos());
         _javadocCommentDiff.INSTANCE.diff(path, ds, left, right, left.getJavadoc(), right.getJavadoc());
         _namedDiff.INSTANCE.diff(path, ds, left, right, left.getName(), right.getName());
-        _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
+        _modifiersDiff.INSTANCE.diff(path, ds, left, right, left.getEffectiveAstModifiersList(), right.getEffectiveAstModifiersList());
         _fieldsDiff.INSTANCE.diff(path, ds, left, right, left.listFields(), right.listFields());
         ANNOTATION_ELEMENTS_DIFF.diff(path, ds, left, right, left.listAnnoMembers(), right.listAnnoMembers());
         _innerTypesDiff.INSTANCE.diff(path, ds, left, right, left.listInnerTypes(), right.listInnerTypes());

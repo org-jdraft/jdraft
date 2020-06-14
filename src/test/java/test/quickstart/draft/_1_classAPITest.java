@@ -99,6 +99,8 @@ public class _1_classAPITest extends TestCase {
         //...we can check "model equality" which is a "deep check" against
         //verify the _draft _classes _c are equal to the source code
         assertTrue(_FROM_STRING_PARTS.is( stringPartsJavaCode ));
+        System.out.println( _FROM_RUNTIME_PARTS );
+        System.out.println( stringPartsJavaCode );
         assertTrue(_FROM_RUNTIME_PARTS.is( stringPartsJavaCode ));
 
         //we can verify their hashcodes are equal
@@ -120,7 +122,7 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.isInPackage("math.entity"));
         assertTrue(_FROM_STRING_PARTS.hasImport(UUID.class));
         assertTrue(_FROM_STRING_PARTS.getJavadoc().contains("This is the class"));
-        assertTrue(_FROM_STRING_PARTS.hasAnno("@Deprecated"));
+        assertTrue(_FROM_STRING_PARTS.hasAnnoNamed("@Deprecated"));
         assertTrue(_FROM_STRING_PARTS.isFinal());
         assertTrue(_FROM_STRING_PARTS.isExtends("Encoder"));
         assertTrue(_FROM_STRING_PARTS.isImplements(Serializable.class));

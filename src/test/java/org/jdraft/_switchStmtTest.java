@@ -244,7 +244,7 @@ public class _switchStmtTest extends TestCase {
         //build and empty switch
         _switchStmt _s = _switchStmt.of();
         //build an empty caseGroup
-        _cases _cg = _cases.of();
+        _switchCases _cg = _switchCases.of();
         _s.addCaseGroups( _cg);
         assertTrue( _s.listCaseGroups().isEmpty() ); //adding empty caseGroup to empty switch
 
@@ -310,7 +310,7 @@ public class _switchStmtTest extends TestCase {
           }
         });
 
-        List<_cases> _cgs = cg.listCaseGroups();
+        List<_switchCases> _cgs = cg.listCaseGroups();
         assertEquals( 3, _cgs.size());
 
         _cgs.get(0).addCase(5);
@@ -349,7 +349,7 @@ public class _switchStmtTest extends TestCase {
         System.out.println( _s );
 
         //verify I can get the default for the switch
-        _switchEntry def = _s.getDefault();
+        _switchCase def = _s.getDefault();
         assertNotNull(def);
 
         //sets the default for the switch

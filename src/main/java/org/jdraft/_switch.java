@@ -28,49 +28,49 @@ public interface _switch<_S extends _switch> extends _java._domain {
 
     _S setSwitchSelector(String... switchSelector);
 
-    List<_switchEntry> listSwitchEntries();
+    List<_switchCase> listSwitchEntries();
 
-    List<_switchEntry> listSwitchEntries(Predicate<_switchEntry> matchFn);
+    List<_switchCase> listSwitchEntries(Predicate<_switchCase> matchFn);
 
-    _switchEntry getSwitchEntry(int index);
+    _switchCase getSwitchEntry(int index);
 
     int countSwitchEntries();
 
-    default _S forSwitchEntries(Consumer<_switchEntry> cs ){
+    default _S forSwitchEntries(Consumer<_switchCase> cs ){
         listSwitchEntries().forEach(cs);
         return (_S)this;
     }
 
-    default _S forSwitchEntries(Predicate<_switchEntry> matchFn, Consumer<_switchEntry> cs ){
+    default _S forSwitchEntries(Predicate<_switchCase> matchFn, Consumer<_switchCase> cs ){
         listSwitchEntries(matchFn).stream().forEach(cs);
         return (_S)this;
     }
 
-    List<_cases> listCaseGroups();
+    List<_switchCases> listCaseGroups();
 
-    List<_cases> listCaseGroups(Predicate<_cases>matchFn);
+    List<_switchCases> listCaseGroups(Predicate<_switchCases>matchFn);
 
-    default _S forCaseGroups(Consumer<_cases> cs ){
+    default _S forCaseGroups(Consumer<_switchCases> cs ){
         listCaseGroups().forEach(cs);
         return (_S)this;
     }
 
-    default _S forCaseGroups(Predicate<_cases> matchFn, Consumer<_cases> cs ){
+    default _S forCaseGroups(Predicate<_switchCases> matchFn, Consumer<_switchCases> cs ){
         listCaseGroups(matchFn).stream().forEach(cs);
         return (_S)this;
     }
 
     boolean hasDefault();
 
-    _switchEntry getDefault();
+    _switchCase getDefault();
 
-    default boolean isDefault(_switchEntry _se){
-        _switchEntry _fse = getDefault();
+    default boolean isDefault(_switchCase _se){
+        _switchCase _fse = getDefault();
         return Objects.equals(_fse, _se);
     }
 
-    default boolean isDefault(Predicate<_switchEntry> matchFn){
-        _switchEntry _fse = getDefault();
+    default boolean isDefault(Predicate<_switchCase> matchFn){
+        _switchCase _fse = getDefault();
         if( _fse == null ){
             return matchFn == null;
         }

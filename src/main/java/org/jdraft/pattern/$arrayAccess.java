@@ -73,7 +73,7 @@ public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccessExpr, $arrayA
                 }
                 */
                 Tokens all = new Tokens();
-                Select s = this.name.select(_aa.getName());
+                Select s = this.name.select(_aa.getExpression());
                 if( s == null ){
                     return null;
                 }

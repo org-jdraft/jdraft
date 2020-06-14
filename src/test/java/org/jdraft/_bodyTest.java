@@ -206,7 +206,7 @@ public class _bodyTest extends TestCase {
         
         assertNotNull( _sb.getBody() );
         assertTrue( _sb.hasBody() );
-        assertTrue( _sb.is( "System.out.println(\"Body\");"));
+        assertTrue( _sb.isBody( "System.out.println(\"Body\");"));
 
         assertNotNull(_m.getBody());
         assertFalse( _m.hasBody() );

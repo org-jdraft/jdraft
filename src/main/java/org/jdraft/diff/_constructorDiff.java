@@ -36,7 +36,7 @@ public final class _constructorDiff implements _differ<_constructor, _tree._node
     public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _constructor left, _constructor right) {
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annosDiff.INSTANCE.diff(path, dt, left, right, left.getAnnos(), right.getAnnos());
-        _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
+        _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveAstModifiersList(), right.getEffectiveAstModifiersList());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
         _receiverParamDiff.INSTANCE.diff(path, dt, left, right, left.getReceiverParam(), right.getReceiverParam());
         _paramsDiff.INSTANCE.diff(path, dt, left, right, left.getParams(), right.getParams());

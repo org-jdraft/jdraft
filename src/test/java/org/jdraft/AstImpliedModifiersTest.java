@@ -2,6 +2,8 @@ package org.jdraft;
 
 import junit.framework.TestCase;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Eric
@@ -27,7 +29,7 @@ public class AstImpliedModifiersTest extends TestCase {
     
     static enum EE{ ;}
     enum EE2{}
-    
+
     public void testEnumImplied(){
         
         assertEquals( EE.class.getModifiers(),  
@@ -91,9 +93,16 @@ public class AstImpliedModifiersTest extends TestCase {
         // to mean the same thing assuming we disreguard the "implied modifiers"
         // so... in practice ANY of these fields (in this context, on an interface)
         // is equivalent
+        System.out.println( _f.getEffectiveModifiers() );
+        assertEquals( _modifiers.of("public static final "), _f.MODIFIERS.get(_f) );
         assertTrue( _f.is("public static final int f = 2;") );
+
         assertTrue( _f.is("static final int f = 2;") );
         assertTrue( _f.is("public int f = 2;") );
+    }
+
+    public void testTN(){
+        System.out.println( new Serializable(){}.getClass().getName() );
     }
     
      /** Verify the Implied/Effective Modifiers are applied to the field of annotation */

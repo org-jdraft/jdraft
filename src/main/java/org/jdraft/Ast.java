@@ -1904,6 +1904,12 @@ public enum Ast {
      */
     public static AnnotationMemberDeclaration annotationMemberDeclaration(String... code) {
         String str = Text.combine(code);
+        //if( !str.endsWith("();") ){
+        //    str = str+"();";
+       // }
+        if( !str.endsWith(";") ){
+            str = str+";";
+        }
         str = "@interface UNKNOWN{" + System.lineSeparator() + str + System.lineSeparator() + "}";
         AnnotationDeclaration ad = (AnnotationDeclaration)Ast.typeDeclaration(str);
         AnnotationMemberDeclaration amd = (AnnotationMemberDeclaration) ad.getMember(0);

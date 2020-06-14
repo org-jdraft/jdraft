@@ -40,7 +40,7 @@ import org.jdraft.text.Text;
  * @name(key1="value1", key2="value2")
  * }</PRE>
  *
- * @see _annos which represents ALL annotations applied to an {@link AnnotatedEntity}
+ * @see _annos which represents ALL annotations applied to an Annotated Entity
  * @author Eric
  */
 public final class _anno

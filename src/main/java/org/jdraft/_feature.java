@@ -135,12 +135,12 @@ public interface _feature<_T, _F>{
          */
         BODY("body", _body._withBody.class),
 
-        /**{@link _switchEntry#BODY_TYPE}*/
+        /**{@link _switchCase#BODY_TYPE}*/
         BODY_TYPE("bodyType"),
 
-        /**{@link _switchEntry#CASE_EXPRESSIONS}*/
+        /**{@link _switchCase#CASE_EXPRESSIONS}*/
         CASE_EXPRESSIONS("caseExpressions"),
-        /**{@link _switchEntry#CASE_EXPRESSIONS}*/
+        /**{@link _switchCase#CASE_EXPRESSIONS}*/
         CASE_EXPRESSION("caseExpression"),
 
         /** {@link _tryStmt#CATCH_CLAUSES}*/
@@ -334,9 +334,9 @@ public interface _feature<_T, _F>{
         /**{@link _fieldAccessExpr#SCOPE}, {@link _methodCallExpr#SCOPE}, {@link _methodRefExpr#SCOPE}, {@link _newExpr#SCOPE} */
         SCOPE("scope", _java._withScope.class),
 
-        /**{@link _blockStmt#STATEMENTS} {@link _body#STATEMENTS} {@link _switchEntry#STATEMENTS} */
+        /**{@link _blockStmt#STATEMENTS} {@link _body#STATEMENTS} {@link _switchCase#STATEMENTS} */
         STATEMENTS("statements"),
-        /**{@link _blockStmt#STATEMENTS}, {@link _body#STATEMENTS}, {@link _labeledStmt#STATEMENT}, {@link _switchEntry#STATEMENTS} */
+        /**{@link _blockStmt#STATEMENTS}, {@link _body#STATEMENTS}, {@link _labeledStmt#STATEMENT}, {@link _switchCase#STATEMENTS} */
         STATEMENT("statement"),
 
         /**{@link _switchExpr#SWITCH_ENTRIES}, {@link _switchStmt#SWITCH_ENTRIES}*/

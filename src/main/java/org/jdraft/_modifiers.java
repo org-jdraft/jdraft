@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.nodeTypes.NodeWithModifiers;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
@@ -195,6 +196,14 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return
      */
     public boolean is( String... mods ) {
+        Stencil st = Stencil.of(mods);
+        if( st.isMatchAny() ){
+            return true;
+        }
+        Node clone = ((Node)this.node).clone();
+        ((NodeWithModifiers)clone).setModifiers(_modifiers.of(mods).ast());
+        return Modifiers.modifiersEqual(this.node, (NodeWithModifiers)clone);
+        /*
         String str = Text.combine(mods);
         if( str.startsWith("$") && str.endsWith("$")){
             Stencil st = Stencil.of(str);
@@ -208,6 +217,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         }
         catch( Exception e ) { }
         return false;
+         */
     }
 
     /**
@@ -545,11 +555,11 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         }
 
         default boolean isEffectiveModifiers( _modifiers _ms){
-            return _modifiers.of(getEffectiveModifiers()).asInt() == _ms.asInt();
+            return _modifiers.of(getEffectiveAstModifiersList()).asInt() == _ms.asInt();
         }
 
         default boolean isEffectiveModifiers( int bitMask){
-            return _modifiers.of(getEffectiveModifiers()).asInt() == bitMask;
+            return _modifiers.of(getEffectiveAstModifiersList()).asInt() == bitMask;
         }
 
         /**
@@ -563,7 +573,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
          * @return an int representing the BitMask of the modifiers
          */
         default int getModifiersAsBitMask(){
-            NodeList<Modifier> effective = getEffectiveModifiers();
+            NodeList<Modifier> effective = getEffectiveAstModifiersList();
             int bitMask = 0;
             for(int i=0;i<effective.size();i++){
                 bitMask |= Modifiers.MODS_KEYWORD_TO_BIT_MAP.get( effective.get(i).getKeyword().asString() );
@@ -655,9 +665,24 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
          * By default, this will only get the modifiers
          * @return EnumSet of modifiers
          */
-        default NodeList<Modifier> getEffectiveModifiers(){
+        default NodeList<Modifier> getEffectiveAstModifiersList(){
 
             return getModifiers().node.getModifiers(); //.getModifiers();
+        }
+
+        /**
+         * Retrieves the effective modifiers
+         * @return
+         */
+        default _modifiers getEffectiveModifiers(){
+            _modifiers _ms = _modifiers.of();
+            getEffectiveAstModifiersList().forEach(m -> _ms.add(m));
+            getModifiers().listAstElements().forEach(m -> {
+                if( !_ms.has(m) ){
+                    _ms.add(m);
+                }
+            });
+            return _ms;
         }
 
         /**

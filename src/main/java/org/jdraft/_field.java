@@ -128,7 +128,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     public static _feature._one<_field, _modifiers> MODIFIERS = new _feature._one<>(_field.class, _modifiers.class,
             _feature._id.MODIFIERS,
-            a -> a.getModifiers(),
+            a -> a.getEffectiveModifiers(),
             (_field a, _modifiers _e) -> a.setModifiers(_e), PARSER);
 
     public static _feature._one<_field, _typeRef> TYPE = new _feature._one<>(_field.class, _typeRef.class,
@@ -161,7 +161,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
      * @return an enumSet of the modifiers that are effective on this _field
      */
     @Override
-    public NodeList<Modifier> getEffectiveModifiers() {
+    public NodeList<Modifier> getEffectiveAstModifiersList() {
         if (this.getFieldDeclaration() == null) {
             return new NodeList<>();
         }
@@ -470,7 +470,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     @Override
     public int hashCode() {
         Set<Modifier> ms = new HashSet<>();
-        ms.addAll(getEffectiveModifiers());
+        ms.addAll(getEffectiveAstModifiersList());
         return Objects.hash(getName(), Types.hash(astVar.getType()),
                 ms, //getModifiers(),
                 Expr.hashAnnos(getFieldDeclaration()),
@@ -486,7 +486,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     public boolean isPublic() {
         return this.getFieldDeclaration() != null && 
-                getFieldDeclaration().isPublic() || getEffectiveModifiers().contains(Modifier.publicModifier());
+                getFieldDeclaration().isPublic() || getEffectiveAstModifiersList().contains(Modifier.publicModifier());
     }
 
     public boolean isDefaultAccess() {
@@ -513,12 +513,12 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     @Override
     public boolean isStatic() {
-        return this.getFieldDeclaration() != null &&  this.getFieldDeclaration().isStatic() || getEffectiveModifiers().contains(Modifier.staticModifier());
+        return this.getFieldDeclaration() != null &&  this.getFieldDeclaration().isStatic() || getEffectiveAstModifiersList().contains(Modifier.staticModifier());
     }
 
     @Override
     public boolean isFinal() {
-        return this.getFieldDeclaration() != null && this.getFieldDeclaration().isFinal() || getEffectiveModifiers().contains(Modifier.finalModifier());
+        return this.getFieldDeclaration() != null && this.getFieldDeclaration().isFinal() || getEffectiveAstModifiersList().contains(Modifier.finalModifier());
     }
 
     @Override

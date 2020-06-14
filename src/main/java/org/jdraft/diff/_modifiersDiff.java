@@ -28,8 +28,8 @@ public final class _modifiersDiff implements
                 new _diffList((_tree._node)leftParent, (_tree._node)rightParent),
                 (_tree._node)leftParent,
                 (_tree._node)rightParent,
-                leftParent.getEffectiveModifiers(),
-                rightParent.getEffectiveModifiers());
+                leftParent.getEffectiveAstModifiersList(),
+                rightParent.getEffectiveAstModifiersList());
     }
     
     @Override
@@ -53,8 +53,8 @@ public final class _modifiersDiff implements
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
-            this.left = leftParent.getEffectiveModifiers();
-            this.right = rightParent.getEffectiveModifiers();
+            this.left = leftParent.getEffectiveAstModifiersList();
+            this.right = rightParent.getEffectiveAstModifiersList();
         }
 
         @Override

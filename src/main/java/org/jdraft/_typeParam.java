@@ -8,6 +8,8 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 /**
  * Model of a Java TypeParameter
@@ -185,17 +187,23 @@ public final class _typeParam
         this.typeParam = tp;
     }
 
-    /*
     @Override
     public boolean is( String... typeParam ){
-        try{
-            return of( Text.combine(typeParam) ).equals(this);
+        Stencil st = Stencil.of(typeParam);
+        if( st.isMatchAny() ){
+            return true;
         }
-        catch( Exception e) {
-            return false;
+        if( st.isFixedText() ){
+            try{
+                return of( Text.combine(typeParam) ).equals(this);
+            }
+            catch( Exception e) {
+                return false;
+            }
         }
+        return st.matches(this.toString(Print.PRINT_NO_COMMENTS));
     }
-     */
+
 
     @Override
     public boolean is( TypeParameter typeParam ){

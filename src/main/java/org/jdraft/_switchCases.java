@@ -16,16 +16,16 @@ import java.util.stream.Collectors;
 /**
  * <P>A "virtual" object to simplify logically interacting (mutating) multiple {@link SwitchEntry} s in a
  * {@link SwitchStmt} or {@link SwitchExpr}, specifically if you have the scenario where multiple "cases" map to a
- * single action or (we call this a {@link _cases}) of actions, i.e.:
+ * single action or (we call this a {@link _switchCases}) of actions, i.e.:
  * <CODE>
  *     switch(dayOfWeek){
- *          case 1: case 2: case 3: case 4: case 5: //{@link _cases}(1)
+ *          case 1: case 2: case 3: case 4: case 5: //{@link _switchCases}(1)
  *              System.out.println("Week Day !");
  *          break;
- *          case 6: case 7:                        //{@link _cases}(2)
+ *          case 6: case 7:                        //{@link _switchCases}(2)
  *              System.out.println("Week End !");
  *          break;
- *          default:                              //{@link _cases}(3)
+ *          default:                              //{@link _switchCases}(3)
  *                  throw new RuntimeException("bad day");
  *     }
  * </CODE>
@@ -37,29 +37,29 @@ import java.util.stream.Collectors;
  * ALSO this is only ONE way of interacting with the {@link SwitchStmt}, or {@link SwitchExpr} you might want to
  * interact directly each {@link SwitchEntry} individually
  */
-public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<SwitchEntry, _switchEntry, _cases> {
+public final class _switchCases implements _tree._view<_switchCases>, _tree._orderedGroup<SwitchEntry, _switchCase, _switchCases> {
 
-    public static final Function<String, _cases> PARSER = s-> _cases.of(s);
+    public static final Function<String, _switchCases> PARSER = s-> _switchCases.of(s);
 
-    public static _feature._many<_cases, _switchEntry> SWITCH_ENTRIES = new _feature._many<>(_cases.class, _switchEntry.class,
+    public static _feature._many<_switchCases, _switchCase> SWITCH_ENTRIES = new _feature._many<>(_switchCases.class, _switchCase.class,
             _feature._id.SWITCH_ENTRIES,
             _feature._id.SWITCH_ENTRY,
             a -> a.list(),
-            (_cases cg, List<_switchEntry> _ses) -> cg.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s))
+            (_switchCases cg, List<_switchCase> _ses) -> cg.setSwitchEntries(_ses), PARSER, s-> _switchCase.of(s))
             .setOrdered(false);
 
-    public static _feature._features<_cases> FEATURES = _feature._features.of(_cases.class, PARSER, SWITCH_ENTRIES);
+    public static _feature._features<_switchCases> FEATURES = _feature._features.of(_switchCases.class, PARSER, SWITCH_ENTRIES);
 
-    public static _cases of(){
-        return new _cases(new SwitchStmt());
+    public static _switchCases of(){
+        return new _switchCases(new SwitchStmt());
     }
 
     public _feature._features features(){
         return FEATURES;
     }
 
-    public _cases copy(){
-        _cases _cg = new _cases(this.parentSwitch);
+    public _switchCases copy(){
+        _switchCases _cg = new _switchCases(this.parentSwitch);
         _cg.switchEntries = NodeList.nodeList(this.switchEntries);
         return _cg;
     }
@@ -69,48 +69,48 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param code the code representing the cases and body
      * @return
      */
-    public static _cases of(String...code){
+    public static _switchCases of(String...code){
          _switchStmt _ss = _switchStmt.of("switch(unknown){" +System.lineSeparator()+
                  Text.combine(code)+System.lineSeparator()
                  +"}");
          return _ss.listCaseGroups().get(0);
     }
 
-    public static _cases of(Expr.Command c){
+    public static _switchCases of(Expr.Command c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object> _cases of(Consumer<A> c){
+    public static <A extends Object> _switchCases of(Consumer<A> c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);
         return from(le);
     }
 
-    public static <A extends Object, B extends Object> _cases of(BiConsumer<A,B> command ){
+    public static <A extends Object, B extends Object> _switchCases of(BiConsumer<A,B> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _cases of(Expr.TriConsumer<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _switchCases of(Expr.TriConsumer<A,B,C> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _cases of(Expr.QuadConsumer<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchCases of(Expr.QuadConsumer<A,B,C,D> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object> _cases of(Function<A,B> command ){
+    public static <A extends Object, B extends Object> _switchCases of(Function<A,B> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object> _cases of(BiFunction<A,B,C> command ){
+    public static <A extends Object, B extends Object, C extends Object> _switchCases of(BiFunction<A,B,C> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    public static <A extends Object, B extends Object, C extends Object, D extends Object> _cases of(Expr.TriFunction<A,B,C,D> command ){
+    public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchCases of(Expr.TriFunction<A,B,C,D> command ){
         return from(Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]));
     }
 
-    private static _cases from(LambdaExpr le){
+    private static _switchCases from(LambdaExpr le){
         Optional<SwitchStmt> ows = le.getBody().findFirst(SwitchStmt.class);
         if( ows.isPresent() ){
             SwitchStmt ss = ows.get();
@@ -133,11 +133,11 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
 
     public NodeList<SwitchEntry> switchEntries = new NodeList<>();
 
-    public _cases(SwitchNode parentSwitch){
+    public _switchCases(SwitchNode parentSwitch){
         this.parentSwitch = parentSwitch;
     }
 
-    public _cases addSwitchEntry(SwitchEntry se){
+    public _switchCases addSwitchEntry(SwitchEntry se){
         this.switchEntries.add( se );
         return this;
     }
@@ -176,8 +176,8 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
         return null;
     }
 
-    public List<_switchEntry> list(){
-        return this.switchEntries.stream().map(se -> _switchEntry.of(se)).collect(Collectors.toList());
+    public List<_switchCase> list(){
+        return this.switchEntries.stream().map(se -> _switchCase.of(se)).collect(Collectors.toList());
     }
 
     @Override
@@ -190,7 +190,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
         return null;
     }
 
-    public _cases setSwitchEntries(List<_switchEntry> ses){
+    public _switchCases setSwitchEntries(List<_switchCase> ses){
         //this.switchEntries.forEach(se -> se.remove());
         int index = parentSwitch.getEntries().size();
         if( !this.switchEntries.isEmpty()) {
@@ -234,7 +234,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param sts
      * @return
      */
-    public _cases setStatements(String...sts){
+    public _switchCases setStatements(String...sts){
         BlockStmt bs = Ast.blockStmt(sts);
         bs.getStatements().forEach(s -> this.getOrCreateActiveEntry().addStatement(s));
         return this;
@@ -245,52 +245,52 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _cases setStatements(Expr.Command c){
+    public _switchCases setStatements(Expr.Command c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2] );
         return setStatements(le);
     }
 
-    public <A extends Object> _cases setStatements (Consumer<A> lambdaContainer){
+    public <A extends Object> _switchCases setStatements (Consumer<A> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object> _cases setStatements (Function<A,B> lambdaContainer){
+    public <A extends Object, B extends Object> _switchCases setStatements (Function<A,B> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public  <A extends Object, B extends Object, C extends Object> _cases setStatements(BiFunction<A,B,C> lambdaContainer){
+    public  <A extends Object, B extends Object, C extends Object> _switchCases setStatements(BiFunction<A,B,C> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _cases setStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchCases setStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _cases setStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchCases setStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object> _cases setStatements(BiConsumer<A,B> lambdaContainer ){
+    public <A extends Object, B extends Object> _switchCases setStatements(BiConsumer<A,B> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _cases setStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _switchCases setStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _cases setStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchCases setStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return setStatements( _l.astLambda);
     }
 
-    private _cases setStatements(LambdaExpr le){
+    private _switchCases setStatements(LambdaExpr le){
         if( le.getExpressionBody().isPresent()){ //an Expression Lambda
             NodeList<Statement>sts = new NodeList<>();
             sts.add( new ExpressionStmt(le.getExpressionBody().get()));
@@ -315,14 +315,14 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param st
      * @return
      */
-    public _cases setStatements(Statement...st){
+    public _switchCases setStatements(Statement...st){
         NodeList<Statement>stmts = new NodeList<>();
         Arrays.stream(st).forEach(s -> stmts.add(s));
         this.getOrCreateActiveEntry().setStatements(stmts);
         return this;
     }
 
-    public _cases setStatements(_stmt...st){
+    public _switchCases setStatements(_stmt...st){
         NodeList<Statement>stmts = new NodeList<>();
         Arrays.stream(st).forEach(s -> stmts.add(s.ast()));
         this.getOrCreateActiveEntry().setStatements(stmts);
@@ -334,52 +334,52 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param c a lambdaExpression containing the
      * @return
      */
-    public _cases addStatements(Expr.Command c){
+    public _switchCases addStatements(Expr.Command c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2] );
         return addStatements(le);
     }
 
-    public <A extends Object> _cases addStatements (Consumer<A> lambdaContainer){
+    public <A extends Object> _switchCases addStatements (Consumer<A> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object> _cases addStatements (Function<A,B> lambdaContainer){
+    public <A extends Object, B extends Object> _switchCases addStatements (Function<A,B> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public  <A extends Object, B extends Object, C extends Object> _cases addStatements(BiFunction<A,B,C> lambdaContainer){
+    public  <A extends Object, B extends Object, C extends Object> _switchCases addStatements(BiFunction<A,B,C> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object> _cases addStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object> _switchCases addStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _cases addStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
+    public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchCases addStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object> _cases addStatements(BiConsumer<A,B> lambdaContainer ){
+    public <A extends Object, B extends Object> _switchCases addStatements(BiConsumer<A,B> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object> _cases addStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object> _switchCases addStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    public <A extends Object, B extends Object,C extends Object, D extends Object> _cases addStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
+    public <A extends Object, B extends Object,C extends Object, D extends Object> _switchCases addStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
         return addStatements( _l.astLambda);
     }
 
-    private _cases addStatements(LambdaExpr le){
+    private _switchCases addStatements(LambdaExpr le){
         if( le.getExpressionBody().isPresent()){ //an Expression Lambda
             //NodeList<Statement>sts = new NodeList<>();
             //sts.add( new ExpressionStmt(le.getExpressionBody().get()));
@@ -404,7 +404,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param st
      * @return
      */
-    public _cases addStatements(String...st){
+    public _switchCases addStatements(String...st){
         BlockStmt bs = Ast.blockStmt(st);
         bs.getStatements().forEach(s -> this.getOrCreateActiveEntry().addStatement(s));
         return this;
@@ -416,7 +416,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param st
      * @return
      */
-    public _cases addStatements(int index, String...st){
+    public _switchCases addStatements(int index, String...st){
         BlockStmt bs = Ast.blockStmt(st);
         //bs.getStatements().forEach(s -> this.getActionEntry().addStatement(s));
         for(int i=0;i<bs.getStatements().size();i++){
@@ -425,14 +425,14 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
         return this;
     }
 
-    public _cases addStatements(Statement...st){
+    public _switchCases addStatements(Statement...st){
         for(int i=0; i<st.length;i++) {
             this.getOrCreateActiveEntry().addStatement(st[i]);
         }
         return this;
     }
 
-    public _cases addStatements(_stmt...st){
+    public _switchCases addStatements(_stmt...st){
         for(int i=0; i<st.length;i++) {
             this.getOrCreateActiveEntry().addStatement(st[i].ast());
         }
@@ -445,7 +445,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param st
      * @return
      */
-    public _cases addStatements(int index, Statement...st){
+    public _switchCases addStatements(int index, Statement...st){
         for(int i=0;i<st.length;i++){
             this.getOrCreateActiveEntry().addStatement(index + i, st[i] );
         }
@@ -458,7 +458,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param st
      * @return
      */
-    public _cases addStatements(int index, _stmt...st){
+    public _switchCases addStatements(int index, _stmt...st){
         for(int i=0;i<st.length;i++){
             this.getOrCreateActiveEntry().addStatement(index + i, st[i].ast() );
         }
@@ -643,27 +643,27 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
 
     //}
 
-    public _cases addCase(String str){
+    public _switchCases addCase(String str){
         return addCase( new StringLiteralExpr(str) );
     }
 
-    public _cases addCase(int i){
+    public _switchCases addCase(int i){
         return addCase( new IntegerLiteralExpr(i) );
     }
 
-    public _cases addCase(char c){
+    public _switchCases addCase(char c){
         return addCase( new CharLiteralExpr(c) );
     }
 
-    public _cases addCase(Enum e){
+    public _switchCases addCase(Enum e){
         return addCase( new NameExpr(e.name()));
     }
 
-    public _cases addCase(_expr _e){
+    public _switchCases addCase(_expr _e){
         return addCase(_e.ast());
     }
 
-    public _cases removeDefault(){
+    public _switchCases removeDefault(){
         Optional<SwitchEntry> defaultSwitchEntry =
                 this.switchEntries.stream().filter( se -> se.getLabels().isEmpty() ).findFirst();
         if( defaultSwitchEntry.isPresent() ) {
@@ -688,7 +688,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
      * @param e
      * @return
      */
-    public _cases addCase(Expression e){
+    public _switchCases addCase(Expression e){
 
         if(!this.switchEntries.stream().anyMatch(se -> se.getLabels().stream().anyMatch(ex -> ex.equals(e)))){
             NodeList<Expression>nle = new NodeList<>();
@@ -776,7 +776,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
         return _stmt.of(se.getStatement(index));
     }
 
-    public _cases sort(Comparator<? super SwitchEntry> cse){
+    public _switchCases sort(Comparator<? super SwitchEntry> cse){
 
         //AtomicInteger firstIndex = new AtomicInteger( -1);
         NodeList<SwitchEntry> ses = parentSwitch.getEntries();
@@ -795,7 +795,7 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
             SwitchEntry stripped =  switchEntries.get(i).setStatements(new NodeList<>());
             ses.add(firstIndex+i,stripped);
             if( i == switchEntries.size() -1 ){
-                _switchEntry.of(stripped).setStatements(sts.toArray(new _stmt[0]));
+                _switchCase.of(stripped).setStatements(sts.toArray(new _stmt[0]));
             }
         }
         return this;
@@ -813,16 +813,16 @@ public final class _cases implements _tree._view<_cases>, _tree._orderedGroup<Sw
                 return true;
             }
         }
-        _cases _o = of(all);
+        _switchCases _o = of(all);
         //TODO: Feature parameterization
         return equals( _o);
     }
 
     public boolean equals(Object o){
-        if(! (o instanceof _cases)){
+        if(! (o instanceof _switchCases)){
             return false;
         }
-        _cases cg = (_cases)o;
+        _switchCases cg = (_switchCases)o;
         Set<_expr> cct = new HashSet<>();
         Set<_expr> cco = new HashSet<>();
         cct.addAll(this.listCases());

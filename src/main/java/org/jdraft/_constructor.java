@@ -178,7 +178,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     }
 
     @Override
-    public NodeList<Modifier> getEffectiveModifiers() {
+    public NodeList<Modifier> getEffectiveAstModifiersList() {
         NodeList<Modifier> em = Modifiers.getImpliedModifiers( this.astCtor );
         if( em == null ){
             return this.astCtor.getModifiers();
@@ -265,7 +265,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
             Expr.hashAnnos(astCtor),
             this.getBody(), 
             this.getJavadoc(),
-            this.getEffectiveModifiers(),
+            this.getEffectiveAstModifiersList(),
             this.getName(), 
             this.getParams(),
             Types.hash( astCtor.getThrownExceptions()),
@@ -420,7 +420,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     }
 
     public boolean isPrivate() {
-        return this.astCtor.isPrivate() || this.getEffectiveModifiers().contains(Modifier.privateModifier());
+        return this.astCtor.isPrivate() || this.getEffectiveAstModifiersList().contains(Modifier.privateModifier());
     }
 
     public boolean isStrictFp() {

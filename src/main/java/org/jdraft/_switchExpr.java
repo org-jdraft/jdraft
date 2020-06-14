@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  *     default: return "C"; //this is a SwitchEntry
  * </CODE>
  *
- * @see _cases a grouping of multiple case statements
+ * @see _switchCases a grouping of multiple case statements
  *
  */
 public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
@@ -121,11 +121,11 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             a -> a.getSwitchSelector(),
             (_switchExpr p, _expr _es) -> p.setSwitchSelector(_es), PARSER);
 
-    public static _feature._many<_switchExpr, _switchEntry> SWITCH_ENTRIES = new _feature._many<>(_switchExpr.class, _switchEntry.class,
+    public static _feature._many<_switchExpr, _switchCase> SWITCH_ENTRIES = new _feature._many<>(_switchExpr.class, _switchCase.class,
             _feature._id.SWITCH_ENTRIES,
             _feature._id.SWITCH_ENTRY,
             a -> a.listSwitchEntries(),
-            (_switchExpr p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s))
+            (_switchExpr p, List<_switchCase> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchCase.of(s))
             .setOrdered(true); //this is true because of fall-through
 
     public static _feature._features<_switchExpr> FEATURES = _feature._features.of(_switchExpr.class, PARSER, SELECTOR, SWITCH_ENTRIES );
@@ -167,7 +167,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return switchExpr;
     }
 
-    public _switchEntry getCase(int i){
+    public _switchCase getCase(int i){
         return getSwitchEntry(se-> se.hasCaseConstant(i) );
     }
 
@@ -175,9 +175,9 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * List the _caseGroups that exist in this _switch
      * @return
      */
-    public List<_cases> listCaseGroups(){
-        List<_cases> cgs = new ArrayList<>();
-        _cases _cg = new _cases(this.switchExpr);
+    public List<_switchCases> listCaseGroups(){
+        List<_switchCases> cgs = new ArrayList<>();
+        _switchCases _cg = new _switchCases(this.switchExpr);
         List<SwitchEntry> ses = this.switchExpr.getEntries();
         for(int i=0; i< ses.size(); i++){
             if( ses.get(i).getStatements().isEmpty() ){
@@ -185,7 +185,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             } else{
                 _cg.addSwitchEntry(ses.get(i));
                 cgs.add(_cg);
-                _cg = new _cases(this.switchExpr);
+                _cg = new _switchCases(this.switchExpr);
             }
         }
         return cgs;
@@ -196,7 +196,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @param matchFn
      * @return
      */
-    public List<_cases> listCaseGroups(Predicate<_cases> matchFn){
+    public List<_switchCases> listCaseGroups(Predicate<_switchCases> matchFn){
         return listCaseGroups().stream().filter(matchFn).collect(Collectors.toList());
     }
 
@@ -280,10 +280,10 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * Returns the default switchEntry if there is one, or else return null;
      * @return
      */
-    public _switchEntry getDefault(){
+    public _switchCase getDefault(){
         Optional<SwitchEntry> ose = this.switchExpr.getEntries().stream().filter(se-> se.getLabels().isEmpty()).findFirst();
         if( ose.isPresent() ){
-            return _switchEntry.of(ose.get());
+            return _switchCase.of(ose.get());
         }
         return null;
     }
@@ -300,12 +300,12 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return this.switchExpr.getEntries().size();
     }
 
-    public _switchEntry getSwitchEntry(int index){
-        return new _switchEntry(this.switchExpr.getEntries().get(index));
+    public _switchCase getSwitchEntry(int index){
+        return new _switchCase(this.switchExpr.getEntries().get(index));
     }
 
-    public _switchEntry getSwitchEntry( Predicate<_switchEntry> matchFn){
-        Optional<_switchEntry> ose = this.listSwitchEntries().stream().filter( matchFn ).findFirst();
+    public _switchCase getSwitchEntry(Predicate<_switchCase> matchFn){
+        Optional<_switchCase> ose = this.listSwitchEntries().stream().filter( matchFn ).findFirst();
         if( ose.isPresent() ){
             return ose.get();
         }
@@ -313,23 +313,23 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
     }
 
     public _switchExpr setDefault(Statement... statements){
-        _switchEntry se = getDefault();
+        _switchCase se = getDefault();
         if( se != null ){
             se.setStatements(statements);
             return this;
         }
-        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(statements);
+        _switchCase newDef = _switchCase.of(new SwitchEntry()).setStatements(statements);
         this.switchExpr.getEntries().add(newDef.switchEntry);
         return this;
     }
 
     public _switchExpr setDefault(Expression ex){
-        _switchEntry se = getDefault();
+        _switchCase se = getDefault();
         if( se != null ){
             se.setStatements( new ExpressionStmt(ex));
             return this;
         }
-        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(new ExpressionStmt(ex));
+        _switchCase newDef = _switchCase.of(new SwitchEntry()).setStatements(new ExpressionStmt(ex));
         this.switchExpr.getEntries().add(newDef.switchEntry);
         return this;
     }
@@ -363,9 +363,9 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      *
      * @return
      */
-    public List<_switchEntry> listSwitchEntries(){
-        List<_switchEntry> _ses = new ArrayList<>();
-        this.switchExpr.getEntries().forEach(se -> _ses.add(new _switchEntry(se)));
+    public List<_switchCase> listSwitchEntries(){
+        List<_switchCase> _ses = new ArrayList<>();
+        this.switchExpr.getEntries().forEach(se -> _ses.add(new _switchCase(se)));
         return _ses;
     }
 
@@ -373,10 +373,10 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      *
      * @return
      */
-    public List<_switchEntry> listSwitchEntries(Predicate<_switchEntry> matchFn){
-        List<_switchEntry> _ses = new ArrayList<>();
+    public List<_switchCase> listSwitchEntries(Predicate<_switchCase> matchFn){
+        List<_switchCase> _ses = new ArrayList<>();
         this.switchExpr.getEntries().forEach(se -> {
-            _switchEntry _se = new _switchEntry(se);
+            _switchCase _se = new _switchCase(se);
             if( matchFn.test(_se) ) {
                 _ses.add(_se);
             }
@@ -402,11 +402,11 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return this;
     }
 
-    public _switchExpr setSwitchEntries(List<_switchEntry> ses){
-        return setSwitchEntries( ses.toArray(new _switchEntry[0]));
+    public _switchExpr setSwitchEntries(List<_switchCase> ses){
+        return setSwitchEntries( ses.toArray(new _switchCase[0]));
     }
 
-    public _switchExpr setSwitchEntries(_switchEntry...ses){
+    public _switchExpr setSwitchEntries(_switchCase...ses){
         NodeList<SwitchEntry> nses = new NodeList<>();
         Arrays.stream(ses).forEach( se-> nses.add(se.switchEntry));
         this.switchExpr.setEntries(nses);
@@ -418,7 +418,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @param caseGroups
      * @return
      */
-    public _switchExpr addCaseGroups(_cases...caseGroups){
+    public _switchExpr addCaseGroups(_switchCases...caseGroups){
         Arrays.stream(caseGroups).forEach( cg-> this.switchExpr.getEntries().addAll(cg.switchEntries));
         return this;
     }
@@ -428,7 +428,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return this;
     }
 
-    public _switchExpr addSwitchEntries(_switchEntry...ses){
+    public _switchExpr addSwitchEntries(_switchCase...ses){
         Arrays.stream(ses).forEach( se-> this.switchExpr.getEntries().add(se.switchEntry));
         return this;
     }

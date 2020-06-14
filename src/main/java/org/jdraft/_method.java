@@ -471,7 +471,7 @@ public final class _method
 
         //the ORDER of the modifiers is unimportant
         Set<Modifier> modsSet = new HashSet<>();
-        modsSet.addAll(this.getEffectiveModifiers());
+        modsSet.addAll(this.getEffectiveAstModifiersList());
 
         hash = 23 * hash + Objects.hash(
                 Expr.hashAnnos(astMethod),
@@ -574,7 +574,7 @@ public final class _method
     }
 
     @Override
-    public NodeList<Modifier> getEffectiveModifiers() {
+    public NodeList<Modifier> getEffectiveAstModifiersList() {
         NodeList<Modifier> ims = Modifiers.getImpliedModifiers(this.astMethod);
 
         if (ims == null) {
@@ -621,12 +621,12 @@ public final class _method
     }
 
     public boolean isPackagePrivate(){
-        NodeList<Modifier> mods = getEffectiveModifiers();
+        NodeList<Modifier> mods = getEffectiveAstModifiersList();
         return !mods.contains(Modifier.publicModifier()) && !mods.contains(Modifier.privateModifier()) && !mods.contains(Modifier.protectedModifier());
     }
 
     public boolean isPublic() {
-        return this.astMethod.isPublic() || getEffectiveModifiers().contains(Modifier.publicModifier());
+        return this.astMethod.isPublic() || getEffectiveAstModifiersList().contains(Modifier.publicModifier());
     }
 
     public boolean isProtected() {

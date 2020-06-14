@@ -649,7 +649,7 @@ public final class _annotation
         hash = 13 * hash + Objects.hashCode( this.getPackage() );
         hash = 13 * hash + _imports.Compare.importsHash( astAnnotation  );
 
-        hash = 13 * hash + Objects.hashCode( this.getEffectiveModifiers() );
+        hash = 13 * hash + Objects.hashCode( this.getEffectiveAstModifiersList() );
 
         hash = 13 * hash + Objects.hashCode( this.getJavadoc() );
         hash = 13 * hash + Expr.hashAnnos(astAnnotation);

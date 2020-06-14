@@ -21,7 +21,7 @@ public final class _interfaceDiff
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _typeParamsDiff.INSTANCE.diff(path, dt, left, right, left.getTypeParams(), right.getTypeParams());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
-        _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
+        _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveAstModifiersList(), right.getEffectiveAstModifiersList());
         _methodsDiff.INSTANCE.diff(path, dt, left, right, left.listMethods(), right.listMethods());
         _fieldsDiff.INSTANCE.diff(path, dt, left, right, left.listFields(), right.listFields());
         _innerTypesDiff.INSTANCE.diff(path, dt, left, right, left.listInnerTypes(), right.listInnerTypes());

@@ -8,7 +8,6 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
-import org.jdraft.text.Text;
 import org.jdraft.walk.Walk;
 import org.jdraft.walk._walk;
 import org.jdraft.walk._walkFeatures;
@@ -402,6 +401,131 @@ public interface _tree<_T> extends _java._domain {
             return stencil.matches(toString(Print.PRINT_NO_COMMENTS));
         }
 
+        static <_N extends _node> boolean leftDeepFeatureCompare(_N left, _N right){
+            if( left == null || right == null){
+                return left == right;
+            }
+            if( Objects.equals( left, right) ) {
+                return true;
+            }
+            Map<_feature<_N, ?>, Object> lm = left.features().featureMap(left);
+            Map<_feature<_N, ?>, Object> rm = left.features().featureMap(right);
+
+            return leftDeepFeatureCompare(lm,rm);
+        }
+
+        public static <_N extends Object> boolean leftDeepFeatureCompare(Map<_feature<_N, ?>, Object> left, Map<_feature<_N, ?>, Object> right){
+            _feature<_N,?>[] keys = left.keySet().toArray(new _feature[0]);
+            System.out.println( keys );
+            for(int i=0;i<keys.length;i++){
+                Object l = left.get(keys[i]);
+                Object r = right.get(keys[i]);
+                if( !Objects.equals(l, r)){
+                    //i need to feature breakdown
+                    if( l ==null || r == null){
+                        return false; //if one or the other is null, I know the diff
+                    }
+                    if( !Objects.equals( l.getClass(), r.getClass())){
+                        return false; //we cant compare apples and oranges
+                    }
+                    /*
+                    Stencil sl = Stencil.of(l.toString());
+                    //Stencil sr = Stencil.of(r.toString());
+                    if( sl.isMatchAny() ){
+                        return true;
+                    } else if( sl.isFixedText() ){
+                        return false;
+                    } else{
+                        if( l instanceof _node && sl.matches( ((_node)r).toString(Print.PRINT_NO_COMMENTS))){
+                            return true;
+                        }
+                        System.out.println( "HERE WE ARE");
+                    }
+                     */
+
+                    //neither is null, and they are of the same class
+                    if( l instanceof _node ){ //if they are nodes, I can further breakdown
+                        System.out.println( "Testing nodes with params");
+                        //if( !((_node)l).is( ((_node)r).toString(Print.PRINT_NO_COMMENTS))) {
+                        return leftDeepFeatureCompare(((_node) l).features().featureMap(l), ((_node) r).features().featureMap(r));
+                        //} else{
+                        //    return true;
+                        //}
+                    } else if( l instanceof _orderedGroup ){
+                        //I want to make sure ALL of the left entities are found in the right entities, in the right order
+                        _orderedGroup _log = (_orderedGroup)l;
+                        _orderedGroup _rog = (_orderedGroup)r;
+                        if( _log.size() > _rog.size() ){ //the left ordered group MUST be larger than the right group
+                            return false;
+                        }
+                        //in this case, the right MUST be an ordered exact match OR ordered superset
+                        for(int j=0;j<_log.size(); j++){
+                            if( ! _rog.isAt(j, _log.getAt(j))){
+                                return leftDeepFeatureCompare( _log.getAt(j).features().featureMap(_log.getAt(j)), _rog.getAt(j).features().featureMap(_rog.getAt(j)) );
+                            }
+                        }
+                        //return true;
+                    } else if( l instanceof _group){
+                        System.out.println( "group"+ l+ " vs "+r);
+                        //I want to make sure ALL of the left entities are found in the right entities
+                        _group _log = (_group)l;
+                        _group _rog = (_group)r;
+                        if( _log.size() > _rog.size() ){ //the left ordered group MUST be larger than the right group
+                            return false;
+                        }
+                        //in this case, the right MUST be an ordered exact match OR ordered superset
+                        for(int j=0;j<_log.size(); j++){
+                            if( ! _rog.has(_log.getAt(j))){
+                                return false;
+                                //return leftDeepFeatureCompare( _log.getAt(j).features().featureMap(_log.getAt(j)), _rog.getAt(j).features().featureMap(_rog.getAt(j)) );
+                            }
+                        }
+                        //return true;
+                    } else{ //could be a string
+                        if( keys[i] instanceof _feature._many) {
+                            //System.out.println( "FEATURE MANY");
+                            List<_node> ln = (List<_node>)l;
+                            List<_node> rn = (List<_node>)r;
+
+                            if( rn == null || ln.size() > rn.size()){
+                                return false;
+                            }
+                            _feature._many _fm = (_feature._many)keys[i];
+                            if( _fm.isOrdered ){
+                                //System.out.println( "ORDERED");
+                                for(int j=0;j<ln.size(); j++){
+                                    if( !leftDeepFeatureCompare( rn.get(i), ln.get(i) )) {
+                                        return false;
+                                    }
+                                }
+                            } else{ //unordered
+                                System.out.println( "UNORDERED" +ln);
+                                for(int j=0;j<ln.size(); j++){
+                                    final _node lnn = ln.get(j);
+                                    if( ! rn.stream().anyMatch( n -> {
+                                        System.out.println( "Trying to match "+lnn+" to "+n);
+                                        return leftDeepFeatureCompare( lnn, n );
+                                    } ) ){
+                                        System.out.println( "Couldnt match "+lnn+" IN "+ rn);
+                                        return false;
+                                    }
+                                }
+                            }
+                        } else{
+                            if (!Objects.equals(l, r)) {
+                                System.out.println("NOT EQUALS " + l + " " + r);
+                                return false;
+                            }
+                        }
+                    }
+                } else{
+                    //System.out.println( "EQUALS  "+l+" "+r);
+                    //return true;
+                }
+            }
+            return true;
+        }
+
         /**
          * is the String representation equal to the _node entity
          * (i.e. if we parse the string, does it create an AST entity that
@@ -412,28 +536,28 @@ public interface _tree<_T> extends _java._domain {
          * @return true if the Parsed String represents the entity
          */
         default boolean is(String... stringRep){
-            String str = Text.combine(stringRep);
-            if( str.startsWith("$") && str.endsWith("$")){
-                Stencil st = Stencil.of(str);
-                if( st.isMatchAny() ){
-                    return true;
+            Stencil st = Stencil.of(stringRep);
+            if( st.isMatchAny() ){
+                return true;
+            }
+            if( st.isFixedText() ){
+                try { //let me see if I can parse this code as a instance
+                    _N _n = features().parse(stringRep);
+                    //System.out.println( "LEFT DEEP COMPARE \""+ _n+"\"");
+                    return leftDeepFeatureCompare(_n.features().featureMap(_n), this.features().featureMap((_N) this));
+                    //return equals( _n);
+                }catch(Exception e){ //couldnt parse the string as an instance
+                    //System.out.println( "Failed parse of \""+ Text.combine(stringRep)+"\""+e);
+                    return false;
                 }
             }
-            try{
-                //_node _n = (_node) _java.of(_java.node( getClass(), Text.combine(stringRep)));
-                _N n = features().parse(stringRep);
-                Stencil st = Stencil.of( n.toString(Print.PRINT_NO_COMMENTS));
-                if( st.isFixedText() ){
-                    //System.out.println ("ITS FIXED TEXT" + _n +System.lineSeparator() +this );
-                    return equals( n );
-                } else {
-                    //extract all features from this and other map
-                    Map<_feature<_N, ?>, Object> ofm = this.features().featureMap(n);
-                    Map<_feature<_N, ?>, Object> tfm = this.features().featureMap((_N)this);
+            _N _n = features().parse(stringRep);
+            Map<_feature<_N, ?>, Object> ofm = this.features().featureMap(_n);
+            Map<_feature<_N, ?>, Object> tfm = this.features().featureMap((_N)this);
 
-                    //for ALL non null features in
-                    AtomicBoolean isSame = new AtomicBoolean(true);
-                    ofm.forEach( (_f, o)->{
+            //for ALL non null features in
+            AtomicBoolean isSame = new AtomicBoolean(true);
+            ofm.forEach( (_f, o)->{
                         if( isSame.get() && o != null ){ //if the feature is NOT null
                             Stencil s = Stencil.of( o.toString() );
                             if( s.isMatchAny() ){ //its a variable thing, so it matches ANYTHING
@@ -441,23 +565,32 @@ public interface _tree<_T> extends _java._domain {
                             } else if( s.isFixedText() ){ //its fixed text, dont match the text, match the impl
                                 Object t = tfm.get(_f); //get the corresponding feature from the other one
                                 if( !Objects.equals(o, t) ){ //check equality at the feature object level
-                                    System.out.println("NOot same");
+                                    System.out.println("NOot same" + o + " "+ t);
                                     isSame.set(false);
                                 }
                             } else { //its a mix of text and variables, so lets
-                                //System.out.println("Mix of text and vars");
+                                System.out.println("Mix of text and vars");
                                 Object t = tfm.get(_f); //get the corresponding feature from the other one
                                 if( t instanceof _node){
                                     _node _t = (_node)t;
                                     if( !_t.is(s)){
-                                        //System.out.println( "NOt Same 1");
+                                        System.out.println( "NOt Same 1");
                                         isSame.set(false);
                                     }
-                                }else if( t instanceof _group){
+                                } else if( t instanceof _orderedGroup){
+                                    System.out.println( "ORdered group");
+                                    _orderedGroup _g = (_orderedGroup)t;
+                                } else if( t instanceof _group){
+                                    System.out.println( "group");
                                     _group _g = (_group)t;
+                                } else if( t instanceof List){
+                                    System.out.println( "list");
+                                    List l = (List)t;
+                                    //make sure all of nodes in left are in right
+
                                 }
                                 else if( !s.matches(t.toString()) ){
-                                    //System.out.println( "NOt Same 2 "+s + t.toString());
+                                    System.out.println( "NOt Same 2 "+s + t.toString());
                                     if( t instanceof _annoEntryPair){
                                         _annoEntryPair _ep = (_annoEntryPair)t;
                                         if( _ep.isValueOnly() ){
@@ -469,15 +602,11 @@ public interface _tree<_T> extends _java._domain {
                                 }
                             }
                         }
-                    });
-                    return isSame.get();
+            });
+            //System.out.println ("ITS STENCIL TEXT"+isSame.get());
+            return isSame.get();
                     //System.out.println ("ITS STENCIL TEXT");
                     //return st.matches(this.toString(Print.PRINT_NO_COMMENTS));
-                }
-            } catch(Exception e){
-                //System.out.println( "FAILED YO "+ e);
-                return false;
-            }
         }
 
         /**
@@ -738,6 +867,8 @@ public interface _tree<_T> extends _java._domain {
             }
             return _els.get(0);
         }
+
+
 
         default boolean has(_EL target){
             return !list( el-> el.equals(target)).isEmpty();
@@ -1132,7 +1263,7 @@ public interface _tree<_T> extends _java._domain {
      * @see _args expressions stored in a {@link NodeList}
      * @see _body statements (or the absense of statements) in {@link com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt},
      * {@link com.github.javaparser.ast.nodeTypes.NodeWithBody}, {@link com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt}
-     * @see _cases {@link com.github.javaparser.ast.stmt.SwitchEntry}s stored that have the same statementBlock
+     * @see _switchCases {@link com.github.javaparser.ast.stmt.SwitchEntry}s stored that have the same statementBlock
      * @see _imports imports stored within a {@link NodeList}
      * @see _modifiers modifiers stored in a {@link NodeList}
      * @see _params parameters stored in a {@link NodeList}
@@ -1142,6 +1273,16 @@ public interface _tree<_T> extends _java._domain {
      * @param <_V> the view implementation
      */
     interface _view<_V extends _view> extends _tree<_V>{
+
+    }
+
+    /**
+     * a unique group means that there can only be one
+     * @param <_S>
+     *
+     * @see _modifiers
+     */
+    interface _set<_S extends _set> extends _tree<_S>{
 
     }
 }

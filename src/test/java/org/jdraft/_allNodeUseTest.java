@@ -42,7 +42,7 @@ public class _allNodeUseTest extends TestCase {
                 _body.of("print(3);"),
                 _booleanExpr.of("true"),
                 _breakStmt.of("break outer;"),
-                _cases.of("case 1: case 3: case 5: return ODD;"),
+                _switchCases.of("case 1: case 3: case 5: return ODD;"),
                 _castExpr.of("(String)s"),
                 _catch.of("catch(IOException ioe){ throw new RuntimeException(ioe); }"),
                 _charExpr.of('a'), // or "'c'"
@@ -111,7 +111,7 @@ public class _allNodeUseTest extends TestCase {
                 _stmt.of("System.out.println(1);"), //_statement creates any statement type
                 _stringExpr.of("A String literal"),
                 _superExpr.of("super"),
-                _switchEntry.of("case 1: return 3;"),
+                _switchCase.of("case 1: return 3;"),
                 _switchExpr.of("switch(val){ case 1: yield 'a'; }"),
                 _switchStmt.of("switch(e){ case 1: return 'a'; default: return 'c';}"),
                 _synchronizedStmt.of("synchronized(a){ }"),

@@ -154,7 +154,7 @@ public class $arrayAccessExpr
     }
 
     public $arrayAccessExpr(_arrayAccessExpr _aa) {
-        this.name = $expr.of(_aa.getName());
+        this.name = $expr.of(_aa.getExpression());
         this.index = $expr.of(_aa.getIndex());
     }
 
@@ -244,7 +244,7 @@ public class $arrayAccessExpr
         if (getPredicate() == null || getPredicate().test(_aa)) {
 
             Tokens ts = new Tokens();
-            Select s = this.name.select(_aa.getName());
+            Select s = this.name.select(_aa.getExpression());
             if( s == null) {
                 return null;
             }

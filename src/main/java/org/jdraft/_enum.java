@@ -7,7 +7,6 @@ import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
-import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.jdraft.io._in;
 import org.jdraft.io._io;
 import org.jdraft.io._ioException;
@@ -735,7 +734,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         hash = 53 * hash + Objects.hash( this.getPackage(),
                 Expr.hashAnnos(astEnum),
                 this.getJavadoc(), 
-                this.getEffectiveModifiers(),
+                this.getEffectiveAstModifiersList(),
                 this.getName(), 
                 sbs,
                 _imports.Compare.importsHash( astEnum ),

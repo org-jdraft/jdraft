@@ -581,7 +581,7 @@ public class _methodTest extends TestCase {
         assertTrue( _m.hasJavadoc() );
         assertEquals( "blah", _m.getJavadoc().getText() );
 
-        assertEquals( 1, _m.getAnnos().list( "p" ).size());
+        assertEquals( 1, _m.getAnnos().listWithName( "p" ).size());
         assertEquals( "int", _m.getType().toString() );
 
         assertTrue( _m.getModifiers().isPublic() );
@@ -666,7 +666,7 @@ public class _methodTest extends TestCase {
         assertTrue(_m.hasJavadoc() );
         assertTrue( _m.getJavadoc().getText().contains("JAVADOC"));
         assertTrue(_m.hasAnnos());
-        assertTrue(_m.hasAnno( "ann"));
+        assertTrue(_m.hasAnnoNamed( "ann"));
         assertTrue(_m.hasAnno( ann.class));
         assertTrue(_m.hasAnno( ann2.class));
         assertTrue(_m.getAnnos().getAt( 0 ).is( "@ann") );

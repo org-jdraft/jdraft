@@ -149,8 +149,8 @@ public class _fieldTest extends TestCase {
         _field _f2 = _field.of("@ann( k = 1 , v = 2 )", "@ann2( v = 2 , k = 13 )", "/** JAVADOC */", "public final static int W=103+45;");
     
         assertEquals( _f, _f2);
-        System.out.println( _f.getEffectiveModifiers() );
-        System.out.println( _f2.getEffectiveModifiers() );
+        System.out.println( _f.getEffectiveAstModifiersList() );
+        System.out.println( _f2.getEffectiveAstModifiersList() );
         assertEquals( _f.hashCode(), _f2.hashCode());
     }
     

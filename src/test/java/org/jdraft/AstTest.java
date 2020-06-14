@@ -750,8 +750,8 @@ public class AstTest extends TestCase {
         _method _m1 = _c.firstMethodNamed("a");
         _method _m2 = _c.firstMethodNamed("b");
         
-        System.out.println( _m1.getEffectiveModifiers() );
-        System.out.println( _m2.getEffectiveModifiers() );
+        System.out.println( _m1.getEffectiveAstModifiersList() );
+        System.out.println( _m2.getEffectiveAstModifiersList() );
         
     }
     

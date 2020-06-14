@@ -31,7 +31,7 @@ public class OfStringTest extends TestCase {
                 _body.of("print(3);"),
                 _booleanExpr.of("true"),
                 _breakStmt.of("break outer;"),
-                _cases.of("case 1: case 3: case 5: return ODD;"),
+                _switchCases.of("case 1: case 3: case 5: return ODD;"),
                 _castExpr.of("(String)s"),
                 _catch.of("catch(IOException ioe){ throw new RuntimeException(ioe); }"),
                 _charExpr.of('a'), // or "'c'"
@@ -88,7 +88,7 @@ public class OfStringTest extends TestCase {
                 _returnStmt.of("return 12;"),
                 _stringExpr.of("A String literal"),
                 _superExpr.of("super"),
-                _switchEntry.of("case 1: return 3;"),
+                _switchCase.of("case 1: return 3;"),
                 _switchExpr.of("switch(val){ case 1: yield 'a'; }"),
                 _switchStmt.of("switch(e){ case 1: return 'a'; default: return 'c';}"),
                 _synchronizedStmt.of("synchronized(a){ }"),

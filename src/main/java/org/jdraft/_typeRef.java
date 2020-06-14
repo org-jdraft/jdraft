@@ -9,6 +9,8 @@ import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.type.*;
+import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 
 import static org.jdraft.Types.of;
 
@@ -512,17 +514,22 @@ public final class _typeRef<T extends Type>
         }
     }
 
-    /*
     @Override
     public boolean is( String... type  ){
-        try{
-            return of( Text.combine(type) ).equals(this);
+        Stencil st = Stencil.of(type);
+        if( st.isMatchAny() ){
+            return true;
         }
-        catch( Exception e) {
-            return false;
+        if( st.isFixedText() ) {
+            try {
+                return of(Text.combine(type)).equals(this);
+            } catch (Exception e) {
+                return false;
+            }
         }
+        return st.matches(this.toString(Print.PRINT_NO_COMMENTS));
     }
-     */
+
 
     @Override
     public boolean is( Type typeDecl ){

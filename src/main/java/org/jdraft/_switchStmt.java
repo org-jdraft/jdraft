@@ -133,11 +133,11 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
             a -> a.getSwitchSelector(),
             (_switchStmt p, _expr _es) -> p.setSwitchSelector(_es), PARSER);
 
-    public static _feature._many<_switchStmt, _switchEntry> SWITCH_ENTRIES = new _feature._many<>(_switchStmt.class, _switchEntry.class,
+    public static _feature._many<_switchStmt, _switchCase> SWITCH_ENTRIES = new _feature._many<>(_switchStmt.class, _switchCase.class,
             _feature._id.SWITCH_ENTRIES,
             _feature._id.SWITCH_ENTRY,
             a -> a.listSwitchEntries(),
-            (_switchStmt p, List<_switchEntry> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchEntry.of(s))
+            (_switchStmt p, List<_switchCase> _ses) -> p.setSwitchEntries(_ses), PARSER, s-> _switchCase.of(s))
             .setOrdered(true);
 
     public static _feature._features<_switchStmt> FEATURES = _feature._features.of(_switchStmt.class,  PARSER, SELECTOR, SWITCH_ENTRIES );
@@ -220,28 +220,28 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
         return switchStmt;
     }
 
-    public _cases getCaseGroup(String s){
+    public _switchCases getCaseGroup(String s){
         return getCaseGroup( new StringLiteralExpr(s));
     }
 
-    public _cases getCaseGroup(char c){
+    public _switchCases getCaseGroup(char c){
         return getCaseGroup( new CharLiteralExpr(c));
     }
 
-    public _cases getCaseGroup(int i){
+    public _switchCases getCaseGroup(int i){
         return getCaseGroup( new IntegerLiteralExpr(i));
     }
 
-    public _cases getCaseGroup(Enum e ){
+    public _switchCases getCaseGroup(Enum e ){
         return getCaseGroup( new NameExpr(e.name()));
     }
 
-    public _cases getCaseGroup(_expr _e){
+    public _switchCases getCaseGroup(_expr _e){
         return getCaseGroup( _e.ast() );
     }
 
-    public _cases getCaseGroup(Expression e){
-        List<_cases> lc = listCaseGroups(cg -> cg.hasCase(e));
+    public _switchCases getCaseGroup(Expression e){
+        List<_switchCases> lc = listCaseGroups(cg -> cg.hasCase(e));
         if( lc.isEmpty() ){
             return null;
         }
@@ -253,7 +253,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      * @param e
      * @return
      */
-    public _switchEntry getCase(Enum e){
+    public _switchCase getCase(Enum e){
         return getSwitchEntry(se-> se.hasCaseConstant( new NameExpr(e.name()) ) );
     }
 
@@ -262,19 +262,19 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      * @param _e
      * @return
      */
-    public _switchEntry getCase( _expr _e ){
+    public _switchCase getCase(_expr _e ){
         return getSwitchEntry(se-> se.hasCaseConstant( _e.ast() ) );
     }
 
-    public _switchEntry getCase( String caseString){
+    public _switchCase getCase(String caseString){
         return getSwitchEntry(se-> se.hasCaseConstant( new StringLiteralExpr(caseString) ) );
     }
 
-    public _switchEntry getCase(char c){
+    public _switchCase getCase(char c){
         return getSwitchEntry(se-> se.hasCaseConstant(c) );
     }
 
-    public _switchEntry getCase(int i){
+    public _switchCase getCase(int i){
         return getSwitchEntry(se-> se.hasCaseConstant(i) );
     }
 
@@ -283,9 +283,9 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      * List the _caseGroups that exist in this _switch
      * @return
      */
-    public List<_cases> listCaseGroups(){
-        List<_cases> cgs = new ArrayList<>();
-        _cases _cg = new _cases(this.switchStmt);
+    public List<_switchCases> listCaseGroups(){
+        List<_switchCases> cgs = new ArrayList<>();
+        _switchCases _cg = new _switchCases(this.switchStmt);
         List<SwitchEntry> ses = this.switchStmt.getEntries();
         for(int i=0; i< ses.size(); i++){
             if( ses.get(i).getStatements().isEmpty() ){
@@ -294,13 +294,13 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
                 //System.out.println( "ADDING "+ ses.get(i));
                 _cg.addSwitchEntry(ses.get(i));
                 cgs.add(_cg);
-                _cg = new _cases(this.switchStmt);
+                _cg = new _switchCases(this.switchStmt);
             }
         }
         return cgs;
     }
 
-    public List<_cases> listCaseGroups(Predicate<_cases> matchFn){
+    public List<_switchCases> listCaseGroups(Predicate<_switchCases> matchFn){
         return listCaseGroups().stream().filter(matchFn).collect(Collectors.toList());
     }
 
@@ -704,7 +704,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
     }
 
     public _switchStmt mapReturn(Enum[] vals, _expr returnValue){
-        _cases _cg = _cases.of();
+        _switchCases _cg = _switchCases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -717,7 +717,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
     }
 
     public _switchStmt mapReturn(String[] vals, _expr returnValue){
-        _cases _cg = _cases.of();
+        _switchCases _cg = _switchCases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -730,7 +730,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
     }
 
     public _switchStmt mapReturn(int[] vals, _expr returnValue){
-        _cases _cg = _cases.of();
+        _switchCases _cg = _switchCases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -744,7 +744,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
 
 
     public _switchStmt mapReturn(char[] cs, _expr returnValue){
-        _cases _cg = _cases.of();
+        _switchCases _cg = _switchCases.of();
 
         _cg.setStatements(_returnStmt.of(returnValue));
 
@@ -1027,10 +1027,10 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      * Returns the default switchEntry if there is one, or else return null;
      * @return
      */
-    public _switchEntry getDefault(){
+    public _switchCase getDefault(){
         Optional<SwitchEntry> ose = this.switchStmt.getEntries().stream().filter( se-> se.getLabels().isEmpty()).findFirst();
         if( ose.isPresent() ){
-            return _switchEntry.of(ose.get());
+            return _switchCase.of(ose.get());
         }
         return null;
     }
@@ -1104,12 +1104,12 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
         return this.switchStmt.getEntries().size();
     }
 
-    public _switchEntry getSwitchEntry(int index){
-        return new _switchEntry(this.switchStmt.getEntries().get(index));
+    public _switchCase getSwitchEntry(int index){
+        return new _switchCase(this.switchStmt.getEntries().get(index));
     }
 
-    public _switchEntry getSwitchEntry( Predicate<_switchEntry> matchFn){
-        Optional<_switchEntry> ose = this.listSwitchEntries().stream().filter( matchFn ).findFirst();
+    public _switchCase getSwitchEntry(Predicate<_switchCase> matchFn){
+        Optional<_switchCase> ose = this.listSwitchEntries().stream().filter( matchFn ).findFirst();
         if( ose.isPresent() ){
             return ose.get();
         }
@@ -1138,24 +1138,24 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
     }
 
     public _switchStmt setDefault(Statement... statements){
-        _switchEntry se = getDefault();
+        _switchCase se = getDefault();
         if( se != null ){
             se.setStatements(handleBrake(statements));
             return this;
         }
-        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(
+        _switchCase newDef = _switchCase.of(new SwitchEntry()).setStatements(
                 handleBrake(statements) );
         this.switchStmt.getEntries().add(newDef.switchEntry);
         return this;
     }
 
     public _switchStmt setDefault(Expression ex){
-        _switchEntry se = getDefault();
+        _switchCase se = getDefault();
         if( se != null ){
             se.setStatements( handleBrake(new ExpressionStmt(ex)));
             return this;
         }
-        _switchEntry newDef = _switchEntry.of(new SwitchEntry()).setStatements(handleBrake(new ExpressionStmt(ex)));
+        _switchCase newDef = _switchCase.of(new SwitchEntry()).setStatements(handleBrake(new ExpressionStmt(ex)));
         this.switchStmt.getEntries().add(newDef.switchEntry);
         return this;
     }
@@ -1188,24 +1188,24 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      *
      * @return
      */
-    public List<_switchEntry> listSwitchEntries(){
-        List<_switchEntry> _ses = new ArrayList<>();
-        this.switchStmt.getEntries().forEach(se -> _ses.add(new _switchEntry(se)));
+    public List<_switchCase> listSwitchEntries(){
+        List<_switchCase> _ses = new ArrayList<>();
+        this.switchStmt.getEntries().forEach(se -> _ses.add(new _switchCase(se)));
         return _ses;
     }
 
-    public _switchStmt setSwitchEntries(List<_switchEntry> ses){
-        return setSwitchEntries( ses.toArray(new _switchEntry[0]));
+    public _switchStmt setSwitchEntries(List<_switchCase> ses){
+        return setSwitchEntries( ses.toArray(new _switchCase[0]));
     }
 
     /**
      *
      * @return
      */
-    public List<_switchEntry> listSwitchEntries(Predicate<_switchEntry> matchFn){
-        List<_switchEntry> _ses = new ArrayList<>();
+    public List<_switchCase> listSwitchEntries(Predicate<_switchCase> matchFn){
+        List<_switchCase> _ses = new ArrayList<>();
         this.switchStmt.getEntries().forEach(se -> {
-            _switchEntry _se = new _switchEntry(se);
+            _switchCase _se = new _switchCase(se);
             if( matchFn.test(_se) ) {
                 _ses.add(_se);
             }
@@ -1231,7 +1231,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
         return this;
     }
 
-    public _switchStmt setSwitchEntries(_switchEntry...ses){
+    public _switchStmt setSwitchEntries(_switchCase...ses){
         NodeList<SwitchEntry> nses = new NodeList<>();
         Arrays.stream(ses).forEach( se-> nses.add(se.switchEntry));
         this.switchStmt.setEntries(nses);
@@ -1243,7 +1243,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
      * @param caseGroups
      * @return
      */
-    public _switchStmt addCaseGroups(_cases...caseGroups){
+    public _switchStmt addCaseGroups(_switchCases...caseGroups){
         Arrays.stream(caseGroups).forEach( cg-> this.switchStmt.getEntries().addAll(cg.switchEntries));
         return this;
     }
@@ -1253,7 +1253,7 @@ public final class _switchStmt implements _stmt._conditional<SwitchStmt, _switch
         return this;
     }
 
-    public _switchStmt addSwitchEntries(_switchEntry...ses){
+    public _switchStmt addSwitchEntries(_switchCase...ses){
         Arrays.stream(ses).forEach( se-> this.switchStmt.getEntries().add(se.switchEntry));
         return this;
     }

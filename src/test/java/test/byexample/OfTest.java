@@ -26,7 +26,7 @@ public class OfTest extends TestCase {
                 _body.of(),
                 _booleanExpr.of(),
                 _breakStmt.of(),
-                _cases.of(),
+                _switchCases.of(),
                 _castExpr.of(),
                 _catch.of(),
                 _charExpr.of(), // or "'c'"
@@ -80,7 +80,7 @@ public class OfTest extends TestCase {
                 _returnStmt.of(),
                 _stringExpr.of(),
                 _superExpr.of(),
-                _switchEntry.of(),
+                _switchCase.of(),
                 _switchExpr.of(),
                 _switchStmt.of(),
                 _synchronizedStmt.of(),

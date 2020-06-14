@@ -37,7 +37,9 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
     }
 
     public static _annoMember of(String...code ){
-        return new _annoMember( Ast.annotationMemberDeclaration( code ) );
+        String all = Text.combine(code);
+
+        return new _annoMember( Ast.annotationMemberDeclaration( all ) );
     }
 
     public static _annoMember of(Type type, String name ){

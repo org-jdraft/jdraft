@@ -150,7 +150,7 @@ public final class _annos
     }
 
     public _anno get(String name ) {
-        List<_anno> a = this.list( name );
+        List<_anno> a = this.listWithName( name );
         if( a.size() >= 1 ) {
             return a.get( 0 );
         }
@@ -180,7 +180,7 @@ public final class _annos
      * @param name
      * @return
      */
-    public List<_anno> list(String name ) {
+    public List<_anno> listWithName(String name ) {
         return list( a -> a.getName().equals( name ) );
     }
 
@@ -194,6 +194,19 @@ public final class _annos
         return list( a -> a.getName().equals( clazz.getSimpleName() )
                 || a.getName().equals( clazz.getCanonicalName() )
                 || a.getName().endsWith( "."+clazz.getSimpleName() ) );
+    }
+
+    public boolean has(String...anno){
+        Stencil st = Stencil.of(anno);
+        if( st.isMatchAny() ){
+            return true;
+        }
+        if( st.isFixedText() ){
+            _anno _a = _anno.of(anno);
+            return first(a-> _tree._node.leftDeepFeatureCompare(_a, a)) != null;
+        }
+        _anno _a = _anno.of(anno);
+        return first(a-> _tree._node.leftDeepFeatureCompare(_a, a)) != null;
     }
 
     /**
@@ -484,7 +497,7 @@ public final class _annos
          * @param annoName the NAME of the anno
          * @return the first _anno that has the NAME, or null
          */
-        default _anno getAnno(String annoName) {
+        default _anno getAnnoByName(String annoName) {
             if( annoName.startsWith("@")){
                 return getAnnos().get(annoName.substring(1));
             }
@@ -501,6 +514,13 @@ public final class _annos
             return Objects.equals(_tas, _as);
         }
 
+        default boolean hasAnno(String anno){
+            try {
+                return !listAnnos(_a-> _a.is(anno) ).isEmpty();
+            }catch(Exception e){
+                return false;
+            }
+        }
         /**
          *
          * @param annotationClass
@@ -515,8 +535,12 @@ public final class _annos
          * @param name the name of the anno
          * @return
          */
-        default boolean hasAnno(String name) {
-            return getAnno( name ) != null;
+        default boolean hasAnnoNamed(String name) {
+            Stencil st = Stencil.of(name);
+            if( st.isFixedText() ){
+                return getAnnoByName( name ) != null;
+            }
+            return hasAnno(_a -> st.matches(_a.getName() ));
         }
 
         default boolean hasAnno(Predicate<_anno> _annoMatchFn) {
@@ -531,8 +555,8 @@ public final class _annos
             return getAnnos().list( _annMatchFn );
         }
 
-        default List<_anno> listAnnos(String annoName) {
-            return getAnnos().list( annoName );
+        default List<_anno> listAnnosByName(String annoName) {
+            return getAnnos().listWithName( annoName );
         }
 
         default List<_anno> listAnnos(Class<? extends Annotation> annotationClass) {

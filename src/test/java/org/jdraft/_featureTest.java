@@ -42,8 +42,8 @@ public class _featureTest extends TestCase {
 
         assertEquals( _project.FEATURES.size(), _project.FEATURES.featureMap( _project.of(_class.of("A"), _interface.of("I"))).size());
 
-        assertEquals( _switchEntry.FEATURES.size(), _switchEntry.FEATURES.featureMap(_switchEntry.of("case 1, 2: break;")).size());
-        assertEquals( _switchEntry.FEATURES.size(), _switchEntry.FEATURES.featureMap(_switchEntry.of("case 1: i=0; break;")).size());
+        assertEquals( _switchCase.FEATURES.size(), _switchCase.FEATURES.featureMap(_switchCase.of("case 1, 2: break;")).size());
+        assertEquals( _switchCase.FEATURES.size(), _switchCase.FEATURES.featureMap(_switchCase.of("case 1: i=0; break;")).size());
 
         assertEquals( _switchExpr.FEATURES.size(), _switchExpr.FEATURES.featureMap(_switchExpr.of("switch(a){ case 1: yield 1; case 2: yield 2;}")).size());
         assertEquals( _switchExpr.FEATURES.size(), _switchStmt.FEATURES.featureMap(_switchStmt.of("switch(a){ case 1: return 1; case 2: return 2;}")).size());
@@ -94,8 +94,8 @@ public class _featureTest extends TestCase {
 
         assertEquals( 2, _project.CODE_UNITS.get( _project.of(_class.of("A"), _interface.of("I"))).size());
 
-        assertEquals( 2, _switchEntry.CASE_EXPRESSIONS.get(_switchEntry.of("case 1, 2: break;")).size());
-        assertEquals( 2, _switchEntry.STATEMENTS.get(_switchEntry.of("case 1: i=0; break;")).size());
+        assertEquals( 2, _switchCase.CASE_EXPRESSIONS.get(_switchCase.of("case 1, 2: break;")).size());
+        assertEquals( 2, _switchCase.STATEMENTS.get(_switchCase.of("case 1: i=0; break;")).size());
 
         assertEquals( 2, _switchExpr.SWITCH_ENTRIES.get(_switchExpr.of("switch(a){ case 1: yield 1; case 2: yield 2;}")).size());
         assertEquals( 2, _switchStmt.SWITCH_ENTRIES.get(_switchStmt.of("switch(a){ case 1: return 1; case 2: return 2;}")).size());

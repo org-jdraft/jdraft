@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.expr.ArrayAccessExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
+import org.jdraft.text.Stencil;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
 /**
  * a reference to specific array dimension
  * Where Array brackets [] being used to get a value from an array.
- * In <br/><code>getNames()[15*15]</code> the name expression is getNames() and the index expression is 15*15.
+ * In <br/><code>getNames()[15*15]</code> the expression is "getNames()" and the index is "15*15".
  *
  * @see _arrayDimension
  */
@@ -75,9 +76,9 @@ public final class _arrayAccessExpr
         return of(ae, left);
     }
 
-    public static _feature._one<_arrayAccessExpr, _expr> NAME = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
-            _feature._id.NAME,
-            a -> a.getName(),
+    public static _feature._one<_arrayAccessExpr, _expr> EXPRESSION = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
+            _feature._id.EXPRESSION,
+            a -> a.getExpression(),
             (_arrayAccessExpr a, _expr _e) -> a.setName(_e), PARSER);
 
     public static _feature._one<_arrayAccessExpr, _expr> INDEX = new _feature._one<>(_arrayAccessExpr.class, _expr.class,
@@ -85,7 +86,7 @@ public final class _arrayAccessExpr
             a -> a.getIndex(),
             (_arrayAccessExpr a, _expr _e) -> a.setIndex(_e), PARSER);
 
-    public static _feature._features<_arrayAccessExpr> FEATURES = _feature._features.of(_arrayAccessExpr.class,  PARSER, NAME, INDEX);
+    public static _feature._features<_arrayAccessExpr> FEATURES = _feature._features.of(_arrayAccessExpr.class,  PARSER, EXPRESSION, INDEX);
 
     public ArrayAccessExpr aae;
 
@@ -106,44 +107,68 @@ public final class _arrayAccessExpr
         return FEATURES;
     }
 
-    public boolean isNamed(String name){
-        try{
-            return Objects.equals( _expr.of(name), this.getName());
-        }catch(Exception e){
-            return false;
+    public boolean isExpression(String expression){
+        Stencil st = Stencil.of(expression);
+        if( st.isFixedText() ) {
+            try {
+                return Objects.equals(_expr.of(expression), this.getExpression());
+            } catch (Exception e) {
+                return false;
+            }
+        } else{
+            st = Stencil.of(_expr.of(expression).toString(Print.PRINT_NO_COMMENTS));
+            return st.matches( getExpression().toString(Print.PRINT_NO_COMMENTS));
         }
     }
 
-    public boolean isNamed(Expression e){
-        return Objects.equals( _expr.of(e), this.getName());
+    public <_IE extends _expr> boolean isExpression(Class<_IE> implClass){
+        return implClass.isAssignableFrom( getExpression().getClass() );
     }
 
-    public boolean isNamed(_expr _e){
-        return Objects.equals( _e, this.getName());
-    }
-
-    public <_IE extends _expr> boolean isNamed(Class<_IE>classIe, Predicate<_IE>_matchFn ){
-        _expr _ee = getName();
-        if( classIe.isAssignableFrom(_ee.getClass())){
+    public <_IE extends _expr> boolean isExpression(Class<_IE>implClass, Predicate<_IE>_matchFn ){
+        _expr _ee = getExpression();
+        if( implClass.isAssignableFrom(_ee.getClass())){
             return _matchFn.test( (_IE)_ee);
         }
         return false;
     }
 
-    public boolean isNamed(Predicate<_expr> namePredicate){
-        return namePredicate.test(this.getName());
+    public boolean isExpression(Predicate<_expr> exprMatchFn){
+        return exprMatchFn.test(this.getExpression());
+    }
+
+    public boolean isExpression(Expression e){
+        return Objects.equals( _expr.of(e), this.getExpression());
+    }
+
+    public boolean isExpression(_expr _e){
+        return Objects.equals( _e, this.getExpression());
     }
 
     public boolean isIndex(String indexExpression){
-        try{
-            return Objects.equals( _expr.of(indexExpression), this.getIndex());
-        }catch(Exception e){
-            return false;
+        if( indexExpression.startsWith("[") && indexExpression.endsWith("]")){
+            indexExpression = indexExpression.substring(1, indexExpression.length() -1);
         }
+        if( indexExpression.trim().length() == 0 ){
+            return this.getIndex().toString().equals("[]");
+        }
+        Stencil st = Stencil.of(indexExpression);
+        if( st.isFixedText() ){
+            try{
+                return Objects.equals( _expr.of(indexExpression), this.getIndex());
+            }catch(Exception e){
+                return false;
+            }
+        }
+        return st.matches( getIndex().toString(Print.PRINT_NO_COMMENTS));
     }
 
     public boolean isIndex(Predicate<_expr> indexPredicate){
         return indexPredicate.test(this.getIndex());
+    }
+
+    public <_IE extends _expr> boolean isIndex(Class<_IE> implClass){
+        return implClass.isAssignableFrom(getIndex().getClass());
     }
 
     public <_IE extends _expr> boolean isIndex(Class<_IE>implClass, Predicate<_IE> indexPredicate){
@@ -151,15 +176,15 @@ public final class _arrayAccessExpr
     }
 
     public boolean isIndex(int i){
-        return Objects.equals( _intExpr.of(i), this.getName());
+        return Objects.equals( _intExpr.of(i), this.getExpression());
     }
 
     public boolean isIndex(Expression e){
-        return Objects.equals( _expr.of(e), this.getName());
+        return Objects.equals( _expr.of(e), this.getExpression());
     }
 
     public boolean isIndex(_expr _e){
-        return Objects.equals( _e, this.getName());
+        return Objects.equals( _e, this.getExpression());
     }
 
     public _arrayAccessExpr setIndex(String index){
@@ -190,9 +215,9 @@ public final class _arrayAccessExpr
         return this;
     }
 
-    public Expression getNameNode() { return this.aae.getName(); }
+    public Expression getExpressionNode() { return this.aae.getName(); }
 
-    public _expr getName(){
+    public _expr getExpression(){
         return _expr.of(this.aae.getName());
     }
 

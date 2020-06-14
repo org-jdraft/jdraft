@@ -188,7 +188,7 @@ public class AutoCompleteTest extends TestCase {
              }
          });
 
-         _cases _cg = _ss.listCaseGroups().get(0);
+         _switchCases _cg = _ss.listCaseGroups().get(0);
          _cg.listCases().forEach(cc -> System.out.println(" "+cc+ " "+cc.getClass()));
          System.out.println( _cg.listCases() );
 
@@ -202,7 +202,7 @@ public class AutoCompleteTest extends TestCase {
 
          System.out.println( _ss.getCaseGroup(E.A));
 
-         _switchEntry _se  = _ss.getCase(E.A); //gets the case based on the
+         _switchCase _se  = _ss.getCase(E.A); //gets the case based on the
 
          System.out.println(_se );
 

@@ -21,7 +21,7 @@ public final class _methodDiff implements _differ<_method, _tree._node> {
         _javadocCommentDiff.INSTANCE.diff(p, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _annosDiff.INSTANCE.diff(p, dt, left, right, left.getAnnos(), right.getAnnos());
         _typeRefDiff.INSTANCE.diff(p, dt, left, right, left.getType(), right.getType());
-        _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
+        _modifiersDiff.INSTANCE.diff(p, dt, left, right, left.getEffectiveAstModifiersList(), right.getEffectiveAstModifiersList());
         _namedDiff.INSTANCE.diff(p, dt, left, right, left.getName(), right.getName());
         _typeParamsDiff.INSTANCE.diff(p, dt, left, right, left.getTypeParams(), right.getTypeParams());
         _receiverParamDiff.INSTANCE.diff(p, dt, left, right, left.getReceiverParam(), right.getReceiverParam());

@@ -73,7 +73,7 @@ public class $arrayAccessExprTest extends TestCase {
 	public void testRecursive(){
 		_arrayAccessExpr _aa = _arrayAccessExpr.of("i[1][3]");
 		Print.tree(_aa.ast());
-		assertTrue(_aa.isNamed("i[1]"));
+		assertTrue(_aa.isExpression("i[1]"));
 		assertTrue(_aa.isIndex("3"));
 	}
 
@@ -84,7 +84,7 @@ public class $arrayAccessExprTest extends TestCase {
 		_aa = $aa.instance( Expr.arrayAccessExpr("Y[m()]"));
 		
 		//$and
-		$aa.$and(a-> a.getName().is("x"));		
+		$aa.$and(a-> a.getExpression().is("x"));
 		assertTrue( $aa.matches("x[3]") );		
 		assertFalse( $aa.matches("y[3]") );
 		

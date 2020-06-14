@@ -32,7 +32,7 @@ public final class _enumDiff implements _differ<_enum, _tree._node> {
         _javadocCommentDiff.INSTANCE.diff(path, dt, left, right, left.getJavadoc(), right.getJavadoc());
         _initBlocksDiff.INSTANCE.diff(path, dt, left, right, left.listInitBlocks(), right.listInitBlocks());
         _namedDiff.INSTANCE.diff(path, dt, left, right, left.getName(), right.getName());
-        _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveModifiers(), right.getEffectiveModifiers());
+        _modifiersDiff.INSTANCE.diff(path, dt, left, right, left.getEffectiveAstModifiersList(), right.getEffectiveAstModifiersList());
         _constructorsDiff.INSTANCE.diff(path, dt, left, right, left.listConstructors(), right.listConstructors());
         _methodsDiff.INSTANCE.diff(path, dt, left, right, left.listMethods(), right.listMethods());
         _fieldsDiff.INSTANCE.diff(path, dt, left, right, left.listFields(), right.listFields());

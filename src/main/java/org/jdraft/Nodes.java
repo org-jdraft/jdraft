@@ -100,7 +100,7 @@ public enum Nodes {
         RETURN_STMT(_returnStmt.class, ReturnStmt.class),
         STRING_EXPR(_stringExpr.class, StringLiteralExpr.class),
         SUPER_EXPR(_superExpr.class, SuperExpr.class),
-        SWITCH_ENTRY(_switchEntry.class, SwitchEntry.class),
+        SWITCH_ENTRY(_switchCase.class, SwitchEntry.class),
         SWITCH_EXPR(_switchExpr.class, SwitchExpr.class),
         SWITCH_STMT(_switchStmt.class, SwitchStmt.class),
         SYNCHRONIZED_STMT(_synchronizedStmt.class, SynchronizedStmt.class),

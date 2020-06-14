@@ -871,6 +871,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
     /*
     @Override
+    */
     public boolean is( String...classDeclaration){
         try{
             _class _o = of( classDeclaration );
@@ -879,9 +880,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             return false;
         }
     }
-     */
 
-    /*
     @Override
     public boolean is( ClassOrInterfaceDeclaration astC ){
         try{
@@ -891,7 +890,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             return false;
         }
     }
-     */
     
     @Override
     public boolean isAbstract(){
