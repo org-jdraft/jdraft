@@ -278,7 +278,7 @@ public class $throws
      */
     public Select select(_throws _i){
         if( this.constraint.test(_i)){            
-            List<ReferenceType> listed = _i.listAstElements();
+            List<ReferenceType> listed = _i.astList();
             if( listed.size() < this.throws$ids.size() ){
                 return null;
             }
@@ -658,7 +658,7 @@ public class $throws
                         //nodes.removeIf(t -> th.matches(t.toString()) );
                     }
                     _throws _ths = $replaceThrows.draft(sel.tokens.asTokens());
-                    sel.thrown.addAll(_ths.listAstElements());
+                    sel.thrown.addAll(_ths.astList());
                 }
             });
         }

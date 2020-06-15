@@ -28,7 +28,7 @@ public class _annosTest extends TestCase {
         assertTrue(_ts.isEmpty());
         assertEquals(0, _ts.size());
         assertTrue(_ts.list().isEmpty());
-        assertTrue(_ts.listAstElements().isEmpty());
+        assertTrue(_ts.astList().isEmpty());
         _ts.toEach(t-> System.out.println(t));
 
     }

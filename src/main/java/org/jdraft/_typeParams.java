@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithTypeParameters;
@@ -106,7 +107,7 @@ public final class _typeParams
     }
 
     @Override
-    public NodeList<TypeParameter> listAstElements() {
+    public NodeList<TypeParameter> astList() {
         return this.astNodeWithTypeParams.getTypeParameters();
     }
 
@@ -191,8 +192,12 @@ public final class _typeParams
         return "";
     }
 
-    public NodeWithTypeParameters astHolder() {
-        return this.astNodeWithTypeParams;
+    /**
+     * The node that is an implementation of NodeWithTypeParameters
+     * @return
+     */
+    public <N extends Node> N astAnchorNode() {
+        return (N)this.astNodeWithTypeParams;
     }
 
     /**

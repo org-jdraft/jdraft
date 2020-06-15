@@ -649,7 +649,7 @@ public class $typeParameters
                 Select sel = select( e );
                 if( sel != null ){                    
                     _typeParams _ths = $i.draft(sel.tokens.asTokens());
-                    sel.typeParameters.astHolder().setTypeParameters(_ths.ast());                    
+                    ((NodeWithTypeParameters)sel.typeParameters.astAnchorNode()).setTypeParameters(_ths.ast());
                 }
             });
         }

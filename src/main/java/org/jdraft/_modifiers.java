@@ -25,6 +25,12 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
     private final NodeWithModifiers node;
 
+
+    public <N extends Node> N astAnchorNode(){
+        return (N)node;
+    }
+
+
     public static _modifiers of(NodeWithModifiers nm ) {
         return new _modifiers( nm );
     }
@@ -186,7 +192,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         return mods;
     }
 
-    public NodeList<Modifier> listAstElements(){
+    public NodeList<Modifier> astList(){
         return this.node.getModifiers();
     }
 
@@ -677,7 +683,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         default _modifiers getEffectiveModifiers(){
             _modifiers _ms = _modifiers.of();
             getEffectiveAstModifiersList().forEach(m -> _ms.add(m));
-            getModifiers().listAstElements().forEach(m -> {
+            getModifiers().astList().forEach(m -> {
                 if( !_ms.has(m) ){
                     _ms.add(m);
                 }

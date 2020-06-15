@@ -21,12 +21,10 @@ import java.util.stream.Collectors;
  * _tree._view of the grouping of all _annoEntryPairs on an _anno
  * <PRE>
  * @Anno(k=1, val="String", count=4)
- *       -------------------------- k=1, val="String", count=4 (3) {@link _annoEntryPair}s
+ *       -------------------------- "k=1, val="String", count=4" (3) {@link _annoEntryPair}s
  * </PRE>
  *
- * transient translator object
- * (Im not much for Patterns, but this is a good explanation of why this Object exists)
- * <A HREF="https://wiki.c2.com/?TranslatorPattern">Translator Pattern</A>
+
  */
 public class _annoEntryPairs implements _tree._view<_annoEntryPairs>,
         _tree._group<MemberValuePair, _annoEntryPair, _annoEntryPairs> {
@@ -45,6 +43,10 @@ public class _annoEntryPairs implements _tree._view<_annoEntryPairs>,
 
     /** The parent AST node that is interpreted*/
     public AnnotationExpr annoParentNode;
+
+    public AnnotationExpr astAnchorNode(){
+        return annoParentNode;
+    }
 
     public static final Function<String,_annoEntryPairs> PARSER = (s)->{
         String full = "@UNKNOWN("+s+")";
@@ -95,7 +97,7 @@ public class _annoEntryPairs implements _tree._view<_annoEntryPairs>,
     }
 
     @Override
-    public NodeList<MemberValuePair> listAstElements() {
+    public NodeList<MemberValuePair> astList() {
         if( this.annoParentNode.isSingleMemberAnnotationExpr()){
             SingleMemberAnnotationExpr sm = this.annoParentNode.asSingleMemberAnnotationExpr();
             NodeList<MemberValuePair> mvps = new NodeList<>();

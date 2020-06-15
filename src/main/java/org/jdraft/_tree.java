@@ -43,7 +43,6 @@ public interface _tree<_T> extends _java._domain {
      */
     _T copy();
 
-
     /**
      * A tree entity that maps 1-to-1 to an Ast (Syntax) entity in the syntax tree and JavaParser
      *
@@ -619,6 +618,400 @@ public interface _tree<_T> extends _java._domain {
         }
     }
 
+
+    /**
+     * A grouping of monotonic (same type) entities where the order doesn't matter
+     * to the semantics of the group.  While they may may be stored in an ordered NodeList<N>
+     * this represents the syntax, however in the semantic side, this:
+     * <CODE>
+     * void m() throws A, B
+     * </CODE>
+     * (while not syntactically the same)
+     * ...is semantically equivalent to this:
+     * <CODE>
+     *  void m() throws B, A
+     * </CODE>
+     *
+     * @see _annos < AnnotationExpr, _annoRef >
+     * @see _imports<  ImportDeclaration ,_import>
+     * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
+     * @see _moduleExports
+     * @see _moduleOpens
+     * @see _moduleProvides
+     * @see _throws<  ReferenceType ,_typeRef>
+     * @see _typeArgs
+     * @see _typeParams < TypeParameter, _typeParam >
+     * @see _variablesExpr
+     *
+     * @param <EL> the Ast syntax {@link Node} type of each element in the {@link _group}
+     * @param <_EL> the _jdraft {@link _node} type of each element in the {@link _group}
+     * @param <_G> the group implementation type
+     */
+    interface _group<EL extends Node, _EL extends _node, _G extends _group> extends _tree<_G> {
+
+        /**
+         * is the group emtpy
+         * @return
+         */
+        default boolean isEmpty(){
+            return size() == 0;
+        }
+
+        /**
+         * the size of the group
+         * @return
+         */
+        default int size(){
+            return astList().size();
+        }
+
+        /**
+         * Returns a list of the _EL elements
+         * @return the list of elements in the group in the order they are declared in the syntax
+         */
+        List<_EL> list();
+
+        /**
+         * NOTE this returns a Mutable reference to the Ast elements
+         *
+         * meaning:
+         * IF YOU ADD ELEMENTS TO THE LIST THEY ARE DIRECTLY ADDED TO THE AST
+         * (this is NOT true if you add elements to the list returned in list())
+         * @return a MUTABLE reference to the Asts List & elements
+         */
+        NodeList<EL> astList();
+
+        /**
+         * Find and return a list of the elements that match the predicate
+         * @param _matchFn the matching predicate
+         * @return the list of tree elements in the group (in the order they appear in the group) that match the predicate
+         */
+        default List<_EL> list(Predicate<_EL> _matchFn){
+            return list().stream().filter(_matchFn).collect(Collectors.toList());
+        }
+
+        /**
+         * List the AST elements that match this predicate
+         * @param matchFn
+         * @return
+         */
+        default List<EL> astList(Predicate<EL> matchFn){
+            return astList().stream().filter(matchFn).collect(Collectors.toList());
+        }
+
+        /**
+         * Does any element in the group match this predicate?
+         * @param _matchFn
+         * @return
+         */
+        default boolean anyMatch(Predicate<_EL> _matchFn){
+            return list().stream().anyMatch(_matchFn);
+        }
+
+        /**
+         * Do ALL elements in the group match this predicate?
+         * @param _matchFn
+         * @return
+         */
+        default boolean allMatch(Predicate<_EL> _matchFn){
+            return list().stream().allMatch(_matchFn);
+        }
+
+        String toString(PrettyPrinterConfiguration prettyPrinter);
+
+        boolean is(String code);
+
+        default boolean is(_EL... _els){
+            Set<_EL> _arr = new HashSet<>();
+            Arrays.stream(_els).forEach(n -> _arr.add(n));
+            return is(_arr);
+        }
+
+        default boolean is(List<_EL> _els){
+            Set<_EL> hs = new HashSet<>();
+            hs.addAll(_els);
+            return is(hs);
+        }
+
+        default boolean is(Set<_EL> _els){
+            if( this.size() != _els.size() ){
+                return false;
+            }
+            Set<_EL> _tels = new HashSet<>();
+            _tels.addAll( list() );
+
+            return Objects.equals( _tels, _els);
+            /*
+            for(int i=0;i<_els.size(); i++){
+                if( !Objects.equals(_els.get(i), _tels.get(i))){
+                    return false;
+                }
+            }
+            return true;
+             */
+        }
+
+        default _G set(List<_EL> els){
+            astList().clear();
+            els.forEach( el -> astList().add((EL)el.ast()));
+            return (_G)this;
+        }
+
+        default _EL first(Predicate<_EL> matchFn){
+            List<_EL> _els = this.list(matchFn);
+            if( _els.isEmpty() ){
+                return null;
+            }
+            return _els.get(0);
+        }
+
+        default boolean has(_EL target){
+            return !list( el-> el.equals(target)).isEmpty();
+        }
+
+        default boolean has(Predicate<_EL> matchFn){
+            return !list( matchFn).isEmpty();
+        }
+
+        default boolean has(EL target){
+            return !astList(el-> el.equals(target)).isEmpty();
+        }
+
+        default _G add(EL... astElements) {
+            for( EL el : astElements ) {
+                this.astList().add(el);
+            }
+            return (_G)this;
+        }
+
+        default _G add(_EL... elements) {
+            for( _EL el : elements ) {
+                this.astList().add( (EL)el.ast());
+            }
+            return (_G)this;
+        }
+
+        /**
+         * remove all elements from the set and return the modified empty entity
+         */
+        default _G clear(){
+            this.astList().clear();
+            return (_G)this;
+        }
+
+        default _G remove(_EL... _els) {
+            Arrays.stream( _els ).forEach(e -> this.astList().remove( e.ast() ) );
+            return (_G)this;
+        }
+
+        default _G remove(EL... els) {
+            Arrays.stream(els ).forEach( e -> this.astList().remove( e ) );
+            return (_G)this;
+        }
+
+        default _G remove(Predicate<_EL> _matchFn) {
+            this.list(_matchFn).stream().forEach( e-> remove(e) );
+            return (_G)this;
+        }
+
+        /**
+         * Removes (AND returns) all elements from the group that match the match the predicate
+         *
+         * @param _matchFn function to determine if an element is to be removed
+         * @return a list of removed elements (in the order they were removed)
+         * @see #removeIf(Predicate) to remove and return the modified _group instead of returning the removed elements
+         */
+        default List<_EL> removeIf(Predicate<_EL> _matchFn) {
+            List<_EL> l = this.list(_matchFn);
+            l.stream().forEach( e-> remove(e) );
+            return l;
+        }
+
+        default _G toEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
+            list(matchFn).forEach(consumer);
+            return (_G)this;
+        }
+
+        default _G toEach(Consumer<_EL> consumer){
+            list().forEach(consumer);
+            return (_G)this;
+        }
+
+        default List<_EL> forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
+            List<_EL> l = list(matchFn);
+            l.forEach(consumer);
+            return l;
+        }
+
+        default List<_EL> forEach(Consumer<_EL> consumer){
+            List<_EL> le = list();
+            le.forEach(consumer);
+            return le;
+        }
+
+        /**
+         * count the number of elements in the list that abide by the predicate
+         * @param matchFn the predicate matching function
+         * @return the count of elements in the list that match the predicate
+         */
+        default int count( Predicate<_EL> matchFn){
+            return list(matchFn).size();
+        }
+
+        /**
+         * E
+         * @param index
+         * @return
+         */
+        default _EL getAt(int index){
+            return this.list().get(index);
+        }
+
+        default int indexOf(_EL target){
+            return list().indexOf(target);
+        }
+
+        default int indexOf(EL target){
+            return astList().indexOf(target);
+        }
+
+        /** remove the argument at this index */
+        default _G removeAt(int index){
+            this.astList().remove(index);
+            return (_G)this;
+        }
+
+        /**
+         * Adds an element at the index and returns the modified list
+         * @param index the index to add at (0-based)
+         * @param element the element to add
+         * @return the modified list
+         */
+        default _G addAt(int index, _EL... element){
+            for(int i=0;i<element.length;i++) {
+                this.astList().add(index+i, (EL) element[i].ast());
+            }
+            return (_G)this;
+        }
+
+        /**
+         * Adds an element at the index and returns the modified list
+         * @param index the index to add at (0-based)
+         * @param element the element to add
+         * @return the modified list
+         */
+        default _G addAt(int index, EL... element){
+            for(int i=0;i<element.length;i++) {
+                this.astList().add(index+i, element[i]);
+            }
+            return (_G)this;
+        }
+
+        /**
+         *
+         * @param index
+         * @param element
+         * @return
+         */
+        default _G setAt(int index, EL element){
+            this.astList().set(index, element);
+            return (_G)this;
+        }
+
+        /**
+         *
+         * @param index
+         * @param _element
+         * @return
+         */
+        default _G setAt(int index, _EL _element){
+            this.astList().set(index, (EL)_element.ast());
+            return (_G)this;
+        }
+
+        /**
+         *
+         * @param index
+         * @param _element
+         * @return
+         */
+        default boolean isAt( int index, _EL _element){
+            if( index >= this.size()){
+                return false;
+            }
+            return getAt(index).equals(_element);
+        }
+
+        /**
+         * Count the number of elements in the list that are of these implementation classes
+         * @param instanceClasses
+         * @return
+         */
+        default int count( Class<? extends _EL>... instanceClasses ){
+            return list(e-> Stream.of(instanceClasses).anyMatch(c-> c.isAssignableFrom(e.getClass()))).size();
+        }
+
+        /**
+         *
+         * @param index
+         * @param matchFn
+         * @return
+         */
+        default boolean isAt( int index, Predicate<_EL> matchFn) {
+            if( index >= this.size()){
+                return false;
+            }
+            return matchFn.test( getAt(index));
+        }
+    }
+
+    /**
+     * ORDERED/ ORDER MATTERS TO THE SEMANTICS GROUP
+     * Sometimes we have groupings of entities where the ordering of the elements in the syntax matters to the
+     * semantics of the program
+     *
+     * @see _params (parameters are ordered homogenious implementations of {@link _param})
+     * @see _newArrayExpr (Array dimensions are homogeneous implementations of {@link _arrayDimension}
+     *
+     * @see _mixedOrderedGroup for an extension of this interface that includes
+     */
+    interface _orderedGroup<EL extends Node, _EL extends _node, _OG extends _orderedGroup> extends _group<EL, _EL, _OG>, _tree<_OG> {
+
+        /**
+         * Reimplementation of {@link #is(_node[])} since now ORDER MATTERS
+         * @param _els
+         * @return
+         */
+        default boolean is(_EL... _els){
+            if( this.size() != _els.length ){
+                return false;
+            }
+            for(int i=0;i<_els.length; i++){
+                if( !Objects.equals(this.getAt(i), _els[i])){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /**
+         * Reimplementation of {@link #is(List)} since now ORDER MATTERS
+         * @param _els
+         * @return
+         */
+        default boolean is(List<_EL> _els){
+            if( this.size() != _els.size() ){
+                return false;
+            }
+            for(int i=0;i<_els.size(); i++){
+                if( !Objects.equals(this.getAt(i), _els.get(i))){
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
     /**
      * Group of Heterogeneous Types where the order of the elements matters (semantically)
      * (i.e. different types that are all of the same base class or interface)
@@ -829,429 +1222,17 @@ public interface _tree<_T> extends _java._domain {
     }
 
     /**
-     * A grouping of monotonic (same type) entities where the order doesn't matter
-     * to the semantics of the group.  While they may may be stored in an ordered NodeList<N>
-     * this represents the syntax, however in the semantic side, this:
-     * <CODE>
-     * void m() throws A, B
-     * </CODE>
-     * (while not syntactically the same)
-     * ...is semantically equivalent to this:
-     * <CODE>
-     *  void m() throws B, A
-     * </CODE>
-     *
-     * @see _annos < AnnotationExpr, _annoRef >
-     * @see _imports<  ImportDeclaration ,_import>
-     * @see _modifiers <com.github.javaparser.ast.Modifier,_modifier>
-     * @see _moduleExports
-     * @see _moduleOpens
-     * @see _moduleProvides
-     * @see _throws<  ReferenceType ,_typeRef>
-     * @see _typeArgs
-     * @see _typeParams < TypeParameter, _typeParam >
-     * @see _variablesExpr
-     *
-     * @param <EL> the Ast syntax {@link Node} type of each element in the {@link _group}
-     * @param <_EL> the _jdraft {@link _node} type of each element in the {@link _group}
-     * @param <_G> the group implementation type
-     */
-    interface _group<EL extends Node, _EL extends _node, _G extends _group> extends _tree<_G> {
-
-        /**
-         * is the group emtpy
-         * @return
-         */
-        default boolean isEmpty(){
-            return size() == 0;
-        }
-
-        /**
-         * the size of the group
-         * @return
-         */
-        default int size(){
-            return listAstElements().size();
-        }
-
-        /**
-         * Returns a list of the _EL elements
-         * @return the list of elements in the group in the order they are declared in the syntax
-         */
-        List<_EL> list();
-
-        /**
-         * NOTE this returns a Mutable reference to the Ast elements
-         *
-         * meaning:
-         * IF YOU ADD ELEMENTS TO THE LIST THEY ARE DIRECTLY ADDED TO THE AST
-         * (this is NOT true if you add elements to the list returned in list())
-         * @return a MUTABLE reference to the Asts List & elements
-         */
-        NodeList<EL> listAstElements();
-
-        /**
-         * Find and return a list of the elements that match the predicate
-         * @param _matchFn the matching predicate
-         * @return the list of tree elements in the group (in the order they appear in the group) that match the predicate
-         */
-        default List<_EL> list(Predicate<_EL> _matchFn){
-            return list().stream().filter(_matchFn).collect(Collectors.toList());
-        }
-
-
-        /**
-         * List the AST elements that match this predicate
-         * @param matchFn
-         * @return
-         */
-        default List<EL> listAstElements(Predicate<EL> matchFn){
-            return listAstElements().stream().filter(matchFn).collect(Collectors.toList());
-        }
-
-
-
-        /**
-         * Does any element in the group match this predicate?
-         * @param _matchFn
-         * @return
-         */
-        default boolean anyMatch(Predicate<_EL> _matchFn){
-            return list().stream().anyMatch(_matchFn);
-        }
-
-
-
-        /**
-         * Do ALL elements in the group match this predicate?
-         * @param _matchFn
-         * @return
-         */
-        default boolean allMatch(Predicate<_EL> _matchFn){
-            return list().stream().allMatch(_matchFn);
-        }
-
-        String toString(PrettyPrinterConfiguration prettyPrinter);
-
-        boolean is(String code);
-
-        /*
-        default boolean is(Stencil stencil){
-            if( stencil.isMatchAny()){
-                return true;
-            }
-            //hmm I guess?
-            return stencil.matches(toString(Print.PRINT_NO_COMMENTS));
-        }
-         */
-
-
-        default boolean is(_EL... _els){
-            Set<_EL> _arr = new HashSet<>();
-            Arrays.stream(_els).forEach(n -> _arr.add(n));
-            return is(_arr);
-        }
-
-        default boolean is(List<_EL> _els){
-            Set<_EL> hs = new HashSet<>();
-            hs.addAll(_els);
-            return is(hs);
-        }
-
-        default boolean is(Set<_EL> _els){
-            if( this.size() != _els.size() ){
-                return false;
-            }
-            Set<_EL> _tels = new HashSet<>();
-            _tels.addAll( list() );
-
-            return Objects.equals( _tels, _els);
-            /*
-            for(int i=0;i<_els.size(); i++){
-                if( !Objects.equals(_els.get(i), _tels.get(i))){
-                    return false;
-                }
-            }
-            return true;
-             */
-        }
-
-        default _G set(List<_EL> els){
-            listAstElements().clear();
-            els.forEach( el -> listAstElements().add((EL)el.ast()));
-            return (_G)this;
-        }
-
-
-        default _EL first(Predicate<_EL> matchFn){
-            List<_EL> _els = this.list(matchFn);
-            if( _els.isEmpty() ){
-                return null;
-            }
-            return _els.get(0);
-        }
-
-        default boolean has(_EL target){
-            return !list( el-> el.equals(target)).isEmpty();
-        }
-
-        default boolean has(Predicate<_EL> matchFn){
-            return !list( matchFn).isEmpty();
-        }
-
-
-
-        default boolean has(EL target){
-            return !listAstElements( el-> el.equals(target)).isEmpty();
-        }
-
-        default _G add(EL... astElements) {
-            for( EL el : astElements ) {
-                this.listAstElements().add(el);
-            }
-            return (_G)this;
-        }
-
-        default _G add(_EL... elements) {
-            for( _EL el : elements ) {
-                this.listAstElements().add( (EL)el.ast());
-            }
-            return (_G)this;
-        }
-
-        /**
-         * remove all elements from the set and return the modified empty entity
-         */
-        default _G clear(){
-            this.listAstElements().clear();
-            return (_G)this;
-        }
-
-        default _G remove(_EL... _els) {
-            Arrays.stream( _els ).forEach(e -> this.listAstElements().remove( e.ast() ) );
-            return (_G)this;
-        }
-
-        default _G remove(EL... els) {
-            Arrays.stream(els ).forEach( e -> this.listAstElements().remove( e ) );
-            return (_G)this;
-        }
-
-        default _G remove(Predicate<_EL> _matchFn) {
-            this.list(_matchFn).stream().forEach( e-> remove(e) );
-            return (_G)this;
-        }
-
-        /**
-         * Removes (AND returns) all elements from the group that match the match the predicate
-         *
-         * @param _matchFn function to determine if an element is to be removed
-         * @return a list of removed elements (in the order they were removed)
-         * @see #removeIf(Predicate) to remove and return the modified _group instead of returning the removed elements
-         */
-        default List<_EL> removeIf(Predicate<_EL> _matchFn) {
-            List<_EL> l = this.list(_matchFn);
-            l.stream().forEach( e-> remove(e) );
-            return l;
-        }
-
-        default _G toEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
-            list(matchFn).forEach(consumer);
-            return (_G)this;
-        }
-
-        default _G toEach(Consumer<_EL> consumer){
-            list().forEach(consumer);
-            return (_G)this;
-        }
-
-        default List<_EL> forEach(Predicate<_EL> matchFn, Consumer<_EL> consumer){
-            List<_EL> l = list(matchFn);
-            l.forEach(consumer);
-            return l;
-        }
-
-        default List<_EL> forEach(Consumer<_EL> consumer){
-            List<_EL> le = list();
-            le.forEach(consumer);
-            return le;
-        }
-
-
-
-        /**
-         * count the number of elements in the list that abide by the predicate
-         * @param matchFn the predicate matching function
-         * @return the count of elements in the list that match the predicate
-         */
-        default int count( Predicate<_EL> matchFn){
-            return list(matchFn).size();
-        }
-
-
-
-        /**
-         * E
-         * @param index
-         * @return
-         */
-        default _EL getAt(int index){
-            return this.list().get(index);
-        }
-
-        default int indexOf(_EL target){
-            return list().indexOf(target);
-        }
-
-        default int indexOf(EL target){
-            return listAstElements().indexOf(target);
-        }
-
-        /** remove the argument at this index */
-        default _G removeAt(int index){
-            this.listAstElements().remove(index);
-            return (_G)this;
-        }
-
-        /**
-         * Adds an element at the index and returns the modified list
-         * @param index the index to add at (0-based)
-         * @param element the element to add
-         * @return the modified list
-         */
-        default _G addAt(int index, _EL... element){
-            for(int i=0;i<element.length;i++) {
-                this.listAstElements().add(index+i, (EL) element[i].ast());
-            }
-            return (_G)this;
-        }
-
-        /**
-         * Adds an element at the index and returns the modified list
-         * @param index the index to add at (0-based)
-         * @param element the element to add
-         * @return the modified list
-         */
-        default _G addAt(int index, EL... element){
-            for(int i=0;i<element.length;i++) {
-                this.listAstElements().add(index+i, element[i]);
-            }
-            return (_G)this;
-        }
-
-        /**
-         *
-         * @param index
-         * @param element
-         * @return
-         */
-        default _G setAt(int index, EL element){
-            this.listAstElements().set(index, element);
-            return (_G)this;
-        }
-
-        /**
-         *
-         * @param index
-         * @param _element
-         * @return
-         */
-        default _G setAt(int index, _EL _element){
-            this.listAstElements().set(index, (EL)_element.ast());
-            return (_G)this;
-        }
-
-        /**
-         *
-         * @param index
-         * @param _element
-         * @return
-         */
-        default boolean isAt( int index, _EL _element){
-            if( index >= this.size()){
-                return false;
-            }
-            return getAt(index).equals(_element);
-        }
-
-        /**
-         * Count the number of elements in the list that are of these implementation classes
-         * @param instanceClasses
-         * @return
-         */
-        default int count( Class<? extends _EL>... instanceClasses ){
-            return list(e-> Stream.of(instanceClasses).anyMatch(c-> c.isAssignableFrom(e.getClass()))).size();
-        }
-
-
-        /**
-         *
-         * @param index
-         * @param matchFn
-         * @return
-         */
-        default boolean isAt( int index, Predicate<_EL> matchFn) {
-            if( index >= this.size()){
-                return false;
-            }
-            return matchFn.test( getAt(index));
-        }
-    }
-
-    /**
-     * ORDERED/ ORDER MATTERS TO THE SEMANTICS GROUP
-     * Sometimes we have groupings of entities where the ordering of the elements in the syntax matters to the
-     * semantics of the program
-     *
-     * @see _params (parameters are ordered homogenious implementations of {@link _param})
-     * @see _newArrayExpr (Array dimensions are homogeneous implementations of {@link _arrayDimension}
-     *
-     * @see _mixedOrderedGroup for an extension of this interface that includes
-     */
-    interface _orderedGroup<EL extends Node, _EL extends _node, _OG extends _orderedGroup> extends _group<EL, _EL, _OG>, _tree<_OG> {
-
-        /**
-         * Reimplementation of {@link #is(_node[])} since now ORDER MATTERS
-         * @param _els
-         * @return
-         */
-        default boolean is(_EL... _els){
-            if( this.size() != _els.length ){
-                return false;
-            }
-            for(int i=0;i<_els.length; i++){
-                if( !Objects.equals(this.getAt(i), _els[i])){
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        /**
-         * Reimplementation of {@link #is(List)} since now ORDER MATTERS
-         * @param _els
-         * @return
-         */
-        default boolean is(List<_EL> _els){
-            if( this.size() != _els.size() ){
-                return false;
-            }
-            for(int i=0;i<_els.size(); i++){
-                if( !Objects.equals(this.getAt(i), _els.get(i))){
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-
-    /**
      * a "view" tree node is a way to provide a user model that has no (1-to-1) physical counterpart
      * within the AST syntax. (Usually it represents a "logical" grouping of elements that are stored in the AST as
-     * a {@link NodeList}, but (instead of directly accessing the NodeList implementation, we build this virtual "wrapper"
-     * to make the API more intuitive.  this is helpful when we want to "unify" the interface to the syntax in a
-     * logical way.
+     * a {@link NodeList}, but (instead of directly accessing the NodeList implementation, we build this virtual
+     * "wrapper" to make the API more intuitive and consistent based on the properties of the entity.
+     * This is helpful when we want to "unify" the interface to the syntax in a logical way.
      * (similar to a <A HREF="https://www.essentialsql.com/what-is-a-relational-database-view/">Database view</A>)
+     *
+     * <P>Translator Pattern
+     * (Im not much for Patterns, but this is a good explanation of what purpose this object serves)
+     * <A HREF="https://wiki.c2.com/?TranslatorPattern">Translator Pattern</A>
+     * </P>
      *
      * For instance {@link _body} unifies the API behind multiple AST entities that
      * <UL>
@@ -1287,20 +1268,26 @@ public interface _tree<_T> extends _java._domain {
      * <UL>
      *     <LI>(i.e. MethodDeclaration which implements</LI>
      * </UL>
-     * @see _annos is annotations stored in a {@link NodeList}
-     * @see _args expressions stored in a {@link NodeList}
-     * @see _body statements (or the absense of statements) in {@link com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt},
+     * @see _annos is {@link _anno}s stored in a {@link NodeList}
+     * @see _args {@link _expr}s stored in a {@link NodeList}
+     * @see _body {@link _stmt}s (or the absense of statements) in {@link com.github.javaparser.ast.nodeTypes.NodeWithBlockStmt},
      * {@link com.github.javaparser.ast.nodeTypes.NodeWithBody}, {@link com.github.javaparser.ast.nodeTypes.NodeWithOptionalBlockStmt}
      * @see _switchCases {@link com.github.javaparser.ast.stmt.SwitchEntry}s stored that have the same statementBlock
-     * @see _imports imports stored within a {@link NodeList}
-     * @see _modifiers modifiers stored in a {@link NodeList}
-     * @see _params parameters stored in a {@link NodeList}
-     * @see _typeArgs type stored in a {@link NodeList}
-     * @see _typeParams
+     * @see _imports {@link _import}s stored within a {@link NodeList}
+     * @see _modifiers {@link _modifier}s stored in a {@link NodeList}
+     * @see _params {@link _param}s stored in a {@link NodeList}
+     * @see _typeArgs {@link _typeRef}s stored in a {@link NodeList}
+     * @see _typeParams {@link _typeParam}s stored in a {@link NodeList}
      *
-     * @param <_V> the view implementation
+     * @param <_V> the view type
      */
     interface _view<_V extends _view> extends _tree<_V>{
+
+        /**
+         *
+         * @return the AST anchor node (usually the parent node) where the abstraction is anchored to the Syntax Tree
+         */
+        <N extends Node> N astAnchorNode();
 
     }
 

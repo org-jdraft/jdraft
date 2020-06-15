@@ -126,7 +126,7 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
     }
 
     @Override
-    public NodeList<ArrayCreationLevel> listAstElements() {
+    public NodeList<ArrayCreationLevel> astList() {
         return this.astNode.getLevels();
     }
 

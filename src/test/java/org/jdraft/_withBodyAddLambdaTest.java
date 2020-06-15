@@ -54,15 +54,15 @@ public class _withBodyAddLambdaTest extends TestCase {
             }
         });
         
-        assertEquals(3, _m.getBody().getAstStatements().size());
+        assertEquals(3, _m.getBody().astList().size());
         _m.add( ()->{System.out.println("Last");} );
-        assertEquals(4, _m.getBody().getAstStatements().size());
+        assertEquals(4, _m.getBody().astList().size());
         _m.add( (a)->{System.out.println("Last 2"+a);} );
         _m.add( (a,b)->{System.out.println("Last 3"+a+b);} );
         _m.add( (a,b,c)->{System.out.println("Last 4"+a+b+c);} );
         _m.add( (a,b,c,d)->{System.out.println("Last 5"+a+b+c+d);} );
         
-        assertEquals(8, _m.getBody().getAstStatements().size());
+        assertEquals(8, _m.getBody().astList().size());
         System.out.println(_m);           
     }
     
@@ -72,7 +72,7 @@ public class _withBodyAddLambdaTest extends TestCase {
             }
         });
         
-        assertEquals(0, _m.getBody().getAstStatements().size());
+        assertEquals(0, _m.getBody().astList().size());
         _m.add( 0, ()->System.out.println("A") );        
         _m.add( 0, ()->System.out.println("B") );
         _m.add( 0, ()->System.out.println("C") );
@@ -80,7 +80,7 @@ public class _withBodyAddLambdaTest extends TestCase {
         _m.add( 0, ()->System.out.println("E") );
         
         
-        assertEquals(5, _m.getBody().getAstStatements().size());
+        assertEquals(5, _m.getBody().astList().size());
         assertEquals(Stmt.of(()->System.out.println("A")), _m.getAstStatement(4));
         assertEquals(Stmt.of(()->System.out.println("B")), _m.getAstStatement(3));
         assertEquals(Stmt.of(()->System.out.println("C")), _m.getAstStatement(2));

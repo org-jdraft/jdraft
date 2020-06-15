@@ -6,7 +6,7 @@ import org.jdraft.macro._addImports;
 import org.jdraft.macro._packageName;
 import org.jdraft.macro._static;
 import org.jdraft.runtime._runtime;
-import org.jdraft.WalkTest;
+import org.jdraft.walk.WalkTest;
 import org.junit.internal.TextListener;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;

@@ -33,8 +33,8 @@ public final class _typeParamsDiff
     @Override
     public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN _leftParent, _PN _rightParent, _typeParams left, _typeParams right) {
         
-        if (!Types.equal( ((NodeWithTypeParameters)left.astHolder()).getTypeParameters(),
-                ((NodeWithTypeParameters)right.astHolder()).getTypeParameters())) {
+        if (!Types.equal( ((NodeWithTypeParameters)left.astAnchorNode()).getTypeParameters(),
+                ((NodeWithTypeParameters)right.astAnchorNode()).getTypeParameters())) {
             dt.addDiff(new _change_typeParams(path.in(Feature.TYPE_PARAMS),
                     (_withTypeParams) _leftParent, (_withTypeParams) _rightParent));
         }

@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.nodeTypes.NodeWithThrownExceptions;
@@ -44,13 +45,13 @@ public final class _throws
      * @return
      */
     public static _throws of( Class<? extends Throwable>...clazzes ){
-        MethodDeclaration md = Ast.methodDeclaration( "void $$(){}");
+        MethodDeclaration md = Ast.methodDeclaration( "void unknown(){}");
         Arrays.stream( clazzes ).forEach(c -> md.addThrownException(c) );
         return new _throws( md );
     }
 
     public static _throws of(){
-        MethodDeclaration md = Ast.methodDeclaration( "void $$(){}");
+        MethodDeclaration md = Ast.methodDeclaration( "void unknown(){}");
         return of( md );
     }
 
@@ -64,12 +65,12 @@ public final class _throws
     public static _throws of( String... throwsClause ) {
         String t = Text.combine( throwsClause ).trim();
         if( t.length() == 0 ) {
-            return of(Ast.methodDeclaration( "void a(){}"));
+            return of(Ast.methodDeclaration( "void unknown(){}"));
         }
         if( t.startsWith( "throws " ) ) {
             t = t.substring( "throws ".length() );
         }
-        MethodDeclaration md = Ast.methodDeclaration( "void a() throws " + t + System.lineSeparator() + ";" );
+        MethodDeclaration md = Ast.methodDeclaration( "void unknown() throws " + t + System.lineSeparator() + ";" );
         return new _throws( md );
     }
 
@@ -85,11 +86,15 @@ public final class _throws
     public final NodeWithThrownExceptions astNodeWithThrows;
 
     public _throws(){
-        this( Ast.methodDeclaration("void m(){}") );
+        this( Ast.methodDeclaration("void unknown(){}") );
     }
 
     public _throws( NodeWithThrownExceptions th ) {
         this.astNodeWithThrows = th;
+    }
+
+    public <N extends Node> N astAnchorNode(){
+        return (N)astNodeWithThrows;
     }
 
     public _feature._features<_throws> features(){
@@ -226,7 +231,7 @@ public final class _throws
     }
 
     @Override
-    public NodeList<ReferenceType> listAstElements() {
+    public NodeList<ReferenceType> astList() {
         return this.astNodeWithThrows.getThrownExceptions();
     }
 
@@ -272,9 +277,6 @@ public final class _throws
         return sb.toString();
     }
 
-    //((Node)a).toString(ppc)
-
-
     @Override
     public String toString(PrettyPrinterConfiguration ppc) {
         if( this.astNodeWithThrows.getThrownExceptions().isEmpty() ) {
@@ -294,10 +296,11 @@ public final class _throws
     /**
      *
      * @return
-     */
+
     public NodeWithThrownExceptions astHolder() {
         return this.astNodeWithThrows;
     }
+    */
 
     /**
      *
@@ -371,7 +374,7 @@ public final class _throws
         }
 
         default _WT setThrows(_throws _th){
-            getThrows().astNodeWithThrows.setThrownExceptions(_th.listAstElements());
+            getThrows().astNodeWithThrows.setThrownExceptions(_th.astList());
             return (_WT)this;
         }
 
@@ -404,7 +407,7 @@ public final class _throws
         }
 
         default _WT removeThrows(Class<? extends Throwable> thrownClass ){
-            getThrows().listAstElements( t -> t.asString().equals( thrownClass.getCanonicalName()) ||
+            getThrows().astList(t -> t.asString().equals( thrownClass.getCanonicalName()) ||
                     t.asString().equals( thrownClass.getSimpleName()) ).forEach( t -> t.remove() );
             return (_WT)this;
         }

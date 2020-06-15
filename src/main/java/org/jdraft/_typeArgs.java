@@ -52,16 +52,16 @@ public final class _typeArgs
             if( a.startsWith("<") && a.endsWith(">")){
                 a = a.substring(1, a.length()-1).trim();
                 if( a.length() == 0 ) {
-                    ObjectCreationExpr oce = Expr.newExpr("new <> empty()");
+                    ObjectCreationExpr oce = Expr.newExpr("new <> unknown()");
                     return of(oce);
                 }
-                ObjectCreationExpr oce = Expr.newExpr("new <"+ a + "> empty()");
+                ObjectCreationExpr oce = Expr.newExpr("new <"+ a + "> unknown()");
                 return of( oce);
             }
             if( a.startsWith("<") ){
                 a = a.substring(1, a.length()-1);
             }
-            ObjectCreationExpr oce = Expr.newExpr("new <"+ a + "> empty()");
+            ObjectCreationExpr oce = Expr.newExpr("new <"+ a + "> unknown()");
             return of( oce);
         }
         StringBuilder sb = new StringBuilder();
@@ -72,7 +72,7 @@ public final class _typeArgs
             String a = args[i].trim();
             sb.append(a);
         }
-        return of( Expr.newExpr("new<"+ sb.toString() + "> empty()"));
+        return of( Expr.newExpr("new<"+ sb.toString() + "> unknown()"));
     }
 
     public static _typeArgs of(NodeWithTypeArguments nwta){
@@ -111,7 +111,7 @@ public final class _typeArgs
             this.nwta.setTypeArguments(new NodeList<Type>());
         }
         for( Type el : astElements ) {
-            this.listAstElements().add(el);
+            this.astList().add(el);
         }
         return this;
     }
@@ -121,9 +121,13 @@ public final class _typeArgs
             this.nwta.setTypeArguments(new NodeList<Type>());
         }
         for( _typeRef el : elements ) {
-            this.listAstElements().add(el.ast());
+            this.astList().add(el.ast());
         }
         return this;
+    }
+
+    public <N extends Node> N astAnchorNode(){
+        return (N)nwta;
     }
 
     @Override
@@ -147,11 +151,11 @@ public final class _typeArgs
         if( !this.nwta.getTypeArguments().isPresent()){
             return null; //null... and no diamond operator
         }
-        return listAstElements().stream().map(e-> _typeRef.of(e) ).collect(Collectors.toList());
+        return astList().stream().map(e-> _typeRef.of(e) ).collect(Collectors.toList());
     }
 
     @Override
-    public NodeList<Type> listAstElements() {
+    public NodeList<Type> astList() {
         if( !this.nwta.getTypeArguments().isPresent()){
             return null; //null... and no diamond operator
         }
@@ -279,7 +283,7 @@ public final class _typeArgs
 
     public int indexOf(Type target){
         if( !isEmpty() ) {
-            return listAstElements().indexOf(target);
+            return astList().indexOf(target);
         }
         return -1;
     }
@@ -303,7 +307,7 @@ public final class _typeArgs
 
         default _WTA setTypeArgs(_typeArgs _tas){
             if( _tas.hasTypeArgs() ) {
-                ((NodeWithTypeArguments) ast()).setTypeArguments(_tas.listAstElements());
+                ((NodeWithTypeArguments) ast()).setTypeArguments(_tas.astList());
             } else{
                 ((NodeWithTypeArguments) ast()).removeTypeArguments();
             }

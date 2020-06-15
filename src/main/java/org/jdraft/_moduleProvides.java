@@ -88,7 +88,7 @@ public final class _moduleProvides implements _tree._node<ModuleProvidesDirectiv
     }
 
     @Override
-    public NodeList<Name> listAstElements() {
+    public NodeList<Name> astList() {
         return this.me.getWith();
     }
 

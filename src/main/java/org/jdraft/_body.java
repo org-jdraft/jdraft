@@ -28,8 +28,7 @@ import org.jdraft.walk.Walk;
  *
  * @author Eric
  */
-public final class _body implements _tree._view<_body> {
-
+public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup<Statement, _stmt, _body> {
 
     public static final Function<String, _body> PARSER = s-> _body.of(s);
 
@@ -51,6 +50,10 @@ public final class _body implements _tree._view<_body> {
      * so, internally we just say it's an Object
      */
     private final Object astParentNode;
+
+    public <N extends Node> N astAnchorNode(){
+        return (N)astParentNode;
+    }
 
     /**
      * returns an empty body (i.e. "{}")
@@ -320,7 +323,11 @@ public final class _body implements _tree._view<_body> {
         return true;
     }
 
-
+    /**
+     *
+     * @param implement
+     * @return
+     */
     public _body setImplemented(Boolean implement){
         if( ! implement ){
             if( isImplemented() ){ //the only time I need to change
@@ -398,7 +405,7 @@ public final class _body implements _tree._view<_body> {
      */
     public List<_stmt> list(){
         List<_stmt> sts = new ArrayList<>();
-        NodeList<Statement> ns = getAstStatements();
+        NodeList<Statement> ns = astList();
         if( ns != null ){
             ns.forEach(n -> sts.add(_stmt.of(n)));
         }
@@ -418,11 +425,11 @@ public final class _body implements _tree._view<_body> {
             return this;
         }
         if( stmts == null ){
-            this.getAstStatements().clear();
+            this.astList().clear();
             return this;
         }
         this.clear(); //clear existing statements
-        stmts.forEach(s-> this.getAstStatements().add(s.ast()));
+        stmts.forEach(s-> this.astList().add(s.ast()));
         return this;
     }
 
@@ -449,7 +456,7 @@ public final class _body implements _tree._view<_body> {
      * null represents NO BODY i.e. "void m();"
      * empty list means empty body "void m(){}"
      */
-    public NodeList<Statement> getAstStatements() {
+    public NodeList<Statement> astList() {
         if (isImplemented()) {
             Statement st = astStatement();
             if( st.isBlockStmt() ) {
@@ -736,6 +743,11 @@ public final class _body implements _tree._view<_body> {
     }
 
     @Override
+    public boolean is(String code) {
+        return is(new String[]{code});
+    }
+
+    @Override
     public String toString() {
         if (!isImplemented()) {
             return "";
@@ -886,7 +898,7 @@ public final class _body implements _tree._view<_body> {
          */
         default NodeList<Statement> listAstStatements(){
             if( this.hasBody() ){
-                return getBody().getAstStatements();
+                return getBody().astList();
             }
             return new NodeList<>();
         }
@@ -909,7 +921,7 @@ public final class _body implements _tree._view<_body> {
         default <S extends Statement> List<S> listAstStatements(Class<S> stmtClass ){
             if( this.hasBody() ){
                 List<S> stmts = new ArrayList<>();
-                getBody().getAstStatements().stream()
+                getBody().astList().stream()
                     .filter(s-> stmtClass.isAssignableFrom(s.getClass()))
                     .forEach(s -> stmts.add( (S)s ));
                 return stmts;

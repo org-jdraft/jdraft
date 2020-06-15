@@ -52,8 +52,9 @@ public final class _annos
     /** A reference to the container entity that is being annotated*/
     public final NodeWithAnnotations astAnnNode;
 
-    public NodeWithAnnotations astHolder() {
-        return astAnnNode;
+    @Override
+    public <N extends Node> N astAnchorNode() {
+        return (N)astAnnNode;
     }
 
     public static _annos of(String... anns ) {
@@ -227,7 +228,7 @@ public final class _annos
     }
 
     @Override
-    public NodeList<AnnotationExpr> listAstElements() {
+    public NodeList<AnnotationExpr> astList() {
         return this.astAnnNode.getAnnotations();
     }
 

@@ -16,6 +16,35 @@ import org.jdraft.walk.Walk;
  */
 public class _bodyTest extends TestCase {
 
+    public void testListAndWalkStatementTypes(){
+        _method _m = _method.of( new Object(){
+            public void body(){
+                assert true;
+                System.out.println( 1);
+                if( true ){
+                    System.out.println( 2 );
+                    assert false : "message";
+                }
+            }
+        });
+        //this will list the top level statements
+        assertEquals(1, _m.getBody().count(_assertStmt.class));
+        assertEquals(1, _m.getBody().count(_assertStmt.class, _a-> !_a.hasMessage()));
+        assertEquals(0, _m.getBody().count(_assertStmt.class, _a-> _a.hasMessage()));
+
+        //I need walk on body
+
+        //walk (but only children)
+        //assertEquals(1, _m.walkDirectChildren(_intExpr.class).count());
+        //assertEquals(2, _m.walkDirectChildren(_booleanExpr.class).count());
+
+        //this will walk deeply into statements/ expressions
+        assertEquals(2, _m.walk(_assertStmt.class).count());
+        assertEquals(2, _m.walk(_intExpr.class).count());
+        assertEquals(3, _m.walk(_booleanExpr.class).count());
+        assertEquals(6, _m.walk(_expr._literal.class).count());
+    }
+
     public void testBodyTypes(){
 
         //these are the (3) different types of bodies I want to unify with _body
@@ -47,10 +76,10 @@ public class _bodyTest extends TestCase {
         assertNull( _nwobs.astStatement() ); //this should be
         assertTrue( _nwb.astStatement() instanceof ExpressionStmt);
 
-        assertEquals(1, _nwbs.getAstStatements().size());
-        assertEquals(0, _nwobs.getAstStatements().size());
+        assertEquals(1, _nwbs.astList().size());
+        assertEquals(0, _nwobs.astList().size());
 
-        assertEquals(1, _nwb.getAstStatements().size());
+        assertEquals(1, _nwb.astList().size());
         assertNotNull(_nwb.astStatement());
         //System.out.println( _nwb.astStatement() );
 

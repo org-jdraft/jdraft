@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
@@ -82,6 +83,10 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
         return _imports.of(astCompilationUnit);
     }
 
+    public <N extends Node> N astAnchorNode(){
+        return (N)astCompilationUnit;
+    }
+
 
     public boolean is(String code){
         return is(new String[]{code});
@@ -104,7 +109,7 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
     }
 
     @Override
-    public NodeList<ImportDeclaration> listAstElements() {
+    public NodeList<ImportDeclaration> astList() {
         return this.astCompilationUnit.getImports();
     }
 

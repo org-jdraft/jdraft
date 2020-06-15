@@ -1,4 +1,4 @@
-package org.jdraft;
+package org.jdraft.walk;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.utils.Log;
 import junit.framework.TestCase;
+import org.jdraft.*;
 import org.jdraft.io._io;
 import org.jdraft.macro._dto;
 import org.jdraft.macro._final;

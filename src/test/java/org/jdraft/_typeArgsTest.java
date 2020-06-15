@@ -20,10 +20,10 @@ public class _typeArgsTest extends TestCase {
         assertTrue( _tas.isUsingDiamondOperator());
         assertEquals(0, _tas.list().size());
         assertEquals(0, _tas.list(t-> t.isArrayType()).size());
-        assertNotNull(_tas.listAstElements());
+        assertNotNull(_tas.astList());
         _tas.removeDiamondOperator();
         assertTrue( _tas.isEmpty());
-        assertNull(_tas.listAstElements());
+        assertNull(_tas.astList());
         assertFalse( _tas.isUsingDiamondOperator());
 
         assertNull( _tas.list() );

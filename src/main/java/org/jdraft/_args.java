@@ -111,6 +111,10 @@ public final class _args
 
     public NodeWithArguments nwa;
 
+    public <N extends Node> N astAnchorNode(){
+        return (N)nwa;
+    }
+
     public _args(NodeWithArguments nwa){
         this.nwa = nwa;
     }
@@ -244,11 +248,11 @@ public final class _args
 
     @Override
     public List<_expr> list() {
-        return listAstElements().stream().map(e-> _expr.of(e) ).collect(Collectors.toList());
+        return astList().stream().map(e-> _expr.of(e) ).collect(Collectors.toList());
     }
 
     @Override
-    public NodeList<Expression> listAstElements() {
+    public NodeList<Expression> astList() {
         return this.nwa.getArguments();
     }
 
@@ -411,7 +415,7 @@ public final class _args
         }
 
         default _WA setArgs(_args _as){
-            ((NodeWithArguments)ast()).setArguments(_as.listAstElements());
+            ((NodeWithArguments)ast()).setArguments(_as.astList());
             return (_WA)this;
         }
 

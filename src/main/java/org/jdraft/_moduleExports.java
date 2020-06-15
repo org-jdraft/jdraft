@@ -125,7 +125,7 @@ public final class _moduleExports implements _tree._node<ModuleExportsDirective,
     }
 
     @Override
-    public NodeList<Name> listAstElements() {
+    public NodeList<Name> astList() {
         return this.me.getModuleNames();
     }
 

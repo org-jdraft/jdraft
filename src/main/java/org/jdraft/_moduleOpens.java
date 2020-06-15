@@ -131,7 +131,7 @@ public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _mo
     }
 
     @Override
-    public NodeList<Name> listAstElements() {
+    public NodeList<Name> astList() {
         return this.mod.getModuleNames();
     }
 

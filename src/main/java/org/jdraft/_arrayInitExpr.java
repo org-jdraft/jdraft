@@ -163,7 +163,7 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
     }
 
     @Override
-    public NodeList<Expression> listAstElements() {
+    public NodeList<Expression> astList() {
         return this.aie.getValues();
     }
 

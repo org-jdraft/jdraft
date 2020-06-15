@@ -97,7 +97,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
     }
 
     @Override
-    public NodeList<Statement> listAstElements() {
+    public NodeList<Statement> astList() {
         return this.bs.getStatements();
     }
 

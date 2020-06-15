@@ -165,7 +165,7 @@ public class $body implements Template<_body>,
             } else {
                 final $stmt $s = $stmt.of(b.ast());
                 //make sure the number of statements is the same AND the top BlockStmt it matches (exactly)
-                $b.$and(_b -> _b.getAstStatements().size() == b.getAstStatements().size() && $s.matches(_b.ast()));
+                $b.$and(_b -> _b.astList().size() == b.astList().size() && $s.matches(_b.ast()));
             }
         }
         return $b;

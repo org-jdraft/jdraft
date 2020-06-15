@@ -2577,7 +2577,7 @@ public enum Walk {
         //need to handle _typeParameters, _parameters, _annos
         if( _j instanceof _typeParams){
             _typeParams _tps = (_typeParams)_j;
-            _tree._node _n = (_tree._node)_java.of( (Node)_tps.astHolder());
+            _tree._node _n = (_tree._node)_java.of( (Node)_tps.astAnchorNode());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         if( _j instanceof _body){

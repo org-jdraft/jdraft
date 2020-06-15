@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.body.Parameter;
@@ -150,6 +151,11 @@ public final class _params
      */
     private final NodeWithParameters astNodeWithParams;
 
+    public <N extends Node> N astAnchorNode(){
+        return (N)astNodeWithParams;
+    }
+
+
     /**
      *
      * @return
@@ -185,7 +191,7 @@ public final class _params
     }
 
     @Override
-    public NodeList<Parameter> listAstElements() {
+    public NodeList<Parameter> astList() {
         return this.astNodeWithParams.getParameters();
     }
 

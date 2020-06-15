@@ -74,11 +74,11 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
 
     @Override
     public List<_variable> list() {
-        return listAstElements().stream().map(v-> _variable.of(v)).collect(Collectors.toList());
+        return astList().stream().map(v-> _variable.of(v)).collect(Collectors.toList());
     }
 
     @Override
-    public NodeList<VariableDeclarator> listAstElements() {
+    public NodeList<VariableDeclarator> astList() {
         return this.varDeclEx.getVariables();
     }
 

@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.ast.nodeTypes.SwitchNode;
@@ -133,6 +134,10 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
 
     public NodeList<SwitchEntry> switchEntries = new NodeList<>();
 
+    public <N extends Node> N astAnchorNode(){
+        return (N)parentSwitch;
+    }
+
     public _switchCases(SwitchNode parentSwitch){
         this.parentSwitch = parentSwitch;
     }
@@ -181,7 +186,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
     }
 
     @Override
-    public NodeList<SwitchEntry> listAstElements() {
+    public NodeList<SwitchEntry> astList() {
         return this.switchEntries;
     }
 
