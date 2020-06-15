@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.function.*;
 
 public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
-        _tree._orderedGroup<Statement, _stmt, _blockStmt> {
+        _tree._mixedOrderedGroup<Statement, _stmt, _blockStmt> {
 
     public static final Function<String, _blockStmt> PARSER = s-> _blockStmt.of(s);
 

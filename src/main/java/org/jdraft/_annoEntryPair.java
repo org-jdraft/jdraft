@@ -27,7 +27,7 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
     }
 
     public static _annoEntryPair of(SingleMemberAnnotationExpr se ){
-        return new _annoEntryPair( new MemberValuePair("value", se.getMemberValue()) );
+        return new _annoEntryPair( new MemberValuePair("value", se.getMemberValue()) ).setValueOnly();
     }
     public static _annoEntryPair of(String name, int value){
         return of( new MemberValuePair(name, new IntegerLiteralExpr(value)));
@@ -168,6 +168,15 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
 
     public _annoEntryPair setName(String name){
         this.mvp.setName(name);
+        return this;
+    }
+
+    public _annoEntryPair setValueOnly(){
+        return setValueOnly(true);
+    }
+
+    public _annoEntryPair setValueOnly(boolean valueOnly){
+        this.isValueOnly = valueOnly;
         return this;
     }
 

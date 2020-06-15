@@ -43,7 +43,8 @@ public final class _annos
             _feature._id.ANNOS, _feature._id.ANNO_EXPR,
             as->as.list(),
             (_annos as, List<_anno> anns)-> as.set(anns),
-            PARSER, s-> _anno.of(s))
+            PARSER,
+            s-> _anno.of(s))
             .setOrdered(false); /* the order of the annos isnt semantically important {@A @B @C === @B @A @C} */
 
     public static _feature._features<_annos> FEATURES = _feature._features.of(_annos.class,  PARSER, ANNOS);

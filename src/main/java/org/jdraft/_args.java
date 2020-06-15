@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class _args
-        implements _tree._view<_args>, _tree._orderedGroup<Expression, _expr, _args> {
+        implements _tree._view<_args>, _tree._mixedOrderedGroup<Expression, _expr, _args> {
 
     public static final Function<String, _args> PARSER = s-> _args.of(s);
 

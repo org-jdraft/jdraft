@@ -24,6 +24,7 @@ import org.jdraft.io._io;
 import org.jdraft.io._ioException;
 import org.jdraft.macro._toCtor;
 import org.jdraft.macro.macro;
+import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
 /**
@@ -873,11 +874,21 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     @Override
     */
     public boolean is( String...classDeclaration){
-        try{
-            _class _o = of( classDeclaration );
-            return _o.equals( this );
-        }catch(Exception e){
-            return false;
+        Stencil st = Stencil.of(classDeclaration);
+        if( st.isMatchAny() ){
+            return true;
+        }
+        if( st.isFixedText() ) {
+            try {
+                _class _o = of(classDeclaration);
+                return _o.equals(this);
+            } catch (Exception e) {
+                return false;
+            }
+        } else{
+            //neither fixed text nor
+            _class _o = of(classDeclaration);
+            return _tree._node.leftDeepFeatureCompare(_o, this );
         }
     }
 
