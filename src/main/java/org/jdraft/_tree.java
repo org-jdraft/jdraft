@@ -9,6 +9,7 @@ import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
+import org.jdraft.text.Translator;
 import org.jdraft.walk.Walk;
 import org.jdraft.walk._walk;
 import org.jdraft.walk._walkFeatures;
@@ -348,7 +349,7 @@ public interface _tree<_T> extends _java._domain {
          */
         N node();
 
-        <_I extends _N> _I replace(N n);
+        _N replace(N n);
 
         /**
          * Replace this ast node (wherever it resides in the Ast TREE) with the ASt node
@@ -366,15 +367,13 @@ public interface _tree<_T> extends _java._domain {
          * Replace this {@link _tree._node} (wherever it resides in the Ast TREE) with {@code _n} provided
          * and return the replacement Ast node instance
          * @param _n the {@link _tree._node} to use as a replacement for this node within the AST
-         * @param <_N> the type of _astNode node to replace with
+         * @param <_I> the type of _astNode node to replace with
          * @return the replacement _astNode implementation
         */
         default <_I extends _N> _I replace(_I _n){
             //return _n;
             return (_I)replace( (N)_n.node());
         }
-
-
 
         /**
          * Produces a NEW MUTABLE COPY of the {@link _tree._node} based on the targetValue replacements
@@ -405,12 +404,45 @@ public interface _tree<_T> extends _java._domain {
          * @return a new copy of the node with the replacements made
          * @see #draftReplace(Object...) to have the drafted {@link _tree._node} replace this node within the AST
          */
-        default _N draft(Object...targetToReplacementPairs){
-            String draftText = Text.replace(this.toString(), Stream.of(targetToReplacementPairs).map(o-> o.toString())
+        default _N draft(Object...targetToReplacementPairs) {
+            return draft(Translator.DEFAULT_TRANSLATOR, targetToReplacementPairs);
+        }
+
+        /**
+         * Produces a NEW MUTABLE COPY of the {@link _tree._node} based on the targetValue replacements
+         * passed in
+         * ** DOES NOT update the AST where this Node came from **
+         * (for that see draftReplace(...)
+         * String/Text based replacement with target/replacement pairs:
+         * NOTE: this does NOT use regex characters but rather
+         * _class _c = _class.of("C", new Object(){
+         *     int $var$ = 0;
+         *
+         *     public void m(){
+         *         return $num$ * $var$;
+         *     }
+         * }
+         * _c = _c.replaceIn("$var$", "x", "$num$", 100);
+         * System.out.println(c);
+         * //prints:
+         * public class C{
+         *     int x = 0;
+         *
+         *     public void m(){
+         *         return 100 * x;
+         *     }
+         * }
+         * Given the targetToReplacementPairs provided,
+         * @param translator translates any "value" objects to Strings
+         * @param targetToReplacementPairs
+         * @return a new copy of the node with the replacements made
+         * @see #draftReplace(Object...) to have the drafted {@link _tree._node} replace this node within the AST
+         */
+        default _N draft(Translator translator, Object...targetToReplacementPairs){
+            String draftText = Text.replace(this.toString(), Stream.of(targetToReplacementPairs).map(o-> translator.translate(o))
                     .collect(Collectors.toList()).toArray(new String[0]));
             return this.features().parse(draftText);
         }
-
 
         /**
          * Drafts a new copy of this {@link _tree._node} AND replaces it within the AST
@@ -436,8 +468,36 @@ public interface _tree<_T> extends _java._domain {
          * @return
          * @see #draft(Object...) if you want to return a new mutable copy (AND NOT MODIFY THE UNDERLYING SYNTAX TREE)
          */
-        default _N draftReplace(Object...targetToReplacementPairs){
-            _N replacement = draft(targetToReplacementPairs);
+        default _N draftReplace(Object...targetToReplacementPairs) {
+            return draftReplace(Translator.DEFAULT_TRANSLATOR, targetToReplacementPairs);
+        }
+
+        /**
+         * Drafts a new copy of this {@link _tree._node} AND replaces it within the AST
+         * for example:
+         * <PRE>
+         *     class $className${
+         *         public $className$(){
+         *         }
+         *         public $className$(int i){
+         *         }
+         *     }
+         *     _class _c = _class.of($className$.class).draftReplace("$className$", "MyClass");
+         *     //produces
+         *     class MyClass{
+         *         public MyClass(){
+         *         }
+         *         public MyClass(int i){
+         *         }
+         *     }
+         * </PRE>
+         *
+         * @param targetToReplacementPairs
+         * @return
+         * @see #draft(Object...) if you want to return a new mutable copy (AND NOT MODIFY THE UNDERLYING SYNTAX TREE)
+         */
+        default _N draftReplace(Translator translator, Object...targetToReplacementPairs) {
+            _N replacement = draft(translator, targetToReplacementPairs);
             replace(replacement);
             return (_N)this;
         }

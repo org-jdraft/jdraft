@@ -134,8 +134,8 @@ public class _withBodyAddLambdaTest extends TestCase {
         //_m.flattenLabel("$label");
         //_m.flattenLabel("$label2");
 
-        Walk.flattenLabel( _m.node() , "$label");
-        Walk.flattenLabel( _m.node(), "$label2");
+        Walk.deLabel( _m.node() , "$label");
+        Walk.deLabel( _m.node(), "$label2");
         assertEquals(3, _m.statementCount() );
         
         assertEquals( Stmt.of(()->System.out.println("A")), _m.getAstStatement(0));

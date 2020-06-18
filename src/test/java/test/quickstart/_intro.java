@@ -6,8 +6,9 @@ import org.jdraft.io._io;
 import org.jdraft.macro.*;
 import org.jdraft.runtime.*;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.*;
 
 public class _intro extends TestCase {
 
@@ -63,7 +64,7 @@ public class _intro extends TestCase {
             //write to an output file in the base directory & return/print the fileName
             System.out.println(_io.out("C:\\temp\\", _c)); //C:\temp\math\geometry\Point.java
         }
-        compileAndUse: { //compile, load and use the class from the _class source
+        compileAndRun: { //compile, load and use the class from the _class source
             //compile and load the source code in _c in a new runtime ClassLoader
             _runtime _r = _runtime.of(_c);
 
@@ -152,7 +153,7 @@ public class _intro extends TestCase {
      * <A HREF="https://github.com/square/javapoet#l-for-literals"></A>
      */
     public void testUpdateCode(){
-        computeRange("methodName", 0, 100, "*" );
+        computeRange("multiply10to20", 10, 20, "*" );
         computeRange("methodName", -20, 20, "/" );
         computeRange2("methodName", 0, 100, "*" );
     }
@@ -195,6 +196,164 @@ public class _intro extends TestCase {
 
         System.out.println( _computeRange );
         return _computeRange;
+    }
+
+    /**
+     * <A HREF="https://github.com/square/javapoet#code--control-flow">Control Flow within code</A>
+     *
+     */
+    public void testParameterizedCode(){
+        //start with what you want
+        _method _m = _method.of( new Object() {
+            void main() {
+                long now = System.currentTimeMillis();
+                if (System.currentTimeMillis() < now) {
+                    System.out.println("Time travelling, woo hoo!");
+                } else if (System.currentTimeMillis() == now) {
+                    System.out.println("Time stood still!");
+                } else {
+                    System.out.println("Ok, time still moving forward");
+                }
+            }
+        }).draft("System", "$T$",
+                "Time travelling, woo hoo!", "$timeBackMessage$",
+                "Time stood still!", "$timeStillMessage$",
+                "Ok, time still moving forward", "$timeForwardMessage$");
+
+        System.out.println( _m );
+    }
+
+    public void testTryCatch() {
+        _method _m = _method.of(new Object() {
+            void main() {
+                try {
+                    throw new Exception("Failed");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        _m.walk(_tryStmt.class).first().addCatch(_catch.of(FileNotFoundException.class));
+        System.out.println( _m );
+    }
+
+    /**
+     * <A HREF="https://github.com/square/javapoet#code--control-flow">Try catch</A>
+     */
+    public void testTryCatchBuildUp(){
+
+        _tryStmt _ts = _tryStmt.of(()->{
+            try{
+                throw new Exception("Failed");
+            }catch(Exception e){
+                throw new RuntimeException(e);
+            }
+        });
+
+        _method _m = _method.of("void main(){}");
+        _m.add(_ts);
+
+        System.out.println( _m );
+    }
+
+    /**
+     * <A HREF="https://github.com/square/javapoet#s-for-strings">Strings</A>
+     */
+    public void testStrings(){
+        _method _m = _method.of( new Object(){
+            String $name$() {
+                return "$name$";
+            }
+        });
+        _class _c = _class.of("HelloWorld").add(
+                _m.draft("$name$", "slimShady"),
+                _m.draft("$name$", "eminem"),
+                _m.draft("$name$", "marshallMathers"));
+
+        System.out.println( _c );
+    }
+
+    /**
+     * <A HREF="https://github.com/square/javapoet#t-for-types">For Types</A>
+     */
+    public void testTypes(){
+        _method _m = _method.of(new Object(){
+            class $type${}
+
+            $type$ today(){
+               return new $type$();
+            }
+        });
+
+        _m.draftReplace( "$type$", Date.class);
+
+        System.out.println( _m);
+    }
+
+    /**
+     * <A HREF="https://github.com/square/javapoet#t-for-types">types</A>
+     */
+    public void testFutureType(){
+        _class _c = _class.of( "com.example.HelloWorld", new Object(){
+            @_remove class $type${}
+            $type$ tomorrow() {
+                return new $type$();
+            }
+        });
+        _c.toMethods( _m -> _m.draftReplace("$type$", "Hoverboard")).addImports("com.mattel.Hoverboard");
+        System.out.println( _c );
+    }
+
+    /**
+     * <A HREF="https://github.com/square/javapoet#t-for-types">types</A>
+     */
+    public void testStatementBuilding(){
+        _class _c = _class.of("com.example.helloworld.HelloWorld", new Object(){
+            @_remove class $type${}
+
+            public List<$type$> beyond(){
+                List<$type$> result = new ArrayList<>();
+                result.add(new $type$());
+                result.add(new $type$());
+                result.add(new $type$());
+                return result;
+            }
+        });
+        _c.draftReplace("$type$", "Hoverboard")
+                .addImports("com.mattel.Hoverboard").addImports(ArrayList.class);
+
+        System.out.println(_c );
+    }
+
+    public void testDraftAndDraftReplace(){
+        _class _c = _class.of("com.example.helloworld.HelloWorld", new Object(){
+            @_remove class $type$ implements Comparable<$type$>{
+                @Override
+                public int compareTo($type$ o) {
+                    return 0;
+                }
+            }
+
+            public List<$type$> beyond(){
+                List<$type$> result = new ArrayList<>();
+                $add$:{ }
+                Collections.sort(result);
+                return result.isEmpty() ? Collections.emptyList() : result;
+            }
+        }).addImportStatic("com.mattel.Hoverboard.Boards.*",
+                "com.mattel.Hoverboard.createNimbus", "java.util.Collections.*");
+
+        //here we build a "prototype" expression stmt (to be filled in with $arg$)
+        _exprStmt _proto = _exprStmt.of("result.add( createNimbus($arg$) );");
+
+        //draftReplace will UPDATE the underlying _class // draft will return a new instance
+        _c.draftReplace("$type$", "Hoverboard")
+                .getMethod("beyond")
+                    .replaceAt("$add$", //replace the $add:{} with the custom statements below
+                            _proto.draft("$arg$", "2000"), //draft & return a new statement with $arg$
+                            _proto.draft("$arg$", "\"2001\""),
+                            _proto.draft("$arg$", "THUNDERBOLT") );
+        System.out.println(_c );
     }
 
     public void testDraftReplace(){

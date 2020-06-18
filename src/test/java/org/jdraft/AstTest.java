@@ -649,7 +649,7 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of( C.class);
-        Walk.flattenLabel(_c.astCompilationUnit(), "label");
+        Walk.deLabel(_c.astCompilationUnit(), "label");
         System.out.println( _c );
     }
    /*

@@ -2506,7 +2506,7 @@ public enum Walk {
      * @param <N>
      * @return
      */
-    public static <N extends Node> N flattenLabel(N node, String labelName) {
+    public static <N extends Node> N deLabel(N node, String labelName) {
         //if( !isImplemented() ){
         //    throw new _jDraftException("No label : "+labelName+" in non-implemented body");
         //}

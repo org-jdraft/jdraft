@@ -122,7 +122,7 @@ public class _runtimeTest extends TestCase {
                            "$add$ : { System.out.println(\" " + ((_java._withName) _m).getName() + " took \" + (System.currentTimeMillis() - start)); " + (($stmt.Select)sel).ast().toString() + " }");
 
                            (($stmt.Select)sel).ast().replace(ls);
-                            _labeledStmt.flattenLabel(_m, "$add$");
+                            _labeledStmt.deLabel(_m, "$add$");
                             //Ast.flattenLabel(((_node) _m).ast(), "$add$");
                       });
                  } else{

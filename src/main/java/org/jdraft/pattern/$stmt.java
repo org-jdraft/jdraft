@@ -1788,7 +1788,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 //System.out.println("PAR AFTER Remove "+ par );
             }
         });
-        Walk.flattenLabel(node, "$replacement$");
+        Walk.deLabel(node, "$replacement$");
         return node;
     }
     /**
@@ -1828,7 +1828,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
             }
         });
         if( _j instanceof _tree._node){
-            Walk.flattenLabel( ((_tree._node) _j).node(), "$replacement$");
+            Walk.deLabel( ((_tree._node) _j).node(), "$replacement$");
         }
         return (_J) _j;
     }
@@ -1945,7 +1945,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 LabeledStmt $TO_REPLACE = Stmt.labeledStmt("$TO_REPLACE: {}");
                 $TO_REPLACE.setStatement(st);
                 ls.replace( $TO_REPLACE );
-                Walk.flattenLabel(node, "$TO_REPLACE");
+                Walk.deLabel(node, "$TO_REPLACE");
             }
         });
         return node;

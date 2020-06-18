@@ -593,7 +593,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
             }
         });
 
-        Walk.flattenLabel(astNode, "$replacement$");
+        Walk.deLabel(astNode, "$replacement$");
         return astNode;
     }
 
@@ -655,7 +655,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
             }
         });
         if( _j instanceof _tree._node){
-            Walk.flattenLabel( ((_tree._node) _j).node(), "$replacement$");
+            Walk.deLabel( ((_tree._node) _j).node(), "$replacement$");
         }
         return _j;
     }

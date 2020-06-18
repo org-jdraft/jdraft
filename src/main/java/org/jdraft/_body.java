@@ -781,7 +781,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
                 return false;
             }
             _body _bd = _body.of(all);
-            System.out.println( "testing "+ listStatements()+" to "+ _bd.list());
+            //System.out.println( "testing "+ listStatements()+" to "+ _bd.list());
             if(_bd.list().size() != this.listAstStatements().size()){
                 return false;
             }
@@ -790,7 +790,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             List<_stmt> st = _bd.list();
             for(int i=0;i<st.size(); i++){
                 if( !Objects.equals( st.get(i), _stmt.of(tst.get(i)) ) ){
-                    System.out.println("NOT EQ"+ st.get(i)+ " to "+tst.get(i));
+                    //System.out.println("NOT EQ"+ st.get(i)+ " to "+tst.get(i));
                     return false;
                 }
             }
@@ -1471,6 +1471,34 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
         default boolean hasLabel(String labelName) {            
             return this.isImplemented() && 
                 this.getBody().ast().findFirst(LabeledStmt.class, ls -> ls.getLabel().toString().equals(labelName)).isPresent();
+        }
+
+        /**
+         * Add the statements at the label and remove the label
+         *
+         * @param labelName the name of the label for where the statements are to be added (and label removed)
+         * @param _sts the statements to be added
+         * @return the modified _withBody
+         */
+        default _WB replaceAt(String labelName, _stmt... _sts){
+            addAt(labelName, _sts);
+            _labeledStmt.deLabel(this, labelName);
+            return (_WB)this;
+        }
+
+        default _WB replaceAt(String labelName, Statement... sts){
+            addAt(labelName, sts);
+            _labeledStmt.deLabel(this, labelName);
+            return (_WB)this;
+        }
+
+        default _WB addAt(String labelName, _stmt..._sts){
+            if( !isImplemented() ){
+                throw new _jdraftException("cannot find labeled Statement \"" + labelName + "\" on no-implemented body");
+            }
+            List<Statement> stmts = new ArrayList<>();
+            Arrays.stream(_sts).forEach( _s -> stmts.add(_s.node()) );
+            return addAt(labelName, stmts);
         }
 
         /**
