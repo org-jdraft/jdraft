@@ -82,7 +82,7 @@ public interface _comment<C extends Comment, _C extends _comment> extends _tree.
      * @return
      */
     default String getText(){
-        return Comments.getContent(ast());
+        return Comments.getContent(node());
     }
 
     /**
@@ -137,7 +137,7 @@ public interface _comment<C extends Comment, _C extends _comment> extends _tree.
      * @return whether this comment is orphaned( Not attributed to an AST node)
      */
     default boolean isOrphaned(){
-        return this.ast().isOrphan();
+        return this.node().isOrphan();
     }
 
     /**
@@ -213,19 +213,19 @@ public interface _comment<C extends Comment, _C extends _comment> extends _tree.
      * @return
      */
     default _C setText(_style style, String contents){
-        if( this.ast().getRange().isPresent()){
+        if( this.node().getRange().isPresent()){
             //it's already attached, So I need to infer what indentation I need
-            int column = Math.max( (this.ast().getRange().get().begin.column) -1, 0);
+            int column = Math.max( (this.node().getRange().get().begin.column) -1, 0);
 
             String indent = "";
             for(int i=0;i<column;i++){
                 indent += " "; //or tabs??
             }
             String cont = _comment.formatContents(style, indent, contents);
-            ast().setContent( cont );
+            node().setContent( cont );
             return (_C)this;
         }
-        ast().setContent( _comment.formatContents(style, "", contents) );
+        node().setContent( _comment.formatContents(style, "", contents) );
         return (_C)this;
     }
 

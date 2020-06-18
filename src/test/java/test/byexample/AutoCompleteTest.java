@@ -40,7 +40,7 @@ public class AutoCompleteTest extends TestCase {
         _lambdaExpr _l = _lambdaExpr.of( (Integer a)-> { System.out.println(a); });
 
 
-        assertEquals( l, _l.ast() );
+        assertEquals( l, _l.node() );
 
     }
 

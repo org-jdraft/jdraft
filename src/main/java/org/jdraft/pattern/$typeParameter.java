@@ -439,7 +439,7 @@ public class $typeParameter
 
     @Override
     public <N extends Node> N removeIn(N astNode) {
-        forEachIn(astNode, tp -> tp.ast().remove() );
+        forEachIn(astNode, tp -> tp.node().remove() );
         return astNode;
     }
     
@@ -618,7 +618,7 @@ public class $typeParameter
 
         @Override
         public TypeParameter ast() {
-            return _tp.ast();
+            return _tp.node();
         }
 
         

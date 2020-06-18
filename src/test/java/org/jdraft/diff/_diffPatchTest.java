@@ -76,7 +76,7 @@ public class _diffPatchTest
         assertTrue(_diff.constructorsOf(_c1,_c2).isEmpty() );
         assertTrue(_diff.annosOf(_c1,_c2).isEmpty() );
         
-        _c2.addBodyMembers(new Object(){
+        _c2.addMembers(new Object(){
             
             int f = 10;
             
@@ -291,7 +291,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.fieldNamed("aFieldIAdded").addAnnos(Deprecated.class);
+        _c.getField("aFieldIAdded").addAnnos(Deprecated.class);
         
         dl = _diff.of(_c, _c2);
         //System.out.println(_c.getField("aFieldIAdded"));
@@ -308,7 +308,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.fieldNamed("aFieldIAdded").setInit(54321);
+        _c.getField("aFieldIAdded").setInit(54321);
         dl = _diff.of(_c, _c2);
         assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().right(), Expr.of(1023) );
         assertEquals( dl.firstOn(FIELD, "aFieldIAdded").asChange().left(), Expr.of(54321) );
@@ -316,7 +316,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());        
         
-        _c.fieldNamed("aFieldIAdded").setStatic();
+        _c.getField("aFieldIAdded").setStatic();
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertEquals( dl.at(FIELD, "aFieldIAdded", MODIFIERS).asChange().left(), _modifiers.of("public", "static").ast() );
@@ -326,10 +326,10 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.fieldNamed("aFieldIAdded").removeInit();
-        _c2.fieldNamed("aFieldIAdded").removeInit();
+        _c.getField("aFieldIAdded").removeInit();
+        _c2.getField("aFieldIAdded").removeInit();
         
-        _c.fieldNamed("aFieldIAdded").setType(float.class);
+        _c.getField("aFieldIAdded").setType(float.class);
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertEquals( dl.at(FIELD, "aFieldIAdded", TYPE).asChange().left(), _typeRef.of(float.class));
@@ -337,7 +337,7 @@ public class _diffPatchTest
         dl.patchLeftToRight();        
         assertTrue(_diff.of(_c, _c2).isEmpty());
         
-        _c.fieldNamed("aFieldIAdded").setJavadoc("field javadoc");
+        _c.getField("aFieldIAdded").setJavadoc("field javadoc");
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertNotNull( dl.at(FIELD, "aFieldIAdded", JAVADOC) );        
@@ -474,7 +474,7 @@ public class _diffPatchTest
         System.out.println("BEFORE "+ _c );
 
         //this will change api
-        _c.getMethod(0).getParams().astHolder().getParameters().add( 0, Ast.parameter( "final int firstParameter"));
+        _c.getMethod(0).getParams().nodeWithParameters().getParameters().add( 0, Ast.parameter( "final int firstParameter"));
         dl = _diff.of(_c, _c2);
         System.out.println( dl);
         assertTrue(dl.hasLeftOnly());

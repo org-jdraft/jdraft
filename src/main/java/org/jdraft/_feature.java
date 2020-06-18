@@ -305,7 +305,7 @@ public interface _feature<_T, _F>{
          * {@link _moduleRequires#MODULE_NAME}*/
         MODULE_NAME("moduleName"),
 
-        /**{@link _anno#NAME}, {@link _arrayAccessExpr#NAME}, {@link _class#NAME}, {@link _constant#NAME},
+        /**{@link _anno#NAME}, {@link _arrayAccessExpr#EXPRESSION}, {@link _class#NAME}, {@link _constant#NAME},
          * {@link _constructor#NAME}, {@link _annoMember#NAME}, {@link _annoEntryPair#NAME}, {@link _enum#NAME},
          * {@link _field#NAME}, {@link _fieldAccessExpr#NAME}, {@link _import#NAME}, {@link _interface#NAME},
          * {@link _method#NAME}, {@link _methodCallExpr#NAME}, {@link _name#NAME}, {@link _nameExpr#NAME},
@@ -417,6 +417,13 @@ public interface _feature<_T, _F>{
         _id(String name, Class categoryType){
             this.name = name;
             this.categoryType = categoryType;
+        }
+
+        public String toString(){
+            if( this.categoryType == null ){
+                return this.name;
+            }
+            return this.categoryType.getSimpleName()+"."+this.name;
         }
     }
 

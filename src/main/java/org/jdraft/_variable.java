@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
@@ -45,10 +46,10 @@ public final class _variable implements _tree._node<VariableDeclarator, _variabl
 
     public static _feature._features<_variable> FEATURES = _feature._features.of(_variable.class,  PARSER, TYPE, NAME, INIT);
 
-    public VariableDeclarator vd;
+    public VariableDeclarator node;
 
-    public _variable(VariableDeclarator vd){
-        this.vd = vd;
+    public _variable(VariableDeclarator node){
+        this.node = node;
     }
 
     public _feature._features<_variable> features(){
@@ -56,23 +57,23 @@ public final class _variable implements _tree._node<VariableDeclarator, _variabl
     }
 
     public _typeRef getType(){
-        return _typeRef.of(this.vd.getType());
+        return _typeRef.of(this.node.getType());
     }
 
     @Override
     public _variable copy() {
-        return of( vd.clone());
+        return of( node.clone());
     }
 
     @Override
-    public VariableDeclarator ast() {
-        return vd;
+    public VariableDeclarator node() {
+        return node;
     }
 
     public boolean equals(Object o){
         if( o instanceof _variable){
             _variable _v = (_variable)o;
-            return Objects.equals( this.vd, _v.ast());
+            return Objects.equals( this.node, _v.node());
         }
         return false;
     }
@@ -82,8 +83,8 @@ public final class _variable implements _tree._node<VariableDeclarator, _variabl
      * @return true if this variable is a child of a Field
      */
     public boolean isField(){
-        if( this.vd.getParentNode().isPresent()){
-            if( this.vd.getParentNode().get() instanceof VariableDeclarationExpr ){
+        if( this.node.getParentNode().isPresent()){
+            if( this.node.getParentNode().get() instanceof VariableDeclarationExpr ){
                 return false;
             }
             return true;
@@ -92,8 +93,8 @@ public final class _variable implements _tree._node<VariableDeclarator, _variabl
     }
 
     public boolean isLocal(){
-        if( this.vd.getParentNode().isPresent()){
-            if( this.vd.getParentNode().get() instanceof VariableDeclarationExpr ){
+        if( this.node.getParentNode().isPresent()){
+            if( this.node.getParentNode().get() instanceof VariableDeclarationExpr ){
                 return true;
             }
             return false;
@@ -102,39 +103,38 @@ public final class _variable implements _tree._node<VariableDeclarator, _variabl
     }
 
     public boolean isFinal(){
-        if( this.vd.getParentNode().isPresent() &&  this.vd.getParentNode().get() instanceof VariableDeclarationExpr){
+        if( this.node.getParentNode().isPresent() &&  this.node.getParentNode().get() instanceof VariableDeclarationExpr){
             //check if the parent node describing this is
-            VariableDeclarationExpr vde = (VariableDeclarationExpr) this.vd.getParentNode().get();
+            VariableDeclarationExpr vde = (VariableDeclarationExpr) this.node.getParentNode().get();
             return vde.isFinal();
         }
         return false;
     }
 
     public _expr getInit(){
-        if( this.vd.getInitializer().isPresent()){
-            return _expr.of( vd.getInitializer().get());
+        if( this.node.getInitializer().isPresent()){
+            return _expr.of( node.getInitializer().get());
         }
         return null;
     }
 
-
     public _variable setInit(String...e){
-        this.vd.setInitializer(Expr.of(e));
+        this.node.setInitializer(Expr.of(e));
         return this;
     }
 
     public _variable setInit(Expression e){
-        this.vd.setInitializer(e);
+        this.node.setInitializer(e);
         return this;
     }
 
     public _variable setInit(_expr _e){
-        this.vd.setInitializer(_e.ast());
+        this.node.setInitializer(_e.node());
         return this;
     }
 
     public _variable removeInit(){
-        this.vd.removeInitializer();
+        this.node.removeInitializer();
         return this;
     }
 
@@ -162,9 +162,8 @@ public final class _variable implements _tree._node<VariableDeclarator, _variabl
         return setInit(Expr.of(d));
     }
 
-
     public boolean hasInit(){
-        return this.vd.getInitializer().isPresent();
+        return this.node.getInitializer().isPresent();
     }
 
     public boolean isInit(boolean b){
@@ -199,39 +198,44 @@ public final class _variable implements _tree._node<VariableDeclarator, _variabl
         }
     }
     public boolean isInit(_expr _e){
-        return isInit(_e.ast());
+        return isInit(_e.node());
     }
 
     public boolean isInit(Expression e){
-        return this.vd.getInitializer().isPresent() &&
-                Expr.equal( this.vd.getInitializer().get(), e);
+        return this.node.getInitializer().isPresent() &&
+                Expr.equal( this.node.getInitializer().get(), e);
     }
 
     public int hashCode( ){
-        return this.vd.hashCode() * 31;
+        return this.node.hashCode() * 31;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return of( Ast.variableDeclarator(stringRep)).equals(this);
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _variable replace(VariableDeclarator replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public _variable setName(String name) {
-        this.vd.setName(name);
+        this.node.setName(name);
         return this;
     }
 
     public String toString(){
-        return this.vd.toString();
+        return this.node.toString();
     }
 
-    public SimpleName getNameNode(){ return this.vd.getName(); }
+    public SimpleName getNameNode(){ return this.node.getName(); }
 
     @Override
     public String getName() {
-        return this.vd.getNameAsString();
+        return this.node.getNameAsString();
     }
 }

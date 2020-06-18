@@ -70,47 +70,47 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
 
     public static _switchExpr of(Expr.Command lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object> _switchExpr of (Consumer<A> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object, B extends Object> _switchExpr of (Function<A,B> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object, B extends Object, C extends Object> _switchExpr of (BiFunction<A,B,C> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object> _switchExpr of (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchExpr of (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object, B extends Object> _switchExpr of(BiConsumer<A,B> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object, B extends Object,C extends Object> _switchExpr of(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     public static <A extends Object, B extends Object,C extends Object, D extends Object> _switchExpr of(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return of( _l.astLambda);
+        return of( _l.node);
     }
 
     /**
@@ -135,36 +135,42 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
         return FEATURES;
     }
 
-    public SwitchExpr switchExpr;
+    public SwitchExpr node;
 
     public _switchExpr(SwitchExpr stt){
-        this.switchExpr = stt;
+        this.node = stt;
     }
 
     @Override
     public _switchExpr copy() {
-        return new _switchExpr( this.switchExpr.clone());
+        return new _switchExpr( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try {
-            return is(Expr.switchExpr(stringRep));
-        }catch(Exception e){ //string could be invalid
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _switchExpr replace(SwitchExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(SwitchExpr astNode) {
-        return this.switchExpr.equals(astNode);
+        return this.node.equals(astNode);
     }
 
     @Override
-    public SwitchExpr ast(){
-        return switchExpr;
+    public SwitchExpr node(){
+        return node;
+    }
+
+    @Override
+    public SwitchExpr switchNode(){
+        return node;
     }
 
     public _switchCase getCase(int i){
@@ -177,15 +183,15 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      */
     public List<_switchCases> listCaseGroups(){
         List<_switchCases> cgs = new ArrayList<>();
-        _switchCases _cg = new _switchCases(this.switchExpr);
-        List<SwitchEntry> ses = this.switchExpr.getEntries();
+        _switchCases _cg = new _switchCases(this.node);
+        List<SwitchEntry> ses = this.node.getEntries();
         for(int i=0; i< ses.size(); i++){
             if( ses.get(i).getStatements().isEmpty() ){
                 _cg.addSwitchEntry(ses.get(i));
             } else{
                 _cg.addSwitchEntry(ses.get(i));
                 cgs.add(_cg);
-                _cg = new _switchCases(this.switchExpr);
+                _cg = new _switchCases(this.node);
             }
         }
         return cgs;
@@ -216,19 +222,19 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public boolean hasMultiLabelSwitchEntry(){
-        return this.switchExpr.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
+        return this.node.getEntries().stream().anyMatch(se-> se.getLabels().size() > 1);
     }
 
     public boolean isSwitchSelector(String... selector){
-        return Objects.equals( this.switchExpr.getSelector(), Expr.of(selector));
+        return Objects.equals( this.node.getSelector(), Expr.of(selector));
     }
 
     public boolean isSwitchSelector(_expr e){
-        return Objects.equals( this.switchExpr.getSelector(), e.ast());
+        return Objects.equals( this.node.getSelector(), e.node());
     }
 
     public boolean isSwitchSelector(Expression e){
-        return Objects.equals( this.switchExpr.getSelector(), e);
+        return Objects.equals( this.node.getSelector(), e);
     }
 
     /**
@@ -237,7 +243,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public _switchExpr setSwitchSelector(_expr _e){
-        this.switchExpr.setSelector(_e.ast());
+        this.node.setSelector(_e.node());
         return this;
     }
 
@@ -253,7 +259,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public _switchExpr setSwitchSelector(Expression switchSelector){
-        this.switchExpr.setSelector(switchSelector);
+        this.node.setSelector(switchSelector);
         return this;
     }
 
@@ -263,7 +269,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public _switchExpr setSwitchSelector(String... switchSelector){
-        this.switchExpr.setSelector(Expr.of(switchSelector));
+        this.node.setSelector(Expr.of(switchSelector));
         return this;
     }
 
@@ -272,7 +278,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public boolean hasDefault(){
-        Optional<SwitchEntry> ose = this.switchExpr.getEntries().stream().filter(se-> se.getLabels().isEmpty()).findFirst();
+        Optional<SwitchEntry> ose = this.node.getEntries().stream().filter(se-> se.getLabels().isEmpty()).findFirst();
         return ose.isPresent();
     }
 
@@ -281,7 +287,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public _switchCase getDefault(){
-        Optional<SwitchEntry> ose = this.switchExpr.getEntries().stream().filter(se-> se.getLabels().isEmpty()).findFirst();
+        Optional<SwitchEntry> ose = this.node.getEntries().stream().filter(se-> se.getLabels().isEmpty()).findFirst();
         if( ose.isPresent() ){
             return _switchCase.of(ose.get());
         }
@@ -293,15 +299,15 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public _expr getSwitchSelector(){
-        return _expr.of(this.switchExpr.getSelector());
+        return _expr.of(this.node.getSelector());
     }
 
     public int countSwitchEntries(){
-        return this.switchExpr.getEntries().size();
+        return this.node.getEntries().size();
     }
 
     public _switchCase getSwitchEntry(int index){
-        return new _switchCase(this.switchExpr.getEntries().get(index));
+        return new _switchCase(this.node.getEntries().get(index));
     }
 
     public _switchCase getSwitchEntry(Predicate<_switchCase> matchFn){
@@ -319,7 +325,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             return this;
         }
         _switchCase newDef = _switchCase.of(new SwitchEntry()).setStatements(statements);
-        this.switchExpr.getEntries().add(newDef.switchEntry);
+        this.node.getEntries().add(newDef.node);
         return this;
     }
 
@@ -330,7 +336,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
             return this;
         }
         _switchCase newDef = _switchCase.of(new SwitchEntry()).setStatements(new ExpressionStmt(ex));
-        this.switchExpr.getEntries().add(newDef.switchEntry);
+        this.node.getEntries().add(newDef.node);
         return this;
     }
 
@@ -365,7 +371,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      */
     public List<_switchCase> listSwitchEntries(){
         List<_switchCase> _ses = new ArrayList<>();
-        this.switchExpr.getEntries().forEach(se -> _ses.add(new _switchCase(se)));
+        this.node.getEntries().forEach(se -> _ses.add(new _switchCase(se)));
         return _ses;
     }
 
@@ -375,7 +381,7 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      */
     public List<_switchCase> listSwitchEntries(Predicate<_switchCase> matchFn){
         List<_switchCase> _ses = new ArrayList<>();
-        this.switchExpr.getEntries().forEach(se -> {
+        this.node.getEntries().forEach(se -> {
             _switchCase _se = new _switchCase(se);
             if( matchFn.test(_se) ) {
                 _ses.add(_se);
@@ -408,8 +414,8 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
 
     public _switchExpr setSwitchEntries(_switchCase...ses){
         NodeList<SwitchEntry> nses = new NodeList<>();
-        Arrays.stream(ses).forEach( se-> nses.add(se.switchEntry));
-        this.switchExpr.setEntries(nses);
+        Arrays.stream(ses).forEach( se-> nses.add(se.node));
+        this.node.setEntries(nses);
         return this;
     }
 
@@ -419,17 +425,17 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      * @return
      */
     public _switchExpr addCaseGroups(_switchCases...caseGroups){
-        Arrays.stream(caseGroups).forEach( cg-> this.switchExpr.getEntries().addAll(cg.switchEntries));
+        Arrays.stream(caseGroups).forEach( cg-> this.node.getEntries().addAll(cg.switchEntries));
         return this;
     }
 
     public _switchExpr addSwitchEntries(SwitchEntry...ses){
-        Arrays.stream(ses).forEach( se-> this.switchExpr.getEntries().add(se));
+        Arrays.stream(ses).forEach( se-> this.node.getEntries().add(se));
         return this;
     }
 
     public _switchExpr addSwitchEntries(_switchCase...ses){
-        Arrays.stream(ses).forEach( se-> this.switchExpr.getEntries().add(se.switchEntry));
+        Arrays.stream(ses).forEach( se-> this.node.getEntries().add(se.node));
         return this;
     }
 
@@ -443,17 +449,17 @@ public final class _switchExpr implements _expr<SwitchExpr, _switchExpr>,
      */
 
     public String toString(){
-        return this.switchExpr.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _switchExpr){
-            return Objects.equals( ((_switchExpr)other).ast(), this.ast() );
+            return Objects.equals( ((_switchExpr)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

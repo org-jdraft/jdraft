@@ -5,6 +5,16 @@ import junit.framework.TestCase;
 
 public class _setTest extends TestCase {
 
+
+    public void testLocalField(){
+        class Local{
+            @_set int i;
+        }
+        _class _c = _class.of(Local.class);
+        System.out.println( _c );
+        assertTrue(_c.getMethod("setI").isPublic());
+    }
+
     public void testSetNone(){
         @_set
         class C{

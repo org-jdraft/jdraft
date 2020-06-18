@@ -72,7 +72,7 @@ public class $arrayAccessExprTest extends TestCase {
 
 	public void testRecursive(){
 		_arrayAccessExpr _aa = _arrayAccessExpr.of("i[1][3]");
-		Print.tree(_aa.ast());
+		Print.tree(_aa.node());
 		assertTrue(_aa.isExpression("i[1]"));
 		assertTrue(_aa.isIndex("3"));
 	}

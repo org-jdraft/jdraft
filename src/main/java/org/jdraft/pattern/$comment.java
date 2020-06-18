@@ -118,7 +118,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
     }
 
     public static $comment<JavadocComment> javadocComment( _javadocComment _jc){
-        return new $comment( _jc.ast()).excludeBlockComments().excludeLineComments();
+        return new $comment( _jc.node()).excludeBlockComments().excludeLineComments();
     }
     
     public static $comment<JavadocComment> javadocComment(String...comment){
@@ -292,7 +292,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         if( _j == null ){
             return this.isMatchAny();
         }
-        return matches( _j.ast());
+        return matches( _j.node());
     }
 
     public boolean matches( String...comment ){
@@ -304,7 +304,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         if( !_j.hasJavadoc() ){
              return this.isMatchAny();
         }
-        return matches(_j.getJavadoc().ast());
+        return matches(_j.getJavadoc().node());
     }
 
     public boolean matches( Node nodeWithComment){
@@ -371,7 +371,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
                     findAndReplace(((_codeUnit) _c).astCompilationUnit(), targetToReplacement);
                 }
             } else {
-                findAndReplace(((_tree._node) _c).ast(), targetToReplacement);
+                findAndReplace(((_tree._node) _c).node(), targetToReplacement);
             }
         } else if( _c instanceof _body){
             findAndReplace(((_body) _c).ast(), targetToReplacement);
@@ -478,7 +478,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
         }
         //System.out.println( _jd);
         //System.out.println( "CONTENT"+ _jd.getContent());
-        return parse(_jd.ast() );
+        return parse(_jd.node() );
     }
 
     /** TODO i should reverse this (seelct should call parse */
@@ -624,7 +624,7 @@ public class $comment <C extends com.github.javaparser.ast.comments.Comment>
             });
             return (_J)_j;
         }
-        Comments.forEachIn(_j.ast(), c->{
+        Comments.forEachIn(_j.node(), c->{
             Select s = select(c);
             if( s != null && selectConstraint.test(s)){
                 selectActionFn.accept(s);

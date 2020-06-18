@@ -59,21 +59,21 @@ public class $refTest extends TestCase {
         //Print.tree(Types.of("HashMap<>"));
         //assertEquals(2, $ref.of($ref.TYPE_REF_NAME).countIn(_typeRef.of("HashMap<>").ast()));
         //Print.tree(_new.of("new HashMap<>()").ast());
-        assertEquals(2, $ref.of($ref.TYPE_REF_NAME).countIn(_newExpr.of("new HashMap<>()").ast()));
+        assertEquals(2, $ref.of($ref.TYPE_REF_NAME).countIn(_newExpr.of("new HashMap<>()").node()));
 
 
     }
 
     public void testTypeParams(){
-        assertEquals(2, $ref.of().countIn(_class.of("class C<T>{}").ast()));
+        assertEquals(2, $ref.of().countIn(_class.of("class C<T>{}").node()));
 
-        $ref.of().printEachTreeIn(_class.of("class C<T>{}").ast());
+        $ref.of().printEachTreeIn(_class.of("class C<T>{}").node());
 
         _tree._node _n = $ref.of().listIn(_class.of("class C<T>{}")).get(1);
-        Print.tree(_n.ast());
+        Print.tree(_n.node());
 
         assertTrue($ref.TYPE_PARAM_NAME.is(_n));
-        assertEquals(1, $ref.of($ref.TYPE_PARAM_NAME).countIn(_class.of("class C<T>{}").ast()));
+        assertEquals(1, $ref.of($ref.TYPE_PARAM_NAME).countIn(_class.of("class C<T>{}").node()));
 
         class TP1 <X extends Serializable,Y>{
 
@@ -240,8 +240,8 @@ public class $refTest extends TestCase {
         _tree._node _jn = $ref.of(JavaParser.class).firstIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;"));
         System.out.println( _jn.getClass());
         Print.tree($ref.of(JavaParser.class).firstIn(Ast.fieldDeclaration("com.github.javaparser.JavaParser i;")));
-        assertTrue(_name.Use.TYPE_REF_NAME.is(_jn.ast()));
-        System.out.println(_name.Use.of(_jn.ast()));
+        assertTrue(_name.Use.TYPE_REF_NAME.is(_jn.node()));
+        System.out.println(_name.Use.of(_jn.node()));
     }
 
     //test if I directly use a reference
@@ -262,7 +262,7 @@ public class $refTest extends TestCase {
         //Print.tree(_import.of(JavaParser.class));
         //assertTrue($ref.isImportName(_import.of(JavaParser.class).ast().getName()));
         //assertTrue($ref.isImportName(_import.of(JavaParser.class).ast()));
-        assertTrue(_name.of(_import.of(JavaParser.class).ast().getName()).isImportName());
+        assertTrue(_name.of(_import.of(JavaParser.class).node().getName()).isImportName());
         //assertTrue($ref.isImportName(_import.of(JavaParser.class).ast()));
 
         Print.tree( _import.of(JavaParser.class));
@@ -305,7 +305,7 @@ public class $refTest extends TestCase {
                 .countIn(_typeParam.of("<E extends org.myproj.Thingy>") ));
 
 
-        Print.tree(_field.of(JavaParser.class, "i").ast() );
+        Print.tree(_field.of(JavaParser.class, "i").node() );
         //explicitly omit type name
         assertEquals(0, $ref.of(JavaParser.class).$matchTypeRefNames(false)
                 .countIn(_field.of(JavaParser.class, "i") ));
@@ -344,19 +344,19 @@ public class $refTest extends TestCase {
         assertEquals( 1, $ref.of("System.out")
                 .countIn(_methodRefExpr.of("System.out::println")));
 
-        Print.tree(_methodRefExpr.of("System.out::println").ast() );
+        Print.tree(_methodRefExpr.of("System.out::println").node() );
         // explicitly not method reference
         assertEquals( 0, $ref.of("System.out").$matchMethodReferences(false)
                 .countIn(_methodRefExpr.of("System.out::println")));
 
         //parameter name
         assertEquals( 1, $ref.of("pName")
-                .countIn(_param.of("int pName").ast()));
+                .countIn(_param.of("int pName").node()));
 
         assertEquals( 0, $ref.of("pName").$matchParameterNames(false)
                 .countIn(_param.of("int pName")));
 
-        Print.tree(_param.of("pType pName").ast());
+        Print.tree(_param.of("pType pName").node());
 
         assertEquals( 1, $ref.of("pType").$matchParameterNames(false)
                 .countIn(_param.of("pType pName")));

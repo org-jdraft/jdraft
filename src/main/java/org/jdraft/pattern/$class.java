@@ -65,8 +65,8 @@ public class $class
                 nots.add(((_field) d).getFieldDeclaration());
                 ((_field)d).getFieldDeclaration().remove(); //remove it from the AST so we dont treat it as an $and
             } else {
-                nots.add((BodyDeclaration) d.ast());
-                d.ast().remove(); //remove it from the AST so we dont treat it as an $and
+                nots.add((BodyDeclaration) d.node());
+                d.node().remove(); //remove it from the AST so we dont treat it as an $and
             }
         });
         $class $c = of(_c);
@@ -136,7 +136,7 @@ public class $class
         }
         _c.listAstImplements().forEach(i -> $c.$implements(i));
 
-        _c.toInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.ast())));
+        _c.toInitBlocks(ib -> $c.initBlocks.add($initBlock.of(ib.node())));
 
 
         _c.toConstructors(ct -> $c.ctors.add($constructor.of(_$.Parameterize.update(ct))));
@@ -982,7 +982,7 @@ public class $class
         }
 
         public ClassOrInterfaceDeclaration ast(){
-            return selected.ast();
+            return selected.node();
         }
 
         @Override

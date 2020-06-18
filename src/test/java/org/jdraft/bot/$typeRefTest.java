@@ -1,7 +1,6 @@
 package org.jdraft.bot;
 
 import junit.framework.TestCase;
-import org.jdraft.Print;
 import org.jdraft.Types;
 import org.jdraft._class;
 import org.jdraft._typeRef;
@@ -55,12 +54,12 @@ public class $typeRefTest extends TestCase {
 
     public void testPredicate(){
         _typeRef _t = _typeRef.of("Map<>");
-        assertTrue(_t.ast().isClassOrInterfaceType());
-        assertTrue(_t.ast().asClassOrInterfaceType().isUsingDiamondOperator());
+        assertTrue(_t.node().isClassOrInterfaceType());
+        assertTrue(_t.node().asClassOrInterfaceType().isUsingDiamondOperator());
 
         _t = _typeRef.of( Types.of("Map<>"));
-        assertTrue(_t.ast().isClassOrInterfaceType());
-        assertTrue(_t.ast().asClassOrInterfaceType().isUsingDiamondOperator());
+        assertTrue(_t.node().isClassOrInterfaceType());
+        assertTrue(_t.node().asClassOrInterfaceType().isUsingDiamondOperator());
         assertTrue( $typeRef.of().$and(t-> t.isUsingDiamondOperator()).matches("Map<>") );
     }
 

@@ -936,7 +936,7 @@ public final class _runtime {
      */
     public Object call(_method _m, Object...args){
         if( _m.isStatic() ){
-            Optional<TypeDeclaration> otd = _m.ast().findAncestor(TypeDeclaration.class);
+            Optional<TypeDeclaration> otd = _m.node().findAncestor(TypeDeclaration.class);
             if( otd.isPresent() ){
                 TypeDeclaration td = otd.get();
                 String fullTypeName = (String)td.getFullyQualifiedName().get();

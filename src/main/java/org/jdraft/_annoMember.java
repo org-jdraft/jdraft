@@ -79,10 +79,10 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
 
     public static _feature._features<_annoMember> FEATURES = _feature._features.of(_annoMember.class,  PARSER, MODIFIERS, TYPE, NAME, DEFAULT);
 
-    protected final AnnotationMemberDeclaration astAnnMember;
+    protected AnnotationMemberDeclaration node;
 
-    public _annoMember(AnnotationMemberDeclaration astAnnMember ){
-        this.astAnnMember = astAnnMember;
+    public _annoMember(AnnotationMemberDeclaration node){
+        this.node = node;
     }
 
     public _feature._features<_annoMember> features(){
@@ -91,146 +91,145 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
 
     @Override
     public _annoMember copy(){
-        return of( this.astAnnMember.toString() );
+        return of( this.node.toString() );
     }
 
-    /*
-    @Override
-    public boolean is(String...stringRep){
-        return is(Ast.annotationMemberDeclaration(stringRep));
+    public _annoMember replace(AnnotationMemberDeclaration ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
-     */
 
     @Override
     public boolean is(AnnotationMemberDeclaration amd ){
         return _annoMember.of(amd).equals(this);
     }
 
-    public Node getNameNode() { return this.astAnnMember.getName(); }
+    public Node getNameNode() { return this.node.getName(); }
 
     public _modifiers getModifiers(){
-        return _modifiers.of( this.astAnnMember );
+        return _modifiers.of( this.node);
     }
 
     public _annoMember setModifiers(_modifiers _ms){
-        this.astAnnMember.setModifiers( _ms.ast());
+        this.node.setModifiers( _ms.ast());
         return this;
     }
 
     @Override
     public _annoMember setName(String name){
-        this.astAnnMember.setName( name );
+        this.node.setName( name );
         return this;
     }
 
     @Override
-    public AnnotationMemberDeclaration ast(){
-        return this.astAnnMember;
+    public AnnotationMemberDeclaration node(){
+        return this.node;
     }
 
     @Override
     public _annoMember setType(Type t){
-        this.astAnnMember.setType( t );
+        this.node.setType( t );
         return this;
     }
 
     @Override
     public _annoMember setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _annoMember setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
     @Override
     public String getName(){
-        return this.astAnnMember.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     @Override
     public _typeRef getType(){
-        return _typeRef.of(this.astAnnMember.getType());
+        return _typeRef.of(this.node.getType());
     }
 
     public boolean hasDefaultValue(){
-        return this.astAnnMember.getDefaultValue().isPresent();
+        return this.node.getDefaultValue().isPresent();
     }
 
     public _annoMember removeDefaultValue(){
-        this.astAnnMember.removeDefaultValue();
+        this.node.removeDefaultValue();
         return this;
     }
 
     public _annoMember setDefaultValue(int intValue ){
-        this.astAnnMember.setDefaultValue( Expr.of( intValue ) );
+        this.node.setDefaultValue( Expr.of( intValue ) );
         return this;
     }
 
     public _annoMember setDefaultValue(long longValue ){
-        this.astAnnMember.setDefaultValue( Expr.of( longValue ) );
+        this.node.setDefaultValue( Expr.of( longValue ) );
         return this;
     }
 
     public _annoMember setDefaultValue(char charValue ){
-        this.astAnnMember.setDefaultValue( Expr.of( charValue ) );
+        this.node.setDefaultValue( Expr.of( charValue ) );
         return this;
     }
 
     public _annoMember setDefaultValue(boolean booleanValue ){
-        this.astAnnMember.setDefaultValue( Expr.of( booleanValue ) );
+        this.node.setDefaultValue( Expr.of( booleanValue ) );
         return this;
     }
 
     public _annoMember setDefaultValueNull(){
-        this.astAnnMember.setDefaultValue( Expr.nullExpr() );
+        this.node.setDefaultValue( Expr.nullExpr() );
         return this;
     }
 
     public _annoMember setDefaultValue(float floatValue ){
-        this.astAnnMember.setDefaultValue( Expr.of( floatValue ) );
+        this.node.setDefaultValue( Expr.of( floatValue ) );
         return this;
     }
 
     public _annoMember setDefaultValue(double doubleValue ){
-        this.astAnnMember.setDefaultValue( Expr.of( doubleValue ) );
+        this.node.setDefaultValue( Expr.of( doubleValue ) );
         return this;
     }
 
     public _annoMember setDefaultValue(String defaultValueExpression){
-        this.astAnnMember.setDefaultValue( Ast.expression( defaultValueExpression) );
+        this.node.setDefaultValue( Ast.expression( defaultValueExpression) );
         return this;
     }
 
     public _annoMember setDefaultValue(_expr _e){
-        return setDefaultValue( _e.ast());
+        return setDefaultValue( _e.node());
     }
 
     public _annoMember setDefaultValue(Expression e){
-        this.astAnnMember.setDefaultValue( e );
+        this.node.setDefaultValue( e );
         return this;
     }
 
     public _expr getDefaultValue(){
-        if( this.astAnnMember.getDefaultValue().isPresent()){
-            return _expr.of( this.astAnnMember.getDefaultValue().get());
+        if( this.node.getDefaultValue().isPresent()){
+            return _expr.of( this.node.getDefaultValue().get());
         }
         return null;
     }
 
     public Expression getDefaultAstValue(){
-        if( this.astAnnMember.getDefaultValue().isPresent()){
-            return this.astAnnMember.getDefaultValue().get();
+        if( this.node.getDefaultValue().isPresent()){
+            return this.node.getDefaultValue().get();
         }
         return null;
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(this.astAnnMember );
+        return _annos.of(this.node);
     }
 
     @Override
@@ -245,10 +244,10 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
             return false;
         }
         final _annoMember other = (_annoMember)obj;
-        if( this.astAnnMember == other.astAnnMember){
+        if( this.node == other.node){
             return true; //two _element instances pointing to same AstMemberDeclaration
         }
-        if( ! Expr.equalAnnos(this.astAnnMember, other.astAnnMember)){
+        if( ! Expr.equalAnnos(this.node, other.node)){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -259,8 +258,8 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
             Log.trace("expected name %s got %s", this::getName, other::getName);
             return false;
         }
-        if( !Types.equal( astAnnMember.getType(), other.astAnnMember.getType())){
-            Log.trace("expected type %s got %s", astAnnMember::getType, other.astAnnMember::getType);
+        if( !Types.equal( node.getType(), other.node.getType())){
+            Log.trace("expected type %s got %s", node::getType, other.node::getType);
             return false;
         }
         if( !Objects.equals( this.getDefaultAstValue(), other.getDefaultAstValue() ) ) {
@@ -274,16 +273,16 @@ public final class _annoMember implements _javadocComment._withJavadoc<_annoMemb
     public int hashCode() {
         int hash = 7;
         hash = 97 * hash + Objects.hash(
-                Expr.hashAnnos(this.astAnnMember),
+                Expr.hashAnnos(this.node),
                 this.getJavadoc(),
                 this.getName(),
-                Types.hash(this.astAnnMember.getType()),
+                Types.hash(this.node.getType()),
                 this.getDefaultAstValue() );
         return hash;
     }
 
     @Override
     public String toString(){
-        return this.astAnnMember.toString();
+        return this.node.toString();
     }
 }

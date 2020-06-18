@@ -44,10 +44,10 @@ public final class _receiverParamDiff
             this.leftParent = leftParent;
             this.rightParent = rightParent;
             if (leftParent.hasReceiverParam()) {
-                this.left = leftParent.getReceiverParam().astReceiverParam.clone();
+                this.left = leftParent.getReceiverParam().node.clone();
             }
             if (rightParent.hasReceiverParam()) {
-                this.right = rightParent.getReceiverParam().astReceiverParam.clone();
+                this.right = rightParent.getReceiverParam().node.clone();
             }
         }
 

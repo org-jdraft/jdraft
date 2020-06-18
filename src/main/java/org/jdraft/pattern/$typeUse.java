@@ -174,10 +174,10 @@ public final class $typeUse {
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), replacement);
+            replaceIn( ((_type) _j).node(), replacement);
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).node(), replacement);
         return _j;
     }
     
@@ -230,10 +230,10 @@ public final class $typeUse {
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), replacement);
+            replaceIn( ((_type) _j).node(), replacement);
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).node(), replacement);
         return _j;
     }
     
@@ -250,10 +250,10 @@ public final class $typeUse {
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), replacement);
+            replaceIn( ((_type) _j).node(), replacement);
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).node(), replacement);
         return _j;
     }
     
@@ -271,10 +271,10 @@ public final class $typeUse {
                 removeIn( ((_codeUnit) _n).astCompilationUnit() );
                 return _n;
             }
-            removeIn( ((_type)_n).ast() );
+            removeIn( ((_type)_n).node() );
             return _n;
         }
-        removeIn( ((_tree._node)_n).ast() );
+        removeIn( ((_tree._node)_n).node() );
         return _n;
     }
     
@@ -311,7 +311,7 @@ public final class $typeUse {
     }
 
     public <_N extends _tree._node> List<Node> listIn(_N _node ){
-        return listIn( _node.ast() );
+        return listIn( _node.node() );
     }
 
     public <N extends Node> List<Node> listIn( N astRootNode ){

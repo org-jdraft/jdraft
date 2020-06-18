@@ -89,10 +89,10 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
 
     public static _feature._features<_labeledStmt> FEATURES = _feature._features.of(_labeledStmt.class, PARSER,  LABEL, STATEMENT );
 
-    private LabeledStmt astStmt;
+    private LabeledStmt node;
 
     public _labeledStmt(LabeledStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     public _feature._features<_labeledStmt> features(){
@@ -101,95 +101,79 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
 
     @Override
     public _labeledStmt copy() {
-        return new _labeledStmt( this.astStmt.clone());
+        return new _labeledStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.labeledStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _labeledStmt replace(LabeledStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean isLabel(String label){
-        return Objects.equals( this.astStmt.getLabel().asString(), label);
+        return Objects.equals( this.node.getLabel().asString(), label);
     }
 
     public boolean isLabel( Predicate<String> matchFn){
-        return matchFn.test(this.astStmt.getLabel().asString());
+        return matchFn.test(this.node.getLabel().asString());
     }
 
     public String getLabel(){
-        return this.astStmt.getLabel().asString();
+        return this.node.getLabel().asString();
     }
 
     public _labeledStmt setLabel(SimpleName label){
-        this.astStmt.setLabel( label );
+        this.node.setLabel( label );
         return this;
     }
 
     public _labeledStmt setLabel(String label){
-        this.astStmt.setLabel( new SimpleName(label));
+        this.node.setLabel( new SimpleName(label));
         return this;
     }
 
     public _stmt getStatement(){
-        return _stmt.of(astStmt.getStatement());
+        return _stmt.of(node.getStatement());
     }
-
 
     public _labeledStmt setStatement(String...st){
         return setStatement( Stmt.of(st) );
     }
 
     public _labeledStmt setStatement(_stmt _st){
-        this.astStmt.setStatement(_st.ast());
+        this.node.setStatement(_st.node());
         return this;
     }
 
     public _labeledStmt setStatement(Statement st){
-        this.astStmt.setStatement(st);
+        this.node.setStatement(st);
         return this;
     }
 
     public boolean isStatement(Predicate<Statement> matchFn ){
-        return matchFn.test(this.astStmt.getStatement());
+        return matchFn.test(this.node.getStatement());
     }
 
     public boolean isStatement( Statement st){
-        return Objects.equals( this.astStmt.getStatement(), st);
+        return Objects.equals( this.node.getStatement(), st);
     }
 
     public boolean isStatement( _stmt st){
-        return Objects.equals( this.astStmt.getStatement(), st.ast());
+        return Objects.equals( this.node.getStatement(), st.node());
     }
 
-    /*
-    @Override
-    public boolean is(LabeledStmt astNode) {
-        return this.astStmt.equals( astNode);
+    public LabeledStmt node(){
+        return node;
     }
-     */
-
-    public LabeledStmt ast(){
-        return astStmt;
-    }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.LABEL, astStmt.getLabel().asString());
-        comps.put(_java.Feature.STATEMENT, astStmt.getStatement());
-        return comps;
-    }
-     */
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
@@ -210,7 +194,7 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 
     /**
@@ -260,7 +244,7 @@ public final class _labeledStmt implements _stmt<LabeledStmt, _labeledStmt>,
      */
     public static void flattenLabel(_java._domain _j, String labelName){
         if( _j instanceof _tree._node){
-            Walk.flattenLabel( ((_tree._node)_j).ast(), labelName);
+            Walk.flattenLabel( ((_tree._node)_j).node(), labelName);
             return;
         }
         throw new _jdraftException("cannot flatten a label :"+labelName+" from "+ _j.getClass());

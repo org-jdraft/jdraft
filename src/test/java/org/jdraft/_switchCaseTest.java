@@ -25,7 +25,7 @@ public class _switchCaseTest extends TestCase {
                 case 1 : case 2: System.out.println(1);
             }
         });
-        Print.tree(_sw.ast());
+        Print.tree(_sw.node());
 
         _sw.getCase(1);
 
@@ -47,12 +47,12 @@ public class _switchCaseTest extends TestCase {
         _se.setStatements(()-> System.out.println(2));
         assertTrue( _se.listAstStatements().size() == 1);
         assertEquals(Stmt.of( ()->System.out.println(2)),  _se.getStatement(0));
-        Print.tree(_se.ast());
+        Print.tree(_se.node());
 
         _se.addStatements("System.out.println(2);", "System.out.println(3);");
         System.out.println( _se );
 
-        Print.tree(_se.ast());
+        Print.tree(_se.node());
     }
 
     public void testHasCase(){

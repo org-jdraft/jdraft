@@ -221,7 +221,7 @@ public class _enumTest extends TestCase {
         assertEquals( _intExpr.of(1), _c.getArg(0));
         assertEquals( _stringExpr.of("String"), _c.getArg(1));
         assertTrue( _c.getAnnos().is("@ann", "@ann2(k='o')"));
-        _field _f = _c.fieldNamed( "num");
+        _field _f = _c.getField( "num");
         assertNotNull( _f);
         assertTrue( _f.getModifiers().is( "public static final"));
         assertEquals( Expr.of(12233), _f.getInitNode() );

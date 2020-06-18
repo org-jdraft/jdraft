@@ -78,7 +78,7 @@ public class $switchEntry
             $sts .add( $stmt.of(sts.get(i)));
         }
         $c.$and( s-> {
-            if (s.ast().getStatements().size() != astSwitchEntry.getStatements().size()) {
+            if (s.node().getStatements().size() != astSwitchEntry.getStatements().size()) {
                 return false;
             }
             for(int i=0;i<$sts.size();i++){
@@ -193,7 +193,7 @@ public class $switchEntry
     }
 
     public Select select( _switchCase _se){
-        return select(_se.ast());
+        return select(_se.node());
     }
 
     public Select select( SwitchEntry astSwitchEntry ){
@@ -269,9 +269,9 @@ public class $switchEntry
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
-            return selectFirstIn(_t.ast(), selectConstraint);
+            return selectFirstIn(_t.node(), selectConstraint);
         }
-        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_tree._node)_j).node(), selectConstraint);
     }
     
     /**
@@ -313,7 +313,7 @@ public class $switchEntry
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type) _j; //only possible
-            return listSelectedIn(_t.ast(), selectConstraint);
+            return listSelectedIn(_t.node(), selectConstraint);
         }
         return listSelectedIn((_tree._node) _j, selectConstraint);
     }
@@ -382,10 +382,10 @@ public class $switchEntry
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
+            forSelectedIn(_t.node(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        forSelectedIn(((_tree._node) _j).ast(), selectActionFn);
+        forSelectedIn(((_tree._node) _j).node(), selectActionFn);
         return _j;
     }
     
@@ -405,10 +405,10 @@ public class $switchEntry
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectMatchFn, selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
+            forSelectedIn(_t.node(), selectMatchFn, selectActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        forSelectedIn(((_tree._node) _j).ast(), selectMatchFn, selectActionFn);
+        forSelectedIn(((_tree._node) _j).node(), selectMatchFn, selectActionFn);
         return _j;
     }
     
@@ -463,38 +463,38 @@ public class $switchEntry
             Object ll = keyValues.get("$label" );
             if( ll instanceof $ex){
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( (($ex) ll).draft(translator, keyValues).ast() );
+                labels.add( (($ex) ll).draft(translator, keyValues).node() );
                 se.setLabels(labels);                 
             } else{
                 NodeList<Expression> labels = new NodeList<>();
-                labels.add( $ex.of(ll.toString()).draft( translator, keyValues).ast() );
+                labels.add( $ex.of(ll.toString()).draft( translator, keyValues).node() );
                 se.setLabels(labels);                                 
             }                
         } 
         else if( this.label != null ){
             NodeList<Expression> labels = new NodeList<>();
-            labels.add( this.label.draft(translator, keyValues).ast() );
+            labels.add( this.label.draft(translator, keyValues).node() );
             se.setLabels(labels); 
         }        
         if( keyValues.get("$statements") != null ){
             //System.out.println( "has Statements");
             Object ll = keyValues.get("$statements" );
             if( ll instanceof Statement ){
-                se.addStatement( $stmt.of((Statement) ll).draft(translator, keyValues).ast() );
+                se.addStatement( $stmt.of((Statement) ll).draft(translator, keyValues).node() );
             } else if( ll instanceof $stmt ){
-                se.addStatement( (($stmt) ll).draft(translator, keyValues).ast() );
+                se.addStatement( (($stmt) ll).draft(translator, keyValues).node() );
             } else if( ll instanceof $stmt[]) {
                 $stmt[] sts = ($stmt[])ll;
-                Arrays.stream(sts).forEach( s-> se.addStatement(s.draft(translator, keyValues).ast()) );
+                Arrays.stream(sts).forEach( s-> se.addStatement(s.draft(translator, keyValues).node()) );
             } else if( ll instanceof Statement[]) {
-                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).draft(translator, keyValues).ast()) );
+                Arrays.stream( (Statement[])ll).forEach( s-> se.addStatement($stmt.of(s).draft(translator, keyValues).node()) );
             } else {
                 //just toString the thing 
                 BlockStmt bs = Ast.blockStmt( (String)(ll.toString()) );
-                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).draft(translator, keyValues).ast()));
+                bs.getStatements().forEach(s -> se.addStatement( $stmt.of(s).draft(translator, keyValues).node()));
             }                     
         } else{
-            this.statements.forEach(st -> se.addStatement( st.draft(translator, keyValues).ast() ) );
+            this.statements.forEach(st -> se.addStatement( st.draft(translator, keyValues).node() ) );
         }
         return _switchCase.of(se);
     }
@@ -548,7 +548,7 @@ public class $switchEntry
      * @return
      */
     public $switchEntry $isAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
 
@@ -558,7 +558,7 @@ public class $switchEntry
      * @return
      */
     public $switchEntry $isNotAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
 
@@ -568,7 +568,7 @@ public class $switchEntry
      * @return
      */
     public $switchEntry $isBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
 
@@ -578,7 +578,7 @@ public class $switchEntry
      * @return
      */
     public $switchEntry $isNotBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_switchCase> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
 
@@ -612,7 +612,7 @@ public class $switchEntry
         }
 
         public $switchEntry.Select select(_switchCase _se){
-            return select(_se.ast());
+            return select(_se.node());
         }
 
         /**
@@ -669,7 +669,7 @@ public class $switchEntry
 
         @Override
         public SwitchEntry ast() {
-            return _se.ast();
+            return _se.node();
         }   
         
         /**

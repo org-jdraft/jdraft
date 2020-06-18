@@ -514,9 +514,9 @@ public class $annoRefs
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
-            return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
+            return selectFirstIn(_t.node(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit
         }
-        return selectFirstIn(((_tree._node)_j).ast(), selectConstraint);
+        return selectFirstIn(((_tree._node)_j).node(), selectConstraint);
     }
     
     /**
@@ -613,10 +613,10 @@ public class $annoRefs
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
-            return listSelectedIn(_t.ast(), selectConstraint);
+            return listSelectedIn(_t.node(), selectConstraint);
         }
          
-        return listSelectedIn(((_tree._node)_j).ast(), selectConstraint);
+        return listSelectedIn(((_tree._node)_j).node(), selectConstraint);
     }
 
     @Override
@@ -708,7 +708,7 @@ public class $annoRefs
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectActionFn);
+            forSelectedIn(_t.node(), selectActionFn);
             return _j;
         }
         forSelectedIn((_tree._node) _j, t->true, selectActionFn);
@@ -731,10 +731,10 @@ public class $annoRefs
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectConstraint, selectActionFn);
+            forSelectedIn(_t.node(), selectConstraint, selectActionFn);
             return _j;
         }
-        forSelectedIn( ((_tree._node) _j).ast(), selectConstraint, selectActionFn);
+        forSelectedIn( ((_tree._node) _j).node(), selectConstraint, selectActionFn);
         return _j;
     } 
     

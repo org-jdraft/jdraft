@@ -106,7 +106,7 @@ public class ExTest extends TestCase {
         }
         
         _class _c = _class.of(Outer.class);
-        _c.ast().walk(s -> System.out.println( s) );
+        _c.node().walk(s -> System.out.println( s) );
         
         Name n = StaticJavaParser.parseName("Outer.$prefix.G");
         

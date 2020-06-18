@@ -1,8 +1,13 @@
 package org.jdraft.macro;
 
+import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
+import com.github.javaparser.ast.body.VariableDeclarator;
 import org.jdraft.Ast;
 import org.jdraft._field;
+import org.jdraft._jdraftException;
 import org.jdraft.text.Stencil;
 //import org.jdraft.pattern.$method;
 
@@ -19,7 +24,7 @@ import java.util.stream.Collectors;
  * @see macro
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.TYPE_USE})
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.TYPE_USE})
 public @interface _set {
 
     /** template method for a setXXX() method */
@@ -28,7 +33,7 @@ public @interface _set {
             "    this.$name$ = $name$;",
             "}" );
 
-    class Act extends macro<_set, TypeDeclaration> {
+    class Act extends macro<_set, Node> {
 
         public Act(){
             super(_set.class);
@@ -39,8 +44,24 @@ public @interface _set {
         }
 
         @Override
-        public void expand(TypeDeclaration typeDeclaration) {
-            to(typeDeclaration);
+        public void expand(Node node) {
+            if( node instanceof TypeDeclaration) {
+                to((TypeDeclaration)node);
+            } else{
+                to((VariableDeclarator) node);
+            }
+        }
+
+        public static VariableDeclarator to (VariableDeclarator vari ){
+            if( !vari.getParentNode().isPresent() ){
+                throw new _jdraftException("variable "+ vari+" must have a parent field to add set method to");
+            }
+            FieldDeclaration field = (FieldDeclaration)vari.getParentNode().get();
+
+            TypeDeclaration typeDeclaration = (TypeDeclaration)field.getParentNode().get();
+            String mm = $SET.draft("name", vari.getName(), "type", vari.getType());
+            typeDeclaration.addMember(Ast.methodDeclaration(mm));
+            return vari;
         }
 
         public static <T extends TypeDeclaration> T to(T typeDeclaration){

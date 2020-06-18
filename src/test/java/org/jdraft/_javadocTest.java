@@ -52,8 +52,8 @@ public class _javadocTest extends TestCase {
         System.out.println( _c.getJavadoc().getText() );
         //System.out.println( _c.getJavadoc().parseFirst("@author $name$") );
         //assertEquals( "Eric", _c.getJavadoc().parseFirst("@author $name$").get("name"));
-        JavadocComment jdc = _c.getJavadoc().ast();
-        Javadoc jd = _c.ast().getJavadoc().get();
+        JavadocComment jdc = _c.getJavadoc().node();
+        Javadoc jd = _c.node().getJavadoc().get();
         List<JavadocBlockTag> bts = jd.getBlockTags();
         System.out.println( bts );
     }

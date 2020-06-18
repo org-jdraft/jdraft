@@ -50,8 +50,8 @@ public class $booleanExprTest extends TestCase {
         assertFalse($TRUE.matches("neither"));
     }
 
-    public static $booleanExpr $CHILDOFWHILE = $booleanExpr.of(). $and(b-> b.ast().getParentNode().isPresent() &&
-            b.ast().getParentNode().isPresent() && b.ast().getParentNode().get().getClass() == WhileStmt.class);
+    public static $booleanExpr $CHILDOFWHILE = $booleanExpr.of(). $and(b-> b.node().getParentNode().isPresent() &&
+            b.node().getParentNode().isPresent() && b.node().getParentNode().get().getClass() == WhileStmt.class);
 
     public void testChildOfWhile(){
         WhileStmt ws = (WhileStmt) Stmt.of("while(true){ }");
@@ -82,7 +82,7 @@ public class $booleanExprTest extends TestCase {
 
     public void test$And$Not() {
         $booleanExpr $b = $booleanExpr.of(true);
-        $b.$and( b-> b.isTrue() && b.ast().getParentNode().isPresent() );
+        $b.$and( b-> b.isTrue() && b.node().getParentNode().isPresent() );
         assertFalse( $b.matches(true));
         $b = $booleanExpr.of().$not(b-> b.isFalse());
         assertTrue( $b.matches(true));

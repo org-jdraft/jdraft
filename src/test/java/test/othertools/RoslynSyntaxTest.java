@@ -38,7 +38,7 @@ public class RoslynSyntaxTest extends TestCase {
         List<_import> li = _c.listImports();
 
         //gets the AST
-        ClassOrInterfaceDeclaration programDeclaration = _c.ast();
+        ClassOrInterfaceDeclaration programDeclaration = _c.node();
 
         //get the _method
         _method _main = _c.firstMethodNamed("main");

@@ -79,7 +79,7 @@ public class _interfaceTest extends TestCase {
         assertTrue( _i.firstMethodNamed("print").isDefault() );
         assertTrue( _i.firstMethodNamed("getR").isAbstract() );
         assertTrue( _i.firstMethodNamed("doIt").isStatic() );
-        assertNull( _i.fieldNamed("a"));
+        assertNull( _i.getField("a"));
     }
 
     public void testFullyQualified(){
@@ -226,7 +226,7 @@ public class _interfaceTest extends TestCase {
         assertTrue( _i.isExtends( "WithDefaultMethods<Serializable>"));
         
         assertTrue( _i.hasFields());
-        _field _f = _i.fieldNamed("VALUE");
+        _field _f = _i.getField("VALUE");
         assertTrue(_f.is("/** field javadoc */",
             "@ann @ann2(k='2',v=3)",
             "static final int VALUE = 120;"));

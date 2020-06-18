@@ -40,7 +40,7 @@ public @interface _$ {
                     _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValueExpression("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
-                    _ai.toEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
+                    _ai.toEach(a -> ls.add(a.node().asStringLiteralExpr().getValue()));
 
                     if (ls.size() % 2 != 0) {
                         throw new _jdraftException("Expected an EVEN number of keyValue pairs for templating");
@@ -59,7 +59,7 @@ public @interface _$ {
                     _field _v = (_field)_c;
                     return (C) _field.of(sourceString);
                 } else {
-                    return (C) _java.of(_java.node(_c.ast().getClass(), sourceString));
+                    return (C) _java.of(_java.node(_c.node().getClass(), sourceString));
                 }
             }
             return _c;
@@ -79,7 +79,7 @@ public @interface _$ {
                     _arrayInitExpr _ai = _arrayInitExpr.of(_a.getEntryValueExpression("value").asArrayInitializerExpr());
                     //keyValues
                     List<String> ls = new ArrayList<>();
-                    _ai.toEach(a -> ls.add(a.ast().asStringLiteralExpr().getValue()));
+                    _ai.toEach(a -> ls.add(a.node().asStringLiteralExpr().getValue()));
 
                     if (ls.size() % 2 != 0) {
                         throw new _jdraftException("Expected an EVEN number of keyValue pairs for templating");

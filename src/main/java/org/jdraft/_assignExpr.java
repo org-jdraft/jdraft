@@ -91,10 +91,10 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree.
 
     public static _feature._features<_assignExpr> FEATURES = _feature._features.of(_assignExpr.class,  PARSER, TARGET, OPERATOR, VALUE);
 
-    public AssignExpr ae;
+    public AssignExpr node;
 
-    public _assignExpr(AssignExpr ae) {
-        this.ae = ae;
+    public _assignExpr(AssignExpr node) {
+        this.node = node;
     }
 
     public _feature._features<_assignExpr> features(){
@@ -103,45 +103,30 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree.
 
     @Override
     public _assignExpr copy() {
-        return new _assignExpr(this.ae.clone());
+        return new _assignExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try {
-            return is(Expr.assignExpr(stringRep));
-        } catch (Exception e) {
-        }
-        return false;
+    public _assignExpr replace(AssignExpr ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
-     */
 
     @Override
     public boolean is(AssignExpr astNode) {
-        return this.ast().equals(astNode);
+        return this.node().equals(astNode);
     }
 
-    public AssignExpr ast() {
-        return ae;
+    public AssignExpr node() {
+        return node;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.TARGET_EXPR, ae.getTarget());
-        comps.put(_java.Feature.ASSIGN_OPERATOR, ae.getOperator());
-        comps.put(_java.Feature.VALUE_EXPR, ae.getValue());
-        return comps;
-    }
-     */
 
     public AssignExpr.Operator getOperator(){
-        return this.ae.getOperator();
+        return this.node.getOperator();
     }
 
     public boolean isOperator(AssignExpr.Operator ao) {
-        return Objects.equals(this.ast().getOperator(), ao);
+        return Objects.equals(this.node().getOperator(), ao);
     }
 
     /**
@@ -245,7 +230,7 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree.
     }
 
     public _assignExpr setOperator(AssignExpr.Operator op ){
-        this.ae.setOperator(op);
+        this.node.setOperator(op);
         return this;
     }
 
@@ -255,14 +240,14 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree.
     }
 
     public boolean isValue(String str){
-        return Objects.equals( this.ae.getValue(), Expr.of(str));
+        return Objects.equals( this.node.getValue(), Expr.of(str));
     }
 
     public boolean isValue(Expression e){
-        return Objects.equals( this.ae.getValue(), e);
+        return Objects.equals( this.node.getValue(), e);
     }
     public boolean isValue(_expr e){
-        return Objects.equals( this.ae.getValue(), e.ast());
+        return Objects.equals( this.node.getValue(), e.node());
     }
 
     public boolean isValue(Predicate<_expr> _matchFn){
@@ -270,13 +255,13 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree.
     }
 
     public boolean isTarget(String str){
-        return Objects.equals( this.ae.getTarget(), Expr.of(str));
+        return Objects.equals( this.node.getTarget(), Expr.of(str));
     }
     public boolean isTarget(Expression e){
-        return Objects.equals( this.ae.getTarget(), e);
+        return Objects.equals( this.node.getTarget(), e);
     }
     public boolean isTarget(_expr e){
-        return Objects.equals( this.ae.getTarget(), e.ast());
+        return Objects.equals( this.node.getTarget(), e.node());
     }
 
     public boolean isTarget(Predicate<_expr> _matchFn){
@@ -284,105 +269,105 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree.
     }
 
     public _assignExpr setTarget(String...target){
-        this.ae.setTarget(Expr.of(target));
+        this.node.setTarget(Expr.of(target));
         return this;
     }
 
     public _assignExpr setTarget(_expr _e){
-        this.ae.setTarget(_e.ast());
+        this.node.setTarget(_e.node());
         return this;
     }
 
     public _assignExpr setTarget(Expression e){
-        this.ae.setTarget(e);
+        this.node.setTarget(e);
         return this;
     }
 
     public _assignExpr setValue(int value){
-        this.ae.setValue(Expr.of(value));
+        this.node.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(float value){
-        this.ae.setValue(Expr.of(value));
+        this.node.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(boolean value){
-        this.ae.setValue(Expr.of(value));
+        this.node.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(char value){
-        this.ae.setValue(Expr.of(value));
+        this.node.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(long value){
-        this.ae.setValue(Expr.of(value));
+        this.node.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(int... value){
-        this.ae.setValue(Expr.arrayInitializerExpr(value));
+        this.node.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(float... value){
-        this.ae.setValue(Expr.arrayInitializerExpr(value));
+        this.node.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(boolean... value){
-        this.ae.setValue(Expr.arrayInitializerExpr(value));
+        this.node.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(char... value){
-        this.ae.setValue(Expr.arrayInitializerExpr(value));
+        this.node.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(long... value){
-        this.ae.setValue(Expr.arrayInitializerExpr(value));
+        this.node.setValue(Expr.arrayInitializerExpr(value));
         return this;
     }
 
     public _assignExpr setValue(String...value){
-        this.ae.setValue(Expr.of(value));
+        this.node.setValue(Expr.of(value));
         return this;
     }
 
     public _assignExpr setValue(_expr _e){
-        this.ae.setValue(_e.ast());
+        this.node.setValue(_e.node());
         return this;
     }
 
     public _assignExpr setValue(Expression e){
-        this.ae.setValue(e);
+        this.node.setValue(e);
         return this;
     }
 
     public _expr getValue(){
-        return _expr.of(this.ae.getValue());
+        return _expr.of(this.node.getValue());
     }
 
     public _expr getTarget(){
-        return _expr.of(this.ae.getTarget());
+        return _expr.of(this.node.getTarget());
     }
 
     public boolean equals(Object other){
         if( other instanceof _assignExpr){
-            return ((_assignExpr)other).ae.equals( this.ae);
+            return ((_assignExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ae.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.ae.toString();
+        return this.node.toString();
     }
 }

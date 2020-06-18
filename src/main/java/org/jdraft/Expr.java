@@ -348,7 +348,7 @@ public enum Expr {
         //check if it begins before the stack trace line and ends aftrer the stack trace line
         List<MethodCallExpr> ln = //Ast.listAll(_walk.BREADTH_FIRST,
             Walk.list(Walk.BREADTH_FIRST,
-            _t.ast(),
+            _t.node(),
             Ast.Classes.METHOD_CALL_EXPR,
             mce-> mce.getRange().isPresent() && mce.getRange().get().begin.line <= lineNumber
                 && mce.getRange().get().end.line >= lineNumber
@@ -533,7 +533,7 @@ public enum Expr {
         //find all of the potential method calls that could be the call 
         //mentioned in the stack trace based on the line numbers 
         List<MethodCallExpr> mces = Walk.list(Walk.POST_ORDER,
-                _t.ast(),
+                _t.node(),
                 Ast.Classes.METHOD_CALL_EXPR,
                 (MethodCallExpr mce) -> ((MethodCallExpr)mce).getRange().get().begin.line <= ste.getLineNumber() &&
                         ((MethodCallExpr)mce).getRange().get().end.line >= ste.getLineNumber() &&
@@ -764,7 +764,7 @@ public enum Expr {
     }
 
     public static ClassExpr classExpr(Class clazz){
-        return new ClassExpr(_typeRef.of(clazz).ast());
+        return new ClassExpr(_typeRef.of(clazz).node());
     }
 
     /** i.e. "String.class" */

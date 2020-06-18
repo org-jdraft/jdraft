@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.type.Type;
 
@@ -63,10 +64,10 @@ public final class _receiverParam
 
     public static _feature._features<_receiverParam> FEATURES = _feature._features.of(_receiverParam.class,  PARSER, ANNOS, TYPE, NAME );
 
-    public final ReceiverParameter astReceiverParam;
+    public ReceiverParameter node;
 
     public _receiverParam(ReceiverParameter rp ) {
-        this.astReceiverParam = rp;
+        this.node = rp;
     }
 
     public _feature._features<_receiverParam> features(){
@@ -78,19 +79,20 @@ public final class _receiverParam
      * @return 
      */
     public _receiverParam copy(){
-        return of( this.astReceiverParam.toString() );
+        return of( this.node.toString() );
     }
 
-    /*
-    @Override
-    public boolean is( String... string ) {
-        try {
-            return of(Text.combine(string)).equals(this);
-        }catch (Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _receiverParam replace(ReceiverParameter replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is ( ReceiverParameter astRp ){
@@ -99,42 +101,42 @@ public final class _receiverParam
 
 
     @Override
-    public ReceiverParameter ast() {
-        return this.astReceiverParam;
+    public ReceiverParameter node() {
+        return this.node;
     }
 
     @Override
     public _receiverParam setName(String name ) {
-        this.astReceiverParam.setName( name );
+        this.node.setName( name );
         return this;
     }
 
-    public Name getNameNode() { return this.astReceiverParam.getName(); }
+    public Name getNameNode() { return this.node.getName(); }
 
     @Override
     public String getName() {
-        return this.astReceiverParam.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     @Override
     public _typeRef getType() {
-        return _typeRef.of( this.astReceiverParam.getType() );
+        return _typeRef.of( this.node.getType() );
     }
 
     @Override
     public _receiverParam setType(Type astType ) {
-        this.astReceiverParam.setType( astType );
+        this.node.setType( astType );
         return this;
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of( this.astReceiverParam );
+        return _annos.of( this.node);
     }
 
     @Override
     public String toString() {
-        return this.astReceiverParam.toString();
+        return this.node.toString();
     }
 
     @Override
@@ -149,16 +151,16 @@ public final class _receiverParam
             return false;
         }
         final _receiverParam other = (_receiverParam)obj;
-        if( this.astReceiverParam == other.astReceiverParam ) {
+        if( this.node == other.node) {
             return true; //two _receiverParameter s pointing to the same ReceiverParameter
         }
-        if( ! Expr.equalAnnos(this.astReceiverParam, other.astReceiverParam)){
+        if( ! Expr.equalAnnos(this.node, other.node)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {
             return false;
         }
-        if( ! Types.equal( astReceiverParam.getType(), other.astReceiverParam.getType())){
+        if( ! Types.equal( node.getType(), other.node.getType())){
             return false;
         }
         return true;
@@ -178,9 +180,9 @@ public final class _receiverParam
     public int hashCode() {
         int hash = 7;
         //hash = 97 * hash + Ast.annotationsHash( astReceiverParam ); //Objects.hashCode( this.getAnnos() );
-        hash = 97 * hash + Expr.hashAnnos(astReceiverParam);
+        hash = 97 * hash + Expr.hashAnnos(node);
         hash = 97 * hash + Objects.hashCode( this.getName() );
-        hash = 97 * hash + Types.hash( astReceiverParam.getType()); //Objects.hashCode( this.getType() );
+        hash = 97 * hash + Types.hash( node.getType()); //Objects.hashCode( this.getType() );
         return hash;
     }
 
@@ -208,7 +210,7 @@ public final class _receiverParam
         }
         
         default ReceiverParameter getAstReceiverParam(){
-            Node n = (Node) ((_tree._node)this).ast();
+            Node n = (Node) ((_tree._node)this).node();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 if(md.getReceiverParameter().isPresent()){
@@ -225,7 +227,7 @@ public final class _receiverParam
         
         default _WRP removeReceiverParam() {
             if( hasReceiverParam()){
-                Node n = (Node) ((_tree._node)this).ast();
+                Node n = (Node) ((_tree._node)this).node();
                 if( n instanceof MethodDeclaration ){
                     MethodDeclaration md = (MethodDeclaration)n;
                     md.removeReceiverParameter();
@@ -242,11 +244,11 @@ public final class _receiverParam
         }
 
         default _WRP setReceiverParam(_receiverParam _rp ) {
-            return setReceiverParam( _rp.ast() );
+            return setReceiverParam( _rp.node() );
         }
         
         default _WRP setReceiverParam(ReceiverParameter rp ) {
-            Node n = (Node) ((_tree._node)this).ast();
+            Node n = (Node) ((_tree._node)this).node();
             if( n instanceof MethodDeclaration ){
                 MethodDeclaration md = (MethodDeclaration)n;
                 md.setReceiverParameter(rp);

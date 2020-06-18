@@ -34,8 +34,8 @@ public class SmodifiersTest extends TestCase {
     public void testAll(){
         assertNull( $modifiers.of(_m).select(_modifiers.of()) );
         assertNotNull( $modifiers.of(_m).select(_modifiers.of(_modifier.PUBLIC)) );
-        assertNull( $modifiers.of(_m.ast()).select(_modifiers.of()) );
-        assertNotNull( $modifiers.of(_m.ast()).select(_modifiers.of().setPublic()) );
+        assertNull( $modifiers.of(_m.node()).select(_modifiers.of()) );
+        assertNotNull( $modifiers.of(_m.node()).select(_modifiers.of().setPublic()) );
     }
     
 }

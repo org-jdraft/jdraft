@@ -322,7 +322,7 @@ public interface At {
      * @return
      */
     public static <_M extends _java._member> _M  _memberAt(_java._member model, int line, int column) {
-        return _memberAt(model.ast(), line, column);
+        return _memberAt(model.node(), line, column);
     }
 
     /**
@@ -399,7 +399,7 @@ public interface At {
      * @return
      */
     public static <_M extends _java._member> _M  _memberAt(_java._member _mem, int line ) {
-        return _memberAt(_mem.ast(), line );
+        return _memberAt(_mem.node(), line );
     }
 
     /**

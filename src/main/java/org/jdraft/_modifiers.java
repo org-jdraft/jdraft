@@ -23,11 +23,11 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
     public static final Function<String, _modifiers> PARSER = s-> _modifiers.of(s);
 
-    private final NodeWithModifiers node;
+    private final NodeWithModifiers parentNode;
 
 
-    public <N extends Node> N astAnchorNode(){
-        return (N)node;
+    public <N extends Node> N anchorNode(){
+        return (N) parentNode;
     }
 
 
@@ -40,7 +40,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     }
 
     public NodeWithModifiers astHolder() {
-        return node;
+        return parentNode;
     }
 
     //this will handle
@@ -59,7 +59,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     }
 
     public _modifiers copy(){
-        return _modifiers.of( this.node );
+        return _modifiers.of( this.parentNode);
     }
 
     public static _modifiers of(List<Modifier> mods){
@@ -75,7 +75,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         _modifiers _ms = new _modifiers();
 
         for( int i = 0; i < mods.length; i++ ) {
-            _ms.set(mods[i].mod);
+            _ms.set(mods[i].node);
         }
         return _ms;
     }
@@ -90,7 +90,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     }
 
     public NodeList<Modifier> ast() {
-        return node.getModifiers();
+        return parentNode.getModifiers();
     }
 
     public static _feature._many<_modifiers, _modifier> MODIFIERS = new _feature._many<>(_modifiers.class, _modifier.class,
@@ -102,11 +102,11 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     public static _feature._features<_modifiers> FEATURES = _feature._features.of(_modifiers.class,  PARSER, MODIFIERS );
 
     public _modifiers(NodeWithModifiers nm ) {
-        this.node = nm;
+        this.parentNode = nm;
     }
 
     private _modifiers() {
-        this.node = Ast.fieldDeclaration( "int dummyParent;" );
+        this.parentNode = Ast.fieldDeclaration( "int dummyParent;" );
     }
 
     public _feature._features<_modifiers> features(){
@@ -128,7 +128,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
-        node.setModifier( m.getKeyword(), true );
+        parentNode.setModifier( m.getKeyword(), true );
         return this;
     }
 
@@ -137,7 +137,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         if( m == null ) {
             throw new IllegalArgumentException( "invalid modifier keyword \"" + keyword + "\"" );
         }
-        node.setModifier( m.getKeyword(), false );
+        parentNode.setModifier( m.getKeyword(), false );
         return this;
     }
 
@@ -147,7 +147,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
             keyword.equals( Modifier.Keyword.PRIVATE ) ) {// || mod == Modifier.DEFAULT ) {
             setDefaultAccess();
         }
-        node.setModifier( keyword, true );
+        parentNode.setModifier( keyword, true );
         return this;
     }
     public _modifiers set(Modifier mod ) {
@@ -156,18 +156,18 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
                 mod.equals(Modifier.protectedModifier() ) ) {// || mod == Modifier.DEFAULT ) {
             setDefaultAccess();
         }
-        node.setModifier( mod.getKeyword(), true );
+        parentNode.setModifier( mod.getKeyword(), true );
         return this;
     }
 
     public _modifiers unset(Modifier mod ) {
-        node.setModifier( mod.getKeyword(), false );
+        parentNode.setModifier( mod.getKeyword(), false );
         return this;
     }
 
     @Override
     public int hashCode() {
-        return node.getModifiers().hashCode();
+        return parentNode.getModifiers().hashCode();
     }
 
     @Override
@@ -182,18 +182,18 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
             return false;
         }
         final _modifiers other = (_modifiers)obj;
-        return this.node.getModifiers().equals( other.node.getModifiers() );
+        return this.parentNode.getModifiers().equals( other.parentNode.getModifiers() );
     }
 
     @Override
     public List<_modifier> list() {
         List<_modifier> mods = new ArrayList<>();
-        this.node.getModifiers().forEach(m -> mods.add( _modifier.of((Modifier)m)) );
+        this.parentNode.getModifiers().forEach(m -> mods.add( _modifier.of((Modifier)m)) );
         return mods;
     }
 
     public NodeList<Modifier> astList(){
-        return this.node.getModifiers();
+        return this.parentNode.getModifiers();
     }
 
     /**
@@ -206,9 +206,9 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
         if( st.isMatchAny() ){
             return true;
         }
-        Node clone = ((Node)this.node).clone();
+        Node clone = ((Node)this.parentNode).clone();
         ((NodeWithModifiers)clone).setModifiers(_modifiers.of(mods).ast());
-        return Modifiers.modifiersEqual(this.node, (NodeWithModifiers)clone);
+        return Modifiers.modifiersEqual(this.parentNode, (NodeWithModifiers)clone);
         /*
         String str = Text.combine(mods);
         if( str.startsWith("$") && str.endsWith("$")){
@@ -231,7 +231,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return
      */
     public boolean isPublic() {
-        return this.node.hasModifier( Modifier.Keyword.PUBLIC );
+        return this.parentNode.hasModifier( Modifier.Keyword.PUBLIC );
     }
 
     /**
@@ -239,7 +239,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return
      */
     public boolean isPrivate() {
-        return this.node.hasModifier( Modifier.Keyword.PRIVATE );
+        return this.parentNode.hasModifier( Modifier.Keyword.PRIVATE );
     }
 
     /**
@@ -247,7 +247,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return
      */
     public boolean isProtected() {
-        return this.node.hasModifier( Modifier.Keyword.PROTECTED );
+        return this.parentNode.hasModifier( Modifier.Keyword.PROTECTED );
     }
 
     /**
@@ -264,7 +264,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return
      */
     public boolean isDefault() {
-        return this.node.hasModifier( Modifier.Keyword.DEFAULT );
+        return this.parentNode.hasModifier( Modifier.Keyword.DEFAULT );
     }
 
     /**
@@ -273,12 +273,12 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return the modified MODIFIERS
      */
     public _modifiers setDefault() {
-        this.node.setModifier(Modifier.Keyword.DEFAULT, true );
+        this.parentNode.setModifier(Modifier.Keyword.DEFAULT, true );
         return this;
     }
 
     public _modifiers setDefault( boolean b){
-        this.node.setModifier(Modifier.Keyword.DEFAULT, b );
+        this.parentNode.setModifier(Modifier.Keyword.DEFAULT, b );
         return this;
     }
 
@@ -287,8 +287,8 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return
      */
     public _modifiers setDefaultAccess() {
-        NodeList<Modifier> ms = this.node.getModifiers();
-        this.node.removeModifier( Modifier.Keyword.PUBLIC, Modifier.Keyword.PROTECTED, Modifier.Keyword.PRIVATE);
+        NodeList<Modifier> ms = this.parentNode.getModifiers();
+        this.parentNode.removeModifier( Modifier.Keyword.PUBLIC, Modifier.Keyword.PROTECTED, Modifier.Keyword.PRIVATE);
 
         return this;
     }
@@ -298,35 +298,35 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return
      */
     public boolean isAbstract() {
-        return this.node.hasModifier( Modifier.Keyword.ABSTRACT );
+        return this.parentNode.hasModifier( Modifier.Keyword.ABSTRACT );
     }
 
     public boolean isFinal() {
-        return this.node.hasModifier( Modifier.Keyword.FINAL );
+        return this.parentNode.hasModifier( Modifier.Keyword.FINAL );
     }
 
     public boolean isVolatile() {
-        return this.node.hasModifier( Modifier.Keyword.VOLATILE );
+        return this.parentNode.hasModifier( Modifier.Keyword.VOLATILE );
     }
 
     public boolean isTransient() {
-        return this.node.hasModifier( Modifier.Keyword.TRANSIENT );
+        return this.parentNode.hasModifier( Modifier.Keyword.TRANSIENT );
     }
 
     public boolean isSynchronized() {
-        return this.node.hasModifier( Modifier.Keyword.SYNCHRONIZED );
+        return this.parentNode.hasModifier( Modifier.Keyword.SYNCHRONIZED );
     }
 
     public boolean isStrict() {
-        return this.node.hasModifier( Modifier.Keyword.STRICTFP );
+        return this.parentNode.hasModifier( Modifier.Keyword.STRICTFP );
     }
 
     public boolean isStatic() {
-        return this.node.hasModifier( Modifier.Keyword.STATIC );
+        return this.parentNode.hasModifier( Modifier.Keyword.STATIC );
     }
 
     public boolean isNative() {
-        return this.node.hasModifier( Modifier.Keyword.NATIVE );
+        return this.parentNode.hasModifier( Modifier.Keyword.NATIVE );
     }
 
     public _modifiers setPublic() {
@@ -383,47 +383,47 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     }
 
     public _modifiers setAbstract(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.ABSTRACT, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.ABSTRACT, toSet );
         return this;
     }
 
     public _modifiers setStatic(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.STATIC, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.STATIC, toSet );
         return this;
     }
 
     public _modifiers setFinal(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.FINAL, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.FINAL, toSet );
         return this;
     }
 
     public _modifiers setSynchronized(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.SYNCHRONIZED, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.SYNCHRONIZED, toSet );
         return this;
     }
 
     public _modifiers setNative(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.NATIVE, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.NATIVE, toSet );
         return this;
     }
 
     public _modifiers setTransient(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.TRANSIENT, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.TRANSIENT, toSet );
         return this;
     }
 
     public _modifiers setVolatile(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.VOLATILE, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.VOLATILE, toSet );
         return this;
     }
 
     public _modifiers setStrictFp(boolean toSet ) {
-        this.node.setModifier( Modifier.Keyword.STRICTFP, toSet );
+        this.parentNode.setModifier( Modifier.Keyword.STRICTFP, toSet );
         return this;
     }
 
     public _modifiers clear() {
-        this.node.getModifiers().clear();
+        this.parentNode.getModifiers().clear();
         return this;
     }
 
@@ -446,8 +446,8 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
     public int asInt(){
         int modBits = 0;
-        if( node != null && node.getModifiers() != null ) {
-            NodeList<Modifier> ms = this.node.getModifiers();
+        if( parentNode != null && parentNode.getModifiers() != null ) {
+            NodeList<Modifier> ms = this.parentNode.getModifiers();
             for(int i=0;i<ms.size();i++){
 
                 modBits = modBits | Modifiers.MODS_KEYWORD_TO_BIT_MAP.get( ms.get(i).getKeyword().asString() );
@@ -458,8 +458,8 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
     public String[] asKeywords() {
         List<String> strs = new ArrayList<>();
-        if( node != null && node.getModifiers() != null ) {
-            this.node.getModifiers().forEach( i -> {
+        if( parentNode != null && parentNode.getModifiers() != null ) {
+            this.parentNode.getModifiers().forEach(i -> {
                 strs.add( ((Modifier)i).getKeyword().asString() );
             } );
         }
@@ -513,7 +513,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      * @return true IFF this _modifiers contains all of the mods in NodeList<Modifier>
      */
     public boolean containsAll( Collection<Modifier> mods ) {
-        return this.node.getModifiers().containsAll(mods);
+        return this.parentNode.getModifiers().containsAll(mods);
     }
 
     /**
@@ -523,7 +523,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
      */
     public boolean containsAny( Collection<Modifier> mods ){
         Optional<Modifier> om =
-            mods.stream().filter( m-> this.node.hasModifier(m.getKeyword()) ).findFirst();
+            mods.stream().filter( m-> this.parentNode.hasModifier(m.getKeyword()) ).findFirst();
         if( om.isPresent() ){
             return true;
         }
@@ -605,7 +605,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
          * @return
          */
         default _HM setModifiers(NodeList<Modifier> mods){
-            getModifiers().node.setModifiers(mods);
+            getModifiers().parentNode.setModifiers(mods);
             return (_HM)this;
         }
 
@@ -673,7 +673,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
          */
         default NodeList<Modifier> getEffectiveAstModifiersList(){
 
-            return getModifiers().node.getModifiers(); //.getModifiers();
+            return getModifiers().parentNode.getModifiers(); //.getModifiers();
         }
 
         /**
@@ -736,7 +736,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
         default _WS setStatic(boolean toSet){
             _tree._node n = (_tree._node)this;
-            NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
+            NodeWithModifiers nwm = (NodeWithModifiers)n.node();
             nwm.setModifier(Modifier.Keyword.STATIC, toSet);
             return (_WS)this;
         }
@@ -749,7 +749,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     public interface _withSynchronized<_WS extends _withSynchronized> extends _withModifiers<_WS> {
 
         default boolean isSynchronized(){
-            return getModifiers().node.hasModifier(Modifier.Keyword.SYNCHRONIZED );
+            return getModifiers().parentNode.hasModifier(Modifier.Keyword.SYNCHRONIZED );
         }
 
         default _WS setSynchronized(){
@@ -758,7 +758,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
         default _WS setSynchronized(boolean toSet){
             _tree._node n = (_tree._node)this;
-            NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
+            NodeWithModifiers nwm = (NodeWithModifiers)n.node();
             nwm.setModifier(Modifier.Keyword.SYNCHRONIZED, toSet);
             return (_WS)this;
         }
@@ -778,7 +778,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
         default _WA setAbstract(boolean toSet){
             _tree._node n = (_tree._node)this;
-            NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
+            NodeWithModifiers nwm = (NodeWithModifiers)n.node();
             nwm.setModifier(Modifier.Keyword.ABSTRACT, toSet);
             return (_WA)this;
         }
@@ -791,7 +791,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     public interface _withVolatile<_HV extends _withVolatile> extends _withModifiers<_HV> {
 
         default boolean isVolatile(){
-            return getModifiers().node.hasModifier(Modifier.Keyword.VOLATILE );
+            return getModifiers().parentNode.hasModifier(Modifier.Keyword.VOLATILE );
         }
 
         default _HV setVolatile(){
@@ -800,7 +800,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
         default _HV setVolatile(boolean toSet){
            _tree._node n = (_tree._node)this;
-            NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
+            NodeWithModifiers nwm = (NodeWithModifiers)n.node();
             nwm.setModifier(Modifier.Keyword.VOLATILE, toSet);
             return (_HV)this;
         }
@@ -813,7 +813,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     public interface _withNative<_HN extends _withNative>  extends _withModifiers<_HN> {
 
         default boolean isNative(){
-            return getModifiers().node.hasModifier(Modifier.Keyword.NATIVE );
+            return getModifiers().parentNode.hasModifier(Modifier.Keyword.NATIVE );
         }
 
         default _HN setNative(){
@@ -822,7 +822,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
         default _HN setNative(boolean toSet){
             _tree._node n = (_tree._node)this;
-            NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
+            NodeWithModifiers nwm = (NodeWithModifiers)n.node();
             nwm.setModifier(Modifier.Keyword.NATIVE, toSet);
             return (_HN)this;
         }
@@ -835,7 +835,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     public interface _withTransient<_HT extends _withTransient>  extends _withModifiers<_HT> {
 
         default boolean isTransient(){
-            return getModifiers().node.hasModifier(Modifier.Keyword.TRANSIENT );
+            return getModifiers().parentNode.hasModifier(Modifier.Keyword.TRANSIENT );
         }
 
         default _HT setTransient(){
@@ -844,7 +844,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
         default _HT setTransient(boolean toSet){
             _tree._node n = (_tree._node)this;
-            NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
+            NodeWithModifiers nwm = (NodeWithModifiers)n.node();
             nwm.setModifier(Modifier.Keyword.TRANSIENT, toSet);
             return (_HT)this;
         }
@@ -857,7 +857,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     public interface _withStrictFp<_HS extends _withStrictFp>  extends _withModifiers<_HS> {
 
         default boolean isStrictFp(){
-            return getModifiers().node.hasModifier(Modifier.Keyword.STRICTFP );
+            return getModifiers().parentNode.hasModifier(Modifier.Keyword.STRICTFP );
         }
 
         default _HS setStrictFp(){
@@ -866,7 +866,7 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
 
         default _HS setStrictFp(boolean toSet){
             _tree._node n = (_tree._node)this;
-            NodeWithModifiers nwm = (NodeWithModifiers)n.ast();
+            NodeWithModifiers nwm = (NodeWithModifiers)n.node();
             nwm.setModifier(Modifier.Keyword.STRICTFP, toSet);
             return (_HS)this;
         }

@@ -209,8 +209,8 @@ public interface _macro<M extends _annos._withAnnos>
         Set<FieldDeclaration> fds = new HashSet<>();
         _t.toFields(_f -> {
             _field _fl = (_field)_f;
-            if( _fl.ast() != null
-                    && _fl.ast().getParentNode().isPresent()
+            if( _fl.node() != null
+                    && _fl.node().getParentNode().isPresent()
                     && !fds.contains( _fl.getFieldDeclaration() ) ) {
                 to(clazz, _fl );
                 fds.add( _fl.getFieldDeclaration() );

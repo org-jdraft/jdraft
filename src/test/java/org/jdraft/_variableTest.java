@@ -17,7 +17,7 @@ public class _variableTest extends TestCase {
         assertFalse( _lvs.getAt(0).isField());
         assertFalse( _lvs.getAt(1).isField());
 
-        _v = _variable.of(_field.of( "int j" ).ast());
+        _v = _variable.of(_field.of( "int j" ).node());
         assertTrue( _v.isField() );
         assertFalse( _v.isLocal());
     }

@@ -49,7 +49,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
     public static _feature._one<_switchCase, SwitchEntry.Type> BODY_TYPE = new _feature._one<>(_switchCase.class, SwitchEntry.Type.class,
             _feature._id.BODY_TYPE,
             a -> a.getBodyType(),
-            (_switchCase p, SwitchEntry.Type t) -> p.ast().setType(t), PARSER);
+            (_switchCase p, SwitchEntry.Type t) -> p.node().setType(t), PARSER);
 
     public static _feature._many<_switchCase, _stmt> STATEMENTS = new _feature._many<>(_switchCase.class, _stmt.class,
             _feature._id.STATEMENTS,
@@ -59,10 +59,10 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
 
     public static _feature._features<_switchCase> FEATURES = _feature._features.of(_switchCase.class,  PARSER, CASE_EXPRESSIONS, BODY_TYPE, STATEMENTS );
 
-    public SwitchEntry switchEntry;
+    public SwitchEntry node;
 
     public _switchCase(SwitchEntry se){
-        this.switchEntry = se;
+        this.node = se;
     }
 
     public _feature._features<_switchCase> features(){
@@ -70,23 +70,23 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
     }
 
     public _switchCase setCaseExpressions(List<_expr> _es){
-        this.switchEntry.getLabels().clear();
-        _es.forEach( ce -> this.switchEntry.getLabels().add( ce.ast()));
+        this.node.getLabels().clear();
+        _es.forEach( ce -> this.node.getLabels().add( ce.node()));
         return this;
     }
 
     public List<_expr> listCaseExpressions(){
         List<_expr> caseExpressions = new ArrayList<>();
-        this.switchEntry.getLabels().forEach( ce -> caseExpressions.add( _expr.of(ce)));
+        this.node.getLabels().forEach(ce -> caseExpressions.add( _expr.of(ce)));
         return caseExpressions;
     }
 
     public boolean hasCaseConstant(_expr _e){
-        return hasCaseConstant(_e.ast());
+        return hasCaseConstant(_e.node());
     }
 
     public boolean hasCaseConstant(Expression caseLabel){
-        return this.switchEntry.getLabels().stream().anyMatch( c-> c.equals(caseLabel) );
+        return this.node.getLabels().stream().anyMatch(c-> c.equals(caseLabel) );
     }
 
     /**
@@ -99,15 +99,15 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      * @return
      */
     public boolean isCaseConstantOnly(){
-        return this.switchEntry.getStatements().isEmpty();
+        return this.node.getStatements().isEmpty();
     }
 
     public SwitchEntry.Type getBodyType(){
-        return this.ast().getType();
+        return this.node().getType();
     }
 
     public _switchCase setBodyType(SwitchEntry.Type bodyType ){
-        this.ast().setType(bodyType);
+        this.node().setType(bodyType);
         return this;
     }
 
@@ -154,7 +154,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
     public _switchCase setCaseConstant(Expression caseLabel){
         NodeList<Expression>labels = new NodeList<>();
         labels.add(caseLabel);
-        this.switchEntry.setLabels(labels);
+        this.node.setLabels(labels);
         return this;
     }
 
@@ -168,7 +168,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      * @return
      */
     public boolean isThrow(){
-        SwitchEntry se = ast();
+        SwitchEntry se = node();
         if( se.getStatements().size() > 0 ) {
             if( se.getStatement(se.getStatements().size() - 1) instanceof ThrowStmt ){
                 return true;
@@ -189,11 +189,11 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
     }
 
     public boolean isThrow(_typeRef _tr ){
-        return isThrow(_tr.ast());
+        return isThrow(_tr.node());
     }
 
     public boolean isThrow(Type thrownType){
-        SwitchEntry se = ast();
+        SwitchEntry se = node();
         if( se.getStatements().size() > 0 ) {
             if( se.getStatement(se.getStatements().size() - 1) instanceof ThrowStmt ){
                 ThrowStmt ts = (ThrowStmt)se.getStatement(se.getStatements().size() - 1);
@@ -219,7 +219,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
     }
 
     public boolean hasStatements(){
-        return this.ast().getStatements().isNonEmpty();
+        return this.node().getStatements().isNonEmpty();
     }
 
     /**
@@ -231,7 +231,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      * @return
      */
     public boolean isStatementGroup(){
-        return this.switchEntry.getType().equals(SwitchEntry.Type.STATEMENT_GROUP);
+        return this.node.getType().equals(SwitchEntry.Type.STATEMENT_GROUP);
     }
 
     /**
@@ -243,7 +243,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      * @return
      */
     public boolean isBlock(){
-        return this.switchEntry.getType().equals(SwitchEntry.Type.BLOCK);
+        return this.node.getType().equals(SwitchEntry.Type.BLOCK);
     }
 
     /**
@@ -259,39 +259,39 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      * @return
      */
     public boolean isExpression(){
-        return this.switchEntry.getType().equals(SwitchEntry.Type.EXPRESSION);
+        return this.node.getType().equals(SwitchEntry.Type.EXPRESSION);
     }
 
     public Statement getStatement(int index){
-        return this.switchEntry.getStatement(index);
+        return this.node.getStatement(index);
     }
 
 
     public List<_stmt> listStatements(){
-        return this.switchEntry.getStatements().stream().map(s-> _stmt.of(s)).collect(Collectors.toList());
+        return this.node.getStatements().stream().map(s-> _stmt.of(s)).collect(Collectors.toList());
     }
 
     public List<Statement> listAstStatements(){
-        return this.switchEntry.getStatements();
+        return this.node.getStatements();
     }
 
     private _switchCase setStatements(LambdaExpr le){
         if( le.getExpressionBody().isPresent()){ //an Expression Lambda
             NodeList<Statement>sts = new NodeList<>();
             sts.add( new ExpressionStmt(le.getExpressionBody().get()));
-            this.switchEntry.setStatements(sts);
+            this.node.setStatements(sts);
             return this;
         }
         Statement st = le.getBody();
         if( !(st instanceof BlockStmt )){
             NodeList<Statement>sts = new NodeList<>();
             sts.add( st);
-            this.switchEntry.setStatements(sts);
+            this.node.setStatements(sts);
             return this;
         }
         //if its a blockStmt, just pull
         BlockStmt bs = st.asBlockStmt();
-        this.switchEntry.setStatements( bs.getStatements() );
+        this.node.setStatements( bs.getStatements() );
         return this;
     }
 
@@ -307,42 +307,42 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
 
     public <A extends Object> _switchCase setStatements (Consumer<A> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCase setStatements (Function<A,B> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _switchCase setStatements(BiFunction<A,B,C> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object> _switchCase setStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchCase setStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCase setStatements(BiConsumer<A,B> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object> _switchCase setStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object, D extends Object> _switchCase setStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     /**
@@ -352,7 +352,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      */
     public _switchCase setStatements(String...sts){
         BlockStmt bs = Ast.blockStmt(sts);
-        bs.getStatements().forEach(s -> this.switchEntry.addStatement(s));
+        bs.getStatements().forEach(s -> this.node.addStatement(s));
         return this;
     }
 
@@ -362,8 +362,8 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
 
     public _switchCase setStatements(_stmt...st){
         NodeList<Statement>stmts = new NodeList<>();
-        Arrays.stream(st).forEach(s -> stmts.add(s.ast()));
-        this.switchEntry.setStatements(stmts);
+        Arrays.stream(st).forEach(s -> stmts.add(s.node()));
+        this.node.setStatements(stmts);
         return this;
     }
 
@@ -375,7 +375,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
     public _switchCase setStatements(Statement...st){
         NodeList<Statement>stmts = new NodeList<>();
         Arrays.stream(st).forEach(s -> stmts.add(s));
-        this.switchEntry.setStatements(stmts);
+        this.node.setStatements(stmts);
         return this;
     }
 
@@ -391,67 +391,67 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
 
     public <A extends Object> _switchCase addStatements (Consumer<A> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCase addStatements (Function<A,B> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _switchCase addStatements(BiFunction<A,B,C> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object> _switchCase addStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchCase addStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCase addStatements(BiConsumer<A,B> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object> _switchCase addStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object, D extends Object> _switchCase addStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     private _switchCase addStatements(LambdaExpr le){
         if( le.getExpressionBody().isPresent()){ //an Expression Lambda
             NodeList<Statement>sts = new NodeList<>();
             sts.add( new ExpressionStmt(le.getExpressionBody().get()));
-            this.switchEntry.setStatements(sts);
+            this.node.setStatements(sts);
             return this;
         }
         Statement st = le.getBody();
         if( !(st instanceof BlockStmt )){
             //NodeList<Statement>sts = new NodeList<>();
             //sts.add( st);
-            this.switchEntry.addStatement(st);
+            this.node.addStatement(st);
             return this;
         }
         //if its a blockStmt, just pull
         BlockStmt bs = st.asBlockStmt();
-        bs.getStatements().forEach( s -> this.switchEntry.addStatement(s));
+        bs.getStatements().forEach( s -> this.node.addStatement(s));
         return this;
     }
 
     public _switchCase addStatements(String...st){
         BlockStmt bs = Ast.blockStmt(st);
-        bs.getStatements().forEach(s -> this.switchEntry.addStatement(s));
+        bs.getStatements().forEach(s -> this.node.addStatement(s));
         return this;
     }
 
@@ -465,14 +465,14 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
         BlockStmt bs = Ast.blockStmt(st);
         //bs.getStatements().forEach(s -> this.switchEntry.addStatement(s));
         for(int i=0;i<bs.getStatements().size();i++){
-            this.switchEntry.addStatement(index + i, bs.getStatement( i) );
+            this.node.addStatement(index + i, bs.getStatement( i) );
         }
         return this;
     }
 
     public _switchCase addStatements(Statement...st){
         for(int i=0; i<st.length;i++) {
-            this.switchEntry.addStatement(st[i]);
+            this.node.addStatement(st[i]);
         }
         return this;
     }
@@ -485,7 +485,7 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      */
     public _switchCase addStatements(int index, Statement...st){
         for(int i=0;i<st.length;i++){
-            this.switchEntry.addStatement(index + i, st[i] );
+            this.node.addStatement(index + i, st[i] );
         }
         return this;
     }
@@ -495,57 +495,48 @@ public final class _switchCase implements _tree._node<SwitchEntry, _switchCase> 
      * @return
      */
     public boolean isDefault(){
-        return this.switchEntry.getLabels().isEmpty();
+        return this.node.getLabels().isEmpty();
     }
 
     @Override
     public _switchCase copy() {
-        return new _switchCase( this.switchEntry.clone());
+        return new _switchCase( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... switchEntry ) {
-        try {
-            return is(Ast.switchEntry(switchEntry));
-        }catch (Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _switchCase replace(SwitchEntry replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(SwitchEntry astNode) {
-        return this.switchEntry.equals(astNode);
+        return this.node.equals(astNode);
     }
 
     @Override
-    public SwitchEntry ast() {
-        return this.switchEntry;
+    public SwitchEntry node() {
+        return this.node;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> cs = new HashMap<>();
-        cs.put(_java.Feature.STATEMENTS, this.switchEntry.getStatements());
-        cs.put(_java.Feature.SWITCH_BODY_TYPE, this.switchEntry.getType());
-        cs.put(_java.Feature.SWITCH_LABEL_EXPRS, this.switchEntry.getLabels());
-        return cs;
-    }
-     */
 
     public String toString(){
-        return this.switchEntry.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _switchCase){
-            return Objects.equals( ((_switchCase)other).ast(), this.ast() );
+            return Objects.equals( ((_switchCase)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

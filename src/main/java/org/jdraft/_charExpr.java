@@ -31,74 +31,75 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
 
     public static _feature._features<_charExpr> FEATURES = _feature._features.of(_charExpr.class,  PARSER, LITERAL_VALUE);
 
-    public CharLiteralExpr cle;
+    public CharLiteralExpr node;
 
     public _feature._features<_charExpr> features(){
         return FEATURES;
     }
 
-    public _charExpr(CharLiteralExpr cle){
-        this.cle = cle;
+    public _charExpr(CharLiteralExpr node){
+        this.node = node;
     }
 
     @Override
     public _charExpr copy() {
-        return new _charExpr(this.cle.clone());
+        return new _charExpr(this.node.clone());
     }
 
-
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.charLiteralExpr(Text.combine(stringRep)));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _charExpr replace(CharLiteralExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(CharLiteralExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
     public boolean is(char c){
-        return this.cle.asChar() == c;
+        return this.node.asChar() == c;
     }
 
-    public CharLiteralExpr ast(){
-        return cle;
+    public CharLiteralExpr node(){
+        return node;
     }
 
     public boolean equals(Object other){
         if( other instanceof _charExpr){
-            return ((_charExpr)other).cle.equals( this.cle);
+            return ((_charExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public _charExpr setValue(char c){
-        this.cle.setValue(c+"");
+        this.node.setValue(c+"");
         return this;
     }
 
     public boolean isValue( Predicate<Character> characterMatchFn ){
-        return characterMatchFn.test(this.cle.asChar());
+        return characterMatchFn.test(this.node.asChar());
     }
 
     public char getValue(){
-        return this.cle.asChar();
+        return this.node.asChar();
     }
 
     public String valueAsString(){
-        return this.cle.toString();
+        return this.node.toString();
     }
 
     public int hashCode(){
-        return 31 * this.cle.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.cle.toString();
+        return this.node.toString();
     }
 }

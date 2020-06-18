@@ -28,7 +28,7 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
     }
 
     public static _exprStmt of(_expr _e){
-        return of( new ExpressionStmt(_e.ast()) );
+        return of( new ExpressionStmt(_e.node()) );
     }
     public static _exprStmt of(ExpressionStmt es){
         return new _exprStmt( es);
@@ -72,7 +72,7 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
     }
 
     public  static _exprStmt from(StackTraceElement ste ){
-        return from( _lambdaExpr.from(ste).ast());
+        return from( _lambdaExpr.from(ste).node());
     }
 
     private static _exprStmt from(LambdaExpr le){
@@ -90,10 +90,10 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
 
     public static _feature._features<_exprStmt> FEATURES = _feature._features.of(_exprStmt.class,  PARSER, EXPRESSION);
 
-    private ExpressionStmt astStmt;
+    private ExpressionStmt node;
 
     public _exprStmt(ExpressionStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     public _feature._features<_exprStmt> features(){
@@ -102,27 +102,27 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
 
     @Override
     public _exprStmt copy() {
-        return new _exprStmt( this.astStmt.clone());
+        return new _exprStmt( this.node.clone());
     }
 
-    //I should have a default override for this
-    // in _stmt
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.expressionStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _exprStmt replace(ExpressionStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
-    public ExpressionStmt ast(){
-        return astStmt;
+    public ExpressionStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
@@ -134,6 +134,6 @@ public final class _exprStmt implements _stmt<ExpressionStmt, _exprStmt>,
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

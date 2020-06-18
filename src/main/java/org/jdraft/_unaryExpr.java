@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
 
 import java.util.List;
@@ -39,14 +40,14 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._no
     public static _unaryExpr of(UnaryExpr.Operator op, _expr _e){
         UnaryExpr ue = new UnaryExpr();
         ue.setOperator(op);
-        ue.setExpression(_e.ast());
+        ue.setExpression(_e.node());
         return of(ue);
     }
 
     public static _unaryExpr of(_expr _e, UnaryExpr.Operator op ){
         UnaryExpr ue = new UnaryExpr();
         ue.setOperator(op);
-        ue.setExpression(_e.ast());
+        ue.setExpression(_e.node());
         return of(ue);
     }
 
@@ -73,10 +74,10 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._no
                 return Stream.of(EXPRESSION, OPERATOR).collect(Collectors.toList());
             });
 
-    public UnaryExpr unaryEx;
+    public UnaryExpr node;
 
-    public _unaryExpr(UnaryExpr unaryEx){
-        this.unaryEx = unaryEx;
+    public _unaryExpr(UnaryExpr node){
+        this.node = node;
     }
 
     public _feature._features<_unaryExpr> features(){
@@ -85,18 +86,20 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._no
 
     @Override
     public _unaryExpr copy() {
-        return new _unaryExpr(this.unaryEx.clone());
+        return new _unaryExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.unaryExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _unaryExpr replace(UnaryExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean isOperator(String operator ){
         return Objects.equals( getOperator().asString(), operator);
@@ -117,45 +120,24 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._no
     }
 
     public boolean isPrefixOperator(){
-        return this.unaryEx.getOperator().isPrefix();
+        return this.node.getOperator().isPrefix();
     }
 
     public boolean isPostfixOperator(){
-        return this.unaryEx.getOperator().isPostfix();
+        return this.node.getOperator().isPostfix();
     }
     @Override
     public boolean is(UnaryExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public UnaryExpr ast(){
-        return unaryEx;
+    public UnaryExpr node(){
+        return node;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        comps.put(_java.Feature.UNARY_OPERATOR, unaryEx.getOperator());
-        comps.put(_java.Feature.EXPRESSION, unaryEx.getExpression());
-        return comps;
-    }
-     */
 
     public boolean isOperator(Predicate<UnaryExpr.Operator> uo){
-        return uo.test(this.unaryEx.getOperator());
+        return uo.test(this.node.getOperator());
     }
-
-    /*
-    public boolean isOperator(String operator){
-        try{
-            return isOperator( UnaryExpr.Operator.valueOf(operator));
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
-     */
 
     // +val
     public boolean isPlusPrefix(){
@@ -193,7 +175,7 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._no
     }
 
     public boolean isOperator(UnaryExpr.Operator operator){
-        return Objects.equals( this.unaryEx.getOperator(), operator);
+        return Objects.equals( this.node.getOperator(), operator);
     }
 
     // +val
@@ -233,31 +215,31 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._no
 
     //TODO test
     public _unaryExpr setOperator(String operator){
-        this.unaryEx.setOperator( UnaryExpr.Operator.valueOf(operator));
+        this.node.setOperator( UnaryExpr.Operator.valueOf(operator));
         return this;
     }
 
     public _unaryExpr setOperator(UnaryExpr.Operator operator){
-        this.unaryEx.setOperator( operator);
+        this.node.setOperator( operator);
         return this;
     }
 
     public UnaryExpr.Operator getOperator(){
-        return this.unaryEx.getOperator();
+        return this.node.getOperator();
     }
 
     public boolean equals(Object other){
         if( other instanceof _unaryExpr){
-            return ((_unaryExpr)other).unaryEx.equals( this.unaryEx);
+            return ((_unaryExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.unaryEx.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.unaryEx.toString();
+        return this.node.toString();
     }
 }

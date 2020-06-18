@@ -479,7 +479,7 @@ public interface $bot<_B, $B>
                 return selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), matchFn);
             }
         }
-        return selectFirstIn( ((_tree._node)_j).ast(), matchFn);
+        return selectFirstIn( ((_tree._node)_j).node(), matchFn);
     }
 
     /**
@@ -583,7 +583,7 @@ public interface $bot<_B, $B>
                 return countIn(_t.astCompilationUnit());
             }
         }
-        return countIn(_j.ast());
+        return countIn(_j.node());
     }
 
     /**
@@ -599,7 +599,7 @@ public interface $bot<_B, $B>
                 return countIn(_t.astCompilationUnit(), _matchFn);
             }
         }
-        return countIn(_j.ast(), _matchFn);
+        return countIn(_j.node(), _matchFn);
     }
 
     /**
@@ -705,7 +705,7 @@ public interface $bot<_B, $B>
             forEachIn(((_type) _j).astCompilationUnit(), t->true, actionFn);
             return _j;
         }
-        forEachIn(_j.ast(), t->true, actionFn);
+        forEachIn(_j.node(), t->true, actionFn);
         return _j;
     }
 
@@ -722,7 +722,7 @@ public interface $bot<_B, $B>
             forEachIn(((_type) _j).astCompilationUnit(), matchFn, actionFn);
             return _j;
         }
-        forEachIn(_j.ast(), matchFn, actionFn);
+        forEachIn(_j.node(), matchFn, actionFn);
         return _j;
     }
 
@@ -856,11 +856,11 @@ public interface $bot<_B, $B>
             }
             //System.out.println( "A CODEUNIT NOT TOP LVL");
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), matchFn, selectActionFn); //return the TypeDeclaration, not the CompilationUnit
+            forSelectedIn(_t.node(), matchFn, selectActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
         //System.out.println("Not a codeUnit");
-        forSelectedIn(((_tree._node) _j).ast(), matchFn, selectActionFn);
+        forSelectedIn(((_tree._node) _j).node(), matchFn, selectActionFn);
         return _j;
     }
 
@@ -976,9 +976,9 @@ public interface $bot<_B, $B>
                 return listIn(_c.astCompilationUnit(), _matchFn);
             }
             _type _t = (_type) _j; //only possible
-            return listIn (_t.ast(), _matchFn);
+            return listIn (_t.node(), _matchFn);
         }
-        return listIn(_j.ast(), _matchFn);
+        return listIn(_j.node(), _matchFn);
     }
 
     /**
@@ -1116,7 +1116,7 @@ public interface $bot<_B, $B>
         if( ( _jn instanceof _codeUnit) && ( ((_codeUnit)_jn).isTopLevel()) ){
             printIn( ((_codeUnit)_jn).astCompilationUnit());
         } else{
-            printIn(_jn.ast());
+            printIn(_jn.node());
         }
     }
 
@@ -1289,11 +1289,11 @@ public interface $bot<_B, $B>
         default <_J extends _tree._node<?,?>> _J removeIn(_J _j) {
             if( _j instanceof _codeUnit){
                 if( ((_codeUnit) _j).isTopLevel()){
-                    forEachIn(((_codeUnit) _j).astCompilationUnit(), p->true, n-> n.ast().removeForced());
+                    forEachIn(((_codeUnit) _j).astCompilationUnit(), p->true, n-> n.node().removeForced());
                     return _j;
                 }
             }
-            forEachIn(_j.ast(), p->true, n-> n.ast().removeForced());
+            forEachIn(_j.node(), p->true, n-> n.node().removeForced());
             return _j;
         }
 
@@ -1331,23 +1331,23 @@ public interface $bot<_B, $B>
             if( _j instanceof _codeUnit){
                 _codeUnit _c = (_codeUnit) _j;
                 if( _c.isTopLevel() ){
-                    forEachIn(_c.astCompilationUnit(), _matchFn, n-> n.ast().removeForced());
+                    forEachIn(_c.astCompilationUnit(), _matchFn, n-> n.node().removeForced());
                     return _j;
                 }
                 _type _t = (_type) _j; //only possible
-                forEachIn(_t.ast(), _matchFn, n-> n.ast().removeForced()); //return the TypeDeclaration, not the CompilationUnit
+                forEachIn(_t.node(), _matchFn, n-> n.node().removeForced()); //return the TypeDeclaration, not the CompilationUnit
                 return _j;
             }
-            forEachIn(((_tree._node) _j).ast(), _matchFn, n-> n.ast().removeForced());
+            forEachIn(((_tree._node) _j).node(), _matchFn, n-> n.node().removeForced());
             return _j;
         }
 
         default <N extends Node> N removeIn(N astNode) {
-            return forEachIn(astNode, p->true, n-> n.ast().removeForced());
+            return forEachIn(astNode, p->true, n-> n.node().removeForced());
         }
 
         default <N extends Node> N removeIn(N astNode, Predicate<_P> matchFn) {
-            forEachIn(astNode, matchFn, n-> n.ast().removeForced());
+            forEachIn(astNode, matchFn, n-> n.node().removeForced());
             return astNode;
         }
 
@@ -1374,7 +1374,7 @@ public interface $bot<_B, $B>
         }
 
         default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, Node replaceNode) {
-            return forEachIn(clazz, p-> p.ast().replace(replaceNode.clone()));
+            return forEachIn(clazz, p-> p.node().replace(replaceNode.clone()));
         }
 
         default <_J extends _tree._node> _J replaceIn(_J _j, String...replacement) {
@@ -1387,10 +1387,10 @@ public interface $bot<_B, $B>
                         Node n = null;
                         try {
                             //assume the replacement will be of the same type
-                            n = _java.node(s.select.ast().getClass(), drafted);
-                            replaced = s.select.ast().replace( n );
+                            n = _java.node(s.select.node().getClass(), drafted);
+                            replaced = s.select.node().replace( n );
                         }catch(Exception e){
-                            throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.select.ast().getClass());
+                            throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.select.node().getClass());
                         }
                         if( ! replaced ){
                             throw new _jdraftException("could not replace "+s.select +" with "+ n);
@@ -1406,10 +1406,10 @@ public interface $bot<_B, $B>
                 Node n = null;
                 try {
                     //assume the replacement will be of the same type
-                    n = _java.node(s.select.ast().getClass(), drafted);
-                    replaced = s.select.ast().replace( n );
+                    n = _java.node(s.select.node().getClass(), drafted);
+                    replaced = s.select.node().replace( n );
                 }catch(Exception e){
-                    throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.select.ast().getClass());
+                    throw new _jdraftException("Could not parse String :"+System.lineSeparator()+ Text.combine(replacement)+" as "+s.select.node().getClass());
                 }
                 if( ! replaced ){
                     throw new _jdraftException("could not replace "+s.select +" with "+ n);
@@ -1425,7 +1425,7 @@ public interface $bot<_B, $B>
                     return _j;
                 }
             }
-            replaceSelectedIn(_j.ast(), t->true, _t);
+            replaceSelectedIn(_j.node(), t->true, _t);
             return _j;
         }
 
@@ -1436,7 +1436,7 @@ public interface $bot<_B, $B>
         }
 
         default <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, _tree._node<?, ?> _replace) {
-            return forEachIn(clazz, p-> p.ast().replace(_replace.ast().clone()));
+            return forEachIn(clazz, p-> p.node().replace(_replace.node().clone()));
         }
 
         default <N extends Node, _N extends _tree._node> N replaceIn(N node, Template<_N> template) {
@@ -1444,11 +1444,11 @@ public interface $bot<_B, $B>
         }
 
         default <N extends Node> N replaceIn(N node, P replaceNode) {
-            return forEachIn(node, p-> p.ast().replace(replaceNode.clone()));
+            return forEachIn(node, p-> p.node().replace(replaceNode.clone()));
         }
 
         default <N extends Node> N replaceIn(N node, _P _replace) {
-            return forEachIn(node, p-> p.ast().replace(_replace.ast().clone()));
+            return forEachIn(node, p-> p.node().replace(_replace.node().clone()));
         }
 
         default Select<_P> selectFirstIn(_batch..._batches) {
@@ -1559,14 +1559,14 @@ public interface $bot<_B, $B>
 
         default <N extends Node, _N extends _tree._node<?, ?>> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Template<_N> nodeTemplate) {
             forSelectedIn(astNode, selectMatchFn, s->{
-                s.select.ast().replace( nodeTemplate.draft(s.tokens).ast() );
+                s.select.node().replace( nodeTemplate.draft(s.tokens).node() );
             });
             return astNode;
         }
 
         default <N extends Node> N replaceSelectedIn(N astNode, Predicate<Select<_P>> selectMatchFn, Function<Select<_P>, Node> replaceDeriver) {
             forSelectedIn(astNode, selectMatchFn, s->{
-                s.select.ast().replace( replaceDeriver.apply(s ) );
+                s.select.node().replace( replaceDeriver.apply(s ) );
             });
             return astNode;
         }
@@ -1578,7 +1578,7 @@ public interface $bot<_B, $B>
                     return _j;
                 }
             }
-            replaceSelectedIn(_j.ast(), p->true, replaceDeriver);
+            replaceSelectedIn(_j.node(), p->true, replaceDeriver);
             return _j;
         }
 
@@ -1589,7 +1589,7 @@ public interface $bot<_B, $B>
                     return _j;
                 }
             }
-            replaceSelectedIn(_j.ast(), selectMatchFn, replaceDeriver);
+            replaceSelectedIn(_j.node(), selectMatchFn, replaceDeriver);
             return _j;
         }
 

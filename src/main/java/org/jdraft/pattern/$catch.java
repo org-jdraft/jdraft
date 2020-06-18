@@ -103,7 +103,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
     }
 
     public $catch $and( $parameter $p ){
-        Predicate<_catch>pcc = cc-> $p.matches( cc.ast().getParameter() );
+        Predicate<_catch>pcc = cc-> $p.matches( cc.node().getParameter() );
         return $and( pcc );
     }
 
@@ -118,7 +118,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
     }
 
     public $catch $not( $parameter $p ){
-        Predicate<_catch>pcc = cc-> $p.matches( cc.ast().getParameter() );
+        Predicate<_catch>pcc = cc-> $p.matches( cc.node().getParameter() );
         return $and( pcc.negate() );
     }
 
@@ -205,10 +205,10 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn( ((_codeUnit)_j).astCompilationUnit(), selectConstraint);
             } else{                
-                return selectFirstIn( ((_type)_j).ast(), selectConstraint);
+                return selectFirstIn( ((_type)_j).node(), selectConstraint);
             }
         }        
-        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_tree._node)_j).node(), selectConstraint);
     }
     
     /**
@@ -263,10 +263,10 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
             if( ((_codeUnit) _j).isTopLevel()){
                 return listSelectedIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             } else{                
-                return listSelectedIn( ((_type) _j).ast(), selectConstraint);
+                return listSelectedIn( ((_type) _j).node(), selectConstraint);
             }
         }        
-        return listSelectedIn( ((_tree._node) _j).ast(), selectConstraint);
+        return listSelectedIn( ((_tree._node) _j).node(), selectConstraint);
     }
 
     /**
@@ -411,7 +411,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
         if( !constraint.test(_cc)){
             return null;
         }
-        $parameter.Select ps = this.$param.select(_cc.ast().getParameter());
+        $parameter.Select ps = this.$param.select(_cc.node().getParameter());
         if( ps == null ){
             return null;
         }
@@ -460,7 +460,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
      * @return
      */
     public $catch $isAfter( $pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_catch> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
 
@@ -470,7 +470,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
      * @return
      */
     public $catch $isNotAfter( $pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_catch> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
 
@@ -480,7 +480,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
      * @return
      */
     public $catch $isBefore( $pattern... patternsOccurringAfterThisNode ){
-        Predicate<_catch> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
 
@@ -490,7 +490,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
      * @return
      */
     public $catch $isNotBefore( $pattern... patternsOccurringAfterThisNode ){
-        Predicate<_catch> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_catch> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
 
@@ -584,7 +584,7 @@ public class $catch implements $pattern<_catch, $catch>, $body.$part, $method.$p
 
         @Override
         public CatchClause ast() {
-            return _cc.ast();
+            return _cc.node();
         }
 
         @Override

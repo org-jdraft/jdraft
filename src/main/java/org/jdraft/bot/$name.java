@@ -510,8 +510,8 @@ public class $name implements $bot<_name, $name>,
         // (i.e. the "base.sub.end" name)
 
 
-        if( candidate.ast().getParentNode().isPresent() ){
-            Node parent = candidate.ast().getParentNode().get();
+        if( candidate.node().getParentNode().isPresent() ){
+            Node parent = candidate.node().getParentNode().get();
             if( parent.getClass() == Name.class ){
                 return false;
             }
@@ -542,7 +542,7 @@ public class $name implements $bot<_name, $name>,
          */
         return !this.excludedUses.stream().anyMatch(e-> {
             //System.out.println("Checking "+ e+" with "+candidate.ast()+System.lineSeparator()+ new ASCIITreePrinter().output(candidate.ast().getParentNode().get()) );
-            boolean match = e.is(candidate.ast());
+            boolean match = e.is(candidate.node());
             //System.out.println( "MATCHED "+ match);
             return match;
         });
@@ -609,16 +609,16 @@ public class $name implements $bot<_name, $name>,
             if( ts != null ) {
                 return new Select<>(candidate, ts);
             }
-            if( candidate.name instanceof com.github.javaparser.ast.expr.Name){
+            if( candidate.node instanceof com.github.javaparser.ast.expr.Name){
                 //System.out.println( " "+ candidate.name);
-                Name nm = (Name) candidate.name;
+                Name nm = (Name) candidate.node;
                 ts = this.stencil.parse(nm.getIdentifier());
                 if( ts != null ){ //DONT match is the parent matches
                     if( nm.getParentNode().isPresent() && matches(nm.getParentNode().get()) ){
                         return null;
                     }
                 }
-            } else if( candidate.name instanceof MethodReferenceExpr){
+            } else if( candidate.node instanceof MethodReferenceExpr){
                 //we only identify the ID part of the MethodReferenceExpr
                 //because the underlying "scope" expression can be a SimpleName
                 // for example
@@ -632,7 +632,7 @@ public class $name implements $bot<_name, $name>,
                 //com.github.javaparser.ast.type.ClassOrInterfaceType "A"
                 //com.github.javaparser.ast.expr.SimpleName "A"
                 // notice the String B is NOT
-                MethodReferenceExpr mre = (MethodReferenceExpr) candidate.name;
+                MethodReferenceExpr mre = (MethodReferenceExpr) candidate.node;
                 ts = this.stencil.parse( mre.getIdentifier());
             }
             if( ts != null ){
@@ -713,16 +713,16 @@ public class $name implements $bot<_name, $name>,
 
         @Override
         public void accept(_name _n) {
-            if(_n.name instanceof SimpleName){
-                simpleNameConsumer.accept( (SimpleName)_n.name);
+            if(_n.node instanceof SimpleName){
+                simpleNameConsumer.accept( (SimpleName)_n.node);
                 return;
             }
-            if(_n.name instanceof Name){
-                nameConsumer.accept( (Name)_n.name);
+            if(_n.node instanceof Name){
+                nameConsumer.accept( (Name)_n.node);
                 return;
             }
-            if(_n.name instanceof MethodReferenceExpr){
-                methodReferenceConsumer.accept( (MethodReferenceExpr) _n.name);
+            if(_n.node instanceof MethodReferenceExpr){
+                methodReferenceConsumer.accept( (MethodReferenceExpr) _n.node);
                 return;
             }
             throw new _jdraftException("Found a name that is not Name, SimpleName, or MethodReference");

@@ -99,11 +99,11 @@ public final class _project {
     public static _feature._features<_project> FEATURES = _feature._features.of(_project.class, PARSER, CODE_UNITS);
 
     public _project(){
-        this.cache = new ArrayList<>();
+        this.codeList = new ArrayList<>();
     }
 
     /** A cache of _codeUnits*/
-    public List<_codeUnit> cache;
+    public List<_codeUnit> codeList;
 
     /** The origin where this project came from (it could be null if the project is pieced together) */
     public _io._origin origin;
@@ -113,7 +113,7 @@ public final class _project {
      * @return
      */
     public int size(){
-        return this.cache.size();
+        return this.codeList.size();
     }
 
     /**
@@ -121,7 +121,7 @@ public final class _project {
      * @return
      */
     public List<_codeUnit> list(){
-        return cache;
+        return codeList;
     }
 
     /**
@@ -134,7 +134,7 @@ public final class _project {
      * @return
      */
     public <_CU extends _codeUnit> List<_CU> list(Class<_CU> _cuClass ){
-        return (List<_CU>)this.cache.stream().filter( c-> _cuClass.isAssignableFrom(c.getClass()) ).collect(Collectors.toList());
+        return (List<_CU>)this.codeList.stream().filter(c-> _cuClass.isAssignableFrom(c.getClass()) ).collect(Collectors.toList());
     }
 
     /**
@@ -143,7 +143,7 @@ public final class _project {
      * @return
      */
     public List<_codeUnit> list(Predicate<_codeUnit> _cuMatchFn){
-        return this.cache.stream().filter( _cuMatchFn ).collect(Collectors.toList());
+        return this.codeList.stream().filter( _cuMatchFn ).collect(Collectors.toList());
     }
 
     /**
@@ -157,7 +157,7 @@ public final class _project {
      * @return
      */
     public <_CU extends _codeUnit> List<_CU> list(Class<_CU> _cuClass, Predicate<_CU>_matchFn){
-        return (List<_CU>)this.cache.stream().filter( c-> {
+        return (List<_CU>)this.codeList.stream().filter(c-> {
             if(_cuClass.isAssignableFrom(c.getClass()) ){
                 return _matchFn.test( (_CU) c);
             }
@@ -181,7 +181,7 @@ public final class _project {
      * @return
      */
     public Stream<_codeUnit> stream(){
-        return cache.stream();
+        return codeList.stream();
     }
 
     /**
@@ -220,7 +220,7 @@ public final class _project {
      * @return
      */
     public _project sort(Comparator<_codeUnit> cuComparator ){
-        Collections.sort( cache, cuComparator );
+        Collections.sort(codeList, cuComparator );
         return this;
     }
 
@@ -255,7 +255,7 @@ public final class _project {
      * @return the updated instance that was modified by the _codeActionFn
      */
     public <_CU extends _codeUnit> _CU first(Class<_CU> codeClass, Predicate<_CU> _codeMatchFn, Consumer<_CU> _codeActionFn) {
-        Optional<_CU> oc = (Optional<_CU>)this.cache.stream().filter(c -> {
+        Optional<_CU> oc = (Optional<_CU>)this.codeList.stream().filter(c -> {
             if(codeClass.isAssignableFrom(c.getClass())){
                 return _codeMatchFn.test( (_CU)c );
             }
@@ -332,7 +332,7 @@ public final class _project {
 
     public List<_annotation> forAnnotations(Predicate<_annotation> _annotationMatchFn, Consumer<_annotation>_annotationActionFn){
         List<_annotation> _ms = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof AnnotationDeclaration)
                     .forEach(md-> {
@@ -374,7 +374,7 @@ public final class _project {
 
     public List<_enum> forEnums(Predicate<_enum> _enumMatchFn, Consumer<_enum>_enumActionFn){
         List<_enum> _ms = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof EnumDeclaration)
                     .forEach(md-> {
@@ -415,7 +415,7 @@ public final class _project {
 
     public List<_interface> forInterfaces(Predicate<_interface> _interfaceMatchFn, Consumer<_interface>_interfaceActionFn){
         List<_interface> _ms = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof ClassOrInterfaceDeclaration && ((ClassOrInterfaceDeclaration) n).asClassOrInterfaceDeclaration().isInterface())
                     .forEach(md-> {
@@ -456,7 +456,7 @@ public final class _project {
 
     public List<_class> forClasses(Predicate<_class> _classMatchFn, Consumer<_class>_classActionFn){
         List<_class> _ms = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof ClassOrInterfaceDeclaration && !((ClassOrInterfaceDeclaration) n).asClassOrInterfaceDeclaration().isInterface())
                     .forEach(md-> {
@@ -497,7 +497,7 @@ public final class _project {
 
     public List<_method> forMethods(Predicate<_method> _methodMatchFn, Consumer<_method>_methodActionFn){
         List<_method> _ms = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof MethodDeclaration)
                     .forEach(md-> {
@@ -538,7 +538,7 @@ public final class _project {
 
     public List<_initBlock> forInitBlocks(Predicate<_initBlock> _initBlockMatchFn, Consumer<_initBlock>_initBlockActionFn){
         List<_initBlock> _cs = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof InitializerDeclaration)
                     .forEach(cd-> {
@@ -579,7 +579,7 @@ public final class _project {
 
     public List<_constructor> forConstructors(Predicate<_constructor> _constructorMatchFn, Consumer<_constructor>_constructorActionFn){
         List<_constructor> _cs = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof ConstructorDeclaration)
                     .forEach(cd-> {
@@ -620,7 +620,7 @@ public final class _project {
 
     public List<_field> forFields(Predicate<_field> _fieldMatchFn, Consumer<_field>_fieldActionFn){
         List<_field> _fs = new ArrayList<>();
-        this.cache.forEach(_cu -> {
+        this.codeList.forEach(_cu -> {
             CompilationUnit cu = _cu.astCompilationUnit();
             cu.stream(Node.TreeTraversal.POSTORDER).filter(n -> n instanceof FieldDeclaration)
                     .forEach(fd-> {
@@ -658,7 +658,7 @@ public final class _project {
 
     public <_CU extends _codeUnit> List<_CU> forEach(Class<_CU> codeClass, Predicate<_CU> _codeMatchFn, Consumer<_CU> _codeActionFn) {
         List<_CU> acted = new ArrayList<>();
-        cache.forEach(c -> {
+        codeList.forEach(c -> {
             if(codeClass.isAssignableFrom( c.getClass() ) && _codeMatchFn.test( (_CU)c) ){
                 _codeActionFn.accept( (_CU)c );
                 acted.add((_CU)c);
@@ -679,7 +679,7 @@ public final class _project {
 
     public _project add(_codeUnit ..._cus ){
         Arrays.stream(_cus).forEach( cc-> {
-            cache.add( cc );
+            codeList.add( cc );
             cc.astCompilationUnit().setData(PARENT_PROJECT_KEY, this);
         } );
         return this;
@@ -703,13 +703,13 @@ public final class _project {
     }
 
     public _project set(List<_codeUnit> cus){
-        this.cache.clear();
+        this.codeList.clear();
         add(cus);
         return this;
     }
 
     public _project add(List<_codeUnit> cus){
-        this.cache.addAll(cus);
+        this.codeList.addAll(cus);
         cus.forEach( cu-> cu.astCompilationUnit().setData(PARENT_PROJECT_KEY, this));
         return this;
     }
@@ -721,7 +721,7 @@ public final class _project {
      */
     public _project remove(String...fullyQualifiedClassNames){
         Arrays.stream(fullyQualifiedClassNames).forEach( cn ->
-                this.cache.removeIf(t-> t.getFullName().equals(cn)) );
+                this.codeList.removeIf(t-> t.getFullName().equals(cn)) );
         return this;
     }
 
@@ -731,7 +731,7 @@ public final class _project {
      * @return
      */
     public _project remove(Predicate<_codeUnit> _matchFn){
-        this.cache.removeIf(_matchFn);
+        this.codeList.removeIf(_matchFn);
         return this;
     }
 
@@ -741,16 +741,16 @@ public final class _project {
      */
     public _project copy(){
         List<_codeUnit>copyList = new ArrayList<>();
-        this.cache.forEach(c -> copyList.add( c.copy() ) );
+        this.codeList.forEach(c -> copyList.add( c.copy() ) );
         _project srcs = new _project();
-        srcs.cache = copyList;
+        srcs.codeList = copyList;
         return srcs;
     }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("_codeUnits{").append(System.lineSeparator());
-        this.cache.forEach(c -> sb.append("    ").append(c.getFullName() ).append(System.lineSeparator()) );
+        this.codeList.forEach(c -> sb.append("    ").append(c.getFullName() ).append(System.lineSeparator()) );
         sb.append("}");
         return sb.toString();
     }

@@ -157,7 +157,7 @@ public class $annoRef
      */
     public $annoRef(_anno proto) {
         this.name = $id.of(proto.getName());
-        AnnotationExpr astAnn = proto.ast();
+        AnnotationExpr astAnn = proto.node();
         if (astAnn instanceof NormalAnnotationExpr) {
             NormalAnnotationExpr na = (NormalAnnotationExpr) astAnn;
             na.getPairs().forEach(mv -> $mvs.add($memberValue.of(mv.getNameAsString(), mv.getValue())));
@@ -290,7 +290,7 @@ public class $annoRef
             //System.out.println( "Returning "+ts+" for name \""+_a.getName()+"\"");
             return ts;
         }
-        AnnotationExpr astAnn = _a.ast();
+        AnnotationExpr astAnn = _a.node();
         if (astAnn instanceof MarkerAnnotationExpr) {
             //System.out.println( "Marketer");            
             if ($mvs.size() == 1) {
@@ -598,9 +598,9 @@ public class $annoRef
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
-            return selectFirstIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
+            return selectFirstIn(_t.node(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit
         }
-        return selectFirstIn(((_tree._node)_j).ast(), selectConstraint);
+        return selectFirstIn(((_tree._node)_j).node(), selectConstraint);
     }
     
     @Override
@@ -655,9 +655,9 @@ public class $annoRef
                 return listSelectedIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
-            return listSelectedIn(_t.ast(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit            
+            return listSelectedIn(_t.node(), selectConstraint); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn(((_tree._node)_j).ast(), selectConstraint);
+        return listSelectedIn(((_tree._node)_j).node(), selectConstraint);
     }    
     
     @Override
@@ -721,10 +721,10 @@ public class $annoRef
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
+            forSelectedIn(_t.node(), selectActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        forSelectedIn(((_tree._node) _j).ast(), selectActionFn);
+        forSelectedIn(((_tree._node) _j).node(), selectActionFn);
         return _j;
     }
     
@@ -744,10 +744,10 @@ public class $annoRef
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectConstraint, selectActionFn); //return the TypeDeclaration, not the CompilationUnit            
+            forSelectedIn(_t.node(), selectConstraint, selectActionFn); //return the TypeDeclaration, not the CompilationUnit
             return _j;
         }
-        forSelectedIn(((_tree._node) _j).ast(), selectActionFn);
+        forSelectedIn(((_tree._node) _j).node(), selectActionFn);
         return _j;
     }
     
@@ -824,7 +824,7 @@ public class $annoRef
             if( !key.isMatchAny() ){
                 k = key.draft(translator, keyValues);
             }
-            Expression v = value.draft(translator, keyValues).ast();
+            Expression v = value.draft(translator, keyValues).node();
             if (k == null || k.length() == 0) {                
                 return v.toString();
             }
@@ -1193,7 +1193,7 @@ public class $annoRef
           }
 
           public $annoRef whichMatch(_anno _a){
-              return whichMatch(_a.ast());
+              return whichMatch(_a.node());
           }
 
         /**
@@ -1268,20 +1268,20 @@ public class $annoRef
         }
 
         public boolean isSingleValue() {
-            return _ann.ast() instanceof SingleMemberAnnotationExpr;
+            return _ann.node() instanceof SingleMemberAnnotationExpr;
         }
 
         public boolean hasKeyValues() {
-            return _ann.ast() instanceof NormalAnnotationExpr;
+            return _ann.node() instanceof NormalAnnotationExpr;
         }
 
         public boolean hasNoValues() {
-            return _ann.ast() instanceof MarkerAnnotationExpr;
+            return _ann.node() instanceof MarkerAnnotationExpr;
         }
 
         @Override
         public AnnotationExpr ast() {
-            return _ann.ast();
+            return _ann.node();
         }
 
         @Override

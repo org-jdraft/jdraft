@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleDirective;
 import org.jdraft.text.Text;
@@ -21,16 +22,16 @@ public final class _moduleInfo
 
     public static final Function<String, _moduleInfo> PARSER = s-> _moduleInfo.of(s);
 
-    public CompilationUnit astCompUnit;
+    public CompilationUnit node;
 
     @Override
     public CompilationUnit astCompilationUnit() {
-        return astCompUnit;
+        return node;
     }
 
     @Override
     public _moduleInfo copy(){
-        return of( this.astCompUnit.toString() );
+        return of( this.node.toString() );
     }
 
     public _feature._features<_moduleInfo> features(){
@@ -38,23 +39,16 @@ public final class _moduleInfo
     }
 
     /**
-     * is the String representation equal to the _node entity (i.e. if we parse
-     * the string, does it create an AST entity that is equal to the node?)
-     *
-     * @param stringRep the string representation of the node (parsed as an AST
-     * and compared to this entity to see if equal)
-     * @return true if the Parsed String represents the entity
-
-    @Override
-    public boolean is(String... stringRep) {
-        try {
-            return is(Ast.of(stringRep));
-        } catch (_jdraftException e) {
-            return false;
-        }
-    }
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
-
+    public _moduleInfo replace(CompilationUnit replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
     @Override
     public String getSimpleName(){
         return "module-info";
@@ -77,7 +71,7 @@ public final class _moduleInfo
             return false;
         }
         final _moduleInfo other = (_moduleInfo) obj;
-        if (!Objects.equals(this.astCompUnit, other.astCompUnit)) {
+        if (!Objects.equals(this.node, other.node)) {
             return false;
         }
         return true;
@@ -85,7 +79,7 @@ public final class _moduleInfo
 
     @Override
     public int hashCode() {
-        return this.astCompUnit.hashCode();
+        return this.node.hashCode();
     }
 
     /**
@@ -124,34 +118,14 @@ public final class _moduleInfo
 
     public static _feature._features<_moduleInfo> FEATURES = _feature._features.of(_moduleInfo.class, PARSER, IMPORTS, IS_OPEN, MODULE_NAME, MODULE_DIRECTIVES);
 
-    /**
-     * Decompose the entity into key-VALUE pairs
-     *
-     * @return a map of key values
-
-    public Map<_java.Feature, Object> features() {
-
-        Map m = new HashMap();
-        m.put(_java.Feature.HEADER_COMMENT, getHeaderComment());
-        //OPEN
-        m.put(_java.Feature.NAME, getModuleAst().getNameAsString());
-        m.put(_java.Feature.MODULE_DECLARATION, getModuleAst());
-        //m.put(_java.Feature.ANNO_EXPRS, _annoExprs.of(getModuleAst()));
-        m.put(_java.Feature.IMPORTS, _imports.of(astCompUnit));
-        //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
-
-        return m;
-    }
-     */
-
     @Override
     public String toString() {
-        return this.astCompUnit.toString();
+        return this.node.toString();
     }
 
     @Override
-    public CompilationUnit ast() {
-        return astCompUnit;
+    public CompilationUnit node() {
+        return node;
     }
 
     public static _moduleInfo of(String... input) {
@@ -167,7 +141,7 @@ public final class _moduleInfo
     }
 
     public _moduleInfo(CompilationUnit cu) {
-        this.astCompUnit = cu;
+        this.node = cu;
     }
 
     @Override
@@ -198,13 +172,13 @@ public final class _moduleInfo
 
     public _moduleInfo setModuleDirectives(List<_moduleDirective> mds){
         this.getModuleAst().getDirectives().clear();
-        mds.forEach( md -> this.getModuleAst().getDirectives().add( (ModuleDirective)md.ast() ) );
+        mds.forEach( md -> this.getModuleAst().getDirectives().add( (ModuleDirective)md.node() ) );
         return this;
     }
 
     public ModuleDeclaration getModuleAst() {
-        if (this.astCompUnit.getModule().isPresent()) {
-            return this.astCompUnit.getModule().get();
+        if (this.node.getModule().isPresent()) {
+            return this.node.getModule().get();
         }
         return null;
     }

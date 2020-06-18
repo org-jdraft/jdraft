@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.Modifier;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 
 import java.util.*;
 import java.util.function.Function;
@@ -21,7 +22,7 @@ public enum _modifier implements _tree._node<Modifier, _modifier> {
     DEFAULT(new com.github.javaparser.ast.Modifier(Modifier.Keyword.DEFAULT), 0 ),
     NATIVE( com.github.javaparser.ast.Modifier.nativeModifier(), java.lang.reflect.Modifier.NATIVE );
 
-    public final com.github.javaparser.ast.Modifier mod;
+    public final com.github.javaparser.ast.Modifier node;
 
     public static final Function<String, _modifier> PARSER = s-> _modifier.of(s);
 
@@ -29,9 +30,8 @@ public enum _modifier implements _tree._node<Modifier, _modifier> {
 
     public final int bitMask;
 
-
-    _modifier(com.github.javaparser.ast.Modifier mod, int bitMask){
-        this.mod = mod;
+    _modifier(com.github.javaparser.ast.Modifier node, int bitMask){
+        this.node = node;
         this.bitMask = bitMask;
     }
 
@@ -40,15 +40,18 @@ public enum _modifier implements _tree._node<Modifier, _modifier> {
         return this; //dont need to copy enums
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Objects.equals( Text.combine(stringRep), this.mod.getKeyword().asString());
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _modifier replace(Modifier replaceNode){
+        throw new _jdraftException ("cannot replace modifiers");
+    }
 
     public static _modifier of(com.github.javaparser.ast.Modifier astMod ){
-        Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.mod.equals(astMod)).findFirst();
+        Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.node.equals(astMod)).findFirst();
         if( om.isPresent() ){
             return om.get();
         }
@@ -58,7 +61,7 @@ public enum _modifier implements _tree._node<Modifier, _modifier> {
     }
 
     public static _modifier of(String str ){
-        Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.mod.getKeyword().asString().equals(str)).findFirst();
+        Optional<_modifier> om = Arrays.stream(values()).filter(m-> m.node.getKeyword().asString().equals(str)).findFirst();
         if( om.isPresent() ){
             return om.get();
         }
@@ -74,12 +77,12 @@ public enum _modifier implements _tree._node<Modifier, _modifier> {
     }
 
     public String toString(){
-        return this.mod.toString();
+        return this.node.toString();
     }
 
     @Override
-    public Modifier ast() {
-        return this.mod;
+    public Modifier node() {
+        return this.node;
     }
 
     public _feature._features<_modifier> features(){

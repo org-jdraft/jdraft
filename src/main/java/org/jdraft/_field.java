@@ -39,7 +39,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     public static final Function<String, _field> PARSER = s-> _field.of(s);
 
-    private final VariableDeclarator astVar;
+    private VariableDeclarator node;
 
     public static _field of( Class clazz, String name){
         VariableDeclarator vd = new VariableDeclarator(Types.of(clazz), name);
@@ -179,15 +179,17 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         return of(vd).equals(this);
     }
 
-    /*
-    public boolean is(String... fieldDeclaration) {
-        try {
-            return of(fieldDeclaration).equals(this);
-        } catch (Exception e) {
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _field replace(VariableDeclarator replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean is(FieldDeclaration fd) {
         return of(fd.getVariable(0))
@@ -199,7 +201,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
      * @return the modified field
      */
     public _field removeInit() {
-        this.astVar.removeInitializer();
+        this.node.removeInitializer();
         return this;
     }
 
@@ -260,28 +262,32 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     }
     
     public boolean hasInit() {
-        return this.astVar.getInitializer().isPresent();
+        return this.node.getInitializer().isPresent();
     }
 
-    public _field(VariableDeclarator astVar) {
-        this.astVar = astVar;
+    public _field(VariableDeclarator node) {
+        this.node = node;
+        if( !node.getParentNode().isPresent()){
+            FieldDeclaration fd = new FieldDeclaration();
+            fd.addVariable(node);
+        }
     }
 
     @Override
-    public VariableDeclarator ast() {
-        return astVar;
+    public VariableDeclarator node() {
+        return node;
     }
 
     public _expr getInit(){
-        if (astVar.getInitializer().isPresent()) {
-            return _expr.of( astVar.getInitializer().get());
+        if (node.getInitializer().isPresent()) {
+            return _expr.of( node.getInitializer().get());
         }
         return null;
     }
 
     public Expression getInitNode() {
-        if (astVar.getInitializer().isPresent()) {
-            return astVar.getInitializer().get();
+        if (node.getInitializer().isPresent()) {
+            return node.getInitializer().get();
         }
         return null;
     }
@@ -291,7 +297,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     // it happens often enough  to want to shoot yourself
     public FieldDeclaration getFieldDeclaration() {
 
-        Optional<Node> on = astVar.stream(Walk.PARENTS).filter(n-> n instanceof FieldDeclaration).findFirst();
+        Optional<Node> on = node.stream(Walk.PARENTS).filter(n-> n instanceof FieldDeclaration).findFirst();
         if( on.isPresent() ){
             return (FieldDeclaration) on.get();
         }
@@ -301,7 +307,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     @Override
     public _annos getAnnos() {
 
-        if( this.getFieldDeclaration() != null && this.astVar != null && this.astVar.getParentNode().isPresent()) {
+        if( this.getFieldDeclaration() != null && this.node != null && this.node.getParentNode().isPresent()) {
 
             return _annos.of(getFieldDeclaration());
         }
@@ -312,11 +318,11 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         return _annos.of();
     }
 
-    public SimpleName getNameNode() { return this.astVar.getName(); }
+    public SimpleName getNameNode() { return this.node.getName(); }
 
     @Override
     public String getName() {
-        return astVar.getNameAsString();
+        return node.getNameAsString();
     }
 
     @Override
@@ -386,19 +392,19 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
     @Override
     public _field setName(String name) {
-        this.astVar.setName(name);
+        this.node.setName(name);
         return this;
     }
 
     @Override
     public _field setType(Type t) {
-        this.astVar.setType(t);
+        this.node.setType(t);
         return this;
     }
 
     @Override
     public _typeRef getType() {
-        return _typeRef.of(astVar.getType());
+        return _typeRef.of(node.getType());
     }
 
     @Override
@@ -422,13 +428,13 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
             return false;
         }
         final _field other = (_field) obj;
-        if (this.astVar == other.astVar) {
+        if (this.node == other.node) {
             return true; //two _field s pointing to the same VariableDeclarator
         }
         if (!Objects.equals(getName(), other.getName())) {
             return false;
         }
-        if (!Types.equal(this.astVar.getType(), other.astVar.getType())) {
+        if (!Types.equal(this.node.getType(), other.node.getType())) {
             return false;
         }
         if( !Expr.equal(getInitNode(), other.getInitNode())) {
@@ -454,24 +460,11 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         return true;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put(_java.Feature.NAME, getName());
-        parts.put(_java.Feature.TYPE, getTypeRef());
-        parts.put(_java.Feature.MODIFIERS, getModifiers());
-        parts.put(_java.Feature.JAVADOC, getJavadoc());
-        parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
-        parts.put(_java.Feature.INIT, getInitNode());
-        return parts;
-    }
-     */
-
     @Override
     public int hashCode() {
         Set<Modifier> ms = new HashSet<>();
         ms.addAll(getEffectiveAstModifiersList());
-        return Objects.hash(getName(), Types.hash(astVar.getType()),
+        return Objects.hash(getName(), Types.hash(node.getType()),
                 ms, //getModifiers(),
                 Expr.hashAnnos(getFieldDeclaration()),
                 getJavadoc(), 
@@ -481,7 +474,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     @Override
     public _field copy() {
         FieldDeclaration fd = getFieldDeclaration().clone();
-        return new _field(fd.getVariable(fd.getVariables().indexOf(this.astVar)));
+        return new _field(fd.getVariable(fd.getVariables().indexOf(this.node)));
     }
 
     public boolean isPublic() {
@@ -606,59 +599,59 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     }
 
     public boolean isPrimitive() {
-        return this.astVar.getType().isPrimitiveType();
+        return this.node.getType().isPrimitiveType();
     }
 
     public boolean isArray() {
-        return this.astVar.getType().isArrayType();
+        return this.node.getType().isArrayType();
     }
 
     public boolean isReferenceType() {
-        return this.astVar.getType().isReferenceType();
+        return this.node.getType().isReferenceType();
     }
 
     public _field setInit(boolean b) {
-        this.astVar.setInitializer(Expr.of(b));
+        this.node.setInitializer(Expr.of(b));
         return this;
     }
 
     public _field setInit(byte b) {
-        this.astVar.setInitializer(Expr.of(b));
+        this.node.setInitializer(Expr.of(b));
         return this;
     }
 
     public _field setInit(short s) {
-        this.astVar.setInitializer(Expr.of(s));
+        this.node.setInitializer(Expr.of(s));
         return this;
     }
 
     public _field setInit(int i) {
-        this.astVar.setInitializer(Expr.of(i));
+        this.node.setInitializer(Expr.of(i));
         return this;
     }
 
     public _field setInit(char c) {
-        this.astVar.setInitializer(Expr.of(c));
+        this.node.setInitializer(Expr.of(c));
         return this;
     }
 
     public _field setInit(float f) {
-        this.astVar.setInitializer(Expr.of(f));
+        this.node.setInitializer(Expr.of(f));
         return this;
     }
 
     public _field setInit(double d) {
-        this.astVar.setInitializer(Expr.of(d));
+        this.node.setInitializer(Expr.of(d));
         return this;
     }
 
     public _field setInit(long l) {
-        this.astVar.setInitializer(Expr.of(l));
+        this.node.setInitializer(Expr.of(l));
         return this;
     }
 
     public _field setInit(String init) {
-        this.astVar.setInitializer(init);
+        this.node.setInitializer(init);
         return this;
     }
 
@@ -669,11 +662,11 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
     }
 
     public _field setInit(_expr _e ){
-        return setInit(_e.ast());
+        return setInit(_e.node());
     }
 
     public _field setInit(Expression expr) {
-        this.astVar.setInitializer(expr);
+        this.node.setInitializer(expr);
         return this;
     }
     
@@ -699,6 +692,18 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
 
         default boolean hasFields() {
             return !listFields().isEmpty();
+        }
+
+        default boolean hasField(Predicate<_field> _matchFn){
+            return !listFields(_matchFn).isEmpty();
+        }
+
+        default boolean hasField(String fieldName){
+            return !listFields(f-> f.isNamed(fieldName)).isEmpty();
+        }
+
+        default boolean hasField(Class fieldType){
+            return !listFields(f-> f.isType(fieldType)).isEmpty();
         }
 
         default List<_field> listFields(Predicate<_field> _fieldMatchFn) {
@@ -731,7 +736,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
                 } else {
-                    f.astVar.removeForced();
+                    f.node.removeForced();
                 }            
                 });
             return (_WF)this;
@@ -742,7 +747,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
                 } else {
-                    f.astVar.removeForced();
+                    f.node.removeForced();
                 }            
                 });
             return (_WF)this;
@@ -753,7 +758,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
                 } else {
-                    f.astVar.removeForced();
+                    f.node.removeForced();
                 }            
                 });
             return (_WF)this;
@@ -765,13 +770,13 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
                 if(f.getFieldDeclaration().getVariables().size() == 1){
                     f.getFieldDeclaration().removeForced();
                 } else {
-                    f.astVar.removeForced();
+                    f.node.removeForced();
                 }
             });
             return _fs;
         }
 
-        default _field fieldNamed(String name) {
+        default _field getField(String name) {
             return firstField(f -> f.getName().equals(name));
         }
 
@@ -796,7 +801,7 @@ public final class _field implements _javadocComment._withJavadoc<_field>, _anno
         }
 
         default _WF addField(_field _f) {
-            return addField(_f.astVar);
+            return addField(_f.node);
         }
 
         default _WF addFields(FieldDeclaration fds) {

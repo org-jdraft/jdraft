@@ -230,11 +230,11 @@ public class $constructor
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
             NodeList<BodyDeclaration<?>> bs = oce.getAnonymousClassBody().get();
-            bs.forEach( b -> _c.ast().addMember(b));
+            bs.forEach( b -> _c.node().addMember(b));
         }
 
         //run macros on the things
-        macro.to( anonymousObjectContainingMethod.getClass(), _c.ast());
+        macro.to( anonymousObjectContainingMethod.getClass(), _c.node());
 
         MethodDeclaration theMethod = (MethodDeclaration)
                 oce.getAnonymousClassBody().get().stream().filter(m -> m instanceof MethodDeclaration &&
@@ -429,7 +429,7 @@ public class $constructor
         }        
         thrown = $throws.of( _ct.getThrows() );        
         if( _ct.hasBody() ){            
-            body = $body.of(_ct.ast());    
+            body = $body.of(_ct.node());
         }
         this.constraint = constraint;
     }
@@ -863,7 +863,7 @@ public class $constructor
         }
         Tokens all = new Tokens();
         if( _ct.getJavadoc() != null ){
-            all = javadoc.parseTo(_ct.getJavadoc().ast(), all);
+            all = javadoc.parseTo(_ct.getJavadoc().node(), all);
         } else{
             all = javadoc.parseTo(null, all);
         }
@@ -1040,7 +1040,7 @@ public class $constructor
             }
             else{
                 _type _t = (_type)_j;
-                Optional<ConstructorDeclaration> f = (_t.ast().findFirst(
+                Optional<ConstructorDeclaration> f = (_t.node().findFirst(
                     ConstructorDeclaration.class, s -> {
                         Select sel = this.select(s);
                         return sel != null && selectConstraint.test(sel);
@@ -1051,7 +1051,7 @@ public class $constructor
                 return null;
             }
         } else{
-            Optional<ConstructorDeclaration> f = ((_tree._node)_j).ast().findFirst(
+            Optional<ConstructorDeclaration> f = ((_tree._node)_j).node().findFirst(
                 ConstructorDeclaration.class, s -> {
                     Select sel = this.select(s);
                     return sel != null && selectConstraint.test(sel);
@@ -1144,9 +1144,9 @@ public class $constructor
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
-            return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
+            return listSelectedIn(_t.node()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_tree._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).node());
     }
     
     /**
@@ -1251,7 +1251,7 @@ public class $constructor
     public <_CT extends _type> _CT replaceIn(Class clazz, $constructor $replace ){
         return (_CT)forSelectedIn((_type) _type.of(clazz), s -> {
             _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens);
-            s._ct.ast().replace(repl.ast());
+            s._ct.node().replace(repl.node());
         });
     }
 
@@ -1295,7 +1295,7 @@ public class $constructor
     public <_J extends _java._domain> _J replaceIn(_J _j, $constructor $replace ){
         return forSelectedIn(_j, s -> {
             _constructor repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens.asTokens());
-            s._ct.ast().replace(repl.ast());
+            s._ct.node().replace(repl.node());
         });
     }
 
@@ -1452,7 +1452,7 @@ public class $constructor
 
         @Override
         public ConstructorDeclaration ast() {
-            return _ct.ast();
+            return _ct.node();
         }
 
         @Override

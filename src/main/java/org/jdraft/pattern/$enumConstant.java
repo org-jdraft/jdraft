@@ -124,7 +124,7 @@ public class $enumConstant
                     return false;
                 }
                 for(int i = 0; i < c.listArgs().size(); i++){
-                    if( !ec.args.get(i).matches(c.getArg(i).ast())){
+                    if( !ec.args.get(i).matches(c.getArg(i).node())){
                         return false;
                     }
                 }

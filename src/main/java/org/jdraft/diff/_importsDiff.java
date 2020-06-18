@@ -33,7 +33,7 @@ public final class _importsDiff
     public _diff diff( _imports left, _imports right ){
         
         return diff( _nodePath.of(), new _diffList(null, null),
-                _type.of(left.astCompilationUnit), _type.of(right.astCompilationUnit), left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports());
+                _type.of(left.parentNode), _type.of(right.parentNode), left.parentNode.getImports(), right.parentNode.getImports());
     }
     
     public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _type left, _type right) {
@@ -48,7 +48,7 @@ public final class _importsDiff
                 path.in(Feature.IMPORT),
                 (_type) leftParent,
                 (_type) rightParent,
-                i.astId )) );
+                i.node)) );
             return dt;
         } 
         
@@ -56,12 +56,12 @@ public final class _importsDiff
                 path.in(Feature.IMPORT),
                 (_type) leftParent,
                 (_type) rightParent,
-                i.astId )) );
+                i.node)) );
             return dt;    
     }
     
     public <_PN extends _tree._node> _diff diff(_nodePath path, _build dt, _PN leftParent, _PN rightParent, _imports left, _imports right) {
-        return diff( path, dt, leftParent, rightParent, left.astCompilationUnit.getImports(), right.astCompilationUnit.getImports() );
+        return diff( path, dt, leftParent, rightParent, left.parentNode.getImports(), right.parentNode.getImports() );
     }
     
     @Override

@@ -109,14 +109,14 @@ public final class _args
         return FEATURES;
     }
 
-    public NodeWithArguments nwa;
+    public NodeWithArguments parentNode;
 
-    public <N extends Node> N astAnchorNode(){
-        return (N)nwa;
+    public <N extends Node> N anchorNode(){
+        return (N) parentNode;
     }
 
-    public _args(NodeWithArguments nwa){
-        this.nwa = nwa;
+    public _args(NodeWithArguments parentNode){
+        this.parentNode = parentNode;
     }
 
     public _args add(int i){
@@ -213,7 +213,7 @@ public final class _args
         if( index >= this.size()){
             return false;
         }
-        return Expr.equal( getAt(index).ast(), e);
+        return Expr.equal( getAt(index).node(), e);
     }
 
     public _args setAt(int index, int i){
@@ -242,7 +242,7 @@ public final class _args
 
     @Override
     public _args copy() {
-        Node n = (Node)nwa;
+        Node n = (Node) parentNode;
         return new _args( (NodeWithArguments) (n.clone()) );
     }
 
@@ -253,20 +253,20 @@ public final class _args
 
     @Override
     public NodeList<Expression> astList() {
-        return this.nwa.getArguments();
+        return this.parentNode.getArguments();
     }
 
     public int hashCode(){
-        return 31 * this.nwa.getArguments().hashCode();
+        return 31 * this.parentNode.getArguments().hashCode();
     }
 
     public boolean equals( Object o){
         if( o instanceof _args){
             _args _as = (_args) o;
-            if( this.nwa.getArguments().size() == _as.size()){
-                for(int i=0;i<this.nwa.getArguments().size(); i++){
-                    Expression e = this.nwa.getArgument(i);
-                    if( !Expr.equal(e, _as.nwa.getArgument(i))){
+            if( this.parentNode.getArguments().size() == _as.size()){
+                for(int i = 0; i<this.parentNode.getArguments().size(); i++){
+                    Expression e = this.parentNode.getArgument(i);
+                    if( !Expr.equal(e, _as.parentNode.getArgument(i))){
                         return false;
                     }
                 }
@@ -280,12 +280,12 @@ public final class _args
         //return this.nwa.getArguments().toString();
         StringBuilder sb = new StringBuilder();
         sb.append("(");
-        for(int i=0;i<this.nwa.getArguments().size();i++){
+        for(int i = 0; i<this.parentNode.getArguments().size(); i++){
 
             if( i > 0){
                 sb.append(", ");
             }
-            sb.append(nwa.getArgument(i));
+            sb.append(parentNode.getArgument(i));
         }
         sb.append(")");
         return sb.toString();
@@ -295,12 +295,12 @@ public final class _args
         //return this.nwa.getArguments().toString();
         StringBuilder sb = new StringBuilder();
         sb.append("(");
-        for(int i=0;i<this.nwa.getArguments().size();i++){
+        for(int i = 0; i<this.parentNode.getArguments().size(); i++){
 
             if( i > 0){
                 sb.append(", ");
             }
-            sb.append(nwa.getArgument(i).toString(ppc));
+            sb.append(parentNode.getArgument(i).toString(ppc));
         }
         sb.append(")");
         return sb.toString();
@@ -321,7 +321,7 @@ public final class _args
          * @return an _args modelling 0...n arguments in the arguments list)
          */
         default _args getArgs(){
-            return of( (NodeWithArguments)ast());
+            return of( (NodeWithArguments) node());
         }
 
         /**
@@ -367,7 +367,7 @@ public final class _args
          * @return
          */
         default _expr getArg(int index){
-            return _expr.of( ((NodeWithArguments)ast()).getArgument(index) );
+            return _expr.of( ((NodeWithArguments) node()).getArgument(index) );
         }
 
         /**
@@ -376,17 +376,17 @@ public final class _args
          * @return
          */
         default _WA removeArg(int index){
-            ((NodeWithArguments)ast()).getArguments().remove(index);
+            ((NodeWithArguments) node()).getArguments().remove(index);
             return (_WA)this;
         }
 
         default _WA setArg(int index, _expr _e){
-            ((NodeWithArguments)ast()).getArguments().set(index, _e.ast());
+            ((NodeWithArguments) node()).getArguments().set(index, _e.node());
             return (_WA)this;
         }
 
         default _WA setArg(int index, Expression e){
-            ((NodeWithArguments)ast()).getArguments().set(index, e);
+            ((NodeWithArguments) node()).getArguments().set(index, e);
             return (_WA)this;
         }
 
@@ -415,30 +415,30 @@ public final class _args
         }
 
         default _WA setArgs(_args _as){
-            ((NodeWithArguments)ast()).setArguments(_as.astList());
+            ((NodeWithArguments) node()).setArguments(_as.astList());
             return (_WA)this;
         }
 
         default _WA setArgs(_expr... _es){
             NodeList<Expression> nle = new NodeList<>();
-            Arrays.stream(_es).forEach(n -> nle.add(n.ast()));
-            ((NodeWithArguments)ast()).setArguments(nle);
+            Arrays.stream(_es).forEach(n -> nle.add(n.node()));
+            ((NodeWithArguments) node()).setArguments(nle);
             return (_WA)this;
         }
 
         default _WA setArgs(Expression... es){
             NodeList<Expression> nle = new NodeList<>();
             Arrays.stream(es).forEach(n -> nle.add(n));
-            ((NodeWithArguments)ast()).setArguments(nle);
+            ((NodeWithArguments) node()).setArguments(nle);
             return (_WA)this;
         }
 
         default boolean hasArgs(){
-            return ((NodeWithArguments)ast()).getArguments().size() > 0 ;
+            return ((NodeWithArguments) node()).getArguments().size() > 0 ;
         }
 
         default int countArgs(){
-            return ((NodeWithArguments)ast()).getArguments().size();
+            return ((NodeWithArguments) node()).getArguments().size();
         }
 
         default int countArgs(Predicate<_expr> matchFn){
@@ -447,7 +447,7 @@ public final class _args
 
         default List<_expr> listArgs(){
             List<_expr> args = new ArrayList<>();
-            ((NodeWithArguments)ast()).getArguments().forEach(a -> args.add(_expr.of( (Expression)a)));
+            ((NodeWithArguments) node()).getArguments().forEach(a -> args.add(_expr.of( (Expression)a)));
             return args;
         }
 
@@ -514,7 +514,7 @@ public final class _args
 
         default boolean isArg(int index, String exprString){
             try {
-                return Expr.equal( getArg(index).ast(), Expr.of(exprString));
+                return Expr.equal( getArg(index).node(), Expr.of(exprString));
             }catch(Exception e){
                 return false;
             }
@@ -522,7 +522,7 @@ public final class _args
 
         default boolean isArg(int index, Expression e){
             try {
-                return Expr.equal( getArg(index).ast(), e);
+                return Expr.equal( getArg(index).node(), e);
             }catch(Exception ex){
                 return false;
             }
@@ -544,7 +544,7 @@ public final class _args
 
         default boolean isArg(int index, _expr _e){
             try {
-                return Expr.equal( getArg(index).ast(), _e.ast());
+                return Expr.equal( getArg(index).node(), _e.node());
             }catch(Exception e){
                 return false;
             }
@@ -583,56 +583,56 @@ public final class _args
         }
 
         default _WA addArgs(String... es){
-            Arrays.stream(es).forEach(e -> ((NodeWithArguments)ast()).addArgument(e));
+            Arrays.stream(es).forEach(e -> ((NodeWithArguments) node()).addArgument(e));
             return (_WA)this;
         }
 
         default _WA addArgs(Expression... es){
-            Arrays.stream(es).forEach(e -> ((NodeWithArguments)ast()).addArgument(e));
+            Arrays.stream(es).forEach(e -> ((NodeWithArguments) node()).addArgument(e));
             return (_WA)this;
         }
 
         default _WA addArgs(_expr... _es){
-            Arrays.stream(_es).forEach(_e -> ((NodeWithArguments)ast()).addArgument(_e.ast()));
+            Arrays.stream(_es).forEach(_e -> ((NodeWithArguments) node()).addArgument(_e.node()));
             return (_WA)this;
         }
 
         default _WA removeArgs(){
-            ((NodeWithArguments)ast()).getArguments().removeIf( t->true);
+            ((NodeWithArguments) node()).getArguments().removeIf(t->true);
             return (_WA)this;
         }
 
         default _WA removeArgs(int index){
-            ((NodeWithArguments)ast()).getArguments().remove(index);
+            ((NodeWithArguments) node()).getArguments().remove(index);
             return (_WA)this;
         }
         default _WA removeArgs(Predicate<_expr> matchFn){
-            ((NodeWithArguments)ast()).getArguments().removeIf(matchFn);
+            ((NodeWithArguments) node()).getArguments().removeIf(matchFn);
             return (_WA)this;
         }
 
         default _WA removeArgs(_expr... es){
             for(int i=0;i<es.length;i++){
-                ((NodeWithArguments)ast()).getArguments().remove(es[i].ast());
+                ((NodeWithArguments) node()).getArguments().remove(es[i].node());
             }
             return (_WA)this;
         }
 
         default _WA removeArgs(Expression... es){
             for(int i=0;i<es.length;i++){
-                ((NodeWithArguments)ast()).getArguments().remove(es[i]);
+                ((NodeWithArguments) node()).getArguments().remove(es[i]);
             }
             return (_WA)this;
         }
 
         default _WA forArgs(Consumer<_expr> argFn){
-            ((NodeWithArguments)ast()).getArguments().stream().map( a-> _expr.of( (Expression)a))
+            ((NodeWithArguments) node()).getArguments().stream().map(a-> _expr.of( (Expression)a))
                     .forEach(e->  argFn.accept( (_expr)e) );
             return (_WA)this;
         }
 
         default _WA forArgs(Predicate<_expr> expressionMatchFn, Consumer<_expr> argFn){
-            ((NodeWithArguments)ast()).getArguments().stream()
+            ((NodeWithArguments) node()).getArguments().stream()
                     .map( a-> _expr.of( (Expression)a))
                     .filter(expressionMatchFn).forEach(e->  argFn.accept( (_expr)e) );
             return (_WA)this;

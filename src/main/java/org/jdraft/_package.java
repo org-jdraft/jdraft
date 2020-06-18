@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.PackageDeclaration;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 
 import java.util.Objects;
@@ -22,7 +23,7 @@ public final class _package implements _tree._node<PackageDeclaration, _package>
         return new _package(astPackage);
     }
 
-    public PackageDeclaration astPackage;
+    public PackageDeclaration node;
 
     public static _feature._one<_package, Name> NAME = new _feature._one<>(_package.class, Name.class,
             _feature._id.NAME,
@@ -32,7 +33,7 @@ public final class _package implements _tree._node<PackageDeclaration, _package>
     public static _feature._features<_package> FEATURES = _feature._features.of(_package.class, PARSER, NAME);
 
     public _package( PackageDeclaration astPd){
-        this.astPackage = astPd;
+        this.node = astPd;
     }
 
     public _feature._features<_package> features(){
@@ -41,43 +42,48 @@ public final class _package implements _tree._node<PackageDeclaration, _package>
 
     @Override
     public _package copy() {
-        return of( astPackage.clone() );
+        return of( node.clone() );
     }
 
     @Override
-    public PackageDeclaration ast() {
-        return this.astPackage;
+    public PackageDeclaration node() {
+        return this.node;
     }
 
     public Name getNameNode(){
-        return this.astPackage.getName();
+        return this.node.getName();
     }
 
     public _package setName(Name n){
-        this.astPackage.setName(n);
+        this.node.setName(n);
         return this;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Objects.equals( this.astPackage, Ast.packageDeclaration(Text.combine(stringRep)));
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _package replace(PackageDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public int hashCode(){
-        return 31 * this.astPackage.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public boolean equals(Object o){
         if( o instanceof _package ){
             _package _p = (_package)o;
-            return Objects.equals( this.astPackage, _p.astPackage);
+            return Objects.equals( this.node, _p.node);
         }
         return false;
     }
 
     public String toString(){
-        return this.astPackage.toString();
+        return this.node.toString();
     }
 }

@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleRequiresDirective;
@@ -31,7 +32,7 @@ public final class _moduleRequires implements _tree._node<ModuleRequiresDirectiv
             src = src+";";
         }
         CompilationUnit cu =
-                Ast.parse("module J{ "+System.lineSeparator()+src+System.lineSeparator()+"}");
+                Ast.parse("module $name${ "+System.lineSeparator()+src+System.lineSeparator()+"}");
         ModuleDeclaration md = cu.getModule().get();
         ModuleRequiresDirective modd = (ModuleRequiresDirective)md.getDirectives().get(0);
         modd.remove();
@@ -50,70 +51,75 @@ public final class _moduleRequires implements _tree._node<ModuleRequiresDirectiv
 
     public static _feature._features<_moduleRequires> FEATURES = _feature._features.of(_moduleRequires.class, PARSER, IS_TRANSITIVE, MODULE_NAME);
 
-    public ModuleRequiresDirective  me;
+    public ModuleRequiresDirective node;
 
     public _moduleRequires setName(String name){
-        this.me.setName(name);
+        this.node.setName(name);
         return this;
     }
 
     public String getName(){
-        return this.me.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     public _moduleRequires setName(_name name){
-        this.me.setName(name.toString());
+        this.node.setName(name.toString());
         return this;
     }
 
     public Name getNameNode(){
-        return this.me.getName();
+        return this.node.getName();
     }
 
     public _moduleRequires setStatic(boolean st){
-        this.me.setStatic(st);
+        this.node.setStatic(st);
         return this;
     }
 
     public _moduleRequires setTransitive (Boolean isTransitive){
-        this.me.setTransitive(isTransitive);
+        this.node.setTransitive(isTransitive);
         return this;
     }
 
     public Boolean isTransitive(){
-        return this.me.isTransitive();
+        return this.node.isTransitive();
     }
 
     public _moduleRequires(ModuleRequiresDirective med){
-        this.me = med;
+        this.node = med;
     }
 
     @Override
     public _moduleRequires copy() {
-        return of( this.me.clone());
+        return of( this.node.clone());
     }
 
     @Override
-    public ModuleRequiresDirective ast() {
-        return this.me;
+    public ModuleRequiresDirective node() {
+        return this.node;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Objects.equals( of(stringRep ).me, this.me);
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _moduleRequires replace(ModuleRequiresDirective replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public int hashCode(){
-        return 31 * this.me.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public boolean equals(Object o ){
-        return o instanceof _moduleRequires && Objects.equals( ((_moduleRequires)o).me, this.me);
+        return o instanceof _moduleRequires && Objects.equals( ((_moduleRequires)o).node, this.node);
     }
 
     public String toString(){
-        return this.me.toString();
+        return this.node.toString();
     }
 }

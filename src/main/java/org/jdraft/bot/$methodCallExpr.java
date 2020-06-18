@@ -372,7 +372,7 @@ public class $methodCallExpr implements $bot.$node<MethodCallExpr, _methodCallEx
 
     public _methodCallExpr draft(Translator tr, Map<String,Object> keyValues){
         _methodCallExpr _mc = _methodCallExpr.of();
-        _mc.setName(this.name.draft(tr, keyValues).name.toString());
+        _mc.setName(this.name.draft(tr, keyValues).node.toString());
         if( !this.scope.isMatchAny() ){
             _mc.setScope( (_expr)this.scope.draft(tr, keyValues));
         }

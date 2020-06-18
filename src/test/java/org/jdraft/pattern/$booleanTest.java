@@ -40,9 +40,9 @@ public class $booleanTest extends TestCase {
 
     public static $boolean $CHILDOFWHILE =
             $boolean.of().$and(
-                    (_booleanExpr b) -> b.ast().getParentNode().isPresent() &&
-                            b.ast().getParentNode().isPresent() &&
-                            b.ast().getParentNode().get().getClass() == WhileStmt.class);
+                    (_booleanExpr b) -> b.node().getParentNode().isPresent() &&
+                            b.node().getParentNode().isPresent() &&
+                            b.node().getParentNode().get().getClass() == WhileStmt.class);
 
     public void testChildOfWhile() {
         WhileStmt ws = (WhileStmt) Stmt.of("while(true){ }");

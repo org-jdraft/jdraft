@@ -1269,18 +1269,18 @@ public class $stmt<S extends Statement, _S extends _stmt>
         if( _s == null ){
             return null;
         }
-        if( !statementClass.isAssignableFrom(_s.ast().getClass())){
+        if( !statementClass.isAssignableFrom(_s.node().getClass())){
             return null;
         }
-        S s = (S)_s.ast();
+        S s = (S)_s.node();
         if( ! astMatch.test((_S) _stmt.of(s))){
             return null;
         }
-        Tokens st = this.stmtStencil.parse(_s.ast().toString(NO_COMMENTS));
+        Tokens st = this.stmtStencil.parse(_s.node().toString(NO_COMMENTS));
         if( st == null ){
             return null;
         }
-        return new Select( _s.ast(), $tokens.of(st) );
+        return new Select( _s.node(), $tokens.of(st) );
     }
 
     /**
@@ -1319,12 +1319,12 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 return selectFirstIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
-            return selectFirstIn(_t.ast());
+            return selectFirstIn(_t.node());
         }
         if( _j instanceof _body ){
             return selectFirstIn( ((_body)_j).ast() );
         }
-        return selectFirstIn( ((_tree._node) _j).ast() );
+        return selectFirstIn( ((_tree._node) _j).node() );
     }
      
 
@@ -1353,9 +1353,9 @@ public class $stmt<S extends Statement, _S extends _stmt>
             if( ((_codeUnit) _n).isTopLevel()){
                 return selectFirstIn( ((_codeUnit) _n).astCompilationUnit(), selectConstraint );
             }
-            return selectFirstIn( ((_type)_n).ast(), selectConstraint);
+            return selectFirstIn( ((_type)_n).node(), selectConstraint);
         }
-        return selectFirstIn( ((_tree._node)_n).ast(), selectConstraint );
+        return selectFirstIn( ((_tree._node)_n).node(), selectConstraint );
     }
 
     /**
@@ -1623,16 +1623,16 @@ public class $stmt<S extends Statement, _S extends _stmt>
          * }
          * </PRE>
          */
-        if( st.ast().getParentNode().isPresent()
-                && st.ast().getParentNode().get() instanceof BlockStmt
-                && ((BlockStmt)st.ast().getParentNode().get()).getParentNode().isPresent()
-                && !(((BlockStmt)st.ast().getParentNode().get()).getParentNode().get() instanceof BodyDeclaration) ){
-            BlockStmt par = ((BlockStmt)st.ast().getParentNode().get());
+        if( st.node().getParentNode().isPresent()
+                && st.node().getParentNode().get() instanceof BlockStmt
+                && ((BlockStmt)st.node().getParentNode().get()).getParentNode().isPresent()
+                && !(((BlockStmt)st.node().getParentNode().get()).getParentNode().get() instanceof BodyDeclaration) ){
+            BlockStmt par = ((BlockStmt)st.node().getParentNode().get());
             if( par.getStatements().size() == 1 ){
                 bs = Ast.blockStmt("{/*<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>" + "*/}");
                 par.replace( bs );
             } else{
-                st.ast().replace(bs);
+                st.node().replace(bs);
             }
         }
     };
@@ -1640,7 +1640,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
     public static final Consumer<_stmt> REPLACE_WITH_EMPTY_STMT_COMMENT = (st)->{
         Statement es = new EmptyStmt(); //create a new empty statement
         es.setComment( new BlockComment("<code>"+st.toString(Print.PRINT_NO_COMMENTS)+"</code>") );
-        st.ast().replace( es );
+        st.node().replace( es );
     };
 
     /** comments out the matching code
@@ -1752,7 +1752,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return the modified node
      */
     public <_N extends _tree._node> _N unComment(_N _n){
-        unComment( _n.ast() );
+        unComment( _n.node() );
         return _n;
     }
 
@@ -1781,7 +1781,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 for(int i=0;i<replacements.size(); i++){
                     ls.getStatement().asBlockStmt().addStatement( replacements.get(i) );
                 }
-                sel._s.ast().replace( ls );
+                sel._s.node().replace( ls );
                 //parentNode.addStatement(addIndex +1, ls);
                 //removeIn all but the first statement
                 //sel.statements.forEach( s-> s.removeIn() );
@@ -1820,7 +1820,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
                 for(int i=0;i<replacements.size(); i++){
                     ls.getStatement().asBlockStmt().addStatement( replacements.get(i) );
                 }
-                sel._s.ast().replace( ls );
+                sel._s.node().replace( ls );
                 //parentNode.addStatement(addIndex +1, ls);
                 //removeIn all but the first statement
                 //sel.statements.forEach( s-> s.removeIn() );
@@ -1828,7 +1828,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
             }
         });
         if( _j instanceof _tree._node){
-            Walk.flattenLabel( ((_tree._node) _j).ast(), "$replacement$");
+            Walk.flattenLabel( ((_tree._node) _j).node(), "$replacement$");
         }
         return (_J) _j;
     }
@@ -1839,7 +1839,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return
      */
     public $stmt<S, _S> $isAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_S> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
 
@@ -1849,7 +1849,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return
      */
     public $stmt<S, _S> $isNotAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_S> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
 
@@ -1859,7 +1859,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return
      */
     public $stmt<S, _S> $isBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<_S> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
 
@@ -1869,7 +1869,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
      * @return
      */
     public $stmt<S, _S> $isNotBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<_S> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_S> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
 
@@ -1970,7 +1970,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
         }
         //OVERRIDE: with a proto Statement
         else if( value instanceof $stmt ){ 
-            return (($stmt)value).draft(tokens).ast();
+            return (($stmt)value).draft(tokens).node();
         }
         //SHOW (just remove the $label:)
         return ls.getStatement();        
@@ -2107,7 +2107,7 @@ public class $stmt<S extends Statement, _S extends _stmt>
 
         @Override
         public T ast() {
-            return (T)_s.ast();
+            return (T)_s.node();
         }
 
         @Override

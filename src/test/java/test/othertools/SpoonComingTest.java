@@ -55,7 +55,7 @@ public class SpoonComingTest extends TestCase {
      */
     public void testIfReturnConstraint(){
         $stmt<IfStmt, _ifStmt> $ifReturn = $.ifStmt().$and( (is) ->
-                Walk.hasDescendant( ((_ifStmt)is).ast().getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
+                Walk.hasDescendant( ((_ifStmt)is).node().getThenStmt(), n -> n instanceof ReturnStmt) ); //.$hasDescendant(2, $.returnStmt());
         class Ex{
             public int ex(int a){
                 if( a > 0 ){
@@ -67,7 +67,7 @@ public class SpoonComingTest extends TestCase {
                 }
             }
         }
-        Print.tree( ((_ifStmt)$.ifStmt().firstIn(Ex.class)).ast() );
+        Print.tree( ((_ifStmt)$.ifStmt().firstIn(Ex.class)).node() );
 
         assertEquals(1, $ifReturn.countIn(Ex.class));
     }

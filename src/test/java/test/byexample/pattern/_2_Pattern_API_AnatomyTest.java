@@ -116,8 +116,8 @@ public class _2_Pattern_API_AnatomyTest extends TestCase {
         $stmt $ifBracesPattern = $.ifStmt("if($cond$){ thenDo(); }");
 
         $stmt $ifConstraint = $.ifStmt().$and(i ->
-                $stmt.of("thenDo();").matches( ((_ifStmt)i).ast().getThenStmt())
-                        || $stmt.blockStmt("{ thenDo(); }").matches(((_ifStmt)i).ast().getThenStmt()) );
+                $stmt.of("thenDo();").matches( ((_ifStmt)i).node().getThenStmt())
+                        || $stmt.blockStmt("{ thenDo(); }").matches(((_ifStmt)i).node().getThenStmt()) );
         //$stmt $ifConstraint = $.ifStmt().$hasDescendant( 2, $stmt.of("thenDo();") );
 
         class exampleClass{

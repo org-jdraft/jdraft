@@ -68,11 +68,11 @@ public class SwiftSyntaxTest extends TestCase {
         //here apply the refactoring to all ints in the class
         _type _t = $addOneToAllInts.in(C.class);
 
-        assertTrue( _t.fieldNamed("x").is("int x = 3") );
-        assertTrue( _t.fieldNamed("y").is("int y = 3001") );
+        assertTrue( _t.getField("x").is("int x = 3") );
+        assertTrue( _t.getField("y").is("int y = 3001") );
         
-        assertTrue( _t.fieldNamed("b").is("int b = 2") );
-        assertEquals( Expr.parseInt( _t.fieldNamed("hex").getInitNode().asIntegerLiteralExpr().getValue() ),
+        assertTrue( _t.getField("b").is("int b = 2") );
+        assertEquals( Expr.parseInt( _t.getField("hex").getInitNode().asIntegerLiteralExpr().getValue() ),
             new Integer(0xDEAE) );
     }
     

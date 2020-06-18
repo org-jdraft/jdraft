@@ -43,7 +43,7 @@ public class $annoEntryPair
             $featureBot.of(_annoEntryPair.VALUE);
 
     public static $annoEntryPair of(_annoEntryPair _mv) {
-        return new $annoEntryPair(_mv.getName(), _mv.getValue().ast());
+        return new $annoEntryPair(_mv.getName(), _mv.getValue().node());
     }
 
     public static $annoEntryPair of(Predicate<_annoEntryPair> matchFn) {
@@ -111,7 +111,7 @@ public class $annoEntryPair
         if (!key.isMatchAny()) {
             k = key.draft(translator, keyValues).toString();
         }
-        Expression v = ((_expr) value.draft(translator, keyValues)).ast();
+        Expression v = ((_expr) value.draft(translator, keyValues)).node();
         if (k == null || k.length() == 0) {
             return v.toString();
         }
@@ -152,7 +152,7 @@ public class $annoEntryPair
     public _annoEntryPair draft(Translator translator, Map<String, Object> keyValues) {
         _expr _ex = (_expr) this.value.draft(translator, keyValues);
         String key = this.key.draft(translator, keyValues).toString();
-        return _annoEntryPair.of(new MemberValuePair(key, _ex.ast()));
+        return _annoEntryPair.of(new MemberValuePair(key, _ex.node()));
     }
 
     /**

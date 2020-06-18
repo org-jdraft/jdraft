@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SuperExpr;
 import org.jdraft.text.Text;
@@ -48,66 +49,78 @@ public final class _superExpr implements _expr<SuperExpr, _superExpr>, _tree._no
 
     public static _feature._features<_superExpr> FEATURES = _feature._features.of(_superExpr.class,  PARSER, TYPE_NAME );
 
-    public SuperExpr se;
+    public SuperExpr node;
 
     public _feature._features<_superExpr> features(){
         return FEATURES;
     }
 
-    public _superExpr(SuperExpr se){
-        this.se = se;
+    public _superExpr(SuperExpr node){
+        this.node = node;
     }
 
     @Override
     public _superExpr copy() {
-        return new _superExpr(this.se.clone());
+        return new _superExpr(this.node.clone());
     }
 
     @Override
     public boolean is(SuperExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public SuperExpr ast(){
-        return se;
+    public SuperExpr node(){
+        return node;
+    }
+
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _superExpr replace(SuperExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
     public _superExpr setTypeName( String name ){
-        this.se.setTypeName(Ast.name(name));
+        this.node.setTypeName(Ast.name(name));
         return this;
     }
 
     public _superExpr setTypeName( Name name ){
-        this.se.setTypeName(name);
+        this.node.setTypeName(name);
         return this;
     }
 
     public Name getTypeNameNode(){
-        if(this.se.getTypeName().isPresent()){
-            return se.getTypeName().get();
+        if(this.node.getTypeName().isPresent()){
+            return node.getTypeName().get();
         }
         return null;
     }
 
     public String getTypeName(){
-        if(this.se.getTypeName().isPresent()){
-            return se.getTypeName().get().asString();
+        if(this.node.getTypeName().isPresent()){
+            return node.getTypeName().get().asString();
         }
         return "";
     }
 
     public boolean equals(Object other){
         if( other instanceof _superExpr){
-            return ((_superExpr)other).se.equals( this.se);
+            return ((_superExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.se.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.se.toString();
+        return this.node.toString();
     }
 }

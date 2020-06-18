@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.comments.JavadocComment;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
@@ -410,10 +411,10 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
                     if( md.getNameAsString().equals(_c.getName() ) && md.getType().isVoidType() ){
                         _c.addConstructor(_constructor.of(_toCtor.Act.fromMethod(md)));
                     } else{
-                        _c.ast().addMember( bd );    
+                        _c.node().addMember( bd );
                     }
                 } else{
-                    _c.ast().addMember( bd );
+                    _c.node().addMember( bd );
                 }
             }
         }
@@ -486,17 +487,29 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     public static _feature._features<_class> FEATURES = _feature._features.of(_class.class, PARSER,
                     PACKAGE, IMPORTS, JAVADOC, ANNOS, MODIFIERS, NAME, TYPE_PARAMS, EXTENDS, IMPLEMENTS, MEMBERS);
 
-    public _class( ClassOrInterfaceDeclaration astClass ){
-        this.astClass = astClass;
+    public _class( ClassOrInterfaceDeclaration node){
+        this.node = node;
     }
 
     public _feature._features<_class> features(){
         return FEATURES;
     }
 
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _class replace(ClassOrInterfaceDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
+
     @Override
-    public ClassOrInterfaceDeclaration ast() {
-        return this.astClass;
+    public ClassOrInterfaceDeclaration node() {
+        return this.node;
     }
 
     /**
@@ -524,24 +537,88 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * @param anonymousImplementation
      * @return the modified Class
      */
-    public _class addToBody(Object anonymousImplementation ){
+    public _class addToBody(Object anonymousImplementation ) {
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+
         for(int i=0;i<anonymousImplementation.getClass().getInterfaces().length;i++ ){
             addImplements( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]} );
             addImports( new Class[]{anonymousImplementation.getClass().getInterfaces()[i]});
         }
         ObjectCreationExpr oce = Expr.newExpr(ste);
         if( oce.getAnonymousClassBody().isPresent()){
-            oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
+
+            oce.getAnonymousClassBody().get().forEach(m->{
+                this.node().addMember(m);
+            } );
+
         }
         Set<Class> ims = _import.inferImportsFrom(anonymousImplementation);
         ims.forEach( i -> addImports(i) );
+
+        //macro.to( anonymousImplementation.getClass(), this.ast());
         return this;
+    }
+
+    /**
+     * Adds a private property (a private field, and public get() and set() methods)
+     * @param typeClass the type of the property
+     * @param propertyName the name of the property
+     * @return the modified _class
+     */
+    public _class addProperty(Class typeClass, String propertyName){
+        return addProperty(typeClass, propertyName, (_expr)null);
+    }
+
+    /**
+     * Adds a private property (a private field, and public get() and set() methods) & sets the fields init value as an expression
+     * @param typeClass the type of the property
+     * @param propertyName the name of the property
+     * @param init the initial value to set the field as an expression
+     * @return the modified _class
+     */
+    public _class addProperty(Class typeClass, String propertyName, String init){
+        try{
+            return addProperty(typeClass, propertyName, _expr.of(init));
+        }catch(Exception e){
+            throw new _jdraftException("Invalid initializer expression \""+init+"\"");
+        }
+    }
+
+    public _class addProperty( String fieldDeclaration ){
+        try{
+            return addProperty(_field.of(fieldDeclaration));
+        }catch(Exception e){
+            throw new _jdraftException("Invalid fieldDeclaration \""+fieldDeclaration+"\"");
+        }
+    }
+
+    public _class addProperty(_field _f){
+        addField(_f.node());
+        _method _g = _method.get(_f);
+        _method _s = _method.set(_f);
+        addMethods(_g, _s);
+        return this;
+    }
+
+    /**
+     * Adds a private property (a private field, and public get() and set() methods) & sets the fields init value
+     * @param typeClass the type of the property
+     * @param propertyName the name of the property
+     * @param initExpr the initial value to set the field
+     * @return the modified _class
+     */
+    public _class addProperty(Class typeClass, String propertyName, _expr initExpr){
+        _field _f = _field.of(typeClass, propertyName);
+        if( initExpr != null ){
+            _f.setInit(initExpr);
+        }
+        _f.setPrivate();
+        return addProperty( _f );
     }
 
     @Override
     public _class setFields(List<_field> fields) {
-        this.astClass.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        this.node.getMembers().removeIf(m -> m instanceof FieldDeclaration );
         fields.forEach(f-> addField(f));
         return this;
     }
@@ -560,20 +637,20 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     public _class removeImplements( Class toRemove ){
-        this.astClass.getImplementedTypes().removeIf( im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
+        this.node.getImplementedTypes().removeIf(im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
                 im.getNameAsString().equals(toRemove.getCanonicalName()) );
         return this;
     }
 
     @Override
     public _class removeImplements( ClassOrInterfaceType toRemove ){
-        this.astClass.getImplementedTypes().remove( toRemove );
+        this.node.getImplementedTypes().remove( toRemove );
         return this;
     }
 
     @Override
     public _class removeExtends( Class toRemove ){
-        this.astClass.getExtendedTypes().removeIf( im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
+        this.node.getExtendedTypes().removeIf(im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
                 im.getNameAsString().equals(toRemove.getCanonicalName()) );
         return this;
     }
@@ -581,7 +658,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
     @Override
     public _class removeExtends( ClassOrInterfaceType toRemove ){
-        this.astClass.getExtendedTypes().remove( toRemove );
+        this.node.getExtendedTypes().remove( toRemove );
         return this;
     }
 
@@ -597,13 +674,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
     @Override
     public _class setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _class setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
@@ -635,7 +712,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         addImports( new Class[]{sup} );
         ObjectCreationExpr oce = Expr.newExpr(ste);
         if( oce.getAnonymousClassBody().isPresent()){
-            oce.getAnonymousClassBody().get().forEach( m->this.ast().addMember(m) );
+            oce.getAnonymousClassBody().get().forEach( m->this.node().addMember(m) );
         }
         _import.inferImportsFrom(anonymousImplementationBody).forEach( i -> addImports(i) );
         return this;
@@ -672,7 +749,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * into the _class
      * @return the modified _class
      */
-    public _class addBodyMembers(Object anonymousClassBody ){
+    public _class addMembers(Object anonymousClassBody ){
         StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
         ObjectCreationExpr oce = Expr.newExpr(ste);
 
@@ -680,19 +757,19 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         _class _temp = _class.of("UNKNOWN");
         if( oce != null && oce.getAnonymousClassBody().isPresent() ){
             //add the anonymous class members to the temp class
-            oce.getAnonymousClassBody().get().forEach(b-> _temp.ast().addMember(b));
+            oce.getAnonymousClassBody().get().forEach(b-> _temp.node().addMember(b));
         }
         //run the macros on the temp class (we might removeIn some stuff, etc.)
         macro.to( anonymousClassBody.getClass(), _temp);
 
         //now add the finished members from temp to this _class
-        _temp.ast().getMembers().forEach( m -> {
+        _temp.node().getMembers().forEach(m -> {
             if( m instanceof ConstructorDeclaration ){
                 ConstructorDeclaration cd = (ConstructorDeclaration)m;
                 cd.setName(this.getName()); //if we add a member that is a constructor, update it's name
-                this.astClass.addMember(cd);
+                this.node.addMember(cd);
             } else {
-                this.astClass.addMember(m);
+                this.node.addMember(m);
             }
         });
         
@@ -706,7 +783,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         if( anonymousClassBody.getClass().getSuperclass() != null && anonymousClassBody.getClass().getSuperclass() != Object.class ){
             this.addExtend( anonymousClassBody.getClass().getSuperclass() );
         }
-        
         return this;
     }
 
@@ -718,33 +794,33 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
      * AST and can interpret or manipulate the AST without:
      * having to deal with syntax issues
      */
-    private final ClassOrInterfaceDeclaration astClass;
+    private ClassOrInterfaceDeclaration node;
 
     @Override
     public boolean isTopLevel(){
-        return ast().isTopLevelType();
+        return node().isTopLevelType();
     }
     
     @Override
     public CompilationUnit astCompilationUnit(){
-        if( ast().isTopLevelType()){
-            return (CompilationUnit)ast().getParentNode().get(); //astCompilationUnit.get();
+        if( node().isTopLevelType()){
+            return (CompilationUnit) node().getParentNode().get(); //astCompilationUnit.get();
         }
         //it might be a member class
-        if( this.astClass.findCompilationUnit().isPresent()){
-            return this.astClass.findCompilationUnit().get();
+        if( this.node.findCompilationUnit().isPresent()){
+            return this.node.findCompilationUnit().get();
         }
         return null; //its an orphan
     }
     
     @Override
     public boolean hasExtends(){
-        return !this.astClass.getExtendedTypes().isEmpty();
+        return !this.node.getExtendedTypes().isEmpty();
     }
 
     @Override
     public NodeList<ClassOrInterfaceType> listAstExtends(){
-        return astClass.getExtendedTypes();
+        return node.getExtendedTypes();
     }
 
     @Override
@@ -767,13 +843,13 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     public _class setExtends( _typeRef _tr){
-        this.astClass.getExtendedTypes().clear();
-        this.astClass.addExtendedType( (ClassOrInterfaceType)_tr.ast());
+        this.node.getExtendedTypes().clear();
+        this.node.addExtendedType( (ClassOrInterfaceType)_tr.node());
         return this;
     }
 
     public ClassOrInterfaceType getExtendsNode(){
-        List<ClassOrInterfaceType> exts = astClass.getExtendedTypes();
+        List<ClassOrInterfaceType> exts = node.getExtendedTypes();
         if( exts.isEmpty() ){
             return null;
         }
@@ -782,8 +858,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
     @Override
     public _class addExtend(ClassOrInterfaceType toExtend ){
-        this.astClass.getExtendedTypes().clear();
-        this.astClass.addExtendedType( toExtend );
+        this.node.getExtendedTypes().clear();
+        this.node.addExtendedType( toExtend );
         return this;
     }
 
@@ -795,22 +871,22 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
 
     @Override
     public _class addExtend(String toExtend ){
-        this.astClass.getExtendedTypes().clear();
-        this.astClass.addExtendedType( toExtend );
+        this.node.getExtendedTypes().clear();
+        this.node.addExtendedType( toExtend );
         return this;
     }
 
     @Override
     public List<_method> listMethods() {
         List<_method> _ms = new ArrayList<>();
-        astClass.getMethods().forEach( m-> _ms.add(_method.of( m ) ) );
+        node.getMethods().forEach(m-> _ms.add(_method.of( m ) ) );
         return _ms;
     }
 
     @Override
     public List<_method> listMethods(Predicate<_method> _methodMatchFn ){
         List<_method> _ms = new ArrayList<>();
-        astClass.getMethods().forEach( m-> {
+        node.getMethods().forEach(m-> {
             _method _m = _method.of( m);
             if( _methodMatchFn.test(_m)){
                 _ms.add(_m ); 
@@ -820,12 +896,12 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     }
 
     public _method getMethod( int index ){
-        return _method.of(astClass.getMethods().get( index ));
+        return _method.of(node.getMethods().get( index ));
     }
 
     @Override
     public _class addMethod(MethodDeclaration method ) {
-        astClass.addMember( method );
+        node.addMember( method );
         return this;
     }
 
@@ -836,38 +912,38 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
-        if( this.astClass.getFields().contains( fd ) ){
+        if( this.node.getFields().contains( fd ) ){
             if( !fd.containsWithinRange( field ) ){
                 fd.addVariable( field );
             }
             return this;
         }
-        this.astClass.addMember( fd );
+        this.node.addMember( fd );
         return this;
     }
  
     @Override
     public List<_constructor> listConstructors() {
         List<_constructor> _cs = new ArrayList<>();
-        astClass.getConstructors().forEach( c-> _cs.add( _constructor.of(c) ));
+        node.getConstructors().forEach(c-> _cs.add( _constructor.of(c) ));
         return _cs;
     }
 
     @Override
     public _constructor getConstructor(int index){
-        return _constructor.of(astClass.getConstructors().get( index ));
+        return _constructor.of(node.getConstructors().get( index ));
     }
 
     @Override
     public _class addConstructor(ConstructorDeclaration constructor ) {
         constructor.setName(this.getName()); //alwyas set the constructor NAME to be the classes NAME
-        this.astClass.addMember( constructor );
+        this.node.addMember( constructor );
         return this;
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(this.astClass );
+        return _annos.of(this.node);
     }
 
     /*
@@ -904,31 +980,31 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
     
     @Override
     public boolean isAbstract(){
-        return this.astClass.isAbstract();
+        return this.node.isAbstract();
     }
 
     @Override
     public boolean isFinal(){
-        return this.astClass.isFinal();
+        return this.node.isFinal();
     }
 
     @Override
     public boolean isStatic() {
-        return this.astClass.isStatic();
+        return this.node.isStatic();
     }
     
     @Override
     public _class setFinal(boolean toSet){
-        this.astClass.setFinal(toSet);
+        this.node.setFinal(toSet);
         return this;
     }
 
     @Override
     public String toString(){
-        if( this.astClass.isTopLevelType()){
+        if( this.node.isTopLevelType()){
             return this.astCompilationUnit().toString();            
         }
-        return this.astClass.toString();        
+        return this.node.toString();
     }   
 
     @Override
@@ -952,8 +1028,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             Log.trace("Expected javadoc %s got: %s", this::getJavadoc, other::getJavadoc);
             return false;
         }
-        if( ! Expr.equalAnnos(this.astClass, other.astClass)){
-            Log.trace("Expected annos %s got: %s", this.astClass::getAnnotations, other.astClass::getAnnotations);
+        if( ! Expr.equalAnnos(this.node, other.node)){
+            Log.trace("Expected annos %s got: %s", this.node::getAnnotations, other.node::getAnnotations);
             return false;
         }
         if( !Objects.equals( this.getModifiers(), other.getModifiers() ) ) {
@@ -972,7 +1048,7 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
             Log.trace("Expected extends %s got: %s", this::getExtendsNode, other::getExtendsNode);
             return false;
         }
-        if( !_imports.Compare.importsEqual(this.astClass, other.astClass)){
+        if( !_imports.Compare.importsEqual(this.node, other.node)){
             Log.trace("Expected imports %s got: %s", this::listImports, other::listImports);
             return false;
         }
@@ -1039,29 +1115,6 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         return true;
     }
 
-    /*
-    public Map<Feature, Object> features( ) {
-        Map<Feature, Object> parts = new HashMap<>();
-        parts.put(Feature.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( Feature.PACKAGE, this.getPackage() );
-        parts.put( Feature.IMPORTS, this.getImports().list() );
-        parts.put( Feature.ANNO_EXPRS, this.listAnnoExprs() );
-        parts.put( Feature.EXTENDS_TYPES, this.astClass.getExtendedTypes() );
-        parts.put( Feature.IMPLEMENTS_TYPES, this.listAstImplements() );
-        parts.put( Feature.JAVADOC, this.getJavadoc() );
-        parts.put( Feature.TYPE_PARAMS, this.getTypeParams() );
-        parts.put( Feature.INIT_BLOCKS, this.listInitBlocks());
-        parts.put( Feature.NAME, this.getName() );
-        parts.put( Feature.MODIFIERS, this.getModifiers() );
-        parts.put( Feature.CONSTRUCTORS, this.listConstructors() );
-        parts.put( Feature.METHODS, this.listMethods() );
-        parts.put( Feature.FIELDS, this.listFields() );
-        parts.put( Feature.INNER_TYPES, this.listInnerTypes() );
-        parts.put( Feature.COMPANION_TYPES, this.listCompanionTypes() );
-        return parts;
-    }
-     */
-
     @Override
     public int hashCode(){
         int hash = 3;
@@ -1098,8 +1151,8 @@ public final class _class implements _type<ClassOrInterfaceDeclaration, _class>,
         hash = 47 * hash + Objects.hash( this.getPackage(), this.getName(),
                 this.getJavadoc(), this.getAnnos(), this.getModifiers(),
                 this.getTypeParams(), Types.hash(this.getExtendsNode()),
-                sbs, Types.hash( ast().getImplementedTypes() ),
-                Expr.hashAnnos(astClass),
+                sbs, Types.hash( node().getImplementedTypes() ),
+                Expr.hashAnnos(node),
                 tf, tm, tc, tn, cths);
 
         return hash;

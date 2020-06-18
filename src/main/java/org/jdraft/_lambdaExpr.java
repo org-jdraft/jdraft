@@ -3,6 +3,7 @@ package org.jdraft;
 import java.util.*;
 import java.util.function.*;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
@@ -69,13 +70,13 @@ public final class _lambdaExpr
 
     public boolean equals(Object o){
         if( o instanceof _lambdaExpr){
-            return this.astLambda.equals( ((_lambdaExpr)o).astLambda );
+            return this.node.equals( ((_lambdaExpr)o).node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.astLambda.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     /**
@@ -232,47 +233,53 @@ public final class _lambdaExpr
 
     public static _feature._features<_lambdaExpr> FEATURES = _feature._features.of(_lambdaExpr.class,  PARSER, IS_PARAM_PARENTHESIZED, PARAMS, BODY );
 
-    public final LambdaExpr astLambda;
+    public LambdaExpr node;
     
-    public _lambdaExpr(LambdaExpr astLambda ){
-        this.astLambda = astLambda;
+    public _lambdaExpr(LambdaExpr node){
+        this.node = node;
     }
     
     @Override
     public _params getParams() {
-        return _params.of( astLambda );
+        return _params.of(node);
     }
 
     public _lambdaExpr setParams(_params _ps){
-        this.astLambda.getParameters().clear();
-        _ps.toEach(_p -> this.astLambda.getParameters().add(_p.ast()));
+        this.node.getParameters().clear();
+        _ps.toEach(_p -> this.node.getParameters().add(_p.node()));
         return this;
     }
 
     @Override
     public _lambdaExpr copy() {
-        return _lambdaExpr.of(this.astLambda.clone());
+        return _lambdaExpr.of(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is(Expr.lambdaExpr(stringRep));
-        } catch(Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _lambdaExpr replace(LambdaExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(LambdaExpr astNode) {
-        return this.astLambda.equals(astNode);
+        return this.node.equals(astNode);
     }
 
     @Override
-    public LambdaExpr ast() {
-        return astLambda;
+    public LambdaExpr node() {
+        return this.node;
+    }
+
+    @Override
+    public LambdaExpr nodeWithParameters(){
+        return this.node;
     }
 
     /**
@@ -280,7 +287,7 @@ public final class _lambdaExpr
      * @return 
      */
     public Statement getAstStatementBody(){
-        return astLambda.getBody();                
+        return node.getBody();
     }
 
     public _stmt getBody(){
@@ -288,11 +295,11 @@ public final class _lambdaExpr
     }
 
     public _lambdaExpr setBody(_stmt _s ){
-        return setBody(_s.ast());
+        return setBody(_s.node());
     }
 
     public _lambdaExpr setBody(_expr _e){
-        this.astLambda.setBody( _exprStmt.of(_e).ast());
+        this.node.setBody( _exprStmt.of(_e).node());
         return this;
     }
 
@@ -307,10 +314,10 @@ public final class _lambdaExpr
      */
     public _lambdaExpr setBody(_body _b ){
         if( _b.isImplemented() ){
-            this.astLambda.setBody(_b.ast());
+            this.node.setBody(_b.ast());
         }
         else{
-            this.astLambda.setBody(new EmptyStmt());
+            this.node.setBody(new EmptyStmt());
         }
         return this;
     }
@@ -321,20 +328,20 @@ public final class _lambdaExpr
      * @return
      */
     public _lambdaExpr setBody(Statement body ){
-        this.astLambda.setBody(body);
+        this.node.setBody(body);
         return this;
     }
 
     public _lambdaExpr setBody(BlockStmt body) {
-        this.astLambda.setBody(body);
+        this.node.setBody(body);
         return this;
     }
 
     public _lambdaExpr addStatements(String... statements){
-        if( this.astLambda.getBody().isBlockStmt() ){
-            return addStatements(this.astLambda.getBody().asBlockStmt().getStatements().size(), statements);
+        if( this.node.getBody().isBlockStmt() ){
+            return addStatements(this.node.getBody().asBlockStmt().getStatements().size(), statements);
         }
-        Statement lsb = this.astLambda.getBody();
+        Statement lsb = this.node.getBody();
         //if   return; //this is the "default" body
         if( lsb.isReturnStmt() && !lsb.asReturnStmt().getExpression().isPresent()){
             return addStatements(0, statements);
@@ -350,30 +357,28 @@ public final class _lambdaExpr
      */
     public _lambdaExpr addStatements(int index, String... statements){
         BlockStmt bs = Ast.blockStmt(statements);
-        if( this.astLambda.getBody().isBlockStmt() ){
-            BlockStmt lbs = this.astLambda.getBody().asBlockStmt();
+        if( this.node.getBody().isBlockStmt() ){
+            BlockStmt lbs = this.node.getBody().asBlockStmt();
             for( int i=0;i<bs.getStatements().size();i++) {
                 lbs.addStatement(index+i, bs.getStatement(i));
             }
             return this;
         }
-        Statement lsb = this.astLambda.getBody();
+        Statement lsb = this.node.getBody();
         //if   return; //this is the "default" body
         if( lsb.isReturnStmt() && !lsb.asReturnStmt().getExpression().isPresent()){
-            this.astLambda.setBody(bs);
+            this.node.setBody(bs);
             return this;
         }
         if( index == 0 ){
             bs.addStatement(bs.getStatements().size(), lsb);
-            this.astLambda.setBody(bs);
+            this.node.setBody(bs);
             return this;
         }
         bs.addStatement(0, lsb);
-        this.astLambda.setBody(bs);
+        this.node.setBody(bs);
         return this;
     }
-
-
 
     public _lambdaExpr clearBody() {
         this.setBody( _body.empty() );
@@ -381,11 +386,11 @@ public final class _lambdaExpr
     }
 
     public boolean isParenthesizedParams(){
-        return astLambda.isEnclosingParameters();
+        return node.isEnclosingParameters();
     }
 
     public _lambdaExpr setParenthesizedParams(boolean toSet){
-        this.astLambda.setEnclosingParameters(toSet);
+        this.node.setEnclosingParameters(toSet);
         return this;
     }
 
@@ -403,16 +408,6 @@ public final class _lambdaExpr
     }
 
     public String toString(){
-        return this.astLambda.toString();
+        return this.node.toString();
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> map = new HashMap<>();
-        map.put(_java.Feature.BODY, _body.of(this.astLambda));
-        map.put(_java.Feature.IS_ENCLOSED_PARAMS, this.astLambda.isEnclosingParameters());
-        map.put(_java.Feature.PARAMS, _params.of(this.astLambda.getParameters()));
-        return null;
-    }
-     */
 }

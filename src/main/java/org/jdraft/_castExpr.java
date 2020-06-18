@@ -93,95 +93,56 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _tree._node<
         return FEATURES;
     }
 
-    public CastExpr ce;
+    public CastExpr node;
 
-
-    public _castExpr(CastExpr ce){
-        this.ce = ce;
+    public _castExpr(CastExpr node){
+        this.node = node;
     }
 
     @Override
     public _castExpr copy() {
-        return new _castExpr(this.ce.clone());
+        return new _castExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.castExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _castExpr replace(CastExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(CastExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public CastExpr ast(){
-        return ce;
+    public CastExpr node(){
+        return node;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        comps.put(_java.Feature.TYPE, ce.getType());
-        comps.put(_java.Feature.EXPRESSION, ce.getExpression());
-        return comps;
-    }
-     */
 
     public boolean equals(Object other){
         if( other instanceof _castExpr){
-            return ((_castExpr)other).ce.equals( this.ce);
+            return ((_castExpr)other).node.equals( this.node);
         }
         return false;
     }
-
-    /*
-    public _castExpr setType( String typeRef ){
-        return setType(_typeRef.of(typeRef));
-    }
-
-    public _castExpr setType( _typeRef _t ){
-        this.ce.setType(_t.ast());
-        return this;
-    }
-
-    public _castExpr setType( Type t ){
-        this.ce.setType(t);
-        return this;
-    }
-     */
-
-    /*
-    public boolean isType(String type ){
-        return isType(_typeRef.of(type));
-    }
-
-    public boolean isType( Type t){
-        return Types.equal(t, this.ce.getType());
-    }
-
-    public boolean isType( _typeRef _t){
-        return Types.equal(_t.ast(), this.ce.getType());
-    }
-    */
 
     public _castExpr setExpression(String ex){
         return setExpression(_expr.of(ex));
     }
 
     public _castExpr setExpression(Expression e){
-        this.ce.setExpression(e);
+        this.node.setExpression(e);
         return this;
     }
 
     public _castExpr setExpression(_expr _e){
-        this.ce.setExpression(_e.ast());
+        this.node.setExpression(_e.node());
         return this;
     }
 
@@ -190,18 +151,18 @@ public final class _castExpr implements _expr<CastExpr, _castExpr>, _tree._node<
     }
 
     public boolean isExpression( Expression e){
-        return Expr.equal(e, this.ce.getExpression());
+        return Expr.equal(e, this.node.getExpression());
     }
 
     public boolean isExpression( _expr _e){
-        return Expr.equal(_e.ast(), this.ce.getExpression());
+        return Expr.equal(_e.node(), this.node.getExpression());
     }
 
     public int hashCode(){
-        return 31 * this.ce.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.ce.toString();
+        return this.node.toString();
     }
 }

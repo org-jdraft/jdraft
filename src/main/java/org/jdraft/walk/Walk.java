@@ -182,7 +182,7 @@ public enum Walk {
                 of(PRE_ORDER, ((_codeUnit) _j).astCompilationUnit(), Node.class, nodeMatchFn, f -> found.add(f));
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f));
+                of(PRE_ORDER, ((_type) _j).node(), Node.class, nodeMatchFn, f -> found.add(f));
             }
             return found;
         }
@@ -191,7 +191,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, f -> found.add( f) );
             return found;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, nodeMatchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_tree._node) _j).node(), Node.class, nodeMatchFn, f -> found.add(f) );
         return found;
     }
 
@@ -220,7 +220,7 @@ public enum Walk {
                 of(PRE_ORDER, ((_codeUnit) _j).astCompilationUnit(), targetClass, t->true, f -> found.add(f));
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, f -> found.add(f));
+                of(PRE_ORDER, ((_type) _j).node(), targetClass, t->true, f -> found.add(f));
             }
             return (List<T>)found;
         }
@@ -229,7 +229,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, t->true, f -> found.add(f) );
+        of(PRE_ORDER, ((_tree._node) _j).node(), targetClass, t->true, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -284,7 +284,7 @@ public enum Walk {
                 of(PRE_ORDER, ((_codeUnit) _j).astCompilationUnit(), targetClass, matchFn, f -> found.add( (T)f));
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, f -> found.add( (T)f));
+                of(PRE_ORDER, ((_type) _j).node(), targetClass, matchFn, f -> found.add( (T)f));
             }
             return (List<T>)found;
         }
@@ -293,7 +293,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, f -> found.add( (T)f) );
             return found;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, f -> found.add(f) );
+        of(PRE_ORDER, ((_tree._node) _j).node(), targetClass, matchFn, f -> found.add(f) );
         return (List<T>)found;
     }
 
@@ -357,7 +357,7 @@ public enum Walk {
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return list( tt, ((_codeUnit) _node).astCompilationUnit(), targetClass, matchFn);
         }
-        return list( tt, _node.ast(), targetClass, matchFn);
+        return list( tt, _node.node(), targetClass, matchFn);
     }
 
     /**
@@ -502,7 +502,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, action);
+                of(PRE_ORDER, ((_type) _j).node(), targetClass, matchFn, action);
                 return _j;
             }
         }
@@ -511,7 +511,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_tree._node) _j).node(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -583,7 +583,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(tt, ((_type) _j).ast(), targetClass, matchFn, action);
+                of(tt, ((_type) _j).node(), targetClass, matchFn, action);
                 return _j;
             }
         }
@@ -592,7 +592,7 @@ public enum Walk {
             of( tt, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(tt, ((_tree._node) _j).ast(), targetClass, matchFn, action );
+        of(tt, ((_tree._node) _j).node(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -618,7 +618,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), Node.class, t->true, action);
+                of(PRE_ORDER, ((_type) _j).node(), Node.class, t->true, action);
                 return _j;
             }
         }
@@ -627,7 +627,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_tree._node) _j).node(), Node.class, t->true, action );
         return _j;
     }
 
@@ -654,7 +654,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), Node.class, nodeMatchFn, action);
+                of(PRE_ORDER, ((_type) _j).node(), Node.class, nodeMatchFn, action);
                 return _j;
             }
         }
@@ -663,7 +663,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, nodeMatchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, nodeMatchFn, action );
+        of(PRE_ORDER, ((_tree._node) _j).node(), Node.class, nodeMatchFn, action );
         return _j;
     }
 
@@ -817,7 +817,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PARENTS, ((_type) _j).ast(), targetClass, matchFn, action);
+                of(PARENTS, ((_type) _j).node(), targetClass, matchFn, action);
                 return _j;
             }
         }
@@ -826,7 +826,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PARENTS, ((_tree._node) _j).ast(), targetClass, matchFn, action );
+        of(PARENTS, ((_tree._node) _j).node(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -859,7 +859,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PARENTS, ((_type) _j).ast(), targetClass, t->true, action);
+                of(PARENTS, ((_type) _j).node(), targetClass, t->true, action);
                 return _j;
             }
         }
@@ -868,7 +868,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_tree._node) _j).ast(), targetClass, t->true, action );
+        of(PARENTS, ((_tree._node) _j).node(), targetClass, t->true, action );
         return _j;
     }
 
@@ -897,7 +897,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PARENTS, ((_type) _j).ast(), Node.class, t->true, action);
+                of(PARENTS, ((_type) _j).node(), Node.class, t->true, action);
                 return _j;
             }
         }
@@ -906,7 +906,7 @@ public enum Walk {
             of( PARENTS, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PARENTS, ((_tree._node) _j).ast(), Node.class, t->true, action );
+        of(PARENTS, ((_tree._node) _j).node(), Node.class, t->true, action );
         return _j;
     }
 
@@ -963,7 +963,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(DIRECT_CHILDREN, ((_type) _j).ast(), targetClass, matchFn, action);
+                of(DIRECT_CHILDREN, ((_type) _j).node(), targetClass, matchFn, action);
                 return _j;
             }
         }if( _j instanceof _body){
@@ -971,7 +971,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_tree._node) _j).ast(), targetClass, matchFn, action );
+        of(DIRECT_CHILDREN, ((_tree._node) _j).node(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1003,7 +1003,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(DIRECT_CHILDREN, ((_type) _j).ast(), targetClass, t->true, action);
+                of(DIRECT_CHILDREN, ((_type) _j).node(), targetClass, t->true, action);
                 return _j;
             }
         }
@@ -1012,7 +1012,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_tree._node) _j).ast(), targetClass, t->true, action );
+        of(DIRECT_CHILDREN, ((_tree._node) _j).node(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1040,7 +1040,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(DIRECT_CHILDREN, ((_type) _j).ast(), Node.class, t->true, action);
+                of(DIRECT_CHILDREN, ((_type) _j).node(), Node.class, t->true, action);
                 return _j;
             }
         }
@@ -1049,7 +1049,7 @@ public enum Walk {
             of( DIRECT_CHILDREN, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(DIRECT_CHILDREN, ((_tree._node) _j).ast(), Node.class, t->true, action );
+        of(DIRECT_CHILDREN, ((_tree._node) _j).node(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1103,7 +1103,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(BREADTH_FIRST, ((_type) _j).ast(), targetClass, matchFn, action);
+                of(BREADTH_FIRST, ((_type) _j).node(), targetClass, matchFn, action);
                 return _j;
             }
         }
@@ -1112,7 +1112,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_tree._node) _j).ast(), targetClass, matchFn, action );
+        of(BREADTH_FIRST, ((_tree._node) _j).node(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1141,7 +1141,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(BREADTH_FIRST, ((_type) _j).ast(), targetClass, t->true, action);
+                of(BREADTH_FIRST, ((_type) _j).node(), targetClass, t->true, action);
                 return _j;
             }
         }
@@ -1150,7 +1150,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_tree._node) _j).ast(), targetClass, t->true, action );
+        of(BREADTH_FIRST, ((_tree._node) _j).node(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1176,7 +1176,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(BREADTH_FIRST, ((_type) _j).ast(), Node.class, t->true, action);
+                of(BREADTH_FIRST, ((_type) _j).node(), Node.class, t->true, action);
                 return _j;
             }
         }
@@ -1185,7 +1185,7 @@ public enum Walk {
             of( BREADTH_FIRST, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(BREADTH_FIRST, ((_tree._node) _j).ast(), Node.class, t->true, action );
+        of(BREADTH_FIRST, ((_tree._node) _j).node(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1239,7 +1239,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(POST_ORDER, ((_type) _j).ast(), targetClass, matchFn, action);
+                of(POST_ORDER, ((_type) _j).node(), targetClass, matchFn, action);
                 return _j;
             }
         }
@@ -1248,7 +1248,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(POST_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, action );
+        of(POST_ORDER, ((_tree._node) _j).node(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1277,7 +1277,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(POST_ORDER, ((_type) _j).ast(), targetClass, t->true, action);
+                of(POST_ORDER, ((_type) _j).node(), targetClass, t->true, action);
                 return _j;
             }
         }
@@ -1286,7 +1286,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_tree._node) _j).ast(), targetClass, t->true, action );
+        of(POST_ORDER, ((_tree._node) _j).node(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1311,7 +1311,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(POST_ORDER, ((_type) _j).ast(), Node.class, t->true, action);
+                of(POST_ORDER, ((_type) _j).node(), Node.class, t->true, action);
                 return _j;
             }
         }
@@ -1320,7 +1320,7 @@ public enum Walk {
             of( POST_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(POST_ORDER, ((_tree._node) _j).ast(), Node.class, t->true, action );
+        of(POST_ORDER, ((_tree._node) _j).node(), Node.class, t->true, action );
         return _j;
     }
 
@@ -1374,7 +1374,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, matchFn, action);
+                of(PRE_ORDER, ((_type) _j).node(), targetClass, matchFn, action);
                 return _j;
             }
         }
@@ -1383,7 +1383,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, matchFn, action );
             return _j;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, matchFn, action );
+        of(PRE_ORDER, ((_tree._node) _j).node(), targetClass, matchFn, action );
         return _j;
     }
 
@@ -1412,7 +1412,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), targetClass, t->true, action);
+                of(PRE_ORDER, ((_type) _j).node(), targetClass, t->true, action);
                 return _j;
             }
         }
@@ -1421,7 +1421,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), targetClass, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), targetClass, t->true, action );
+        of(PRE_ORDER, ((_tree._node) _j).node(), targetClass, t->true, action );
         return _j;
     }
 
@@ -1446,7 +1446,7 @@ public enum Walk {
                 return _j;
             }
             else{
-                of(PRE_ORDER, ((_type) _j).ast(), Node.class, t->true, action);
+                of(PRE_ORDER, ((_type) _j).node(), Node.class, t->true, action);
                 return _j;
             }
         }
@@ -1455,7 +1455,7 @@ public enum Walk {
             of( PRE_ORDER, _b.ast(), Node.class, t->true, action );
             return _j;
         }
-        of(PRE_ORDER, ((_tree._node) _j).ast(), Node.class, t->true, action );
+        of(PRE_ORDER, ((_tree._node) _j).node(), Node.class, t->true, action );
         return _j;
     }
 
@@ -2295,12 +2295,12 @@ public enum Walk {
                 //System.out.println( " IS TOP LEVEL "+ nodeTargetClass );
                 return Walk.first( tt, ((_codeUnit) _j).astCompilationUnit(), nodeTargetClass, nodeMatchFn);
             }
-            return Walk.first( tt, ((_type) _j).ast(), nodeTargetClass, nodeMatchFn);
+            return Walk.first( tt, ((_type) _j).node(), nodeTargetClass, nodeMatchFn);
         }
         if(_j instanceof _body ){
             return Walk.first( tt, ((_body)_j).ast(), nodeTargetClass, nodeMatchFn);
         }
-        return Walk.first( tt, ((_tree._node)_j).ast(), nodeTargetClass, nodeMatchFn);
+        return Walk.first( tt, ((_tree._node)_j).node(), nodeTargetClass, nodeMatchFn);
     }
 
     public static <T> T first(Node.TreeTraversal tt, _java._domain _j, Class<T> nodeTargetClass ) {
@@ -2553,7 +2553,7 @@ public enum Walk {
      * @return
      */
     public _tree._node getParent(_tree._node _j){
-        Optional<Node> on = _j.ast().getParentNode();
+        Optional<Node> on = _j.node().getParentNode();
         if( on.isPresent() ){
             return (_tree._node)_java.of(on.get());
         }
@@ -2571,13 +2571,13 @@ public enum Walk {
     public static <_J extends _java._domain> boolean isParent(_java._domain _j, Class<_J> parentNodeClass, Predicate<_J> parentMatchFn){
         if( _j instanceof _tree._node){
             AtomicBoolean ans = new AtomicBoolean(false);
-            in_java(Node.TreeTraversal.PARENTS, 1, ((_tree._node)_j).ast(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
+            in_java(Node.TreeTraversal.PARENTS, 1, ((_tree._node)_j).node(), parentNodeClass, parentMatchFn, (t)-> ans.set(true) );
             return ans.get();
         }
         //need to handle _typeParameters, _parameters, _annos
         if( _j instanceof _typeParams){
             _typeParams _tps = (_typeParams)_j;
-            _tree._node _n = (_tree._node)_java.of( (Node)_tps.astAnchorNode());
+            _tree._node _n = (_tree._node)_java.of( (Node)_tps.anchorNode());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         if( _j instanceof _body){
@@ -2590,7 +2590,7 @@ public enum Walk {
         }
         if( _j instanceof _params){
             _params _tps = (_params)_j;
-            _tree._node _n = (_tree._node)_java.of( (Node)_tps.astHolder());
+            _tree._node _n = (_tree._node)_java.of( (Node)_tps.nodeWithParameters());
             return parentNodeClass.isAssignableFrom(_n.getClass()) && parentMatchFn.test( (_J)_n);
         }
         return false;

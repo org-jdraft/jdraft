@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.LongLiteralExpr;
 
 import java.util.function.Function;
@@ -27,15 +28,15 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
     public static _feature._one<_longExpr, String> LITERAL_VALUE = new _feature._one<>(_longExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_longExpr a, String value) -> a.ast().setValue(value), PARSER);
+            (_longExpr a, String value) -> a.node().setValue(value), PARSER);
 
 
     public static _feature._features<_longExpr> FEATURES = _feature._features.of(_longExpr.class,  PARSER, LITERAL_VALUE);
 
-    public LongLiteralExpr ile;
+    public LongLiteralExpr node;
 
-    public _longExpr(LongLiteralExpr ile){
-        this.ile = ile;
+    public _longExpr(LongLiteralExpr node){
+        this.node = node;
     }
 
     public _feature._features<_longExpr> features(){
@@ -44,26 +45,28 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
 
     @Override
     public _longExpr copy() {
-        return new _longExpr(this.ile.clone());
+        return new _longExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.longLiteralExpr(stringRep));
-        } catch(Exception e){}
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _longExpr replace(LongLiteralExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean is(long value){
-        return this.ile.asLong() == value;
+        return this.node.asLong() == value;
     }
 
     @Override
     public boolean is(LongLiteralExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
     /**
@@ -71,7 +74,7 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
      * @return
      */
     public boolean has_Separators(){
-        return this.ile.getValue().contains("_");
+        return this.node.getValue().contains("_");
     }
 
     /**
@@ -80,7 +83,7 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
      * @return
      */
     public boolean isBinaryFormat(){
-        return this.ile.getValue().startsWith("0b") || this.ile.getValue().startsWith("0B");
+        return this.node.getValue().startsWith("0b") || this.node.getValue().startsWith("0B");
     }
 
     /**
@@ -90,29 +93,29 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
      * @return
      */
     public boolean isHexFormat(){
-        return this.ile.getValue().startsWith("0x") || this.ile.getValue().startsWith("0X");
+        return this.node.getValue().startsWith("0x") || this.node.getValue().startsWith("0X");
     }
 
     /**
      * int k = 01234567;
      */
     public boolean isOctalFormat(){
-        return  this.ile.getValue().length() > 0
-                && this.ile.getValue().startsWith("0")
+        return  this.node.getValue().length() > 0
+                && this.node.getValue().startsWith("0")
                 && ! isHexFormat()
                 && ! isBinaryFormat();
     }
 
-    public LongLiteralExpr ast(){
-        return ile;
+    public LongLiteralExpr node(){
+        return node;
     }
 
     public Long getValue(){
-        return this.ile.asLong();
+        return this.node.asLong();
     }
 
     public _longExpr setValue(long value){
-        this.ile.setLong(value);
+        this.node.setLong(value);
         return this;
     }
 
@@ -127,21 +130,21 @@ public final class _longExpr implements _expr._literal<LongLiteralExpr, _longExp
      * @return
      */
     public String valueAsString(){
-        return this.ile.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _longExpr){
-            return ((_longExpr)other).ile.equals( this.ile );
+            return ((_longExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.node.toString();
     }
 }

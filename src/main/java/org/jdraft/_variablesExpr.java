@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.VariableDeclarationExpr;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 
@@ -61,15 +62,15 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return FEATURES;
     }
 
-    public VariableDeclarationExpr varDeclEx;
+    public VariableDeclarationExpr node;
 
-    public _variablesExpr(VariableDeclarationExpr varDeclEx){
-        this.varDeclEx = varDeclEx;
+    public _variablesExpr(VariableDeclarationExpr node){
+        this.node = node;
     }
 
     @Override
     public _variablesExpr copy() {
-        return new _variablesExpr(this.varDeclEx.clone());
+        return new _variablesExpr(this.node.clone());
     }
 
     @Override
@@ -79,28 +80,30 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
 
     @Override
     public NodeList<VariableDeclarator> astList() {
-        return this.varDeclEx.getVariables();
+        return this.node.getVariables();
     }
 
     public _modifiers getModifiers(){
-        return _modifiers.of( this.ast() );
+        return _modifiers.of( this.node() );
     }
 
     public _variablesExpr setModifiers( _modifiers _mods){
-        this.ast().getModifiers().clear();
-        this.ast().setModifiers( _mods.ast() );
+        this.node().getModifiers().clear();
+        this.node().setModifiers( _mods.ast() );
         return this;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.variablesExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _variablesExpr replace(VariableDeclarationExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     /**
      * Is the variable at the index equal to the _v
@@ -150,16 +153,16 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     public boolean isFinal(){
-        return this.varDeclEx.isFinal();
+        return this.node.isFinal();
     }
 
     public _variablesExpr setFinal(boolean fin){
-        this.varDeclEx.setFinal(fin);
+        this.node.setFinal(fin);
         return this;
     }
 
     public _variablesExpr setFinal(){
-        this.varDeclEx.setFinal(true);
+        this.node.setFinal(true);
         return this;
     }
     @Override
@@ -171,13 +174,13 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         }
     }
 
-    public VariableDeclarationExpr ast(){
-        return varDeclEx;
+    public VariableDeclarationExpr node(){
+        return node;
     }
 
     //does the same as list
     public List<_variable> listVariables(){
-        return this.varDeclEx.getVariables().stream().map(v-> _variable.of(v)).collect(Collectors.toList());
+        return this.node.getVariables().stream().map(v-> _variable.of(v)).collect(Collectors.toList());
     }
 
     //does the same as list(predicate)
@@ -186,7 +189,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     public _variable getAt(int index){
-        return _variable.of(this.varDeclEx.getVariable(index));
+        return _variable.of(this.node.getVariable(index));
     }
 
     public _variable get(String name){
@@ -199,14 +202,14 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(this.varDeclEx);
+        return _annos.of(this.node);
     }
 
     public boolean equals(Object other){
         if( other instanceof _variablesExpr){
             _variablesExpr _o = ((_variablesExpr)other);
             //return ((_variablesExpr)other).varDeclEx.equals( this.varDeclEx);
-            if(ast().getVariables().size() != _o.ast().getVariables().size() ){
+            if(this.node().getVariables().size() != _o.node().getVariables().size() ){
                 return false;
             }
             //they have the same number of variables
@@ -217,10 +220,10 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
                 return false;
             }
             Set<VariableDeclarator> vds = new HashSet<>();
-            vds.addAll( this.ast().getVariables() );
+            vds.addAll( this.node().getVariables() );
 
             Set<VariableDeclarator> ovds = new HashSet<>();
-            ovds.addAll( _o.ast().getVariables() );
+            ovds.addAll( _o.node().getVariables() );
             return Objects.equals(ovds, vds );
         }
         return false;
@@ -230,7 +233,7 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return is(new String[]{code});
     }
     public int hashCode(){
-        return 31 * this.varDeclEx.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString() {
@@ -238,10 +241,9 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
-        if( varDeclEx.getVariables().size() == 0){
+        if( node.getVariables().size() == 0){
             return "";
         }
-        return this.varDeclEx.toString(ppc);
+        return this.node.toString(ppc);
     }
-
 }

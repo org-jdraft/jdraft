@@ -43,7 +43,7 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
     }
 
     public static $initBlock of( _initBlock _ib ){
-        return of( _ib.ast());
+        return of( _ib.node());
     }
 
     public static $initBlock of( InitializerDeclaration id ){
@@ -126,7 +126,7 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
     }
 
     public static $initBlock as(_initBlock _ib){
-        return as( _ib.ast());
+        return as( _ib.node());
     }
 
     public static $initBlock as(InitializerDeclaration astId){
@@ -544,7 +544,7 @@ public class $initBlock implements //$pattern<_initBlock, $initBlock>,
 
         @Override
         public InitializerDeclaration ast() {
-            return initBlock.ast();
+            return initBlock.node();
         }
 
         @Override

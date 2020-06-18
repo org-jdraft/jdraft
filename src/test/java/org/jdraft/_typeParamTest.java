@@ -87,10 +87,10 @@ public class _typeParamTest extends TestCase {
         System.out.println( _typeParams.of("A,B extends R & J") );
         //System.out.println( _typeParameters.of("A,B super R") );        
         _typeParams _tp = _typeParams.of("A, B extends R");
-        TypeParameter A = _tp.getAt(0).ast();
+        TypeParameter A = _tp.getAt(0).node();
         System.out.println( A.getName() );
         System.out.println( "TYPE BOUND" + A.getTypeBound() );
-        TypeParameter B = _tp.getAt(1).ast();
+        TypeParameter B = _tp.getAt(1).node();
         System.out.println( B.getName() );
         System.out.println( "TYPE BOUND" + B.getTypeBound() );
         
@@ -109,7 +109,7 @@ public class _typeParamTest extends TestCase {
     public void testTypeParameterAnno(){
         String s = "@R A extends @Test B";
         _typeParam _tp = _typeParam.of(s);
-        TypeParameter astTp = _tp.ast();
+        TypeParameter astTp = _tp.node();
         System.out.println( _tp );
         System.out.println( astTp );
         

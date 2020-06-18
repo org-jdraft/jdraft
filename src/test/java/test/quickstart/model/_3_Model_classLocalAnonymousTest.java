@@ -81,7 +81,7 @@ public class _3_Model_classLocalAnonymousTest extends TestCase {
         assertEquals( "aaaa.bbbb.C", _c.getFullName() );
 
         // each time we get or list elements (like _field, _method, _constructor,...)
-        _field _f = _c.fieldNamed("val");
+        _field _f = _c.getField("val");
         assertTrue(_f.isInit(123)); //the init value of the field is 123
 
         _method _m = _c.firstMethodNamed("id" );

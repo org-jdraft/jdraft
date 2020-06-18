@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.expr.SimpleName;
@@ -89,7 +90,7 @@ public final class _method
         _class _c = _class.of(declClass);
         _method _mm =  _c.firstMethod(_m -> _m.getName().equals(m.getName()) && _m.hasParamsOf(m));
         if( _mm != null ){
-            _mm.ast().remove();
+            _mm.node().remove();
         }
         return _mm;
     }
@@ -170,8 +171,8 @@ public final class _method
         //_method _mm = macro.to(anonymousObjectContainingMethod.getClass(), md); //of(md));
 
         //ensure we remove the parent reference to the method from the (old) code
-        if( _mm.ast().getParentNode().isPresent() ){
-            _mm.ast().getParentNode().get().remove( _mm.ast() );
+        if( _mm.node().getParentNode().isPresent() ){
+            _mm.node().getParentNode().get().remove( _mm.node() );
         }
         return _mm;
     }
@@ -270,31 +271,36 @@ public final class _method
 
     public static _method set( _typeRef _type, String name){
         return of("public void set"+Character.toUpperCase( name.charAt(0)) + name.substring(1)+"("+_type.toString()+" "+ name+"){"+ System.lineSeparator()+
-                    "    this."+name+";"+
+                    "    this."+name+" = "+name+";"+
                     "}");
     }
 
     @Override
     public _method setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _method setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
-    private final MethodDeclaration astMethod;
+    private MethodDeclaration node;
 
     public _method(MethodDeclaration md) {
-        this.astMethod = md;
+        this.node = md;
     }
 
     @Override
-    public MethodDeclaration ast() {
-        return astMethod;
+    public MethodDeclaration node() {
+        return node;
+    }
+
+    @Override
+    public MethodDeclaration nodeWithParameters(){
+        return node;
     }
 
     /**
@@ -315,9 +321,9 @@ public final class _method
 
             //because we DONT know the context of the method (on interface, etc.)
             // lets add all of the implied modifiers to the _mm temp model
-            NodeList<Modifier> mms = Modifiers.getImpliedModifiers(this.astMethod);
+            NodeList<Modifier> mms = Modifiers.getImpliedModifiers(this.node);
             mms.forEach(mmm -> {
-                _mm.ast().addModifier(mmm.getKeyword());
+                _mm.node().addModifier(mmm.getKeyword());
             });
             return _mm.equals(this);
         } catch (Exception e) {
@@ -330,7 +336,7 @@ public final class _method
     }
 
     public _method copy() {
-        return new _method(this.astMethod.clone());
+        return new _method(this.node.clone());
     }
 
     /**
@@ -352,10 +358,10 @@ public final class _method
             return false;
         }
         final _method other = (_method) obj;
-        if (this.astMethod == other.astMethod) {
+        if (this.node == other.node) {
             return true; //two _method s pointing to the same MethodDeclaration
         }
-        if( ! Expr.equalAnnos(astMethod, other.astMethod)){
+        if( ! Expr.equalAnnos(node, other.node)){
             return false;
         }
         if (!Objects.equals(this.getBody(), other.getBody())) {
@@ -371,7 +377,7 @@ public final class _method
             System.out.println("NOT EQUAL"+ System.lineSeparator()+this.getJavadoc().getText().trim()+" "+System.lineSeparator()+ " "+ other.getJavadoc().getText().trim());
             return false;
         }
-        if (!Modifiers.modifiersEqual(this.astMethod, other.astMethod)) {
+        if (!Modifiers.modifiersEqual(this.node, other.node)) {
             return false;
         }
         if (!Objects.equals(this.getName(), other.getName())) {
@@ -380,13 +386,13 @@ public final class _method
         if (!Objects.equals(this.getParams(), other.getParams())) {
             return false;
         }
-        if (!Types.equal(astMethod.getThrownExceptions(), other.astMethod.getThrownExceptions())) {
+        if (!Types.equal(node.getThrownExceptions(), other.node.getThrownExceptions())) {
             return false;
         }        
         if (!Objects.equals(this.getTypeParams(), other.getTypeParams())) {
             return false;
         }
-        if (!Types.equal(astMethod.getType(), other.astMethod.getType())) {
+        if (!Types.equal(node.getType(), other.node.getType())) {
             return false;
         }
         if (!Objects.equals(this.getReceiverParam(), other.getReceiverParam())) {
@@ -448,22 +454,17 @@ public final class _method
     public static _feature._features<_method> FEATURES = _feature._features.of(_method.class, PARSER,
             JAVADOC, ANNOS, MODIFIERS, TYPE_PARAMS, TYPE, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
 
-    /*
-    public Map<_java.Feature, Object> features() {
-         Map<_java.Feature, Object> parts = new HashMap<>();
-         parts.put(_java.Feature.JAVADOC, getJavadoc());
-         parts.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
-         parts.put(_java.Feature.MODIFIERS, getEffectiveModifiers());
-         parts.put(_java.Feature.TYPE_PARAMS, getTypeParams());
-         parts.put(_java.Feature.TYPE, getTypeRef());
-         parts.put(_java.Feature.NAME, getName());
-         parts.put(_java.Feature.RECEIVER_PARAM, getReceiverParam());
-         parts.put(_java.Feature.PARAMS, getParams());
-         parts.put(_java.Feature.THROWS, getThrows());
-         parts.put(_java.Feature.BODY, getBody());
-        return parts;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _method replace(MethodDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public int hashCode() {
@@ -474,17 +475,17 @@ public final class _method
         modsSet.addAll(this.getEffectiveAstModifiersList());
 
         hash = 23 * hash + Objects.hash(
-                Expr.hashAnnos(astMethod),
+                Expr.hashAnnos(node),
                 this.getBody(),
                 //this.getJavadoc(),
                 modsSet, //this.getEffectiveModifiers(), //this.getModifiers(),
                 this.getName(),
                 this.getParams(),
-                Types.hash(astMethod.getThrownExceptions()),
+                Types.hash(node.getThrownExceptions()),
                 this.getTypeParams(),
                 this.getReceiverParam(),
-                Types.hash(astMethod.getType()));
-        if( this.ast().hasJavaDocComment() ){
+                Types.hash(node.getType()));
+        if( this.node().hasJavaDocComment() ){
 
             hash = hash * getJavadoc().hashCode();
         }
@@ -493,24 +494,24 @@ public final class _method
     
     @Override
     public _method setType(Type type) {
-        this.astMethod.setType(type);
+        this.node.setType(type);
         return this;
     }
 
     @Override
     public _typeRef getType() {
-        return _typeRef.of(this.astMethod.getType());
+        return _typeRef.of(this.node.getType());
     }
 
     @Override
     public _method setName(String name) {
-        this.astMethod.setName(name);
+        this.node.setName(name);
         return this;
     }
    
     @Override
     public _throws getThrows() {
-        return _throws.of(astMethod);
+        return _throws.of(node);
     }
 
     /**
@@ -565,22 +566,22 @@ public final class _method
 
     @Override
     public _body getBody() {
-        return _body.of(this.astMethod);
+        return _body.of(this.node);
     }
 
     @Override
     public _modifiers getModifiers() {
-        return _modifiers.of(this.astMethod);
+        return _modifiers.of(this.node);
     }
 
     @Override
     public NodeList<Modifier> getEffectiveAstModifiersList() {
-        NodeList<Modifier> ims = Modifiers.getImpliedModifiers(this.astMethod);
+        NodeList<Modifier> ims = Modifiers.getImpliedModifiers(this.node);
 
         if (ims == null) {
-            return this.astMethod.getModifiers();
+            return this.node.getModifiers();
         }
-        NodeList<Modifier> mms = this.astMethod.getModifiers();
+        NodeList<Modifier> mms = this.node.getModifiers();
         mms.forEach(m -> {
             if (!ims.contains(m)) {
                 ims.add(m);
@@ -591,19 +592,19 @@ public final class _method
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(astMethod);
+        return _annos.of(node);
     }
 
-    public SimpleName getNameNode() { return this.astMethod.getName(); }
+    public SimpleName getNameNode() { return this.node.getName(); }
 
     @Override
     public String getName() {
-        return astMethod.getNameAsString();
+        return node.getNameAsString();
     }
     
     @Override
     public _params getParams() {
-        return _params.of(astMethod);
+        return _params.of(node);
     }
     
     @Override
@@ -617,7 +618,7 @@ public final class _method
 
     @Override
     public String toString() {
-        return this.astMethod.toString();
+        return this.node.toString();
     }
 
     public boolean isPackagePrivate(){
@@ -626,24 +627,24 @@ public final class _method
     }
 
     public boolean isPublic() {
-        return this.astMethod.isPublic() || getEffectiveAstModifiersList().contains(Modifier.publicModifier());
+        return this.node.isPublic() || getEffectiveAstModifiersList().contains(Modifier.publicModifier());
     }
 
     public boolean isProtected() {
-        return this.astMethod.isProtected();
+        return this.node.isProtected();
     }
 
     public boolean isPrivate() {
-        return this.astMethod.isPrivate();
+        return this.node.isPrivate();
     }
 
     public boolean isDefault() {
-        return this.astMethod.isDefault();
+        return this.node.isDefault();
     }
 
     @Override
     public boolean isStatic() {
-        return this.astMethod.isStatic();
+        return this.node.isStatic();
     }
 
     @Override
@@ -652,104 +653,104 @@ public final class _method
          * Cant just look at the MODIFIERS, I also have to check if this method
          * lacks a BODY
          */
-        if (!this.astMethod.getBody().isPresent()) {
+        if (!this.node.getBody().isPresent()) {
             return true;
         }
-        return this.astMethod.isAbstract();
+        return this.node.isAbstract();
     }
     
     @Override
     public boolean isFinal() {
-        return this.astMethod.isFinal();
+        return this.node.isFinal();
     }
 
     public _method setPublic() {
-        this.astMethod.setPrivate(false);
-        this.astMethod.setProtected(false);
-        this.astMethod.setPublic(true);
+        this.node.setPrivate(false);
+        this.node.setProtected(false);
+        this.node.setPublic(true);
         return this;
     }
 
     public _method setProtected() {
-        this.astMethod.setPrivate(false);
-        this.astMethod.setProtected(true);
-        this.astMethod.setPublic(false);
+        this.node.setPrivate(false);
+        this.node.setProtected(true);
+        this.node.setPublic(false);
         return this;
     }
 
     public _method setPrivate() {
-        this.astMethod.setPrivate(true);
-        this.astMethod.setProtected(false);
-        this.astMethod.setPublic(false);
+        this.node.setPrivate(true);
+        this.node.setProtected(false);
+        this.node.setPublic(false);
         return this;
     }
 
     public _method setPackagePrivate() {
-        this.astMethod.setPrivate(false);
-        this.astMethod.setProtected(false);
-        this.astMethod.setPublic(false);
+        this.node.setPrivate(false);
+        this.node.setProtected(false);
+        this.node.setPublic(false);
         return this;
     }
 
     @Override
     public _method setAbstract() {
-        this.astMethod.removeBody();
+        this.node.removeBody();
         return setAbstract(true);
     }
     
     @Override
     public _method setAbstract(boolean toSet) {
-        this.astMethod.setAbstract(toSet);
+        this.node.setAbstract(toSet);
         if (toSet) {
-            this.astMethod.removeBody();
+            this.node.removeBody();
         } else {
-            this.astMethod.createBody();
+            this.node.createBody();
         }
         return this;
     }
     
     @Override
     public _method setFinal(boolean toSet) {
-        this.astMethod.setFinal(toSet);
+        this.node.setFinal(toSet);
         return this;
     }    
 
     @Override
     public _method setBody(BlockStmt body) {
         if (body == null) {
-            this.astMethod.removeBody();
+            this.node.removeBody();
         } else {
-            this.astMethod.setBody(body);
+            this.node.setBody(body);
         }
         return this;
     }
 
     @Override
     public _method clearBody() {
-        if (this.astMethod.getBody().isPresent()) {
-            this.astMethod.setBody( new BlockStmt() );
+        if (this.node.getBody().isPresent()) {
+            this.node.setBody( new BlockStmt() );
         }
         return this;
     }
 
     @Override
     public _method add(Statement... statements) {        
-        if (!this.astMethod.getBody().isPresent()) {
-            this.astMethod.createBody();
+        if (!this.node.getBody().isPresent()) {
+            this.node.createBody();
         }
         for (Statement statement : statements) {
-            this.astMethod.getBody().get().addStatement(statement);
+            this.node.getBody().get().addStatement(statement);
         }
         return this;
     }
 
     @Override
     public _method add(int startStatementIndex, Statement... statements) {
-        if (!this.astMethod.getBody().isPresent()) {
-            this.astMethod.createBody();
+        if (!this.node.getBody().isPresent()) {
+            this.node.createBody();
         }
         for (int i = 0; i < statements.length; i++) {
-            this.astMethod.getBody().get().addStatement(i + startStatementIndex, statements[i]);
+            this.node.getBody().get().addStatement(i + startStatementIndex, statements[i]);
         }
         return this;
     }
@@ -774,6 +775,50 @@ public final class _method
 
         default boolean hasMethods() {
             return !listMethods().isEmpty();
+        }
+
+        default boolean hasMethod(String name){
+            return !listMethods(name).isEmpty();
+        }
+
+        default boolean hasMethod( Predicate<_method> _matchFn){
+            return !listMethods(_matchFn).isEmpty();
+        }
+
+        default boolean hasMethod( Class returnType){
+            return !listMethods(m-> m.isType(returnType)).isEmpty();
+        }
+
+        default boolean hasMethod( Class returnType, String name){
+            return !listMethods(m-> m.isNamed(name) && m.isType(returnType)).isEmpty();
+        }
+
+        default boolean hasMethod( Class returnType, String name, Class...parameterTypes){
+            return getMethod(returnType, name, parameterTypes) != null;
+        }
+
+        default _method getMethod(String name){
+            List<_method>_ms = listMethods(m-> m.isNamed(name) );
+            if (_ms.isEmpty()){
+                return null;
+            }
+            return _ms.get(0);
+        }
+
+        default _method getMethod( Class returnType, String name){
+            List<_method>_ms = listMethods(m-> m.isNamed(name) && m.isType(returnType));
+            if (_ms.isEmpty()){
+                return null;
+            }
+            return _ms.get(0);
+        }
+
+        default _method getMethod( Class returnType, String name, Class...parameterTypes){
+            List<_method>_ms = listMethods(m-> m.isNamed(name) && m.isType(returnType) && m.getParams().isTypes(parameterTypes));
+            if (_ms.isEmpty()){
+                return null;
+            }
+            return _ms.get(0);
         }
 
         /**
@@ -826,7 +871,6 @@ public final class _method
             return (_WM) this;
         }
 
-
         /**
          * Apply this method Consumer to all methods and return the _methods that were consumed
          * @param _actionFn the Consumer to apply to all methods
@@ -849,12 +893,12 @@ public final class _method
         }
 
         default _WM removeMethod(_method _m) {
-            this.toMethods(m -> m.equals(_m), m-> m.astMethod.removeForced() );
-            return removeMethod( _m.astMethod );
+            this.toMethods(m -> m.equals(_m), m-> m.node.removeForced() );
+            return removeMethod( _m.node);
         }
 
         default _WM removeMethod(MethodDeclaration astM) {
-            this.toMethods(m -> m.equals(_method.of(astM)), m-> m.astMethod.removeForced() );
+            this.toMethods(m -> m.equals(_method.of(astM)), m-> m.node.removeForced() );
             return (_WM) this;
         }
 
@@ -870,7 +914,7 @@ public final class _method
         }
 
         default _WM addMethod(_method _m) {
-            return addMethod(_m.ast());
+            return addMethod(_m.node());
         }
 
         default _WM addMethods(_method... ms) {
@@ -962,7 +1006,7 @@ public final class _method
             MethodDeclaration md = (MethodDeclaration) obd.get();
             //md.removeForced();
 
-            Optional<CompilationUnit> oc = ((_tree._node)this).ast().findCompilationUnit();
+            Optional<CompilationUnit> oc = ((_tree._node)this).node().findCompilationUnit();
             if( oc.isPresent() ){
                 CompilationUnit cu = oc.get();
                 Set<Class> clazzes = _import.inferImportsFrom(anonymousObjectContainingMethod.getClass());    

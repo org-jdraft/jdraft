@@ -271,7 +271,7 @@ public class _1_WhatIs$PatternTest extends TestCase {
 
         //lets build a $expr<UnaryExpr> that represents + or - and some int (i.e. "+5", "-3")
         $ex $plusMinusInt = $.unary($.PLUS,$.MINUS) // matches UnaryExpr with either operator
-                .$and(u-> u.getExpression().ast().isIntegerLiteralExpr()); //verifies the UnaryExpr expression is an int literal
+                .$and(u-> u.getExpression().node().isIntegerLiteralExpr()); //verifies the UnaryExpr expression is an int literal
 
         //query the class and verify we can find the UnaryExpr -1
         //[-1]

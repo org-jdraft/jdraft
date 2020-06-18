@@ -4,6 +4,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
@@ -210,10 +211,10 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
                             _e.addConstant(ecd); //add the constant
                         }
                     } else{
-                        _e.ast().addMember(fd);
+                        _e.node().addMember(fd);
                     }
                 } else {
-                    _e.ast().addMember(bds.get(i));
+                    _e.node().addMember(bds.get(i));
                 }
             }
         }
@@ -303,7 +304,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             PACKAGE, IMPORTS, JAVADOC, ANNO_EXPRS, MODIFIERS, NAME, IMPLEMENTS, MEMBERS);
 
     public _enum( EnumDeclaration astClass ){
-        this.astEnum = astClass;
+        this.node = astClass;
     }
 
     public _feature._features<_enum> features(){
@@ -318,51 +319,45 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
      * AST and can interpret or manipulate the AST without:
      * having to deal with syntax issues
      */
-    private final EnumDeclaration astEnum;
+    private EnumDeclaration node;
 
     @Override
-    public EnumDeclaration ast(){
-        return this.astEnum;
+    public EnumDeclaration node(){
+        return this.node;
     }
     
     @Override
     public boolean isTopLevel(){
-        return astEnum.isTopLevelType();
+        return node.isTopLevelType();
     }
 
-    /*
-    @Override
-    public boolean is(String...stringRep){
-        try{
-            return equals(of(Ast.of(stringRep)));
-        } catch(Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
-
-    /*
-    @Override
-    public boolean is(EnumDeclaration ed){
-        return of(ed).equals(this);
+    public _enum replace(EnumDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
-     */
 
     @Override
     public _enum setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _enum setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
     @Override
     public _enum setFields(List<_field> fields) {
-        this.astEnum.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        this.node.getMembers().removeIf(m -> m instanceof FieldDeclaration );
         fields.forEach(f-> addField(f));
         return this;
     }
@@ -370,28 +365,28 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     @Override
     public CompilationUnit astCompilationUnit(){
         //it might be a member class
-        if( this.astEnum.findCompilationUnit().isPresent()){
-            return this.astEnum.findCompilationUnit().get();
+        if( this.node.findCompilationUnit().isPresent()){
+            return this.node.findCompilationUnit().get();
         }
         return null; //its an orphan
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(this.astEnum );
+        return _annos.of(this.node);
     }
    
     @Override
     public List<_method> listMethods() {
         List<_method> _ms = new ArrayList<>();
-        astEnum.getMethods().forEach( m-> _ms.add(_method.of( m ) ) );
+        node.getMethods().forEach(m-> _ms.add(_method.of( m ) ) );
         return _ms;
     }
 
     @Override
     public List<_method> listMethods(Predicate<_method> _methodMatchFn ){
         List<_method> _ms = new ArrayList<>();
-        astEnum.getMethods().forEach( m-> {
+        node.getMethods().forEach(m-> {
             _method _m = _method.of( m);
             if( _methodMatchFn.test(_m)){
                 _ms.add(_m ); 
@@ -402,20 +397,20 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
 
     @Override
     public _enum addMethod(MethodDeclaration method ) {
-        astEnum.addMember( method );
+        node.addMember( method );
         return this;
     }
 
     @Override
     public List<_constructor> listConstructors() {
         List<_constructor> _cs = new ArrayList<>();
-        astEnum.getConstructors().forEach( c-> _cs.add( _constructor.of(c) ));
+        node.getConstructors().forEach(c-> _cs.add( _constructor.of(c) ));
         return _cs;
     }
 
     @Override
     public _constructor getConstructor(int index){
-        return _constructor.of(astEnum.getConstructors().get( index ));
+        return _constructor.of(node.getConstructors().get( index ));
     }
 
     @Override
@@ -424,7 +419,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         constructor.setPrivate(true);
         constructor.setPublic(false);
         constructor.setProtected(false);
-        this.astEnum.addMember( constructor );
+        this.node.addMember( constructor );
         return this;
     }
 
@@ -435,7 +430,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
 
     public List<_constant> listConstants() {
         List<_constant> _cs = new ArrayList<>();
-        astEnum.getEntries().forEach( c-> _cs.add( _constant.of(c) ));
+        node.getEntries().forEach(c-> _cs.add( _constant.of(c) ));
         return _cs;
     }
 
@@ -464,7 +459,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
 
     public _constant getConstant(String name){
         Optional<EnumConstantDeclaration> ed =
-                astEnum.getEntries().stream().filter( e-> e.getNameAsString().equals( name ) ).findFirst();
+                node.getEntries().stream().filter(e-> e.getNameAsString().equals( name ) ).findFirst();
         if( ed.isPresent()){
             return _constant.of(ed.get());
         }
@@ -478,18 +473,18 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
-        if( this.astEnum.getFields().contains( fd ) ){
+        if( this.node.getFields().contains( fd ) ){
             if( !fd.containsWithinRange( field ) ){
                 fd.addVariable( field );
             }
             return this;
         }
-        this.astEnum.addMember( fd );
+        this.node.addMember( fd );
         return this;
     }
 
     public _enum addConstant(_constant _c ){
-        this.astEnum.addEntry( _c.ast() );
+        this.node.addEntry( _c.node() );
         return this;
     }
     
@@ -533,27 +528,27 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             _class _c = _class.of("C");
             NodeList<BodyDeclaration<?>> bds = oce.getAnonymousClassBody().get();
             for(int i=0; i<bds.size();i++){
-                _c.ast().addMember(bds.get(i));
+                _c.node().addMember(bds.get(i));
             }
             //apply macros to the constant BODY (here stored in a class)
             _c = macro.to(anonymousBody.getClass(), _c);
             //the potentially modified BODY members are added
-            _ct.ast().setClassBody(_c.ast().getMembers());
+            _ct.node().setClassBody(_c.node().getMembers());
         }
-        return addConstant(_ct.ast());
+        return addConstant(_ct.node());
     }
 
     public _enum addConstant(EnumConstantDeclaration constant ) {
-        this.astEnum.addEntry( constant );
+        this.node.addEntry( constant );
         return this;
     }
 
     @Override
     public String toString(){
-        if( this.ast().isTopLevelType() ){
+        if( this.node().isTopLevelType() ){
             return this.astCompilationUnit().toString();            
         }
-        return this.astEnum.toString();
+        return this.node.toString();
     }
     
     @Override
@@ -569,19 +564,19 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         }
         final _enum other = (_enum)obj;
 
-        if( this.astEnum == other.astEnum ){
+        if( this.node == other.node){
             return true; //two _enum instances pointing to the same EnumDeclaration instance
         }
         if( !Objects.equals( this.getPackage(), other.getPackage() ) ) {
             return false;
         }
-        if( ! Expr.equalAnnos(this.astEnum, other.astEnum)){
+        if( ! Expr.equalAnnos(this.node, other.node)){
             return false;
         }     
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
             return false;
         }
-        if( !Modifiers.modifiersEqual(astEnum, other.astEnum)){
+        if( !Modifiers.modifiersEqual(node, other.node)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName() ) ) {
@@ -599,7 +594,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
             return false;
         }
 
-        if( ! _imports.Compare.importsEqual( astEnum, other.astEnum )){
+        if( ! _imports.Compare.importsEqual(node, other.node)){
             return false;
         }
         Set<_constant> tc = new HashSet<>();
@@ -661,7 +656,7 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
     public _enum removeConstant( _constant _c ){
         forConstants( c -> {
             if( c.equals( _c) ){                
-                c.ast().remove();
+                c.node().remove();
             }
         });        
         return this;
@@ -684,28 +679,6 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         listConstants(_constantMatchFn).forEach(c -> removeConstant(c) );
         return this;
     }
-
-    /*
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( _java.Feature.PACKAGE, this.getPackage() );
-        parts.put( _java.Feature.IMPORTS, this.getImports().list() );
-        parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
-        parts.put( _java.Feature.IMPLEMENTS_TYPES, this.listAstImplements() );
-        parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Feature.CONSTANTS, this.listConstants());
-        parts.put( _java.Feature.INIT_BLOCKS, this.listInitBlocks());
-        parts.put( _java.Feature.NAME, this.getName() );
-        parts.put( _java.Feature.MODIFIERS, this.getModifiers() );
-        parts.put( _java.Feature.CONSTRUCTORS, this.listConstructors() );
-        parts.put( _java.Feature.METHODS, this.listMethods() );
-        parts.put( _java.Feature.FIELDS, this.listFields() );
-        parts.put( _java.Feature.INNER_TYPES, this.listInnerTypes() );
-        parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes());
-        return parts;
-    }
-     */
 
     @Override
     public int hashCode() {
@@ -732,13 +705,13 @@ public final class _enum implements _type<EnumDeclaration, _enum>, _method._with
         sbs.addAll( this.listInitBlocks() );
 
         hash = 53 * hash + Objects.hash( this.getPackage(),
-                Expr.hashAnnos(astEnum),
+                Expr.hashAnnos(node),
                 this.getJavadoc(), 
                 this.getEffectiveAstModifiersList(),
                 this.getName(), 
                 sbs,
-                _imports.Compare.importsHash( astEnum ),
-                Types.hash( astEnum.getImplementedTypes()),
+                _imports.Compare.importsHash(node),
+                Types.hash( node.getImplementedTypes()),
                 tc, tct, tf, tm, tn, ct);
 
         return hash;

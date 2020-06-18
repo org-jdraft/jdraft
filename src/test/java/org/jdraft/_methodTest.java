@@ -160,7 +160,7 @@ public class _methodTest extends TestCase {
         });
         
         assertTrue( _m.isAbstract() ); //modifier is set
-        assertTrue( !_m.ast().getBody().isPresent()); //body is removed
+        assertTrue( !_m.node().getBody().isPresent()); //body is removed
         assertTrue( !_m.hasAnno(_abstract.class)); //no annotation left
     }
     
@@ -198,9 +198,9 @@ public class _methodTest extends TestCase {
          *    ...are NOT the syntactically same,
          *    but they SHOULD be semantically the same
          */
-        assertNotSame( _m.ast(), _m2.ast()); //checking the ASTs ARE NOT the same
-        assertNotSame( _m.ast(), _m4.ast());//checking the ASTs ARE NOT the same
-        assertNotSame( _m2.ast(), _m3.ast());//checking the ASTs ARE NOT the same
+        assertNotSame( _m.node(), _m2.node()); //checking the ASTs ARE NOT the same
+        assertNotSame( _m.node(), _m4.node());//checking the ASTs ARE NOT the same
+        assertNotSame( _m2.node(), _m3.node());//checking the ASTs ARE NOT the same
 
         /** here we check for SEMANTIC equality */
         assertEquals( _m, _m2);
@@ -283,7 +283,7 @@ public class _methodTest extends TestCase {
         //_m.ast().accept( VoidVisitor );
         //_m.ast().hasParametersOfType(Class...cs)
         assertFalse(_m.isDefault());
-        _m.ast().isDefault();
+        _m.node().isDefault();
         assertTrue(_m.isPublic());
         assertTrue(_m.isVoid());
         assertEquals(_m.getBody().getAstStatement(0), Stmt.of( ()-> System.out.println("Hello World!")));

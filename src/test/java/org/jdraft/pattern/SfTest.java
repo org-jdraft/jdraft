@@ -37,7 +37,7 @@ public class SfTest extends TestCase {
 
         //_class _c = _class.of(D.class);
         Ast.variableDeclarator("int c");
-        assertEquals( Expr.variablesExpr("String c"), $.localVariables().firstIn(D.class).ast() ); //int c
+        assertEquals( Expr.variablesExpr("String c"), $.localVariables().firstIn(D.class).node() ); //int c
 
         assertEquals(2, $.variable().countIn(D.class));
         //assertEquals(5, $typeUse.of().listIn(_class.of(D.class).astCompilationUnit()));

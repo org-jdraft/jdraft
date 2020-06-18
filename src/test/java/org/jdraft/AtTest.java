@@ -102,11 +102,11 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").node().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         System.out.println( "COMMENT RANGE" + c.getRange().get() );
-        BlockStmt bs = At.blockAt( _c.ast(), c.getRange().get().begin);
+        BlockStmt bs = At.blockAt( _c.node(), c.getRange().get().begin);
         assertEquals(3, At.getStatementIndex(bs, c.getRange().get().begin));
 
 
@@ -126,11 +126,11 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").node().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         System.out.println( "COMMENT RANGE" + c.getRange().get() );
-        BlockStmt bs = At.blockAt( _c.ast(), c.getRange().get().begin);
+        BlockStmt bs = At.blockAt( _c.node(), c.getRange().get().begin);
         assertEquals(2, At.getStatementIndex(bs, c.getRange().get().begin));
 
 
@@ -148,11 +148,11 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").node().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         //System.out.println( "COMMENT RANGE" + c.getRange().get() );
-        BlockStmt bs = At.blockAt( _c.ast(), c.getRange().get().begin);
+        BlockStmt bs = At.blockAt( _c.node(), c.getRange().get().begin);
         assertEquals(1, At.getStatementIndex(bs, c.getRange().get().begin));
         assertNotNull( bs );
     }
@@ -166,11 +166,11 @@ public class AtTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         //System.out.println( _c.ast().getRange().get() );
-        List<Comment> cc = _c.firstMethodNamed("m").ast().getAllContainedComments();
+        List<Comment> cc = _c.firstMethodNamed("m").node().getAllContainedComments();
         //System.out.println( cc.get(0).getRange() );
         Comment c = cc.get(0);
         //System.out.println( "COMMENT RANGE" + c.getRange().get() );
-        BlockStmt bs = At.blockAt( _c.ast(), c.getRange().get().begin);
+        BlockStmt bs = At.blockAt( _c.node(), c.getRange().get().begin);
         assertEquals(0, At.getStatementIndex(bs, c.getRange().get().begin));
         assertNotNull( bs );
 

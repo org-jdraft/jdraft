@@ -236,7 +236,7 @@ public class _classTest extends TestCase {
     public void testIsExtends(){
         _type _t = _class.of("C").addExtend("B");
         assertTrue( _t.isExtends("B"));
-        assertTrue( _t.isExtends( (ClassOrInterfaceType)_typeRef.of("B").ast() ));
+        assertTrue( _t.isExtends( (ClassOrInterfaceType)_typeRef.of("B").node() ));
         
         assertFalse( _t.isExtends("D"));
         assertFalse( _t.isExtends(String.class));
@@ -401,7 +401,7 @@ public class _classTest extends TestCase {
     // When you extend and provide the implementation, we
     // the imports are inferred
     public void testBodyInferImports(){
-        _class _c = _class.of("B").addBodyMembers(new BBC(){
+        _class _c = _class.of("B").addMembers(new BBC(){
                     
             AtomicBoolean ab;
                     
@@ -690,10 +690,10 @@ public class _classTest extends TestCase {
         assertTrue( _c.getPackageName().equals("aaaa.bbbb") );
         assertTrue( _c.getPackage().equals(_package.of("aaaa.bbbb")) );
         assertTrue( _c.isInPackage("aaaa.bbbb"));
-        assertTrue( _c.fieldNamed("a").isPublic() );
-        assertTrue( _c.fieldNamed("a").isType(int.class) );
-        assertTrue( _c.fieldNamed("b").isPublic() );
-        assertTrue( _c.fieldNamed("b").isType(int.class) );
+        assertTrue( _c.getField("a").isPublic() );
+        assertTrue( _c.getField("a").isType(int.class) );
+        assertTrue( _c.getField("b").isPublic() );
+        assertTrue( _c.getField("b").isType(int.class) );
 
         //verify we have a static main() method
         assertTrue( _c.firstMethodNamed("main").isStatic() );
@@ -732,7 +732,7 @@ public class _classTest extends TestCase {
         assertTrue( _c.getPackage() == null );
 
         _c = _class.of( "aaaa.bbbb.F", new Object(){ @_static int a;} );
-        assertTrue( _c.fieldNamed("a").isStatic() );
+        assertTrue( _c.getField("a").isStatic() );
     }
 
     //TODO _class.of("pav.asda.CC");
@@ -960,7 +960,7 @@ public class _classTest extends TestCase {
         _params _ps = _ct.getParams();
         
         assertEquals(1, _c.listFields().size());
-        _field _f = _c.fieldNamed("l");
+        _field _f = _c.getField("l");
         assertTrue( _f.hasJavadoc());
         assertTrue( _f.getJavadoc().getText().contains("field JAVADOC"));
         assertTrue( _f.hasAnnos() );

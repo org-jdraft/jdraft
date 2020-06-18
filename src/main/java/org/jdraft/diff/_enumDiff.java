@@ -270,8 +270,8 @@ public final class _enumDiff implements _differ<_enum, _tree._node> {
                 //these are effectively clones
                 leftArguments = new NodeList<>();
                 rightArguments = new NodeList<>();
-                leftArguments.addAll(leftParent.astConstant.getArguments());
-                rightArguments.addAll(rightParent.astConstant.getArguments());
+                leftArguments.addAll(leftParent.node.getArguments());
+                rightArguments.addAll(rightParent.node.getArguments());
             }
 
             @Override

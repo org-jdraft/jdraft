@@ -45,13 +45,13 @@ public final class _throws
      * @return
      */
     public static _throws of( Class<? extends Throwable>...clazzes ){
-        MethodDeclaration md = Ast.methodDeclaration( "void unknown(){}");
+        MethodDeclaration md = Ast.methodDeclaration( "void $name$(){}");
         Arrays.stream( clazzes ).forEach(c -> md.addThrownException(c) );
         return new _throws( md );
     }
 
     public static _throws of(){
-        MethodDeclaration md = Ast.methodDeclaration( "void unknown(){}");
+        MethodDeclaration md = Ast.methodDeclaration( "void $name$(){}");
         return of( md );
     }
 
@@ -65,12 +65,12 @@ public final class _throws
     public static _throws of( String... throwsClause ) {
         String t = Text.combine( throwsClause ).trim();
         if( t.length() == 0 ) {
-            return of(Ast.methodDeclaration( "void unknown(){}"));
+            return of(Ast.methodDeclaration( "void $name$(){}"));
         }
         if( t.startsWith( "throws " ) ) {
             t = t.substring( "throws ".length() );
         }
-        MethodDeclaration md = Ast.methodDeclaration( "void unknown() throws " + t + System.lineSeparator() + ";" );
+        MethodDeclaration md = Ast.methodDeclaration( "void $name$() throws " + t + System.lineSeparator() + ";" );
         return new _throws( md );
     }
 
@@ -83,18 +83,18 @@ public final class _throws
 
     public static _feature._features<_throws> FEATURES = _feature._features.of(_throws.class,  PARSER, THROWS );
 
-    public final NodeWithThrownExceptions astNodeWithThrows;
+    public final NodeWithThrownExceptions parentNode;
 
     public _throws(){
-        this( Ast.methodDeclaration("void unknown(){}") );
+        this( Ast.methodDeclaration("void $name$(){}") );
     }
 
     public _throws( NodeWithThrownExceptions th ) {
-        this.astNodeWithThrows = th;
+        this.parentNode = th;
     }
 
-    public <N extends Node> N astAnchorNode(){
-        return (N)astNodeWithThrows;
+    public <N extends Node> N anchorNode(){
+        return (N) parentNode;
     }
 
     public _feature._features<_throws> features(){
@@ -102,31 +102,31 @@ public final class _throws
     }
 
     public NodeList<ReferenceType> ast() {
-        return astNodeWithThrows.getThrownExceptions();
+        return parentNode.getThrownExceptions();
     }
 
     public boolean isThrown(Class<? extends Throwable>... thrownType ){
         Optional<Class<? extends Throwable>> oc =
-            Arrays.stream(thrownType).filter( t -> !astNodeWithThrows.isThrown(t) ).findFirst();
+            Arrays.stream(thrownType).filter( t -> !parentNode.isThrown(t) ).findFirst();
         return !oc.isPresent();
     }
     
     public boolean isThrown(String... thrownType ){
         Optional<String> oc = 
-            Arrays.stream(thrownType).filter( t -> !astNodeWithThrows.isThrown(t) ).findFirst();
+            Arrays.stream(thrownType).filter( t -> !parentNode.isThrown(t) ).findFirst();
         return !oc.isPresent();
     }
     
     public boolean isThrown(Class<? extends Throwable> throwType ){
-        return astNodeWithThrows.isThrown(throwType);
+        return parentNode.isThrown(throwType);
     }
     
     public boolean isThrown(String name ) {
-        return astNodeWithThrows.isThrown( name );
+        return parentNode.isThrown( name );
     }
 
     public boolean isThrown(Type rt ) {
-        return astNodeWithThrows.isThrown(rt.asString());
+        return parentNode.isThrown(rt.asString());
     }
 
     /** verify this throws contains all of the ReferenceTypes in rt */
@@ -185,7 +185,7 @@ public final class _throws
      * @return
      */
     public _throws addAll( Collection<ReferenceType> throwTypes ){
-        throwTypes.forEach( t ->this.astNodeWithThrows.addThrownException(t));
+        throwTypes.forEach( t ->this.parentNode.addThrownException(t));
         return this;
     }
 
@@ -195,7 +195,7 @@ public final class _throws
      * @return
      */
     public _throws add( Class<? extends Throwable>... throwsClasses ) {
-        Arrays.stream( throwsClasses ).forEach( t ->this.astNodeWithThrows.addThrownException(t));
+        Arrays.stream( throwsClasses ).forEach( t ->this.parentNode.addThrownException(t));
         return this;
     }
 
@@ -205,7 +205,7 @@ public final class _throws
      * @return
      */
     public _throws add( String... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().add( Types.of( t)  ) );
+        Arrays.stream( elements ).forEach( t -> this.parentNode.getThrownExceptions().add( Types.of( t)  ) );
         return this;
     }
 
@@ -214,25 +214,25 @@ public final class _throws
      * @return
      */
     public _throws clear() {
-        this.astNodeWithThrows.getThrownExceptions().clear();
+        this.parentNode.getThrownExceptions().clear();
         return this;
     }
 
     @Override
     public _throws copy() {
-        return _throws.of(this.astNodeWithThrows);
+        return _throws.of(this.parentNode);
     }
 
     @Override
     public List<_typeRef> list() {
         List<_typeRef> trs = new ArrayList<>();
-        this.astNodeWithThrows.getThrownExceptions().stream().forEach( (t) -> trs.add( _typeRef.of((ReferenceType)t)) );
+        this.parentNode.getThrownExceptions().stream().forEach( (t) -> trs.add( _typeRef.of((ReferenceType)t)) );
         return trs;
     }
 
     @Override
     public NodeList<ReferenceType> astList() {
-        return this.astNodeWithThrows.getThrownExceptions();
+        return this.parentNode.getThrownExceptions();
     }
 
     @Override
@@ -247,10 +247,10 @@ public final class _throws
             return false;
         }
         final _throws other = (_throws)obj;
-        if( this.astNodeWithThrows == other.astNodeWithThrows ) {
+        if( this.parentNode == other.parentNode) {
             return true; //two _throws pointing to the same NodeWithThrownException
         }
-        if( !Types.equal( astNodeWithThrows.getThrownExceptions(), other.astNodeWithThrows.getThrownExceptions())){
+        if( !Types.equal( parentNode.getThrownExceptions(), other.parentNode.getThrownExceptions())){
             return false;
         }
         return true;
@@ -258,49 +258,40 @@ public final class _throws
 
     @Override
     public int hashCode() {
-        return Types.hash( this.astNodeWithThrows.getThrownExceptions() );
+        return Types.hash( this.parentNode.getThrownExceptions() );
     }
 
     @Override
     public String toString() {
-        if( this.astNodeWithThrows.getThrownExceptions().isEmpty() ) {
+        if( this.parentNode.getThrownExceptions().isEmpty() ) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         sb.append( "throws " );
-        for( int i = 0; i < this.astNodeWithThrows.getThrownExceptions().size(); i++ ) {
+        for(int i = 0; i < this.parentNode.getThrownExceptions().size(); i++ ) {
             if( i > 0 ) {
                 sb.append( ", " );
             }
-            sb.append( this.astNodeWithThrows.getThrownExceptions().get( i ) );
+            sb.append( this.parentNode.getThrownExceptions().get( i ) );
         }
         return sb.toString();
     }
 
     @Override
     public String toString(PrettyPrinterConfiguration ppc) {
-        if( this.astNodeWithThrows.getThrownExceptions().isEmpty() ) {
+        if( this.parentNode.getThrownExceptions().isEmpty() ) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         sb.append( "throws " );
-        for( int i = 0; i < this.astNodeWithThrows.getThrownExceptions().size(); i++ ) {
+        for(int i = 0; i < this.parentNode.getThrownExceptions().size(); i++ ) {
             if( i > 0 ) {
                 sb.append( ", " );
             }
-            sb.append( this.astNodeWithThrows.getThrownExceptions().get( i ).toString(ppc) );
+            sb.append( this.parentNode.getThrownExceptions().get( i ).toString(ppc) );
         }
         return sb.toString();
     }
-
-    /**
-     *
-     * @return
-
-    public NodeWithThrownExceptions astHolder() {
-        return this.astNodeWithThrows;
-    }
-    */
 
     /**
      *
@@ -308,7 +299,7 @@ public final class _throws
      * @return
      */
     public _throws add( _typeRef<ReferenceType>... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.addThrownException( (ReferenceType)t.ast() ) );
+        Arrays.stream( elements ).forEach( t -> this.parentNode.addThrownException( (ReferenceType)t.node() ) );
         return this;
     }
 
@@ -318,13 +309,13 @@ public final class _throws
      * @return
      */
     public _throws remove( _typeRef<ReferenceType>... elements ) {
-        Arrays.stream( elements ).forEach( t -> this.astNodeWithThrows.getThrownExceptions().remove( (ReferenceType)t.ast() ) );
+        Arrays.stream( elements ).forEach( t -> this.parentNode.getThrownExceptions().remove( (ReferenceType)t.node() ) );
         return this;
     }
 
     public _throws set(List<_typeRef> trs ){
-        this.astNodeWithThrows.getThrownExceptions().clear();
-        trs.forEach( t-> this.astNodeWithThrows.addThrownException( (ReferenceType)t.ast()));
+        this.parentNode.getThrownExceptions().clear();
+        trs.forEach( t-> this.parentNode.addThrownException( (ReferenceType)t.node()));
         return this;
     }
 
@@ -334,7 +325,7 @@ public final class _throws
      * @return
      */
     public int indexOf( _typeRef<ReferenceType> element ) {
-        return this.astNodeWithThrows.getThrownExceptions().indexOf( (ReferenceType)element.ast() );
+        return this.parentNode.getThrownExceptions().indexOf( (ReferenceType)element.node() );
     }
     
     /**
@@ -359,7 +350,7 @@ public final class _throws
         }
         
         default _WT addThrows(String throwException) {
-            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.of(throwException));
+            getThrows().parentNode.addThrownException((ReferenceType) Types.of(throwException));
             return (_WT)this;
         }    
 
@@ -369,27 +360,27 @@ public final class _throws
         }
     
         default _WT addThrows(Class<? extends Throwable> throwException) {
-            getThrows().astNodeWithThrows.addThrownException((ReferenceType) Types.of(throwException));
+            getThrows().parentNode.addThrownException((ReferenceType) Types.of(throwException));
             return (_WT)this;
         }
 
         default _WT setThrows(_throws _th){
-            getThrows().astNodeWithThrows.setThrownExceptions(_th.astList());
+            getThrows().parentNode.setThrownExceptions(_th.astList());
             return (_WT)this;
         }
 
         default _WT setThrows(NodeList<ReferenceType> thrws ){
-            getThrows().astNodeWithThrows.setThrownExceptions(thrws);
+            getThrows().parentNode.setThrownExceptions(thrws);
             return (_WT)this;
         }
     
         default boolean hasThrow(Class<? extends Throwable> clazz) {
-            return getThrows().astNodeWithThrows.isThrown(clazz)
-                || getThrows().astNodeWithThrows.isThrown(clazz.getCanonicalName());
+            return getThrows().parentNode.isThrown(clazz)
+                || getThrows().parentNode.isThrown(clazz.getCanonicalName());
         }
 
         default boolean hasThrow(String name) {
-            return getThrows().astNodeWithThrows.isThrown(name);
+            return getThrows().parentNode.isThrown(name);
         }
 
         default boolean hasThrow(ReferenceType rt) {
@@ -413,7 +404,7 @@ public final class _throws
         }
         
         default _WT removeThrows(Predicate<ReferenceType> throwPredicate ){
-            getThrows().astNodeWithThrows.getThrownExceptions().removeIf(throwPredicate);
+            getThrows().parentNode.getThrownExceptions().removeIf(throwPredicate);
             return (_WT)this;
         }
     }

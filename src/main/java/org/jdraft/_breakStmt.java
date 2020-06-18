@@ -45,90 +45,92 @@ public final class _breakStmt
         return FEATURES;
     }
 
-    private BreakStmt astStmt;
+    private BreakStmt node;
 
     public _breakStmt(BreakStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
+    }
+
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _breakStmt replace(BreakStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
     @Override
     public _breakStmt copy() {
-        return new _breakStmt( this.astStmt.clone());
+        return new _breakStmt( this.node.clone());
     }
-
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.breakStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-     */
 
     public String getLabel(){
-        if(this.astStmt.getLabel().isPresent()){
-            return this.astStmt.getLabel().get().asString();
+        if(this.node.getLabel().isPresent()){
+            return this.node.getLabel().get().asString();
         }
         return null;
     }
 
     public boolean hasLabel(){
-        return this.astStmt.getLabel().isPresent();
+        return this.node.getLabel().isPresent();
     }
 
     public boolean isLabel(Predicate<String> labelMatchFn){
-        if( this.astStmt.getLabel().isPresent()){
-            return labelMatchFn.test( this.astStmt.getLabel().get().asString() );
+        if( this.node.getLabel().isPresent()){
+            return labelMatchFn.test( this.node.getLabel().get().asString() );
         }
         return false;
     }
 
     public boolean isLabel(String label){
-        if( this.astStmt.getLabel().isPresent() ) {
-            return Objects.equals(this.astStmt.getLabel().get().asString(), label);
+        if( this.node.getLabel().isPresent() ) {
+            return Objects.equals(this.node.getLabel().get().asString(), label);
         }
         return label == null;
     }
 
     public boolean isLabel( Stencil st){
-        if( this.astStmt.getLabel().isPresent() ) {
-            return st.parse(this.astStmt.getLabel().get().asString()) != null;
+        if( this.node.getLabel().isPresent() ) {
+            return st.parse(this.node.getLabel().get().asString()) != null;
         }
         return false;
     }
 
     public _breakStmt setLabel(SimpleName sn){
-        this.astStmt.setLabel( sn );
+        this.node.setLabel( sn );
         return this;
     }
 
     public _breakStmt setLabel(String label){
-        this.astStmt.setLabel( new SimpleName(label));
+        this.node.setLabel( new SimpleName(label));
         return this;
     }
 
     public _breakStmt removeLabel(){
-        this.astStmt.removeLabel();
+        this.node.removeLabel();
         return this;
     }
 
-    public BreakStmt ast(){
-        return astStmt;
+    public BreakStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _breakStmt ){
-            return Objects.equals( ((_breakStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_breakStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

@@ -411,10 +411,10 @@ public class $import
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return selectFirstIn(((_type) _j).ast(), selectConstraint);
+                return selectFirstIn(((_type) _j).node(), selectConstraint);
             }
         }
-        return selectFirstIn(((_tree._node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_tree._node) _j).node(), selectConstraint);
     }
 
     /**
@@ -491,10 +491,10 @@ public class $import
             if( ((_codeUnit) _j).isTopLevel()){
                 return listSelectedIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return listSelectedIn(((_type) _j).ast(), selectConstraint);
+                return listSelectedIn(((_type) _j).node(), selectConstraint);
             }
         }
-        return listSelectedIn(((_tree._node) _j).ast(), selectConstraint);
+        return listSelectedIn(((_tree._node) _j).node(), selectConstraint);
     }
     
     /**
@@ -520,11 +520,11 @@ public class $import
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), importClass);
                 return _j;
             } else{
-                replaceIn(((_type) _j).ast(), importClass);
+                replaceIn(((_type) _j).node(), importClass);
                 return _j;
             }
         }
-        replaceIn(((_tree._node) _j).ast(), importClass);
+        replaceIn(((_tree._node) _j).node(), importClass);
         return _j;
     }
     
@@ -551,11 +551,11 @@ public class $import
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), $import.of(importDecl));
                 return _j;
             } else{
-                replaceIn(((_type) _j).ast(), $import.of(importDecl));
+                replaceIn(((_type) _j).node(), $import.of(importDecl));
                 return _j;
             }
         }
-        replaceIn(((_tree._node) _j).ast(), $import.of(importDecl));
+        replaceIn(((_tree._node) _j).node(), $import.of(importDecl));
         return _j;
     }
     
@@ -582,11 +582,11 @@ public class $import
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), $import.of(_i));
                 return _j;
             } else{
-                replaceIn(((_type) _j).ast(), $import.of(_i));
+                replaceIn(((_type) _j).node(), $import.of(_i));
                 return _j;
             }
         }
-        replaceIn(((_tree._node) _j).ast(), $import.of(_i));
+        replaceIn(((_tree._node) _j).node(), $import.of(_i));
         return _j;
     }
     
@@ -615,11 +615,11 @@ public class $import
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), $i);
                 return _j;
             } else{
-                replaceIn(((_type) _j).ast(), $i);
+                replaceIn(((_type) _j).node(), $i);
                 return _j;
             }
         }
-        replaceIn(((_tree._node) _j).ast(), $i);
+        replaceIn(((_tree._node) _j).node(), $i);
         return _j;
     }
     
@@ -649,7 +649,7 @@ public class $import
                     ImportDeclaration id = sel.ast();
                     boolean isS = id.isStatic();
                     boolean isW = id.isAsterisk();
-                    ImportDeclaration rep = $i.draft(sel.tokens).ast();
+                    ImportDeclaration rep = $i.draft(sel.tokens).node();
                     if( isS){
                         rep.setStatic(true);
                     }
@@ -863,7 +863,7 @@ public class $import
 
         @Override
         public ImportDeclaration ast() {
-            return _i.ast();
+            return _i.node();
         }
         
         public boolean isStatic(){

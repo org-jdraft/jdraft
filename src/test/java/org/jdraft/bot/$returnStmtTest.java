@@ -22,9 +22,9 @@ public class $returnStmtTest extends TestCase {
         //testing in a range
         assertEquals( 2, $returnStmt.of().$isInLineRange(0, 100).countIn(_c));
         assertEquals( 2, $returnStmt.of().$isInRange(_c).countIn(_c));
-        assertEquals( 2, $returnStmt.of().$isInRange(_c.ast()).countIn(_c));
+        assertEquals( 2, $returnStmt.of().$isInRange(_c.node()).countIn(_c));
         assertEquals( 1, $returnStmt.of().$isInRange(_c.firstMethodNamed("t")).countIn(_c));
-        assertEquals( 1, $returnStmt.of().$isInRange(_c.firstMethodNamed("r").ast()).countIn(_c));
+        assertEquals( 1, $returnStmt.of().$isInRange(_c.firstMethodNamed("r").node()).countIn(_c));
     }
 
     /*
@@ -57,7 +57,7 @@ public class $returnStmtTest extends TestCase {
 
         }
         _class _c = _class.of(C.class);
-        $intExpr.of().forEachIn(C.class, i-> System.out.println( i.ile.getParentNode().get().getClass()));
+        $intExpr.of().forEachIn(C.class, i-> System.out.println( i.node.getParentNode().get().getClass()));
 
 
         assertEquals(1, $intExpr.of().$isParent(VariableDeclarator.class).countIn(C.class));

@@ -27,59 +27,59 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
             a -> a.getValue(),
             (_booleanExpr a, Boolean b) -> a.set(b), PARSER);
 
-
     public static _feature._features<_booleanExpr> FEATURES = _feature._features.of(_booleanExpr.class,  PARSER, LITERAL_VALUE);
 
-    public BooleanLiteralExpr be;
+    public BooleanLiteralExpr node;
 
     public _feature._features<_booleanExpr> features(){
         return FEATURES;
     }
 
-    public _booleanExpr(BooleanLiteralExpr be){
-        this.be = be;
+    public _booleanExpr(BooleanLiteralExpr node){
+        this.node = node;
     }
 
     @Override
     public _booleanExpr copy() {
-        return new _booleanExpr(this.be.clone());
+        return new _booleanExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-
-        try{
-            return is( Expr.booleanLiteralExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _booleanExpr replace(BooleanLiteralExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean is(boolean b){
-        return this.ast().getValue() == b;
+        return this.node().getValue() == b;
     }
 
     @Override
     public boolean is(BooleanLiteralExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
     public boolean isTrue(){
-        return this.be.getValue();
+        return this.node.getValue();
     }
 
     public boolean isFalse(){
-        return !this.be.getValue();
+        return !this.node.getValue();
     }
 
-    public BooleanLiteralExpr ast(){
-        return be;
+    public BooleanLiteralExpr node(){
+        return node;
     }
 
     public boolean equals(Object other){
         if( other instanceof _booleanExpr){
-            return ((_booleanExpr)other).be.equals( this.be);
+            return ((_booleanExpr)other).node.equals( this.node);
         }
         return false;
     }
@@ -90,29 +90,29 @@ public final class _booleanExpr implements _expr._literal<BooleanLiteralExpr, _b
     }
 
     public _booleanExpr set(BooleanLiteralExpr  b){
-        this.be = b;
+        this.node = b;
         return this;
     }
 
     public _booleanExpr set(boolean b){
-        this.be.setValue(b);
+        this.node.setValue(b);
         return this;
     }
 
     public boolean getValue(){
-        return this.be.getValue();
+        return this.node.getValue();
     }
 
     public int hashCode(){
-        return 31 * this.be.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.be.toString();
+        return this.node.toString();
     }
 
     @Override
     public String valueAsString() {
-        return be.getValue()+"";
+        return node.getValue()+"";
     }
 }

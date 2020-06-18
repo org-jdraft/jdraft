@@ -37,7 +37,7 @@ public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _mo
             src = src+";";
         }
         CompilationUnit cu =
-                Ast.parse("module J{ "+System.lineSeparator()+src+System.lineSeparator()+"}");
+                Ast.parse("module $name${ "+System.lineSeparator()+src+System.lineSeparator()+"}");
         ModuleDeclaration md = cu.getModule().get();
         ModuleOpensDirective modd = (ModuleOpensDirective)md.getDirectives().get(0);
         modd.remove();
@@ -58,72 +58,72 @@ public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _mo
 
     public static _feature._features<_moduleOpens> FEATURES = _feature._features.of(_moduleOpens.class,  PARSER, MODULE_NAME, MODULE_NAMES);
 
-    public ModuleOpensDirective mod;
+    public ModuleOpensDirective node;
 
-    public _moduleOpens(ModuleOpensDirective mod){
-        this.mod = mod;
+    public _moduleOpens(ModuleOpensDirective node){
+        this.node = node;
     }
 
     public _moduleOpens setName(String name){
-        this.mod.setName(name);
+        this.node.setName(name);
         return this;
     }
 
     public _moduleOpens setName(_name name){
-        this.mod.setName(name.toString());
+        this.node.setName(name.toString());
         return this;
     }
 
     public String getName(){
-        return this.mod.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     public Name getNameNode(){
-        return this.mod.getName();
+        return this.node.getName();
     }
 
     public _moduleOpens setModuleNames(String...moduleNames){
         NodeList<Name> modNames = new NodeList<>();
         Arrays.stream(moduleNames).forEach(mn -> modNames.add(new Name(mn)));
-        this.mod.setModuleNames(modNames);
+        this.node.setModuleNames(modNames);
         return this;
     }
 
     public _moduleOpens setModuleNames(Name...moduleNames){
         NodeList<Name> modNames = new NodeList<>();
         Arrays.stream(moduleNames).forEach(mn -> modNames.add(mn));
-        this.mod.setModuleNames(modNames);
+        this.node.setModuleNames(modNames);
         return this;
     }
 
     public _moduleOpens addModuleNames(String...names){
-        Arrays.stream(names).forEach(mn -> this.mod.getModuleNames().add(new Name(mn) ));
+        Arrays.stream(names).forEach(mn -> this.node.getModuleNames().add(new Name(mn) ));
         return this;
     }
 
     public _moduleOpens addModuleNames(Name...names){
-        Arrays.stream(names).forEach(mn -> this.mod.getModuleNames().add( mn ));
+        Arrays.stream(names).forEach(mn -> this.node.getModuleNames().add( mn ));
         return this;
     }
 
     public _moduleOpens removeModuleNames(String...names){
-        Arrays.stream(names).forEach(mn -> this.mod.getModuleNames().remove(new Name(mn) ));
+        Arrays.stream(names).forEach(mn -> this.node.getModuleNames().remove(new Name(mn) ));
         return this;
     }
 
     public _moduleOpens removeModuleNames(Name...names){
-        Arrays.stream(names).forEach(mn -> this.mod.getModuleNames().remove( mn ));
+        Arrays.stream(names).forEach(mn -> this.node.getModuleNames().remove( mn ));
         return this;
     }
 
     @Override
     public _moduleOpens copy() {
-        return of( this.mod.clone());
+        return of( this.node.clone());
     }
 
     @Override
     public List<_name> list() {
-        return this.mod.getModuleNames().stream().map(m-> _name.of(m)).collect(Collectors.toList());
+        return this.node.getModuleNames().stream().map(m-> _name.of(m)).collect(Collectors.toList());
     }
 
     public boolean is(String code){
@@ -132,27 +132,32 @@ public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _mo
 
     @Override
     public NodeList<Name> astList() {
-        return this.mod.getModuleNames();
+        return this.node.getModuleNames();
     }
 
     @Override
-    public ModuleOpensDirective ast() {
-        return this.mod;
+    public ModuleOpensDirective node() {
+        return this.node;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Objects.equals( of(stringRep ).mod, this.mod);
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _moduleOpens replace(ModuleOpensDirective replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public int hashCode(){
-        return 31 * this.mod.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public boolean equals(Object o ){
-        return o instanceof _moduleOpens && Objects.equals( ((_moduleOpens)o).mod, this.mod);
+        return o instanceof _moduleOpens && Objects.equals( ((_moduleOpens)o).node, this.node);
     }
 
     public String toString() {
@@ -160,6 +165,6 @@ public final class _moduleOpens implements _tree._node<ModuleOpensDirective, _mo
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
-        return this.mod.toString(ppc);
+        return this.node.toString(ppc);
     }
 }

@@ -46,7 +46,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
 
     public static <E extends Expression, _E extends _expr, $E extends $ex> $ex<E,_E,$E> of(Class expressionClass){
         if( Expression.class.isAssignableFrom( expressionClass ) ){
-            return $ex.of().$and( e-> expressionClass.isAssignableFrom(e.ast().getClass()));
+            return $ex.of().$and( e-> expressionClass.isAssignableFrom(e.node().getClass()));
         }
         else if( _expr.class.isAssignableFrom(expressionClass)){
             return $ex.of().$and( e-> expressionClass.isAssignableFrom(e.getClass()));
@@ -78,7 +78,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @return
      */
     public static <E extends Expression, _E extends _expr, $E extends $ex> $ex<E, _E, $E> of(_E _e ){
-        return ($ex<E, _E, $E>)of(_e.ast() );
+        return ($ex<E, _E, $E>)of(_e.node() );
     }
 
     /**
@@ -1514,7 +1514,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @return
      */
     public static $ex<SwitchExpr, _switchExpr, $ex> switchEx(_switchExpr se) {
-        return new $ex( se.ast() );
+        return new $ex( se.node() );
     }
 
     /**
@@ -1818,7 +1818,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @return
      */
     public $ex<E, _E, $E> $isAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_E> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_E> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $and(prev);
     }
 
@@ -1828,7 +1828,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @return
      */
     public $ex<E, _E, $E> $isNotAfter($pattern... patternsOccurringBeforeThisNode ){
-        Predicate<_E> prev = e -> $pattern.BodyScope.findPrevious(e.ast(), patternsOccurringBeforeThisNode) != null;
+        Predicate<_E> prev = e -> $pattern.BodyScope.findPrevious(e.node(), patternsOccurringBeforeThisNode) != null;
         return $not(prev);
     }
 
@@ -1838,7 +1838,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @return
      */
     public $ex<E, _E, $E> $isBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<_E> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_E> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $and(prev);
     }
 
@@ -1848,7 +1848,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
      * @return
      */
     public $ex<E, _E, $E> $isNotBefore($pattern... patternsOccurringAfterThisNode ){
-        Predicate<_E> prev = e -> $pattern.BodyScope.findNext(e.ast(), patternsOccurringAfterThisNode) != null;
+        Predicate<_E> prev = e -> $pattern.BodyScope.findNext(e.node(), patternsOccurringAfterThisNode) != null;
         return $not(prev);
     }
 
@@ -2114,22 +2114,22 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
                 return new Select(_e, new Tokens());
             }
         }
-        if( astExpressionClass.isAssignableFrom(_e.ast().getClass())
+        if( astExpressionClass.isAssignableFrom(_e.node().getClass())
                 && constraint.test( (_E)_e ) ){
 
             if( exprStencil == null ){
                 return new Select(_e, new Tokens());
             }
             //slight modification..
-            if( (_e.ast() instanceof IntegerLiteralExpr
-                    || _e.ast() instanceof DoubleLiteralExpr
-                    || _e.ast() instanceof LongLiteralExpr)
+            if( (_e.node() instanceof IntegerLiteralExpr
+                    || _e.node() instanceof DoubleLiteralExpr
+                    || _e.node() instanceof LongLiteralExpr)
                     && exprStencil.isFixedText()) {
 
                 //there is an issue here the lowercase and uppercase Expressions 1.23d =/= 1.23D (which they are equivalent
                 //need to handle postfixes 1.2f, 2.3d, 1000l
                 //need to handle postfixes 1.2F, 2.3D, 1000L
-                String st = _e.ast().toString(Print.PRINT_NO_COMMENTS);
+                String st = _e.node().toString(Print.PRINT_NO_COMMENTS);
                 try{
                     if( compareNumberLiterals(exprStencil.getTextForm().getFixedText(), st) ){
                         return new Select(_e, new Tokens());
@@ -2139,9 +2139,9 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
                 }
                 return null;
             }
-            Tokens ts = exprStencil.parse(_e.ast().toString(Print.PRINT_NO_COMMENTS) );
+            Tokens ts = exprStencil.parse(_e.node().toString(Print.PRINT_NO_COMMENTS) );
             if( ts != null ){
-                return new Select(_e.ast(), ts);
+                return new Select(_e.node(), ts);
             }
         }
         return null;
@@ -2264,9 +2264,9 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
                 return selectFirstIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
-            return selectFirstIn(_t.ast());
+            return selectFirstIn(_t.node());
         }
-        return selectFirstIn( ((_tree._node) _j).ast() );
+        return selectFirstIn( ((_tree._node) _j).node() );
     }
 
     /**
@@ -2304,10 +2304,10 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return selectFirstIn(((_type) _j).ast(), selectConstraint);
+                return selectFirstIn(((_type) _j).node(), selectConstraint);
             }
         }
-        return selectFirstIn(((_tree._node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_tree._node) _j).node(), selectConstraint);
     }
 
     /**
@@ -2333,9 +2333,9 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
             if( ((_codeUnit) _j).isTopLevel()){
                 return listIn(((_codeUnit) _j).astCompilationUnit());
             }
-                return listIn(((_type) _j).ast());
+                return listIn(((_type) _j).node());
         }
-        return listIn( ((_tree._node) _j).ast() );
+        return listIn( ((_tree._node) _j).node() );
     }    
 
     @Override
@@ -2524,7 +2524,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
         Walk.in(_j, this.astExpressionClass, e-> {
             Select sel = select( e );
             if( sel != null ){
-                Expression replaceNode = (Expression)( (  (_tree._node)$replaceProto.draft( sel.tokens.asTokens())).ast());
+                Expression replaceNode = (Expression)( (  (_tree._node)$replaceProto.draft( sel.tokens.asTokens())).node());
                 sel.ast().replace( replaceNode );
             }
         });
@@ -2763,7 +2763,7 @@ public class $ex<E extends Expression, _E extends _expr, $E extends $ex>
 
         @Override
         public T ast() {
-            return (T)this._ex.ast();
+            return (T)this._ex.node();
         }
 
         @Override

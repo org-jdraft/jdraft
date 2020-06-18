@@ -96,11 +96,11 @@ public class $enum
             //System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
-                nots.add( d.ast() );
+                nots.add( d.node() );
                 //System.out.println("Field "+ d);
             } else {
-                d.ast().remove(); //remove so we dont
-                nots.add((BodyDeclaration) d.ast());
+                d.node().remove(); //remove so we dont
+                nots.add((BodyDeclaration) d.node());
             }
         } );
 
@@ -111,7 +111,7 @@ public class $enum
         $e.$name(_e.getSimpleName());
         _e.listAstImplements().forEach(i -> $e.$implement(i));
         _e.forConstants(cn -> $e.$constant($enumConstant.of(cn)));
-        _e.toInitBlocks(ib -> $e.initBlocks.add($initBlock.of(ib.ast())));
+        _e.toInitBlocks(ib -> $e.initBlocks.add($initBlock.of(ib.node())));
         _e.toConstructors(ct -> $e.ctors.add($constructor.of(ct)));
         _e.toFields(f-> $e.fields.add($field.of(f)));
         _e.toMethods(m -> $e.$methods($method.of(m)));

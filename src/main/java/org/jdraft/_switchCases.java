@@ -134,7 +134,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
 
     public NodeList<SwitchEntry> switchEntries = new NodeList<>();
 
-    public <N extends Node> N astAnchorNode(){
+    public <N extends Node> N anchorNode(){
         return (N)parentSwitch;
     }
 
@@ -206,7 +206,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
 
         //add all of the new ones
         for(int i=0; i<ses.size(); i++){
-            parentSwitch.getEntries().add(i + index, ses.get(i).ast() );
+            parentSwitch.getEntries().add(i + index, ses.get(i).node() );
         }
         return this;
     }
@@ -257,42 +257,42 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
 
     public <A extends Object> _switchCases setStatements (Consumer<A> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCases setStatements (Function<A,B> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _switchCases setStatements(BiFunction<A,B,C> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object> _switchCases setStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchCases setStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCases setStatements(BiConsumer<A,B> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object> _switchCases setStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object, D extends Object> _switchCases setStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return setStatements( _l.astLambda);
+        return setStatements( _l.node);
     }
 
     private _switchCases setStatements(LambdaExpr le){
@@ -329,7 +329,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
 
     public _switchCases setStatements(_stmt...st){
         NodeList<Statement>stmts = new NodeList<>();
-        Arrays.stream(st).forEach(s -> stmts.add(s.ast()));
+        Arrays.stream(st).forEach(s -> stmts.add(s.node()));
         this.getOrCreateActiveEntry().setStatements(stmts);
         return this;
     }
@@ -346,42 +346,42 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
 
     public <A extends Object> _switchCases addStatements (Consumer<A> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCases addStatements (Function<A,B> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public  <A extends Object, B extends Object, C extends Object> _switchCases addStatements(BiFunction<A,B,C> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object> _switchCases addStatements (Expr.TriFunction<A,B,C, D> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object, C extends Object, D extends Object, E extends Object> _switchCases addStatements (Expr.QuadFunction<A,B,C, D,E> lambdaContainer){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object> _switchCases addStatements(BiConsumer<A,B> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object> _switchCases addStatements(Expr.TriConsumer<A,B,C> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     public <A extends Object, B extends Object,C extends Object, D extends Object> _switchCases addStatements(Expr.QuadConsumer<A,B,C,D> lambdaContainer ){
         _lambdaExpr _l = _lambdaExpr.from( Thread.currentThread().getStackTrace()[2]);
-        return addStatements( _l.astLambda);
+        return addStatements( _l.node);
     }
 
     private _switchCases addStatements(LambdaExpr le){
@@ -439,7 +439,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
 
     public _switchCases addStatements(_stmt...st){
         for(int i=0; i<st.length;i++) {
-            this.getOrCreateActiveEntry().addStatement(st[i].ast());
+            this.getOrCreateActiveEntry().addStatement(st[i].node());
         }
         return this;
     }
@@ -465,7 +465,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
      */
     public _switchCases addStatements(int index, _stmt...st){
         for(int i=0;i<st.length;i++){
-            this.getOrCreateActiveEntry().addStatement(index + i, st[i].ast() );
+            this.getOrCreateActiveEntry().addStatement(index + i, st[i].node() );
         }
         return this;
     }
@@ -533,7 +533,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
     }
 
     public boolean isReturn(_expr e){
-        return isReturn( e.ast());
+        return isReturn( e.node());
     }
 
     public boolean isReturn(Expression e){
@@ -565,7 +565,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
     }
 
     public boolean isThrow(_typeRef _tr ){
-        return isThrow(_tr.ast());
+        return isThrow(_tr.node());
     }
 
     public boolean isThrow(Type thrownType){
@@ -594,14 +594,6 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
         return false;
     }
 
-    /*
-    public boolean isThrows(Class<? extends Throwable> thrownExceptionType){
-
-        try{
-            Types.equal( this.getStatement(0).ast().asThrowStmt().getExpression().asObjectCreationExpr().getType(),
-        }
-    }
-     */
     /**
      * i.e.
      * case 1:
@@ -642,12 +634,6 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
         return this.getOrCreateActiveEntry().getType().equals(SwitchEntry.Type.EXPRESSION);
     }
 
-    //if it is AT ALL possible to passthru (i.e. there are no empty paths, everything is either:
-    // break; return or throws exception
-    //public boolean isPassthru(){
-
-    //}
-
     public _switchCases addCase(String str){
         return addCase( new StringLiteralExpr(str) );
     }
@@ -665,7 +651,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
     }
 
     public _switchCases addCase(_expr _e){
-        return addCase(_e.ast());
+        return addCase(_e.node());
     }
 
     public _switchCases removeDefault(){
@@ -721,7 +707,7 @@ public final class _switchCases implements _tree._view<_switchCases>, _tree._ord
     }
 
     public boolean hasCase(_expr _e){
-        return hasCase(_e.ast());
+        return hasCase(_e.node());
     }
 
     public boolean hasCase(Expression expr){

@@ -101,16 +101,16 @@ public interface _java {
             return Ast.nodeOf(nodeClass, code);
         }
         if( nodeClass == _variable.class){
-            return _variable.of(code).ast();
+            return _variable.of(code).node();
         }
         if( nodeClass == _switchCase.class){
-            return _switchCase.of(code).ast();
+            return _switchCase.of(code).node();
         }
         if( nodeClass == _package.class){
-            return _package.of(Text.combine( code)).ast();
+            return _package.of(Text.combine( code)).node();
         }
         if( nodeClass == _typeParam.class){
-            return _typeParam.of(Text.combine(code)).ast();
+            return _typeParam.of(Text.combine(code)).node();
         }
         if ( _stmt.class.isAssignableFrom(nodeClass)){
             return Stmt.of(code);
@@ -482,7 +482,7 @@ public interface _java {
 
         @Override
         default _javadocComment getJavadoc() {
-            NodeWithJavadoc t = (NodeWithJavadoc) this.ast();
+            NodeWithJavadoc t = (NodeWithJavadoc) this.node();
             if( t.getJavadocComment().isPresent()){
                 return _javadocComment.of( (JavadocComment)t.getJavadocComment().get() );
             }
@@ -494,13 +494,13 @@ public interface _java {
          * @return
          */
         default _D removeJavadoc() {
-            ((NodeWithJavadoc) this.ast()).removeJavaDocComment();
+            ((NodeWithJavadoc) this.node()).removeJavaDocComment();
             return (_D) this;
         }
 
         @Override
         default boolean hasJavadoc() {
-            return ((NodeWithJavadoc) this.ast()).getJavadoc().isPresent();
+            return ((NodeWithJavadoc) this.node()).getJavadoc().isPresent();
         }
     }
 
@@ -532,7 +532,7 @@ public interface _java {
      * {@link _declared}s, ACCEPT {@link _initBlock} which is ONLY a {@link _member}
      */
     interface _member<N extends Node, _N extends _withComments>
-            extends _withComments<N, _N> {
+            extends _withComments<N, _N>, _tree._node<N, _N> {
 
         /**
          * Given the "container class" and a String representing the member, build and return
@@ -546,25 +546,25 @@ public interface _java {
                 if (containerClass == _class.class) {
                     _class _c = _class.of("class UNKNOWN{ " + System.lineSeparator() + code + "}");
                     _member _m = _c.listMembers().get(0);
-                    _m.ast().remove();
+                    _m.node().remove();
                     return _m;
                 }
                 if (containerClass == _annotation.class) {
                     _enum _c = _enum.of("@interface UNKNOWN{ " + System.lineSeparator() + code + "}");
                     _member _m = _c.listMembers().get(0);
-                    _m.ast().remove();
+                    _m.node().remove();
                     return _m;
                 }
                 if (containerClass == _enum.class) {
                     _enum _c = _enum.of("enum UNKNOWN{ " + System.lineSeparator() + code + "}");
                     _member _m = _c.listMembers().get(0);
-                    _m.ast().remove();
+                    _m.node().remove();
                     return _m;
                 }
                 if (containerClass == _interface.class) {
                     _interface _c = _interface.of("interface UNKNOWN{ " + System.lineSeparator() + code + "}");
                     _member _m = _c.listMembers().get(0);
-                    _m.ast().remove();
+                    _m.node().remove();
                     return _m;
                 }
             }
@@ -572,7 +572,7 @@ public interface _java {
             if( containerClass == _constant.class){
                 _constant _cs = _constant.of("A(){"+ System.lineSeparator()+ code + "}");
                 _member _m = _cs.listMembers().get(0);
-                _m.ast().remove();
+                _m.node().remove();
                 return _m;
             }
             throw new _jdraftException("cannot create member for "+ containerClass );
@@ -613,7 +613,7 @@ public interface _java {
                 }
                 return null; //we didnt find a parent that was a BodyDeclaration
             } else{
-                BodyDeclaration bd = Walk.first(Walk.PARENTS, ast(), BodyDeclaration.class);
+                BodyDeclaration bd = Walk.first(Walk.PARENTS, node(), BodyDeclaration.class);
                 if( bd != null ) {
                     return (_M) _java.of(bd);
                 }
@@ -645,7 +645,7 @@ public interface _java {
          * @return the modified _node
          */
         default _N removeComment(){
-            ast().removeComment();
+            node().removeComment();
             return (_N)this;
         }
 
@@ -655,8 +655,8 @@ public interface _java {
          * @return
          */
         default _N setComment(String...comment){
-            N n = ast();
-            n.setComment((Comment)_comment.of(comment).ast());
+            N n = node();
+            n.setComment((Comment)_comment.of(comment).node());
             return (_N)this;
         }
 
@@ -666,8 +666,8 @@ public interface _java {
          * @return
          */
         default <_C extends _comment> _N setComment(_C _c){
-            N n = ast();
-            n.setComment((Comment)_c.ast());
+            N n = node();
+            n.setComment((Comment)_c.node());
             return (_N)this;
         }
 
@@ -677,7 +677,7 @@ public interface _java {
          * @return the attributed comment or null if there is no comment attributed to this node
          */
         default <_C extends _comment> _C getComment(){
-            N n = ast();
+            N n = node();
             if( n.getComment().isPresent() ){
                 return _comment.of( n.getComment().get() );
             }
@@ -1012,47 +1012,47 @@ public interface _java {
     interface _withScope<N extends Node, _WS extends _tree._node> extends _tree._node<N, _WS> {
 
         default boolean hasScope(){
-            return ((NodeWithOptionalScope)ast()).getScope().isPresent();
+            return ((NodeWithOptionalScope) node()).getScope().isPresent();
         }
 
         default boolean isScope(String...expr){
-            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expr.equal( (Expression)((NodeWithOptionalScope)ast()).getScope().get(), Expr.of(expr));
+            if( ((NodeWithOptionalScope) node()).getScope().isPresent()){
+                return Expr.equal( (Expression)((NodeWithOptionalScope) node()).getScope().get(), Expr.of(expr));
             }
             return false;
         }
 
         default boolean isScope(Expression e){
-            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expr.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), e);
+            if( ((NodeWithOptionalScope) node()).getScope().isPresent()){
+                return Expr.equal( (Expression) ((NodeWithOptionalScope) node()).getScope().get(), e);
             }
             return e == null;
         }
 
         default boolean isScope(_expr _e){
-            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
-                return Expr.equal( (Expression) ((NodeWithOptionalScope)ast()).getScope().get(), _e.ast());
+            if( ((NodeWithOptionalScope) node()).getScope().isPresent()){
+                return Expr.equal( (Expression) ((NodeWithOptionalScope) node()).getScope().get(), _e.node());
             }
             return _e == null;
         }
 
         default _WS removeScope(){
-            ((NodeWithOptionalScope)ast()).removeScope();
+            ((NodeWithOptionalScope) node()).removeScope();
             return (_WS)this;
         }
 
         default _WS setScope(String scope ){
-            ((NodeWithOptionalScope)ast()).setScope(Expr.of(scope));
+            ((NodeWithOptionalScope) node()).setScope(Expr.of(scope));
             return (_WS)this;
         }
 
         default _WS setScope(_expr _e){
-            ((NodeWithOptionalScope)ast()).setScope(_e.ast());
+            ((NodeWithOptionalScope) node()).setScope(_e.node());
             return (_WS)this;
         }
 
         default _WS setScope(Expression e){
-            ((NodeWithOptionalScope)ast()).setScope(e);
+            ((NodeWithOptionalScope) node()).setScope(e);
             return (_WS)this;
         }
 
@@ -1061,9 +1061,9 @@ public interface _java {
         }
 
         default _expr getScope(){
-            if( ((NodeWithOptionalScope)ast()).getScope().isPresent()){
+            if( ((NodeWithOptionalScope) node()).getScope().isPresent()){
                 return _expr.of( (Expression)
-                        ((NodeWithOptionalScope)ast()).getScope().get());
+                        ((NodeWithOptionalScope) node()).getScope().get());
             }
             return null;
         }
@@ -1115,11 +1115,11 @@ public interface _java {
         }
 
         default boolean isCondition(_expr _ex){
-            return Expr.equal(  this.getCondition().ast(), _ex.ast());
+            return Expr.equal(  this.getCondition().node(), _ex.node());
         }
 
         default boolean isCondition(Expression ex){
-            return Expr.equal( this.getCondition().ast(), ex);
+            return Expr.equal( this.getCondition().node(), ex);
         }
 
         default boolean isCondition(Predicate<_expr> matchFn){
@@ -1131,16 +1131,16 @@ public interface _java {
         }
 
         default _WC setCondition(_expr e){
-            return setCondition(e.ast());
+            return setCondition(e.node());
         }
 
         default _WC setCondition(Expression e){
-            ((NodeWithExpression)ast()).setExpression(e);
+            ((NodeWithExpression) node()).setExpression(e);
             return (_WC)this;
         }
 
         default _expr getCondition(){
-            return _expr.of(((NodeWithExpression)ast()).getExpression());
+            return _expr.of(((NodeWithExpression) node()).getExpression());
         }
     }
 
@@ -1179,7 +1179,7 @@ public interface _java {
         }
 
         default boolean isExpression(Expression ex){
-            return Expr.equal( this.getExpression().ast(), ex);
+            return Expr.equal( this.getExpression().node(), ex);
         }
 
         default boolean isExpression(Predicate<_expr> matchFn){
@@ -1239,16 +1239,16 @@ public interface _java {
         }
 
         default _WE setExpression(_expr e){
-            return setExpression(e.ast());
+            return setExpression(e.node());
         }
 
         default _WE setExpression(Expression e){
-            ((NodeWithExpression)ast()).setExpression(e);
+            ((NodeWithExpression) node()).setExpression(e);
             return (_WE)this;
         }
 
         default _expr getExpression(){
-            return _expr.of(((NodeWithExpression)ast()).getExpression());
+            return _expr.of(((NodeWithExpression) node()).getExpression());
         }
     }
 
@@ -1271,21 +1271,21 @@ public interface _java {
 
         @Override
         public int compare(_tree._node o1, _tree._node o2) {
-            if (o1.ast().getBegin().isPresent() && o2.ast().getBegin().isPresent()) {
-                int comp = o1.ast().getBegin().get().compareTo(o2.ast().getBegin().get());
+            if (o1.node().getBegin().isPresent() && o2.node().getBegin().isPresent()) {
+                int comp = o1.node().getBegin().get().compareTo(o2.node().getBegin().get());
                 if( comp != 0 ){
                     return comp;
                 }
-                int comp2 = o1.ast().getEnd().get().compareTo(o2.ast().getEnd().get());
+                int comp2 = o1.node().getEnd().get().compareTo(o2.node().getEnd().get());
                 return comp2;
             }
             //if one or the other doesnt have a begin
             // put the one WITHOUT a being BEFORE the other
             // if neither have a being, return
-            if (!o1.ast().getBegin().isPresent() && !o2.ast().getBegin().isPresent()) {
+            if (!o1.node().getBegin().isPresent() && !o2.node().getBegin().isPresent()) {
                 return 0;
             }
-            if (o1.ast().getBegin().isPresent()) {
+            if (o1.node().getBegin().isPresent()) {
                 return -1;
             }
             return 1;

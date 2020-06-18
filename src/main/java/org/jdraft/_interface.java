@@ -4,6 +4,7 @@ import com.github.javaparser.JavaParser;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
 import com.github.javaparser.ast.type.*;
@@ -189,7 +190,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //@_static
         ObjectCreationExpr oce = Expr.newExpr(ste);
         if( oce.getAnonymousClassBody().isPresent() ){
-            oce.getAnonymousClassBody().get().forEach( e -> _i.astInterface.addMember(e) );
+            oce.getAnonymousClassBody().get().forEach( e -> _i.node.addMember(e) );
         }
         macro.to(anonymousBody.getClass(), _i);
 
@@ -200,7 +201,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //actually, all methods that are NOT static or default need to have their
         //bodies removed with ; (since it's an interface)
         _i.toMethods(m-> !m.isDefault() && !m.isStatic(),
-                m -> m.ast().removeBody() );
+                m -> m.node().removeBody() );
         return _i;
     }
 
@@ -286,7 +287,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     }
 
     public _interface( ClassOrInterfaceDeclaration astClass ){
-        this.astInterface = astClass;
+        this.node = astClass;
     }
 
     /**
@@ -297,63 +298,63 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
      * AST and can interpret or manipulate the AST without:
      * having to deal with syntax issues
      */
-    private final ClassOrInterfaceDeclaration astInterface;
+    private ClassOrInterfaceDeclaration node;
 
     @Override
-    public ClassOrInterfaceDeclaration ast(){
-        return this.astInterface;
+    public ClassOrInterfaceDeclaration node(){
+        return this.node;
     }
     
     @Override
     public boolean isTopLevel(){
-        return ast().isTopLevelType();
+        return node().isTopLevelType();
     }
 
     public _interface setExtends(List<_typeRef> _trs){
-        this.astInterface.getExtendedTypes().clear();
-        _trs.forEach( e-> this.astInterface.addExtendedType( (ClassOrInterfaceType)e.ast()));
+        this.node.getExtendedTypes().clear();
+        _trs.forEach( e-> this.node.addExtendedType( (ClassOrInterfaceType)e.node()));
         return this;
     }
 
     @Override
     public _interface setFields(List<_field> fields) {
-        this.astInterface.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        this.node.getMembers().removeIf(m -> m instanceof FieldDeclaration );
         fields.forEach(f-> addField(f));
         return this;
     }
 
     @Override
     public CompilationUnit astCompilationUnit(){
-        if( this.ast().isTopLevelType()){
-            return ast().findCompilationUnit().get();
+        if( this.node().isTopLevelType()){
+            return node().findCompilationUnit().get();
         }
         //it might be a member class
-        if( this.astInterface.findCompilationUnit().isPresent()){
-            return this.astInterface.findCompilationUnit().get();
+        if( this.node.findCompilationUnit().isPresent()){
+            return this.node.findCompilationUnit().get();
         }
         return null; //its an orphan
     }
 
     @Override
     public _interface setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _interface setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
     @Override
     public boolean hasExtends(){
-        return !this.astInterface.getExtendedTypes().isEmpty();
+        return !this.node.getExtendedTypes().isEmpty();
     }
 
     @Override
     public NodeList<ClassOrInterfaceType> listAstExtends(){
-        return astInterface.getExtendedTypes();
+        return node.getExtendedTypes();
     }
 
     public List<_typeRef> listExtends(){
@@ -362,20 +363,20 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
 
     @Override
     public _interface removeExtends( Class toRemove ){
-        this.astInterface.getExtendedTypes().removeIf( im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
+        this.node.getExtendedTypes().removeIf(im -> im.getNameAsString().equals( toRemove.getSimpleName() ) ||
                 im.getNameAsString().equals(toRemove.getCanonicalName()) );
         return this;
     }
 
     @Override
     public _interface removeExtends( ClassOrInterfaceType toRemove ){
-        this.astInterface.getExtendedTypes().remove( toRemove );
+        this.node.getExtendedTypes().remove( toRemove );
         return this;
     }
 
     @Override
     public _interface addExtend(ClassOrInterfaceType toExtend ){
-        this.astInterface.addExtendedType( toExtend );
+        this.node.addExtendedType( toExtend );
         return this;
     }
 
@@ -386,29 +387,28 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
     
     @Override
     public _interface addExtend(Class toExtend ){
-        this.astInterface.addExtendedType( (ClassOrInterfaceType) Types.of(toExtend) );
-        this.astInterface.tryAddImportToParentCompilationUnit(toExtend);
+        this.node.addExtendedType( (ClassOrInterfaceType) Types.of(toExtend) );
+        this.node.tryAddImportToParentCompilationUnit(toExtend);
         return this;
     }
 
     @Override
     public _interface addExtend(String toExtend ){
-        this.astInterface.addExtendedType( toExtend);
+        this.node.addExtendedType( toExtend);
         return this;
     }
-
 
     @Override
     public List<_method> listMethods() {
         List<_method> _ms = new ArrayList<>();
-        astInterface.getMethods().forEach( m-> _ms.add(_method.of( m ) ) );
+        node.getMethods().forEach(m-> _ms.add(_method.of( m ) ) );
         return _ms;
     }
     
     @Override
     public List<_method> listMethods(Predicate<_method> _methodMatchFn ){
         List<_method> _ms = new ArrayList<>();
-        astInterface.getMethods().forEach( m-> {
+        node.getMethods().forEach(m-> {
             _method _m = _method.of( m);
             if( _methodMatchFn.test(_m)){
                 _ms.add(_m ); 
@@ -419,7 +419,7 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
 
     @Override
     public _interface addMethod(MethodDeclaration method ) {
-        astInterface.addMember( method );
+        node.addMember( method );
         return this;
     }
 
@@ -430,27 +430,27 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
-        if( this.astInterface.getFields().contains( fd ) ){
+        if( this.node.getFields().contains( fd ) ){
             if( !fd.containsWithinRange( field ) ){
                 fd.addVariable( field );
             }
             return this;
         }
-        this.astInterface.addMember( fd );
+        this.node.addMember( fd );
         return this;
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(this.astInterface);
+        return _annos.of(this.node);
     }
     
     @Override
     public String toString(){
-        if( this.ast().isTopLevelType() ){
+        if( this.node().isTopLevelType() ){
             return this.astCompilationUnit().toString();            
         }        
-        return this.astInterface.toString();        
+        return this.node.toString();
     }
 
     @Override
@@ -466,13 +466,13 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         }
         final _interface other = (_interface)obj;
 
-        if( this.astInterface == other.astInterface ){
+        if( this.node == other.node){
             return true; //two _interfaces pointing to the same InterfaceDeclaration
         }
         if( !Objects.equals( this.getPackage(), other.getPackage())){
             return false;
         }
-        if( ! Expr.equalAnnos(this.astInterface, other.astInterface)){
+        if( ! Expr.equalAnnos(this.node, other.node)){
             return false;
         }
 
@@ -507,11 +507,11 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         if( !Objects.equals( tf, of)){
             return false;
         }
-        if( !Types.equal( astInterface.getExtendedTypes(), other.astInterface.getExtendedTypes() )){
+        if( !Types.equal( node.getExtendedTypes(), other.node.getExtendedTypes() )){
             return false;
         }
 
-        if( !_imports.Compare.importsEqual( astInterface, other.astInterface)){
+        if( !_imports.Compare.importsEqual(node, other.node)){
             return false;
         }
         Set<_type> tn = new HashSet<>();
@@ -555,48 +555,28 @@ public final class _interface implements _type<ClassOrInterfaceDeclaration, _int
         //companionTypes.addAll(listCompanionTypes());
 
         hash = 53 * Objects.hash( this.getPackage(), 
-            Expr.hashAnnos(astInterface),
+            Expr.hashAnnos(node),
             this.getJavadoc(),this.getModifiers(), this.getTypeParams(),
             tm, tf,
-            _imports.Compare.importsHash(astInterface),
-            Types.hash(astInterface.getExtendedTypes()),
+            _imports.Compare.importsHash(node),
+            Types.hash(node.getExtendedTypes()),
             inners,
             companionTypes);
 
         return hash;
     }
 
-    /*
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( _java.Feature.PACKAGE, this.getPackage() );
-        parts.put( _java.Feature.IMPORTS, this.getImports().list() );
-        parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
-        parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Feature.EXTENDS_TYPES, this.listAstExtends() );
-        parts.put( _java.Feature.NAME, this.getName() );
-
-        parts.put( _java.Feature.MODIFIERS, this.getModifiers() );
-        parts.put( _java.Feature.TYPE_PARAMS, this.getTypeParams() );
-        parts.put( _java.Feature.FIELDS, this.listFields() );
-        parts.put( _java.Feature.METHODS, this.listMethods() );
-        parts.put( _java.Feature.INNER_TYPES, this.listInnerTypes() );
-        parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes() );
-        return parts;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
-
-    /*
-    @Override
-    public boolean is( String...interfaceDeclaration ){
-        try{
-            return of(interfaceDeclaration).equals(this);
-        }catch(Exception e){
-            return false;
-        }
+    public _interface replace(ClassOrInterfaceDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
-     */
 
     @Override
     public boolean is( ClassOrInterfaceDeclaration astI){

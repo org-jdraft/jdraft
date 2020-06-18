@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 import org.jdraft.macro._remove;
 import org.jdraft.text.Stencil;
@@ -25,7 +26,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
     /** return a copy of this import */
     @Override
     public _import copy(){
-        return of( this.astId.toString());
+        return of( this.node.toString());
     }
 
     public static _import of(){
@@ -98,7 +99,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
     public static _feature._features<_import> FEATURES = _feature._features.of(_import.class, PARSER, IS_STATIC, NAME, IS_WILDCARD);
 
     /** the underlying ast import declaration */
-    public ImportDeclaration astId;
+    public ImportDeclaration node;
 
     public _feature._features<_import> features(){
         return FEATURES;
@@ -109,12 +110,12 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      * @return 
      */
     @Override
-    public ImportDeclaration ast(){
-        return astId;
+    public ImportDeclaration node(){
+        return node;
     }
     
-    public _import(ImportDeclaration astId) {
-        this.astId = astId;
+    public _import(ImportDeclaration node) {
+        this.node = node;
     }
 
     /**
@@ -123,7 +124,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      * @return true if this is a wildcard import
      */
     public boolean isWildcard() {
-        return this.astId.isAsterisk();
+        return this.node.isAsterisk();
     }
 
     /**
@@ -141,7 +142,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      * @return
      */
     public _import setWildcard(boolean isWildcard) {
-        this.astId.setAsterisk(isWildcard);
+        this.node.setAsterisk(isWildcard);
         return this;
     }
 
@@ -159,24 +160,24 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      * @return
      */
     public _import setStatic(boolean isStatic) {
-        this.astId.setStatic(isStatic);
+        this.node.setStatic(isStatic);
         return this;
     }
 
     /** @return Is this a static import */
     public boolean isStatic() {
-        return this.astId.isStatic();
+        return this.node.isStatic();
     }
 
-    public Name getNameNode() { return this.astId.getName(); }
+    public Name getNameNode() { return this.node.getName(); }
 
     /** @return the name (everything after "import" and before the optional ".*") */
     public String getName() {
-        return this.astId.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     public _import setName(String name){
-        this.astId.setName(name);
+        this.node.setName(name);
         return this;
     }
 
@@ -186,18 +187,20 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      */
     public boolean is(Method method) {
         //return !astId.isAsterisk() && astId.getNameAsString().equals(method.getDeclaringClass().getCanonicalName() + "." + method.getName());
-        return is( astId, method);
+        return is(node, method);
     }
 
-    /*
-    public boolean is( String importDeclaration){
-        try{
-            return is(Ast.importDeclaration(importDeclaration));
-        } catch(Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _import replace(ImportDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
     
     /**
      * 
@@ -205,7 +208,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      * @return 
      */
     public boolean is(Class clazz) {
-        return is( this.astId, clazz );
+        return is( this.node, clazz );
     }
 
     /**
@@ -215,7 +218,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      */
     @Override
     public boolean is(ImportDeclaration id) {
-        return this.astId.equals(id);
+        return this.node.equals(id);
     }
 
     public static boolean is( ImportDeclaration astId, Method method){
@@ -228,7 +231,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
     
     public boolean hasImport(Method method) {
         return hasImport(method.getDeclaringClass())
-            || astId.isStatic() && astId.getNameAsString().equals(method.getDeclaringClass().getCanonicalName() + "." + method.getName());
+            || node.isStatic() && node.getNameAsString().equals(method.getDeclaringClass().getCanonicalName() + "." + method.getName());
     }
 
     public boolean hasImport( _type _t ){
@@ -236,14 +239,14 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
     }
     
     public boolean hasImport( String anImport){
-        if (astId.isAsterisk()) {
-            if (anImport.startsWith(astId.getNameAsString())) {
-                String ln = anImport.substring(astId.getNameAsString().length() + 1);
+        if (node.isAsterisk()) {
+            if (anImport.startsWith(node.getNameAsString())) {
+                String ln = anImport.substring(node.getNameAsString().length() + 1);
                 return !ln.contains(".");
             }
             return false;
         }
-        return astId.getNameAsString().equals(anImport);
+        return node.getNameAsString().equals(anImport);
     }
     
     /**
@@ -253,7 +256,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
      * @return
      */
     public boolean hasImport(Class clazz) {
-        return _import.hasImport( astId, clazz );        
+        return _import.hasImport(node, clazz );
     }
 
     /**
@@ -322,7 +325,7 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
             return false;
         }
         final _import other = (_import) obj;
-        if (!Objects.equals(this.astId, other.astId)) {
+        if (!Objects.equals(this.node, other.node)) {
             return false;
         }
         return true;
@@ -330,12 +333,12 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
 
     @Override
     public int hashCode() {
-        return 31 * this.astId.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     @Override
     public String toString(){
-        return this.astId.toString();
+        return this.node.toString();
     }
 
     @Override
@@ -354,15 +357,6 @@ public final class _import implements _tree._node<ImportDeclaration, _import>,
         }
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature,Object>components = new HashMap<>();
-        components.put(_java.Feature.NAME, this.astId.getNameAsString());
-        components.put(_java.Feature.IS_STATIC, this.astId.isStatic());
-        components.put(_java.Feature.IS_WILDCARD, this.astId.isAsterisk());
-        return components;
-    }
-     */
 
     /**
      * 

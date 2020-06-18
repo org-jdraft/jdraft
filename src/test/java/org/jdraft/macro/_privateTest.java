@@ -28,8 +28,8 @@ public class _privateTest extends TestCase {
         assertTrue( _c.getConstructor(0).isPrivate());
         assertFalse( _c.getConstructor(0).hasAnno(_private.class));
 
-        assertTrue( _c.fieldNamed("g").isPrivate());
-        assertFalse( _c.fieldNamed("g").hasAnno(_private.class));
+        assertTrue( _c.getField("g").isPrivate());
+        assertFalse( _c.getField("g").hasAnno(_private.class));
         assertTrue( _c.firstMethodNamed("b").isPrivate());
         assertFalse( _c.firstMethodNamed("b").hasAnno(_private.class));
     }

@@ -121,7 +121,7 @@ public class WhatKindaStuff extends TestCase {
         _class _c = _class.of(C.class);
         $stmt $println = $stmt.of("System.out.println($any$);");
         $stmt.of("return $any$;").forSelectedIn(_c,
-                s-> Stmt.addStatementsBefore( s.ast(), $println.draft( "any", s.get("any")).ast()) );
+                s-> Stmt.addStatementsBefore( s.ast(), $println.draft( "any", s.get("any")).node()) );
 
         _runtime _r  = _runtime.of(_c);
         assertEquals( 100, _r.eval("new C().m()"));

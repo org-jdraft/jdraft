@@ -43,7 +43,7 @@ public final class _typeParams
     public static _typeParams of( _typeParam... _tps){
         ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Unknown{}");
         NodeList<TypeParameter> ntp = new NodeList<>();
-        Stream.of(_tps).forEach(_tp -> ntp.add( _tp.ast()));
+        Stream.of(_tps).forEach(_tp -> ntp.add( _tp.node()));
         coid.setTypeParameters(ntp);
         return of( coid );
     }
@@ -61,10 +61,10 @@ public final class _typeParams
 
     public static _feature._features<_typeParams> FEATURES = _feature._features.of(_typeParams.class,  PARSER, TYPE_PARAMS);
 
-    private final NodeWithTypeParameters astNodeWithTypeParams;
+    private final NodeWithTypeParameters parentNode;
 
     public _typeParams(NodeWithTypeParameters ntp ) {
-        this.astNodeWithTypeParams = ntp;
+        this.parentNode = ntp;
     }
 
     public _feature._features<_typeParams> features(){
@@ -72,19 +72,19 @@ public final class _typeParams
     }
 
     public _typeParams clear() {
-        astNodeWithTypeParams.getTypeParameters().clear();
+        parentNode.getTypeParameters().clear();
         return this;
     }
 
     public _typeParams setTypeParams(List<_typeParam> typeParams){
-        this.astNodeWithTypeParams.getTypeParameters().clear();
-        typeParams.forEach(tp-> this.astNodeWithTypeParams.getTypeParameters().add( tp.ast()));
+        this.parentNode.getTypeParameters().clear();
+        typeParams.forEach(tp-> this.parentNode.getTypeParameters().add( tp.node()));
         return this;
     }
 
     public List<_typeParam> list() {
         List<_typeParam> lp = new ArrayList<>();
-        astNodeWithTypeParams.getTypeParameters().forEach( t -> lp.add( _typeParam.of( (TypeParameter)t ) ) );
+        parentNode.getTypeParameters().forEach(t -> lp.add( _typeParam.of( (TypeParameter)t ) ) );
         return lp;
     }
 
@@ -93,24 +93,23 @@ public final class _typeParams
     }
 
     public _typeParams remove(List<? super _typeParam> tps ) {
-        astNodeWithTypeParams.getTypeParameters().removeAll( tps );
+        parentNode.getTypeParameters().removeAll( tps );
         return this;
     }
 
     public NodeList<TypeParameter> ast() {
-        return astNodeWithTypeParams.getTypeParameters();
+        return parentNode.getTypeParameters();
     }
 
     @Override
     public _typeParams copy() {
-        return _typeParams.of(this.astNodeWithTypeParams);
+        return _typeParams.of(this.parentNode);
     }
 
     @Override
     public NodeList<TypeParameter> astList() {
-        return this.astNodeWithTypeParams.getTypeParameters();
+        return this.parentNode.getTypeParameters();
     }
-
 
     public boolean is( String... typeParameters ) {
         String str = Text.combine(typeParameters);
@@ -134,7 +133,7 @@ public final class _typeParams
         int hash = 7;
 
         Set<_typeParam> _tps = new HashSet<>();
-        this.astNodeWithTypeParams.getTypeParameters().forEach( t -> _tps.add( _typeParam.of( (TypeParameter)t)) );
+        this.parentNode.getTypeParameters().forEach(t -> _tps.add( _typeParam.of( (TypeParameter)t)) );
         hash = 29 * hash + Objects.hashCode( _tps );
         return hash;
     }
@@ -151,14 +150,14 @@ public final class _typeParams
             return false;
         }
         final _typeParams other = (_typeParams)obj;
-        if( this.astNodeWithTypeParams.getTypeParameters().size() !=  other.astNodeWithTypeParams.getTypeParameters().size()){
+        if( this.parentNode.getTypeParameters().size() !=  other.parentNode.getTypeParameters().size()){
             return false;
         }
         Set<_typeParam> _tps = new HashSet<>();
-        this.astNodeWithTypeParams.getTypeParameters().forEach( t -> _tps.add( _typeParam.of( (TypeParameter)t) ) );
+        this.parentNode.getTypeParameters().forEach(t -> _tps.add( _typeParam.of( (TypeParameter)t) ) );
 
-        for(int i=0; i<other.astNodeWithTypeParams.getTypeParameters().size(); i++){
-            _typeParam _tp = _typeParam.of( other.astNodeWithTypeParams.getTypeParameter(i));
+        for(int i = 0; i<other.parentNode.getTypeParameters().size(); i++){
+            _typeParam _tp = _typeParam.of( other.parentNode.getTypeParameter(i));
             if( ! _tps.contains(_tp) ){
                 return false;
             }
@@ -176,7 +175,7 @@ public final class _typeParams
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
-        if( this.astNodeWithTypeParams.getTypeParameters().isNonEmpty() ) {
+        if( this.parentNode.getTypeParameters().isNonEmpty() ) {
             NodeList<TypeParameter> tps = this.ast();
             StringBuilder sb = new StringBuilder();
             sb.append("<");
@@ -196,8 +195,8 @@ public final class _typeParams
      * The node that is an implementation of NodeWithTypeParameters
      * @return
      */
-    public <N extends Node> N astAnchorNode() {
-        return (N)this.astNodeWithTypeParams;
+    public <N extends Node> N anchorNode() {
+        return (N)this.parentNode;
     }
 
     /**
@@ -219,7 +218,7 @@ public final class _typeParams
 
         default _typeParams getTypeParams(){
             _java._declared _m = (_java._declared) this;
-            return of( (NodeWithTypeParameters)_m.ast() );
+            return of( (NodeWithTypeParameters)_m.node() );
         }
 
         default _typeParam getTypeParam(Predicate<_typeParam> _typeParameterMatchFn){
@@ -233,12 +232,12 @@ public final class _typeParams
         /* return a list of AST typeParameters */
         default NodeList<TypeParameter> listAstTypeParameters() {
             _java._declared _m = (_java._declared) this;
-            return ((NodeWithTypeParameters)_m.ast()).getTypeParameters();
+            return ((NodeWithTypeParameters)_m.node()).getTypeParameters();
         }
 
         default _WTP addTypeParam( _typeParam _tp){
             if( hasTypeParams() ){
-                listAstTypeParameters().add( _tp.ast());
+                listAstTypeParameters().add( _tp.node());
             } else{
                 setTypeParams(_typeParams.of(_tp));
             }
@@ -270,19 +269,19 @@ public final class _typeParams
 
         default _WTP setTypeParams(_typeParams _tps){
             _java._declared _m = (_java._declared) this;
-            ((NodeWithTypeParameters)_m.ast()).setTypeParameters(_tps.ast());
+            ((NodeWithTypeParameters)_m.node()).setTypeParameters(_tps.ast());
             return (_WTP)this;
         }
 
         default _WTP setTypeParams(NodeList<TypeParameter> astTypeParams){
             _java._declared _m = (_java._declared) this;
-            ((NodeWithTypeParameters)_m.ast()).setTypeParameters(astTypeParams);
+            ((NodeWithTypeParameters)_m.node()).setTypeParameters(astTypeParams);
             return (_WTP)this;
         }
 
         default _WTP removeTypeParam(TypeParameter tp){
             _java._declared _m = (_java._declared) this;
-            ((NodeWithTypeParameters)_m.ast()).getTypeParameters().remove(tp);
+            ((NodeWithTypeParameters)_m.node()).getTypeParameters().remove(tp);
             return (_WTP)this;
         }
 
@@ -296,14 +295,14 @@ public final class _typeParams
          */
         default _WTP removeTypeParams(){
             _java._declared _m = (_java._declared) this;
-            ((NodeWithTypeParameters)_m.ast()).getTypeParameters().clear();
+            ((NodeWithTypeParameters)_m.node()).getTypeParameters().clear();
             return (_WTP)this;
         }
 
         /** does this have non empty type parameters */
         default boolean hasTypeParams(){
             _java._declared _m = (_java._declared) this;
-            return ((NodeWithTypeParameters)_m.ast()).getTypeParameters().isNonEmpty();
+            return ((NodeWithTypeParameters)_m.node()).getTypeParameters().isNonEmpty();
         }
     }
 }

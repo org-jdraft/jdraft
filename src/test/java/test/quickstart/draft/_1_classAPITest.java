@@ -46,7 +46,7 @@ public class _1_classAPITest extends TestCase {
             .addExtend(java.beans.Encoder.class)
             .addImplement(Serializable.class)
             .addStaticBlock(()->System.out.println("static block " + UUID.randomUUID().toString()))
-            .addBodyMembers(new Object(){
+            .addMembers(new Object(){
                 public int i;
                 public UUID uuid;
                 public UUID getUUID(){ return this.uuid; }
@@ -129,8 +129,8 @@ public class _1_classAPITest extends TestCase {
         assertTrue(_FROM_STRING_PARTS.getTypeParams().is("<T extends Serializable>"));
         assertTrue(_FROM_STRING_PARTS.hasInitBlocks());
         assertTrue(_FROM_STRING_PARTS.getInitBlock(0).is("static{System.out.println(\"static block \" + UUID.randomUUID().toString());}"));
-        assertTrue(_FROM_STRING_PARTS.fieldNamed("i").is("public int i"));
-        assertTrue(_FROM_STRING_PARTS.fieldNamed("uuid").is("public UUID uuid"));
+        assertTrue(_FROM_STRING_PARTS.getField("i").is("public int i"));
+        assertTrue(_FROM_STRING_PARTS.getField("uuid").is("public UUID uuid"));
         assertTrue(_FROM_STRING_PARTS.getConstructor(0).is("public C(int i){ this.i = i; }"));
         assertTrue(_FROM_STRING_PARTS.firstMethodNamed("getUUID").is("public UUID getUUID(){ return this.uuid; }"));
         assertTrue(_FROM_STRING_PARTS.getInnerType("Describable") instanceof _interface);

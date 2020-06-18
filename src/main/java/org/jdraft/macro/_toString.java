@@ -69,7 +69,7 @@ public @interface _toString {
         }
 
         public static <_T extends _type> _T to( _T _t){
-            to( (TypeDeclaration)_t.ast());
+            to( (TypeDeclaration)_t.node());
             return _t;
         }
 
@@ -90,7 +90,7 @@ public @interface _toString {
                 }
             });
             _method _m = _method.of($TO_STRING.draft("className", typeDeclaration.getName(), "body", body ));
-            typeDeclaration.addMember(_m.ast());
+            typeDeclaration.addMember(_m.node());
             return typeDeclaration;
         }
 

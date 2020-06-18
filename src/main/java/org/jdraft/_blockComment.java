@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.comments.BlockComment;
+import com.github.javaparser.ast.expr.BinaryExpr;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -37,62 +38,60 @@ public final class _blockComment implements _comment<BlockComment, _blockComment
             a -> a.getText(),
             (_blockComment a, String text) -> a.setText(text), PARSER);
 
-
     public static _feature._features<_blockComment> FEATURES = _feature._features.of(_blockComment.class,  PARSER, TEXT);
 
-    public BlockComment astComment;
+    public BlockComment node;
 
     public _feature._features<_blockComment> features(){
         return FEATURES;
     }
 
     public _blockComment(BlockComment lc ){
-        this.astComment = lc;
+        this.node = lc;
+    }
+
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _blockComment replace(BlockComment replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
     public _tree._node getAttributedNode(){
-        if( astComment.getCommentedNode().isPresent()){
-            return (_tree._node)_java.of( astComment.getCommentedNode().get());
+        if( node.getCommentedNode().isPresent()){
+            return (_tree._node)_java.of( node.getCommentedNode().get());
         }
         return null;
     }
 
     @Override
     public _blockComment copy() {
-        return new _blockComment( this.astComment.clone());
+        return new _blockComment( this.node.clone());
     }
 
     @Override
-    public BlockComment ast() {
-        return astComment;
+    public BlockComment node() {
+        return node;
     }
-
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return Objects.equals( of( Text.combine(stringRep) ), this);
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
-     */
-
 
     public boolean equals(Object o){
         if( o instanceof _blockComment){
             _blockComment _bc = (_blockComment)o;
-            return Objects.equals( _bc.astComment, this.astComment);
+            return Objects.equals( _bc.node, this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return this.astComment.hashCode() * 31;
+        return this.node.hashCode() * 31;
     }
 
     public String toString(){
-        return this.astComment.toString();
+        return this.node.toString();
     }
 }

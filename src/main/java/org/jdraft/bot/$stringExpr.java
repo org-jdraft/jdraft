@@ -325,7 +325,7 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
-        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+        return matchReplaceIn(_node.node(), matchStencil, replaceStencil);
     }
 
     /**
@@ -339,7 +339,7 @@ public class $stringExpr implements $bot.$node<StringLiteralExpr, _stringExpr, $
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
-        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+        return matchReplaceIn(_node.node(), matchStencil, replaceStencil);
     }
 
     /**

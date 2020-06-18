@@ -96,11 +96,10 @@ public final class _forStmt implements
             (_forStmt a, List<_expr> _e) -> a.setUpdate(_e), PARSER, s-> _expr.of(s))
             .setOrdered(true);/** the order of the updates MAY matter */
 
-
     public static _feature._one<_forStmt, _variablesExpr> INIT = new _feature._one<>(_forStmt.class, _variablesExpr.class,
           _feature._id.INIT,
           a -> {
-            List<Expression> es = a.ast().getInitialization();
+            List<Expression> es = a.node().getInitialization();
             if( es.isEmpty() ){
                 return null;
             }
@@ -110,10 +109,10 @@ public final class _forStmt implements
 
     public static _feature._features<_forStmt> FEATURES = _feature._features.of(_forStmt.class,  PARSER, INIT, COMPARE, UPDATES, BODY);
 
-    private ForStmt astStmt;
+    private ForStmt node;
 
     public _forStmt(ForStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     public _feature._features<_forStmt> features(){
@@ -122,21 +121,23 @@ public final class _forStmt implements
 
     @Override
     public _forStmt copy() {
-        return new _forStmt( this.astStmt.clone());
+        return new _forStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.forStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _forStmt replace(ForStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean hasInit(){
-        return !this.astStmt.getInitialization().isEmpty();
+        return !this.node.getInitialization().isEmpty();
     }
 
     /**
@@ -197,7 +198,7 @@ public final class _forStmt implements
 
     public _variablesExpr getInit(){
         if( hasInit()){
-            return _variablesExpr.of( (VariableDeclarationExpr)astStmt.getInitialization().get(0) );
+            return _variablesExpr.of( (VariableDeclarationExpr) node.getInitialization().get(0) );
         }
         return null;
     }
@@ -206,7 +207,7 @@ public final class _forStmt implements
         if( !this.hasInit() ){
             return false;
         }
-        return Objects.equals( _ve, _variablesExpr.of( (VariableDeclarationExpr)this.astStmt.getInitialization().get(0) ) );
+        return Objects.equals( _ve, _variablesExpr.of( (VariableDeclarationExpr)this.node.getInitialization().get(0) ) );
     }
 
     public boolean isInit(String...code){
@@ -215,7 +216,7 @@ public final class _forStmt implements
         }
         try{
             _variablesExpr _ve = _variablesExpr.of(code);
-            return Objects.equals( _ve, _variablesExpr.of( (VariableDeclarationExpr)this.astStmt.getInitialization().get(0) ) );
+            return Objects.equals( _ve, _variablesExpr.of( (VariableDeclarationExpr)this.node.getInitialization().get(0) ) );
         }catch(Exception e){
             return false;
         }
@@ -247,8 +248,8 @@ public final class _forStmt implements
 
     public _forStmt setInit(_variablesExpr _ve){
         NodeList<Expression> nle = new NodeList<>();
-        nle.add( _ve.ast() );
-        this.astStmt.setInitialization(nle);
+        nle.add( _ve.node() );
+        this.node.setInitialization(nle);
         return this;
     }
 
@@ -257,13 +258,13 @@ public final class _forStmt implements
     }
 
     public _forStmt removeCompare(){
-        this.astStmt.removeCompare();
+        this.node.removeCompare();
         return this;
     }
 
     public _expr getCompare(){
-        if( this.astStmt.getCompare().isPresent()) {
-            return _expr.of(this.astStmt.getCompare().get());
+        if( this.node.getCompare().isPresent()) {
+            return _expr.of(this.node.getCompare().get());
         }
         return null;
     }
@@ -290,8 +291,8 @@ public final class _forStmt implements
     }
 
     public boolean isCompare(BinaryExpr.Operator bo){
-        if(this.astStmt.getCompare().isPresent() && this.astStmt.getCompare().get() instanceof BinaryExpr){
-            return ((BinaryExpr) this.astStmt.getCompare().get()).getOperator() == bo;
+        if(this.node.getCompare().isPresent() && this.node.getCompare().get() instanceof BinaryExpr){
+            return ((BinaryExpr) this.node.getCompare().get()).getOperator() == bo;
         }
         return false;
     }
@@ -320,31 +321,31 @@ public final class _forStmt implements
     }
 
     public _forStmt setCompare(String...str){
-        this.astStmt.setCompare(Expr.of(str));
+        this.node.setCompare(Expr.of(str));
         return this;
     }
 
     public _forStmt setCompare(_expr e){
-        this.astStmt.setCompare(e.ast());
+        this.node.setCompare(e.node());
         return this;
     }
 
     public _forStmt setCompare(Expression e){
-        this.astStmt.setCompare(e);
+        this.node.setCompare(e);
         return this;
     }
 
     public boolean hasUpdate(){
-        return !this.astStmt.getUpdate().isEmpty();
+        return !this.node.getUpdate().isEmpty();
     }
 
     public _forStmt removeUpdate(Predicate<_expr> _ex){
-        this.astStmt.getUpdate().removeIf(u-> _ex.test( _expr.of(u)));
+        this.node.getUpdate().removeIf(u-> _ex.test( _expr.of(u)));
         return this;
     }
 
     public _forStmt removeUpdate(_expr _ex){
-        this.astStmt.getUpdate().removeIf(u-> Objects.equals(u, _ex.ast()) );
+        this.node.getUpdate().removeIf(u-> Objects.equals(u, _ex.node()) );
         return this;
     }
 
@@ -354,13 +355,13 @@ public final class _forStmt implements
     }
 
     public _forStmt addUpdates( _expr... _es){
-        Arrays.stream(_es).forEach(_e -> this.astStmt.getUpdate().add(_e.ast()));
+        Arrays.stream(_es).forEach(_e -> this.node.getUpdate().add(_e.node()));
         return this;
     }
 
     public List<_expr> listUpdates(){
         List<_expr>update = new ArrayList<>();
-        this.astStmt.getUpdate().forEach(i -> update.add(_expr.of(i)));
+        this.node.getUpdate().forEach(i -> update.add(_expr.of(i)));
         return update;
     }
 
@@ -374,7 +375,7 @@ public final class _forStmt implements
 
     public <_E extends _expr> List<_E> listUpdates(Class<_E> expressionClass, Predicate<_E> matchFn){
         List<_E> updates = new ArrayList<>();
-        this.astStmt.getUpdate().forEach(i -> {
+        this.node.getUpdate().forEach(i -> {
             _expr _e = _expr.of(i);
             if( expressionClass.isAssignableFrom(_e.getClass()) && matchFn.test( (_E)_e)){
                 updates.add((_E)_e);
@@ -384,6 +385,7 @@ public final class _forStmt implements
     }
 
     public _forStmt setUpdate(String...str ){
+
         _args _as = _args.of(str);
         return setUpdate( _as.list() );
     }
@@ -422,39 +424,39 @@ public final class _forStmt implements
 
     public _forStmt setUpdate(_expr... es){
         NodeList<Expression> upd = new NodeList<>();
-        Arrays.stream(es).forEach(e-> upd.add(e.ast()));
-        this.astStmt.setUpdate(upd);
+        Arrays.stream(es).forEach(e-> upd.add(e.node()));
+        this.node.setUpdate(upd);
         return this;
     }
 
     public _body getBody(){
-        return _body.of( this.astStmt.getBody() );
+        return _body.of( this.node.getBody() );
     }
 
     @Override
     public _forStmt setBody(BlockStmt body) {
-        this.astStmt.setBody(body);
+        this.node.setBody(body);
         return this;
     }
 
     public _forStmt setBody(_stmt _st){
-        this.astStmt.setBody(_st.ast());
+        this.node.setBody(_st.node());
         return this;
     }
 
     public _forStmt setBody(_body _bd){
-        this.astStmt.setBody(_bd.ast());
+        this.node.setBody(_bd.ast());
         return this;
     }
 
     public _forStmt clearBody(){
-        this.astStmt.setBody( new BlockStmt());
+        this.node.setBody( new BlockStmt());
         return this;
     }
 
     @Override
     public _forStmt add(int startStatementIndex, Statement... statements) {
-        Statement bd = this.astStmt.getBody();
+        Statement bd = this.node.getBody();
         if( bd instanceof BlockStmt){
             for(int i=0;i<statements.length; i++) {
                 bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
@@ -469,12 +471,12 @@ public final class _forStmt implements
         return this;
     }
 
-    public ForStmt ast(){
-        return astStmt;
+    public ForStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
@@ -500,6 +502,6 @@ public final class _forStmt implements
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

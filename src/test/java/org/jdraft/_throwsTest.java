@@ -49,8 +49,8 @@ public class _throwsTest
         System.out.println( _c );
         _throws _ts = _c.firstMethodNamed("m").getThrows();
         System.out.println(_ts.toString());
-        assertEquals( _anno.of(Test.class).ast(), _ts.getAt(0).getAnno(0).ast());
-        assertEquals( _anno.of(Test.class).ast(), _ts.getAt(1).getAnno(0).ast());
+        assertEquals( _anno.of(Test.class).node(), _ts.getAt(0).getAnno(0).node());
+        assertEquals( _anno.of(Test.class).node(), _ts.getAt(1).getAnno(0).node());
         
         System.out.println( _ts.getAt(0) );
     }

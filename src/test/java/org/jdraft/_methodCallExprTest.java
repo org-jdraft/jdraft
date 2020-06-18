@@ -46,7 +46,7 @@ public class _methodCallExprTest extends TestCase {
         //verify I can go through Arguments
         AtomicInteger ai = new AtomicInteger();
         //for all int literal arguments; add up the arguments int literal values
-        _mc.forArgs(e -> e.ast().isIntegerLiteralExpr(),
+        _mc.forArgs(e -> e.node().isIntegerLiteralExpr(),
                 e -> ai.addAndGet(((_intExpr) e).getValue()));
 
         assertEquals(6, ai.get());

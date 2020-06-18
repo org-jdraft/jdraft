@@ -629,7 +629,7 @@ public class $body implements Template<_body>,
         if( this.isImplemented == null || !this.isImplemented ){
             return _body.of(";");
         }
-        Statement r = this.bodyStmts.draft( translator, keyValues ).ast();
+        Statement r = this.bodyStmts.draft( translator, keyValues ).node();
         return _body.of( r );
     }
     
@@ -739,9 +739,9 @@ public class $body implements Template<_body>,
                 return selectFirstIn(_c.astCompilationUnit(), selectConstraint);
             }
             _type _t = (_type)_j; //only possible
-            return selectFirstIn(_t.ast(), selectConstraint);
+            return selectFirstIn(_t.node(), selectConstraint);
         }
-        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_tree._node)_j).node(), selectConstraint);
     }
     
     /**
@@ -876,7 +876,7 @@ public class $body implements Template<_body>,
                 return _j;
             }
             _type _t = (_type) _j; //only possible
-            forSelectedIn(_t.ast(), selectActionFn);
+            forSelectedIn(_t.node(), selectActionFn);
             return _j;
         }
         forSelectedIn((_tree._node) _j, selectActionFn);

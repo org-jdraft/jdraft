@@ -151,17 +151,17 @@ public class NegativeLiteralNumberPostProcessorTest extends TestCase {
         }
 
         _class _c = _class.of(C.class);
-        Print.tree( _c.ast());
+        Print.tree( _c.node());
         //verify that we should NOT have UnaryExprs, only Int, Long, & Double literals
-        assertFalse(_c.ast().findFirst(UnaryExpr.class).isPresent());
+        assertFalse(_c.node().findFirst(UnaryExpr.class).isPresent());
 
         assertEquals(1, Walk.list(_c, _intExpr.class, _i-> _i.getValue()==-1).size());
 
         //verify that we can find each
-        assertTrue( _c.ast().findFirst(IntegerLiteralExpr.class, ile-> ile.getValue().startsWith("-")).isPresent());
-        assertTrue( _c.ast().findFirst(DoubleLiteralExpr.class, ile-> ile.getValue().equals("-2.0d")).isPresent());
-        assertTrue( _c.ast().findFirst(DoubleLiteralExpr.class, ile-> ile.getValue().equals("-3.0f")).isPresent());
-        assertTrue( _c.ast().findFirst(LongLiteralExpr.class, ile-> ile.getValue().equals("-100L")).isPresent());
+        assertTrue( _c.node().findFirst(IntegerLiteralExpr.class, ile-> ile.getValue().startsWith("-")).isPresent());
+        assertTrue( _c.node().findFirst(DoubleLiteralExpr.class, ile-> ile.getValue().equals("-2.0d")).isPresent());
+        assertTrue( _c.node().findFirst(DoubleLiteralExpr.class, ile-> ile.getValue().equals("-3.0f")).isPresent());
+        assertTrue( _c.node().findFirst(LongLiteralExpr.class, ile-> ile.getValue().equals("-100L")).isPresent());
     }
 
     public void testDoubleNegNum(){

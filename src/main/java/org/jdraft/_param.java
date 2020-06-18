@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.Type;
 
@@ -20,8 +21,8 @@ public final class _param
 
     public static _param from (StackTraceElement ste ){
         _param _p = _lambdaExpr.from(ste).getParam(0);
-        _p.ast().remove();
-        return of( _p.ast() );
+        _p.node().remove();
+        return of( _p.node() );
     }
     /**
      *
@@ -98,10 +99,10 @@ public final class _param
     public static _feature._features<_param> FEATURES = _feature._features.of(_param.class,  PARSER, ANNOS, IS_FINAL, TYPE, IS_VAR_ARG, VAR_ARG_ANNO_EXPRS, NAME)
             .setStrictlyOrdered(false);
 
-    private final Parameter astParameter;
+    private Parameter node;
 
     public _param(Parameter p ) {
-        this.astParameter = p;
+        this.node = p;
     }
 
     public _feature._features<_param> features(){
@@ -109,20 +110,20 @@ public final class _param
     }
 
     @Override
-    public Parameter ast() {
-        return this.astParameter;
+    public Parameter node() {
+        return this.node;
     }
 
     @Override
     public _param copy(){
-        return of( this.astParameter.toString());
+        return of( this.node.toString());
     }
 
-    public SimpleName getNameNode() { return this.astParameter.getName(); }
+    public SimpleName getNameNode() { return this.node.getName(); }
 
     @Override
     public _param setName(String name ) {
-        this.astParameter.setName( name );
+        this.node.setName( name );
         return this;
     }
 
@@ -131,78 +132,65 @@ public final class _param
      * @return
      */
     public _annos getVarArgAnnoExprs(){
-        return _annos.of(this.astParameter.getVarArgsAnnotations());
+        return _annos.of(this.node.getVarArgsAnnotations());
     }
 
     public _param setVarArgAnnoExprs( _annos _aes){
-        this.astParameter.getVarArgsAnnotations().clear();
-        _aes.toEach(a-> this.astParameter.getVarArgsAnnotations().add(a.ast()) );
+        this.node.getVarArgsAnnotations().clear();
+        _aes.toEach(a-> this.node.getVarArgsAnnotations().add(a.node()) );
         return this;
     }
 
-    /*
-    @Override
-    public _typeRef getTypeRef() {
-        return _typeRef.of( this.astParameter.getType() );
-    }
-
-    @Override
-    public _param setTypeRef(Type _tr ) {
-        this.astParameter.setType( _tr );
-        return this;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _param replace(Parameter replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public String getName() {
-        return this.astParameter.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of( this.astParameter );
+        return _annos.of( this.node);
     }
 
     public _param setVarArg(boolean b ){
-        this.astParameter.setVarArgs(b);
+        this.node.setVarArgs(b);
         return this;
     }
 
     public boolean isVarArg() {
-        return this.astParameter.isVarArgs();
+        return this.node.isVarArgs();
     }
 
     @Override
     public boolean isFinal() {
-        return this.astParameter.isFinal();
+        return this.node.isFinal();
     }
 
     @Override
     public boolean isType(String type ) {
-        return Types.equal(this.astParameter.getType(), Types.of( type ));
+        return Types.equal(this.node.getType(), Types.of( type ));
     }
 
     @Override
     public boolean isType(Type type ) {
-        return Types.equal(this.astParameter.getType(), type);
+        return Types.equal(this.node.getType(), type);
     }
 
     @Override
     public boolean isNamed( String name ) {
-        return this.astParameter.getNameAsString().equals( name );
+        return this.node.getNameAsString().equals( name );
     }
-
-    /*
-    @Override
-    public boolean is( String... paramDecl ) {
-        try {
-            return equals( _param.of( Text.combine( paramDecl ) ) );
-        }
-        catch( Exception e ) {
-        }
-        return false;
-    }
-     */
 
     @Override
     public boolean is( Parameter astParam ){
@@ -219,9 +207,9 @@ public final class _param
         int hash = 7;
         hash = 71 * hash +
                 Objects.hash( 
-                        Expr.hashAnnos(astParameter),
+                        Expr.hashAnnos(node),
                         this.getName(),
-                        Types.hash(astParameter.getType()),
+                        Types.hash(node.getType()),
                         this.isVarArg(),
                         this.isFinal() );
         return hash;
@@ -273,19 +261,19 @@ public final class _param
             return false;
         }
         final _param other = (_param)obj;
-        if( !Objects.equals( this.astParameter.getName(), other.astParameter.getName() )){
+        if( !Objects.equals( this.node.getName(), other.node.getName() )){
             return false;
         }
-        if( !Objects.equals( this.astParameter.isFinal(), other.astParameter.isFinal()) ){
+        if( !Objects.equals( this.node.isFinal(), other.node.isFinal()) ){
             return false;
         }
-        if( !Objects.equals( this.astParameter.isVarArgs(), other.astParameter.isVarArgs() )){
+        if( !Objects.equals( this.node.isVarArgs(), other.node.isVarArgs() )){
             return false;
         }
-        if( !Types.equal(astParameter.getType(), other.astParameter.getType())){
+        if( !Types.equal(node.getType(), other.node.getType())){
             return false;
         }
-        if( !Expr.equalAnnos(astParameter, other.astParameter)){
+        if( !Expr.equalAnnos(node, other.node)){
             return false;
         }
         return true;
@@ -293,25 +281,13 @@ public final class _param
 
     @Override
     public String toString() {
-        return this.astParameter.toString();
+        return this.node.toString();
     }
 
     @Override
     public _param setFinal(boolean toSet ) {
-        this.astParameter.setFinal( toSet );
+        this.node.setFinal( toSet );
         return this;
     }
-
-    /*
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put( _java.Feature.IS_FINAL, isFinal() );
-        parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
-        parts.put( _java.Feature.TYPE, getTypeRef() );
-        parts.put( _java.Feature.NAME, getName() );
-        parts.put( _java.Feature.IS_VAR_ARG, isVarArg() );
-        return parts;
-    }
-     */
 
 }

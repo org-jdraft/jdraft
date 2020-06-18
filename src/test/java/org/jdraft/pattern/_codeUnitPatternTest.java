@@ -54,7 +54,7 @@ public class _codeUnitPatternTest extends TestCase {
             int i = 1 + 2;
             int y = (1);
         }
-        $ex.intLiteralEx(1).forEachIn(C.class, e-> System.out.println( e.ast().getParentNodeForChildren().getClass() ) );
+        $ex.intLiteralEx(1).forEachIn(C.class, e-> System.out.println( e.node().getParentNodeForChildren().getClass() ) );
 
         assertEquals( 3, $ex.of(1).countIn(C.class));
         assertEquals( 2, $ex.of(1).$isParentNot( $ex.binaryEx() ).countIn(C.class));

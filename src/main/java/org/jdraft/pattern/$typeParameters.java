@@ -204,7 +204,7 @@ public class $typeParameters
     }
 
     public boolean matches(_typeParams._withTypeParams _htp){
-        return matches( (NodeWithTypeParameters) ((_tree._node)_htp).ast() );
+        return matches( (NodeWithTypeParameters) ((_tree._node)_htp).node() );
     }
 
     public boolean isMatchAny(){
@@ -455,9 +455,9 @@ public class $typeParameters
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
-            return selectFirstIn( ((_type)_j).ast(), selectConstraint);
+            return selectFirstIn( ((_type)_j).node(), selectConstraint);
         }
-        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_tree._node)_j).node(), selectConstraint);
     }
 
     /**
@@ -512,9 +512,9 @@ public class $typeParameters
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
-            return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
+            return listSelectedIn(_t.node()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_tree._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).node());
     }
     
     /**
@@ -557,9 +557,9 @@ public class $typeParameters
             if( ((_codeUnit) _n).isTopLevel()){
                 return listSelectedIn( ((_codeUnit) _n).astCompilationUnit(), selectConstraint);
             }
-            return listSelectedIn( ((_type)_n).ast(), selectConstraint);
+            return listSelectedIn( ((_type)_n).node(), selectConstraint);
         }
-        return listSelectedIn( ((_tree._node)_n).ast(), selectConstraint);
+        return listSelectedIn( ((_tree._node)_n).node(), selectConstraint);
     }
   
     /**
@@ -629,10 +629,10 @@ public class $typeParameters
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), $i);
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), $i);
+            replaceIn( ((_type) _j).node(), $i);
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), $i);
+        replaceIn( ((_tree._node) _j).node(), $i);
         return _j;
     }
     
@@ -649,7 +649,7 @@ public class $typeParameters
                 Select sel = select( e );
                 if( sel != null ){                    
                     _typeParams _ths = $i.draft(sel.tokens.asTokens());
-                    ((NodeWithTypeParameters)sel.typeParameters.astAnchorNode()).setTypeParameters(_ths.ast());
+                    ((NodeWithTypeParameters)sel.typeParameters.anchorNode()).setTypeParameters(_ths.ast());
                 }
             });
         }

@@ -95,7 +95,7 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         }
         _class _f = macro.to(F.class);
         assertTrue(_f.isFinal() );
-        assertTrue( _f.fieldNamed("a").isFinal());
+        assertTrue( _f.getField("a").isFinal());
         assertTrue( _f.firstMethodNamed("g").isFinal());
         System.out.println( _f );
         assertTrue( _f.firstMethodNamed("h").getParam(0).isFinal());
@@ -122,7 +122,7 @@ public class _2_UsingAllBuiltInMacrosTest extends TestCase {
         //@_init works on fields to set the initial value
         class I{ @_init("100") int val; }
         _class _ic = _class.of( I.class);
-        assertTrue( _ic.fieldNamed("val").isInit(100));
+        assertTrue( _ic.getField("val").isInit(100));
 
         //@_implement works to implement a single interface on a class
         @_implement(Serializable.class) class IM { }

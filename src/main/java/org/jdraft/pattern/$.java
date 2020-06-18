@@ -352,17 +352,17 @@ public final class $ {
     }
 
     public static $ex literal(){
-        return $ex.any().$and(e-> e.ast().isLiteralExpr());
+        return $ex.any().$and(e-> e.node().isLiteralExpr());
     }
 
     public static $ex literal( String literalValue){
-        return $ex.any().$and(e -> e.ast().isLiteralExpr() && e.is(literalValue));
+        return $ex.any().$and(e -> e.node().isLiteralExpr() && e.is(literalValue));
     }
 
     public static $ex literal( String... literalValues){
         Set<String> vs = new HashSet<>();
         Arrays.stream(literalValues).forEach(s -> vs.add(s));
-        return $ex.any().$and(e -> e.ast().isLiteralExpr() && vs.contains(e.toString()));
+        return $ex.any().$and(e -> e.node().isLiteralExpr() && vs.contains(e.toString()));
     }
 
     public static $ex ex(Predicate<_expr> constraint){
@@ -569,7 +569,7 @@ public final class $ {
     }
 
     public static $ex<CastExpr, _castExpr, $ex> cast(Class castClazz){
-        return $ex.castEx("($type$)$expr$").$and(c-> Types.equal(c.ast().getType(), Types.of(castClazz) ) );
+        return $ex.castEx("($type$)$expr$").$and(c-> Types.equal(c.node().getType(), Types.of(castClazz) ) );
     }
 
     public static $ex<CastExpr, _castExpr, $ex> cast(){

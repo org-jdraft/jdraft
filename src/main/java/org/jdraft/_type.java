@@ -374,11 +374,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     default _T addCompanionTypes(_type..._ts ){
         if( this.isTopLevel() ){            
             for(int i=0;i<_ts.length; i++){
-                TypeDeclaration td = (TypeDeclaration)(_ts[i].setPackagePrivate()).ast();
+                TypeDeclaration td = (TypeDeclaration)(_ts[i].setPackagePrivate()).node();
                 if( td.getParentNode().isPresent() ){
                     td.getParentNode().get().remove(td);
                 }
-                CompilationUnit cu = ast().findCompilationUnit().get();
+                CompilationUnit cu = node().findCompilationUnit().get();
                 cu.getTypes().add(td);
             }
             return (_T)this;
@@ -593,7 +593,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default _T removeCompanionTypes(Predicate<_type> _typeMatchFn){
         listCompanionTypes(_typeMatchFn)
-                .forEach( t -> astCompilationUnit().remove( t.ast() ) );
+                .forEach( t -> astCompilationUnit().remove( t.node() ) );
         return (_T)this;
     }
 
@@ -604,7 +604,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default _T removeCompanionType(_type _t){
         listCompanionTypes(t -> t.equals(_t))
-                .forEach( t -> astCompilationUnit().remove( t.ast() ) );
+                .forEach( t -> astCompilationUnit().remove( t.node() ) );
         return (_T)this;
     }
 
@@ -658,9 +658,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     default _T add(_java._member... members){
         Arrays.stream(members).forEach(_m -> {
             if(_m instanceof _field){
-                this.ast().addMember( ((_field)_m).getFieldDeclaration() );
+                this.node().addMember( ((_field)_m).getFieldDeclaration() );
             } else{
-                this.ast().addMember( (BodyDeclaration)_m.ast() );
+                this.node().addMember( (BodyDeclaration)_m.node() );
             }
         }  );
         return (_T)this;
@@ -687,9 +687,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         if( _m.isEmpty() ){
             for(int i=0;i<members.length; i++){
                 if( members[i] instanceof _field ){
-                    ast().getMembers().add( ((_field)members[i]).getFieldDeclaration());
+                    node().getMembers().add( ((_field)members[i]).getFieldDeclaration());
                 } else {
-                    ast().getMembers().add(members[i].ast());
+                    node().getMembers().add(members[i].node());
                 }
             }
         }
@@ -700,15 +700,15 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             if( _found instanceof _field ){
                 before = ((_field) _found).getFieldDeclaration();
             } else{
-                before = (BodyDeclaration)_found.ast();
+                before = (BodyDeclaration)_found.node();
             }
 
             for(int i=0;i<members.length; i++) {
 
                 if( members[i] instanceof _field){
-                    ast().getMembers().addBefore( ((_field)members[i]).getFieldDeclaration(), before);
+                    node().getMembers().addBefore( ((_field)members[i]).getFieldDeclaration(), before);
                 } else{
-                    ast().getMembers().addBefore( (BodyDeclaration)members[i].ast(), before);
+                    node().getMembers().addBefore( (BodyDeclaration)members[i].node(), before);
                 }
             }
         }
@@ -736,9 +736,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         if( _m.isEmpty() ){
             for(int i=0;i<members.length; i++){
                 if( members[i] instanceof _field ){
-                    ast().getMembers().add( ((_field)members[i]).getFieldDeclaration());
+                    node().getMembers().add( ((_field)members[i]).getFieldDeclaration());
                 } else {
-                    ast().getMembers().add(members[i].ast());
+                    node().getMembers().add(members[i].node());
                 }
             }
         }
@@ -749,7 +749,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             if( _found instanceof _field ){
                 after = ((_field) _found).getFieldDeclaration();
             } else{
-                after = (BodyDeclaration)_found.ast();
+                after = (BodyDeclaration)_found.node();
             }
 
             Node nextNode = null;
@@ -757,10 +757,10 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
                 if( members[i] instanceof _field){
                     nextNode = ((_field)members[i]).getFieldDeclaration();
-                    ast().getMembers().addAfter( nextNode, after);
+                    node().getMembers().addAfter( nextNode, after);
                 } else{
-                    nextNode = (BodyDeclaration)members[i].ast();
-                    ast().getMembers().addAfter( nextNode, after);
+                    nextNode = (BodyDeclaration)members[i].node();
+                    node().getMembers().addAfter( nextNode, after);
                 }
                 after = (BodyDeclaration)nextNode;
             }
@@ -774,8 +774,8 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default _T setMembers(List<_java._member> members){
-        this.ast().getMembers().clear();
-        members.forEach(m -> this.ast().addMember( (BodyDeclaration)m.ast()) );
+        this.node().getMembers().clear();
+        members.forEach(m -> this.node().addMember( (BodyDeclaration)m.node()) );
         return (_T)this;
     }
 
@@ -786,7 +786,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default List<_java._member> listMembers(Predicate<_java._member> _matchFn){
         List<_java._member> _ms = new ArrayList<>();
-        NodeList<BodyDeclaration<?>> bds = ast().getMembers();
+        NodeList<BodyDeclaration<?>> bds = node().getMembers();
 
         bds.forEach(b -> {
             if( b instanceof FieldDeclaration ){
@@ -817,12 +817,12 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         List<_java._member> _ms = new ArrayList<>();
         NodeList<BodyDeclaration<?>> bds = new NodeList<>();
 
-        if( ast() instanceof EnumDeclaration ){
-            EnumDeclaration ed = (EnumDeclaration)ast();
+        if( node() instanceof EnumDeclaration ){
+            EnumDeclaration ed = (EnumDeclaration) node();
             bds.addAll( ed.getEntries() );
         }
 
-        bds.addAll( ast().getMembers() );
+        bds.addAll( node().getMembers() );
 
         bds.forEach(b -> {
             if( b instanceof FieldDeclaration ){
@@ -845,7 +845,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default <_M extends _java._member> List<_M> listMembers(Class<_M> memberClass){
         List<_M> _ms = new ArrayList<>();
-        NodeList<BodyDeclaration<?>> bds = ast().getMembers();
+        NodeList<BodyDeclaration<?>> bds = node().getMembers();
         bds.forEach(b -> {
             _java._domain _mem = _java.of(b);
             if (memberClass.isAssignableFrom(_mem.getClass())) {
@@ -865,7 +865,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default <_M extends _java._member> List<_M> listMembers(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         List<_M> _ms = new ArrayList<>();
-        NodeList<BodyDeclaration<?>> bds = ast().getMembers();
+        NodeList<BodyDeclaration<?>> bds = node().getMembers();
         bds.forEach(b -> {
             if(b instanceof FieldDeclaration){
                  FieldDeclaration fd = (FieldDeclaration)b;
@@ -968,7 +968,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default _T removeMembers( _java._member... _members){
-        Arrays.stream(_members).forEach( _m -> this.ast().remove(_m.ast()));
+        Arrays.stream(_members).forEach( _m -> this.node().remove(_m.node()));
         return (_T)this;
     }
 
@@ -994,7 +994,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default <_M extends _java._member> List<_M> removeMembersIf(Class<_M> memberClass, Predicate<_M> _memberMatchFn){
         List<_M> ms = listMembers( memberClass, _memberMatchFn);
-        ms.forEach( m -> this.ast().remove(m.ast()) );
+        ms.forEach( m -> this.node().remove(m.node()) );
         return ms;
     }
 
@@ -1103,7 +1103,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     @Override
     default String getFullName(){
-        return getFullName( ast() );
+        return getFullName( node() );
     }
 
     /**
@@ -1112,7 +1112,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     @Override
     default String getSimpleName(){
-        TypeDeclaration astType = ast();
+        TypeDeclaration astType = node();
         return astType.getNameAsString();        
     }
     
@@ -1199,7 +1199,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             // and we should move it OUT into it's own class at this package
             CompilationUnit cu = new CompilationUnit();
             cu.setPackageDeclaration(pd);
-            cu.addType( (TypeDeclaration) this.ast() );
+            cu.addType( (TypeDeclaration) this.node() );
             return (_T) this;
         }
         CompilationUnit cu = astCompilationUnit();
@@ -1217,7 +1217,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             // and we should move it OUT into it's own class at this package
             CompilationUnit cu = new CompilationUnit();    
             cu.setPackageDeclaration(packageName);
-            cu.addType( (TypeDeclaration) this.ast() );            
+            cu.addType( (TypeDeclaration) this.node() );
             return (_T) this;
         }
         CompilationUnit cu = astCompilationUnit();
@@ -1240,20 +1240,20 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             return (_T)_annotation.of(this.astCompilationUnit().clone());
         }
         if( this instanceof _class ) {
-            return (_T)_class.of( ((_class) this).ast().clone());
+            return (_T)_class.of( ((_class) this).node().clone());
         }
         if( this instanceof _enum ) {
-            return (_T)_enum.of( ((_enum) this).ast().clone());
+            return (_T)_enum.of( ((_enum) this).node().clone());
         }
         if( this instanceof _interface ) {
-            return (_T)_interface.of( ((_interface) this).ast().clone());
+            return (_T)_interface.of( ((_interface) this).node().clone());
         }
-        return (_T)_annotation.of( ((_annotation) this).ast().clone());
+        return (_T)_annotation.of( ((_annotation) this).node().clone());
     }
 
     @Override
     default _modifiers getModifiers(){
-        return _modifiers.of(this.ast() );
+        return _modifiers.of(this.node() );
     }
 
     /**
@@ -1261,7 +1261,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default boolean isPublic(){
-        return this.ast().isPublic();
+        return this.node().isPublic();
     }
 
     /**
@@ -1276,9 +1276,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return 
      */
     default boolean isPackagePrivate(){
-        return !this.ast().isProtected() &&
-                !this.ast().isPrivate() &&
-                !this.ast().isPublic();
+        return !this.node().isProtected() &&
+                !this.node().isPrivate() &&
+                !this.node().isPublic();
     }
 
     /**
@@ -1286,7 +1286,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default boolean isProtected(){
-        return this.ast().isProtected();
+        return this.node().isProtected();
     }
 
     /**
@@ -1294,7 +1294,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default boolean isPrivate(){
-        return this.ast().isPrivate();
+        return this.node().isPrivate();
     }
 
     /**
@@ -1302,7 +1302,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default boolean isStatic(){
-        return this.ast().isStatic();
+        return this.node().isStatic();
     }
 
     /**
@@ -1310,7 +1310,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default boolean isStrictFp(){
-        return this.ast().isStrictfp();
+        return this.node().isStrictfp();
     }
 
     /**
@@ -1318,9 +1318,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default _T setPublic(){
-        this.ast().setPrivate(false);
-        this.ast().setProtected(false);
-        this.ast().setPublic(true);        
+        this.node().setPrivate(false);
+        this.node().setProtected(false);
+        this.node().setPublic(true);
         return (_T)this;
     }
 
@@ -1329,9 +1329,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default _T setProtected(){
-        this.ast().setPublic(false);
-        this.ast().setPrivate(false);
-        this.ast().setProtected(true);
+        this.node().setPublic(false);
+        this.node().setPrivate(false);
+        this.node().setProtected(true);
         return (_T)this;
     }
 
@@ -1340,9 +1340,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default _T setPrivate(){
-        this.ast().setPublic(false);
-        this.ast().setPrivate(true);
-        this.ast().setProtected(false);
+        this.node().setPublic(false);
+        this.node().setPrivate(true);
+        this.node().setProtected(false);
         return (_T)this;
     }
 
@@ -1356,16 +1356,16 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return the modified T
      */
     default _T setPackagePrivate(){
-        this.ast().setPublic(false);
-        this.ast().setPrivate(false);
-        this.ast().setProtected(false);
+        this.node().setPublic(false);
+        this.node().setPrivate(false);
+        this.node().setProtected(false);
         return (_T)this;
     }
 
     @Override
     default NodeList<Modifier> getEffectiveAstModifiersList() {
-        NodeList<Modifier> implied = Modifiers.getImpliedModifiers( this.ast() );
-        return Modifiers.merge( implied, this.ast().getModifiers());
+        NodeList<Modifier> implied = Modifiers.getImpliedModifiers( this.node() );
+        return Modifiers.merge( implied, this.node().getModifiers());
     }
 
     @Override
@@ -1377,7 +1377,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
             this.setPackage(packageName);
             return setName(typeName);
         }
-        ast().setName( name );
+        node().setName( name );
         if( this instanceof _class ){
             //make sure to rename the CONSTRUCTORS
             _class _c = (_class)this;
@@ -1391,11 +1391,11 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         return (_T)this;
     }
 
-    default SimpleName getNameNode() { return ast().getName(); }
+    default SimpleName getNameNode() { return node().getName(); }
 
     @Override
     default String getName(){
-        return ast().getNameAsString();
+        return node().getNameAsString();
     }
 
     /**
@@ -1418,7 +1418,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
 
         if( this instanceof _type._withExtends){
             NodeList<ClassOrInterfaceType> impls =
-                    ((NodeWithExtends)((_type)this).ast()).getExtendedTypes();
+                    ((NodeWithExtends)((_type)this).node()).getExtendedTypes();
             if( astType.getTypeArguments().isPresent() ){ //if I DO have type args
                 return impls.stream().anyMatch(i -> Types.equal(i, astType));
             } else{
@@ -1462,7 +1462,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return true if the type extends this (raw) type
      */
     default boolean isExtends( Class clazz ){
-        TypeDeclaration td =(TypeDeclaration) ((_type)this).ast();
+        TypeDeclaration td =(TypeDeclaration) ((_type)this).node();
         List<ClassOrInterfaceType> coit = null;
         if( td.isClassOrInterfaceDeclaration() ) {
             coit = td.asClassOrInterfaceDeclaration().getExtendedTypes();
@@ -1553,7 +1553,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      */
     default boolean isImplements( ClassOrInterfaceType astType ){
         NodeList<ClassOrInterfaceType> impls =
-                ((NodeWithImplements)((_type)this).ast()).getImplementedTypes();
+                ((NodeWithImplements)((_type)this).node()).getImplementedTypes();
         if( astType.getTypeArguments().isPresent() ){ //if I DO have type args
             return impls.stream().filter(i -> Types.equal(i, astType)).findFirst().isPresent();
         } else{
@@ -1596,7 +1596,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return true 
      */
     default boolean isImplements( Class clazz ){
-        TypeDeclaration td =(TypeDeclaration) ((_type)this).ast();
+        TypeDeclaration td =(TypeDeclaration) ((_type)this).node();
         List<ClassOrInterfaceType> coit = null;
         if( td.isClassOrInterfaceDeclaration() ) {
             coit = td.asClassOrInterfaceDeclaration().getImplementedTypes();
@@ -1668,7 +1668,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
     @Override
     default List<_field> listFields() {
         List<_field> _fs = new ArrayList<>();
-        ast().getFields().forEach( f->{
+        node().getFields().forEach(f->{
             FieldDeclaration fd = ((FieldDeclaration)f);
             for(int i=0;i<fd.getVariables().size();i++){
                 _fs.add(_field.of(fd.getVariable( i ) ) );
@@ -1758,7 +1758,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return
      */
     default _T addInnerType(_type type ){
-        ((TypeDeclaration)this.ast()).addMember( (TypeDeclaration)type.ast() );
+        ((TypeDeclaration)this.node()).addMember( (TypeDeclaration)type.node() );
         return (_T)this;
     }
 
@@ -1825,7 +1825,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return 
      */
     default <_IT extends _type> _T removeInnerType(_IT innerTypeToRemove ){
-        listInnerTypes(t-> t.equals(innerTypeToRemove) ).forEach(n -> n.ast().removeForced() );
+        listInnerTypes(t-> t.equals(innerTypeToRemove) ).forEach(n -> n.node().removeForced() );
         return (_T) this;
     }
     
@@ -1868,7 +1868,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
      * @return the direct children (inner {@link _type}s) of this {@link _type}
      */
     default List<_type> listInnerTypes(){
-        NodeList<BodyDeclaration<?>> bds = ast().getMembers();
+        NodeList<BodyDeclaration<?>> bds = node().getMembers();
         List<BodyDeclaration> ts =
                 bds.stream().filter( n-> n instanceof TypeDeclaration )
                     .collect(Collectors.toList());
@@ -1953,7 +1953,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         }
 
         default _HI setImplements( List<_typeRef> trs){
-            ((NodeWithImplements)((_type)this).ast()).getImplementedTypes().clear();
+            ((NodeWithImplements)((_type)this).node()).getImplementedTypes().clear();
             addImplements(trs);
             return (_HI) this;
         }
@@ -1981,7 +1981,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         }
 
         default List<ClassOrInterfaceType> listAstImplements(){
-            return ((NodeWithImplements)((_type)this).ast()).getImplementedTypes();
+            return ((NodeWithImplements)((_type)this).node()).getImplementedTypes();
         }
 
         default _HI addImplements(_interface..._interfaces ){
@@ -1990,18 +1990,18 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         }        
 
         default _HI addImplements(List<_typeRef> _trs){
-            _trs.forEach(_tr -> addImplements( (ClassOrInterfaceType)_tr.ast()));
+            _trs.forEach(_tr -> addImplements( (ClassOrInterfaceType)_tr.node()));
             return (_HI)this;
         }
 
         default _HI addImplements(ClassOrInterfaceType... toImplement ){
-            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).node());
             Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
             return (_HI)this;
         }
         
         default _HI addImplements(Class... toImplement ){
-            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).node());
             
             Arrays.stream( toImplement )
                 .forEach(i -> {
@@ -2013,7 +2013,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
         }
 
         default _HI addImplements(String... toImplement ){
-            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).node());
             Arrays.stream( toImplement ).forEach(i -> nwi.addImplementedType( i ) );
             return (_HI)this;
         }
@@ -2024,9 +2024,9 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
          * @return
          */
         default _HI removeImplements(Class clazz ){
-            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).node());
             _typeRef _tr = _typeRef.of(clazz);
-            nwi.getImplementedTypes().removeIf(t-> t.equals( _tr.ast()));
+            nwi.getImplementedTypes().removeIf(t-> t.equals( _tr.node()));
             return (_HI)this;
         }
 
@@ -2036,7 +2036,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
          * @return
          */
         default _HI removeImplements(){
-            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).node());
             nwi.getImplementedTypes().clear();
             return (_HI)this;
         }
@@ -2047,7 +2047,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
          * @return
          */
         default _HI removeImplements(ClassOrInterfaceType coit ){
-            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).node());
             nwi.getImplementedTypes().remove(coit);
             return (_HI)this;
         }
@@ -2059,7 +2059,7 @@ public interface _type<AST extends TypeDeclaration, _T extends _type>
          * @return
          */
         default _HI removeImplements(String toRemove){
-            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).ast());
+            NodeWithImplements nwi = ((NodeWithImplements)((_type)this).node());
             if( toRemove.contains(".") ) { //they passed in a fully qualified name, so remove exact match
                 nwi.getImplementedTypes().removeIf(i -> ((ClassOrInterfaceType) i).getNameAsString().equals(toRemove));
             } else{

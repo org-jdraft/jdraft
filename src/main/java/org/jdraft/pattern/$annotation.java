@@ -85,11 +85,11 @@ public class $annotation
             //System.out.println("NODE" +  d + d.getClass());
             if( d instanceof _field ){
                 ((_field) d).getFieldDeclaration().remove();
-                nots.add( d.ast() );
+                nots.add( d.node() );
                 //System.out.println("Field "+ d);
             } else {
-                d.ast().remove(); //remove so we dont
-                nots.add(d.ast());
+                d.node().remove(); //remove so we dont
+                nots.add(d.node());
             }
         } );
 

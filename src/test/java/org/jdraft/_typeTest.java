@@ -104,19 +104,19 @@ public class _typeTest extends TestCase {
     //TypeDeclaration and NOT a Node (signifying that it COULD be a CompilationUnit)
     public void testT(){
         _class _c = _class.of("aaaa.bbb.C");
-        assertTrue( _c.ast() instanceof TypeDeclaration );
+        assertTrue( _c.node() instanceof TypeDeclaration );
 
         _type _t = _c;
-        assertTrue( _t.ast() instanceof TypeDeclaration);
+        assertTrue( _t.node() instanceof TypeDeclaration);
 
         _enum _e = _enum.of("aaaa.bbb.C");
-        assertTrue( _e.ast() instanceof TypeDeclaration );
+        assertTrue( _e.node() instanceof TypeDeclaration );
 
         _interface _i = _interface.of("aaaa.bbb.C");
-        assertTrue( _i.ast() instanceof TypeDeclaration );
+        assertTrue( _i.node() instanceof TypeDeclaration );
 
         _annotation _a = _annotation.of("aaaa.bbb.C");
-        assertTrue( _a.ast() instanceof TypeDeclaration );
+        assertTrue( _a.node() instanceof TypeDeclaration );
     }
 
     public void testTypeInt(){

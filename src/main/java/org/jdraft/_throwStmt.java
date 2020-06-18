@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.ThrowStmt;
 
@@ -75,10 +76,10 @@ public final class _throwStmt implements
 
     public static _feature._features<_throwStmt> FEATURES = _feature._features.of(_throwStmt.class,  PARSER, EXPRESSION );
 
-    private ThrowStmt astStmt;
+    private ThrowStmt node;
 
     public _throwStmt(ThrowStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     public _feature._features<_throwStmt> features(){
@@ -87,35 +88,37 @@ public final class _throwStmt implements
 
     @Override
     public _throwStmt copy() {
-        return new _throwStmt( this.astStmt.clone());
+        return new _throwStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.throwStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _throwStmt replace(ThrowStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
-    public ThrowStmt ast(){
-        return astStmt;
+    public ThrowStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _throwStmt ){
-            return Objects.equals( ((_throwStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_throwStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

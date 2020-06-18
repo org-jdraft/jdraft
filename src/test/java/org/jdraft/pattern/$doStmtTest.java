@@ -41,7 +41,7 @@ public class $doStmtTest extends TestCase {
         assertTrue($.doStmt().$and( d-> d.getBody().isImplemented()).matches( Stmt.doStmt("do{ System.out.println(1); } while(true);")));
         assertTrue($doStmt.of().match(Stmt.doStmt("do{ System.out.println(1); } while(true);")));
 
-        assertTrue($.doStmt().$body(s-> s.ast().isBlockStmt()).matches(Stmt.doStmt("do{ System.out.println(1); } while(true);")));
+        assertTrue($.doStmt().$body(s-> s.node().isBlockStmt()).matches(Stmt.doStmt("do{ System.out.println(1); } while(true);")));
     }
 
     public void testDoAnyMatchAll(){

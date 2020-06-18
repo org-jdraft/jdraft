@@ -9,7 +9,7 @@ public class _initTest extends TestCase {
 
     public void testF(){
         _field _f = _field.of( "int i" );
-        _init.Act.to(_f.ast(), Expr.of(100));
+        _init.Act.to(_f.node(), Expr.of(100));
         assertEquals( Expr.of(100), _f.getInitNode() );
     }
 
@@ -19,6 +19,6 @@ public class _initTest extends TestCase {
                 @_init("1") int f;
             //}
         });
-        assertEquals( Expr.of(1), _c.fieldNamed("f").getInitNode());
+        assertEquals( Expr.of(1), _c.getField("f").getInitNode());
     }
 }

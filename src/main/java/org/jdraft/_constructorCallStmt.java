@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 
@@ -61,10 +62,10 @@ public final class _constructorCallStmt
     public static _feature._features<_constructorCallStmt> FEATURES = _feature._features.of(
             _constructorCallStmt.class, PARSER, TYPE_ARGS, IS_THIS, IS_SUPER, EXPRESSION, ARGS);
 
-    private ExplicitConstructorInvocationStmt astStmt;
+    private ExplicitConstructorInvocationStmt node;
 
-    public _constructorCallStmt(ExplicitConstructorInvocationStmt astStmt){
-        this.astStmt = astStmt;
+    public _constructorCallStmt(ExplicitConstructorInvocationStmt node){
+        this.node = node;
     }
 
     public _feature._features<_constructorCallStmt> features(){
@@ -73,21 +74,23 @@ public final class _constructorCallStmt
 
     @Override
     public _constructorCallStmt copy() {
-        return new _constructorCallStmt( this.astStmt.clone());
+        return new _constructorCallStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.constructorCallStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _constructorCallStmt replace(ExplicitConstructorInvocationStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
-    public ExplicitConstructorInvocationStmt ast(){
-        return astStmt;
+    public ExplicitConstructorInvocationStmt node(){
+        return node;
     }
 
     /**
@@ -95,7 +98,7 @@ public final class _constructorCallStmt
      * @return
      */
     public boolean isThis(){
-        return this.astStmt.isThis();
+        return this.node.isThis();
     }
 
     /**
@@ -103,26 +106,26 @@ public final class _constructorCallStmt
      * @return
      */
     public boolean isSuper(){
-        return !this.astStmt.isThis();
+        return !this.node.isThis();
     }
 
     public _constructorCallStmt setThis(Boolean b){
-        this.astStmt.setThis(b);
+        this.node.setThis(b);
         return this;
     }
 
     public _constructorCallStmt setSuper(Boolean b){
-        this.astStmt.setThis( ! b );
+        this.node.setThis( ! b );
         return this;
     }
 
     public boolean hasExpression(){
-        return this.ast().getExpression().isPresent();
+        return this.node().getExpression().isPresent();
     }
 
     public _expr getExpression(){
-        if( this.ast().getExpression().isPresent()){
-            this.astStmt.getExpression().get();
+        if( this.node().getExpression().isPresent()){
+            this.node.getExpression().get();
         }
         return null;
     }
@@ -132,8 +135,8 @@ public final class _constructorCallStmt
     }
 
     public boolean isExpression( Expression e){
-        if( this.ast().getExpression().isPresent()){
-            return Expr.equal( this.ast().getExpression().get(), e);
+        if( this.node().getExpression().isPresent()){
+            return Expr.equal( this.node().getExpression().get(), e);
         }
         return e == null;
     }
@@ -144,29 +147,29 @@ public final class _constructorCallStmt
 
     public _constructorCallStmt setExpression(Expression e){
         if( e != null ) {
-            this.astStmt.setExpression(e);
+            this.node.setExpression(e);
         } else {
-            this.astStmt.removeExpression();
+            this.node.removeExpression();
         }
         return this;
     }
 
     public _constructorCallStmt setExpression(_expr _e){
         if( _e != null ) {
-            this.astStmt.setExpression(_e.ast());
+            this.node.setExpression(_e.node());
         } else {
-            this.astStmt.removeExpression();
+            this.node.removeExpression();
         }
         return this;
     }
 
     public _constructorCallStmt removeExpression(){
-        this.astStmt.removeExpression();
+        this.node.removeExpression();
         return this;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
@@ -188,6 +191,6 @@ public final class _constructorCallStmt
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

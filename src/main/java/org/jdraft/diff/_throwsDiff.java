@@ -50,9 +50,9 @@ public final class _throwsDiff implements _differ<_throws, _tree._node> {
             left = new NodeList<>();
             //leftRoot.
             //left.addAll( ((NodeWithThrownExceptions)leftRoot.getThrows().ast()).getThrownExceptions());
-            left.addAll(leftParent.getThrows().astNodeWithThrows.getThrownExceptions());
+            left.addAll(leftParent.getThrows().parentNode.getThrownExceptions());
             right = new NodeList<>();
-            right.addAll(rightParent.getThrows().astNodeWithThrows.getThrownExceptions());
+            right.addAll(rightParent.getThrows().parentNode.getThrownExceptions());
         }
 
         @Override

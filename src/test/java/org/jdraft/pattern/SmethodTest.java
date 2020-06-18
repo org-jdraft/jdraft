@@ -94,7 +94,7 @@ public class SmethodTest extends TestCase {
             }
         }
         _type mod = $.method().forEachIn(A.class, m-> m.add(0,
-                $stmt.of( ()-> System.out.println("Calling: $name$") ).fill(m.getName()).ast() ) );
+                $stmt.of( ()-> System.out.println("Calling: $name$") ).fill(m.getName()).node() ) );
 
         System.out.println( mod );
     }
@@ -575,8 +575,8 @@ public class SmethodTest extends TestCase {
 
         //convert all void set METHODS to fluent set METHODS
         $set.forSelectedIn(_c, s-> {
-            s._m.ast().setType( _c.getName() );
-            s._m.ast().getBody().get().addStatement("return this;");
+            s._m.node().setType( _c.getName() );
+            s._m.node().getBody().get().addStatement("return this;");
         });
         _runtime.compile( _c );
 

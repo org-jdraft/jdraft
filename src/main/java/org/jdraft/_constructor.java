@@ -8,6 +8,7 @@ import com.github.javaparser.ast.expr.ObjectCreationExpr;
 //import com.github.javaparser.ast.nodeTypes.NodeWithConstructors;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
+import com.github.javaparser.ast.nodeTypes.NodeWithParameters;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 
@@ -53,7 +54,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         _class _c = _class.of("C");
         if( oce.getAnonymousClassBody().isPresent() ){
             NodeList<BodyDeclaration<?>> bs = oce.getAnonymousClassBody().get();
-            bs.forEach( b -> _c.ast().addMember(b));
+            bs.forEach( b -> _c.node().addMember(b));
         }
         
         //run macros on the things
@@ -162,34 +163,44 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
     public static _feature._features<_constructor> FEATURES = _feature._features.of(_constructor.class, PARSER,
             JAVADOC, ANNOS, MODIFIERS, TYPE_PARAMS, NAME, RECEIVER_PARAM, PARAMS, THROWS, BODY );
 
-    private final ConstructorDeclaration astCtor;
+    private ConstructorDeclaration node;
 
     public _feature._features<_constructor> features(){
         return FEATURES;
     }
 
     public _constructor( ConstructorDeclaration md ) {
-        this.astCtor = md;
+        this.node = md;
+    }
+
+    public _constructor replace(ConstructorDeclaration ae){
+        if( this.node().getParentNode().isPresent() ){
+            this.node().getParentNode().get().replace(this.node(), ae);
+        }
+        this.node = ae;
+        return this;
     }
 
     @Override
     public _constructor copy(){
-        return new _constructor( this.astCtor.clone());
+        return new _constructor( this.node.clone());
     }
 
     @Override
     public NodeList<Modifier> getEffectiveAstModifiersList() {
-        NodeList<Modifier> em = Modifiers.getImpliedModifiers( this.astCtor );
+        NodeList<Modifier> em = Modifiers.getImpliedModifiers( this.node);
         if( em == null ){
-            return this.astCtor.getModifiers();
+            return this.node.getModifiers();
         }
-        return Modifiers.merge( em, this.astCtor.getModifiers());
+        return Modifiers.merge( em, this.node.getModifiers());
     }
 
     @Override
-    public ConstructorDeclaration ast() {
-        return astCtor;
+    public ConstructorDeclaration node() {
+        return node;
     }
+
+    public NodeWithParameters nodeWithParameters() { return node; }
     
     @Override
     public boolean equals( Object obj ) {
@@ -203,10 +214,10 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
             return false;
         }
         final _constructor other = (_constructor)obj;
-        if( this.astCtor == other.astCtor ) {
+        if( this.node == other.node) {
             return true; //two _constructor instances pointing to same ConstructorDeclaration instance
         }        
-        if( ! Expr.equalAnnos(this.astCtor, other.astCtor)){
+        if( ! Expr.equalAnnos(this.node, other.node)){
             return false;
         }
         if( !Objects.equals( this.getBody(), other.getBody() ) ) {
@@ -221,7 +232,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         if( this.hasJavadoc() && !Objects.equals( this.getJavadoc().getText(), other.getJavadoc().getText() ) ) {
             return false;
         }
-        if( !Modifiers.modifiersEqual(this.astCtor, other.astCtor) ){
+        if( !Modifiers.modifiersEqual(this.node, other.node) ){
             return false;
         }       
         if( !Objects.equals( this.getName(), other.getName() ) ) {
@@ -230,7 +241,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         if( !Objects.equals( this.getParams(), other.getParams() ) ) {
             return false;
         }
-        if( !Types.equal( this.astCtor.getThrownExceptions(), other.astCtor.getThrownExceptions()) ){
+        if( !Types.equal( this.node.getThrownExceptions(), other.node.getThrownExceptions()) ){
             return false;
         }        
         if( !Objects.equals( this.getTypeParams(), other.getTypeParams() ) ) {
@@ -242,33 +253,17 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         return true;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put( _java.Feature.ANNO_EXPRS, getAnnoExprs() );
-        parts.put( _java.Feature.BODY, getBody() );
-        parts.put( _java.Feature.MODIFIERS, getModifiers() );
-        parts.put( _java.Feature.JAVADOC, getJavadoc() );
-        parts.put( _java.Feature.PARAMS, getParams() );
-        parts.put( _java.Feature.RECEIVER_PARAM, getReceiverParam() );
-        parts.put( _java.Feature.TYPE_PARAMS, getTypeParams() );
-        parts.put( _java.Feature.THROWS, getThrows() );
-        parts.put( _java.Feature.NAME, getName() );
-        return parts;
-    }
-     */
-
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hash(
-            Expr.hashAnnos(astCtor),
+            Expr.hashAnnos(node),
             this.getBody(), 
             this.getJavadoc(),
             this.getEffectiveAstModifiersList(),
             this.getName(), 
             this.getParams(),
-            Types.hash( astCtor.getThrownExceptions()),
+            Types.hash( node.getThrownExceptions()),
             this.getTypeParams(),
             this.getReceiverParam() );
         return hash;
@@ -276,45 +271,45 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
 
     @Override
     public _constructor setName(String name ) {
-        this.astCtor.setName( name );
+        this.node.setName( name );
         return this;
     }
 
     @Override
     public _constructor setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _constructor setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
     @Override
     public _throws getThrows() {
-        return _throws.of( astCtor );
+        return _throws.of(node);
     }
 
     public _constructor setTypeParams(_typeParams _tps ){
-        this.astCtor.setTypeParameters( _tps.ast() );
+        this.node.setTypeParameters( _tps.ast() );
         return this;
     }
 
     public _constructor setTypeParams(String typeParameters ) {
-        this.astCtor.setTypeParameters( Types.typeParams( typeParameters ) );
+        this.node.setTypeParameters( Types.typeParams( typeParameters ) );
         return this;
     }
 
     @Override
     public _typeParams getTypeParams() {
-        return _typeParams.of( this.astCtor );
+        return _typeParams.of( this.node);
     }
 
     @Override
     public boolean hasTypeParams() {
-        return this.astCtor.getTypeParameters().isNonEmpty();
+        return this.node.getTypeParameters().isNonEmpty();
     }
 
     /**
@@ -360,7 +355,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         }
         try {
             _constructor _ct = of(constructorDeclaration);
-            _ct.astCtor.setModifiers( Modifiers.merge(_ct.ast().getModifiers(), Modifiers.getImpliedModifiers( this.astCtor ) ) );
+            _ct.node.setModifiers( Modifiers.merge(_ct.node().getModifiers(), Modifiers.getImpliedModifiers( this.node) ) );
             return equals(_ct);
         }
         catch(Exception e){
@@ -376,7 +371,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
 
     @Override
     public _body getBody() {
-        return _body.of( this.astCtor );
+        return _body.of( this.node);
     }
 
     @Override
@@ -386,101 +381,101 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
 
     @Override
     public _modifiers getModifiers() {
-        return _modifiers.of( astCtor );
+        return _modifiers.of(node);
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of( astCtor );
+        return _annos.of(node);
     }
 
-    public SimpleName getNameNode() { return this.astCtor.getName(); }
+    public SimpleName getNameNode() { return this.node.getName(); }
 
     @Override
     public String getName() {
-        return astCtor.getNameAsString();
+        return node.getNameAsString();
     }
 
     @Override
     public _params getParams() {
-        return _params.of( astCtor );
+        return _params.of(node);
     }
 
     @Override
     public String toString() {
-        return this.astCtor.toString();
+        return this.node.toString();
     }
 
     public boolean isPublic() {
-        return this.astCtor.isPublic();
+        return this.node.isPublic();
     }
 
     public boolean isProtected() {
-        return this.astCtor.isProtected();
+        return this.node.isProtected();
     }
 
     public boolean isPrivate() {
-        return this.astCtor.isPrivate() || this.getEffectiveAstModifiersList().contains(Modifier.privateModifier());
+        return this.node.isPrivate() || this.getEffectiveAstModifiersList().contains(Modifier.privateModifier());
     }
 
     public boolean isStrictFp() {
-        return this.astCtor.isStrictfp();
+        return this.node.isStrictfp();
     }
 
     public boolean isFinal() {
-        return this.astCtor.isFinal();
+        return this.node.isFinal();
     }
 
     public _constructor setPublic() {
-        this.astCtor.setPrivate(false);
-        this.astCtor.setProtected(false);
-        this.astCtor.setPublic(true);
+        this.node.setPrivate(false);
+        this.node.setProtected(false);
+        this.node.setPublic(true);
         return this;
     }
 
     public _constructor setProtected() {
-        this.astCtor.setPrivate(false);
-        this.astCtor.setProtected(true);
-        this.astCtor.setPublic(false);
+        this.node.setPrivate(false);
+        this.node.setProtected(true);
+        this.node.setPublic(false);
         return this;
     }
 
     public _constructor setPrivate() {
-        this.astCtor.setPrivate(true);
-        this.astCtor.setProtected(false);
-        this.astCtor.setPublic(false);
+        this.node.setPrivate(true);
+        this.node.setProtected(false);
+        this.node.setPublic(false);
         return this;
     }
 
     public _constructor setDefaultAccess() {
-        this.astCtor.setPrivate(false);
-        this.astCtor.setProtected(false);
-        this.astCtor.setPublic(false);
+        this.node.setPrivate(false);
+        this.node.setProtected(false);
+        this.node.setPublic(false);
         return this;
     }
 
     @Override
     public _constructor setBody( BlockStmt body ) {
-        this.astCtor.setBody( body );
+        this.node.setBody( body );
         return this;
     }
 
     @Override
     public _constructor clearBody() {
-        this.astCtor.replace( this.astCtor.getBody(), new BlockStmt() );
+        this.node.replace( this.node.getBody(), new BlockStmt() );
         return this;
     }
 
     @Override
     public _constructor add( Statement... statements ) {
-        Arrays.stream( statements ).forEach( s -> this.astCtor.getBody().addStatement( s ) );
+        Arrays.stream( statements ).forEach( s -> this.node.getBody().addStatement( s ) );
         return this;
     }
 
     @Override
     public _constructor add( int startStatementIndex, Statement...statements ){
         for( int i=0;i<statements.length;i++) {
-            this.astCtor.getBody().addStatement( i+ startStatementIndex, statements[i] );
+            this.node.getBody().addStatement( i+ startStatementIndex, statements[i] );
         }
         return this;
     }
@@ -498,8 +493,8 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
          * Gets the node that is the nodeWithConstructors (i.e._class, _enum)
          * @return  
          */
-        N ast();
-        
+        N node();
+
         /**
          * list all of the (explicit) constructors
          * @return 
@@ -616,7 +611,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
         default _WC removeConstructor(_constructor _ct){
             _constructor _cc = _ct.copy().setName( ((_type)this).getName() );
         
-            listConstructors( c-> c.equals( _cc ) ).forEach(c-> c.ast().removeForced() );        
+            listConstructors( c-> c.equals( _cc ) ).forEach(c-> c.node().removeForced() );
             return (_WC)this;
         }
 
@@ -662,7 +657,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
             _ct.setBody( theMethod.getBody().get() ); //BODY
             _ct.addAnnos( theMethod.getAnnotations() ); //ANNOTATIONS
             if( theMethod.hasJavaDocComment() ){
-                _ct.ast().setJavadocComment( theMethod.getJavadocComment().get());
+                _ct.node().setJavadocComment( theMethod.getJavadocComment().get());
             }
             addConstructor(_ct);
             return (_WC)this;
@@ -742,7 +737,7 @@ public final class _constructor implements _annos._withAnnos<_constructor>,
          * @return 
          */
         default _WC addConstructor(_constructor _c ) {
-            return addConstructor( _c.ast() );
+            return addConstructor( _c.node() );
         }
     }
 

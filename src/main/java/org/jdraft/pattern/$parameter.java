@@ -509,7 +509,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
             return null;
         }
         */
-        $annoRefs.Select ans = annos.select(_p.ast() );
+        $annoRefs.Select ans = annos.select(_p.node() );
         if( ans == null ){
             return null;
         }
@@ -765,9 +765,9 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
             if( ((_codeUnit) _j).isTopLevel()){
                 return firstIn( ((_codeUnit) _j).astCompilationUnit() );
             }
-            return firstIn( ((_type) _j).ast() );
+            return firstIn( ((_type) _j).node() );
         }
-        return firstIn( ((_tree._node) _j).ast() );
+        return firstIn( ((_tree._node) _j).node() );
     }
     
     /**
@@ -824,9 +824,9 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint );
             }
-            return selectFirstIn( ((_type)_j).ast(), selectConstraint);
+            return selectFirstIn( ((_type)_j).node(), selectConstraint);
         }
-        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint);
+        return selectFirstIn( ((_tree._node)_j).node(), selectConstraint);
     }
     
     /**
@@ -986,7 +986,7 @@ public class $parameter implements Template<_param>, //$pattern<_parameter, $par
         
         @Override
         public Parameter ast(){
-            return _param.ast();
+            return _param.node();
         } 
         
         @Override

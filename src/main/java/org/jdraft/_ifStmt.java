@@ -1,8 +1,8 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithExpression;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.EmptyStmt;
 import com.github.javaparser.ast.stmt.IfStmt;
@@ -105,10 +105,10 @@ public final class _ifStmt implements
 
     public static _feature._features<_ifStmt> FEATURES = _feature._features.of(_ifStmt.class,  PARSER, CONDITION, THEN, ELSE );
 
-    private IfStmt astStmt;
+    private IfStmt node;
 
     public _ifStmt(IfStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     public _feature._features<_ifStmt> features(){
@@ -117,25 +117,27 @@ public final class _ifStmt implements
 
     @Override
     public _ifStmt copy() {
-        return new _ifStmt( this.astStmt.clone());
+        return new _ifStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.ifStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _ifStmt replace(IfStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public _ifStmt setCondition(String...expression){
         return setCondition(Expr.of(expression));
     }
 
     public _ifStmt setCondition(Expression e){
-        this.astStmt.setCondition(e);
+        this.node.setCondition(e);
         return this;
     }
 
@@ -144,11 +146,11 @@ public final class _ifStmt implements
     }
 
     public _expr getCondition(){
-        return _expr.of(this.astStmt.getCondition());
+        return _expr.of(this.node.getCondition());
     }
 
     public _stmt getThen(){
-        return _stmt.of( this.astStmt.getThenStmt() );
+        return _stmt.of( this.node.getThenStmt() );
     }
 
     public <_TI extends _stmt> boolean isThen(Class<_TI> thenImplClass ){
@@ -170,12 +172,12 @@ public final class _ifStmt implements
     }
 
     public _ifStmt setThen(String...sts){
-        this.astStmt.setThenStmt(Stmt.of(sts));
+        this.node.setThenStmt(Stmt.of(sts));
         return this;
     }
 
     public _ifStmt setThen(Statement st){
-        this.astStmt.setThenStmt(st);
+        this.node.setThenStmt(st);
         return this;
     }
 
@@ -238,22 +240,22 @@ public final class _ifStmt implements
     }
 
     public _ifStmt setThen(_stmt _st){
-        this.astStmt.setThenStmt(_st.ast());
+        this.node.setThenStmt(_st.node());
         return this;
     }
 
     public _ifStmt setThen(_body _bd){
-        this.astStmt.setThenStmt(_bd.ast());
+        this.node.setThenStmt(_bd.ast());
         return this;
     }
 
     public _ifStmt setThen(BlockStmt body) {
-        this.astStmt.setThenStmt(body);
+        this.node.setThenStmt(body);
         return this;
     }
 
     public _ifStmt clearThen() {
-        this.astStmt.setThenStmt(new EmptyStmt());
+        this.node.setThenStmt(new EmptyStmt());
         return this;
     }
 
@@ -264,7 +266,7 @@ public final class _ifStmt implements
      * @return
      */
     public _ifStmt addThen(int startStatementIndex, Statement... statements) {
-        Statement bd = this.astStmt.getThenStmt();
+        Statement bd = this.node.getThenStmt();
         if( bd instanceof BlockStmt){
             for(int i=0;i<statements.length; i++) {
                 bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
@@ -302,34 +304,34 @@ public final class _ifStmt implements
     }
 
     public _ifStmt removeElse(){
-        this.astStmt.removeElseStmt();
+        this.node.removeElseStmt();
         return this;
     }
 
     public _stmt getElse(){
-        if( this.astStmt.getElseStmt().isPresent()) {
-            return _stmt.of(this.astStmt.getElseStmt().get());
+        if( this.node.getElseStmt().isPresent()) {
+            return _stmt.of(this.node.getElseStmt().get());
         }
         return null;
     }
 
     public _ifStmt setElse(String...stmt){
-        this.astStmt.setElseStmt(Stmt.of(stmt));
+        this.node.setElseStmt(Stmt.of(stmt));
         return this;
     }
 
     public _ifStmt setElse(Statement st){
-        this.astStmt.setElseStmt(st);
+        this.node.setElseStmt(st);
         return this;
     }
 
     public _ifStmt setElse(_stmt _st){
-        this.astStmt.setElseStmt(_st.ast());
+        this.node.setElseStmt(_st.node());
         return this;
     }
 
     public _ifStmt setElse(_body _bd){
-        this.astStmt.setElseStmt(_bd.ast());
+        this.node.setElseStmt(_bd.ast());
         return this;
     }
 
@@ -378,22 +380,22 @@ public final class _ifStmt implements
         return setElse(_l.getBody());
     }
 
-    public IfStmt ast(){
-        return astStmt;
+    public IfStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _ifStmt ){
-            return Objects.equals( ((_ifStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_ifStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

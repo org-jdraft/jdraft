@@ -37,7 +37,7 @@ public class SpatternBlockBodyTest extends TestCase {
              }
          }
          _class _c = _class.of(C.class);
-         LabeledStmt ls = ((_labeledStmt)$.labeledStmt().firstIn(_c)).ast();
+         LabeledStmt ls = ((_labeledStmt)$.labeledStmt().firstIn(_c)).node();
          $stmt $println = $stmt.of( (Object $any$)-> System.out.println($any$) );
 
          assertEquals( 3, $pattern.BlockScope.listAllBefore(ls, $println ).size() );
@@ -80,7 +80,7 @@ public class SpatternBlockBodyTest extends TestCase {
             }
         }
         _class _c = _class.of(C.class);
-        LabeledStmt ls = ((_labeledStmt)$.labeledStmt().firstIn(_c)).ast();
+        LabeledStmt ls = ((_labeledStmt)$.labeledStmt().firstIn(_c)).node();
         $stmt $println = $stmt.of( (Object $any$)-> System.out.println($any$) );
 
         assertEquals( 5, $pattern.BodyScope.listAllBefore(ls, $println ).size() );

@@ -37,7 +37,7 @@ public class _2_Model_classTest extends TestCase {
 
         // similar to how a _method is a jdraft wrapper to a JavaParser MethodDeclaration;
         // a _class(_c) is a jdraft wrapper to a JavaParser ClassOrInterfaceDeclaration (astCoid)
-        ClassOrInterfaceDeclaration astCoid = _c.ast();
+        ClassOrInterfaceDeclaration astCoid = _c.node();
 
         // _class (_c) just wraps and accesses/modifies the state on the ClassOrInterfaceDeclaration (astCoid)
         assertTrue( astCoid.isPublic() );

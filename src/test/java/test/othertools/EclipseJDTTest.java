@@ -130,7 +130,7 @@ public class EclipseJDTTest{ //extends TestCase
         //print the name, signature and return type for all methods
         $.method().forEachIn(_cc, m->System.out.println(
                 "Name:      " + m.getName()+System.lineSeparator()+
-                "Signature: " + m.ast().getSignature().toString()+System.lineSeparator()+
+                "Signature: " + m.node().getSignature().toString()+System.lineSeparator()+
                 "ReturnType: "+ m.getType()+System.lineSeparator() ));
 
     }

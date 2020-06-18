@@ -37,7 +37,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $expr<
     }
 
     static <$E extends $expr> $E of(_expr _e) {
-        return of( _e.ast() );
+        return of( _e.node() );
     }
 
     /**
@@ -104,7 +104,7 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $expr<
         if( e == null ){
             return isMatchAny();
         }
-        return select(e.ast()) != null;
+        return select(e.node()) != null;
     }
 
     /**
@@ -178,7 +178,8 @@ public interface $expr<E extends Expression, _E extends _expr, $E extends $expr<
             return of($target, (s)->{
                 _expr _drafted = (_expr)$change.draft( ((Select)s).tokens);
                 _expr _target = (_expr) ((Select)s).select;
-                _target.replace(_drafted);
+                _target.node().replace(_drafted.node());
+                //_target.replace(_drafted);
             });
         }
 

@@ -1,8 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.IntegerLiteralExpr;
-import org.jdraft.text.Stencil;
-import org.jdraft.text.Text;
 
 import java.util.function.Function;
 
@@ -26,47 +24,40 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
     public static _feature._one<_intExpr, String> LITERAL_VALUE = new _feature._one<>(_intExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_intExpr a, String value) -> a.ast().setValue(value), PARSER);
+            (_intExpr a, String value) -> a.node().setValue(value), PARSER);
 
 
     public static _feature._features<_intExpr> FEATURES = _feature._features.of(_intExpr.class, PARSER, LITERAL_VALUE);
 
-    public IntegerLiteralExpr ile;
+    public IntegerLiteralExpr node;
 
     public _feature._features<_intExpr> features(){
         return FEATURES;
     }
 
-    public _intExpr(IntegerLiteralExpr ile){
-        this.ile = ile;
+    public _intExpr(IntegerLiteralExpr node){
+        this.node = node;
     }
 
     @Override
     public _intExpr copy() {
-        return new _intExpr(this.ile.clone());
+        return new _intExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        String str = Text.combine(stringRep);
-        if( str.startsWith("$") && str.endsWith("$")){
-            Stencil st = Stencil.of(str);
-            if( st.isMatchAny() ){
-                return true;
-            }
-        }
-        try{
-            return is( Expr.integerLiteralExpr(stringRep));
-        } catch(Exception e){
-
-        }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _intExpr replace(IntegerLiteralExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean is(int value){
-        return this.ile.asInt() == value;
+        return this.node.asInt() == value;
     }
 
     /**
@@ -74,7 +65,7 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
      * @return
      */
     public boolean has_Separators(){
-        return this.ile.getValue().contains("_");
+        return this.node.getValue().contains("_");
     }
 
     /**
@@ -83,7 +74,7 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
      * @return
      */
     public boolean isBinaryFormat(){
-        return this.ile.getValue().startsWith("0b") || this.ile.getValue().startsWith("0B");
+        return this.node.getValue().startsWith("0b") || this.node.getValue().startsWith("0B");
     }
 
     /**
@@ -93,26 +84,26 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
      * @return
      */
     public boolean isHexFormat(){
-        return this.ile.getValue().startsWith("0x") || this.ile.getValue().startsWith("0X");
+        return this.node.getValue().startsWith("0x") || this.node.getValue().startsWith("0X");
     }
 
     /**
      * int k = 01234567;
      */
     public boolean isOctalFormat(){
-        return  this.ile.getValue().length() > 0
-                && this.ile.getValue().startsWith("0")
+        return  this.node.getValue().length() > 0
+                && this.node.getValue().startsWith("0")
                 && ! isHexFormat()
                 && ! isBinaryFormat();
     }
 
 
-    public IntegerLiteralExpr ast(){
-        return ile;
+    public IntegerLiteralExpr node(){
+        return node;
     }
 
     public int getValue(){
-        return this.ile.asInt();
+        return this.node.asInt();
     }
 
     /**
@@ -126,26 +117,26 @@ public final class _intExpr implements _expr._literal<IntegerLiteralExpr, _intEx
      * @return
      */
     public String valueAsString(){
-        return this.ile.toString();
+        return this.node.toString();
     }
 
     public _intExpr setValue(int value){
-        this.ile.setInt(value);
+        this.node.setInt(value);
         return this;
     }
 
     public boolean equals(Object other){
         if( other instanceof _intExpr){
-            return ((_intExpr)other).ile.equals( this.ile );
+            return ((_intExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.node.toString();
     }
 }

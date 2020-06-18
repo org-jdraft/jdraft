@@ -80,38 +80,40 @@ public final class _whileStmt implements
 
     public static _feature._features<_whileStmt> FEATURES = _feature._features.of(_whileStmt.class,  PARSER, CONDITION, BODY);
 
-    private WhileStmt whileStmt;
+    private WhileStmt node;
 
     public _feature._features<_whileStmt> features(){
         return FEATURES;
     }
 
     public _whileStmt(WhileStmt rs){
-        this.whileStmt = rs;
+        this.node = rs;
     }
 
     @Override
     public _whileStmt copy() {
-        return new _whileStmt( this.whileStmt.clone());
+        return new _whileStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.whileStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _whileStmt replace(WhileStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public _body getBody(){
-        return _body.of( this.whileStmt.getBody() );
+        return _body.of( this.node.getBody() );
     }
 
     @Override
     public _whileStmt setBody(BlockStmt body) {
-        this.whileStmt.setBody(body);
+        this.node.setBody(body);
         return this;
     }
 
@@ -120,18 +122,18 @@ public final class _whileStmt implements
     }
 
     public _whileStmt setBody(_stmt _st){
-        this.whileStmt.setBody(_st.ast());
+        this.node.setBody(_st.node());
         return this;
     }
 
     public _whileStmt clearBody(){
-        this.whileStmt.setBody( new BlockStmt());
+        this.node.setBody( new BlockStmt());
         return this;
     }
 
     @Override
     public _whileStmt add(int startStatementIndex, Statement... statements) {
-        Statement st = this.whileStmt.getBody();
+        Statement st = this.node.getBody();
         if( st instanceof BlockStmt ){
             for(int i=0;i<statements.length; i++) {
                 st.asBlockStmt().addStatement(i + startStatementIndex, statements[i]);
@@ -141,26 +143,26 @@ public final class _whileStmt implements
         BlockStmt bs = new BlockStmt();
         bs.addStatement(st); //add the old statement
         Arrays.stream(statements).forEach(s -> bs.addStatement(startStatementIndex, s) );
-        this.whileStmt.setBody(bs);
+        this.node.setBody(bs);
         return this;
     }
 
-    public WhileStmt ast(){
-        return whileStmt;
+    public WhileStmt node(){
+        return node;
     }
 
     public boolean equals(Object other){
         if( other instanceof _whileStmt ){
-            return Objects.equals( ((_whileStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_whileStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 
     public String toString(){
-        return this.whileStmt.toString();
+        return this.node.toString();
     }
 }

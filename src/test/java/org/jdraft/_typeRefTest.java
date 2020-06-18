@@ -34,7 +34,7 @@ public class _typeRefTest extends TestCase {
         _t = _typeRef.of(int[].class);
         assertTrue(_t.getElementType().isPrimitiveType());
         System.out.println( _t );
-        assertTrue(_t.ast().isArrayType());
+        assertTrue(_t.node().isArrayType());
         assertTrue(_t.isArrayType());
         assertTrue( _t.is(int[].class));
 
@@ -42,7 +42,7 @@ public class _typeRefTest extends TestCase {
         _t = _typeRef.of(int[][].class);
         assertTrue(_t.getElementType().getElementType().isPrimitiveType());
         System.out.println( _t );
-        assertTrue(_t.ast().isArrayType());
+        assertTrue(_t.node().isArrayType());
         assertTrue(_t.isArrayType());
         assertTrue( _t.is(int[][].class));
     }
@@ -57,7 +57,7 @@ public class _typeRefTest extends TestCase {
         assertTrue( _t.is(FileNotFoundException.class.getCanonicalName()+" | URISyntaxException"));
 
         assertTrue( Types.equal( Types.of(FileNotFoundException.class.getCanonicalName()+" | URISyntaxException"),
-                _typeRef.of("URISyntaxException | FileNotFoundException").ast()) );
+                _typeRef.of("URISyntaxException | FileNotFoundException").node()) );
 
         assertTrue( _t.isUnionType(URISyntaxException.class));
         assertTrue( _t.isUnionType(FileNotFoundException.class));
@@ -141,7 +141,7 @@ public class _typeRefTest extends TestCase {
         _typeRef _tr = _typeRef.of("@Test List<A>");        
         //      
         System.out.println( _tr );
-        Type t = _tr.ast();
+        Type t = _tr.node();
         ClassOrInterfaceType coit = t.asClassOrInterfaceType();
         
         System.out.println( "CHILDREN " + coit.getChildNodes());
@@ -282,7 +282,7 @@ public class _typeRefTest extends TestCase {
 
 
       //assertTrue( wc.isGenericType() );
-      Type t = wc.ast();
+      Type t = wc.node();
       ClassOrInterfaceType astT = (ClassOrInterfaceType)t;
       NodeList<Type> nt = astT.getTypeArguments().get();
         /*

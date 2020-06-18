@@ -77,7 +77,7 @@ public class _newExprTest extends TestCase {
         oce.setType("A<String>");
         oce.setTypeArguments( Types.of("TP1"), Types.of("TP2"));
         oce.setArguments(new NodeList<Expression>());
-        oce.addArgument(_intExpr.of(2).ast());
+        oce.addArgument(_intExpr.of(2).node());
         System.out.println( oce);
     }
 

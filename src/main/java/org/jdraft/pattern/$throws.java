@@ -450,9 +450,9 @@ public class $throws
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
-            return selectFirstIn( ((_type)_j).ast(), selectConstraint);
+            return selectFirstIn( ((_type)_j).node(), selectConstraint);
         }
-        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint );
+        return selectFirstIn( ((_tree._node)_j).node(), selectConstraint );
     }
 
     /**
@@ -529,9 +529,9 @@ public class $throws
             if( ((_codeUnit) _j).isTopLevel()){
                 return listSelectedIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint );
             }
-            return listSelectedIn( ((_type)_j).ast(), selectConstraint);
+            return listSelectedIn( ((_type)_j).node(), selectConstraint);
         }
-        return listSelectedIn( ((_tree._node)_j).ast(), selectConstraint );
+        return listSelectedIn( ((_tree._node)_j).node(), selectConstraint );
     }
 
     /**
@@ -599,10 +599,10 @@ public class $throws
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), $throws.of(_replaceThrows));
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), $throws.of(_replaceThrows));
+            replaceIn( ((_type) _j).node(), $throws.of(_replaceThrows));
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), $throws.of(_replaceThrows));
+        replaceIn( ((_tree._node) _j).node(), $throws.of(_replaceThrows));
         return _j;
     }
     
@@ -631,10 +631,10 @@ public class $throws
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), $replaceThrows);
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), $replaceThrows);
+            replaceIn( ((_type) _j).node(), $replaceThrows);
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), $replaceThrows);
+        replaceIn( ((_tree._node) _j).node(), $replaceThrows);
         return _j;
     }
     
@@ -651,7 +651,7 @@ public class $throws
                 Select sel = select( e );
                 if( sel != null ){
                     for(int i = 0; i< this.throws$ids.size(); i++){
-                        final NodeList<ReferenceType> nodes = sel.thrown.astNodeWithThrows.getThrownExceptions();
+                        final NodeList<ReferenceType> nodes = sel.thrown.parentNode.getThrownExceptions();
                         $typeRef th = this.throws$ids.get(i);
                         nodes.removeIf(t -> th.matches(t) );
                         //$id th = this.throws$ids.get(i);

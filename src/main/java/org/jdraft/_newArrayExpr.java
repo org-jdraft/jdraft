@@ -4,6 +4,7 @@ import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
@@ -107,89 +108,78 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
         return FEATURES;
     }
 
-    public ArrayCreationExpr astNode;
+    public ArrayCreationExpr node;
 
-    public _newArrayExpr(ArrayCreationExpr astNode){
-        this.astNode = astNode;
+    public _newArrayExpr(ArrayCreationExpr node){
+        this.node = node;
     }
 
     @Override
     public _newArrayExpr copy() {
-        return new _newArrayExpr(this.astNode.clone());
+        return new _newArrayExpr(this.node.clone());
     }
 
     @Override
     public List<_arrayDimension> list() {
         List<_arrayDimension> _ads = new ArrayList<>();
-        this.astNode.getLevels().forEach(l-> _ads.add( _arrayDimension.of(l)));
+        this.node.getLevels().forEach(l-> _ads.add( _arrayDimension.of(l)));
         return _ads;
     }
 
     @Override
     public NodeList<ArrayCreationLevel> astList() {
-        return this.astNode.getLevels();
+        return this.node.getLevels();
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.arrayCreationExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
-
-    public ArrayCreationExpr ast(){
-        return astNode;
+    public _newArrayExpr replace(ArrayCreationExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        if( astNode.getInitializer().isPresent()) {
-            comps.put(_java.Feature.INIT, astNode.getInitializer());
-        }
-        comps.put(_java.Feature.ARRAY_DIMENSIONS, astNode.getLevels());
-        comps.put(_java.Feature.TYPE, astNode.getElementType());
-        return comps;
+    public ArrayCreationExpr node(){
+        return node;
     }
-     */
 
     public boolean is(String code){
         return is(new String[]{code});
     }
 
     public _newArrayExpr setInit(String...init){
-        this.astNode.setInitializer(Expr.arrayInitializerExpr(init));
+        this.node.setInitializer(Expr.arrayInitializerExpr(init));
         return this;
     }
 
     public _newArrayExpr setInit(_arrayInitExpr ae){
-        this.astNode.setInitializer(ae.ast());
+        this.node.setInitializer(ae.node());
         return this;
     }
 
     public _newArrayExpr setInit(ArrayInitializerExpr ae){
-        this.astNode.setInitializer(ae);
+        this.node.setInitializer(ae);
         return this;
     }
 
     public boolean isElementType(String typeRef){
-        return Types.equal( this.astNode.getElementType(), _typeRef.of(typeRef).ast());
+        return Types.equal( this.node.getElementType(), _typeRef.of(typeRef).node());
     }
 
     public boolean isElementType( _typeRef _t ){
-        return Types.equal( this.astNode.getElementType(), _t.ast());
+        return Types.equal( this.node.getElementType(), _t.node());
     }
 
     public boolean isElementType(Type t){
-        return Types.equal( this.astNode.getElementType(),t);
+        return Types.equal( this.node.getElementType(),t);
     }
 
     public boolean hasInit(){
-        return this.astNode.getInitializer().isPresent();
+        return this.node.getInitializer().isPresent();
     }
 
     public boolean isInit(String... initCode){
@@ -201,63 +191,63 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
     }
 
     public boolean isInit(ArrayInitializerExpr aie){
-        if( this.astNode.getInitializer().isPresent()) {
-            return Objects.equals(this.astNode.getInitializer().get(), aie);
+        if( this.node.getInitializer().isPresent()) {
+            return Objects.equals(this.node.getInitializer().get(), aie);
         }
         return aie == null;
     }
     public boolean isInit(_arrayInitExpr _ai){
-        if( this.astNode.getInitializer().isPresent()) {
-            return Objects.equals(this.astNode.getInitializer().get(), _ai.ast());
+        if( this.node.getInitializer().isPresent()) {
+            return Objects.equals(this.node.getInitializer().get(), _ai.node());
         }
         return _ai == null;
     }
 
     public _arrayInitExpr getInit(){
-        if( this.astNode.getInitializer().isPresent()) {
-            return _arrayInitExpr.of(this.astNode.getInitializer().get());
+        if( this.node.getInitializer().isPresent()) {
+            return _arrayInitExpr.of(this.node.getInitializer().get());
         }
         return null;
     }
 
     public _typeRef getElementType(){
-        return _typeRef.of(this.astNode.getElementType());
+        return _typeRef.of(this.node.getElementType());
     }
 
     public _newArrayExpr setElementType(_typeRef _tr){
-        this.astNode.setElementType(_tr.ast());
+        this.node.setElementType(_tr.node());
         return this;
     }
 
     public _newArrayExpr setElementType(Class clazz){
-        this.astNode.setElementType(clazz);
+        this.node.setElementType(clazz);
         return this;
     }
 
     public _newArrayExpr setElementType(String str){
-        this.astNode.setElementType(_typeRef.of(str).ast());
+        this.node.setElementType(_typeRef.of(str).node());
         return this;
     }
 
     public List<_arrayDimension> listArrayDimensions(){
         List<_arrayDimension> ads = new ArrayList<>();
-        this.astNode.getLevels().forEach(d -> ads.add( _arrayDimension.of(d)));
+        this.node.getLevels().forEach(d -> ads.add( _arrayDimension.of(d)));
         return ads;
     }
 
     public _newArrayExpr setArrayDimensions(List<_arrayDimension> ads){
         NodeList<ArrayCreationLevel> lvls = new NodeList<>();
-        ads.forEach(ad -> lvls.add(ad.astNode));
+        ads.forEach(ad -> lvls.add(ad.node));
         return setArrayDimensions(lvls);
     }
 
     public _newArrayExpr setArrayDimensions(String...code){
-        this.astNode.setLevels( Expr.arrayCreationLevels(code) );
+        this.node.setLevels( Expr.arrayCreationLevels(code) );
         return this;
     }
 
     public _newArrayExpr setArrayDimensions(NodeList<ArrayCreationLevel> acls){
-        this.astNode.setLevels( acls );
+        this.node.setLevels( acls );
         return this;
     }
 
@@ -270,18 +260,18 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
     }
 
     public boolean isArrayDimensions(NodeList<ArrayCreationLevel> acl){
-       return Objects.equals( this.astNode.getLevels(), acl);
+       return Objects.equals( this.node.getLevels(), acl);
     }
 
     public boolean equals(Object other){
         if( other instanceof _newArrayExpr){
-            return ((_newArrayExpr)other).astNode.equals( this.astNode);
+            return ((_newArrayExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.astNode.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString() {
@@ -289,6 +279,6 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
-        return this.astNode.toString(ppc);
+        return this.node.toString(ppc);
     }
 }

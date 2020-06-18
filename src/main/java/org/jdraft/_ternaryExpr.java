@@ -94,76 +94,67 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
         return FEATURES;
     }
 
-    public ConditionalExpr ce;
+    public ConditionalExpr node;
 
-    public _ternaryExpr(ConditionalExpr ce){
-        this.ce = ce;
+    public _ternaryExpr(ConditionalExpr node){
+        this.node = node;
     }
 
     @Override
     public _ternaryExpr copy() {
-        return new _ternaryExpr(this.ce.clone());
+        return new _ternaryExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.ternaryExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _ternaryExpr replace(ConditionalExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(ConditionalExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public ConditionalExpr ast(){
-        return ce;
+    public ConditionalExpr node(){
+        return node;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        comps.put(_java.Feature.CONDITION_EXPR, ce.getCondition());
-        comps.put(_java.Feature.THEN_EXPR, ce.getThenExpr());
-        comps.put(_java.Feature.ELSE_EXPR, ce.getElseExpr());
-        return comps;
-    }
-     */
 
     public boolean isThen( String...expr){
         return isThen( Expr.of(expr));
     }
 
     public boolean isThen( _expr _e){
-        return isThen(_e.ast());
+        return isThen(_e.node());
     }
 
     public boolean isThen( Expression e){
-        return Objects.equals( this.ce.getCondition(), e);
+        return Objects.equals( this.node.getCondition(), e);
     }
 
     public _ternaryExpr setThen(String...expr){
-        this.ce.setThenExpr(Expr.of(expr));
+        this.node.setThenExpr(Expr.of(expr));
         return this;
     }
 
     public _ternaryExpr setThen(_expr _e){
-        this.ce.setThenExpr(_e.ast());
+        this.node.setThenExpr(_e.node());
         return this;
     }
 
     public _ternaryExpr setThen(Expression e){
-        this.ce.setThenExpr( e );
+        this.node.setThenExpr( e );
         return this;
     }
 
     public _ternaryExpr setElse(_expr _e){
-        this.ce.setElseExpr(_e.ast());
+        this.node.setElseExpr(_e.node());
         return this;
     }
 
@@ -172,43 +163,43 @@ public final class _ternaryExpr implements _expr<ConditionalExpr, _ternaryExpr>,
     }
 
     public boolean isElse( _expr _e){
-        return isElse(_e.ast());
+        return isElse(_e.node());
     }
 
     public boolean isElse( Expression e){
-        return Objects.equals( this.ce.getCondition(), e);
+        return Objects.equals( this.node.getCondition(), e);
     }
 
     public _ternaryExpr setElse(Expression e){
-        this.ce.setElseExpr( e );
+        this.node.setElseExpr( e );
         return this;
     }
 
     public _ternaryExpr setElse(String...expr){
-        this.ce.setElseExpr(Expr.of(expr));
+        this.node.setElseExpr(Expr.of(expr));
         return this;
     }
 
     public _expr getThen(){
-        return _expr.of(this.ce.getThenExpr());
+        return _expr.of(this.node.getThenExpr());
     }
 
     public _expr getElse(){
-        return _expr.of(this.ce.getElseExpr());
+        return _expr.of(this.node.getElseExpr());
     }
 
     public boolean equals(Object other){
         if( other instanceof _ternaryExpr){
-            return ((_ternaryExpr)other).ce.equals( this.ce);
+            return ((_ternaryExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ce.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.ce.toString();
+        return this.node.toString();
     }
 }

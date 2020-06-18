@@ -42,9 +42,9 @@ public class _1_Macros_OnDifferentElementTypes_Test extends TestCase {
             @_volatile Integer vol;
         }
         _class _f = _class.of(F.class);
-        assertTrue( _f.fieldNamed("i").isStatic());
-        assertTrue( _f.fieldNamed("tr").isTransient());
-        assertTrue( _f.fieldNamed("vol").isVolatile());
+        assertTrue( _f.getField("i").isStatic());
+        assertTrue( _f.getField("tr").isTransient());
+        assertTrue( _f.getField("vol").isVolatile());
     }
 
     public void testOnMethod(){

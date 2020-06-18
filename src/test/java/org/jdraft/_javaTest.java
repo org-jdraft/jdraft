@@ -40,7 +40,7 @@ public class _javaTest extends TestCase {
             byte b = 16;
             float f = 1.23F;
         }
-        Print.tree( _class.of( F.class ).ast());
+        Print.tree( _class.of( F.class ).node());
 
     }
     public void testBuildEnum(){
@@ -155,7 +155,7 @@ public class _javaTest extends TestCase {
         
         //assertTrue( _c.getAnnos().contains(_static.class));
 
-        _c.fieldNamed("Message").getAnnos().has(_final.class);
+        _c.getField("Message").getAnnos().has(_final.class);
 
         //calling this way WILL PROCESS the ANNOTATIONS
         _c = _class.of(OldName.class);
@@ -168,8 +168,8 @@ public class _javaTest extends TestCase {
         assertEquals( _package.of("aaaa.bbbb"), _c.getPackage());
         assertEquals( "aaaa.bbbb", _c.getPackageName());
 
-        _c.fieldNamed("Message").getModifiers().is("public", "static", "final");
-        assertEquals( "Hello", _c.fieldNamed("Message").getInitNode().asStringLiteralExpr().asString()) ;
+        _c.getField("Message").getModifiers().is("public", "static", "final");
+        assertEquals( "Hello", _c.getField("Message").getInitNode().asStringLiteralExpr().asString()) ;
     }
 
     public void testAutoCtor(){
@@ -247,7 +247,7 @@ public class _javaTest extends TestCase {
         assertFalse( _c.hasAnno(_final.class));
         //assertTrue( _c.getAnnos().contains(_static.class));
 
-        _c.fieldNamed("Message").getAnnos().has(_final.class);
+        _c.getField("Message").getAnnos().has(_final.class);
 
         //calling this way WILL PROCESS the ANNOTATIONS
         _c = _class.of(C.class);
@@ -258,7 +258,7 @@ public class _javaTest extends TestCase {
         assertEquals( "aaaa.bbbb", _c.getPackageName());
         assertEquals( _package.of("aaaa.bbbb"), _c.getPackage());
 
-        _c.fieldNamed("Message").getModifiers().is("public", "static", "final");
+        _c.getField("Message").getModifiers().is("public", "static", "final");
 
         //System.out.println( "REFINED " + _c +" <<<< ");
     }

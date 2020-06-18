@@ -69,7 +69,7 @@ public @interface _toCtor {
         }
 
         public static ConstructorDeclaration fromMethod( MethodDeclaration md ){
-            return fromMethod(_method.of(md)).ast();
+            return fromMethod(_method.of(md)).node();
         }
 
         /** given a _method turn it into a _constructor */
@@ -80,14 +80,14 @@ public @interface _toCtor {
                 _ct.setTypeParams( _m.getTypeParams() );
             }
             if( _m.hasAnnos() ) {
-                _ct.addAnnos(_m.ast().getAnnotations() );
+                _ct.addAnnos(_m.node().getAnnotations() );
             }
             _ct.removeAnnos(_toCtor.class);
             _ct.setBody( _m.getBody() );
-            _ct.setThrows(_m.ast().getThrownExceptions());
+            _ct.setThrows(_m.node().getThrownExceptions());
             _ct.setTypeParams(_m.getTypeParams());
             if( _m.hasJavadoc() ){
-                _ct.ast().setJavadocComment(_m.ast().getJavadocComment().get());
+                _ct.node().setJavadocComment(_m.node().getJavadocComment().get());
             }
             return _ct;
         }
@@ -122,7 +122,7 @@ public @interface _toCtor {
             cd.setParameters( _ct.getParams().ast());
             cd.setThrownExceptions( _ct.getThrows().ast());
             if( _ct.hasJavadoc() ) {
-                cd.setJavadocComment(_ct.getJavadoc().ast());
+                cd.setJavadocComment(_ct.getJavadoc().node());
             }
             cd.setAnnotations( _ct.getAnnos().ast());
             cd.getAnnotations().removeIf( a -> a.getNameAsString().equals(_toCtor.class.getName() ) || a.getNameAsString().equals(_toCtor.class.getCanonicalName()) );

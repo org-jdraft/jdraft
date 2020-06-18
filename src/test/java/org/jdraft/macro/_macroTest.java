@@ -80,7 +80,7 @@ public class _macroTest extends TestCase {
         class C{}
 
         _class _c = _class.of(C.class);
-        assertTrue( _c.fieldNamed("ID").isStatic() );
+        assertTrue( _c.getField("ID").isStatic() );
         System.out.println( _c );
     }
 

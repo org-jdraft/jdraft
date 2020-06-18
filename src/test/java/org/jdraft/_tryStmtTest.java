@@ -98,10 +98,10 @@ public class _tryStmtTest extends TestCase {
         assertNull(_ts.getFinallyBody());
         assertTrue(_ts.listCatches().isEmpty());
 
-        _ts.ast().getTryBlock();
-        _ts.ast().getFinallyBlock();
-        _ts.ast().getResources();
-        _ts.ast().getCatchClauses();
+        _ts.node().getTryBlock();
+        _ts.node().getFinallyBlock();
+        _ts.node().getResources();
+        _ts.node().getCatchClauses();
         //System.out.println( _ts.ast().getMetaModel().toString() );
         //catchClausesPropertyMetaModel
         //System.out.println( _ts.ast().getMetaModel().catchClausesPropertyMetaModel );
@@ -112,8 +112,8 @@ public class _tryStmtTest extends TestCase {
 
     public void testStmt(){
         _tryStmt _ts = _tryStmt.of();
-        System.out.println( _ts.ast().getResources() );
-        assertTrue( _ts.ast().getResources().isEmpty());
+        System.out.println( _ts.node().getResources() );
+        assertTrue( _ts.node().getResources().isEmpty());
 
         //simple try catch with no body
         _ts = _tryStmt.of("try{}catch(Exception e){}");
@@ -145,7 +145,7 @@ public class _tryStmtTest extends TestCase {
         //_ts.ast().setResources()
         //_ts.ast().setFinallyBlock( );
 
-        _ts.ast().setTryBlock( Stmt.blockStmt(()->{
+        _ts.node().setTryBlock( Stmt.blockStmt(()->{
             System.out.println(1);
         }));
     }

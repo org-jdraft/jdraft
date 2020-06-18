@@ -289,7 +289,7 @@ public interface _codeUnit<_CU> extends _java._domain {
      * @return
      */
     default _CU setPackage(_package _pkg){
-        this.astCompilationUnit().setPackageDeclaration(_pkg.astPackage);
+        this.astCompilationUnit().setPackageDeclaration(_pkg.node);
         return (_CU)this;
     }
 
@@ -379,7 +379,7 @@ public interface _codeUnit<_CU> extends _java._domain {
 
     default _CU setImports(_imports _is){
         this.astCompilationUnit().getImports().clear();
-        _is.toEach(_i -> this.astCompilationUnit().getImports().add(_i.ast()));
+        _is.toEach(_i -> this.astCompilationUnit().getImports().add(_i.node()));
         return (_CU)this;
     }
 
@@ -401,7 +401,7 @@ public interface _codeUnit<_CU> extends _java._domain {
      */
     default List<_import> removeImportsIf(Predicate<_import> _matchFn){
         List<_import> _is = getImports().list(_matchFn);
-        _is.forEach(_i -> _i.ast().remove());
+        _is.forEach(_i -> _i.node().remove());
         return _is;
     }
 
@@ -670,7 +670,7 @@ public interface _codeUnit<_CU> extends _java._domain {
     default _CU addImports(_import..._is){
         CompilationUnit cu = astCompilationUnit();
         if (cu != null) {
-            Arrays.stream(_is).forEach(i -> cu.addImport(i.astId));
+            Arrays.stream(_is).forEach(i -> cu.addImport(i.node));
             return (_CU) this;
         }
         return (_CU) this;

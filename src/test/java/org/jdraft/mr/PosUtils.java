@@ -3,7 +3,6 @@ package org.jdraft.mr;
 import com.github.javaparser.*;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
-import com.github.javaparser.utils.PositionUtils;
 import junit.framework.TestCase;
 import org.jdraft._field;
 import org.jdraft._method;
@@ -21,7 +20,7 @@ public class PosUtils extends TestCase {
         //cu.walk(Node.class, n-> System.out.println(n.getClass()+ " "+ n.getRange().get()));
 
         cu.getType(0).addMember( _field.of("public static final int ID=100;").getFieldDeclaration() );
-        cu.getType(0).addMember( _method.of("public static void main(String[] args){ System.out.println(1); }").ast() );
+        cu.getType(0).addMember( _method.of("public static void main(String[] args){ System.out.println(1); }").node() );
         cu.recalculatePositions();
 
         //cu.walk(Node.class, n-> System.out.println(n.getClass()+ " "+ n.getRange().get()));

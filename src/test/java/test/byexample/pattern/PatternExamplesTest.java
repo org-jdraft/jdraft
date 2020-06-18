@@ -27,7 +27,7 @@ public class PatternExamplesTest extends TestCase {
     static $ex ANY_EXPR = $.ex();                         //any expression
 
     //static $expr CONST_NAME = $.expr("Name");          //any expression matching pattern "Name"
-    static $ex LITERAL =  $.ex(e -> e.ast().isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
+    static $ex LITERAL =  $.ex(e -> e.node().isLiteralExpr());   //any literals (ints, floats, Strings, etc.)
     static $ex LITERAL_ = $.literal();                      //any literals (booleans, int, float, String, etc)
 
     static $ex<IntegerLiteralExpr, _intExpr, $ex> INT_LITERAL = $.intLiteral();                   // any int literal
@@ -161,7 +161,7 @@ public class PatternExamplesTest extends TestCase {
 
         // find all methods that contain any comment (line comment, block comment, javadoc comment)
         // with my "@MED" signature
-        assertNotNull( $method.of(m -> !Comments.list(m.ast(), c-> c.getContent().contains("@MED")).isEmpty()).firstIn(AMM.class) );
+        assertNotNull( $method.of(m -> !Comments.list(m.node(), c-> c.getContent().contains("@MED")).isEmpty()).firstIn(AMM.class) );
 
 
         $method $m = $.method( $throws.of(IOException.class) );

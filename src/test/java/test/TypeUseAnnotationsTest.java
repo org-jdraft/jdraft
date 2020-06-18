@@ -119,29 +119,29 @@ public class TypeUseAnnotationsTest
         assertEquals( _anno.of(TA2.class), _tp.getAnno(1) );
         
         ClassOrInterfaceType coit = _c.getExtendsNode();
-        assertEquals(_anno.of(TypeAnno.class).ast(), coit.getAnnotation(0));
-        assertEquals(_anno.of(TA2.class).ast(), coit.getAnnotation(1));
+        assertEquals(_anno.of(TypeAnno.class).node(), coit.getAnnotation(0));
+        assertEquals(_anno.of(TA2.class).node(), coit.getAnnotation(1));
         
         List<ClassOrInterfaceType> impls = _c.listAstImplements();
         coit = impls.get(0);
-        assertEquals(_anno.of(TypeAnno.class).ast(), coit.getAnnotation(0));
-        assertEquals(_anno.of(TA2.class).ast(), coit.getAnnotation(1));
+        assertEquals(_anno.of(TypeAnno.class).node(), coit.getAnnotation(0));
+        assertEquals(_anno.of(TA2.class).node(), coit.getAnnotation(1));
         
-        _field _f = _c.fieldNamed("o");
+        _field _f = _c.getField("o");
         assertTrue( _f.hasAnno(TypeAnno.class));
         assertTrue( _f.hasAnno(TA2.class));
         
-        _f = _c.fieldNamed("n");
+        _f = _c.getField("n");
         //System.out.println(_f);
         //VariableDeclarator vd = _f.ast();
         FieldDeclaration astFd = _f.getFieldDeclaration();
         
         //System.out.println( astFd.getVariable(0).getType().getAnnotations() );
         
-        assertEquals( _anno.of(TypeAnno.class).ast(),
+        assertEquals( _anno.of(TypeAnno.class).node(),
             astFd.getVariable(0).getType().getAnnotations().get(0) );
         
-        assertEquals( _anno.of(TA2.class).ast(),
+        assertEquals( _anno.of(TA2.class).node(),
             astFd.getVariable(0).getType().getAnnotations().get(1) );
         
         //assertTrue( _f.hasAnno(TypeAnno.class));

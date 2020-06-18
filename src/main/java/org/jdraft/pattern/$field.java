@@ -661,9 +661,9 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
-            return selectFirstIn(((_type) _j).ast(), selectConstraint);
+            return selectFirstIn(((_type) _j).node(), selectConstraint);
         }
-        return selectFirstIn( ((_tree._node)_j).ast(), selectConstraint );
+        return selectFirstIn( ((_tree._node)_j).node(), selectConstraint );
     }
 
     /**
@@ -734,9 +734,9 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             if( ((_codeUnit) _j).isTopLevel()){
                 return listSelectedIn(((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
-            return listSelectedIn(((_type) _j).ast(), selectConstraint);
+            return listSelectedIn(((_type) _j).node(), selectConstraint);
         }
-        return listSelectedIn( ((_tree._node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_tree._node)_j).node(), selectConstraint);
     }
 
     /**
@@ -760,7 +760,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         astNode.walk(VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.draft(sel.tokens).ast() );
+                sel._f.node().replace($replaceProto.draft(sel.tokens).node() );
             }
         });
         return astNode;
@@ -777,7 +777,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         Walk.in(_j, VariableDeclarator.class, e-> {
             Select sel = select( e );
             if( sel != null ){
-                sel._f.ast().replace($replaceProto.draft(sel.tokens).ast() );
+                sel._f.node().replace($replaceProto.draft(sel.tokens).node() );
             }
         });
         return _j;
@@ -951,7 +951,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
             }
              */
             if (_f.getJavadoc() != null ){
-                all = javadoc.parseTo(_f.getJavadoc().ast(), all);
+                all = javadoc.parseTo(_f.getJavadoc().node(), all);
             } else{
                 all = javadoc.parseTo(null, all);
             }
@@ -1076,7 +1076,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
         sb.append(" ");
         sb.append(name.nameStencil.draft(translator, baseMap) );
         if( init != null ){
-            Expression expr = init.draft(translator, baseMap).ast();
+            Expression expr = init.draft(translator, baseMap).node();
             if( expr != null ){
                 sb.append( " = ");
                 sb.append( expr );
@@ -1270,7 +1270,7 @@ public class $field implements Template<_field>, //$pattern<_field, $field>,
 
         @Override
         public VariableDeclarator ast() {
-            return _f.ast();
+            return _f.node();
         }
 
         public boolean is( String fieldDeclaration ){

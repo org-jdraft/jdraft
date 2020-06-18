@@ -60,7 +60,7 @@ public final class _initBlocksDiff
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
-            this.right = _initBlock.of(right.astInit.clone());
+            this.right = _initBlock.of(right.node.clone());
         }
 
         @Override
@@ -115,7 +115,7 @@ public final class _initBlocksDiff
             this.path = path;
             this.leftParent = leftParent;
             this.rightParent = rightParent;
-            this.left = _initBlock.of(left.astInit.clone());
+            this.left = _initBlock.of(left.node.clone());
         }
 
         @Override

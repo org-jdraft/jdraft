@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 import com.github.javaparser.ast.Node;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.type.*;
 import org.jdraft.text.Stencil;
@@ -99,7 +100,7 @@ public final class _typeRef<T extends Type>
          * as if you were directly manipulating the AST on the Type... but it's really just an abstraction layer
          * on top
          */
-        Type t = getErasedType(this.astType);
+        Type t = getErasedType(this.node);
         List<AnnotationExpr> aes = new ArrayList<>();
         t.walk(AnnotationExpr.class, a->aes.add(a));
         return _annos.of(aes);
@@ -123,7 +124,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public boolean hasAnnos(){
-        return getErasedType(this.astType).findFirst(AnnotationExpr.class).isPresent();
+        return getErasedType(this.node).findFirst(AnnotationExpr.class).isPresent();
     }
 
     /**
@@ -148,19 +149,19 @@ public final class _typeRef<T extends Type>
         if( a==null || b == null ){
             return false;
         }
-        return Types.equal( a.ast(), b.ast());
+        return Types.equal( a.node(), b.node());
     }
 
     /** The underlying AST type */
-    private final T astType;
+    private T node;
 
     public _typeRef( T t ) {
-        this.astType = t;
+        this.node = t;
     }
 
     @Override
-    public Type ast() {
-        return astType;
+    public Type node() {
+        return node;
     }
     
     /**
@@ -175,36 +176,36 @@ public final class _typeRef<T extends Type>
      * @return 
      */ 
     public boolean isUnknownType(){
-        return astType.isUnknownType();
+        return node.isUnknownType();
     }
 
     public boolean isTypeParameter(){
-        return this.astType.isTypeParameter();
+        return this.node.isTypeParameter();
     }
 
     public boolean isUsingDiamondOperator(){
-        return astType.isClassOrInterfaceType()
-                && astType.asClassOrInterfaceType().isUsingDiamondOperator();
+        return node.isClassOrInterfaceType()
+                && node.asClassOrInterfaceType().isUsingDiamondOperator();
     }
 
     public boolean isReferenceType(){
-        return astType.isReferenceType();
+        return node.isReferenceType();
     }
     public boolean isClassOrInterfaceType(){
-        return astType.isClassOrInterfaceType();
+        return node.isClassOrInterfaceType();
     }
 
     public boolean isBoxedType(){
-        return astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().isBoxedType();
+        return node.isClassOrInterfaceType() && node.asClassOrInterfaceType().isBoxedType();
     }
 
     public boolean isPrimitiveType() {
-        return astType.isPrimitiveType();
+        return node.isPrimitiveType();
     }
 
     public boolean isPrimitiveType(PrimitiveType pt){
         if( isPrimitiveType() ){
-            PrimitiveType prim = astType.asPrimitiveType();
+            PrimitiveType prim = node.asPrimitiveType();
             return Types.equal( pt, prim);
         }
         return false;
@@ -212,14 +213,14 @@ public final class _typeRef<T extends Type>
 
     public boolean isPrimitiveType(Predicate<PrimitiveType> pt){
         if( isPrimitiveType() ){
-            PrimitiveType prim = astType.asPrimitiveType();
+            PrimitiveType prim = node.asPrimitiveType();
             return pt.test(prim);
         }
         return false;
     }
 
     public Type getElementType(){
-        return this.astType.getElementType();
+        return this.node.getElementType();
     }
 
     /**
@@ -231,7 +232,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public boolean isWildcardType() {
-        return astType.isWildcardType();
+        return node.isWildcardType();
     }
 
     /**
@@ -255,8 +256,8 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public boolean isWildcardExtends( Predicate<ReferenceType> wildcardExtendsType){
-        if( isWildcardType() && this.astType.asWildcardType().getExtendedType().isPresent()){
-            return wildcardExtendsType.test( this.astType.asWildcardType().getExtendedType().get() );
+        if( isWildcardType() && this.node.asWildcardType().getExtendedType().isPresent()){
+            return wildcardExtendsType.test( this.node.asWildcardType().getExtendedType().get() );
         }
         return false;
     }
@@ -282,8 +283,8 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public boolean isWildcardSuper( Predicate<ReferenceType> wildcardSuperType){
-        if( isWildcardType() && this.astType.asWildcardType().getSuperType().isPresent()){
-            return wildcardSuperType.test( this.astType.asWildcardType().getSuperType().get() );
+        if( isWildcardType() && this.node.asWildcardType().getSuperType().isPresent()){
+            return wildcardSuperType.test( this.node.asWildcardType().getSuperType().get() );
         }
         return false;
     }
@@ -298,14 +299,14 @@ public final class _typeRef<T extends Type>
      */
     public boolean isWildcardType(Predicate<WildcardType> wtp){
         if( isWildcardType() ){
-           WildcardType wct = astType.asWildcardType();
+           WildcardType wct = node.asWildcardType();
             return wtp.test(wct);
         }
         return false;
     }
 
     public boolean isIntersectionType(_typeRef _tr){
-        return isIntersectionType( it-> it.getElements().stream().anyMatch(t-> Types.equal(t, _tr.ast())) );
+        return isIntersectionType( it-> it.getElements().stream().anyMatch(t-> Types.equal(t, _tr.node())) );
     }
 
     /**
@@ -319,12 +320,12 @@ public final class _typeRef<T extends Type>
     }
 
     public boolean isIntersectionType() {
-        return astType.isIntersectionType();
+        return node.isIntersectionType();
     }
 
     public boolean isIntersectionType(Predicate<IntersectionType> pit){
         if( isIntersectionType() ){
-            IntersectionType it = astType.asIntersectionType();
+            IntersectionType it = node.asIntersectionType();
             return pit.test(it);
         }
         return false;
@@ -332,14 +333,14 @@ public final class _typeRef<T extends Type>
 
     public boolean isUnionType( Predicate<UnionType> put ){
         if( isUnionType() ){
-            UnionType ut = astType.asUnionType();
+            UnionType ut = node.asUnionType();
             return put.test(ut);
         }
         return false;
     }
 
     public boolean isUnionType(_typeRef _tr){
-        return isUnionType( ut-> ut.getElements().stream().anyMatch(t-> Types.equal(t, _tr.ast())) );
+        return isUnionType( ut-> ut.getElements().stream().anyMatch(t-> Types.equal(t, _tr.node())) );
     }
 
     /**
@@ -365,7 +366,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public boolean isUnionType() {
-        return astType.isUnionType();
+        return node.isUnionType();
     }
 
     /**
@@ -373,8 +374,8 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public boolean isGenericType(){
-        return astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().getTypeArguments().isPresent() ||
-                astType.isArrayType() && astType.asArrayType().getElementType().isClassOrInterfaceType() && astType.asArrayType().getElementType().asClassOrInterfaceType().getTypeArguments().isPresent() ;
+        return node.isClassOrInterfaceType() && node.asClassOrInterfaceType().getTypeArguments().isPresent() ||
+                node.isArrayType() && node.asArrayType().getElementType().isClassOrInterfaceType() && node.asArrayType().getElementType().asClassOrInterfaceType().getTypeArguments().isPresent() ;
     }
 
     /**
@@ -387,7 +388,7 @@ public final class _typeRef<T extends Type>
      * @return a _typeRef with generics erased
      */
     public _typeRef getErasedType(){
-        return _typeRef.of( getErasedType(this.astType));
+        return _typeRef.of( getErasedType(this.node));
     }
 
     /**
@@ -400,7 +401,7 @@ public final class _typeRef<T extends Type>
      * @return
      */
     public _typeRef getBaseType(){
-        return _typeRef.of(getBaseType( this.astType ));
+        return _typeRef.of(getBaseType( this.node));
     }
 
     public static Type getElementType( Type type){
@@ -458,40 +459,40 @@ public final class _typeRef<T extends Type>
      * @return true if the type is a varType
      */
     public boolean isVarType(){
-        return astType instanceof VarType;
+        return node instanceof VarType;
     }
 
     public boolean isArrayType() {
-        return astType.isArrayType();
+        return node.isArrayType();
     }
 
     public boolean isVoid() {
-        return astType.isVoidType();
+        return node.isVoidType();
     }
 
     public int getArrayDimensions() {
-        return astType.getArrayLevel();
+        return node.getArrayLevel();
     }
 
     public NodeList<Type> getTypeArguments(){
-        if( astType.isClassOrInterfaceType() && astType.asClassOrInterfaceType().getTypeArguments().isPresent()){
-            return astType.asClassOrInterfaceType().getTypeArguments().get();
+        if( node.isClassOrInterfaceType() && node.asClassOrInterfaceType().getTypeArguments().isPresent()){
+            return node.asClassOrInterfaceType().getTypeArguments().get();
         }
         return new NodeList<Type>();
     }
 
     @Override
     public String toString() {
-        return this.astType.toString();
+        return this.node.toString();
     }
 
     @Override
     public int hashCode() {
-        return Deconstructed.of(this.astType.toString() ).normalize().hashCode();
+        return Deconstructed.of(this.node.toString() ).normalize().hashCode();
     }
 
     public _typeRef copy(){
-        return of(this.astType.clone());
+        return of(this.node.clone());
     }
 
 
@@ -548,24 +549,25 @@ public final class _typeRef<T extends Type>
 
     public static _feature._one<_typeRef, Type> TYPE = new _feature._one<>(_typeRef.class, Type.class,
             _feature._id.TYPE,
-            a -> a.ast(),
+            a -> a.node(),
             (_typeRef p, Type t) -> p.setType(t), PARSER);
 
     public static _feature._features<_typeRef> FEATURES = _feature._features.of(_typeRef.class,  PARSER, ANNOS, TYPE);
 
-    /*
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-
-        parts.put( _java.Feature.AST_TYPE, this.astType);
-        parts.put( _java.Feature.ARRAY_LEVEL, this.astType.getArrayLevel());
-        parts.put( _java.Feature.ELEMENT_TYPE, this.astType.getElementType());
-        return parts;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _typeRef replace(Type replaceNode){
+        this.node.replace(replaceNode);
+        this.node = (T)replaceNode;
+        return this;
+    }
 
     public _typeRef setType(Type t){
-        this.astType.replace(t);
+        this.node.replace(t);
         return this;
     }
 
@@ -581,25 +583,25 @@ public final class _typeRef<T extends Type>
             return false;
         }
         final _typeRef<?> other = (_typeRef<?>)obj;
-        if( this.astType == other.astType){
+        if( this.node == other.node){
             return true; // two _typeRef s pointing to the same ast Type
         }
         //union types can equal one another (
-        if( this.astType instanceof UnionType && other.astType instanceof UnionType){
+        if( this.node instanceof UnionType && other.node instanceof UnionType){
             Set<ReferenceType> rts = new HashSet<>();
-            rts.addAll( ((UnionType) this.astType).getElements());
+            rts.addAll( ((UnionType) this.node).getElements());
             Set<ReferenceType> ots = new HashSet<>();
-            ots.addAll( ((UnionType) other.astType).getElements());
+            ots.addAll( ((UnionType) other.node).getElements());
             if( rts.size() != ots.size() ){
                 return false;
             }
             return  rts.stream().allMatch(r -> ots.stream().anyMatch(o-> Types.equal( o, r) ) );
         }
         if( this.isPrimitiveType() && other.isPrimitiveType() ) {
-            return Objects.equals(this.astType, other.astType );
+            return Objects.equals(this.node, other.node);
         }
-        Deconstructed td = Deconstructed.of(this.astType.toString() );
-        Deconstructed od = Deconstructed.of(other.astType.toString() );
+        Deconstructed td = Deconstructed.of(this.node.toString() );
+        Deconstructed od = Deconstructed.of(other.node.toString() );
         return td.equals( od );
     }
 
@@ -616,9 +618,8 @@ public final class _typeRef<T extends Type>
      * @return 
      */
     public String normalized(){
-        return Normalizer.of( this.astType.toString() );        
+        return Normalizer.of( this.node.toString() );
     }
-
 
     public interface _withType<N extends Node, _WT extends _tree._node> extends _tree._node<N, _WT> {
 
@@ -626,7 +627,7 @@ public final class _typeRef<T extends Type>
          * @return they type
          */
         default _typeRef getType(){
-            return of(((NodeWithType)ast()).getType());
+            return of(((NodeWithType) node()).getType());
         }
 
         /**
@@ -634,7 +635,7 @@ public final class _typeRef<T extends Type>
          * @return the array element type
          */
         default _typeRef getElementType() {
-            return of(getType().ast().getElementType());
+            return of(getType().node().getElementType());
         }
 
         /**
@@ -643,7 +644,7 @@ public final class _typeRef<T extends Type>
          * @return the modified entity after setting the TYPE
          */
         default _WT setType(Type t){
-            ((NodeWithType)ast()).setType(t);
+            ((NodeWithType) node()).setType(t);
             return (_WT)this;
         }
 
@@ -661,7 +662,7 @@ public final class _typeRef<T extends Type>
          * @return
          */
         default _WT setType(_typeRef _tr) {
-            return setType(_tr.ast());
+            return setType(_tr.node());
         }
 
         /**
@@ -687,7 +688,7 @@ public final class _typeRef<T extends Type>
          * @return true if void
          */
         default boolean isVoid() {
-            return getType().ast().isVoidType();
+            return getType().node().isVoidType();
         }
 
         /**
@@ -696,7 +697,7 @@ public final class _typeRef<T extends Type>
          * @return true if the TYPE is the same
          */
         default boolean isType(Type type) {
-            return Types.equal( getType().ast(), type);
+            return Types.equal( getType().node(), type);
         }
 
         /**

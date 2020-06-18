@@ -16,7 +16,7 @@ public class _nameTest extends TestCase {
 
     public void testPackageName(){
         _package _p = _package.of("ffff.lang.dddd;");
-        assertTrue(_name.of( _p.ast().getName()).isPackageName());
+        assertTrue(_name.of( _p.node().getName()).isPackageName());
     }
 
     public void testImportName(){
@@ -44,7 +44,7 @@ public class _nameTest extends TestCase {
 
     public void testNameIs(){
 
-        _name _n = _name.of( _import.of("aaaa.bbbb.C").astId.getName() );
+        _name _n = _name.of( _import.of("aaaa.bbbb.C").node.getName() );
         Set<_name.Use> use = _n.getUse();
         assertTrue(use.contains(_name.Use.IMPORT_NAME));
         assertTrue(use.size() == 1);
@@ -72,11 +72,11 @@ public class _nameTest extends TestCase {
         assertFalse(_n.isAnnoExprName());        //name of an annotation "A" in "@A()"
         assertFalse(_n.isAnnoEntryPairName()); //name of annotation member "k" in "@A(k=1)"
 
-        assertTrue( _name.of( _import.of("aaaa.bbbb.C").ast().getName() ).isImportName());
+        assertTrue( _name.of( _import.of("aaaa.bbbb.C").node().getName() ).isImportName());
 
-        assertTrue( _name.of( _import.of("aaaa.bbbb.C").ast().getName().getQualifier().get() ).isImportName());
+        assertTrue( _name.of( _import.of("aaaa.bbbb.C").node().getName().getQualifier().get() ).isImportName());
 
-        assertTrue( _name.of( _methodRefExpr.of("A::B").ast() ).isMethodReferenceName());
+        assertTrue( _name.of( _methodRefExpr.of("A::B").node() ).isMethodReferenceName());
         assertTrue( _name.of( Ast.packageDeclaration("package aaaa.bbbb").getName() ).isPackageName() );
         assertTrue( _name.of( Ast.typeDeclaration("class C{}").asClassOrInterfaceDeclaration().getName() ).isTypeDeclarationName() );
         //assertTrue( _name.of( Types.of("C").asClassOrInterfaceType().getName() ).isTypeRefName() );

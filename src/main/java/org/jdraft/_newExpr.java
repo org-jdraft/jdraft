@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 
@@ -34,9 +35,11 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         oce.setType(clazz);
         return new _newExpr( oce);
     }
+
     public static _newExpr of(ObjectCreationExpr oce){
         return new _newExpr( oce );
     }
+
     public static _newExpr of(String...code){
         return new _newExpr(Expr.newExpr(code));
     }
@@ -83,10 +86,10 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         throw new _jdraftException("No new expression found in lambda");
     }
 
-    public ObjectCreationExpr oce;
+    public ObjectCreationExpr node;
 
-    public _newExpr(ObjectCreationExpr oce){
-        this.oce = oce;
+    public _newExpr(ObjectCreationExpr node){
+        this.node = node;
     }
 
     public _feature._features<_newExpr> features(){
@@ -95,21 +98,23 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
 
     @Override
     public _newExpr copy() {
-        return new _newExpr(this.oce.clone());
+        return new _newExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.newExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _newExpr replace(ObjectCreationExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
-    public ObjectCreationExpr ast(){
-        return oce;
+    public ObjectCreationExpr node(){
+        return node;
     }
 
     /**
@@ -117,7 +122,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @return
      */
     public boolean isAnonymous(){
-        return this.oce.getAnonymousClassBody().isPresent();
+        return this.node.getAnonymousClassBody().isPresent();
     }
 
     public static _feature._one<_newExpr, _expr> SCOPE = new _feature._one<>(_newExpr.class, _expr.class,
@@ -150,40 +155,18 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
 
     public static _feature._features<_newExpr> FEATURES = _feature._features.of(_newExpr.class,  PARSER, SCOPE, TYPE_ARGS, TYPE, ARGS, ANONYMOUS_BODY_MEMBERS);
 
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        if( oce.getAnonymousClassBody().isPresent()){
-            comps.put(_java.Feature.ANONYMOUS_CLASS_BODY, oce.getAnonymousClassBody().get());
-        }
-        comps.put(_java.Feature.ARGS_EXPRS, oce.getArguments());
-
-        if( oce.getScope().isPresent() ) {
-            comps.put(_java.Feature.SCOPE_EXPR, oce.getScope().get());
-        }
-        comps.put(_java.Feature.TYPE, oce.getType());
-
-        if( oce.getTypeArguments().isPresent()) {
-            comps.put(_java.Feature.TYPE_ARGS, oce.getTypeArguments().get());
-        }
-        return comps;
-    }
-     */
-
     /**
      * replaces all of the Anonymous Class body
      * @param _dcls
      * @return
      */
     public _newExpr setAnonymousBodyMembers(List<_java._declared> _dcls){
-        if( this.oce.getAnonymousClassBody().isPresent()){
-            NodeList<BodyDeclaration<?>> b =  this.oce.getAnonymousClassBody().get();
+        if( this.node.getAnonymousClassBody().isPresent()){
+            NodeList<BodyDeclaration<?>> b =  this.node.getAnonymousClassBody().get();
             b.clear();
 
         }
-        _dcls.forEach(d -> oce.addAnonymousClassBody( (BodyDeclaration)d.ast()));
+        _dcls.forEach(d -> node.addAnonymousClassBody( (BodyDeclaration)d.node()));
         return this;
     }
 
@@ -200,8 +183,8 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      */
     public List<_java._declared> listAnonymousBodyMembers(){
         List<_java._declared> ds =  new ArrayList<>();
-        if( this.oce.getAnonymousClassBody().isPresent()){
-            oce.getAnonymousClassBody().get().forEach(b -> {
+        if( this.node.getAnonymousClassBody().isPresent()){
+            node.getAnonymousClassBody().get().forEach(b -> {
                 if( b instanceof FieldDeclaration && b.asFieldDeclaration().getVariables().size() > 1){
                     FieldDeclaration fd = b.asFieldDeclaration();
                     fd.getVariables().forEach(f-> ds.add( _field.of( f)));
@@ -217,14 +200,13 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
         return listAnonymousBodyMembers().stream().filter(_matchFn).collect(Collectors.toList());
     }
 
-
     /**
      *
      * @param _dec
      * @return
      */
     public _newExpr addAnonymousBodyMembers(_java._declared... _dec ){
-        Arrays.stream(_dec).forEach( d -> this.oce.addAnonymousClassBody( (BodyDeclaration)d.ast() ) );
+        Arrays.stream(_dec).forEach( d -> this.node.addAnonymousClassBody( (BodyDeclaration)d.node() ) );
         return this;
     }
 
@@ -234,7 +216,7 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @return
      */
     public _newExpr addAnonymousBodyMembers(BodyDeclaration ... dec ){
-        Arrays.stream(dec).forEach( d -> this.oce.addAnonymousClassBody( d ) );
+        Arrays.stream(dec).forEach( d -> this.node.addAnonymousClassBody( d ) );
         return this;
     }
 
@@ -248,8 +230,8 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @return
      */
     public _newExpr forAnonymousBodyMembers(Consumer<_java._declared> memberFn){
-        if( this.oce.getAnonymousClassBody().isPresent() ){
-            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m)).forEach(m -> memberFn.accept(m));
+        if( this.node.getAnonymousClassBody().isPresent() ){
+            this.node.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m)).forEach(m -> memberFn.accept(m));
         }
         return this;
     }
@@ -266,8 +248,8 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
      * @return
      */
     public _newExpr forAnonymousBodyMembers(Predicate<_java._declared> memberMatchFn, Consumer<_java._declared> memberFn){
-        if( this.oce.getAnonymousClassBody().isPresent() ){
-            this.oce.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m))
+        if( this.node.getAnonymousClassBody().isPresent() ){
+            this.node.getAnonymousClassBody().get().stream().map(m -> (_java._declared)_java.of(m))
                     .filter(memberMatchFn).forEach(m -> memberFn.accept(m));
         }
         return this;
@@ -275,16 +257,16 @@ public final class _newExpr implements _expr<ObjectCreationExpr, _newExpr>,
 
     public boolean equals(Object other){
         if( other instanceof _newExpr){
-            return ((_newExpr)other).oce.equals( this.oce);
+            return ((_newExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.oce.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.oce.toString();
+        return this.node.toString();
     }
 }

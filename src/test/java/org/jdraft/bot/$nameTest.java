@@ -29,7 +29,7 @@ public class $nameTest extends TestCase {
         //assertEquals(1, $name.of(JavaParser.class).countIn(_import.of(JavaParser.class) ));
 
         //Print.tree(_import.of(JavaParser.class));
-        assertTrue($name.of(_name.Use.IMPORT_NAME).isIn(_import.of(JavaParser.class).ast().getName()));
+        assertTrue($name.of(_name.Use.IMPORT_NAME).isIn(_import.of(JavaParser.class).node().getName()));
         //assertTrue($name.of(isImportName(_import.of(JavaParser.class).ast()));
 
         //explicitly omit imports
@@ -45,7 +45,7 @@ public class $nameTest extends TestCase {
         assertEquals(0, $name.of("int")
                 .countIn(_field.of("int[] i;") ));
 
-        Print.tree(_field.of("Optional<Thingy> i;").ast());
+        Print.tree(_field.of("Optional<Thingy> i;").node());
         // in generic
         assertEquals(0, $name.of("Thingy")
                 .countIn(_field.of("Optional<Thingy> i;") ));
@@ -98,7 +98,7 @@ public class $nameTest extends TestCase {
         assertEquals( 0, $name.of("varName").$matchVariableNames(false)
                 .countIn(_field.of(JavaParser.class, "varName") ));
 
-        Print.tree(_methodRefExpr.of("System.out::println").ast());
+        Print.tree(_methodRefExpr.of("System.out::println").node());
         /*
         //method referenced
         assertEquals( 1, $name.of("System.out")
@@ -431,27 +431,27 @@ public class $nameTest extends TestCase {
         //assertEquals( 8, $name.of("print").countIn(_c));
 
         $name.of().forEachIn(_c.astCompilationUnit(), n->{
-            if( n.ast() instanceof Name){
-                Name nm = (Name)n.ast();
+            if( n.node() instanceof Name){
+                Name nm = (Name)n.node();
                 System.out.println("NAME ****ID " + nm.getId() );
 
                 //n.ast().replace( new Name("changed") );
             }
-            if( n.ast() instanceof SimpleName){
+            if( n.node() instanceof SimpleName){
                 System.out.println("SIMPLENAME **** " + n );
 
             }
         });
 
          $name.of("print").forEachIn( _c.astCompilationUnit(), n-> {
-            if( n.ast() instanceof Name){
-                Name nm = (Name)n.ast();
+            if( n.node() instanceof Name){
+                Name nm = (Name)n.node();
                 System.out.println("NAME **** " + nm.getId() );
 
-                n.ast().replace( new Name("changed") );
+                n.node().replace( new Name("changed") );
             }
-            if( n.ast() instanceof SimpleName){
-                n.ast().replace( new SimpleName("changed") );
+            if( n.node() instanceof SimpleName){
+                n.node().replace( new SimpleName("changed") );
             }
         });
 
@@ -497,14 +497,14 @@ public class $nameTest extends TestCase {
         //$name.of("C").forEachIn(C.class, )
         AtomicInteger ai = new AtomicInteger();
 
-        $name.of("C").forEachIn(C.class, c -> System.out.println( ai.incrementAndGet()+ ">>" + c.ast().getParentNode().get() ));
+        $name.of("C").forEachIn(C.class, c -> System.out.println( ai.incrementAndGet()+ ">>" + c.node().getParentNode().get() ));
 
         $name.of("C").forEachIn(C.class, c -> {
-            System.out.println( c.name.getClass());
-            if( c.name instanceof Name ){
+            System.out.println( c.node.getClass());
+            if( c.node instanceof Name ){
 
             }
-            if( c.name instanceof SimpleName ){
+            if( c.node instanceof SimpleName ){
 
             }
         });
@@ -527,14 +527,14 @@ public class $nameTest extends TestCase {
         assertEquals(2, $name.of("a").countIn(C.class));
 
         _class _c = $name.of("a").forEachIn(C.class, n->{
-            if( n.ast() instanceof SimpleName ){
-                n.ast().replace(new SimpleName("c"));
+            if( n.node() instanceof SimpleName ){
+                n.node().replace(new SimpleName("c"));
             }
             //if( n.ast() instanceof Expression){
             //    n.ast().replace(new NameExpr("c"));
             //}
-            if( n.ast() instanceof Name){
-                n.ast().replace(new Name("c"));
+            if( n.node() instanceof Name){
+                n.node().replace(new Name("c"));
             }
         });
 

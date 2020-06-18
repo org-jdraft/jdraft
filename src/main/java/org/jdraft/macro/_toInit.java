@@ -75,7 +75,7 @@ public @interface _toInit {
         }
 
         public static InitializerDeclaration fromMethod( MethodDeclaration md ){
-            return fromMethod(_method.of(md)).ast();
+            return fromMethod(_method.of(md)).node();
         }
 
         /**
@@ -88,7 +88,7 @@ public @interface _toInit {
             }
             _ib.setBody( _m.getBody() );
             if( _m.hasJavadoc() ){
-                _ib.ast().setJavadocComment(_m.ast().getJavadocComment().get());
+                _ib.node().setJavadocComment(_m.node().getJavadocComment().get());
             }
             return _ib;
         }
@@ -105,11 +105,11 @@ public @interface _toInit {
             }
             TypeDeclaration td = (TypeDeclaration)op.get();
 
-            td.addMember(_ct.ast());
+            td.addMember(_ct.node());
             //remove the old method
             boolean isRemoved = methodDeclaration.remove();
 
-            return _ct.ast();
+            return _ct.node();
         }
     }
 }

@@ -117,7 +117,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getInnerType("Inner").fieldNamed("g").addAnnos(Deprecated.class);
+        _a.getInnerType("Inner").getField("g").addAnnos(Deprecated.class);
         
         _diff _d = _diff.of(_a,_b);
         //How many changes?
@@ -204,8 +204,8 @@ public class _diffApiTest extends TestCase {
         _dn.patchLeftToRight();
         
         assertEquals(_a, _b);
-        assertTrue(_a.getInnerType("Inner").fieldNamed("g").hasAnno(Deprecated.class));
-        assertTrue(_b.getInnerType("Inner").fieldNamed("g").hasAnno(Deprecated.class));
+        assertTrue(_a.getInnerType("Inner").getField("g").hasAnno(Deprecated.class));
+        assertTrue(_b.getInnerType("Inner").getField("g").hasAnno(Deprecated.class));
     }
     
     
@@ -232,7 +232,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_b, _a).isEmpty());
         
         //change something on the left (_a) add annotation to field g
-        _a.getInnerType("Inner").fieldNamed("g").addAnnos(Deprecated.class);
+        _a.getInnerType("Inner").getField("g").addAnnos(Deprecated.class);
         
         _diff _d = _diff.of(_b,_a);
         
@@ -311,8 +311,8 @@ public class _diffApiTest extends TestCase {
         //this will add the Deprecated Anno
         _dn.patchRightToLeft();
         assertEquals(_a, _b);
-        assertTrue( _a.getInnerType("Inner").fieldNamed("g").hasAnno(Deprecated.class) );
-        assertTrue( _b.getInnerType("Inner").fieldNamed("g").hasAnno(Deprecated.class) );
+        assertTrue( _a.getInnerType("Inner").getField("g").hasAnno(Deprecated.class) );
+        assertTrue( _b.getInnerType("Inner").getField("g").hasAnno(Deprecated.class) );
     }
     
     
@@ -342,7 +342,7 @@ public class _diffApiTest extends TestCase {
         assertTrue(_diff.of(_a, _b).isEmpty());
         
         //change something on _b (the right)
-        _a.getInnerType("Inner").fieldNamed("g").setInit(200);
+        _a.getInnerType("Inner").getField("g").setInit(200);
         
         _diff _d = _diff.of(_a, _b);
         
@@ -373,8 +373,8 @@ public class _diffApiTest extends TestCase {
         // _a and _b are both equal
         assertTrue( _diff.of(_a, _b).isEmpty());
         //AND verify they are now BOTH 200
-        assertEquals( _a.getInnerType("Inner").fieldNamed("g").getInitNode(), Expr.of(200));
-        assertEquals( _b.getInnerType("Inner").fieldNamed("g").getInitNode(), Expr.of(200));
+        assertEquals( _a.getInnerType("Inner").getField("g").getInitNode(), Expr.of(200));
+        assertEquals( _b.getInnerType("Inner").getField("g").getInitNode(), Expr.of(200));
         //assertEquals( _a.getNest("Inner").getField("g"), _a.getNest("Inner").getField("g"));        
     }
     

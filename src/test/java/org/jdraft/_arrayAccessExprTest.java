@@ -6,8 +6,8 @@ public class _arrayAccessExprTest extends TestCase {
 
     public void testArr(){
         _arrayAccessExpr _aa = _arrayAccessExpr.of("v[1][3]");
-        Print.tree(_aa.ast());
-        Print.tree( _aa.getIndex().ast() );
+        Print.tree(_aa.node());
+        Print.tree( _aa.getIndex().node() );
 
         assertTrue(_aa.isIndex(_intExpr.class));
         System.out.println( _aa.getIndex() );

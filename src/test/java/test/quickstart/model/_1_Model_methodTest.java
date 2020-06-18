@@ -52,7 +52,7 @@ public class _1_Model_methodTest extends TestCase {
         // what IS the _method?
         // the _method is actually a stateless wrapper pointing to a JavaParser AST
         // we can get the JavaParser AST MethodDeclaration by calling the ast() method
-        MethodDeclaration md = _m.ast();
+        MethodDeclaration md = _m.node();
 
         // ...if we call any "mutator" type methods on the _m instance, the changes will also be reflected in
         // the AST and by:

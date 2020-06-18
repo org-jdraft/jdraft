@@ -42,7 +42,7 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
     }
 
     static $stmt of(_stmt<?, ?> _e) {
-        return of( _e.ast() );
+        return of( _e.node() );
     }
 
     /**
@@ -141,7 +141,7 @@ public interface $stmt<S extends Statement, _S extends _stmt, $S extends $bot.$n
         if( _s == null ){
             return isMatchAny();
         }
-        return select(_s.ast()) != null;
+        return select(_s.node()) != null;
     }
 
     /**

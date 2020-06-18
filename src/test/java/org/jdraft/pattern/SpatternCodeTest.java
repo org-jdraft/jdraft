@@ -58,13 +58,13 @@ public class SpatternCodeTest extends TestCase {
         $member[] members = new $member[]{$field.of()};
         _expr e = $.of(0).firstIn(_c);
 
-        assertTrue( Walk.isParentMember(e.ast(), pm -> {
+        assertTrue( Walk.isParentMember(e.node(), pm -> {
             System.out.println(pm+" "+ pm.getClass());
             return $field.of().match(pm);
         }));
 
         //assertTrue( Ast.isParentMember(node, nn-> Arrays.stream(members).filter($m ->Ast$m.match(nn)).findFirst().isPresent()) );
-        assertTrue( Walk.isParentMember(e.ast(), nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
+        assertTrue( Walk.isParentMember(e.node(), nn-> Arrays.stream(members).filter($m ->$m.match(nn)).findFirst().isPresent()) );
 
         //there are (2) int literals (0, 2) which have parents associated with fields ("int i = 0", "int x = 2")
         assertEquals(2, $.intLiteral().$isParentMember($field.of()).countIn(_c)); //i,x

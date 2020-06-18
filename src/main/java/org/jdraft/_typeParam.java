@@ -5,6 +5,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.TypeParameter;
@@ -52,7 +53,7 @@ public final class _typeParam
 
     public static _feature._features<_typeParam> FEATURES = _feature._features.of(_typeParam.class,  PARSER, ANNOS, NAME, EXTENDS_TYPE_BOUND);
 
-    private final TypeParameter typeParam;
+    private TypeParameter node;
 
     public _feature._features<_typeParam> features(){
         return FEATURES;
@@ -63,7 +64,7 @@ public final class _typeParam
      * @return 
      */
     public _typeParam copy(){
-        return of( this.typeParam.toString() );
+        return of( this.node.toString() );
     }
 
     /**
@@ -74,7 +75,7 @@ public final class _typeParam
      * @return
      */
     public _typeParam setExtendsTypeBound(NodeList<ClassOrInterfaceType> nc){
-        this.typeParam.setTypeBound(nc);
+        this.node.setTypeBound(nc);
         return this;
     }
 
@@ -83,11 +84,11 @@ public final class _typeParam
      * @return
      */
     public boolean hasExtendsTypeBound(){
-        return this.typeParam.getTypeBound().isNonEmpty();
+        return this.node.getTypeBound().isNonEmpty();
     }
 
     public List<_typeRef> listExtendsTypeBound(){
-        return this.ast().getTypeBound().stream().map( t-> _typeRef.of(t)).collect(Collectors.toList());
+        return this.node().getTypeBound().stream().map(t-> _typeRef.of(t)).collect(Collectors.toList());
     }
 
     /**
@@ -108,7 +109,7 @@ public final class _typeParam
      */
     public _typeParam setExtendsTypeBound(_typeRef...types){
         NodeList<ClassOrInterfaceType> nc = new NodeList<>();
-        Arrays.stream(types).forEach(t -> nc.add((ClassOrInterfaceType)t.ast()));
+        Arrays.stream(types).forEach(t -> nc.add((ClassOrInterfaceType)t.node()));
         setExtendsTypeBound(nc);
         return this;
     }
@@ -137,7 +138,7 @@ public final class _typeParam
      * @return
      */
     public _typeParam addExtendsTypeBound(ClassOrInterfaceType...types){
-        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add(t));
+        Arrays.stream(types).forEach(t -> this.node.getTypeBound().add(t));
         return this;
     }
 
@@ -151,7 +152,7 @@ public final class _typeParam
      * @return
      */
     public _typeParam addExtendsTypeBound(_typeRef...types){
-        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add((ClassOrInterfaceType)t.ast()));
+        Arrays.stream(types).forEach(t -> this.node.getTypeBound().add((ClassOrInterfaceType)t.node()));
         return this;
     }
 
@@ -166,7 +167,7 @@ public final class _typeParam
      * @return
      */
     public _typeParam addExtendsTypeBound(String...types){
-        Arrays.stream(types).forEach(t -> this.typeParam.getTypeBound().add((ClassOrInterfaceType)Types.of(t))); //StaticJavaParser.parseClassOrInterfaceType(t)));
+        Arrays.stream(types).forEach(t -> this.node.getTypeBound().add((ClassOrInterfaceType)Types.of(t))); //StaticJavaParser.parseClassOrInterfaceType(t)));
         return this;
     }
 
@@ -175,16 +176,16 @@ public final class _typeParam
      * @return
      */
     public NodeList<ClassOrInterfaceType> getAstExtendsTypeBound() {
-        return typeParam.getTypeBound();
+        return node.getTypeBound();
     }
 
     @Override
-    public TypeParameter ast() {        
-        return this.typeParam;
+    public TypeParameter node() {
+        return this.node;
     }
 
     public _typeParam(TypeParameter tp ) {
-        this.typeParam = tp;
+        this.node = tp;
     }
 
     @Override
@@ -203,7 +204,6 @@ public final class _typeParam
         }
         return st.matches(this.toString(Print.PRINT_NO_COMMENTS));
     }
-
 
     @Override
     public boolean is( TypeParameter typeParam ){
@@ -228,7 +228,7 @@ public final class _typeParam
         }
         final _typeParam other = (_typeParam)obj;
 
-        if( Objects.equals(this.typeParam, other.typeParam)){
+        if( Objects.equals(this.node, other.node)){
             return true;
         }
         if( !Objects.equals( this.getName(),other.getName()) ){
@@ -250,41 +250,45 @@ public final class _typeParam
         //return Objects.equals( ttp, otp );
     }
 
-    /*
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put( _java.Feature.TYPE_PARAM, this.typeParam);
-        return parts;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _typeParam replace(TypeParameter replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode( Types.normalizeTypeParam(this.typeParam) );
+        return Objects.hashCode( Types.normalizeTypeParam(this.node) );
     }
 
     @Override
     public String toString() {
         //JavaParser already does a great job, no need to interfere
-        return typeParam.toString();
+        return node.toString();
     }
 
     @Override
     public _typeParam setName(String name) {
-        this.typeParam.setName(name);
+        this.node.setName(name);
         return this;
     }
 
-    public SimpleName getNameNode(){ return this.typeParam.getName(); }
+    public SimpleName getNameNode(){ return this.node.getName(); }
 
     @Override
     public String getName() {
-        return typeParam.getNameAsString();
+        return node.getNameAsString();
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of( this.typeParam);
+        return _annos.of( this.node);
     }
 
 }

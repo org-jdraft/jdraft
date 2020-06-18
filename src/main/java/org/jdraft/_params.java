@@ -23,8 +23,6 @@ import java.util.function.Predicate;
  * _parameters is a container of ELEMENTS
  *
  * @author Eric
- *
- *
  */
 public final class _params
         implements _tree._view<_params>, _tree._orderedGroup<Parameter, _param, _params> {
@@ -66,6 +64,10 @@ public final class _params
 
     public static _params of(){
         return of(  Expr.lambdaExpr("()->true") ); //Ast.method( "void $$();" ));
+    }
+
+    public static _params of( _param..._ps){
+        return of().add(_ps);
     }
 
     /**
@@ -149,19 +151,18 @@ public final class _params
     /**
      *
      */
-    private final NodeWithParameters astNodeWithParams;
+    private NodeWithParameters parentNode;
 
-    public <N extends Node> N astAnchorNode(){
-        return (N)astNodeWithParams;
+    public <N extends Node> N anchorNode(){
+        return (N) parentNode;
     }
-
 
     /**
      *
      * @return
      */
     public NodeList<Parameter> ast() {
-        return astNodeWithParams.getParameters();
+        return parentNode.getParameters();
     }
 
     /**
@@ -170,7 +171,7 @@ public final class _params
      */
     public List<String> names(){
         List<String> names = new ArrayList();
-        this.astNodeWithParams.getParameters().forEach( (p) -> names.add( ((Parameter)p).getNameAsString()));
+        this.parentNode.getParameters().forEach( (p) -> names.add( ((Parameter)p).getNameAsString()));
         return names;
     }
 
@@ -179,7 +180,7 @@ public final class _params
      * @param nwp
      */
     public _params(NodeWithParameters nwp ) {
-        this.astNodeWithParams = nwp;
+        this.parentNode = nwp;
     }
 
     /**
@@ -187,12 +188,12 @@ public final class _params
      * @return
      */
     public boolean isEmpty() {
-        return this.astNodeWithParams.getParameters().isEmpty();
+        return this.parentNode.getParameters().isEmpty();
     }
 
     @Override
     public NodeList<Parameter> astList() {
-        return this.astNodeWithParams.getParameters();
+        return this.parentNode.getParameters();
     }
 
     /**
@@ -200,7 +201,7 @@ public final class _params
      * @return
      */
     public int size() {
-        return this.astNodeWithParams.getParameters().size();
+        return this.parentNode.getParameters().size();
     }
 
     /**
@@ -208,7 +209,7 @@ public final class _params
      * @return
      */
     public _params clear() {
-        this.astNodeWithParams.getParameters().clear();
+        this.parentNode.getParameters().clear();
         return this;
     }
 
@@ -230,18 +231,34 @@ public final class _params
     public _typeRef[] types(){
         _typeRef[] ts = new _typeRef[size()];
         for(int i=0;i<this.size();i++){
-            ts[i] = _typeRef.of( this.astNodeWithParams.getParameter(i).getType() );
+            ts[i] = _typeRef.of( this.parentNode.getParameter(i).getType() );
         }
         return ts;
     }
 
+    /**
+     * Do the parameters have these types
+     * @param typeClazzes the types of parameters
+     * @return
+     */
+    public boolean isTypes(Class...typeClazzes){
+        if( typeClazzes.length != this.size() ){
+            return false;
+        }
+        for(int i=0;i<typeClazzes.length; i++){
+            if( !getAt(i).isType(typeClazzes[i]) ){
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      *
      * @return
      */
     public List<_param> list() {
         List<_param> ps = new ArrayList<>();
-        this.astNodeWithParams.getParameters().forEach( p -> ps.add( _param.of( (Parameter)p ) ) );
+        this.parentNode.getParameters().forEach(p -> ps.add( _param.of( (Parameter)p ) ) );
         return ps;
     }
 
@@ -251,7 +268,7 @@ public final class _params
      * @return
      */
     public _param get(String name ) {
-        Optional<Parameter> p = astNodeWithParams.getParameterByName( name );
+        Optional<Parameter> p = parentNode.getParameterByName( name );
         if( p.isPresent() ) {
             return _param.of( p.get() );
         }
@@ -264,7 +281,7 @@ public final class _params
      * @return
      */
     public _param get(Class clazz ) {
-        Optional<Parameter> p = astNodeWithParams.getParameterByType( clazz );
+        Optional<Parameter> p = parentNode.getParameterByType( clazz );
         if( p.isPresent() ) {
             return _param.of( p.get() );
         }
@@ -278,7 +295,7 @@ public final class _params
      * @return
      */
     public _params set(int index, _param _p ) {
-        astNodeWithParams.setParameter( index, _p.ast() );
+        parentNode.setParameter( index, _p.node() );
         return this;
     }
 
@@ -292,7 +309,7 @@ public final class _params
         for(int i=0;i<typeRefs.length;i++){
             pts[i] = typeRefs[i].toString();
         }
-        return astNodeWithParams.hasParametersOfType( pts );
+        return parentNode.hasParametersOfType( pts );
     }
 
     /**
@@ -301,7 +318,7 @@ public final class _params
      * @return
      */
     public boolean hasParamsOfType(String... paramTypes ) {
-        return astNodeWithParams.hasParametersOfType( paramTypes );
+        return parentNode.hasParametersOfType( paramTypes );
     }
 
     /**
@@ -310,7 +327,7 @@ public final class _params
      * @return
      */
     public boolean hasParamsOfType(Class... paramTypes ) {
-        return astNodeWithParams.hasParametersOfType( paramTypes );
+        return parentNode.hasParametersOfType( paramTypes );
     }
 
     public boolean is(String code){
@@ -324,7 +341,7 @@ public final class _params
      */
     public _params add(String... _ps ) {
         for( int i = 0; i < _ps.length; i++ ) {
-            astNodeWithParams.addParameter( Ast.parameter( _ps[ i ] ) );
+            parentNode.addParameter( Ast.parameter( _ps[ i ] ) );
         }
         return this;
     }
@@ -341,12 +358,12 @@ public final class _params
             return false;
         }
         final _params other = (_params)obj;
-        if( this.astNodeWithParams.getParameters().size() != other.astNodeWithParams.getParameters().size() ) {
+        if( this.parentNode.getParameters().size() != other.parentNode.getParameters().size() ) {
             return false;
         }
         for( int i = 0; i < this.size(); i++ ) {
-            _param t = _param.of(this.astNodeWithParams.getParameter( i ));
-            _param o = _param.of(other.astNodeWithParams.getParameter( i ));
+            _param t = _param.of(this.parentNode.getParameter( i ));
+            _param o = _param.of(other.parentNode.getParameter( i ));
 
             if( ! Objects.equals(t, o)){
                 return false;
@@ -360,7 +377,7 @@ public final class _params
         int hash = 7;
         //list because order matters
         List<_param> _ps = new ArrayList<>();
-        this.astNodeWithParams.getParameters().forEach( p -> _ps.add( _param.of( (Parameter)p) ));
+        this.parentNode.getParameters().forEach(p -> _ps.add( _param.of( (Parameter)p) ));
         hash = 79 * hash + Objects.hashCode( _ps );
         return hash;
     }
@@ -373,19 +390,19 @@ public final class _params
     public String toString(PrettyPrinterConfiguration ppc){
         StringBuilder sb = new StringBuilder();
         sb.append( "(" );
-        int size = this.astNodeWithParams.getParameters().size();
+        int size = this.parentNode.getParameters().size();
         for( int i = 0; i < size; i++ ) {
             if( i > 0 ) {
                 sb.append( ", " );
             }
-            sb.append( this.astNodeWithParams.getParameter( i ).toString(ppc) );
+            sb.append( this.parentNode.getParameter( i ).toString(ppc) );
         }
         sb.append( ")" );
         return sb.toString();
     }
 
-    public NodeWithParameters astHolder() {
-        return this.astNodeWithParams;
+    public NodeWithParameters nodeWithParameters() {
+        return this.parentNode;
     }
 
     /**
@@ -403,7 +420,7 @@ public final class _params
          * {@link com.github.javaparser.ast.body.ConstructorDeclaration})
          * @return the NodeWithParameters instance
          */
-        NodeWithParameters ast();
+        NodeWithParameters nodeWithParameters();
 
         /**
          * Check if all individual arg ({@link _param}s) match the function
@@ -415,11 +432,11 @@ public final class _params
         }
 
         default _param getParam(int index){
-            return _param.of( ast().getParameter( index ) );
+            return _param.of( nodeWithParameters().getParameter( index ) );
         }
 
         default _param getParam(Class type) {
-            Optional<Parameter> op = ast().getParameterByType(type);
+            Optional<Parameter> op = nodeWithParameters().getParameterByType(type);
             if (op.isPresent()) {
                 return _param.of(op.get());
             }
@@ -427,7 +444,7 @@ public final class _params
         }
 
         default _param getParam(_typeRef _type) {
-            Optional<Parameter> op = ast().getParameterByType(_type.toString());
+            Optional<Parameter> op = nodeWithParameters().getParameterByType(_type.toString());
             if (op.isPresent()) {
                 return _param.of(op.get());
             }
@@ -435,7 +452,7 @@ public final class _params
         }
 
         default _param getParam(String parameterName) {
-            Optional<Parameter> op = this.ast().getParameterByName(parameterName);
+            Optional<Parameter> op = this.nodeWithParameters().getParameterByName(parameterName);
             if (op.isPresent()) {
                 return _param.of(op.get());
             }
@@ -443,7 +460,7 @@ public final class _params
         }
 
         default boolean hasParams() {
-            return !ast().getParameters().isEmpty();
+            return !nodeWithParameters().getParameters().isEmpty();
         }
 
         default List<_param> listParams() {
@@ -472,7 +489,7 @@ public final class _params
         }
 
         default _WP addParam(_typeRef type, String name) {
-            return addParam( new Parameter( type.ast(), name ) );
+            return addParam( new Parameter( type.node(), name ) );
         }
 
         default _WP addParam(String parameter) {
@@ -486,12 +503,12 @@ public final class _params
         }
 
         default _WP addParam(_param parameter) {
-            addParam( parameter.ast() );
+            addParam( parameter.node() );
             return (_WP)this;
         }
 
         default _WP addParam(Parameter p){
-            ast().addParameter(p);
+            nodeWithParameters().addParameter(p);
             return (_WP)this;
         }
 
@@ -501,8 +518,12 @@ public final class _params
         }
 
         default _WP setParams(NodeList<Parameter> astPs){
-            ast().setParameters(astPs);
+            nodeWithParameters().setParameters(astPs);
             return (_WP)this;
+        }
+
+        default _WP setParams(_param..._ps){
+            return setParams( _params.of(_ps));
         }
 
         default _WP setParams(_params _ps){

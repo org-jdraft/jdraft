@@ -16,7 +16,7 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _tree._nod
      * Return the AST for the _stmt implementation
      * @return the JavaParser AST
      */
-    S ast();
+    S node();
 
     /**
      * Remove this statement, any comment, and all children statements from the AST
@@ -24,7 +24,7 @@ public interface _stmt<S extends Statement, _S extends _stmt> extends _tree._nod
      * (false if it is a required property of the parent, or if the parent is null).
      */
     default boolean removeFromAst(){
-        return ast().remove();
+        return node().remove();
     }
 
     /**

@@ -149,7 +149,7 @@ public class _commentTest extends TestCase {
         }
 
         _class _c = _class.of(G.class);
-        _c.ast().setComment(_blockComment.of("blockus"+System.lineSeparator()+"multis"+System.lineSeparator()+"commentus").ast() );
+        _c.node().setComment(_blockComment.of("blockus"+System.lineSeparator()+"multis"+System.lineSeparator()+"commentus").node() );
         System.out.println( _c );
     }
 
@@ -280,7 +280,7 @@ public class _commentTest extends TestCase {
         _tree._node _n = (_tree._node)_java.of( cs.get(2).getCommentedNode().get());
         System.out.println("N "+ _n );
         System.out.println("C "+ cs.get(2).toString() );
-        System.out.println("N .ast() "+ _n.ast() );
+        System.out.println("N .ast() "+ _n.node() );
         //assertNotNull(_n.getComment());
     }
 

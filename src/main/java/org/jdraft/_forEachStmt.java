@@ -93,10 +93,10 @@ public final class _forEachStmt implements
 
     public static _feature._features<_forEachStmt> FEATURES = _feature._features.of(_forEachStmt.class, PARSER,  VARIABLES, ITERABLE, BODY);
 
-    private ForEachStmt astStmt;
+    private ForEachStmt node;
 
     public _forEachStmt(ForEachStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     public _feature._features<_forEachStmt> features(){
@@ -105,23 +105,25 @@ public final class _forEachStmt implements
 
     @Override
     public _forEachStmt copy() {
-        return new _forEachStmt( this.astStmt.clone());
+        return new _forEachStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.forEachStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _forEachStmt replace(ForEachStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean isVariable(String...expression){
         try {
             //NOTE: we convert to _variabelsExpr because this allows out-of-order testing "int a,b" === "int b,a"
-            return Objects.equals(_variablesExpr.of(this.astStmt.getVariable()), _variablesExpr.of(Ast.variableDeclarationExpr(expression)));
+            return Objects.equals(_variablesExpr.of(this.node.getVariable()), _variablesExpr.of(Ast.variableDeclarationExpr(expression)));
         }
         catch(Exception e){
             return false;
@@ -141,35 +143,35 @@ public final class _forEachStmt implements
     }
 
     public boolean isVariable(VariableDeclarationExpr ve){
-        return Objects.equals( this.astStmt.getVariable(), ve);
+        return Objects.equals( this.node.getVariable(), ve);
     }
 
     public boolean isVariable(_variablesExpr _v){
-        return Objects.equals( this.astStmt.getVariable(), _v.ast());
+        return Objects.equals( this.node.getVariable(), _v.node());
     }
 
     public _variablesExpr getVariable(){
-        return new _variablesExpr(this.astStmt.getVariable());
+        return new _variablesExpr(this.node.getVariable());
     }
 
     public _forEachStmt setVariable(String... var){
-        this.astStmt.setVariable(Ast.variableDeclarationExpr(var));
+        this.node.setVariable(Ast.variableDeclarationExpr(var));
         return this;
     }
 
     public _forEachStmt setVariable( _variablesExpr _v){
-        this.astStmt.setVariable(_v.varDeclEx);
+        this.node.setVariable(_v.node);
         return this;
     }
 
     public _forEachStmt setVariable(VariableDeclarationExpr v){
-        this.astStmt.setVariable(v);
+        this.node.setVariable(v);
         return this;
     }
 
     public boolean isIterable(String...expression){
         try {
-            return Objects.equals(this.astStmt.getIterable(), Expr.of(expression));
+            return Objects.equals(this.node.getIterable(), Expr.of(expression));
         }
         catch(Exception e){
             return false;
@@ -177,60 +179,60 @@ public final class _forEachStmt implements
     }
 
     public boolean isIterable(Expression e){
-        return Objects.equals( this.astStmt.getIterable(), e);
+        return Objects.equals( this.node.getIterable(), e);
     }
 
     public boolean isIterable(_expr _e){
-        return Objects.equals( this.astStmt.getIterable(), _e.ast());
+        return Objects.equals( this.node.getIterable(), _e.node());
     }
 
     public _expr getIterable(){
-        return _expr.of(this.astStmt.getIterable());
+        return _expr.of(this.node.getIterable());
     }
 
     public _forEachStmt setIterable(String...str){
-        this.astStmt.setIterable(Expr.of(str));
+        this.node.setIterable(Expr.of(str));
         return this;
     }
 
     public _forEachStmt setIterable(Expression e){
-        this.astStmt.setIterable(e);
+        this.node.setIterable(e);
         return this;
     }
 
     public _forEachStmt setIterable(_expr e){
-        this.astStmt.setIterable(e.ast());
+        this.node.setIterable(e.node());
         return this;
     }
 
     public _body getBody(){
-        return _body.of( this.astStmt.getBody() );
+        return _body.of( this.node.getBody() );
     }
 
     @Override
     public _forEachStmt setBody(BlockStmt body) {
-        this.astStmt.setBody(body);
+        this.node.setBody(body);
         return this;
     }
 
     public _forEachStmt setBody(_stmt _st){
-        this.astStmt.setBody(_st.ast());
+        this.node.setBody(_st.node());
         return this;
     }
 
     public _forEachStmt setBody(_body _bd){
-        this.astStmt.setBody(_bd.ast());
+        this.node.setBody(_bd.ast());
         return this;
     }
 
     public _forEachStmt clearBody(){
-        this.astStmt.setBody( new BlockStmt());
+        this.node.setBody( new BlockStmt());
         return this;
     }
 
     @Override
     public _forEachStmt add(int startStatementIndex, Statement... statements) {
-        Statement bd = this.astStmt.getBody();
+        Statement bd = this.node.getBody();
         if( bd instanceof BlockStmt){
             for(int i=0;i<statements.length; i++) {
                 bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
@@ -252,12 +254,12 @@ public final class _forEachStmt implements
     }
      */
 
-    public ForEachStmt ast(){
-        return astStmt;
+    public ForEachStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
@@ -276,6 +278,6 @@ public final class _forEachStmt implements
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

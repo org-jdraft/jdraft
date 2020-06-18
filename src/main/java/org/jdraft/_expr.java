@@ -24,14 +24,14 @@ public interface _expr<E extends Expression, _E extends _expr>
      */
 
     default boolean is(Expression e){
-        return Objects.equals( e, ast());
+        return Objects.equals( e, node());
     }
 
     default boolean isLiteral(){
         return this instanceof _literal;
     }
 
-    E ast();
+    E node();
 
     // computation
     //   methodCall, binaryExpression, unary, conditionalExpression, enclosedExpression, switchExpr

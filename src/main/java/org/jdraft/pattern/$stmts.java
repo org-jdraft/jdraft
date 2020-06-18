@@ -300,7 +300,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                 }
                 else if( val != null && val != Boolean.FALSE ){
                     //construct the statement (it
-                    LabeledStmt ls = (LabeledStmt)(stmt.draft(t, tokens).ast());
+                    LabeledStmt ls = (LabeledStmt)(stmt.draft(t, tokens).node());
                     Statement st = ls.getStatement();
                     if( st instanceof BlockStmt ) {
                         //add each of the statements
@@ -310,7 +310,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                     }
                 }
             } else { //it is NOT a dymanically labeled Statement, so just process normally
-                sts.add(stmt.draft(t, tokens).ast());
+                sts.add(stmt.draft(t, tokens).node());
             }
         });       
         return sts;
@@ -482,9 +482,9 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
-            return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
+            return listSelectedIn(_t.node()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_tree._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).node());
     }
 
     @Override
@@ -655,7 +655,7 @@ public class $stmts implements Template<List<Statement>>, $pattern<List<Statemen
             }
         });
         if( _j instanceof _tree._node){
-            Walk.flattenLabel( ((_tree._node) _j).ast(), "$replacement$");
+            Walk.flattenLabel( ((_tree._node) _j).node(), "$replacement$");
         }
         return _j;
     }

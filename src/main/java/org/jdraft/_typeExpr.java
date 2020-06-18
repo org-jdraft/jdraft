@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.TypeExpr;
 
 import java.util.function.Function;
@@ -32,23 +33,35 @@ public final class _typeExpr
 
     public static _feature._features<_typeExpr> FEATURES = _feature._features.of(_typeExpr.class,  PARSER, TYPE);
 
-    public TypeExpr te;
+    public TypeExpr node;
 
     public _feature._features<_typeExpr> features(){
         return FEATURES;
     }
 
-    public _typeExpr(TypeExpr te){
-        this.te = te;
+    public _typeExpr(TypeExpr node){
+        this.node = node;
     }
 
     @Override
     public _typeExpr copy() {
-        return new _typeExpr(this.te.clone());
+        return new _typeExpr(this.node.clone());
     }
 
-    public TypeExpr ast(){
-        return te;
+    public TypeExpr node(){
+        return node;
+    }
+
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _typeExpr replace(TypeExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
     /**
@@ -56,22 +69,22 @@ public final class _typeExpr
      * @return
      */
     public _typeRef getType(){
-        return _typeRef.of(this.te.getType());
+        return _typeRef.of(this.node.getType());
     }
 
     public boolean equals(Object other){
         if( other instanceof _typeExpr){
             _typeExpr _te = ((_typeExpr)other);
-            return Types.equal( _te.ast().getType(), this.te.getType());
+            return Types.equal( _te.node().getType(), this.node.getType());
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.te.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.te.toString();
+        return this.node.toString();
     }
 }

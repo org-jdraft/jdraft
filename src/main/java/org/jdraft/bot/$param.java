@@ -105,7 +105,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
         return of()
                 .$name(_p.getName())
                 .$typeRef(_p.getType())
-                .$annoRefs($annos.as(_p.ast()))
+                .$annoRefs($annos.as(_p.node()))
                 .$isVarArg(_p.isVarArg())
                 .$isFinal(_p.isFinal());
     }
@@ -258,7 +258,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
 
     public $param(_param _p){
         if( _p.hasAnnos() ) {
-            annoExprs.setBot( $annos.of(_p.ast()) );
+            annoExprs.setBot( $annos.of(_p.node()) );
         }
         name.setBot( $name.of(_p.getName()) );
         type.setBot( $typeRef.of(_p.getType()));
@@ -370,7 +370,7 @@ public class $param implements $bot.$node<Parameter, _param, $param>,
     public _param draft(Translator tr, Map<String,Object> keyValues){
         _param _p = _param.of();
         _p.setAnnos( this.annoExprs.draft(tr, keyValues) );
-        _p.setName(this.name.draft(tr, keyValues).name.toString());
+        _p.setName(this.name.draft(tr, keyValues).node.toString());
         _p.setType(this.type.draft(tr, keyValues));
         if( this.isFinal.getExpected() ){
             _p.setFinal(true);

@@ -141,13 +141,13 @@ public class $intExpr implements $bot.$node<IntegerLiteralExpr, _intExpr, $intEx
                 return new Select<>(_i, new Tokens());
             }
             Tokens ts = null;
-            if( _i.ast().getComment().isPresent() ){
+            if( _i.node().getComment().isPresent() ){
                 //each bot should have a $comment, so if I require a comment I can check here
-                String str = _i.ast().getComment().get().getCommentedNode().get().toString(Print.PRINT_NO_COMMENTS);
+                String str = _i.node().getComment().get().getCommentedNode().get().toString(Print.PRINT_NO_COMMENTS);
 
                 //System.out.println( str );
                 //trick the node to get ONLY the uncommented node
-                ts = stencil.parse(_i.ast().getComment().get().getCommentedNode().get().toString(Print.PRINT_NO_COMMENTS));
+                ts = stencil.parse(_i.node().getComment().get().getCommentedNode().get().toString(Print.PRINT_NO_COMMENTS));
             } else {
                 ts = stencil.parse(_i.toString());
             }

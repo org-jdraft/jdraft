@@ -115,7 +115,7 @@ public interface Print {
         if( _t.isTopLevel() ){
             ASCIITreePrinter.print( _t.astCompilationUnit() );
         } else {
-            ASCIITreePrinter.print(_t.ast());
+            ASCIITreePrinter.print(_t.node());
         }
     }
 

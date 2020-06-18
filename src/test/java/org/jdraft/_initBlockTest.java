@@ -18,7 +18,7 @@ public class _initBlockTest extends TestCase {
         _initBlock _ib = _initBlock.of();
         _ib.setStatic();
         assertEquals( _initBlock.of("static{}"), _ib);
-        assertEquals( Ast.initializerDeclaration( "static {}"), _ib.astInit);
+        assertEquals( Ast.initializerDeclaration( "static {}"), _ib.node);
     }
     
     @interface T{

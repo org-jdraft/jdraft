@@ -126,7 +126,7 @@ public @interface _hashCode {
 
 
          public static <_T extends _type> _T to(_T _t){
-              to((TypeDeclaration)_t.ast());
+              to((TypeDeclaration)_t.node());
               return _t;
          }
 

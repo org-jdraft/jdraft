@@ -352,7 +352,7 @@ public class $parameters implements Template<_params>,
         
         return forSelectedIn( astNode, s->{
             _params _replaceParams = $replacementProto.draft(s.tokens);
-            s._params.astHolder().setParameters(_replaceParams.ast());             
+            s._params.nodeWithParameters().setParameters(_replaceParams.ast());
             } );
     }
     
@@ -377,7 +377,7 @@ public class $parameters implements Template<_params>,
     public <_J extends _java._domain> _J replaceIn(_J _j, $parameters $replacementProto) {
         return forSelectedIn(_j, s->{
             _params _replaceParams = $replacementProto.draft(s.tokens);
-            s._params.astHolder().setParameters(_replaceParams.ast());             
+            s._params.nodeWithParameters().setParameters(_replaceParams.ast());
             } );
     }
     

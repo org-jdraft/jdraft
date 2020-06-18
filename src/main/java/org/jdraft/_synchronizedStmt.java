@@ -5,11 +5,7 @@ import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.stmt.SynchronizedStmt;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public final class _synchronizedStmt implements
@@ -45,77 +41,48 @@ public final class _synchronizedStmt implements
         return FEATURES;
     }
 
-    private SynchronizedStmt astStmt;
+    private SynchronizedStmt node;
 
     public _synchronizedStmt(SynchronizedStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     @Override
     public _synchronizedStmt copy() {
-        return new _synchronizedStmt( this.astStmt.clone());
+        return new _synchronizedStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        /*
-        AtomicInteger ai = new AtomicInteger();
-        Consumer<Integer> ci =  (a)->{
-            synchronized (ai){
-                System.out.println(1);
-            }
-        };
-
-        try{
-            return is( Stmt.synchronizedStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
-
-    /*
-    public _expression getExpression(){
-        return _expression.of(this.astStmt.getExpression());
-    }
-
-    public _synchronizedStmt setExpression(_expression _e){
-        this.astStmt.setExpression( _e.ast());
+    public _synchronizedStmt replace(SynchronizedStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
         return this;
     }
-    */
 
     public _body getBody(){
-        return _body.of( (NodeWithBlockStmt)astStmt);
+        return _body.of( (NodeWithBlockStmt) node);
     }
 
     @Override
     public _synchronizedStmt setBody(BlockStmt body) {
-        this.astStmt.setBody(body);
+        this.node.setBody(body);
         return this;
     }
-
-    /*
-    public _synchronizedStmt setBody(_body _b){
-        Statement st = _b.astStatement();
-        if( st instanceof BlockStmt){
-            this.astStmt.setBody()
-        } else {
-            this.astStmt.setBody(_b.astStatement());
-        }
-        return this;
-    }
-     */
 
     @Override
     public _synchronizedStmt clearBody() {
-        this.astStmt.setBody( new BlockStmt());
+        this.node.setBody( new BlockStmt());
         return this;
     }
 
     @Override
     public _synchronizedStmt add(int startStatementIndex, Statement... statements) {
-        Statement bd = this.astStmt.getBody();
+        Statement bd = this.node.getBody();
         if( bd instanceof BlockStmt ){
             for(int i=0;i<statements.length; i++) {
                 bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
@@ -130,39 +97,22 @@ public final class _synchronizedStmt implements
         return this;
     }
 
-    /*
-    @Override
-    public boolean is(SynchronizedStmt astNode) {
-        return this.astStmt.equals( astNode);
+    public SynchronizedStmt node(){
+        return node;
     }
-     */
-
-    public SynchronizedStmt ast(){
-        return astStmt;
-    }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        comps.put(_java.Feature.EXPRESSION, astStmt.getExpression());
-        comps.put(_java.Feature.BODY, astStmt.getBody());
-        return comps;
-    }
-     */
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _synchronizedStmt ){
-            return Objects.equals( ((_synchronizedStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_synchronizedStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

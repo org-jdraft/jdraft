@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.SimpleName;
@@ -95,41 +96,41 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
 
     public static _feature._features<_fieldAccessExpr> FEATURES = _feature._features.of(_fieldAccessExpr.class, PARSER, SCOPE, TYPE_ARGS, NAME );
 
-    public FieldAccessExpr fe;
+    public FieldAccessExpr node;
 
-    public _fieldAccessExpr(FieldAccessExpr fe){
-        this.fe = fe;
+    public _fieldAccessExpr(FieldAccessExpr node){
+        this.node = node;
     }
 
     @Override
     public _fieldAccessExpr copy() {
-        return new _fieldAccessExpr(this.fe.clone());
+        return new _fieldAccessExpr(this.node.clone());
     }
 
     public _feature._features<_fieldAccessExpr> features(){
         return FEATURES;
     }
 
-    public FieldAccessExpr ast(){
-        return fe;
+    public FieldAccessExpr node(){
+        return node;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.SCOPE_EXPR, fe.getScope());
-        if( fe.getTypeArguments().isPresent()) {
-            comps.put(_java.Feature.TYPE_ARGS, fe.getTypeArguments().get());
-        }
-        comps.put(_java.Feature.NAME, fe.getNameAsString());
-        return comps;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _fieldAccessExpr replace(FieldAccessExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
-    public SimpleName getNameNode() { return this.fe.getName(); }
+    public SimpleName getNameNode() { return this.node.getName(); }
 
     public _fieldAccessExpr setName(String name){
-        this.fe.setName(name);
+        this.node.setName(name);
         return this;
     }
 
@@ -151,21 +152,21 @@ public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAcce
     */
 
     public String getName(){
-        return fe.getNameAsString();
+        return node.getNameAsString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _fieldAccessExpr){
-            return ((_fieldAccessExpr)other).fe.equals( this.fe);
+            return ((_fieldAccessExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.fe.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.fe.toString();
+        return this.node.toString();
     }
 }

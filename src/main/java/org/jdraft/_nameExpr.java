@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.NameExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 
@@ -30,10 +31,10 @@ public final class _nameExpr
 
     public static _feature._features<_nameExpr> FEATURES = _feature._features.of(_nameExpr.class, PARSER, NAME);
 
-    public NameExpr ne;
+    public NameExpr node;
 
-    public _nameExpr(NameExpr ne){
-        this.ne = ne;
+    public _nameExpr(NameExpr node){
+        this.node = node;
     }
 
     public _feature._features<_nameExpr> features(){
@@ -42,53 +43,58 @@ public final class _nameExpr
 
     @Override
     public _nameExpr copy() {
-        return new _nameExpr(this.ne.clone());
+        return new _nameExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return is( new NameExpr(Text.combine(stringRep)));
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _nameExpr replace(NameExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(NameExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public NameExpr ast(){
-        return ne;
+    public NameExpr node(){
+        return node;
     }
 
-    public SimpleName getNameNode(){ return this.ne.getName(); }
+    public SimpleName getNameNode(){ return this.node.getName(); }
 
     public String getName(){
-        return this.ne.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     public String toString(){
-        return this.ne.toString();
+        return this.node.toString();
     }
 
     public _nameExpr setName( SimpleName sn) {
-        this.ne.setName(sn);
+        this.node.setName(sn);
         return this;
     }
 
     public _nameExpr setName(String name){
-        this.ne.setName(name);
+        this.node.setName(name);
         return this;
     }
 
     public boolean equals(Object other){
         if( other instanceof _nameExpr){
-            return Objects.equals( ((_nameExpr)other).ast(), this.ast() );
+            return Objects.equals( ((_nameExpr)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

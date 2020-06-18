@@ -45,21 +45,21 @@ public class $exprTest extends TestCase {
 	}
 	
 	public void test$and() {
-		assertTrue($e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100") );
+		assertTrue($e.of().$and( e -> !e.node().getComment().isPresent()).matches("100") );
 
 		//assertTrue( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches("100"));
 		IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		ile.setComment(new BlockComment("Hello"));
-		assertFalse( $e.of(). $and(e -> !e.ast().getComment().isPresent()).matches(ile));
+		assertFalse( $e.of(). $and(e -> !e.node().getComment().isPresent()).matches(ile));
 		//assertFalse( $e.of().$and( e -> !e.ast().getComment().isPresent()).matches(ile));
 	}
 
 	public void test$not() {
-		assertFalse( $e.not( e -> !e.ast().getComment().isPresent()).matches("100") );
+		assertFalse( $e.not( e -> !e.node().getComment().isPresent()).matches("100") );
 		//assertFalse( $e.of().$not( e -> !e.ast().getComment().isPresent()).matches("100"));
 		IntegerLiteralExpr ile = new IntegerLiteralExpr(100);
 		ile.setComment(new BlockComment("Hello"));
-		assertTrue( $e.not( e -> ! ((_tree._node)e).ast().getComment().isPresent()).matches(ile));
+		assertTrue( $e.not( e -> ! ((_tree._node)e).node().getComment().isPresent()).matches(ile));
 		//assertTrue( $e.of().$not( e -> ! ((_java._node)e).ast().getComment().isPresent()).matches(ile));
 	}
 	

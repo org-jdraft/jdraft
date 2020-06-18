@@ -54,11 +54,11 @@ public final class _javadocCommentDiff implements _differ<_javadocComment, _tree
             this.path = _p;
             this.leftParent = leftParent;
             if (leftParent.hasJavadoc()) {
-                this.leftJavadoc = leftParent.getJavadoc().ast().clone();
+                this.leftJavadoc = leftParent.getJavadoc().node().clone();
             }
             this.rightParent = rightParent;
             if (rightParent.hasJavadoc()) {
-                this.rightJavadoc = rightParent.getJavadoc().ast().clone();
+                this.rightJavadoc = rightParent.getJavadoc().node().clone();
             }
         }
 

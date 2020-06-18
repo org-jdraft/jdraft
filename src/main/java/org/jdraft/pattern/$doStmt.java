@@ -27,8 +27,8 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
 
     public static $doStmt of(_doStmt _ds){
         $doStmt $ds = of();
-        $ds.condition = $ex.of( _ds.ast().getCondition() );
-        $ds.body = $stmt.of(_ds.ast().getBody() );
+        $ds.condition = $ex.of( _ds.node().getCondition() );
+        $ds.body = $stmt.of(_ds.node().getBody() );
         return $ds;
     }
 
@@ -102,15 +102,15 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
         if( _s == null ){
             return null;
         }
-        if( !statementClass.isAssignableFrom(_s.ast().getClass())){
+        if( !statementClass.isAssignableFrom(_s.node().getClass())){
             return null;
         }
-        DoStmt s = (DoStmt)_s.ast();
+        DoStmt s = (DoStmt)_s.node();
         if( ! astMatch.test((_doStmt) _stmt.of(s))){
             return null;
         }
         if( this.stmtStencil != null ) {
-            Tokens st = this.stmtStencil.parse(_s.ast().toString(NO_COMMENTS));
+            Tokens st = this.stmtStencil.parse(_s.node().toString(NO_COMMENTS));
             if (st == null) {
                 return null;
             }
@@ -126,11 +126,11 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
             }
             st.putAll(ss.tokens);
 
-            return new Select( _s.ast(), $tokens.of(st) );
+            return new Select( _s.node(), $tokens.of(st) );
         }
 
-        Tokens st = this.stmtStencil.parse(_s.ast().toString(NO_COMMENTS));
-        return new Select( _s.ast(), $tokens.of(st) );
+        Tokens st = this.stmtStencil.parse(_s.node().toString(NO_COMMENTS));
+        return new Select( _s.node(), $tokens.of(st) );
     }
 
     /**
@@ -188,7 +188,7 @@ public class $doStmt extends $stmt<DoStmt, _doStmt> {
     }
 
     public $doStmt $condition(_expr _e){
-        this.condition = $ex.of(_e.ast());
+        this.condition = $ex.of(_e.node());
         return this;
     }
 

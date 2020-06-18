@@ -25,12 +25,12 @@ public class _annoMacroTest extends TestCase {
         }
         _class _c = _class.of(GG.class);
         //apply macro to field
-        _annoMacro.Apply.to(GG.class, _c.fieldNamed("a").getFieldDeclaration() );
+        _annoMacro.Apply.to(GG.class, _c.getField("a").getFieldDeclaration() );
 
         //make sure we "ran" the macro
-        assertTrue( _c.fieldNamed("a").isStatic());
+        assertTrue( _c.getField("a").isStatic());
         //make sure the macro cleaned up after itself
-        assertFalse( _c.fieldNamed("a").hasAnno(_static.class));
+        assertFalse( _c.getField("a").hasAnno(_static.class));
     }
 
     public void testApplyMultipleToFields(){
@@ -39,9 +39,9 @@ public class _annoMacroTest extends TestCase {
             @_public @_static @_final @Deprecated int a;
         }
         _class _c = _class.of(KK.class);
-        _annoMacro.Apply.to(KK.class, _c.fieldNamed("a").getFieldDeclaration() );
+        _annoMacro.Apply.to(KK.class, _c.getField("a").getFieldDeclaration() );
 
-        _field _f = _c.fieldNamed("a");
+        _field _f = _c.getField("a");
         assertTrue( _f.isStatic() && _f.isPublic() && _f.isFinal());
         assertTrue( _f.hasAnno(Deprecated.class)); //make sure I DONT remove a NON-macro annotation
         assertFalse( _f.hasAnno(_public.class)); //make sure I removed all the other (runtime/macro/annotations)
@@ -56,7 +56,7 @@ public class _annoMacroTest extends TestCase {
             }
         }
         _class _c = _class.of( MM.class );
-        _annoMacro.Apply.to( MM.class, _c.firstMethodNamed("main").ast() );
+        _annoMacro.Apply.to( MM.class, _c.firstMethodNamed("main").node() );
         _method _m = _c.firstMethodNamed("main");
         assertTrue( _m.isStatic());
         assertTrue( _m.isPublic());
@@ -73,7 +73,7 @@ public class _annoMacroTest extends TestCase {
             }
         }
         _class _c = _class.of(AMP.class);
-        _annoMacro.Apply.to(AMP.class, _c.firstMethodNamed("m").ast() );
+        _annoMacro.Apply.to(AMP.class, _c.firstMethodNamed("m").node() );
 
         assertTrue( _c.firstMethodNamed("m").getParam(0).isFinal() );
         assertTrue( _c.firstMethodNamed("m").getParam(0).hasAnno(Deprecated.class) );
@@ -116,12 +116,12 @@ public class _annoMacroTest extends TestCase {
         //CompilationUnit cu = StaticJavaParser.parse("class MRT{ public @_str int a(){ return 2; } }");
 
         //OK, manually add an annotation and process it
-        _c.firstMethodNamed("a").getType().ast().getAnnotations().add(Ast.annotationExpr("@_str"));
+        _c.firstMethodNamed("a").getType().node().getAnnotations().add(Ast.annotationExpr("@_str"));
         //System.out.println( cu );
 
         //System.out.println( _c );
         assertTrue( _c.firstMethodNamed("a").getType().hasAnno(_str.class));
-        _annoMacro.Apply.to(MRT.class, _c.firstMethodNamed("a").ast() );
+        _annoMacro.Apply.to(MRT.class, _c.firstMethodNamed("a").node() );
 
         assertTrue( _c.firstMethodNamed("a").getType().is(String.class) );
         assertFalse( _c.firstMethodNamed("a").getType().hasAnno(_str.class));
@@ -136,7 +136,7 @@ public class _annoMacroTest extends TestCase {
         _class _c = _class.of(MTE.class);
         assertTrue( _c.firstMethodNamed("a").getThrows().ast().get(0).getAnnotation(0).getNameAsString().equals("_remove") );
         //System.out.println( _c.getMethod("a").getThrows().ast().get(0).getAnnotation(0).getNameAsString().equals("_remove") );
-        _annoMacro.Apply.to(MTE.class, _c.firstMethodNamed("a").ast());
+        _annoMacro.Apply.to(MTE.class, _c.firstMethodNamed("a").node());
 
         System.out.println(_c);
         assertFalse( _c.firstMethodNamed("a").hasThrows() );
@@ -253,7 +253,7 @@ public class _annoMacroTest extends TestCase {
         _class _c = _class.of(F.class);
         Consumer<Node> cd =
                 _annoMacro.Resolve.resolveMacro(F.class.getAnnotations()[0]);
-        cd.accept(_c.ast());
+        cd.accept(_c.node());
 
         System.out.println(_c);
     }

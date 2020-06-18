@@ -83,32 +83,32 @@ public final class _anno
         return new _anno( astAnno );
     }
     
-    private AnnotationExpr astAnno;
+    private AnnotationExpr node;
 
-    public _anno(AnnotationExpr astAnno ) {
-        this.astAnno = astAnno;
+    public _anno(AnnotationExpr node) {
+        this.node = node;
     }
 
     @Override
     public _anno copy() {
-        return new _anno( this.astAnno.clone() );
+        return new _anno( this.node.clone() );
     }
 
     @Override
     public String getName() {
-        return this.astAnno.getNameAsString();
+        return this.node.getNameAsString();
     }
 
-    public Name getNameNode(){ return this.astAnno.getName(); }
+    public Name getNameNode(){ return this.node.getName(); }
 
     public _anno setName(_name _n){
-        this.astAnno.setName( _n.toString() );
+        this.node.setName( _n.toString() );
         return this;
     }
 
     @Override
     public _anno setName(String name ){
-        this.astAnno.setName(name);
+        this.node.setName(name);
         return this;
     }
 
@@ -134,7 +134,7 @@ public final class _anno
      * @return 
      */
     public boolean isMarker(){
-        return this.astAnno.isMarkerAnnotationExpr();
+        return this.node.isMarkerAnnotationExpr();
     }
     
     /**
@@ -150,7 +150,7 @@ public final class _anno
      * @return 
      */
     public boolean isSingleMember(){
-        return this.astAnno.isSingleMemberAnnotationExpr();
+        return this.node.isSingleMemberAnnotationExpr();
     }
     
     /**
@@ -165,16 +165,16 @@ public final class _anno
      * @return 
      */
     public boolean isPairedMembers(){
-        return this.astAnno.isNormalAnnotationExpr();
+        return this.node.isNormalAnnotationExpr();
     }
     
     @Override
     public boolean isNamed( String name ) {
-        return this.astAnno.getName().asString().equals( name );
+        return this.node.getName().asString().equals( name );
     }
 
     public boolean isInstance( Class<?> clazz ) {
-        String str = this.astAnno.getNameAsString();
+        String str = this.node.getNameAsString();
         return str.equals( clazz.getCanonicalName() ) || str.equals( clazz.getSimpleName() );
     }
 
@@ -253,14 +253,14 @@ public final class _anno
      */
     public List<_annoEntryPair> listEntryPairs(){
         List<_annoEntryPair> _mvs = new ArrayList<>();
-        if( this.astAnno.isSingleMemberAnnotationExpr()){
+        if( this.node.isSingleMemberAnnotationExpr()){
             //infer the that "name" is value for a singleMemberAnnotationExpr
-            _annoEntryPair _ep = new _annoEntryPair(new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
+            _annoEntryPair _ep = new _annoEntryPair(new MemberValuePair("value", this.node.asSingleMemberAnnotationExpr().getMemberValue()));
             _ep.isValueOnly =true;
             _mvs.add(_ep);
         }
-        else if( this.astAnno.isNormalAnnotationExpr()){
-            this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p-> _mvs.add( new _annoEntryPair(p) ));
+        else if( this.node.isNormalAnnotationExpr()){
+            this.node.asNormalAnnotationExpr().getPairs().forEach(p-> _mvs.add( new _annoEntryPair(p) ));
         }
         return _mvs;
     }
@@ -272,6 +272,13 @@ public final class _anno
             a -> a.getName(),
             (_anno a, String name) -> a.setName(name),
             PARSER );
+
+    /*
+    public static _feature._one<_anno, _annoEntryPairs> ENTRY_PAIRS = new _feature._one<>(_anno.class, _annoEntryPairs.class,
+            _feature._id.ENTRY_PAIRS,
+            a-> a.getEntryPairs(),
+            (_anno a, _annoEntryPairs ps)-> a.setEntryPairs(ps), PARSER );
+    */
 
     public static _feature._many<_anno, _annoEntryPair> ENTRY_PAIRS = new _feature._many<>(_anno.class, _annoEntryPair.class,
             _feature._id.ENTRY_PAIRS, _feature._id.ENTRY_PAIR,
@@ -308,6 +315,35 @@ public final class _anno
         return false;
     }
 
+    public _annoEntryPairs getEntryPairs(){
+        return _annoEntryPairs.of(this.node);
+    }
+
+    public _anno setEntryPairs(_annoEntryPairs _aeps){
+        if( _aeps == null || _aeps.isEmpty() ){
+            if( this.node instanceof MarkerAnnotationExpr){
+                //its already done
+            }
+            else {
+                MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.node.getName());
+                this.node.replace(mae);
+                this.node = mae;
+            }
+            return this;
+        } else{
+            if( _aeps.isValueOnly() ){
+                SingleMemberAnnotationExpr sae = new SingleMemberAnnotationExpr(this.node.getName(), _aeps.getAt(0).getValue().node());
+                this.node.replace(sae);
+                this.node = sae;
+            } else{
+                NormalAnnotationExpr nae = new NormalAnnotationExpr(this.node.getName(), _aeps.astList());
+                this.node.replace(nae);
+                this.node = nae;
+            }
+            return this;
+        }
+    }
+
     /**
      * Does this anno have an attribute that can be described by the key / value 
      * represented in the <CODE>attrKeyValue</CODE>
@@ -331,7 +367,7 @@ public final class _anno
     }
 
     public boolean hasEntryPair(_annoEntryPair _mv){
-        return hasEntryPair(_mv.getName(), _mv.getValue().ast());
+        return hasEntryPair(_mv.getName(), _mv.getValue().node());
     }
 
     public boolean hasEntryPair(MemberValuePair mvp){
@@ -372,7 +408,7 @@ public final class _anno
      * @return 
      */
     public boolean hasEntryPair(String attrName, Predicate<Expression> astExprMatchFn){
-        return !this.listEntryPairs( (_annoEntryPair p)-> Objects.equals(p.getName(), attrName) && astExprMatchFn.test(p.mvp.getValue())).isEmpty();
+        return !this.listEntryPairs( (_annoEntryPair p)-> Objects.equals(p.getName(), attrName) && astExprMatchFn.test(p.node.getValue())).isEmpty();
     }
 
     public boolean hasEntryPairs(_annoEntryPair...mvs){
@@ -436,15 +472,15 @@ public final class _anno
     }
 
     public Expression getEntryValueExpression(String name ) {
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
+        if( this.node instanceof NormalAnnotationExpr ) {
+            NormalAnnotationExpr n = (NormalAnnotationExpr)this.node;
             Optional<MemberValuePair> om = n.getPairs().stream()
                     .filter( m -> m.getNameAsString().equals( name ) ).findFirst();
             if( om.isPresent() ) {
                 return om.get().getValue();
             }
         }
-        if( this.astAnno instanceof SingleMemberAnnotationExpr && name.equals("value") ){
+        if( this.node instanceof SingleMemberAnnotationExpr && name.equals("value") ){
             return getEntryValueExpression(0);
         }
         return null;
@@ -460,48 +496,16 @@ public final class _anno
         }
     }
 
-    /*
-    public Object get(_java.Feature feature){
-        if( feature == _java.Feature.NAME ){
-            return this.getName();
-        }
-        if( feature == _java.Feature.ANNO_EXPR_ENTRY_PAIRS){
-            if( this.astAnno instanceof NormalAnnotationExpr ){
-                NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
-                return nae.getPairs();
-            } else if( this.astAnno instanceof SingleMemberAnnotationExpr){
-                SingleMemberAnnotationExpr se = (SingleMemberAnnotationExpr)this.astAnno;
-                return new MemberValuePair("value", se.getMemberValue() );
-            }
-        }
-        return null;
-    }
-    */
-    /*
-    public Map<_java.Feature,Object> features(){
-        Map<_java.Feature,Object> m = new HashMap<>();
-        m.put(_java.Feature.NAME, this.getName() );
-        if( this.astAnno instanceof NormalAnnotationExpr ){
-            NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
-            m.put(_java.Feature.ANNO_EXPR_ENTRY_PAIRS, nae.getPairs() );
-        } else if( this.astAnno instanceof SingleMemberAnnotationExpr){
-            SingleMemberAnnotationExpr se = (SingleMemberAnnotationExpr)this.astAnno;
-            m.put(_java.Feature.ANNO_EXPR_ENTRY_PAIRS, new MemberValuePair("value", se.getMemberValue() ) );
-        }
-        return m;
-    }
-     */
-
     public _anno removeEntryPairs() {
-        if( this.astAnno instanceof MarkerAnnotationExpr ) {
+        if( this.node instanceof MarkerAnnotationExpr ) {
             return this;
         }
-        if( !this.astAnno.getParentNode().isPresent() ) {
+        if( !this.node.getParentNode().isPresent() ) {
             throw new _jdraftException( "Cannot change attrs of annotation with no parent" );
         }
         MarkerAnnotationExpr m = new MarkerAnnotationExpr( this.getName() );
-        this.astAnno.getParentNode().get().replace(astAnno, m );
-        this.astAnno = m;
+        this.node.getParentNode().get().replace(node, m );
+        this.node = m;
         return this;
     }
 
@@ -566,36 +570,36 @@ public final class _anno
     }
 
     public _anno addEntryPair(_annoEntryPair _p) {
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
-            n.getPairs().add(_p.mvp);
+        if( this.node instanceof NormalAnnotationExpr ) {
+            NormalAnnotationExpr n = (NormalAnnotationExpr)this.node;
+            n.getPairs().add(_p.node);
             return this;
         }
         else {
             NodeList<MemberValuePair> nl = new NodeList<>();
-            if( this.astAnno instanceof SingleMemberAnnotationExpr ){
-                nl.add( new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()) );
+            if( this.node instanceof SingleMemberAnnotationExpr ){
+                nl.add( new MemberValuePair("value", this.node.asSingleMemberAnnotationExpr().getMemberValue()) );
             }
-            nl.add(_p.mvp);
-            NormalAnnotationExpr n = new NormalAnnotationExpr( this.astAnno.getName(), nl );
-            astAnno.replace( n ); //this will set the parent pointer if necessary
-            this.astAnno = n; //this will update the local reference
+            nl.add(_p.node);
+            NormalAnnotationExpr n = new NormalAnnotationExpr( this.node.getName(), nl );
+            node.replace( n ); //this will set the parent pointer if necessary
+            this.node = n; //this will update the local reference
         }
         return this;
     }
 
     public _anno addEntryPair(String key, Expression astExpr ) {
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
+        if( this.node instanceof NormalAnnotationExpr ) {
+            NormalAnnotationExpr n = (NormalAnnotationExpr)this.node;
             n.addPair(key, astExpr );
             return this;
         }
         else {
             NodeList<MemberValuePair> nl = new NodeList<>();
             nl.add(new MemberValuePair( key, astExpr ) );
-            NormalAnnotationExpr n = new NormalAnnotationExpr( this.astAnno.getName(), nl );
-            astAnno.replace( n ); //this will set the parent pointer if necessary
-            this.astAnno = n; //this will update the local reference
+            NormalAnnotationExpr n = new NormalAnnotationExpr( this.node.getName(), nl );
+            node.replace( n ); //this will set the parent pointer if necessary
+            this.node = n; //this will update the local reference
         }
         return this;
     }
@@ -640,37 +644,37 @@ public final class _anno
 
     public _anno removeEntryPair(_annoEntryPair _p ){
 
-        if( this.astAnno.isSingleMemberAnnotationExpr() && _p.getName().equals("value")){
+        if( this.node.isSingleMemberAnnotationExpr() && _p.getName().equals("value")){
             //infer the that "name" is value for a singleMemberAnnotationExpr
-            Expression mvpe = this.astAnno.asSingleMemberAnnotationExpr().getMemberValue();
-            if( Expr.equal( _p.getValue().ast(), mvpe )) {
-                MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.astAnno.getName());
-                if( this.astAnno.getParentNode().isPresent() ){
-                    this.astAnno.getParentNode().get().replace( this.astAnno, mae);
+            Expression mvpe = this.node.asSingleMemberAnnotationExpr().getMemberValue();
+            if( Expr.equal( _p.getValue().node(), mvpe )) {
+                MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.node.getName());
+                if( this.node.getParentNode().isPresent() ){
+                    this.node.getParentNode().get().replace( this.node, mae);
                 }
-                this.astAnno = mae;
+                this.node = mae;
             }
             //_mvs.add( new _pair(new MemberValuePair("value", this.astAnno.asSingleMemberAnnotationExpr().getMemberValue())));
         }
-        else if( this.astAnno.isNormalAnnotationExpr()){
-            this.astAnno.asNormalAnnotationExpr().getPairs().remove( _p.ast() );
-            if( this.astAnno.asNormalAnnotationExpr().getPairs().isEmpty() ){
+        else if( this.node.isNormalAnnotationExpr()){
+            this.node.asNormalAnnotationExpr().getPairs().remove( _p.node() );
+            if( this.node.asNormalAnnotationExpr().getPairs().isEmpty() ){
                 //ned to create a MarkerAnnoExpr
-                MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.astAnno.getName());
-                if( this.astAnno.getParentNode().isPresent() ){
-                    this.astAnno.getParentNode().get().replace( this.astAnno, mae);
+                MarkerAnnotationExpr mae = new MarkerAnnotationExpr(this.node.getName());
+                if( this.node.getParentNode().isPresent() ){
+                    this.node.getParentNode().get().replace( this.node, mae);
                 }
-                this.astAnno = mae;
+                this.node = mae;
             }
         }
         return this;
     }
     public _anno removeEntryPair(String name ) {
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
+        if( this.node instanceof NormalAnnotationExpr ) {
+            NormalAnnotationExpr nae = (NormalAnnotationExpr)this.node;
             nae.getPairs().removeIf( mvp -> mvp.getNameAsString().equals( name ) );
             return this;
-        } if( this.astAnno instanceof SingleMemberAnnotationExpr && name.equals("value")){
+        } if( this.node instanceof SingleMemberAnnotationExpr && name.equals("value")){
 
         }
         //cant removeIn what is not there
@@ -678,20 +682,20 @@ public final class _anno
     }
 
     public _anno removeEntryPair(int index ) {
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr nae = (NormalAnnotationExpr)this.astAnno;
+        if( this.node instanceof NormalAnnotationExpr ) {
+            NormalAnnotationExpr nae = (NormalAnnotationExpr)this.node;
             nae.getPairs().remove( index );
             if( nae.getPairs().isEmpty() ) {
                 MarkerAnnotationExpr mae = new MarkerAnnotationExpr( getName() );
                 nae.getParentNode().get().replace( nae, mae );
-                this.astAnno = mae;
+                this.node = mae;
             }
             return this;
         }
-        if( index == 0 && this.astAnno instanceof SingleMemberAnnotationExpr ) {
-            MarkerAnnotationExpr mae = new MarkerAnnotationExpr( this.astAnno.getNameAsString() );
-            this.astAnno.getParentNode().get().replace(this.astAnno, mae );
-            this.astAnno = mae;
+        if( index == 0 && this.node instanceof SingleMemberAnnotationExpr ) {
+            MarkerAnnotationExpr mae = new MarkerAnnotationExpr( this.node.getNameAsString() );
+            this.node.getParentNode().get().replace(this.node, mae );
+            this.node = mae;
         }
         //cant removeIn what is not there
         return this;
@@ -741,25 +745,25 @@ public final class _anno
     }
     
     public _anno setEntryPairValue(int index, Expression value ) {
-        if( index == 0 && this.astAnno instanceof MarkerAnnotationExpr ) {
-            MarkerAnnotationExpr ma = (MarkerAnnotationExpr)this.astAnno;
+        if( index == 0 && this.node instanceof MarkerAnnotationExpr ) {
+            MarkerAnnotationExpr ma = (MarkerAnnotationExpr)this.node;
             SingleMemberAnnotationExpr sv = new SingleMemberAnnotationExpr( ma.getName(), value );
-            if( this.astAnno.getParentNode().isPresent() ) {
-                this.astAnno.getParentNode().get().replace( ma, sv );
-                this.astAnno = sv;
+            if( this.node.getParentNode().isPresent() ) {
+                this.node.getParentNode().get().replace( ma, sv );
+                this.node = sv;
             }
             else {
                 throw new _jdraftException( "cannot add VALUE to annotation with no parent" );
             }
         }
-        if( this.astAnno instanceof NormalAnnotationExpr ) {
-            NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
+        if( this.node instanceof NormalAnnotationExpr ) {
+            NormalAnnotationExpr n = (NormalAnnotationExpr)this.node;
             n.getPairs().get( index ).setValue( value );
             return this;
         }
-        if( this.astAnno instanceof SingleMemberAnnotationExpr ) {
+        if( this.node instanceof SingleMemberAnnotationExpr ) {
             if( index == 0 ) {
-                SingleMemberAnnotationExpr sv = (SingleMemberAnnotationExpr)this.astAnno;
+                SingleMemberAnnotationExpr sv = (SingleMemberAnnotationExpr)this.node;
                 sv.setMemberValue( value );
                 return this;
             }
@@ -770,50 +774,50 @@ public final class _anno
     //if the impl is anything other than a marker annotation expression
     //it has values
     public boolean hasValues() {
-        return !(this.astAnno instanceof MarkerAnnotationExpr);
+        return !(this.node instanceof MarkerAnnotationExpr);
     }
 
     public Expression getEntryValueExpression(int index ) {
         if( !this.hasValues() ) {
             throw new _jdraftException( "No Values on Marker annotation " + this.toString() );
         }
-        if( this.astAnno instanceof SingleMemberAnnotationExpr ) {
+        if( this.node instanceof SingleMemberAnnotationExpr ) {
             if( index == 0 ) {
-                SingleMemberAnnotationExpr sv = (SingleMemberAnnotationExpr)this.astAnno;
+                SingleMemberAnnotationExpr sv = (SingleMemberAnnotationExpr)this.node;
                 return sv.getMemberValue();
             }
             throw new _jdraftException( "No Values at index " + index + " in annotation " + this.toString() );
         }
-        NormalAnnotationExpr n = (NormalAnnotationExpr)this.astAnno;
+        NormalAnnotationExpr n = (NormalAnnotationExpr)this.node;
         return n.getPairs().get( index ).getValue();
     }
 
     @Override
     public String toString() {
-        return this.astAnno.toString();
+        return this.node.toString();
     }
 
     @Override
     public int hashCode() {
         //if the annotation is the
-        if( this.astAnno == null){
+        if( this.node == null){
             return 0;
         }
-        String name = this.astAnno.getNameAsString();
+        String name = this.node.getNameAsString();
         int idx = name.indexOf('.');
         if( idx > 0){
             name = name.substring(name.lastIndexOf('.')+1);
         }
-        if( this.astAnno instanceof MarkerAnnotationExpr ){
+        if( this.node instanceof MarkerAnnotationExpr ){
             return 31 * name.hashCode() + 15;
         }
-        if( this.astAnno instanceof SingleMemberAnnotationExpr){            
+        if( this.node instanceof SingleMemberAnnotationExpr){
             Map<String,Integer> hm = new HashMap<>();
-            hm.put( "value", Expr.hash(this.astAnno.asSingleMemberAnnotationExpr().getMemberValue()));
+            hm.put( "value", Expr.hash(this.node.asSingleMemberAnnotationExpr().getMemberValue()));
             return hm.hashCode();
         }        
         Map<String,Integer> hm = new HashMap<>();
-        this.astAnno.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Expr.hash( p.getValue()) ) );
+        this.node.asNormalAnnotationExpr().getPairs().forEach(p -> hm.put(p.getNameAsString(), Expr.hash( p.getValue()) ) );
         return hm.hashCode();
     }
 
@@ -830,12 +834,18 @@ public final class _anno
         }
         final _anno other = (_anno)obj;
 
-        return Expr.equal(astAnno, other.astAnno);
+        return Expr.equal(node, other.node);
     }
 
     @Override
-    public AnnotationExpr ast() {
-        return this.astAnno;
+    public AnnotationExpr node() {
+        return this.node;
+    }
+
+    public _anno replace(AnnotationExpr ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
 
     /**

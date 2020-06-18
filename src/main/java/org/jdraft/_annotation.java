@@ -213,7 +213,13 @@ public final class _annotation
     }
 
     public _annotation( AnnotationDeclaration astClass ){
-        this.astAnnotation = astClass;
+        this.node = astClass;
+    }
+
+    public _annotation replace(AnnotationDeclaration ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
 
     public _feature._features<_annotation> features(){
@@ -228,11 +234,11 @@ public final class _annotation
      * AST and can interpret or manipulate the AST without:
      * having to deal with syntax issues
      */
-    private final AnnotationDeclaration astAnnotation;
+    private AnnotationDeclaration node;
 
     @Override
     public boolean isTopLevel(){
-        return ast().isTopLevelType();
+        return node().isTopLevelType();
     }
 
     public _annotation setRetentionPolicyRuntime(){
@@ -353,35 +359,35 @@ public final class _annotation
 
     @Override
     public CompilationUnit astCompilationUnit(){
-        if( this.ast().findCompilationUnit().isPresent() ){
-            return this.ast().findCompilationUnit().get();
+        if( this.node().findCompilationUnit().isPresent() ){
+            return this.node().findCompilationUnit().get();
         }
         return null;
     }
 
     @Override
     public _annotation setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _annotation setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(this.astAnnotation );
+        return _annos.of(this.node);
     }
 
     @Override
     public String toString(){
-        if( this.ast().isTopLevelType() ){
+        if( this.node().isTopLevelType() ){
             return this.astCompilationUnit().toString();            
         }
-        return this.astAnnotation.toString();        
+        return this.node.toString();
     }
 
     public boolean hasAnnoMembers(){
@@ -401,12 +407,12 @@ public final class _annotation
     }
 
     public _annotation addAnnoMember(_annoMember _ae){
-        this.astAnnotation.addMember( _ae.astAnnMember );
+        this.node.addMember( _ae.node);
         return this;
     }
 
     public _annotation addAnnoMember(AnnotationMemberDeclaration annoMember){
-        this.astAnnotation.addMember( annoMember );
+        this.node.addMember( annoMember );
         return this;
     }
 
@@ -427,7 +433,7 @@ public final class _annotation
     }
 
     public List<_annoMember> listAnnoMembers(){
-        NodeList<BodyDeclaration<?>> nb  = this.astAnnotation.getMembers();
+        NodeList<BodyDeclaration<?>> nb  = this.node.getMembers();
         List<_annoMember> ps = new ArrayList<>();
         nb.stream().filter( b -> b instanceof AnnotationMemberDeclaration )
                 .forEach( am -> ps.add( _annoMember.of( (AnnotationMemberDeclaration)am) ));
@@ -450,25 +456,25 @@ public final class _annotation
             return false;
         }
         final _annotation other = (_annotation)obj;
-        if( this.astAnnotation == other.astAnnotation){
+        if( this.node == other.node){
             return true; //short circuit... two _annotations refer to the same AnnotationDeclaration
         }
         if( !Objects.equals( this.getPackage(), other.getPackage())){
             return false;
         }
-        if( !Modifiers.modifiersEqual(astAnnotation, astAnnotation) ){
+        if( !Modifiers.modifiersEqual(node, node) ){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc()) ){
             return false;
         }
-        if( !Expr.equalAnnos(astAnnotation, astAnnotation)){
+        if( !Expr.equalAnnos(node, node)){
             return false;
         }
         if( !Objects.equals( this.getName(), other.getName()) ){
             return false;
         }
-        if( ! _imports.Compare.importsEqual( this.astAnnotation,other.astAnnotation ) ){
+        if( ! _imports.Compare.importsEqual( this.node,other.node) ){
             return false;
         }
         Set<_field> tf = new HashSet<>();
@@ -532,21 +538,21 @@ public final class _annotation
     }
 
     public _annotation setAnnoMembers(List<_annoMember> entries){
-        this.astAnnotation.getMembers().removeIf(m -> m instanceof AnnotationMemberDeclaration);
-        entries.forEach( e-> this.addAnnoMember(e.ast()) );
+        this.node.getMembers().removeIf(m -> m instanceof AnnotationMemberDeclaration);
+        entries.forEach( e-> this.addAnnoMember(e.node()) );
         return this;
     }
 
     public _annotation removeAnnoMember(String entryName ){
         _annoMember _e = this.getAnnoMember(entryName );
         if( _e != null ) {
-            this.astAnnotation.remove(_e.astAnnMember);
+            this.node.remove(_e.node);
         }
         return this;
     }
 
     public _annotation removeAnnoMember(_annoMember _e ){
-        listAnnoMembers(e -> e.equals(_e)).forEach(e-> e.ast().removeForced() );
+        listAnnoMembers(e -> e.equals(_e)).forEach(e-> e.node().removeForced() );
         return this;
     }
 
@@ -600,59 +606,17 @@ public final class _annotation
     public static _feature._features<_annotation> FEATURES = _feature._features.of(_annotation.class,  PARSER,
                     PACKAGE, IMPORTS, ANNOS, JAVADOC, MODIFIERS, MEMBERS);
 
-    /*
-    public static _feature._many<_annotation, _annotation._entry> ANNOTATION_ENTRIES = new _feature._many<>(_annotation.class, _annotation._entry.class,
-            _feature._id.ANNOTATION_ENTRIES,
-            _feature._id.ANNOTATION_ENTRY,
-            a -> a.listEntries(),
-            (_annotation a, List<_entry>les) -> a.setEntries(les));
-
-    public static _feature._many<_annotation, _field> FIELDS = new _feature._many<>(_annotation.class, _field.class,
-            _feature._id.FIELDS,
-            _feature._id.FIELD,
-            a -> a.listFields(),
-            (_annotation a, List<_field>les) -> a.setFields(les));
-
-    public static _feature._many<_annotation, _type> INNER_TYPES = new _feature._many<>(_annotation.class, _type.class,
-            _feature._id.INNER_TYPES,
-            _feature._id.INNER_TYPE,
-            a -> a.listInnerTypes(),
-            (_annotation a, List<_type>lit) -> a.setInnerTypes(lit));
-
-    public static _feature._many<_annotation, _type> COMPANION_TYPES = new _feature._many<>(_annotation.class, _type.class,
-            _feature._id.COMPANION_TYPES,
-            _feature._id.COMPANION_TYPE,
-            a -> a.listCompanionTypes(),
-            (_annotation a, List<_type>lit) -> a.setCompanionTypes(lit));
-
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put( _java.Feature.HEADER_COMMENT, this.getHeaderComment() );
-        parts.put( _java.Feature.PACKAGE, this.getPackage() );
-        parts.put( _java.Feature.IMPORTS, this.getImports().list() );
-        parts.put( _java.Feature.ANNO_EXPRS, this.listAnnoExprs() );
-        parts.put( _java.Feature.JAVADOC, this.getJavadoc() );
-        parts.put( _java.Feature.MODIFIERS, this.getModifiers() );
-        parts.put( _java.Feature.NAME, this.getName() );
-        parts.put( _java.Feature.ANNOTATION_ENTRIES, this.listEntries() );
-        parts.put( _java.Feature.FIELDS, this.listFields() );
-        parts.put( _java.Feature.INNER_TYPES, this.listInnerTypes() );
-        parts.put( _java.Feature.COMPANION_TYPES, this.listCompanionTypes() );
-        return parts;
-    }
-    */
-
     @Override
     public int hashCode() {
         int hash = 5;
         
         hash = 13 * hash + Objects.hashCode( this.getPackage() );
-        hash = 13 * hash + _imports.Compare.importsHash( astAnnotation  );
+        hash = 13 * hash + _imports.Compare.importsHash(node);
 
         hash = 13 * hash + Objects.hashCode( this.getEffectiveAstModifiersList() );
 
         hash = 13 * hash + Objects.hashCode( this.getJavadoc() );
-        hash = 13 * hash + Expr.hashAnnos(astAnnotation);
+        hash = 13 * hash + Expr.hashAnnos(node);
 
         hash = 13 * hash + Objects.hashCode( this.getName() );
 
@@ -678,7 +642,7 @@ public final class _annotation
 
     @Override
     public _annotation setFields(List<_field> fields) {
-        this.astAnnotation.getMembers().removeIf( m -> m instanceof FieldDeclaration );
+        this.node.getMembers().removeIf(m -> m instanceof FieldDeclaration );
         fields.forEach(f-> addField(f));
         return this;
     }
@@ -690,13 +654,13 @@ public final class _annotation
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
-        if( this.astAnnotation.getFields().contains( fd ) ){
+        if( this.node.getFields().contains( fd ) ){
             if( !fd.containsWithinRange( field ) ){
                 fd.addVariable( field );
             }
             return this;
         }
-        this.astAnnotation.addMember( fd );
+        this.node.addMember( fd );
         return this;
     }
 
@@ -734,8 +698,8 @@ public final class _annotation
     }
 
     @Override
-    public AnnotationDeclaration ast() {
-        return this.astAnnotation;
+    public AnnotationDeclaration node() {
+        return this.node;
     }
 
 }

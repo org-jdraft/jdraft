@@ -38,7 +38,7 @@ public class _hashCodeTest extends TestCase {
         //test the "outer" HashCode template
         _method _m = _method.of(_hashCode.$HASHCODE.draft("seed",1,"prime",2, "callSuperHashCode", "", "body", ""));
         System.out.println( _m );
-        _m.ast().walk(EmptyStmt.class, es-> es.remove() );
+        _m.node().walk(EmptyStmt.class, es-> es.remove() );
         System.out.println( _m );
         //assertEquals( 3, _method.of(_hashCode.$HASHCODE.draft("seed",1,"prime",2)).getBody().getStatements().size() );
         //assertEquals( 4, _method.of(_hashCode.$HASHCODE.draft("seed", 1,"prime", 2, "callSuperHashCode", true, "body", false)).getBody().getStatements().size() );

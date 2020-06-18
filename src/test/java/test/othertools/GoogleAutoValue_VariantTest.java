@@ -66,7 +66,7 @@ public class GoogleAutoValue_VariantTest extends TestCase {
 
             @Override
             public void accept(TypeDeclaration typeDeclaration) {
-                $setterFields.forEachIn(typeDeclaration, f-> typeDeclaration.addMember( $setNoPrefix.fill(f.getName(), f.getType()).ast() ) );
+                $setterFields.forEachIn(typeDeclaration, f-> typeDeclaration.addMember( $setNoPrefix.fill(f.getName(), f.getType()).node() ) );
                 //act( _java.type(typeDeclaration));
 
             }

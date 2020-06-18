@@ -97,8 +97,8 @@ public class $arrayAccess extends $ex<ArrayAccessExpr, _arrayAccessExpr, $arrayA
      */
     public _arrayAccessExpr draft(Translator translator, Map<String,Object> keyValues ){
         ArrayAccessExpr aae =  new ArrayAccessExpr();
-        aae.setName( name.draft(translator, keyValues).ast() );
-        aae.setIndex( index.draft(translator, keyValues).ast());
+        aae.setName( name.draft(translator, keyValues).node() );
+        aae.setIndex( index.draft(translator, keyValues).node());
         return _arrayAccessExpr.of(aae );
         //return super.draft(translator, Tokens.of(keyValues));
     }

@@ -1,13 +1,11 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.BinaryExpr;
-import com.github.javaparser.ast.expr.Expression;
-import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.expr.UnaryExpr;
+import com.github.javaparser.ast.expr.*;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.*;
+import java.util.stream.Stream;
 
 /**
  * Binary Expresssions
@@ -62,7 +60,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public static _binaryExpr of(_expr _left, BinaryExpr.Operator operator, _expr _right ){
-        return new _binaryExpr( new BinaryExpr( _left.ast(), _right.ast(), operator) );
+        return new _binaryExpr( new BinaryExpr( _left.node(), _right.node(), operator) );
     }
 
     public static <A extends Object> _binaryExpr of(Supplier s){
@@ -245,50 +243,41 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
 
     public static _feature._features<_binaryExpr> FEATURES = _feature._features.of(_binaryExpr.class, PARSER,  LEFT, OPERATOR, RIGHT);
 
-    public BinaryExpr astBe;
+    public BinaryExpr node;
 
-    public _binaryExpr(BinaryExpr astBe){
-        this.astBe = astBe;
+    public _binaryExpr(BinaryExpr node){
+        this.node = node;
     }
 
     public _feature._features<_binaryExpr> features(){
         return FEATURES;
     }
 
-    @Override
-    public _binaryExpr copy() {
-        return new _binaryExpr(this.astBe.clone());
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facde was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _binaryExpr replace(BinaryExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
-    /*
     @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.binaryExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
+    public _binaryExpr copy() {
+        return new _binaryExpr(this.node.clone());
     }
-     */
 
     @Override
     public boolean is(BinaryExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public BinaryExpr ast(){
-        return astBe;
+    public BinaryExpr node(){
+        return node;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put(_java.Feature.LEFT_EXPR, astBe.getLeft());
-        comps.put(_java.Feature.BINARY_OPERATOR, astBe.getOperator());
-        comps.put(_java.Feature.RIGHT_EXPR, astBe.getRight());
-        return comps;
-    }
-     */
-
 
     public boolean isLeft( Predicate<_expr> matchFn){
         return matchFn.test(getLeft());
@@ -311,7 +300,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public boolean isLeft(_expr e){
-        return this.getLeft().equals(e.ast());
+        return this.getLeft().equals(e.node());
     }
 
     public boolean isRight( Predicate<_expr> matchFn){
@@ -331,7 +320,7 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public boolean isRight(_expr e){
-        return this.getRight().equals(e.ast());
+        return this.getRight().equals(e.node());
     }
 
     public <_E extends _expr> boolean isRight(Class<_E> _e){
@@ -405,23 +394,28 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public _expr getLeft(){
-        return _expr.of(this.astBe.getLeft());
+        return _expr.of(this.node.getLeft());
     }
     public _expr getRight(){
-        return _expr.of(this.astBe.getRight());
+        return _expr.of(this.node.getRight());
     }
 
     public BinaryExpr.Operator getOperator(){
-        return astBe.getOperator();
+        return node.getOperator();
     }
 
     public _binaryExpr setOperator(BinaryExpr.Operator bo){
-        this.astBe.setOperator(bo);
+        this.node.setOperator(bo);
         return this;
     }
 
     public _binaryExpr setOperator(String o){
-        return setOperator(o);
+        Optional<BinaryExpr.Operator> oo = Stream.of(BinaryExpr.Operator.values()).filter(op -> op.asString().equals(o)).findFirst();
+        if( oo.isPresent() ){
+            setOperator(oo.get());
+            return this;
+        }
+        throw new _jdraftException("operator \""+o+"\" is not a valid binary operator");
     }
 
     public _binaryExpr setOr(){
@@ -483,12 +477,12 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public _binaryExpr setLeft(Expression e){
-        this.astBe.setLeft(e);
+        this.node.setLeft(e);
         return this;
     }
 
     public _binaryExpr setLeft(_expr _e){
-        return setLeft( _e.ast());
+        return setLeft( _e.node());
     }
 
     public _binaryExpr setLeft(String... code){
@@ -496,12 +490,12 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
     }
 
     public _binaryExpr setRight(Expression e){
-        this.astBe.setRight(e);
+        this.node.setRight(e);
         return this;
     }
 
     public _binaryExpr setRight(_expr _e){
-        return setRight( _e.ast());
+        return setRight( _e.node());
     }
 
     public _binaryExpr setRight(String... code){
@@ -510,16 +504,16 @@ public final class _binaryExpr implements _expr<BinaryExpr, _binaryExpr>,
 
     public boolean equals(Object other){
         if( other instanceof _binaryExpr){
-            return ((_binaryExpr)other).astBe.equals( this.astBe);
+            return ((_binaryExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.astBe.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.astBe.toString();
+        return this.node.toString();
     }
 }

@@ -224,7 +224,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
-        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+        return matchReplaceIn(_node.node(), matchStencil, replaceStencil);
     }
 
     /**
@@ -238,7 +238,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
-        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+        return matchReplaceIn(_node.node(), matchStencil, replaceStencil);
     }
 
     /**
@@ -352,7 +352,7 @@ public class $comment implements $bot.$node<Comment, _comment, $comment> {
     }
 
     public <_CT extends _type<?,?>> _CT replaceIn(Class<?> clazz, Node replaceNode) {
-        return forEachIn(clazz, p-> Comments.replace((Comment) p.ast(), (Statement)replaceNode) );
+        return forEachIn(clazz, p-> Comments.replace((Comment) p.node(), (Statement)replaceNode) );
     }
 
     public _comment draft(Translator translator, Map<String, Object> keyValues) {

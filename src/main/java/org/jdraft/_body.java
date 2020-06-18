@@ -32,16 +32,6 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
 
     public static final Function<String, _body> PARSER = s-> _body.of(s);
 
-    /*
-    public static _feature._many<_body, _stmt> STATEMENTS = new _feature._many<>(_body.class, _stmt.class,
-            _feature._id.STATEMENTS, _feature._id.STATEMENT,
-            a->a.list(),
-            (_body a, List<_stmt> es)-> a.set(es), PARSER,s-> _stmt.of(s))
-            .setOrdered(true);/** the order of the statements matter
-
-    public static final _feature._features<_body> FEATURES = _feature._features.of(_body.class, PARSER, STATEMENTS);
-    */
-
     /**
      * NOTE: this is an Object, because it can EITHER be a {@link NodeWithBlockStmt}
      * or {@link NodeWithOptionalBlockStmt} (i.e. for method which can
@@ -49,10 +39,10 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      * or {@link NodeWithBody} implementation which can be a single statement:
      * so, internally we just say it's an Object
      */
-    private final Object astParentNode;
+    private final Object parentNode;
 
-    public <N extends Node> N astAnchorNode(){
-        return (N)astParentNode;
+    public <N extends Node> N anchorNode(){
+        return (N) parentNode;
     }
 
     /**
@@ -68,7 +58,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
     }
 
     public _body copy(){
-        _body _b = _body.of(astParentNode);
+        _body _b = _body.of(parentNode);
         return _b;
     }
     /**
@@ -78,7 +68,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      */
     public static _body of( String body ){
         if( body.trim().equals(";")){
-            return of(_method.of("void UNKNOWN();").ast());
+            return of(_method.of("void UNKNOWN();").node());
         }
         // "we" need to put the body inside a parent... lets make it a 
         // method
@@ -87,11 +77,11 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
         //the INTENT was to give the body (braces and all)
         if( body.startsWith("{") && body.endsWith("}")){
             _constructor _c = _constructor.of("UNKNOWN()" + body);
-            return of(_c.ast());
+            return of(_c.node());
         } else {
             _constructor _c = _constructor.of("UNKNOWN(){" + System.lineSeparator() + body + System.lineSeparator() + "}");
             //_c.add(body);
-            return of(_c.ast());
+            return of(_c.node());
         }
     }
 
@@ -156,7 +146,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      * @return 
      */
     public static _body of( String...body ){
-        return of( _constructor.of("UNKNOWN(){}").add(body).ast() );
+        return of( _constructor.of("UNKNOWN(){}").add(body).node() );
     }
     
     /**
@@ -180,10 +170,10 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
         //they COULD be
 
         if( statement instanceof BlockStmt ){
-            return of( _constructor.of("UNKNOWN(){}").setBody((BlockStmt)statement).ast());
+            return of( _constructor.of("UNKNOWN(){}").setBody((BlockStmt)statement).node());
             //return of( _method.of("void __BODYHOLDER();").setBody((BlockStmt)statement).ast());
         }
-        return of( _constructor.of("UNKNOWN(){}").add(statement).ast());
+        return of( _constructor.of("UNKNOWN(){}").add(statement).node());
         //return of( _method.of("void __BODYHOLDER();").add(statement).ast());
     }
 
@@ -303,10 +293,10 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
     /**
      * Private constructor, lets not confuse everyone by having a single Object
      * constructor on the API
-     * @param astParentNode 
+     * @param parentNode
      */
-    private _body(Object astParentNode) {
-        this.astParentNode = astParentNode;
+    private _body(Object parentNode) {
+        this.parentNode = parentNode;
     }
 
     /**
@@ -316,8 +306,8 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      * otherwise, returns true (EVEN FOR EMPTY NO/OP bodies like "void m(){}" )
      */
     public boolean isImplemented() {
-        if (astParentNode instanceof NodeWithOptionalBlockStmt) {
-            NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
+        if (parentNode instanceof NodeWithOptionalBlockStmt) {
+            NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) parentNode;
             return nobs.getBody().isPresent();
         }
         return true;
@@ -331,7 +321,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
     public _body setImplemented(Boolean implement){
         if( ! implement ){
             if( isImplemented() ){ //the only time I need to change
-                NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
+                NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) parentNode;
                 nobs.removeBody();
             } else{
                 //this means CLEAR
@@ -339,7 +329,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             }
         } else{ //here io want to replace "void m();" with "void m(){}"
             if( ! isImplemented() ){
-                NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
+                NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) parentNode;
                 nobs.createBody();
             }
         }
@@ -353,7 +343,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      * @return 
      */
     public Object astParentNode(){
-        return this.astParentNode;
+        return this.parentNode;
     }
     
     /**
@@ -362,18 +352,18 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      * @return
      */
     public Statement ast() {
-        if (astParentNode instanceof NodeWithOptionalBlockStmt) {
-            NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
+        if (parentNode instanceof NodeWithOptionalBlockStmt) {
+            NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) parentNode;
             if (nobs.getBody().isPresent()) {
                 return (BlockStmt) nobs.getBody().get();
             }
             return null; //abstract body, i.e. "void m();"
         }
-        if(astParentNode instanceof NodeWithBody){
-            NodeWithBody nwb = (NodeWithBody)astParentNode;
+        if(parentNode instanceof NodeWithBody){
+            NodeWithBody nwb = (NodeWithBody) parentNode;
             return nwb.getBody();
         }
-        NodeWithBlockStmt nbs = (NodeWithBlockStmt) astParentNode;
+        NodeWithBlockStmt nbs = (NodeWithBlockStmt) parentNode;
         return nbs.getBody();
     }
 
@@ -419,8 +409,8 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      */
     public _body set(List<_stmt> stmts){
         //setting this to null will remove the body Assuming
-        if ( stmts == null && astParentNode instanceof NodeWithOptionalBlockStmt) {
-            NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) astParentNode;
+        if ( stmts == null && parentNode instanceof NodeWithOptionalBlockStmt) {
+            NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt) parentNode;
             nobs.removeBody();
             return this;
         }
@@ -429,25 +419,25 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             return this;
         }
         this.clear(); //clear existing statements
-        stmts.forEach(s-> this.astList().add(s.ast()));
+        stmts.forEach(s-> this.astList().add(s.node()));
         return this;
     }
 
     public Statement astStatement(){
-        if(this.astParentNode instanceof NodeWithBody){
-            return ((NodeWithBody)this.astParentNode).getBody();
+        if(this.parentNode instanceof NodeWithBody){
+            return ((NodeWithBody)this.parentNode).getBody();
         }
-        if(this.astParentNode instanceof NodeWithBlockStmt){
-            return ((NodeWithBlockStmt)this.astParentNode).getBody();
+        if(this.parentNode instanceof NodeWithBlockStmt){
+            return ((NodeWithBlockStmt)this.parentNode).getBody();
         }
-        if(this.astParentNode instanceof NodeWithOptionalBlockStmt){
-            NodeWithOptionalBlockStmt nwobs = (NodeWithOptionalBlockStmt)this.astParentNode;
+        if(this.parentNode instanceof NodeWithOptionalBlockStmt){
+            NodeWithOptionalBlockStmt nwobs = (NodeWithOptionalBlockStmt)this.parentNode;
             if( nwobs.getBody().isPresent()){
                 return (Statement)nwobs.getBody().get();
             }
             return null;
         }
-        throw new _jdraftException("Parent node is not NodeWithBody, NodeWithBlockStmt, NodeWithOptionalBlockStmt "+ this.astParentNode.getClass()+" "+astParentNode);
+        throw new _jdraftException("Parent node is not NodeWithBody, NodeWithBlockStmt, NodeWithOptionalBlockStmt "+ this.parentNode.getClass()+" "+ parentNode);
     }
 
     /**
@@ -476,7 +466,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
     }
 
     public boolean is(_stmt _st ){
-        return is( _st.ast());
+        return is( _st.node());
     }
 
     public boolean is(Statement st){
@@ -518,7 +508,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             if( thisStatement instanceof BlockStmt
                     && thisStatement.asBlockStmt().getStatements().size() == 1){
 
-                return Objects.equals(thisStatement.toString(Print.PRINT_NO_COMMENTS), _blockStmt.of().add(testStmt).ast().toString(Print.PRINT_NO_COMMENTS) );
+                return Objects.equals(thisStatement.toString(Print.PRINT_NO_COMMENTS), _blockStmt.of().add(testStmt).node().toString(Print.PRINT_NO_COMMENTS) );
                 //return Objects.equals( _stmt.of(thisStatement), _blockStmt.of().add(testStmt));
             }
         }
@@ -532,15 +522,15 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
      * @return 
      */
     public _body clear(){
-        if( this.astParentNode instanceof NodeWithOptionalBlockStmt){
-            ((NodeWithOptionalBlockStmt)this.astParentNode).setBody(Ast.blockStmt("{}"));
+        if( this.parentNode instanceof NodeWithOptionalBlockStmt){
+            ((NodeWithOptionalBlockStmt)this.parentNode).setBody(Ast.blockStmt("{}"));
             return this;
         }
-        if( this.astParentNode instanceof NodeWithBody ){
-            ((NodeWithBody)this.astParentNode).setBody(new EmptyStmt());
+        if( this.parentNode instanceof NodeWithBody ){
+            ((NodeWithBody)this.parentNode).setBody(new EmptyStmt());
             return this;
         }
-        ((NodeWithBlockStmt)this.astParentNode).setBody(Ast.blockStmt("{}"));
+        ((NodeWithBlockStmt)this.parentNode).setBody(Ast.blockStmt("{}"));
         return this;        
     }
     
@@ -589,32 +579,6 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
         return bdy.toString(Print.PRINT_NO_COMMENTS).equals(this.toString(Print.PRINT_NO_COMMENTS));
     }
 
-    /*
-    public boolean is(Class<? extends _stmt> statementClass){
-        if( isImplemented()){
-            if( this.astParentNode instanceof NodeWithOptionalBlockStmt){
-                System.out.println( "NWOBS");
-                return statementClass.isAssignableFrom(BlockStmt.class);
-            } else if( this.astParentNode instanceof NodeWithStatements ){
-                System.out.println( "NWSS");
-            } else if( this.astParentNode instanceof NodeWithBlockStmt){
-                System.out.println( "NWBS");
-                BlockStmt bs = ((NodeWithBlockStmt) this.astParentNode).getBody();
-                return statementClass.isAssignableFrom(BlockStmt.class);
-            }
-            System.out.println("PARENT"+ this.astParentNode );
-            System.out.println("AST" + this.ast());
-
-            if( this.getAstStatements().size() == 1){
-                System.out.println("AST" + this.ast());
-                return statementClass.isAssignableFrom( _stmt.of(this.ast()).getClass() );
-            }
-
-        }
-        return false;
-    }
-     */
-
     /**
      * Does a comparison WITHOUT COMMENTS to determine if the
      * statements of the two 
@@ -628,7 +592,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
         }
         if( this.isImplemented() ) {
             if( bs.getParentNode().isPresent() 
-                && this.astParentNode.equals(bs.getParentNode().get()) ){
+                && this.parentNode.equals(bs.getParentNode().get()) ){
                 return true;
             }
             Statement st = astStatement();
@@ -666,7 +630,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             return false;
         }
         final _body other = (_body) obj;
-        if (this.astParentNode == other.astParentNode) {
+        if (this.parentNode == other.parentNode) {
             return true; //two different _body referring to the same NodeWithBody (short curcuit)
         }
         if (isImplemented() != other.isImplemented()) {
@@ -842,7 +806,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             } );
             Statement st = getBody().astStatement();
             if( st.isBlockStmt() ){
-                sts.forEach(s-> st.asBlockStmt().getStatements().remove( s.ast()));
+                sts.forEach(s-> st.asBlockStmt().getStatements().remove( s.node()));
                 return (_WB)this;
             } else{
                 if( stmtMatchFn.test( _stmt.of(st)) ){
@@ -1003,7 +967,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
          * @return
          */
         default _WB setBody(_blockStmt _bs) {
-            return setBody(_bs.ast());
+            return setBody(_bs.node());
         }
 
         /**
@@ -1027,10 +991,10 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
 
         default _WB setBody(_stmt _st){
             if (_st instanceof _blockStmt) {
-                return setBody( ((_blockStmt) _st).ast());
+                return setBody( ((_blockStmt) _st).node());
             }
             BlockStmt bs = new BlockStmt();
-            bs.addStatement(_st.ast());
+            bs.addStatement(_st.node());
             return setBody(bs);
         }
 
@@ -1227,7 +1191,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
         default _WB add(int startStatementIndex, _stmt...statements){
             Statement[] sts = new Statement[statements.length];
             for(int i=0;i<statements.length;i++){
-                sts[i] = statements[i].ast();
+                sts[i] = statements[i].node();
             }
             return add(startStatementIndex, sts);
         }
@@ -1282,7 +1246,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
                     }
                 }
                 if( getBody().astParentNode() instanceof NodeWithOptionalBlockStmt){
-                    NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt)getBody().astParentNode;
+                    NodeWithOptionalBlockStmt nobs = (NodeWithOptionalBlockStmt)getBody().parentNode;
                     if( !nobs.getBody().isPresent()){
                         BlockStmt bss = nobs.createBody();
                         bs.getStatements().forEach(s -> bss.addStatement(s));
@@ -1583,7 +1547,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
          * all of which with the statConsumer
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
-         */
+
         default _WB forAstStmts(Consumer<Statement> stmtActionFn ){
             if( !isImplemented() ){
                 return (_WB)this;
@@ -1591,6 +1555,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             Walk.in((BlockStmt)this.getBody().ast(), Statement.class, stmtActionFn );
             return (_WB)this;
         }
+        */
         
         /**
          * _walk the body in preorder fashion, intercepting all Statements that
@@ -1600,7 +1565,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
          * @param statementClass the target statement class
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
-         */
+
         default <S extends Statement> _WB forAstStmts(Class<S> statementClass, Consumer<S> stmtActionFn ){
             if( !isImplemented() ){
                 return (_WB)this;
@@ -1608,7 +1573,8 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtActionFn );
             return (_WB)this;
         }
-        
+        */
+
         /**
          * _walk the body in preorder fashion, intercepting all Statements that
          * implement statementClass and match the stmtMatchFn and processing
@@ -1618,7 +1584,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
          * @param stmtMatchFn the matching function to choose which statements to process
          * @param stmtActionFn the "processing" function for matching statements
          * @return the modified T
-         */
+
         default <S extends Statement> _WB forAstStmts(Class<S> statementClass, Predicate<S>stmtMatchFn, Consumer<S> stmtActionFn ){
             if( !isImplemented() ){
                 return (_WB)this;
@@ -1626,6 +1592,7 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
             Walk.in((BlockStmt)this.getBody().ast(), statementClass, stmtMatchFn, stmtActionFn );
             return (_WB)this;
         }
+        */
         
         /**
          * Find and return the first Statement of the statementClass

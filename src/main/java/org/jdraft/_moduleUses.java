@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleUsesDirective;
@@ -31,7 +32,7 @@ public final class _moduleUses implements _tree._node<ModuleUsesDirective, _modu
             src = src+";";
         }
         CompilationUnit cu =
-                Ast.parse("module J{ "+System.lineSeparator()+src+System.lineSeparator()+"}");
+                Ast.parse("module $name${ "+System.lineSeparator()+src+System.lineSeparator()+"}");
         ModuleDeclaration md = cu.getModule().get();
         ModuleUsesDirective modd = (ModuleUsesDirective)md.getDirectives().get(0);
         modd.remove();
@@ -45,56 +46,60 @@ public final class _moduleUses implements _tree._node<ModuleUsesDirective, _modu
 
     public static _feature._features<_moduleUses> FEATURES = _feature._features.of(_moduleUses.class,  PARSER, MODULE_NAME);
 
-    public ModuleUsesDirective mod;
+    public ModuleUsesDirective node;
 
-    public _moduleUses(ModuleUsesDirective mod){
-        this.mod = mod;
+    public _moduleUses(ModuleUsesDirective node){
+        this.node = node;
     }
 
     public _moduleUses setName(String moduleName){
-        this.mod.setName(moduleName);
+        this.node.setName(moduleName);
         return this;
     }
 
     public String getName(){
-        return this.mod.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     public _moduleUses setName(_name name){
-        this.mod.setName(name.toString());
+        this.node.setName(name.toString());
         return this;
     }
     public Name getNameNode(){
-        return this.mod.getName();
+        return this.node.getName();
     }
-
 
     @Override
     public _moduleUses copy() {
-        return of( this.mod.clone());
+        return of( this.node.clone());
     }
 
     @Override
-    public ModuleUsesDirective ast() {
-        return this.mod;
+    public ModuleUsesDirective node() {
+        return this.node;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Objects.equals( of(stringRep ).mod, this.mod);
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _moduleUses replace(ModuleUsesDirective replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public int hashCode(){
-        return 31 * this.mod.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public boolean equals(Object o ){
-        return o instanceof _moduleUses && Objects.equals( ((_moduleUses)o).mod, this.mod);
+        return o instanceof _moduleUses && Objects.equals( ((_moduleUses)o).node, this.node);
     }
 
     public String toString(){
-        return this.mod.toString();
+        return this.node.toString();
     }
 }

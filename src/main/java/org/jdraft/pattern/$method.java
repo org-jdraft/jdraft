@@ -384,7 +384,7 @@ public class $method
             parameters = $parameters.of(_m.getParams());
         }        
         thrown = $throws.of(_m.getThrows());
-        body = $body.of( _m.ast() );
+        body = $body.of( _m.node() );
         this.constraint = constraint;
     }
     
@@ -1034,7 +1034,7 @@ public class $method
         }
         Tokens all = new Tokens();
         if( _m.hasJavadoc() ){
-            all = javadoc.parseTo(_m.getJavadoc().ast(), all);
+            all = javadoc.parseTo(_m.getJavadoc().node(), all);
         } else{
             if(!javadoc.isMatchAny() ){
                 return null;
@@ -1210,10 +1210,10 @@ public class $method
             if( ((_codeUnit) _j).isTopLevel()){
                 return selectFirstIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             } else{
-                return selectFirstIn(((_type) _j).ast(), selectConstraint);
+                return selectFirstIn(((_type) _j).node(), selectConstraint);
             }
         }
-        return selectFirstIn(((_tree._node) _j).ast(), selectConstraint);
+        return selectFirstIn(((_tree._node) _j).node(), selectConstraint);
     }
 
     /**
@@ -1389,7 +1389,7 @@ public class $method
     public <_CT extends _type> _CT replaceIn(Class clazz,  $method $replace ){
         return (_CT) forSelectedIn( (_type) _type.of(clazz), s -> {
             _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens());
-            s._m.ast().replace(repl.ast());
+            s._m.node().replace(repl.node());
         });
     }
 
@@ -1433,7 +1433,7 @@ public class $method
     public <_J extends _java._domain> _J replaceIn(_J _j, $method $replace ){
         return forSelectedIn(_j, s -> {
             _method repl = $replace.draft(Translator.DEFAULT_TRANSLATOR, s.tokens.asTokens());
-            s._m.ast().replace(repl.ast());
+            s._m.node().replace(repl.node());
         });
     }
 
@@ -1549,7 +1549,7 @@ public class $method
         }
 
         public $method whichMatch(_method _m){
-            return whichMatch(_m.ast());
+            return whichMatch(_m.node());
         }
 
         /**
@@ -1605,7 +1605,7 @@ public class $method
 
         @Override
         public MethodDeclaration ast() {
-            return _m.ast();
+            return _m.node();
         }
 
         @Override

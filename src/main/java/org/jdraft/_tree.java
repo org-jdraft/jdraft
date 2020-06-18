@@ -8,6 +8,7 @@ import com.github.javaparser.ast.stmt.ReturnStmt;
 import com.github.javaparser.ast.type.ReferenceType;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 import org.jdraft.walk.Walk;
 import org.jdraft.walk._walk;
 import org.jdraft.walk._walkFeatures;
@@ -259,6 +260,10 @@ public interface _tree<_T> extends _java._domain {
             return new _walk(Walk.PRE_ORDER, this, targetClass);
         }
 
+        default <_N extends _tree._node> _walk<_N> walk(_N target){
+            return new _walk(Walk.PRE_ORDER, this, target);
+        }
+
         /**
          * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
          *
@@ -341,7 +346,9 @@ public interface _tree<_T> extends _java._domain {
          * NOTE: the AST node contains physical information (i.e. location in
          * the file (line numbers) and syntax related parent/child relationships
          */
-        N ast();
+        N node();
+
+        <_I extends _N> _I replace(N n);
 
         /**
          * Replace this ast node (wherever it resides in the Ast TREE) with the ASt node
@@ -349,25 +356,90 @@ public interface _tree<_T> extends _java._domain {
          * @param n the ast nod to replace this node in the tree
          * @param <N> the type of Ast node to replace with
          * @return the replacement node
-         */
+
         default <N extends Node> N replace(N n){
-            boolean rep = this.ast().replace(n);
-            if( rep ) {
-                return n;
-            }
-            throw new _jdraftException("unable to replace "+ this+" with "+ n);
+
         }
+        */
 
         /**
-         * Replace this ast node (wherever it resides in the Ast TREE) with the ASt node
+         * Replace this {@link _tree._node} (wherever it resides in the Ast TREE) with {@code _n} provided
          * and return the replacement Ast node instance
-         * @param _n the astNode to replace this node in the tree
+         * @param _n the {@link _tree._node} to use as a replacement for this node within the AST
          * @param <_N> the type of _astNode node to replace with
          * @return the replacement _astNode implementation
+        */
+        default <_I extends _N> _I replace(_I _n){
+            //return _n;
+            return (_I)replace( (N)_n.node());
+        }
+
+
+
+        /**
+         * Produces a NEW MUTABLE COPY of the {@link _tree._node} based on the targetValue replacements
+         * passed in
+         * ** DOES NOT update the AST where this Node came from **
+         * (for that see draftReplace(...)
+         * String/Text based replacement with target/replacement pairs:
+         * NOTE: this does NOT use regex characters but rather
+         * _class _c = _class.of("C", new Object(){
+         *     int $var$ = 0;
+         *
+         *     public void m(){
+         *         return $num$ * $var$;
+         *     }
+         * }
+         * _c = _c.replaceIn("$var$", "x", "$num$", 100);
+         * System.out.println(c);
+         * //prints:
+         * public class C{
+         *     int x = 0;
+         *
+         *     public void m(){
+         *         return 100 * x;
+         *     }
+         * }
+         * Given the targetToReplacementPairs provided,
+         * @param targetToReplacementPairs
+         * @return a new copy of the node with the replacements made
+         * @see #draftReplace(Object...) to have the drafted {@link _tree._node} replace this node within the AST
          */
-        default <_N extends _node> _N replace(_N _n){
-            replace(_n.ast());
-            return _n;
+        default _N draft(Object...targetToReplacementPairs){
+            String draftText = Text.replace(this.toString(), Stream.of(targetToReplacementPairs).map(o-> o.toString())
+                    .collect(Collectors.toList()).toArray(new String[0]));
+            return this.features().parse(draftText);
+        }
+
+
+        /**
+         * Drafts a new copy of this {@link _tree._node} AND replaces it within the AST
+         * for example:
+         * <PRE>
+         *     class $className${
+         *         public $className$(){
+         *         }
+         *         public $className$(int i){
+         *         }
+         *     }
+         *     _class _c = _class.of($className$.class).draftReplace("$className$", "MyClass");
+         *     //produces
+         *     class MyClass{
+         *         public MyClass(){
+         *         }
+         *         public MyClass(int i){
+         *         }
+         *     }
+         * </PRE>
+         *
+         * @param targetToReplacementPairs
+         * @return
+         * @see #draft(Object...) if you want to return a new mutable copy (AND NOT MODIFY THE UNDERLYING SYNTAX TREE)
+         */
+        default _N draftReplace(Object...targetToReplacementPairs){
+            _N replacement = draft(targetToReplacementPairs);
+            replace(replacement);
+            return (_N)this;
         }
 
         /**
@@ -384,7 +456,7 @@ public interface _tree<_T> extends _java._domain {
          * @return A String representing the .java code
          */
         default String toString(PrettyPrinterConfiguration codeFormat) {
-            return ast().toString(codeFormat);
+            return node().toString(codeFormat);
         }
 
         /**
@@ -415,7 +487,7 @@ public interface _tree<_T> extends _java._domain {
 
         public static <_N extends Object> boolean leftDeepFeatureCompare(Map<_feature<_N, ?>, Object> left, Map<_feature<_N, ?>, Object> right){
             _feature<_N,?>[] keys = left.keySet().toArray(new _feature[0]);
-            System.out.println( keys );
+            //System.out.println( keys );
             for(int i=0;i<keys.length;i++){
                 Object l = left.get(keys[i]);
                 Object r = right.get(keys[i]);
@@ -444,7 +516,7 @@ public interface _tree<_T> extends _java._domain {
 
                     //neither is null, and they are of the same class
                     if( l instanceof _node ){ //if they are nodes, I can further breakdown
-                        System.out.println( "Testing nodes with params");
+                        //System.out.println( "Testing nodes with params");
                         //if( !((_node)l).is( ((_node)r).toString(Print.PRINT_NO_COMMENTS))) {
                         return leftDeepFeatureCompare(((_node) l).features().featureMap(l), ((_node) r).features().featureMap(r));
                         //} else{
@@ -465,7 +537,7 @@ public interface _tree<_T> extends _java._domain {
                         }
                         //return true;
                     } else if( l instanceof _group){
-                        System.out.println( "group"+ l+ " vs "+r);
+                        //System.out.println( "group"+ l+ " vs "+r);
                         //I want to make sure ALL of the left entities are found in the right entities
                         _group _log = (_group)l;
                         _group _rog = (_group)r;
@@ -498,21 +570,21 @@ public interface _tree<_T> extends _java._domain {
                                     }
                                 }
                             } else{ //unordered
-                                System.out.println( "UNORDERED" +ln);
+                                //System.out.println( "UNORDERED" +ln);
                                 for(int j=0;j<ln.size(); j++){
                                     final _node lnn = ln.get(j);
                                     if( ! rn.stream().anyMatch( n -> {
-                                        System.out.println( "Trying to match "+lnn+" to "+n);
+                                        //System.out.println( "Trying to match "+lnn+" to "+n);
                                         return leftDeepFeatureCompare( lnn, n );
                                     } ) ){
-                                        System.out.println( "Couldnt match "+lnn+" IN "+ rn);
+                                        //System.out.println( "Couldnt match "+lnn+" IN "+ rn);
                                         return false;
                                     }
                                 }
                             }
                         } else{
                             if (!Objects.equals(l, r)) {
-                                System.out.println("NOT EQUALS " + l + " " + r);
+                                //System.out.println("NOT EQUALS " + l + " " + r);
                                 return false;
                             }
                         }
@@ -586,7 +658,6 @@ public interface _tree<_T> extends _java._domain {
                                     //System.out.println( "list");
                                     List l = (List)t;
                                     //make sure all of nodes in left are in right
-
                                 }
                                 else if( !s.matches(t.toString()) ){
                                     //System.out.println( "NOt Same 2 "+s + t.toString());
@@ -753,7 +824,7 @@ public interface _tree<_T> extends _java._domain {
 
         default _G set(List<_EL> els){
             astList().clear();
-            els.forEach( el -> astList().add((EL)el.ast()));
+            els.forEach( el -> astList().add((EL)el.node()));
             return (_G)this;
         }
 
@@ -786,7 +857,7 @@ public interface _tree<_T> extends _java._domain {
 
         default _G add(_EL... elements) {
             for( _EL el : elements ) {
-                this.astList().add( (EL)el.ast());
+                this.astList().add( (EL)el.node());
             }
             return (_G)this;
         }
@@ -800,7 +871,7 @@ public interface _tree<_T> extends _java._domain {
         }
 
         default _G remove(_EL... _els) {
-            Arrays.stream( _els ).forEach(e -> this.astList().remove( e.ast() ) );
+            Arrays.stream( _els ).forEach(e -> this.astList().remove( e.node() ) );
             return (_G)this;
         }
 
@@ -889,7 +960,7 @@ public interface _tree<_T> extends _java._domain {
          */
         default _G addAt(int index, _EL... element){
             for(int i=0;i<element.length;i++) {
-                this.astList().add(index+i, (EL) element[i].ast());
+                this.astList().add(index+i, (EL) element[i].node());
             }
             return (_G)this;
         }
@@ -925,7 +996,7 @@ public interface _tree<_T> extends _java._domain {
          * @return
          */
         default _G setAt(int index, _EL _element){
-            this.astList().set(index, (EL)_element.ast());
+            this.astList().set(index, (EL)_element.node());
             return (_G)this;
         }
 
@@ -1287,7 +1358,7 @@ public interface _tree<_T> extends _java._domain {
          *
          * @return the AST anchor node (usually the parent node) where the abstraction is anchored to the Syntax Tree
          */
-        <N extends Node> N astAnchorNode();
+        <N extends Node> N anchorNode();
 
     }
 

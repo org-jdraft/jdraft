@@ -65,7 +65,7 @@ public @interface _public {
         }
 
         public static <_N extends _tree._node> _N to(_N _n){
-            to(_n.ast());
+            to(_n.node());
             return _n;
         }
 

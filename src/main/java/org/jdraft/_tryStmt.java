@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.*;
@@ -91,38 +92,39 @@ public final class _tryStmt implements
 
     public static _feature._features<_tryStmt> FEATURES = _feature._features.of(_tryStmt.class,  PARSER, WITH_RESOURCES, TRY_BODY, CATCH_CLAUSES, FINALLY_BODY );
 
-    private TryStmt tryStmt;
+    private TryStmt node;
 
-    public _tryStmt(TryStmt tryStmt){
-        this.tryStmt = tryStmt;
+    public _tryStmt(TryStmt node){
+        this.node = node;
     }
 
     public _feature._features<_tryStmt> features(){
         return FEATURES;
     }
 
-    public TryStmt ast(){
-        return tryStmt;
+    public TryStmt node(){
+        return node;
     }
 
     @Override
     public _tryStmt copy() {
-        return new _tryStmt( this.tryStmt.clone());
+        return new _tryStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String...str ){
-        try{
-            return _tryStmt.of(str).equals(this);
-        }catch(Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _tryStmt replace(TryStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public _body getTryBody(){
-        return _body.of( tryStmt.getTryBlock() );
+        return _body.of( node.getTryBlock() );
     }
 
     public _tryStmt setTryBody( Statement st){
@@ -135,21 +137,21 @@ public final class _tryStmt implements
     }
 
     public _tryStmt setTryBody(BlockStmt body) {
-        this.tryStmt.setTryBlock(body);
+        this.node.setTryBlock(body);
         return this;
     }
 
     public _tryStmt setTryBody(_body _b){
         Statement st = _b.astStatement();
         if( st == null ){
-            this.tryStmt.setTryBlock(new BlockStmt());
+            this.node.setTryBlock(new BlockStmt());
         }
         else if( st instanceof BlockStmt ){
-            this.tryStmt.setTryBlock( st.asBlockStmt());
+            this.node.setTryBlock( st.asBlockStmt());
         } else{
             BlockStmt bs = new BlockStmt( );
             bs.addStatement( st);
-            this.tryStmt.setTryBlock(bs);
+            this.node.setTryBlock(bs);
         }
         return this;
     }
@@ -200,9 +202,9 @@ public final class _tryStmt implements
     }
 
     public _tryStmt addTry(_stmt... _sts){
-        BlockStmt bs = this.tryStmt.getTryBlock();
+        BlockStmt bs = this.node.getTryBlock();
         for(int i=0;i<_sts.length; i++){
-            bs.addStatement(_sts[i].ast());
+            bs.addStatement(_sts[i].node());
         }
         return this;
     }
@@ -213,7 +215,7 @@ public final class _tryStmt implements
     }
 
     public _tryStmt addTry(Statement... sts){
-        BlockStmt bs = this.tryStmt.getTryBlock();
+        BlockStmt bs = this.node.getTryBlock();
         for(int i=0;i<sts.length; i++){
             bs.addStatement(sts[i]);
         }
@@ -265,11 +267,11 @@ public final class _tryStmt implements
         return addTry(bdy);
     }
     public _tryStmt addTry(int startStatementIndex, _stmt... _sts) {
-        return addTry( startStatementIndex, Arrays.stream(_sts).map(_s -> _s.ast()).collect(Collectors.toList()).toArray(new Statement[0]));
+        return addTry( startStatementIndex, Arrays.stream(_sts).map(_s -> _s.node()).collect(Collectors.toList()).toArray(new Statement[0]));
     }
 
     public _tryStmt addTry(int startStatementIndex, Statement... statements) {
-        BlockStmt bd = this.tryStmt.getTryBlock();
+        BlockStmt bd = this.node.getTryBlock();
         for(int i=0;i<statements.length; i++) {
                bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
         }
@@ -277,7 +279,7 @@ public final class _tryStmt implements
     }
 
     public _tryStmt clearTryBody() {
-        this.tryStmt.setTryBlock(new BlockStmt());
+        this.node.setTryBlock(new BlockStmt());
         return this;
     }
 
@@ -286,7 +288,7 @@ public final class _tryStmt implements
      * @return
      */
     public boolean hasWithResources(){
-        return ! this.ast().getResources().isEmpty();
+        return ! this.node().getResources().isEmpty();
     }
 
     public boolean hasWithResourceType( Class clazz ){
@@ -313,41 +315,40 @@ public final class _tryStmt implements
 
     public _tryStmt setWithResources(_expr... _exs){
         NodeList<Expression> nle = new NodeList<>();
-        Arrays.stream(_exs).forEach( _e -> nle.add(_e.ast()));
-        this.ast().setResources(nle);
+        Arrays.stream(_exs).forEach( _e -> nle.add(_e.node()));
+        this.node().setResources(nle);
         return this;
     }
 
     public _tryStmt addWithResources(String...exs){
-        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(Expr.of(e)));
+        Arrays.stream(exs).forEach( e -> this.node().getResources().add(Expr.of(e)));
         return this;
     }
 
     public _tryStmt addWithResources(Expression...exs){
-        Arrays.stream(exs).forEach( e -> this.ast().getResources().add(e));
+        Arrays.stream(exs).forEach( e -> this.node().getResources().add(e));
         return this;
     }
 
-
     public _tryStmt addWithResources(_expr..._exs){
-        Arrays.stream(_exs).forEach( _e -> this.ast().getResources().add(_e.ast()));
+        Arrays.stream(_exs).forEach( _e -> this.node().getResources().add(_e.node()));
         return this;
     }
 
     public _tryStmt removeWithResource(_expr..._exs){
-        Arrays.stream(_exs).forEach( _e -> this.ast().getResources().remove(_e.ast()));
+        Arrays.stream(_exs).forEach( _e -> this.node().getResources().remove(_e.node()));
         return this;
     }
 
     public _tryStmt removeWithResource(Predicate<_expr> matchFn){
         List<_expr> toRemove = listWithResources(matchFn);
-        toRemove.forEach( _e -> this.ast().getResources().remove(_e.ast()));
+        toRemove.forEach( _e -> this.node().getResources().remove(_e.node()));
         return this;
     }
 
     public List<_expr> listWithResources(){
         List<_expr> exs = new ArrayList<>();
-        this.tryStmt.getResources().forEach( e -> exs.add(_expr.of(e)));
+        this.node.getResources().forEach(e -> exs.add(_expr.of(e)));
         return exs;
     }
 
@@ -378,14 +379,14 @@ public final class _tryStmt implements
     }
 
     public _catch getCatch( _typeRef _tr){
-        return getCatch( _tr.ast());
+        return getCatch( _tr.node());
     }
 
     public _catch getCatch( Type astType ){
         Optional<_catch> _oc = listCatches().stream().filter( _c->
             _c.getParam().isType(astType)
             ||  _c.getParam().getType().isUnionType() &&
-                    _c.getParam().getType().ast().asUnionType().getElements().stream().anyMatch(rt-> Types.equal(rt, astType))
+                    _c.getParam().getType().node().asUnionType().getElements().stream().anyMatch(rt-> Types.equal(rt, astType))
         ).findFirst();
         if( _oc.isPresent() ){
             return _oc.get();
@@ -406,8 +407,8 @@ public final class _tryStmt implements
 
         //_c-> _c.getParameter().isType(IOException.class)).findFirst().get()
         Optional<_catch> _oc = listCatches().stream().filter( _c-> _c.getParam().isType(type)
-                || _c.getParam().getType().isUnionType() && _c.getParam().getType().ast().asUnionType().getElements().contains(astType)
-                || _c.getParam().getType().isUnionType() && _c.getParam().getType().ast().asUnionType().getElements().contains(astType2))
+                || _c.getParam().getType().isUnionType() && _c.getParam().getType().node().asUnionType().getElements().contains(astType)
+                || _c.getParam().getType().isUnionType() && _c.getParam().getType().node().asUnionType().getElements().contains(astType2))
                 .findFirst();
         if( _oc.isPresent() ){
             return _oc.get();
@@ -416,7 +417,7 @@ public final class _tryStmt implements
     }
 
     public boolean hasCatch(){
-        return ! this.ast().getCatchClauses().isEmpty();
+        return ! this.node().getCatchClauses().isEmpty();
     }
 
     /**
@@ -433,8 +434,8 @@ public final class _tryStmt implements
     }
 
     public _tryStmt setCatchClauses(List<_catch> _ccs){
-        this.ast().getCatchClauses().clear();
-        _ccs.forEach( _cc -> this.ast().getCatchClauses().add( _cc.ast()));
+        this.node().getCatchClauses().clear();
+        _ccs.forEach( _cc -> this.node().getCatchClauses().add( _cc.node()));
         return this;
     }
 
@@ -444,7 +445,7 @@ public final class _tryStmt implements
      */
     public List<_catch> listCatches(){
         List<_catch> _ccs = new ArrayList<>();
-        this.ast().getCatchClauses().forEach(cc -> _ccs.add(_catch.of(cc)));
+        this.node().getCatchClauses().forEach(cc -> _ccs.add(_catch.of(cc)));
         return _ccs;
     }
 
@@ -458,28 +459,28 @@ public final class _tryStmt implements
     }
 
     public _tryStmt addCatch(CatchClause... cc){
-        Arrays.stream(cc).forEach( c -> this.tryStmt.getCatchClauses().add(c));
+        Arrays.stream(cc).forEach( c -> this.node.getCatchClauses().add(c));
         return this;
     }
 
     public _tryStmt addCatch(_catch... _c){
-        Arrays.stream(_c).forEach( cc -> this.tryStmt.getCatchClauses().add(cc.ast()));
+        Arrays.stream(_c).forEach( cc -> this.node.getCatchClauses().add(cc.node()));
         return this;
     }
 
     public boolean hasFinally(){
-        return this.ast().getFinallyBlock().isPresent();
+        return this.node().getFinallyBlock().isPresent();
     }
 
     //does this try statement have a finally body that is NON-EMPTY
     public boolean hasFinallyBody(){
-        return this.ast().getFinallyBlock().isPresent()
-                &&  !( this.ast().getFinallyBlock().get().isEmpty());
+        return this.node().getFinallyBlock().isPresent()
+                &&  !( this.node().getFinallyBlock().get().isEmpty());
     }
 
     public _body getFinallyBody(){
-        if( this.tryStmt.getFinallyBlock().isPresent()){
-            return _body.of( tryStmt.getFinallyBlock() );
+        if( this.node.getFinallyBlock().isPresent()){
+            return _body.of( node.getFinallyBlock() );
         }
         return null;
     }
@@ -487,37 +488,30 @@ public final class _tryStmt implements
     public _tryStmt setFinallyBody(_body _b){
         Statement st = _b.astStatement();
         if( st == null ){
-            this.tryStmt.setFinallyBlock(new BlockStmt());
+            this.node.setFinallyBlock(new BlockStmt());
         }
         else if( st instanceof BlockStmt ){
-            this.tryStmt.setFinallyBlock( st.asBlockStmt());
+            this.node.setFinallyBlock( st.asBlockStmt());
         } else{
             BlockStmt bs = new BlockStmt( );
             bs.addStatement( st);
-            this.tryStmt.setFinallyBlock(bs);
+            this.node.setFinallyBlock(bs);
         }
         return this;
     }
 
-    /*
-    public _tryStmt setFinallyBody(_body _b){
-        this.tryStmt.setFinallyBlock(_b.ast());
-        return this;
-    }
-     */
-
     public _tryStmt setFinallyBody(_blockStmt finallyBlock){
-        this.tryStmt.setFinallyBlock(finallyBlock.ast());
+        this.node.setFinallyBlock(finallyBlock.node());
         return this;
     }
 
     public _tryStmt removeFinally(){
-        this.tryStmt.removeFinallyBlock();
+        this.node.removeFinallyBlock();
         return this;
     }
 
     public _tryStmt setFinallyBody(BlockStmt body) {
-        this.tryStmt.setFinallyBlock(body);
+        this.node.setFinallyBlock(body);
         return this;
     }
 
@@ -527,22 +521,22 @@ public final class _tryStmt implements
     }
 
     public _tryStmt addFinally(_stmt... _sts){
-        Optional<BlockStmt> bd = this.tryStmt.getFinallyBlock();
+        Optional<BlockStmt> bd = this.node.getFinallyBlock();
         BlockStmt bs = null;
         if( !bd.isPresent() ){
             bs = new BlockStmt();
-            this.tryStmt.setFinallyBlock(bs);
+            this.node.setFinallyBlock(bs);
         } else {
-            bs = this.tryStmt.getFinallyBlock().get();
+            bs = this.node.getFinallyBlock().get();
         }
         for(int i=0;i<_sts.length; i++) {
-            bs.addStatement(_sts[i].ast());
+            bs.addStatement(_sts[i].node());
         }
         return this;
     }
 
     public _tryStmt addFinally(Statement... sts){
-        BlockStmt bs = this.tryStmt.getTryBlock();
+        BlockStmt bs = this.node.getTryBlock();
         for(int i=0;i<sts.length; i++){
             bs.addStatement(sts[i]);
         }
@@ -550,13 +544,13 @@ public final class _tryStmt implements
     }
 
     public _tryStmt addFinally(int startStatementIndex, Statement... statements) {
-        Optional<BlockStmt> bd = this.tryStmt.getFinallyBlock();
+        Optional<BlockStmt> bd = this.node.getFinallyBlock();
         BlockStmt bs = null;
         if( !bd.isPresent() ){
             bs = new BlockStmt();
-            this.tryStmt.setFinallyBlock(bs);
+            this.node.setFinallyBlock(bs);
         } else {
-            bs = this.tryStmt.getFinallyBlock().get();
+            bs = this.node.getFinallyBlock().get();
         }
         for(int i=0;i<statements.length; i++) {
             bs.addStatement(i+startStatementIndex, statements[i]);
@@ -565,30 +559,17 @@ public final class _tryStmt implements
     }
 
     public String toString(){
-        return this.tryStmt.toString();
+        return this.node.toString();
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put( _java.Feature.TRY_BODY, tryStmt.getTryBlock());
-        comps.put( _java.Feature.WITH_RESOURCES_EXPRS, tryStmt.getResources());
-        comps.put(_java.Feature.CATCH_CLAUSES, tryStmt.getCatchClauses());
-        if( tryStmt.getFinallyBlock().isPresent() ){
-            comps.put(_java.Feature.FINALLY_BODY, tryStmt.getFinallyBlock().get());
-        }
-        return comps;
-    }
-     */
 
     public boolean equals(Object other){
         if( other instanceof _tryStmt ){
-            return Objects.equals( ((_tryStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_tryStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

@@ -54,7 +54,7 @@ public final class _arrayDimension implements _tree._node<ArrayCreationLevel, _a
     }
 
     public static _arrayDimension of(_expr _e){
-        return new _arrayDimension(new ArrayCreationLevel().setDimension( _e.ast() ));
+        return new _arrayDimension(new ArrayCreationLevel().setDimension( _e.node() ));
     }
 
     public static _feature._one<_arrayDimension, _expr> EXPRESSION = new _feature._one<>(_arrayDimension.class, _expr.class,
@@ -64,10 +64,10 @@ public final class _arrayDimension implements _tree._node<ArrayCreationLevel, _a
 
     public static _feature._features<_arrayDimension> FEATURES = _feature._features.of(_arrayDimension.class,  PARSER, EXPRESSION );
 
-    public final ArrayCreationLevel astNode;
+    public ArrayCreationLevel node;
 
     public _arrayDimension(ArrayCreationLevel acl){
-        this.astNode = acl;
+        this.node = acl;
     }
 
     public _feature._features<_arrayDimension> features(){
@@ -76,47 +76,42 @@ public final class _arrayDimension implements _tree._node<ArrayCreationLevel, _a
 
     @Override
     public _arrayDimension copy() {
-        return _arrayDimension.of(this.astNode);
+        return _arrayDimension.of(this.node);
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.arrayCreationLevel(stringRep));
-        } catch(Exception e){
-            return false;
-        }
+    public _arrayDimension replace(ArrayCreationLevel ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
-     */
 
     public _expr getExpression(){
-        if( this.astNode.getDimension() != null ) {
-            if( this.astNode.getDimension().isPresent() ) {
-                return _expr.of(this.astNode.getDimension().get());
+        if( this.node.getDimension() != null ) {
+            if( this.node.getDimension().isPresent() ) {
+                return _expr.of(this.node.getDimension().get());
             }
             return null;
         }
         return null;
     }
     public _arrayDimension setExpression(String... dimension){
-        this.astNode.setDimension(Expr.of(dimension));
+        this.node.setDimension(Expr.of(dimension));
         return this;
     }
 
     public _arrayDimension setExpression(Expression dimension){
-        this.astNode.setDimension(dimension);
+        this.node.setDimension(dimension);
         return this;
     }
 
     public _arrayDimension setExpression(_expr dimension){
-        this.astNode.setDimension(dimension.ast());
+        this.node.setDimension(dimension.node());
         return this;
     }
 
     @Override
     public boolean is(ArrayCreationLevel astNode) {
-        return Objects.equals(this.astNode, astNode);
+        return Objects.equals(this.node, astNode);
     }
 
     public <_IE extends _expr> boolean is(Class<_IE> implClass ){
@@ -137,22 +132,22 @@ public final class _arrayDimension implements _tree._node<ArrayCreationLevel, _a
     }
 
     @Override
-    public ArrayCreationLevel ast() {
-        return this.astNode;
+    public ArrayCreationLevel node() {
+        return this.node;
     }
 
     public String toString(){
-        return this.astNode.toString();
+        return this.node.toString();
     }
 
     public int hashCode(){
-        return 31 * this.astNode.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public boolean equals( Object o ){
         if( o instanceof _arrayDimension ){
             _arrayDimension _a = (_arrayDimension)o;
-            return Objects.equals( _a.astNode, this.astNode);
+            return Objects.equals( _a.node, this.node);
         }
         return false;
     }

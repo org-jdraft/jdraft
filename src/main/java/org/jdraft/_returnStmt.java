@@ -22,7 +22,7 @@ public final class _returnStmt implements
     }
 
     public static _returnStmt of(_expr _e){
-        return of().setExpression(_e.ast());
+        return of().setExpression(_e.node());
     }
 
     public static _returnStmt of(Expression e){
@@ -30,14 +30,14 @@ public final class _returnStmt implements
     }
 
     public static _returnStmt of(Enum e ){
-        return of().setExpression(_fieldAccessExpr.of(e.getClass().getCanonicalName()+"."+e.name()).ast());
+        return of().setExpression(_fieldAccessExpr.of(e.getClass().getCanonicalName()+"."+e.name()).node());
     }
     public static _returnStmt of(int literal){
         return new _returnStmt( new ReturnStmt( new IntegerLiteralExpr(literal)));
     }
 
     public static _returnStmt of(long literal){
-        return new _returnStmt( new ReturnStmt( _longExpr.of(literal).ast()));
+        return new _returnStmt( new ReturnStmt( _longExpr.of(literal).node()));
     }
 
     public static _returnStmt of(char literal){
@@ -75,10 +75,10 @@ public final class _returnStmt implements
 
     public static _feature._features<_returnStmt> FEATURES = _feature._features.of(_returnStmt.class,  PARSER, EXPRESSION );
 
-    private ReturnStmt rs;
+    private ReturnStmt node;
 
-    public _returnStmt(ReturnStmt rs){
-        this.rs = rs;
+    public _returnStmt(ReturnStmt node){
+        this.node = node;
     }
 
     public _feature._features<_returnStmt> features(){
@@ -87,32 +87,27 @@ public final class _returnStmt implements
 
     @Override
     public _returnStmt copy() {
-        return new _returnStmt( this.rs.clone());
+        return new _returnStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.returnStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
-
-    /*
-    @Override
-    public boolean is(ReturnStmt astNode) {
-        return this.rs.equals( astNode);
+    public _returnStmt replace(ReturnStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
-     */
 
-    public ReturnStmt ast(){
-        return rs;
+    public ReturnStmt node(){
+        return node;
     }
 
     public _returnStmt removeExpression(){
-        this.rs.removeExpression();
+        this.node.removeExpression();
         return this;
     }
 
@@ -128,11 +123,11 @@ public final class _returnStmt implements
     }
 
     public boolean isExpression(_expr _ex){
-        return Expr.equal( this.getExpression().ast(), _ex.ast());
+        return Expr.equal( this.getExpression().node(), _ex.node());
     }
 
     public boolean isExpression(Expression ex){
-        return Expr.equal( this.getExpression().ast(), ex);
+        return Expr.equal( this.getExpression().node(), ex);
     }
 
     public boolean isExpression(Predicate<_expr> matchFn){
@@ -168,54 +163,37 @@ public final class _returnStmt implements
     }
 
     public _returnStmt setExpression(_expr e){
-        return setExpression(e.ast());
+        return setExpression(e.node());
     }
 
     public _returnStmt setExpression(Expression e){
-        this.rs.setExpression(e);
+        this.node.setExpression(e);
         return this;
     }
 
     public _expr getExpression(){
         if( this.hasExpression() ){
-            return _expr.of(this.rs.getExpression().get());
+            return _expr.of(this.node.getExpression().get());
         }
         return null;
     }
-
-    /*
-    public _returnStmt setExpression(_expression _e){
-        return setExpression(_e.ast());
-    }
-
-    public _returnStmt setExpression(Expression e){
-        this.rs.setExpression(e);
-        return this;
-    }
-    public Expression getExpression(){
-        if(this.rs.getExpression().isPresent()){
-            return rs.getExpression().get();
-        }
-        return null;
-    }
-    */
 
     public boolean hasExpression(){
-        return this.rs.getExpression().isPresent();
+        return this.node.getExpression().isPresent();
     }
 
     public String toString(){
-        return this.rs.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _returnStmt ){
-            return Objects.equals( ((_returnStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_returnStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

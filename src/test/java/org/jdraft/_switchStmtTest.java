@@ -193,8 +193,8 @@ public class _switchStmtTest extends TestCase {
         _ss.mapReturn('e', 12.03f);
         _ss.mapReturn('f', "G");
 
-        _ss.mapReturn( _intExpr.of("0xDEAD").ast(), 1 );
-        _ss.mapReturn( _intExpr.of("0xBEEF").ast(), 2 );
+        _ss.mapReturn( _intExpr.of("0xDEAD").node(), 1 );
+        _ss.mapReturn( _intExpr.of("0xBEEF").node(), 2 );
         System.out.println( _ss);
     }
 

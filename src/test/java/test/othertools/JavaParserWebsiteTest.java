@@ -38,7 +38,7 @@ public class JavaParserWebsiteTest extends TestCase {
         }
         //look for all public fields that are NOT static
         $field.of($.PUBLIC, $.NOT_STATIC).forEachIn(C.class,
-                f-> System.out.println("Check field at line "+f.ast().getRange().map(r-> r.begin.line).orElse(-1)));
+                f-> System.out.println("Check field at line "+f.node().getRange().map(r-> r.begin.line).orElse(-1)));
     }
 
     enum E{ A;}

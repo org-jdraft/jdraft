@@ -59,7 +59,7 @@ public class ASCIITreePrinter {
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
             System.out.println(TNode.of(new TNode( ((_codeUnit)_rootNode).astCompilationUnit())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT));
         } else {
-            System.out.println(TNode.of(new TNode(_rootNode.ast())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT));
+            System.out.println(TNode.of(new TNode(_rootNode.node())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT));
         }
     }
 
@@ -87,7 +87,7 @@ public class ASCIITreePrinter {
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
             return TNode.of(new TNode( ((_codeUnit)_rootNode).astCompilationUnit())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT);
         } else {
-            return TNode.of(new TNode(_rootNode.ast())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT);
+            return TNode.of(new TNode(_rootNode.node())).output(_NODE_SUMMARY_CLASS_RANGE_FORMAT);
         }
     }
 
@@ -194,7 +194,7 @@ public class ASCIITreePrinter {
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
             return TNode.of( new TNode(((_codeUnit)_rootNode).astCompilationUnit())).output(this.nodeFormat);
         }
-        return TNode.of( new TNode(_rootNode.ast())).output(this.nodeFormat);
+        return TNode.of( new TNode(_rootNode.node())).output(this.nodeFormat);
     }
 
     /**
@@ -206,7 +206,7 @@ public class ASCIITreePrinter {
         if( _rootNode instanceof _codeUnit && ((_codeUnit)_rootNode).isTopLevel() ){
             return TNode.of( new TNode(((_codeUnit)_rootNode).astCompilationUnit())).output((n) -> _nodeFormat.apply( (_tree._node)_java.of(n)));
         }
-        return TNode.of( new TNode(_rootNode.ast())).output((n) -> _nodeFormat.apply( (_tree._node)_java.of(n)));
+        return TNode.of( new TNode(_rootNode.node())).output((n) -> _nodeFormat.apply( (_tree._node)_java.of(n)));
     }
 
     /**

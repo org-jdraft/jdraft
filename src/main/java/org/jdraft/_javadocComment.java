@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -31,10 +32,10 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
 
     public static _feature._features<_javadocComment> FEATURES = _feature._features.of(_javadocComment.class, PARSER, TEXT);
 
-    public JavadocComment astComment;
+    public JavadocComment node;
 
     public _javadocComment(JavadocComment lc ){
-        this.astComment = lc;
+        this.node = lc;
     }
 
     public _feature._features<_javadocComment> features(){
@@ -42,28 +43,33 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
     }
 
     public _tree._node getAttributedNode(){
-        if( astComment.getCommentedNode().isPresent()){
-            return (_tree._node)_java.of( astComment.getCommentedNode().get());
+        if( node.getCommentedNode().isPresent()){
+            return (_tree._node)_java.of( node.getCommentedNode().get());
         }
         return null;
     }
 
     @Override
     public _javadocComment copy() {
-        return new _javadocComment( this.astComment.clone());
+        return new _javadocComment( this.node.clone());
     }
 
     @Override
-    public JavadocComment ast() {
-        return astComment;
+    public JavadocComment node() {
+        return node;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Objects.equals( of( Text.combine(stringRep) ), this);
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _javadocComment replace(JavadocComment replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean equals(Object o){
         if( o instanceof _javadocComment){
@@ -78,7 +84,7 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
     }
 
     public String toString(){
-        return this.astComment.toString();
+        return this.node.toString();
     }
 
     /**
@@ -109,7 +115,7 @@ public final class _javadocComment implements _comment<JavadocComment, _javadocC
 
 
         default _WJ setJavadoc(_javadocComment _jc){
-            return setJavadoc(_jc.ast());
+            return setJavadoc(_jc.node());
         }
 
         /**

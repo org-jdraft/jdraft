@@ -110,8 +110,8 @@ public class $interface
                 nots.add( ((_field) d).getFieldDeclaration() );
                 System.out.println("Not Field "+ d);
             } else {
-                d.ast().remove(); //remove so we dont
-                nots.add((BodyDeclaration) d.ast());
+                d.node().remove(); //remove so we dont
+                nots.add((BodyDeclaration) d.node());
             }
         } );
 

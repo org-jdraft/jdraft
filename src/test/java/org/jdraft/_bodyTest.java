@@ -193,7 +193,7 @@ public class _bodyTest extends TestCase {
         }
         _class _c = _class.of(G.class);
         //_c.getMethod("k").flattenLabel("label");
-        Walk.flattenLabel( _c.firstMethodNamed("k").ast(), "label");
+        Walk.flattenLabel( _c.firstMethodNamed("k").node(), "label");
         //System.out.println( _c );
         //_c.getMethod("k").flattenLabel("label");
         //Ast.flattenLabel( _c.getMethod("k").ast(), "label");
@@ -254,14 +254,14 @@ public class _bodyTest extends TestCase {
     
     public void testStaticBody(){
         _class _c = _class.of(_bodyTest.class );
-        assertTrue( _c.listInitBlocks().get(0).ast().getJavadocComment().isPresent());
+        assertTrue( _c.listInitBlocks().get(0).node().getJavadocComment().isPresent());
         
         
-        assertTrue( _c.getInitBlock(0).ast().getJavadocComment().get().getContent().contains( "A JAVADOC"));
+        assertTrue( _c.getInitBlock(0).node().getJavadocComment().get().getContent().contains( "A JAVADOC"));
         
-        _c.getInitBlock(0).ast().addAnnotation( Ast.annotationExpr( "@ann"));
+        _c.getInitBlock(0).node().addAnnotation( Ast.annotationExpr( "@ann"));
         
-        _c.getInitBlock(0).ast().getJavadocComment().get().setContent( "Different Javadoc");
+        _c.getInitBlock(0).node().getJavadocComment().get().setContent( "Different Javadoc");
         
         //System.out.println( _c );
         

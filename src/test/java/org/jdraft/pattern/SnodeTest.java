@@ -243,10 +243,10 @@ public class SnodeTest extends TestCase {
         Expression scope = Expr.fieldAccessExpr("System.out" ).asFieldAccessExpr().getScope();
         Walk.isParent(scope, FieldAccessExpr.class);
 
-        Print.tree( ((_tree._node)$.stmt("System.out.println(1);").firstIn(_c)).ast() );
+        Print.tree( ((_tree._node)$.stmt("System.out.println(1);").firstIn(_c)).node() );
 
         assertEquals(6, $typeRef.of(System.class).countIn(_c));
-        $typeRef.of(System.class).forEachIn( _c, s-> System.out.println(s+" parent -> "+ s.ast().getParentNode().get()));
+        $typeRef.of(System.class).forEachIn( _c, s-> System.out.println(s+" parent -> "+ s.node().getParentNode().get()));
 
         assertEquals( 1, $.of("System", SimpleName.class).$hasAncestor( $.methodReference() ).countIn(_c));
 

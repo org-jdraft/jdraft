@@ -68,7 +68,7 @@ public class GoogleErrorProneTest extends TestCase {
         //System.out.println( "FOUND " + $returnNull.firstIn(FFF.class) );
 
         assertTrue( $returnNull.firstIn(FFF.class)
-                .ast().stream(Node.TreeTraversal.PARENTS).anyMatch( p-> $method.of().$name("name").match(p) ) );
+                .node().stream(Node.TreeTraversal.PARENTS).anyMatch(p-> $method.of().$name("name").match(p) ) );
 
     }
 

@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.Parameter;
+import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.CatchClause;
@@ -108,19 +109,31 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
 
     public static _feature._features<_catch> FEATURES = _feature._features.of(_catch.class,  PARSER, PARAM, BODY);
 
-    public CatchClause cc;
+    public CatchClause node;
 
     public _feature._features<_catch> features(){
         return FEATURES;
     }
 
-    @Override
-    public _catch copy() {
-        return new _catch( this.cc.clone() );
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _catch replace(CatchClause replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
-    public _catch(CatchClause cc){
-        this.cc = cc;
+    @Override
+    public _catch copy() {
+        return new _catch( this.node.clone() );
+    }
+
+    public _catch(CatchClause node){
+        this.node = node;
     }
 
     public boolean isCatch(Class<? extends Throwable> caughtException){
@@ -135,22 +148,22 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
         //UnionType ut = new UnionType();
         //ut.getElements()
         //Type ce = Types.of(caughtException);
-        return this.getParam().getType().is(caughtException.ast()) ||
-                this.getParam().getType().isUnionType( caughtException.ast()); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
+        return this.getParam().getType().is(caughtException.node()) ||
+                this.getParam().getType().isUnionType( caughtException.node()); //ut -> ((UnionType)ut).getElements().stream().anyMatch(t-> Types.equal(ce, t)));
     }
 
     public _catch addType(Class<? extends Exception>...clazz){
-        Stream.of(clazz).forEach( c -> addType( (ReferenceType)_typeRef.of(c).ast()));
+        Stream.of(clazz).forEach( c -> addType( (ReferenceType)_typeRef.of(c).node()));
         return this;
     }
 
     public _catch addType(_typeRef... _ts){
-        Stream.of(_ts).forEach( _t -> addType( (ReferenceType)_t.ast()));
+        Stream.of(_ts).forEach( _t -> addType( (ReferenceType)_t.node()));
         return this;
     }
 
     public _catch addType(ReferenceType ts){
-        Type pt = this.cc.getParameter().getType();
+        Type pt = this.node.getParameter().getType();
         if( pt.isUnionType() ){
             UnionType ut = pt.asUnionType();
             NodeList<ReferenceType> rts = ut.getElements();
@@ -159,23 +172,23 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
             UnionType ut = new UnionType();
             ut.getElements().add( (ReferenceType) pt );
             ut.getElements().add( ts );
-            this.cc.getParameter().setType(ut);
+            this.node.getParameter().setType(ut);
         }
         return this;
     }
 
     public _catch removeType(Class<? extends Exception>...clazz){
-        Stream.of(clazz).forEach( c -> removeType(_typeRef.of(c).ast()));
+        Stream.of(clazz).forEach( c -> removeType(_typeRef.of(c).node()));
         return this;
     }
 
     public _catch removeType(_typeRef _ts){
-        Stream.of(_ts).forEach( _t -> removeType(_t.ast()));
+        Stream.of(_ts).forEach( _t -> removeType(_t.node()));
         return this;
     }
 
     public _catch removeType(Type ts){
-        Type pt = this.cc.getParameter().getType();
+        Type pt = this.node.getParameter().getType();
         if( pt.isUnionType() ){
             UnionType ut = pt.asUnionType();
 
@@ -184,7 +197,7 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
 
             if( ut.getElements().size() == 1 ){
                 //replace unionType with ReferenceType?
-                this.cc.getParameter().setType(ut.getElements().get(0));
+                this.node.getParameter().setType(ut.getElements().get(0));
             }
         } else{
             if( Stream.of(ts).anyMatch(e -> Types.equal(e,pt))){
@@ -219,11 +232,11 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
     }
 
     public boolean hasType( _typeRef _t ){
-        return hasType(_t.ast());
+        return hasType(_t.node());
     }
 
     public boolean hasType( Type caughtExceptionType ){
-        Type t = this.cc.getParameter().getType();
+        Type t = this.node.getParameter().getType();
         if( t instanceof UnionType ){
             UnionType ut = t.asUnionType();
             return ut.getElements().stream().anyMatch(tt -> Types.equal(tt, caughtExceptionType));
@@ -232,7 +245,7 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
     }
 
     public _param getParam(){
-        return _param.of(this.cc.getParameter());
+        return _param.of(this.node.getParameter());
     }
 
     public boolean isParam(Predicate<_param> matchFn){
@@ -244,12 +257,12 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
     }
 
     public _catch setParam(Parameter parameter){
-        this.cc.setParameter(parameter);
+        this.node.setParameter(parameter);
         return this;
     }
 
     public _catch setParam(_param _p){
-        this.cc.setParameter(_p.ast());
+        this.node.setParameter(_p.node());
         return this;
     }
 
@@ -258,33 +271,33 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
     }
 
     public boolean isParam(Parameter parameter){
-        return Objects.equals(this.cc.getParameter(), parameter);
+        return Objects.equals(this.node.getParameter(), parameter);
     }
 
     public boolean isParam(_param _p){
-        return Objects.equals(this.cc.getParameter(), _p.ast());
+        return Objects.equals(this.node.getParameter(), _p.node());
     }
 
     @Override
     public _body getBody() {
-        return _body.of(this.cc );
+        return _body.of(this.node);
     }
 
     @Override
     public _catch setBody(BlockStmt body) {
-        this.cc.setBody(body);
+        this.node.setBody(body);
         return this;
     }
 
     @Override
     public _catch clearBody() {
-        this.cc.setBody(new BlockStmt());
+        this.node.setBody(new BlockStmt());
         return this;
     }
 
     @Override
     public _catch add(int startStatementIndex, Statement... statements) {
-        Statement bd = this.cc.getBody();
+        Statement bd = this.node.getBody();
         if( bd instanceof BlockStmt){
             for(int i=0;i<statements.length; i++) {
                 bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
@@ -299,48 +312,28 @@ public final class _catch implements _tree._node<CatchClause, _catch>, _body._wi
         return this;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Ast.catchClause(stringRep));
-        }catch(Exception e){
-            return false;
-        }
-    }
-     */
-
     @Override
     public boolean is(CatchClause astNode) {
-        return this.cc.equals( astNode );
+        return this.node.equals( astNode );
     }
 
     @Override
-    public CatchClause ast() {
-        return this.cc;
+    public CatchClause node() {
+        return this.node;
     }
-
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-        comps.put( _java.Feature.BODY, this.cc.getBody());
-        comps.put( _java.Feature.PARAM, this.cc.getParameter());
-        return comps;
-    }
-     */
 
     public String toString(){
-        return this.cc.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _catch ){
-            return Objects.equals( ((_catch)other).ast(), this.ast() );
+            return Objects.equals( ((_catch)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

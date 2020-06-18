@@ -9,6 +9,7 @@ import com.github.javaparser.ast.body.BodyDeclaration;
 import com.github.javaparser.ast.body.InitializerDeclaration;
 import com.github.javaparser.ast.body.TypeDeclaration;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.ObjectCreationExpr;
 import com.github.javaparser.ast.nodeTypes.NodeWithMembers;
 import com.github.javaparser.ast.stmt.BlockStmt;
@@ -141,12 +142,12 @@ public final class _initBlock
     }
 
     public _initBlock(InitializerDeclaration id ) {
-        this.astInit = id;
+        this.node = id;
     }
 
     @Override
-    public InitializerDeclaration ast() {
-        return this.astInit;
+    public InitializerDeclaration node() {
+        return this.node;
     }
 
     public static _feature._one<_initBlock, Boolean> IS_STATIC = new _feature._one<>(_initBlock.class, Boolean.class,
@@ -161,14 +162,14 @@ public final class _initBlock
 
     public static _feature._features<_initBlock> FEATURES = _feature._features.of(_initBlock.class,  PARSER, IS_STATIC, BODY);
 
-    public final InitializerDeclaration astInit;
+    public  InitializerDeclaration node;
 
     public _feature._features<_initBlock> features(){
         return FEATURES;
     }
     @Override
     public _body getBody() {
-        return _body.of(astInit);
+        return _body.of(node);
     }
 
     /**
@@ -177,19 +178,20 @@ public final class _initBlock
      */
     @Override
     public _initBlock copy(){
-        return of( this.astInit.toString() );
+        return of( this.node.toString() );
     }
 
-    /*
-    @Override
-    public boolean is( String... code ) {
-        try {
-            return of(code).equals(this);
-        }catch(Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _initBlock replace(InitializerDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is( InitializerDeclaration astId){
@@ -198,7 +200,7 @@ public final class _initBlock
 
     @Override
     public _initBlock setBody(BlockStmt body ) {
-        this.astInit.setBody( body );
+        this.node.setBody( body );
         return this;
     }
 
@@ -207,25 +209,25 @@ public final class _initBlock
     }
 
     public _initBlock setStatic( boolean toSet){
-        this.astInit.setStatic(toSet);
+        this.node.setStatic(toSet);
         return this;
     }
 
     public boolean isStatic(){
-        return this.astInit.isStatic();
+        return this.node.isStatic();
     }
 
     @Override
     public _initBlock clearBody() {
 
-        this.astInit.getBody().setStatements( Ast.blockStmt( "{}" ).getStatements() );
+        this.node.getBody().setStatements( Ast.blockStmt( "{}" ).getStatements() );
         return this;
     }
 
     @Override
     public _initBlock add(Statement... statements ) {
         for( int i = 0; i < statements.length; i++ ) {
-            this.astInit.getBody().addStatement( statements[ i ] );
+            this.node.getBody().addStatement( statements[ i ] );
         }
         return this;
     }
@@ -234,14 +236,14 @@ public final class _initBlock
     public _initBlock add(int startStatementIndex, Statement...statements ){
 
         for( int i=0;i<statements.length;i++) {
-            this.astInit.getBody().addStatement( i+ startStatementIndex, statements[i] );
+            this.node.getBody().addStatement( i+ startStatementIndex, statements[i] );
         }
         return this;
     }
 
     @Override
     public String toString() {
-        return this.astInit.toString();
+        return this.node.toString();
     }
 
     @Override
@@ -256,7 +258,7 @@ public final class _initBlock
             return false;
         }
         final _initBlock other = (_initBlock)obj;
-        if( this.astInit == other.astInit) {
+        if( this.node == other.node) {
             return true; //two _staticBlocks pointing to the same InitializerDeclaration
         }
         if( this.hasJavadoc() != other.hasJavadoc() ) {
@@ -265,63 +267,51 @@ public final class _initBlock
         if( this.hasJavadoc() && !this.getJavadoc().equals( other.getJavadoc() ) ) {
             return false;
         }
-        if( !Objects.equals( _body.of( this.astInit), _body.of( other.astInit) ) ) {
+        if( !Objects.equals( _body.of( this.node), _body.of( other.node) ) ) {
             return false;
         }
         return true;
     }
 
-    /*
-    public Map<_java.Feature, Object> features( ) {
-        Map<_java.Feature, Object> parts = new HashMap<>();
-        parts.put(_java.Feature.BODY, getBody() );
-        return parts;
-    }
-     */
-
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 83 * hash + Objects.hashCode( _body.of( this.astInit) );
+        hash = 83 * hash + Objects.hashCode( _body.of( this.node) );
         return hash;
     }
 
-    //@Override
-    //public _javadoc getJavadoc() {
-    //    return _javadoc.of( this.astInit);
-    //}
     @Override
     public _javadocComment getJavadoc() {
-        if( this.astInit.getJavadocComment().isPresent() ){
-            return _javadocComment.of( this.astInit.getJavadocComment().get());
+        if( this.node.getJavadocComment().isPresent() ){
+            return _javadocComment.of( this.node.getJavadocComment().get());
         }
         return null;
     }
 
     @Override
     public _initBlock setJavadoc(JavadocComment astJavadocComment ){
-        this.astInit.setJavadocComment( astJavadocComment );
+        this.node.setJavadocComment( astJavadocComment );
         return this;
     }
         
     @Override
     public _initBlock setJavadoc(String... content ) {
-        if( this.astInit.getJavadocComment().isPresent() ) {
-            this.astInit.getJavadocComment().get().setContent( Text.combine( content ) );
+        if( this.node.getJavadocComment().isPresent() ) {
+            this.node.getJavadocComment().get().setContent( Text.combine( content ) );
             return this;
         }
-        this.astInit.setJavadocComment( new JavadocComment( Text.combine( content ) ) );
+        this.node.setJavadocComment( new JavadocComment( Text.combine( content ) ) );
         return this;
     }
 
     @Override
     public boolean hasJavadoc() {
-        return this.astInit.getJavadocComment().isPresent();
+        return this.node.getJavadocComment().isPresent();
     }
 
     //@Override
     public _initBlock removeJavadoc() {
-        this.astInit.removeJavaDocComment();
+        this.node.removeJavaDocComment();
         return this;
     }
 
@@ -338,7 +328,7 @@ public final class _initBlock
          * @return 
          */
         default List<_initBlock> listInitBlocks(){
-            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).node();
             List<_initBlock> sbs = new ArrayList<>();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
@@ -355,7 +345,7 @@ public final class _initBlock
          * @return
          */
         default List<_initBlock> listStaticBlocks(){
-            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).node();
             List<_initBlock> sbs = new ArrayList<>();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
@@ -372,7 +362,7 @@ public final class _initBlock
          * @return
          */
         default List<_initBlock> listStaticBlocks(Predicate<_initBlock> _matchFn){
-            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).node();
             List<_initBlock> sbs = new ArrayList<>();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
@@ -387,7 +377,7 @@ public final class _initBlock
         }
 
         default _initBlock getStaticBlock(int index){
-            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).node();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
                 if( mem instanceof InitializerDeclaration && mem.asInitializerDeclaration().isStatic()){
@@ -405,7 +395,7 @@ public final class _initBlock
          * @return the index<SUP>th</SUP> static block declared in the _type 
          */
         default _initBlock getInitBlock(int index ){
-            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).ast();
+            NodeWithMembers nwm = (NodeWithMembers)((_tree._node)this).node();
             NodeList<BodyDeclaration<?>> mems = nwm.getMembers();
             for( BodyDeclaration mem : mems ){
                 if( mem instanceof InitializerDeclaration){
@@ -559,7 +549,7 @@ public final class _initBlock
          * @return the modified block container
          */
         default _WIB addStaticBlock(BlockStmt block){
-            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
+            BlockStmt bs = ((TypeDeclaration)((_type)this).node()).addStaticInitializer();
             bs.setStatements( block.getStatements());
             return (_WIB)this;
         }
@@ -593,7 +583,7 @@ public final class _initBlock
          */
         default _WIB addStaticBlock(String... content){
             //reserve the static initializer on the _type
-            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
+            BlockStmt bs = ((TypeDeclaration)((_type)this).node()).addStaticInitializer();
 
             bs.setStatements( Ast.blockStmt( content ).getStatements());
             return (_WIB)this;
@@ -605,8 +595,8 @@ public final class _initBlock
          * @return
          */
         default _WIB addStaticBlock(_initBlock sb){
-            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addStaticInitializer();
-            bs.setStatements(sb.astInit.getBody().getStatements());
+            BlockStmt bs = ((TypeDeclaration)((_type)this).node()).addStaticInitializer();
+            bs.setStatements(sb.node.getBody().getStatements());
             return (_WIB)this;
         }
 
@@ -676,7 +666,7 @@ public final class _initBlock
          * @return
          */
         default _WIB addInitBlock(BlockStmt block){
-            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
+            BlockStmt bs = ((TypeDeclaration)((_type)this).node()).addInitializer();
             bs.setStatements( block.getStatements());
             return (_WIB)this;
         }
@@ -712,7 +702,7 @@ public final class _initBlock
          */
         default _WIB addInitBlock(String... content){
             //reserve the static initializer on the _type
-            BlockStmt bs = ((TypeDeclaration)((_type)this).ast()).addInitializer();
+            BlockStmt bs = ((TypeDeclaration)((_type)this).node()).addInitializer();
 
             bs.setStatements( Ast.blockStmt( content ).getStatements());
             return (_WIB)this;
@@ -726,11 +716,11 @@ public final class _initBlock
         default _WIB addInitBlock(_initBlock sb){
             BlockStmt bs = null;
             if( sb.isStatic() ) {
-                bs = ((TypeDeclaration) ((_type) this).ast()).addStaticInitializer();
+                bs = ((TypeDeclaration) ((_type) this).node()).addStaticInitializer();
             }else{
-                bs = ((TypeDeclaration) ((_type) this).ast()).addInitializer();
+                bs = ((TypeDeclaration) ((_type) this).node()).addInitializer();
             }
-            bs.setStatements(sb.astInit.getBody().getStatements());
+            bs.setStatements(sb.node.getBody().getStatements());
             return (_WIB)this;
         }
 
@@ -739,7 +729,7 @@ public final class _initBlock
          * @return
          */
         default boolean hasInitBlocks(){
-            return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration );
+            return ((TypeDeclaration)((_type)this).node()).stream().anyMatch(m -> m instanceof InitializerDeclaration );
         }
 
         /**
@@ -747,7 +737,7 @@ public final class _initBlock
          * @return true if the entity has one (or more) static initializer blocks
          */
         default boolean hasStaticBlocks(){
-            return ((TypeDeclaration)((_type)this).ast()).stream().anyMatch( m -> m instanceof InitializerDeclaration && ((InitializerDeclaration) m).asInitializerDeclaration().isStatic());
+            return ((TypeDeclaration)((_type)this).node()).stream().anyMatch(m -> m instanceof InitializerDeclaration && ((InitializerDeclaration) m).asInitializerDeclaration().isStatic());
         }
 
         /** 
@@ -757,7 +747,7 @@ public final class _initBlock
          */
         default _WIB removeInitBlock(_initBlock _sb ){
             this.listInitBlocks(sb -> sb.equals(_sb))
-                .forEach(s -> s.ast().removeForced() );        
+                .forEach(s -> s.node().removeForced() );
             return (_WIB)this;
         }
 

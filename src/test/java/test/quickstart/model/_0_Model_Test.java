@@ -41,7 +41,7 @@ public class _0_Model_Test extends TestCase {
                 .setFinal();
 
         // internally jdraft models wrap a JavaParser Ast instance
-        MethodDeclaration mAst = _m.ast();
+        MethodDeclaration mAst = _m.node();
 
         // if we modify the AST; the _jdraft model will reflect the change
         mAst.setStatic(true);

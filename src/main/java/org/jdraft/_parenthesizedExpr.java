@@ -79,10 +79,10 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
 
     public static _feature._features<_parenthesizedExpr> FEATURES = _feature._features.of(_parenthesizedExpr.class, PARSER,  EXPRESSION);
 
-    public EnclosedExpr ee;
+    public EnclosedExpr node;
 
-    public _parenthesizedExpr(EnclosedExpr ee){
-        this.ee = ee;
+    public _parenthesizedExpr(EnclosedExpr node){
+        this.node = node;
     }
 
     public _feature._features<_parenthesizedExpr> features(){
@@ -91,64 +91,66 @@ public final class _parenthesizedExpr implements _expr<EnclosedExpr, _parenthesi
 
     @Override
     public _parenthesizedExpr copy() {
-        return new _parenthesizedExpr(this.ee.clone());
+        return new _parenthesizedExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.parenthesizedExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _parenthesizedExpr replace(EnclosedExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(EnclosedExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
     //I had to override these because its called "inner" not expression
     public _parenthesizedExpr setExpression(String...ex){
-        this.ee.setInner(Expr.of(ex));
+        this.node.setInner(Expr.of(ex));
         return this;
     }
 
     public _parenthesizedExpr setExpression(_expr _e){
-        this.ee.setInner(_e.ast());
+        this.node.setInner(_e.node());
         return this;
     }
 
     public _parenthesizedExpr setExpression(Expression e){
-        this.ee.setInner(e);
+        this.node.setInner(e);
         return this;
     }
 
     public _expr getExpression(){
-        return _expr.of(this.ee.getInner());
+        return _expr.of(this.node.getInner());
     }
 
-    public EnclosedExpr ast(){
-        return ee;
+    public EnclosedExpr node(){
+        return node;
     }
 
     public _expr getInner(){
-        return _expr.of(this.ee.getInner());
+        return _expr.of(this.node.getInner());
     }
 
     public boolean equals(Object other){
         if( other instanceof _parenthesizedExpr){
-            return ((_parenthesizedExpr)other).ee.equals( this.ee);
+            return ((_parenthesizedExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ee.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.ee.toString();
+        return this.node.toString();
     }
 }

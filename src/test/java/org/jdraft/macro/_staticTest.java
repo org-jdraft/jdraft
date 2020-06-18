@@ -21,8 +21,8 @@ public class _staticTest extends TestCase {
         _class _c = _class.of(F.class);
         assertTrue( _c.isStatic() );
         assertFalse( _c.hasAnno(_static.class));
-        assertTrue( _c.fieldNamed("g").isStatic() );
-        assertFalse( _c.fieldNamed("g").hasAnno(_static.class));
+        assertTrue( _c.getField("g").isStatic() );
+        assertFalse( _c.getField("g").hasAnno(_static.class));
 
         assertTrue( _c.firstMethodNamed("method").isStatic() );
         assertFalse( _c.firstMethodNamed("method").hasAnno(_static.class));

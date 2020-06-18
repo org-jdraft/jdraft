@@ -50,11 +50,11 @@ public final class _annos
     public static _feature._features<_annos> FEATURES = _feature._features.of(_annos.class,  PARSER, ANNOS);
 
     /** A reference to the container entity that is being annotated*/
-    public final NodeWithAnnotations astAnnNode;
+    public final NodeWithAnnotations parentNode;
 
     @Override
-    public <N extends Node> N astAnchorNode() {
-        return (N)astAnnNode;
+    public <N extends Node> N anchorNode() {
+        return (N) parentNode;
     }
 
     public static _annos of(String... anns ) {
@@ -129,19 +129,19 @@ public final class _annos
     }
 
     public _annos(NodeWithAnnotations astAnns ) {
-        this.astAnnNode = astAnns;
+        this.parentNode = astAnns;
     }
 
     public _annos add(String... annos ) {
         for( String anno : annos ) {
-            this.astAnnNode.addAnnotation(Ast.annotationExpr(anno ) );
+            this.parentNode.addAnnotation(Ast.annotationExpr(anno ) );
         }
         return this;
     }
 
     public _annos add(Class<? extends Annotation>... anns ) {
         for( Class<? extends Annotation> ann : anns ) {
-            this.astAnnNode.addAnnotation( Ast.annotationExpr( "@" + ann.getSimpleName() ) );
+            this.parentNode.addAnnotation( Ast.annotationExpr( "@" + ann.getSimpleName() ) );
         }
         return this;
     }
@@ -218,7 +218,7 @@ public final class _annos
      */
     public List<_anno> list(Predicate<_anno> _annoMatchFn ) {
         List<_anno> l = new ArrayList<>();
-        this.astAnnNode.getAnnotations().forEach(a -> {
+        this.parentNode.getAnnotations().forEach(a -> {
             _anno _a = _anno.of( (AnnotationExpr)a );
             if( _annoMatchFn.test( _a ) ) {
                 l.add( _a );
@@ -229,7 +229,7 @@ public final class _annos
 
     @Override
     public NodeList<AnnotationExpr> astList() {
-        return this.astAnnNode.getAnnotations();
+        return this.parentNode.getAnnotations();
     }
 
     /**
@@ -263,7 +263,7 @@ public final class _annos
     }
 
     public _annos clear() {
-        this.astAnnNode.getAnnotations().clear();
+        this.parentNode.getAnnotations().clear();
         return this;
     }
 
@@ -317,30 +317,30 @@ public final class _annos
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        if( this.astAnnNode == null ){
+        if( this.parentNode == null ){
             return "";
         }
-        this.astAnnNode.getAnnotations().forEach( a -> sb.append( a ).append( System.lineSeparator() ) );
+        this.parentNode.getAnnotations().forEach(a -> sb.append( a ).append( System.lineSeparator() ) );
         return sb.toString();
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
         StringBuilder sb = new StringBuilder();
-        if( this.astAnnNode == null ){
+        if( this.parentNode == null ){
             return "";
         }
 
-        this.astAnnNode.getAnnotations().forEach( a -> sb.append( ((Node)a).toString(ppc) ).append( System.lineSeparator() ) );
+        this.parentNode.getAnnotations().forEach(a -> sb.append( ((Node)a).toString(ppc) ).append( System.lineSeparator() ) );
         return sb.toString();
     }
 
     @Override
     public int hashCode() {
-        if( this.astAnnNode == null ){
+        if( this.parentNode == null ){
             return 0;
         }
         Set<_anno> s = new HashSet<>();
-        this.astAnnNode.getAnnotations().forEach( a -> s.add( _anno.of((AnnotationExpr)a) ) ); //add each of the exprs to the set for order
+        this.parentNode.getAnnotations().forEach(a -> s.add( _anno.of((AnnotationExpr)a) ) ); //add each of the exprs to the set for order
         return s.hashCode();
     }
 
@@ -356,19 +356,19 @@ public final class _annos
             return false;
         }
         final _annos other = (_annos)obj;
-        if( this.astAnnNode == null ){
+        if( this.parentNode == null ){
             return false;
         }
-        if( this.astAnnNode == other.astAnnNode ) {
+        if( this.parentNode == other.parentNode) {
             return true; //two _annos instances pointing to the saem NodeWithAnnotations instance
         }
-        if( this.astAnnNode.getAnnotations().size() != other.astAnnNode.getAnnotations().size() ) {
+        if( this.parentNode.getAnnotations().size() != other.parentNode.getAnnotations().size() ) {
             return false;
         }
-        for( int i = 0; i < this.astAnnNode.getAnnotations().size(); i++ ) {
-            AnnotationExpr e = (AnnotationExpr)this.astAnnNode.getAnnotations().get( i );
+        for(int i = 0; i < this.parentNode.getAnnotations().size(); i++ ) {
+            AnnotationExpr e = (AnnotationExpr)this.parentNode.getAnnotations().get( i );
             //find a matching annotation in other, if one isnt found, then not equal
-            if( !other.astAnnNode.getAnnotations().stream().filter(
+            if( !other.parentNode.getAnnotations().stream().filter(
                     a -> Expr.equal(e, (AnnotationExpr)a ) ).findFirst().isPresent() ) {
 
                 return false;
@@ -378,15 +378,15 @@ public final class _annos
     }
 
     public NodeList<AnnotationExpr> ast() {
-        if( this.astAnnNode != null ) {
-            return (NodeList<AnnotationExpr>) astAnnNode.getAnnotations();
+        if( this.parentNode != null ) {
+            return (NodeList<AnnotationExpr>) parentNode.getAnnotations();
         }
         return new NodeList<>();
     }
 
     public _annos copy() {
         FieldDeclaration fd = Ast.fieldDeclaration( "UnknownType UNKNOWN;" );
-        this.astAnnNode.getAnnotations().forEach( a -> fd.addAnnotation( ((AnnotationExpr)a).clone() ) );
+        this.parentNode.getAnnotations().forEach(a -> fd.addAnnotation( ((AnnotationExpr)a).clone() ) );
         return new _annos( fd );
     }
 
@@ -624,7 +624,7 @@ public final class _annos
          * @return the modified T
          */
         default _WA removeAnno(_anno _a){
-            return removeAnno( _a.ast() );
+            return removeAnno( _a.node() );
         }
 
         /**

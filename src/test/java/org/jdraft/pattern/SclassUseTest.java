@@ -74,21 +74,21 @@ public class SclassUseTest extends TestCase {
         });
         $typeUse.of(Ann.class).replaceIn(_c, Stan.class);
         //System.out.println( _c );
-        assertTrue( _c.fieldNamed("a").hasAnno(Stan.class));
-        assertFalse( _c.fieldNamed("a").hasAnno(Ann.class));
-        assertTrue( _c.fieldNamed("b").hasAnno(Stan.class));
-        assertFalse( _c.fieldNamed("b").hasAnno(Ann.class));
-        assertTrue( _c.fieldNamed("c").hasAnno(Stan.class));
-        assertFalse( _c.fieldNamed("c").hasAnno(Ann.class));
-        assertTrue( _c.fieldNamed("d").hasAnno(Stan.class));
-        assertFalse( _c.fieldNamed("d").hasAnno(Ann.class));
+        assertTrue( _c.getField("a").hasAnno(Stan.class));
+        assertFalse( _c.getField("a").hasAnno(Ann.class));
+        assertTrue( _c.getField("b").hasAnno(Stan.class));
+        assertFalse( _c.getField("b").hasAnno(Ann.class));
+        assertTrue( _c.getField("c").hasAnno(Stan.class));
+        assertFalse( _c.getField("c").hasAnno(Ann.class));
+        assertTrue( _c.getField("d").hasAnno(Stan.class));
+        assertFalse( _c.getField("d").hasAnno(Ann.class));
         
         $typeUse.of(Base.class).replaceIn(_c,Replace.class);
         $typeUse.of(Inter.class).replaceIn(_c,Outer.class);
         
         //System.out.println( _pExpr.list(_c, Expr.ARRAY_INITIALIZER ) );
         //gets the  array Initializer
-        $ex $arrVals = $ex.arrayInitEx("{ $a$, $b$, $c$, Replace.class, Stan.class, Outer.class }", a-> a.ast().getValues().size() == 6 );
+        $ex $arrVals = $ex.arrayInitEx("{ $a$, $b$, $c$, Replace.class, Stan.class, Outer.class }", a-> a.node().getValues().size() == 6 );
         //assertNotNull($arrVals.selectFirstIn(_c));
         $ex.Select s = $arrVals.selectFirstIn(_c);
         

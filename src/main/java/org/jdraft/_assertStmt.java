@@ -32,7 +32,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
         return of( new AssertStmt().setCheck(check));
     }
     public static _assertStmt of(_expr check){
-        return of( new AssertStmt().setCheck(check.ast()));
+        return of( new AssertStmt().setCheck(check.node()));
     }
 
     public static _assertStmt of(Expression check, String message){
@@ -40,7 +40,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
     }
 
     public static _assertStmt of(_expr check, String message){
-        return of( new AssertStmt().setCheck(check.ast()).setMessage(Expr.stringLiteralExpr(message)));
+        return of( new AssertStmt().setCheck(check.node()).setMessage(Expr.stringLiteralExpr(message)));
     }
 
     public static _assertStmt of(Expression check, Expression message){
@@ -82,7 +82,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
     }
 
     public static _assertStmt from(StackTraceElement ste ){
-        return from(_lambdaExpr.from(ste).astLambda);
+        return from(_lambdaExpr.from(ste).node);
     }
 
     private static _assertStmt from( LambdaExpr le){
@@ -106,10 +106,10 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
 
     public static _feature._features<_assertStmt> FEATURES = _feature._features.of(_assertStmt.class,  PARSER, CHECK, MESSAGE);
 
-    private AssertStmt astStmt;
+    private AssertStmt node;
 
-    public _assertStmt(AssertStmt astStmt){
-        this.astStmt = astStmt;
+    public _assertStmt(AssertStmt node){
+        this.node = node;
     }
 
     public _feature._features<_assertStmt> features(){
@@ -118,18 +118,14 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
 
     @Override
     public _assertStmt copy() {
-        return new _assertStmt( this.astStmt.clone());
+        return new _assertStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.assertStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
+    public _assertStmt replace(AssertStmt ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
-     */
 
     public boolean isCheck(String...checkCode){
         try{
@@ -140,11 +136,11 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
     }
 
     public boolean isCheck(Expression check){
-        return Objects.equals( this.astStmt.getCheck(), check);
+        return Objects.equals( this.node.getCheck(), check);
     }
 
     public boolean isCheck(_expr _e){
-        return isCheck(_e.ast());
+        return isCheck(_e.node());
     }
 
     public boolean isCheck( Predicate<_expr> matchFn){
@@ -153,7 +149,7 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
 
 
     public boolean hasMessage(){
-        return this.astStmt.getMessage().isPresent();
+        return this.node.getMessage().isPresent();
     }
 
     public boolean isMessage(String message){
@@ -173,70 +169,70 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
 
     public boolean isMessage(Expression message){
         if( this.hasMessage()){
-            return Objects.equals(astStmt.getMessage().get(), message);
+            return Objects.equals(node.getMessage().get(), message);
         }
         return message == null;
     }
 
     public boolean isMessage(_expr message){
         if( this.hasMessage()){
-            return Objects.equals(astStmt.getMessage().get(), message.ast());
+            return Objects.equals(node.getMessage().get(), message.node());
         }
         return message == null;
     }
 
-    public AssertStmt ast(){
-        return astStmt;
+    public AssertStmt node(){
+        return node;
     }
 
     public _assertStmt setMessage(String message){
-        this.astStmt.setMessage(Expr.stringLiteralExpr(message));
+        this.node.setMessage(Expr.stringLiteralExpr(message));
         return this;
     }
 
     public _assertStmt setMessage(_expr _e){
-        this.astStmt.setMessage(_e.ast());
+        this.node.setMessage(_e.node());
         return this;
     }
 
     public _assertStmt setMessage(Expression e){
-        this.astStmt.setMessage(e);
+        this.node.setMessage(e);
         return this;
     }
 
     public _expr getMessage(){
-        if( astStmt.getMessage().isPresent()) {
-            return _expr.of(astStmt.getMessage().get());
+        if( node.getMessage().isPresent()) {
+            return _expr.of(node.getMessage().get());
         }
         return null;
     }
 
     public _assertStmt removeMessage(){
-        this.astStmt.removeMessage();
+        this.node.removeMessage();
         return this;
     }
 
     public _assertStmt setCheck(Expression e){
-        this.astStmt.setCheck(e);
+        this.node.setCheck(e);
         return this;
     }
 
     public _assertStmt setCheck(_expr _e){
-        this.astStmt.setCheck(_e.ast());
+        this.node.setCheck(_e.node());
         return this;
     }
 
     public _assertStmt setCheck(String... str){
-        this.astStmt.setCheck( Expr.of(str));
+        this.node.setCheck( Expr.of(str));
         return this;
     }
 
     public _expr getCheck(){
-        return _expr.of(astStmt.getCheck());
+        return _expr.of(node.getCheck());
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
@@ -255,6 +251,6 @@ public final class _assertStmt implements _stmt<AssertStmt, _assertStmt>, _tree.
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

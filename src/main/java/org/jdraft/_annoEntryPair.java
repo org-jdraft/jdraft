@@ -54,36 +54,36 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
     }
 
     public static _annoEntryPair of(String name, _anno _anno){
-        return of( new MemberValuePair(name, _anno.ast()));
+        return of( new MemberValuePair(name, _anno.node()));
     }
 
     //arrays:
     public static _annoEntryPair of(String name, int... value){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(value).node()));
     }
 
     public static _annoEntryPair of(String name, boolean... value){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(value).node()));
     }
 
     public static _annoEntryPair of(String name, char... value){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(value).node()));
     }
 
     public static _annoEntryPair of(String name, float... value){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(value).node()));
     }
 
     public static _annoEntryPair of(String name, double... value){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(value).node()));
     }
 
     public static _annoEntryPair of(String name, long... value){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(value).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(value).node()));
     }
 
     public static _annoEntryPair of(String name, _anno... _anno){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(_anno).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(_anno).node()));
     }
 
     public static _annoEntryPair of(String name, String value){
@@ -91,11 +91,11 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
     }
 
     public static _annoEntryPair of(String name, Class value){
-        return of( new MemberValuePair(name, new ClassExpr(_typeRef.of(value.getCanonicalName()).ast())));
+        return of( new MemberValuePair(name, new ClassExpr(_typeRef.of(value.getCanonicalName()).node())));
     }
 
     public static _annoEntryPair of(String name, Class... values){
-        return of( new MemberValuePair(name, _arrayInitExpr.of(values).ast()));
+        return of( new MemberValuePair(name, _arrayInitExpr.of(values).node()));
     }
 
     public static _annoEntryPair of(String s){
@@ -104,7 +104,7 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
 
     public static _annoEntryPair of (String...str ){
         AnnotationExpr ae =
-                _anno.of( "@UNKNOWN("+ Text.combine( str)+")" ).ast() ;
+                _anno.of( "@$name$("+ Text.combine( str)+")" ).node() ;
                 //StaticJavaParser.parseAnnotation( "@UNKNOWN("+ Text.combine( str)+")" );
         if( ae.isNormalAnnotationExpr() ){
             return new _annoEntryPair(ae.asNormalAnnotationExpr().getPairs().get(0));
@@ -134,24 +134,30 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
 
     public boolean isValueOnly = false;
 
-    public MemberValuePair mvp;
+    public MemberValuePair node;
 
     public _feature._features<_annoEntryPair> features(){
         return FEATURES;
     }
 
-    public _annoEntryPair(MemberValuePair mvp){
-        this.mvp = mvp;
+    public _annoEntryPair(MemberValuePair node){
+        this.node = node;
     }
 
     @Override
     public _annoEntryPair copy() {
-        return new _annoEntryPair( this.mvp.clone() );
+        return new _annoEntryPair( this.node.clone() );
     }
 
     @Override
-    public MemberValuePair ast() {
-        return mvp;
+    public MemberValuePair node() {
+        return node;
+    }
+
+    public _annoEntryPair replace(MemberValuePair ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
 
     public boolean isValueOnly(){
@@ -159,15 +165,15 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
     }
 
     public String getName(){
-        return this.mvp.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     public Node getNameNode() {
-        return this.mvp.getName();
+        return this.node.getName();
     }
 
     public _annoEntryPair setName(String name){
-        this.mvp.setName(name);
+        this.node.setName(name);
         return this;
     }
 
@@ -181,38 +187,38 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
     }
 
     public _expr getValue(){
-        return _expr.of(this.mvp.getValue());
+        return _expr.of(this.node.getValue());
     }
 
     public _annoEntryPair setValue(String... ex){
-        this.mvp.setValue(Expr.of(ex));
+        this.node.setValue(Expr.of(ex));
         return this;
     }
 
     public _annoEntryPair setValue(_expr _e){
-        this.mvp.setValue(_e.ast());
+        this.node.setValue(_e.node());
         return this;
     }
 
     public _annoEntryPair setValue(Expression e){
-        this.mvp.setValue(e);
+        this.node.setValue(e);
         return this;
     }
 
     public boolean isValue( String... ex){
         try {
-            return Expr.equal(this.mvp.getValue(), Expr.of(ex));
+            return Expr.equal(this.node.getValue(), Expr.of(ex));
         }catch(Exception e){
             return false;
         }
     }
 
     public boolean isValue( _expr _e){
-        return Expr.equal(this.mvp.getValue(), _e.ast());
+        return Expr.equal(this.node.getValue(), _e.node());
     }
 
     public boolean isValue( Expression e){
-        return Expr.equal(this.mvp.getValue(), e);
+        return Expr.equal(this.node.getValue(), e);
     }
 
     public boolean isValue(Predicate<_expr> _matchFn){
@@ -250,23 +256,12 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
         return isValue(Expr.of(d));
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return of(stringRep).equals(this);
-        } catch(Exception e){
-            return false;
-        }
-    }
-     */
-
     public boolean equals(Object o){
         if( o instanceof _annoEntryPair){
             _annoEntryPair ot = (_annoEntryPair)o;
 
-            boolean same = Objects.equals( ot.getName(), this.mvp.getNameAsString() )
-                    && Objects.equals( ot.getValue().toString(), this.mvp.getValue().toString() );
+            boolean same = Objects.equals( ot.getName(), this.node.getNameAsString() )
+                    && Objects.equals( ot.getValue().toString(), this.node.getValue().toString() );
 
             return same;
         }
@@ -274,24 +269,24 @@ public final class _annoEntryPair implements _tree._node<MemberValuePair, _annoE
     }
 
     public int hashCode(){
-        if( this.mvp.getNameAsString().equals("value") && this.isValueOnly ){
-            return 31 * this.mvp.getValue().hashCode();
+        if( this.node.getNameAsString().equals("value") && this.isValueOnly ){
+            return 31 * this.node.getValue().hashCode();
         }
-        return 31 * this.mvp.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        if( this.mvp.getNameAsString().equals("value") && this.isValueOnly ){
+        if( this.node.getNameAsString().equals("value") && this.isValueOnly ){
 
-            return mvp.getValue().toString();
+            return node.getValue().toString();
         }
-        return mvp.toString();
+        return node.toString();
     }
 
     public String toString( PrettyPrinterConfiguration ppc ){
-        if( this.mvp.getNameAsString().equals("value") && this.isValueOnly ){
-            return mvp.getValue().toString(ppc);
+        if( this.node.getNameAsString().equals("value") && this.isValueOnly ){
+            return node.getValue().toString(ppc);
         }
-        return mvp.toString(ppc);
+        return node.toString(ppc);
     }
 }

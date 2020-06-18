@@ -29,8 +29,8 @@ public final class _annosDiff
      
     @Override
     public <_PN extends _tree._node> _diff diff(_nodePath path, _build ds, _PN _leftParent, _PN _rightParent, _annos left, _annos right) {
-        NodeList<AnnotationExpr> laes = left.astAnnNode.getAnnotations();
-        NodeList<AnnotationExpr> raes = right.astAnnNode.getAnnotations();
+        NodeList<AnnotationExpr> laes = left.parentNode.getAnnotations();
+        NodeList<AnnotationExpr> raes = right.parentNode.getAnnotations();
         for (int i = 0; i < laes.size(); i++) {
             AnnotationExpr e = (AnnotationExpr) laes.get(i);
             //find a matching annotation in other, if one isnt found, then not equal
@@ -92,16 +92,16 @@ public final class _annosDiff
 
         @Override
         public void patchRightToLeft() {
-            leftParent.removeAnno(left.ast());
-            rightParent.removeAnno(left.ast());
+            leftParent.removeAnno(left.node());
+            rightParent.removeAnno(left.node());
         }
 
         @Override
         public void patchLeftToRight() {
             
-            leftParent.removeAnno(left.ast());
+            leftParent.removeAnno(left.node());
             leftParent.addAnnos(left);
-            rightParent.removeAnno(left.ast());
+            rightParent.removeAnno(left.node());
             rightParent.addAnnos(left);
         }
 
@@ -148,17 +148,17 @@ public final class _annosDiff
         @Override
         public void patchRightToLeft() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnno(right.ast());
+            leftParent.removeAnno(right.node());
             leftParent.addAnnos(right);
-            rightParent.removeAnno(right.ast());
+            rightParent.removeAnno(right.node());
             rightParent.addAnnos(right);
         }
 
         @Override
         public void patchLeftToRight() {
             //remove it before just so we dont mistakenly add it twice
-            leftParent.removeAnno(right.ast());
-            rightParent.removeAnno(right.ast());
+            leftParent.removeAnno(right.node());
+            rightParent.removeAnno(right.node());
         }
 
         @Override

@@ -88,19 +88,25 @@ public final class _arrayAccessExpr
 
     public static _feature._features<_arrayAccessExpr> FEATURES = _feature._features.of(_arrayAccessExpr.class,  PARSER, EXPRESSION, INDEX);
 
-    public ArrayAccessExpr aae;
+    public ArrayAccessExpr node;
 
-    public _arrayAccessExpr(ArrayAccessExpr aae){
-        this.aae = aae;
+    public _arrayAccessExpr(ArrayAccessExpr node){
+        this.node = node;
     }
 
     @Override
     public _arrayAccessExpr copy() {
-        return new _arrayAccessExpr(this.aae.clone());
+        return new _arrayAccessExpr(this.node.clone());
     }
 
-    public ArrayAccessExpr ast(){
-        return aae;
+    public ArrayAccessExpr node(){
+        return node;
+    }
+
+    public _arrayAccessExpr replace(ArrayAccessExpr ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
 
     public _feature._features<_arrayAccessExpr> features(){
@@ -192,12 +198,12 @@ public final class _arrayAccessExpr
     }
 
     public _arrayAccessExpr setIndex(Expression e){
-        this.aae.setIndex(e);
+        this.node.setIndex(e);
         return this;
     }
 
     public _arrayAccessExpr setIndex(_expr _e){
-        this.aae.setIndex(_e.ast());
+        this.node.setIndex(_e.node());
         return this;
     }
 
@@ -206,37 +212,37 @@ public final class _arrayAccessExpr
     }
 
     public _arrayAccessExpr setName(Expression e){
-        this.aae.setName(e);
+        this.node.setName(e);
         return this;
     }
 
     public _arrayAccessExpr setName(_expr _e){
-        this.aae.setName(_e.ast());
+        this.node.setName(_e.node());
         return this;
     }
 
-    public Expression getExpressionNode() { return this.aae.getName(); }
+    public Expression getExpressionNode() { return this.node.getName(); }
 
     public _expr getExpression(){
-        return _expr.of(this.aae.getName());
+        return _expr.of(this.node.getName());
     }
 
     public _expr getIndex(){
-        return _expr.of(this.aae.getIndex());
+        return _expr.of(this.node.getIndex());
     }
 
     public boolean equals(Object other){
         if( other instanceof _arrayAccessExpr){
-            return ((_arrayAccessExpr)other).aae.equals( this.aae);
+            return ((_arrayAccessExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.aae.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.aae.toString();
+        return this.node.toString();
     }
 }

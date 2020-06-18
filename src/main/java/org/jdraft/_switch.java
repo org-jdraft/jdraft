@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 public interface _switch<_S extends _switch> extends _java._domain {
 
-    SwitchNode ast();
+    SwitchNode switchNode();
 
     boolean hasMultiLabelSwitchEntry();
 

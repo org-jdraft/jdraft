@@ -1,9 +1,9 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.expr.BooleanLiteralExpr;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
-import com.github.javaparser.ast.nodeTypes.NodeWithExpression;
 import com.github.javaparser.ast.stmt.*;
 
 import java.util.Objects;
@@ -94,71 +94,73 @@ public final class _doStmt implements
 
     public static _feature._features<_doStmt> FEATURES = _feature._features.of(_doStmt.class,  PARSER, CONDITION, BODY );
 
-    private DoStmt astStmt;
+    private DoStmt node;
 
     public _doStmt(DoStmt rs){
-        this.astStmt = rs;
+        this.node = rs;
     }
 
     public _feature._features<_doStmt> features(){
         return FEATURES;
     }
 
-    @Override
-    public _doStmt copy() {
-        return new _doStmt( this.astStmt.clone());
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _doStmt replace(DoStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
 
-    /*
     @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.doStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
+    public _doStmt copy() {
+        return new _doStmt( this.node.clone());
     }
-     */
 
     public _doStmt setCondition(String...expression){
         return setCondition(Expr.of(expression));
     }
 
     public _doStmt setCondition(_expr e){
-        return setCondition(e.ast());
+        return setCondition(e.node());
     }
 
     public _doStmt setCondition(Expression e){
-        this.ast().setCondition(e);
+        this.node().setCondition(e);
         return this;
     }
 
     public _expr getCondition(){
-        return _expr.of(this.ast().getCondition());
+        return _expr.of(this.node().getCondition());
     }
 
     public _body getBody(){
-        return _body.of( this.astStmt.getBody() );
+        return _body.of( this.node.getBody() );
     }
 
     @Override
     public _doStmt setBody(BlockStmt body) {
-        this.astStmt.setBody(body);
+        this.node.setBody(body);
         return this;
     }
 
     public _doStmt setBody(_stmt _st){
-        this.astStmt.setBody(_st.ast());
+        this.node.setBody(_st.node());
         return this;
     }
 
     public _doStmt clearBody(){
-        this.astStmt.setBody( new BlockStmt());
+        this.node.setBody( new BlockStmt());
         return this;
     }
 
     @Override
     public _doStmt add(int startStatementIndex, Statement... statements) {
-        Statement bd = this.astStmt.getBody();
+        Statement bd = this.node.getBody();
         if( bd instanceof BlockStmt ){
             for(int i=0;i<statements.length; i++) {
                 bd.asBlockStmt().addStatement(i+startStatementIndex, statements[i]);
@@ -168,7 +170,7 @@ public final class _doStmt implements
         //just a statement
         if( bd instanceof EmptyStmt ){
             if( statements.length == 1 ){
-                this.astStmt.setBody( statements[0]);
+                this.node.setBody( statements[0]);
                 return this;
             }
         }
@@ -177,16 +179,16 @@ public final class _doStmt implements
         for(int i=0;i<statements.length; i++) {
             bs.addStatement(i+startStatementIndex, statements[i]);
         }
-        this.ast().setBody(bs);
+        this.node().setBody(bs);
         return this;
     }
 
-    public DoStmt ast(){
-        return astStmt;
+    public DoStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.astStmt.toString();
+        return this.node.toString();
     }
 
     public boolean equals(Object other){
@@ -207,6 +209,6 @@ public final class _doStmt implements
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

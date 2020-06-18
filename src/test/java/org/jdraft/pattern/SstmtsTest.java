@@ -217,8 +217,8 @@ public class SstmtsTest extends TestCase {
         _class _c = _class.of(L.class);
         $s.forSelectedIn( _c, ($stmts.Select s) -> {
             //rearrage the order of the statements, first the println then the assert
-            s.statements.get(0).replace( $s.$sts.get(1).draft(s.tokens).ast() );
-            s.statements.get(1).replace( $s.$sts.get(0).draft(s.tokens).ast() );
+            s.statements.get(0).replace( $s.$sts.get(1).draft(s.tokens).node() );
+            s.statements.get(1).replace( $s.$sts.get(0).draft(s.tokens).node() );
         });
         assertTrue( _c.firstMethodNamed("m").getBody().getAstStatement(1) instanceof ExpressionStmt );
         assertTrue( _c.firstMethodNamed("m").getBody().getAstStatement(2) instanceof AssertStmt);

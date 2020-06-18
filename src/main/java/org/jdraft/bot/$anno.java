@@ -145,7 +145,7 @@ public class $anno
      */
     public $anno(_anno proto) {
         this.name.setBot($id.of(proto.getName()));
-        AnnotationExpr astAnn = proto.ast();
+        AnnotationExpr astAnn = proto.node();
         if (astAnn instanceof NormalAnnotationExpr) {
             NormalAnnotationExpr na = (NormalAnnotationExpr) astAnn;
 
@@ -502,7 +502,7 @@ public class $anno
 
 
         public $anno whichMatch(_anno _a) {
-            return whichMatch(_a.ast());
+            return whichMatch(_a.node());
         }
 
         /**

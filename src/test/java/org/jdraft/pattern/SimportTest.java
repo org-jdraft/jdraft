@@ -167,7 +167,7 @@ public class SimportTest extends TestCase {
     public void testFailMatch(){
         $import $i = $import.of("import static java.util.Map;");
         _import _i = _import.of("java.util.Map").setWildcard().setStatic();
-        System.out.println( _i.astId.getName() );
+        System.out.println( _i.node.getName() );
         assertTrue( $i.matches(_import.of("java.util.Map").setWildcard().setStatic()));
     }
 

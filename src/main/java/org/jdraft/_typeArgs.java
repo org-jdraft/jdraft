@@ -88,10 +88,10 @@ public final class _typeArgs
 
     public static _feature._features<_typeArgs> FEATURES = _feature._features.of(_typeArgs.class,  PARSER, TYPE_ARGS );
 
-    public NodeWithTypeArguments nwta;
+    public NodeWithTypeArguments parentNode;
 
     public _typeArgs(NodeWithTypeArguments nwta){
-        this.nwta = nwta;
+        this.parentNode = nwta;
     }
 
     public _feature._features<_typeArgs> features(){
@@ -107,8 +107,8 @@ public final class _typeArgs
     }
 
     public _typeArgs add(Type... astElements) {
-        if( !this.nwta.getTypeArguments().isPresent()){
-            this.nwta.setTypeArguments(new NodeList<Type>());
+        if( !this.parentNode.getTypeArguments().isPresent()){
+            this.parentNode.setTypeArguments(new NodeList<Type>());
         }
         for( Type el : astElements ) {
             this.astList().add(el);
@@ -117,17 +117,17 @@ public final class _typeArgs
     }
 
     public _typeArgs add(_typeRef... elements) {
-        if( !this.nwta.getTypeArguments().isPresent()){
-            this.nwta.setTypeArguments(new NodeList<Type>());
+        if( !this.parentNode.getTypeArguments().isPresent()){
+            this.parentNode.setTypeArguments(new NodeList<Type>());
         }
         for( _typeRef el : elements ) {
-            this.astList().add(el.ast());
+            this.astList().add(el.node());
         }
         return this;
     }
 
-    public <N extends Node> N astAnchorNode(){
-        return (N)nwta;
+    public <N extends Node> N anchorNode(){
+        return (N) parentNode;
     }
 
     @Override
@@ -137,18 +137,18 @@ public final class _typeArgs
 
     @Override
     public _typeArgs copy() {
-        Node n = (Node)nwta;
+        Node n = (Node) parentNode;
         return new _typeArgs( (NodeWithTypeArguments) (n.clone()) );
     }
 
     public _typeRef getAt(int index){
-        NodeList<Type> tsa = (NodeList<Type>)this.nwta.getTypeArguments().get();
+        NodeList<Type> tsa = (NodeList<Type>)this.parentNode.getTypeArguments().get();
         return _typeRef.of( tsa.get(index));
     }
 
     @Override
     public List<_typeRef> list() {
-        if( !this.nwta.getTypeArguments().isPresent()){
+        if( !this.parentNode.getTypeArguments().isPresent()){
             return null; //null... and no diamond operator
         }
         return astList().stream().map(e-> _typeRef.of(e) ).collect(Collectors.toList());
@@ -156,27 +156,27 @@ public final class _typeArgs
 
     @Override
     public NodeList<Type> astList() {
-        if( !this.nwta.getTypeArguments().isPresent()){
+        if( !this.parentNode.getTypeArguments().isPresent()){
             return null; //null... and no diamond operator
         }
-        return (NodeList<Type>)this.nwta.getTypeArguments().get();
+        return (NodeList<Type>)this.parentNode.getTypeArguments().get();
     }
 
     public boolean hasTypeArgs(){
-        return this.nwta.getTypeArguments().isPresent();
+        return this.parentNode.getTypeArguments().isPresent();
     }
 
     public boolean isUsingDiamondOperator(){
-        return this.nwta.isUsingDiamondOperator();
+        return this.parentNode.isUsingDiamondOperator();
     }
 
     public _typeArgs setUseDiamondOperator(){
-        this.nwta.setDiamondOperator();
+        this.parentNode.setDiamondOperator();
         return this;
     }
 
     public _typeArgs removeDiamondOperator(){
-        this.nwta.removeTypeArguments();
+        this.parentNode.removeTypeArguments();
         return this;
     }
 
@@ -202,14 +202,12 @@ public final class _typeArgs
         return sb.toString();
     }
 
-
     public int hashCode(){
-        if( !this.nwta.getTypeArguments().isPresent()){
+        if( !this.parentNode.getTypeArguments().isPresent()){
             return 57;
         }
-        return 31 * this.nwta.getTypeArguments().get().hashCode();
+        return 31 * this.parentNode.getTypeArguments().get().hashCode();
     }
-
 
     public boolean is(String code){
         return is(new String[]{code});
@@ -259,8 +257,8 @@ public final class _typeArgs
             if( !this.hasTypeArgs()){
                 return false;
             }
-            NodeList<Type> tt = (NodeList<Type>)this.nwta.getTypeArguments().get();
-            NodeList<Type> ot = (NodeList<Type>)_as.nwta.getTypeArguments().get();
+            NodeList<Type> tt = (NodeList<Type>)this.parentNode.getTypeArguments().get();
+            NodeList<Type> ot = (NodeList<Type>)_as.parentNode.getTypeArguments().get();
             if( tt.size() == ot.size()){
                 for(int i=0;i<tt.size(); i++){
                     Type t = tt.get(i);
@@ -302,14 +300,14 @@ public final class _typeArgs
          * @return an _args modelling 0...n arguments in the arguments list)
          */
         default _typeArgs getTypeArgs(){
-            return of( (NodeWithTypeArguments)ast());
+            return of( (NodeWithTypeArguments) node());
         }
 
         default _WTA setTypeArgs(_typeArgs _tas){
             if( _tas.hasTypeArgs() ) {
-                ((NodeWithTypeArguments) ast()).setTypeArguments(_tas.astList());
+                ((NodeWithTypeArguments) node()).setTypeArguments(_tas.astList());
             } else{
-                ((NodeWithTypeArguments) ast()).removeTypeArguments();
+                ((NodeWithTypeArguments) node()).removeTypeArguments();
             }
             return (_WTA)this;
         }
@@ -321,7 +319,7 @@ public final class _typeArgs
          */
         default _typeRef getTypeArg(Predicate<_typeRef> _matchFn){
             if( hasTypeArgs()){
-                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
+                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments) node()).getTypeArguments().get();
                 for(int i=0;i<tt.size(); i++){
                     _typeRef _a = _typeRef.of(tt.get(i));
                     if( _matchFn.test(_a) ){
@@ -334,7 +332,7 @@ public final class _typeArgs
 
         default _typeRef getTypeArg(int index){
             if( hasTypeArgs()){
-                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
+                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments) node()).getTypeArguments().get();
                 return _typeRef.of( tt.get(index) );
             }
             return null;
@@ -343,7 +341,7 @@ public final class _typeArgs
 
         default _WTA removeTypeArg(int index){
             if( hasTypeArgs()){
-                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
+                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments) node()).getTypeArguments().get();
                 tt.remove(index);
                 return (_WTA)this;
             }
@@ -351,12 +349,12 @@ public final class _typeArgs
         }
 
         default boolean hasTypeArgs(){
-            return ((NodeWithTypeArguments)ast()).getTypeArguments().isPresent();
+            return ((NodeWithTypeArguments) node()).getTypeArguments().isPresent();
         }
 
         default List<_typeRef> listTypeArgs(){
             if( hasTypeArgs()){
-                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments)ast()).getTypeArguments().get();
+                NodeList<Type> tt = (NodeList<Type>) ((NodeWithTypeArguments) node()).getTypeArguments().get();
                 return tt.stream().map( t-> _typeRef.of( t )).collect(Collectors.toList());
             }
             return null;
@@ -382,7 +380,7 @@ public final class _typeArgs
             List<_typeRef> _tes = listTypeArgs();
             if(_es.length == _tes.size()){
                 for(int i=0;i<_es.length;i++){
-                    if( ! Types.equal( _es[i].ast(), _tes.get(i).ast() ) ){
+                    if( ! Types.equal( _es[i].node(), _tes.get(i).node() ) ){
                         return false;
                     }
                 }
@@ -447,7 +445,7 @@ public final class _typeArgs
         }
 
         default _WTA removeTypeArgs(){
-            ((NodeWithTypeArguments)ast()).removeTypeArguments();
+            ((NodeWithTypeArguments) node()).removeTypeArguments();
             return (_WTA)this;
         }
 

@@ -77,7 +77,7 @@ public class $typeRef
      * @return 
      */
     public static $typeRef of( _typeRef _proto){
-        return new $typeRef(_proto.ast());
+        return new $typeRef(_proto.node());
     }
 
     /**
@@ -87,7 +87,7 @@ public class $typeRef
      * @return
      */
     public static $typeRef of( _typeRef _proto, Predicate<_typeRef> constraint){
-        return new $typeRef(_proto.ast()).$and(constraint);
+        return new $typeRef(_proto.node()).$and(constraint);
     }
 
     public static $typeRef.Or or( Class... typeClasses ){
@@ -126,10 +126,10 @@ public class $typeRef
         $typeRef $t = of(_exact);
 
         $t.$and(_t->
-            _annos.of(_t.ast()).equals(_annos.of(_exact.ast())) && /* Type Annotations */
+            _annos.of(_t.node()).equals(_annos.of(_exact.node())) && /* Type Annotations */
             _t.getArrayDimensions() == _exact.getArrayDimensions() && /* Array Dimensions */
             Types.equal( _t.getTypeArguments(), _exact.getTypeArguments() ) && /* Type Arguments */
-            Types.equal(_t.getBaseType().ast(), _exact.getBaseType().ast() )
+            Types.equal(_t.getBaseType().node(), _exact.getBaseType().node() )
             /* Base Type */
           );
 
@@ -155,7 +155,7 @@ public class $typeRef
      * @param _proto the proto to build the $typeRef prototype from 
      */
     public $typeRef(_typeRef _proto) {
-        this.type = _proto.ast().clone();
+        this.type = _proto.node().clone();
     }
     
     /**
@@ -367,7 +367,7 @@ public class $typeRef
     public Select select( _typeRef _tr){
 
         if( this.constraint.test(_tr ) ) {
-            if( _tr.ast().isTypeParameter() ){
+            if( _tr.node().isTypeParameter() ){
                 return null;
             }
             if( _tr.isArrayType() && !this.type.isArrayType() ){
@@ -393,14 +393,14 @@ public class $typeRef
                     return null;
                 }
                 //check whether the type matches EITHER the super or extendsed type
-                Optional<ReferenceType> et = _tr.ast().asWildcardType().getExtendedType();
+                Optional<ReferenceType> et = _tr.node().asWildcardType().getExtendedType();
                 if( et.isPresent() ){
                     Select sel = select( et.get() );
                     if( sel != null ){
                         return new Select( _tr, sel.tokens.asTokens());
                     }
                 }
-                Optional<ReferenceType> st = _tr.ast().asWildcardType().getSuperType();
+                Optional<ReferenceType> st = _tr.node().asWildcardType().getSuperType();
                 if( st.isPresent() ){
                     Select sel = select( st.get() );
                     if( sel != null ){
@@ -436,7 +436,7 @@ public class $typeRef
                 sel.tokens.putAll(ats);
                 return sel;
             }
-            if( Types.equal(_tr.ast(), this.type)){
+            if( Types.equal(_tr.node(), this.type)){
                 return new Select( _tr, Tokens.of());
             }
 
@@ -536,9 +536,9 @@ public class $typeRef
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
-            return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
+            return listSelectedIn(_t.node()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_tree._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).node());
     }
 
     /**
@@ -552,9 +552,9 @@ public class $typeRef
             if( ((_codeUnit) _j).isTopLevel()){
                 return listSelectedIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
-            return listSelectedIn( ((_type)_j).ast(), selectConstraint);
+            return listSelectedIn( ((_type)_j).node(), selectConstraint);
         }
-        return listSelectedIn( ((_tree._node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_tree._node)_j).node(), selectConstraint);
     }
     
     /**
@@ -719,7 +719,7 @@ public class $typeRef
         Walk.in(_j, Type.class, e -> {
             Select select = select(e);
             if( select != null ){
-                if( !e.replace($replacementType.draft(select.tokens).ast() )){
+                if( !e.replace($replacementType.draft(select.tokens).node() )){
                     throw new _jdraftException("unable to replaceIn "+ e + " in "+ _j +" with "+$replacementType);
                 }
             }
@@ -853,7 +853,7 @@ public class $typeRef
         }
 
         public Type ast() {
-            return type.ast();
+            return type.node();
         }
 
         @Override

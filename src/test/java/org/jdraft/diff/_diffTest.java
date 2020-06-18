@@ -62,7 +62,7 @@ public class _diffTest extends TestCase {
         _classDiff.INSTANCE.diff(path, dt, _c1, _c2, _c1, _c2);
         
         assertTrue( dt.isEmpty() );
-        _c1.addBodyMembers(new Serializable(){
+        _c1.addMembers(new Serializable(){
             int x,y;
             Map m() throws IOException {
                 Map m = new HashMap();

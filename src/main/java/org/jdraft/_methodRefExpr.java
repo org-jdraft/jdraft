@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
 
 import java.util.*;
@@ -42,67 +43,66 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
 
     public static _feature._features<_methodRefExpr> FEATURES = _feature._features.of(_methodRefExpr.class,  PARSER, SCOPE, TYPE_ARGS, IDENTIFIER );
 
-    public MethodReferenceExpr mre;
+    public MethodReferenceExpr node;
 
     public _feature._features<_methodRefExpr> features(){
         return FEATURES;
     }
 
-    public _methodRefExpr(MethodReferenceExpr mre){
-        this.mre = mre;
+    public _methodRefExpr(MethodReferenceExpr node){
+        this.node = node;
     }
 
     @Override
     public _methodRefExpr copy() {
-        return new _methodRefExpr(this.mre.clone());
+        return new _methodRefExpr(this.node.clone());
     }
 
-    public MethodReferenceExpr ast(){
-        return mre;
+    public MethodReferenceExpr node(){
+        return node;
     }
 
-    /*
-    public Map<_java.Feature, Object> features() {
-        Map<_java.Feature, Object> comps = new HashMap<>();
-
-        comps.put(_java.Feature.SCOPE_EXPR, mre.getScope());
-        if( mre.getTypeArguments().isPresent()) {
-            comps.put(_java.Feature.TYPE_ARGS, mre.getTypeArguments().get());
-        }
-        comps.put(_java.Feature.IDENTIFIER, mre.getId());
-        return comps;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _methodRefExpr replace(MethodReferenceExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean isIdentifier( String id){
-        return Objects.equals( this.mre.getIdentifier(), id);
+        return Objects.equals( this.node.getIdentifier(), id);
     }
 
     public boolean isIdentifier( Predicate<String> matchFn){
-        return matchFn.test( this.mre.getIdentifier() );
+        return matchFn.test( this.node.getIdentifier() );
     }
 
     public _methodRefExpr setIdentifier(String id){
-        this.mre.setIdentifier(id);
+        this.node.setIdentifier(id);
         return this;
     }
 
     public String getIdentifier(){
-        return this.mre.getIdentifier();
+        return this.node.getIdentifier();
     }
 
     public boolean equals(Object other){
         if( other instanceof _methodRefExpr){
-            return ((_methodRefExpr)other).mre.equals( this.mre);
+            return ((_methodRefExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.mre.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.mre.toString();
+        return this.node.toString();
     }
 }

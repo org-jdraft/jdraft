@@ -52,7 +52,7 @@ public class ScaseTest extends TestCase {
 
     public void testConstruct(){
         $switchEntry $c = $switchEntry.of( $ex.of("$val$")
-            .$and(i -> i.ast().isIntegerLiteralExpr() && Integer.parseInt( i.ast().asIntegerLiteralExpr().getValue() ) % 2 == 1 ),
+            .$and(i -> i.node().isIntegerLiteralExpr() && Integer.parseInt( i.node().asIntegerLiteralExpr().getValue() ) % 2 == 1 ),
             $stmt.of("System.out.println($val$);"));
         System.out.println( $c.draft("val", 1) );
     }
@@ -70,7 +70,7 @@ public class ScaseTest extends TestCase {
         $switchEntry $c = $switchEntry.of( se );
         assertNotNull( $c.select(se));
         assertNotNull( $c.select(sss));
-        assertEquals( se, $c.select(se)._se.ast());
+        assertEquals( se, $c.select(se)._se.node());
         assertTrue( $c.matches(se));
         assertTrue( $c.matches(sss));
         
@@ -149,7 +149,7 @@ public class ScaseTest extends TestCase {
         
         
         ArrayList<$switchEntry> $switchEntries = new ArrayList<>();
-        SwitchStmt sts = $stmt.switchStmt().firstIn(CC.class).ast();
+        SwitchStmt sts = $stmt.switchStmt().firstIn(CC.class).node();
         sts.getEntries().forEach( se -> $switchEntries.add( new $switchEntry(se) ) );
         
         $switchEntries.forEach(c-> System.out.println(c.label + " "+ c.statements));

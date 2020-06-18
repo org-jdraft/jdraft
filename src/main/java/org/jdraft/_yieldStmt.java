@@ -39,10 +39,10 @@ public final class _yieldStmt implements
 
     public static _feature._features<_yieldStmt> FEATURES = _feature._features.of(_yieldStmt.class, PARSER, EXPRESSION);
 
-    private YieldStmt yieldStmt;
+    private YieldStmt node;
 
-    public _yieldStmt(YieldStmt yieldStmt){
-        this.yieldStmt = yieldStmt;
+    public _yieldStmt(YieldStmt node){
+        this.node = node;
     }
 
     public _feature._features<_yieldStmt> features(){
@@ -51,31 +51,33 @@ public final class _yieldStmt implements
 
     @Override
     public _yieldStmt copy() {
-        return new _yieldStmt( this.yieldStmt.clone());
+        return new _yieldStmt( this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.yieldStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _yieldStmt replace(YieldStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
-    public YieldStmt ast(){
-        return yieldStmt;
+    public YieldStmt node(){
+        return node;
     }
 
     public boolean equals(Object other){
         if( other instanceof _yieldStmt ){
-            return Objects.equals( ((_yieldStmt)other).ast(), this.ast() );
+            return Objects.equals( ((_yieldStmt)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

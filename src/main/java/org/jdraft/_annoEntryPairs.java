@@ -1,10 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
-import com.github.javaparser.ast.expr.MemberValuePair;
-import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
+import com.github.javaparser.ast.expr.*;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
@@ -16,6 +13,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * _tree._view of the grouping of all _annoEntryPairs on an _anno
@@ -23,8 +21,6 @@ import java.util.stream.Collectors;
  * @Anno(k=1, val="String", count=4)
  *       -------------------------- "k=1, val="String", count=4" (3) {@link _annoEntryPair}s
  * </PRE>
- *
-
  */
 public class _annoEntryPairs implements _tree._view<_annoEntryPairs>,
         _tree._group<MemberValuePair, _annoEntryPair, _annoEntryPairs> {
@@ -37,21 +33,43 @@ public class _annoEntryPairs implements _tree._view<_annoEntryPairs>,
         return PARSER.apply(Text.combine(code));
     }
 
+    public static _annoEntryPairs of( MemberValuePair... mvps){
+        NormalAnnotationExpr nae = new NormalAnnotationExpr(new Name("UNKNOWN"), new NodeList<>());
+        NodeList<MemberValuePair> mvs = new NodeList<>();
+        Stream.of(mvps).forEach(m ->mvs.add(m));
+        nae.setPairs(mvs);
+        return new _annoEntryPairs(nae);
+    }
+
+    public static _annoEntryPairs of( _annoEntryPair... ps){
+        if( ps.length == 0 ){
+            return _annoEntryPairs.of();
+        }
+        if( ps.length == 1 && ps[0].isValueOnly() ){
+            return new _annoEntryPairs( new SingleMemberAnnotationExpr(new Name("UNKNOWN"), ps[0].getValue().node()));
+        }
+        NormalAnnotationExpr nae = new NormalAnnotationExpr(new Name("UNKNOWN"), new NodeList<>());
+        NodeList<MemberValuePair> mvs = new NodeList<>();
+        Stream.of(ps).forEach(m ->mvs.add(m.node()));
+        nae.setPairs(mvs);
+        return new _annoEntryPairs(nae);
+    }
+
     public static _annoEntryPairs of( AnnotationExpr parentAnno ){
         return new _annoEntryPairs(parentAnno);
     }
 
     /** The parent AST node that is interpreted*/
-    public AnnotationExpr annoParentNode;
+    public AnnotationExpr parentNode;
 
-    public AnnotationExpr astAnchorNode(){
-        return annoParentNode;
+    public AnnotationExpr anchorNode(){
+        return parentNode;
     }
 
     public static final Function<String,_annoEntryPairs> PARSER = (s)->{
         String full = "@UNKNOWN("+s+")";
         _anno _a = _anno.of(full);
-        return of( _a.ast());
+        return of( _a.node());
     };
 
     public _feature._features<_annoEntryPairs> features(){
@@ -69,55 +87,55 @@ public class _annoEntryPairs implements _tree._view<_annoEntryPairs>,
 
     public static _feature._features<_annoEntryPairs> FEATURES = _feature._features.of(_annoEntryPairs.class,  PARSER, ANNO_ENTRY_PAIRS);
 
-    private _annoEntryPairs(AnnotationExpr annoParentNode){
-        this.annoParentNode = annoParentNode;
+    private _annoEntryPairs(AnnotationExpr parentNode){
+        this.parentNode = parentNode;
     }
 
     @Override
     public _annoEntryPairs copy() {
-        return new _annoEntryPairs( this.annoParentNode);
+        return new _annoEntryPairs( this.parentNode);
     }
 
     public boolean isValueOnly(){
-        return this.annoParentNode instanceof SingleMemberAnnotationExpr;
+        return this.parentNode instanceof SingleMemberAnnotationExpr;
     }
 
     @Override
     public List<_annoEntryPair> list() {
-        if( this.annoParentNode.isSingleMemberAnnotationExpr()){
-            SingleMemberAnnotationExpr sm = this.annoParentNode.asSingleMemberAnnotationExpr();
+        if( this.parentNode.isSingleMemberAnnotationExpr()){
+            SingleMemberAnnotationExpr sm = this.parentNode.asSingleMemberAnnotationExpr();
             List<_annoEntryPair> lae = new ArrayList<>();
             lae.add( _annoEntryPair.of(sm) );
             return lae;
         }
-        if( this.annoParentNode.isNormalAnnotationExpr() ){
-            return this.annoParentNode.asNormalAnnotationExpr().getPairs().stream().map( ae-> _annoEntryPair.of(ae)).collect(Collectors.toList());
+        if( this.parentNode.isNormalAnnotationExpr() ){
+            return this.parentNode.asNormalAnnotationExpr().getPairs().stream().map(ae-> _annoEntryPair.of(ae)).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
     @Override
     public NodeList<MemberValuePair> astList() {
-        if( this.annoParentNode.isSingleMemberAnnotationExpr()){
-            SingleMemberAnnotationExpr sm = this.annoParentNode.asSingleMemberAnnotationExpr();
+        if( this.parentNode.isSingleMemberAnnotationExpr()){
+            SingleMemberAnnotationExpr sm = this.parentNode.asSingleMemberAnnotationExpr();
             NodeList<MemberValuePair> mvps = new NodeList<>();
             mvps.add( new MemberValuePair("value", sm.getMemberValue()));
             return mvps;
         }
-        if( this.annoParentNode.isNormalAnnotationExpr() ){
-            return this.annoParentNode.asNormalAnnotationExpr().getPairs();
+        if( this.parentNode.isNormalAnnotationExpr() ){
+            return this.parentNode.asNormalAnnotationExpr().getPairs();
         }
         return new NodeList<>();
     }
 
     @Override
     public String toString(PrettyPrinterConfiguration prettyPrinter) {
-        if( this.annoParentNode.isSingleMemberAnnotationExpr()){
-            SingleMemberAnnotationExpr sm = this.annoParentNode.asSingleMemberAnnotationExpr();
+        if( this.parentNode.isSingleMemberAnnotationExpr()){
+            SingleMemberAnnotationExpr sm = this.parentNode.asSingleMemberAnnotationExpr();
             return "("+sm.asSingleMemberAnnotationExpr().getMemberValue().toString(prettyPrinter)+")";
         }
-        if( this.annoParentNode.isNormalAnnotationExpr() ){
-            NodeList<MemberValuePair> mvps = this.annoParentNode.asNormalAnnotationExpr().getPairs();
+        if( this.parentNode.isNormalAnnotationExpr() ){
+            NodeList<MemberValuePair> mvps = this.parentNode.asNormalAnnotationExpr().getPairs();
             StringBuilder sb = new StringBuilder();
             sb.append("(");
 
@@ -183,11 +201,11 @@ public class _annoEntryPairs implements _tree._view<_annoEntryPairs>,
     }
 
     public int hashCode(){
-        if(this.annoParentNode.isSingleMemberAnnotationExpr() ){
-            return this.annoParentNode.asSingleMemberAnnotationExpr().getMemberValue().hashCode() * 31;
-        } else if( this.annoParentNode.isNormalAnnotationExpr() ){
+        if(this.parentNode.isSingleMemberAnnotationExpr() ){
+            return this.parentNode.asSingleMemberAnnotationExpr().getMemberValue().hashCode() * 31;
+        } else if( this.parentNode.isNormalAnnotationExpr() ){
             Set<MemberValuePair> mvps = new HashSet<>();
-            mvps.addAll(this.annoParentNode.asNormalAnnotationExpr().getPairs() );
+            mvps.addAll(this.parentNode.asNormalAnnotationExpr().getPairs() );
             return mvps.hashCode() * 31;
         } else{
             return 31;

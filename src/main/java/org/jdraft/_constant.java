@@ -3,6 +3,7 @@ package org.jdraft;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.JavadocComment;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.nodeTypes.NodeWithJavadoc;
@@ -70,9 +71,8 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
 
     public static _feature._features<_constant> FEATURES = _feature._features.of(_constant.class,  PARSER, ANNOS, NAME, ARGS, MEMBERS);
 
-
     public _constant( EnumConstantDeclaration ecd ){
-        this.astConstant = ecd;
+        this.node = ecd;
     }
 
     public _feature._features<_constant> features(){
@@ -124,33 +124,33 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         //throw new RuntimeException("This constant constructor only exists for 'prototypes', it does not actualy build a _constant");
     }
 
-    public EnumConstantDeclaration astConstant;
+    public EnumConstantDeclaration node;
 
     @Override
-    public EnumConstantDeclaration ast(){
-        return astConstant;
+    public EnumConstantDeclaration node(){
+        return node;
     }
 
     @Override
     public _constant copy(){
-        return of(this.astConstant.toString());
+        return of(this.node.toString());
     }
 
     public boolean hasArgs(){
-        return this.astConstant.getArguments().size() > 0;
+        return this.node.getArguments().size() > 0;
     }
 
-    /*
-    @Override
-    public boolean is(String...stringRep){
-        try{
-            return is(Ast.constantDeclaration(stringRep));
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _constant replace(EnumConstantDeclaration replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(EnumConstantDeclaration ecd ){
@@ -159,7 +159,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
 
     @Override
     public _constant setName(String name ){
-        this.astConstant.setName( name );
+        this.node.setName( name );
         return this;
     }
 
@@ -193,12 +193,12 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
     }
 
     public List<_java._member> listMembers(){
-        return this.astConstant.getClassBody().stream().map(m-> (_java._member)_java.of(m)).collect(Collectors.toList());
+        return this.node.getClassBody().stream().map(m-> (_java._member)_java.of(m)).collect(Collectors.toList());
     }
 
     public _constant setMembers(List<_java._member> mems){
-        this.astConstant.getClassBody().clear();
-        mems.forEach( m -> this.astConstant.getClassBody().add( (BodyDeclaration)m.ast()));
+        this.node.getClassBody().clear();
+        mems.forEach( m -> this.node.getClassBody().add( (BodyDeclaration)m.node()));
         return this;
     }
 
@@ -208,7 +208,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
      * @return the modified _constant
      */
     public _constant add( _java._declared... _ds ){
-        Arrays.stream(_ds).forEach(_d -> this.astConstant.getClassBody().add( (BodyDeclaration)_d.ast()) );
+        Arrays.stream(_ds).forEach(_d -> this.node.getClassBody().add( (BodyDeclaration)_d.node()) );
         return this;
     }
 
@@ -217,54 +217,54 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
      *
      */
     public _constant add( BodyDeclaration... bds ){
-        Arrays.stream(bds).forEach(bd -> this.astConstant.getClassBody().add(bd) );
+        Arrays.stream(bds).forEach(bd -> this.node.getClassBody().add(bd) );
         return this;
     }
 
     public _constant addArg(Expression e ){
-        this.astConstant.addArgument( e );
+        this.node.addArgument( e );
         return this;
     }
 
     public _constant addArg(String str ){
-        this.astConstant.addArgument( str );
+        this.node.addArgument( str );
         return this;
     }
 
     public _constant setArgs(NodeList<Expression> arguments ){
-        this.astConstant.setArguments(arguments);
+        this.node.setArguments(arguments);
         return this;
     }
 
     public _constant setArgs(List<Expression> arguments ){
         NodeList<Expression> nles = new NodeList<>();
         nles.addAll(arguments);
-        this.astConstant.setArguments(nles);
+        this.node.setArguments(nles);
         return this;
     }
 
     @Override
     public _annos getAnnos() {
-        return _annos.of(this.astConstant );
+        return _annos.of(this.node);
     }
 
 
     @Override
     public _constant setJavadoc(String... content) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(Text.combine(content));
+        ((NodeWithJavadoc) this.node()).setJavadocComment(Text.combine(content));
         return this;
     }
 
     @Override
     public _constant setJavadoc(JavadocComment astJavadocComment) {
-        ((NodeWithJavadoc) this.ast()).setJavadocComment(astJavadocComment);
+        ((NodeWithJavadoc) this.node()).setJavadocComment(astJavadocComment);
         return this;
     }
 
     @Override
     public List<_method> listMethods() {
         List<_method> ms = new ArrayList<>();
-        this.astConstant.getClassBody().stream().filter(b -> b instanceof MethodDeclaration).forEach(m -> ms.add(_method.of( (MethodDeclaration)m )) );
+        this.node.getClassBody().stream().filter(b -> b instanceof MethodDeclaration).forEach(m -> ms.add(_method.of( (MethodDeclaration)m )) );
         return ms;
     }
 
@@ -276,12 +276,12 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
 
     @Override
     public _constant addMethod(MethodDeclaration method ) {
-        this.astConstant.getClassBody().add( method );
+        this.node.getClassBody().add( method );
         return this;
     }
 
     public _constant addField(FieldDeclaration field ) {
-        this.astConstant.getClassBody().add( field );
+        this.node.getClassBody().add( field );
         return this;
     }
 
@@ -292,20 +292,20 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         }
         FieldDeclaration fd = (FieldDeclaration)field.getParentNode().get();
         //we already added it to the parent
-        if( this.astConstant.getClassBody().contains( fd ) ){
+        if( this.node.getClassBody().contains( fd ) ){
             if( !fd.containsWithinRange( field ) ){
                 fd.addVariable( field );
             }
             return this;
         }
-        this.astConstant.getClassBody().add( fd );
+        this.node.getClassBody().add( fd );
         return this;
     }
 
     @Override
     public List<_field> listFields() {
         List<_field> ms = new ArrayList<>();
-        this.astConstant.getClassBody().stream().filter(b -> b instanceof FieldDeclaration)
+        this.node.getClassBody().stream().filter(b -> b instanceof FieldDeclaration)
                 .forEach( f->{
                     if( ((FieldDeclaration)f).getVariables().size() == 1 ){
                         ms.add(_field.of( ((FieldDeclaration)f).getVariable( 0 ) ) );
@@ -325,11 +325,11 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         return this;
     }
 
-    public SimpleName getNameNode() { return this.astConstant.getName(); }
+    public SimpleName getNameNode() { return this.node.getName(); }
 
     @Override
     public String getName(){
-        return this.astConstant.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     @Override
@@ -344,10 +344,10 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
             return false;
         }
         final _constant other = (_constant)obj;
-        if( this.astConstant == other.astConstant){
+        if( this.node == other.node){
             return true; //two _constant pointing to the same AstEnumDeclaration
         }
-        if( !Expr.equalAnnos(this.astConstant, other.astConstant ) ){
+        if( !Expr.equalAnnos(this.node, other.node) ){
             return false;
         }
         if( !Objects.equals( this.getJavadoc(), other.getJavadoc() ) ) {
@@ -392,7 +392,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
 
     @Override
     public String toString(){
-        return this.astConstant.toString();
+        return this.node.toString();
     }
 
     @Override
@@ -405,7 +405,7 @@ public class _constant implements _java._declared<EnumConstantDeclaration, _cons
         tfs.addAll( this.listFields());
 
         hash = 13 * hash + Objects.hash( tms, tfs,
-                Expr.hashAnnos(astConstant),
+                Expr.hashAnnos(node),
                 getJavadoc(),
                 getName(), listArgs() );
         return hash;

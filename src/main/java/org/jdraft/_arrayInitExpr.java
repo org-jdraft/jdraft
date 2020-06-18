@@ -83,13 +83,13 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
 
     public static _arrayInitExpr of(Class... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
-        Arrays.stream(arr).forEach(i -> aie.getValues().add( _classExpr.of(i).ast() ));
+        Arrays.stream(arr).forEach(i -> aie.getValues().add( _classExpr.of(i).node() ));
         return of(aie);
     }
 
     public static _arrayInitExpr of(_expr... arr){
         ArrayInitializerExpr aie = new ArrayInitializerExpr();
-        Arrays.stream(arr).forEach(i -> aie.getValues().add(i.ast()));
+        Arrays.stream(arr).forEach(i -> aie.getValues().add(i.node()));
         return of(aie);
     }
 
@@ -151,20 +151,26 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
         return FEATURES;
     }
 
-    public ArrayInitializerExpr aie;
+    public ArrayInitializerExpr node;
 
-    public _arrayInitExpr(ArrayInitializerExpr aie){
-        this.aie = aie;
+    public _arrayInitExpr(ArrayInitializerExpr node){
+        this.node = node;
     }
 
     @Override
     public _arrayInitExpr copy() {
-        return new _arrayInitExpr(this.aie.clone());
+        return new _arrayInitExpr(this.node.clone());
+    }
+
+    public _arrayInitExpr replace(ArrayInitializerExpr ae){
+        this.node.replace(ae);
+        this.node = ae;
+        return this;
     }
 
     @Override
     public NodeList<Expression> astList() {
-        return this.aie.getValues();
+        return this.node.getValues();
     }
 
     /**
@@ -172,11 +178,11 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
      * @return the size
      */
     public int getSize(){
-        return this.aie.getValues().size();
+        return this.node.getValues().size();
     }
 
-    public ArrayInitializerExpr ast(){
-        return aie;
+    public ArrayInitializerExpr node(){
+        return node;
     }
 
     /**
@@ -210,26 +216,26 @@ public final class _arrayInitExpr implements _expr<ArrayInitializerExpr, _arrayI
     @Override
     public List<_expr> list(){
         List<_expr> vs = new ArrayList<>();
-        this.aie.getValues().forEach(v-> vs.add( _expr.of(v)));
+        this.node.getValues().forEach(v-> vs.add( _expr.of(v)));
         return vs;
     }
 
     public boolean equals(Object other){
         if( other instanceof _arrayInitExpr){
-            return ((_arrayInitExpr)other).aie.equals( this.aie);
+            return ((_arrayInitExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.aie.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.aie.toString();
+        return this.node.toString();
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
-        return this.aie.toString(ppc);
+        return this.node.toString(ppc);
     }
 }

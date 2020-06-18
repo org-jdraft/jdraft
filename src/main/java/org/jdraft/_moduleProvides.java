@@ -2,6 +2,7 @@ package org.jdraft;
 
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.modules.ModuleDeclaration;
 import com.github.javaparser.ast.modules.ModuleProvidesDirective;
@@ -37,7 +38,7 @@ public final class _moduleProvides implements _tree._node<ModuleProvidesDirectiv
             src = src+";";
         }
         CompilationUnit cu =
-                Ast.parse("module J{ "+System.lineSeparator()+src+System.lineSeparator()+"}");
+                Ast.parse("module $name${ "+System.lineSeparator()+src+System.lineSeparator()+"}");
         ModuleDeclaration md = cu.getModule().get();
         ModuleProvidesDirective modd = (ModuleProvidesDirective)md.getDirectives().get(0);
         modd.remove();
@@ -57,102 +58,106 @@ public final class _moduleProvides implements _tree._node<ModuleProvidesDirectiv
 
     public static _feature._features<_moduleProvides> FEATURES = _feature._features.of(_moduleProvides.class, PARSER, MODULE_NAME, MODULE_NAMES);
 
-    public ModuleProvidesDirective me;
+    public ModuleProvidesDirective node;
 
     public _moduleProvides setName(_name name){
-        this.me.setName(name.toString());
+        this.node.setName(name.toString());
         return this;
     }
 
     public Name getNameNode(){
-        return this.me.getName();
+        return this.node.getName();
     }
 
     public _moduleProvides setName(String name){
-        this.me.setName(name);
+        this.node.setName(name);
         return this;
     }
-
 
     public boolean is(String code){
         return is(new String[]{code});
     }
 
     public String getName(){
-        return this.me.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     @Override
     public List<_name> list() {
-        return this.me.getWith().stream().map(m-> _name.of(m)).collect(Collectors.toList());
+        return this.node.getWith().stream().map(m-> _name.of(m)).collect(Collectors.toList());
     }
 
     @Override
     public NodeList<Name> astList() {
-        return this.me.getWith();
+        return this.node.getWith();
     }
 
     public _moduleProvides setModuleNames(String...moduleNames){
         NodeList<Name> modNames = new NodeList<>();
         Arrays.stream(moduleNames).forEach(mn -> modNames.add(new Name(mn)));
-        this.me.setWith(modNames);
+        this.node.setWith(modNames);
         return this;
     }
 
     public _moduleProvides setModuleNames(Name...moduleNames){
         NodeList<Name> modNames = new NodeList<>();
         Arrays.stream(moduleNames).forEach(mn -> modNames.add(mn));
-        this.me.setWith(modNames);
+        this.node.setWith(modNames);
         return this;
     }
 
     public _moduleProvides addModuleNames(String...names){
-        Arrays.stream(names).forEach(mn -> this.me.getWith().add(new Name(mn) ));
+        Arrays.stream(names).forEach(mn -> this.node.getWith().add(new Name(mn) ));
         return this;
     }
 
     public _moduleProvides addModuleNames(Name...names){
-        Arrays.stream(names).forEach(mn -> this.me.getWith().add( mn ));
+        Arrays.stream(names).forEach(mn -> this.node.getWith().add( mn ));
         return this;
     }
 
     public _moduleProvides removeModuleNames(String...names){
-        Arrays.stream(names).forEach(mn -> this.me.getWith().remove(new Name(mn) ));
+        Arrays.stream(names).forEach(mn -> this.node.getWith().remove(new Name(mn) ));
         return this;
     }
 
     public _moduleProvides removeModuleNames(Name...names){
-        Arrays.stream(names).forEach(mn -> this.me.getWith().remove( mn ));
+        Arrays.stream(names).forEach(mn -> this.node.getWith().remove( mn ));
         return this;
     }
 
     public _moduleProvides(ModuleProvidesDirective med){
-        this.me = med;
+        this.node = med;
     }
 
     @Override
     public _moduleProvides copy() {
-        return of( this.me.clone());
+        return of( this.node.clone());
     }
 
     @Override
-    public ModuleProvidesDirective ast() {
-        return this.me;
+    public ModuleProvidesDirective node() {
+        return this.node;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Objects.equals( of(stringRep ).me, this.me);
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _moduleProvides replace(ModuleProvidesDirective replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public int hashCode(){
-        return 31 * this.me.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public boolean equals(Object o ){
-        return o instanceof _moduleProvides && Objects.equals( ((_moduleProvides)o).me, this.me);
+        return o instanceof _moduleProvides && Objects.equals( ((_moduleProvides)o).node, this.node);
     }
 
     public String toString() {
@@ -160,6 +165,6 @@ public final class _moduleProvides implements _tree._node<ModuleProvidesDirectiv
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
-        return this.me.toString(ppc);
+        return this.node.toString(ppc);
     }
 }

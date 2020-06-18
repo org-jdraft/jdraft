@@ -236,7 +236,7 @@ public class $textBlockExpr implements $bot.$node<TextBlockLiteralExpr, _textBlo
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
-        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+        return matchReplaceIn(_node.node(), matchStencil, replaceStencil);
     }
 
     /**
@@ -250,7 +250,7 @@ public class $textBlockExpr implements $bot.$node<TextBlockLiteralExpr, _textBlo
         if( _node instanceof _codeUnit && ((_codeUnit) _node).isTopLevel()){
             return matchReplaceIn(((_codeUnit) _node).astCompilationUnit(), matchStencil, replaceStencil);
         }
-        return matchReplaceIn(_node.ast(), matchStencil, replaceStencil);
+        return matchReplaceIn(_node.node(), matchStencil, replaceStencil);
     }
 
     /**

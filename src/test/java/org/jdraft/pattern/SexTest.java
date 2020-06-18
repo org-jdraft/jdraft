@@ -305,11 +305,11 @@ public class SexTest extends TestCase {
         }
         _class _c = _class.of( DD.class);
         
-        _c.ast().walk(Expression.class, e-> System.out.println(e+ " "+e.getClass() ) );
+        _c.node().walk(Expression.class, e-> System.out.println(e+ " "+e.getClass() ) );
         
-        _c.ast().walk(Statement.class, e-> System.out.println(e+ " "+e.getClass() ) );
+        _c.node().walk(Statement.class, e-> System.out.println(e+ " "+e.getClass() ) );
         
-        SwitchStmt ss = $stmt.switchStmt().firstIn(DD.class).ast();
+        SwitchStmt ss = $stmt.switchStmt().firstIn(DD.class).node();
         List<SwitchEntry> ses = ss.getEntries();
         
     }
@@ -383,13 +383,13 @@ public class SexTest extends TestCase {
         //LocalClassDeclarationExpr lc =  Expr.("class $any${}");
         
         //find EVERY lambda with a comment
-        $ex $anyLambda = $ex.of("($params$)->$body$", e -> e.ast().getComment().isPresent() );
+        $ex $anyLambda = $ex.of("($params$)->$body$", e -> e.node().getComment().isPresent() );
         
         System.out.println( Expr.lambdaExpr("/** comment */ ()->true") );
         
         assertTrue( $anyLambda.matches( Expr.lambdaExpr("/** comment */ ()->true") ) );
         
-        assertTrue( $ex.lambdaEx(l -> l.ast().getComment().isPresent() ).matches("/** comment */ ()->true;") );
+        assertTrue( $ex.lambdaEx(l -> l.node().getComment().isPresent() ).matches("/** comment */ ()->true;") );
 
     }
 
@@ -446,7 +446,7 @@ public class SexTest extends TestCase {
 
     public void testExprOf(){
         $ex<Expression, _expr, $ex> $e = $ex.of("1 + 2");
-        assertEquals( $e.draft().ast(), Expr.of("1 + 2"));
+        assertEquals( $e.draft().node(), Expr.of("1 + 2"));
         assertTrue( $e.matches(Expr.of("1+2")));
 
         $e = $ex.of("$a$ + $b$");
@@ -541,15 +541,15 @@ public class SexTest extends TestCase {
 
         //use forAllIn to
         List<Integer>ints = new ArrayList<>();
-        e.forEachIn(_class.of(C.class), ie -> ints.add(ie.ast().asInt()));
+        e.forEachIn(_class.of(C.class), ie -> ints.add(ie.node().asInt()));
         assertTrue( ints.contains(1) && ints.contains(2) && ints.contains(3) && ints.contains(4) && ints.contains(5) && ints.contains(6));
     }
     
     public void testAPI(){
         
-        assertTrue($ex.arrayAccessEx(a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[1]"));
-        assertTrue($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[1]"));
-        assertFalse($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().ast().isIntegerLiteralExpr() ).matches("a[b.count()]"));
+        assertTrue($ex.arrayAccessEx(a -> a.getIndex().node().isIntegerLiteralExpr() ).matches("a[1]"));
+        assertTrue($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().node().isIntegerLiteralExpr() ).matches("a[1]"));
+        assertFalse($ex.arrayAccessEx("a[$any$]", a -> a.getIndex().node().isIntegerLiteralExpr() ).matches("a[b.count()]"));
         _class _c = _class.of("C").addField("int i=1;");
         
         assertEquals(1, $ex.of(1).listIn(_c ).size());
@@ -560,7 +560,7 @@ public class SexTest extends TestCase {
 
         System.out.println( $ex.of("1").replaceIn(_c, "2") );
         
-        assertTrue( $ex.of("1").replaceIn(_c,"2").fieldNamed("i").isInit(2));
+        assertTrue( $ex.of("1").replaceIn(_c,"2").getField("i").isInit(2));
         
         //assertTrue( $expr.replace(_c, "1", "2").getField("i").initIs("2"));
         
@@ -571,7 +571,7 @@ public class SexTest extends TestCase {
         //look for every literal
         $ex $bin =
             $ex.binaryEx("$a$ > $b$",
-                b-> b.getLeft().ast().isIntegerLiteralExpr() && b.getRight().ast().isIntegerLiteralExpr());
+                b-> b.getLeft().node().isIntegerLiteralExpr() && b.getRight().node().isIntegerLiteralExpr());
         assertTrue($bin.matches("3 > 2"));
         assertFalse($bin.matches("3L > 2"));
         
@@ -595,7 +595,7 @@ public class SexTest extends TestCase {
         assertNotNull( $ex.intLiteralEx("2").firstIn(_c));
         assertNotNull( $ex.intLiteralEx(1).firstIn(_c));
         
-        Predicate<_intExpr> p = (i)-> i.ast().asInt() % 2 == 1;
+        Predicate<_intExpr> p = (i)-> i.node().asInt() % 2 == 1;
         $ex.intLiteralEx( p );
         
         assertNotNull( $ex.intLiteralEx( (i)-> i.getValue() % 2 == 1 ).firstIn(_c));

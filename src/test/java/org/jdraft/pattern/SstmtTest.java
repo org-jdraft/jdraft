@@ -49,7 +49,7 @@ public class SstmtTest extends TestCase {
         _class _c = (_class)$println.unComment(C.class);
         _method _m = _c.firstMethodNamed("m");
         //    verify the Statement I uncommented
-        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0));
+        assertEquals( $println.draft("any", 1).node(), _m.getAstStatement(0));
         //System.out.println( _c );
 
         // 2) comment out (i.e. replace with an emptyStmt and a comment
@@ -63,7 +63,7 @@ public class SstmtTest extends TestCase {
         // 3) unComment
         $println.unComment(_c);
         //    verify the Statement I uncommented
-        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0));
+        assertEquals( $println.draft("any", 1).node(), _m.getAstStatement(0));
         //    verify I removed the Empty statement
         assertEquals(1, _m.listAstStatements().size());
         //System.out.println( _c );
@@ -86,7 +86,7 @@ public class SstmtTest extends TestCase {
         _method _m = _c.firstMethodNamed("m");
         //    verify the Statement I uncommented
         //System.out.println( _c );
-        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0).asBlockStmt().getStatement(0));
+        assertEquals( $println.draft("any", 1).node(), _m.getAstStatement(0).asBlockStmt().getStatement(0));
         //System.out.println( _c );
 
         // 2) comment out (i.e. replace with an blockStmt with a comment
@@ -103,7 +103,7 @@ public class SstmtTest extends TestCase {
         // 3) unComment
         $println.unComment(_c);
         //    verify the Statement I uncommented
-        assertEquals( $println.draft("any", 1).ast(), _m.getAstStatement(0).asBlockStmt().getStatement(0));
+        assertEquals( $println.draft("any", 1).node(), _m.getAstStatement(0).asBlockStmt().getStatement(0));
         //    verify I removed the Empty statement
         assertEquals(1, _m.listAstStatements().size());
         //System.out.println( _c );
@@ -177,7 +177,7 @@ public class SstmtTest extends TestCase {
                 $c:{ System.out.println(1); System.out.println(2); System.out.println(3);}
             }
         }
-        TypeDeclaration n = _class.of(F.class).ast();
+        TypeDeclaration n = _class.of(F.class).node();
         $stmt.parameterize$LabeledStmt(n, Tokens.of("a", "assert(true);", "b", "assert(false);", "c", Stmt.of("assert(1==1);")) );
         System.out.println(n);
     }
@@ -192,13 +192,13 @@ public class SstmtTest extends TestCase {
         System.out.println("*******************"+ $s.stmtStencil.draft("A", "assert(true);"));
 
         // HIDE "A" = null
-        BlockStmt bs = $s.draft().ast();
+        BlockStmt bs = $s.draft().node();
         assertEquals(2,  bs.getStatements().size()); //1 and 3
         assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
         assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(1)); //1 and 3
 
         // SHOW "A" = true
-        bs = $s.draft("A", true).ast();
+        bs = $s.draft("A", true).node();
         System.out.println( bs );
         assertEquals(3,  bs.getStatements().size()); //1,2,3
         assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 and 3
@@ -206,7 +206,7 @@ public class SstmtTest extends TestCase {
         assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 and 3
 
         // OVERRIDE "A" = (String with single statement)
-        bs = $s.draft("A", Stmt.of("System.out.println('c');")).ast();
+        bs = $s.draft("A", Stmt.of("System.out.println('c');")).node();
         System.out.println(bs);
         assertEquals(3,  bs.getStatements().size()); //1,2,3
         assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c'' 3
@@ -214,7 +214,7 @@ public class SstmtTest extends TestCase {
         assertEquals(Stmt.of(()->System.out.println(3)),  bs.getStatement(2)); //1 'c' 3
 
         // OVERRIDE "A" = (BlockStatement)
-        bs = $s.draft("A", Stmt.blockStmt( "System.out.println('c');", "System.out.println('d');")).ast();
+        bs = $s.draft("A", Stmt.blockStmt( "System.out.println('c');", "System.out.println('d');")).node();
         System.out.println("BLOKC "+ bs);
         assertEquals(3,  bs.getStatements().size()); //1,'c','d',3
         assertEquals(Stmt.of(()->System.out.println(1)),  bs.getStatement(0)); //1 'c' 'd' 3
@@ -253,28 +253,28 @@ public class SstmtTest extends TestCase {
         Statement st = null;
         // SHOW                   we passed in a Boolean true, this means show
         //                        the content at the $label (& remove the $label)
-        st = $s.draft("label",true).ast();
+        st = $s.draft("label",true).node();
         assertTrue($stmt.of("if(a){ doIt();}").matches(st) );
         
         // HIDE                    by passing in false, we hide the code at the
         //                         $label (and the label itself)
-        st = $s.draft("label",false).ast();
+        st = $s.draft("label",false).node();
         assertTrue($stmt.of("if(a){ }").matches(st) );
         //                         null (or not found) also hides the code   
-        st = $s.draft("label",null).ast();
+        st = $s.draft("label",null).node();
         assertTrue($stmt.of("if(a){ }").matches(st) );
         
         // OVERRIDE                pass in a statement here b(); and Override
         //                         what is at the $label
-        st = $s.draft("label", Stmt.of("b();")).ast();
+        st = $s.draft("label", Stmt.of("b();")).node();
         assertTrue($stmt.of("if(a){b();}").matches(st) );
         
         // OVERRIDE               pass in another $stmt that will be constructed
-        st = $s.draft("label",$stmt.of("assert($cond$);"), "cond", "1==1" ).ast();
+        st = $s.draft("label",$stmt.of("assert($cond$);"), "cond", "1==1" ).node();
         assertTrue( $stmt.of("if(a){assert(1==1);}").matches(st));
         
         //can replace with a block statement
-         st = $s.draft("label",$stmt.of("{assert($cond$); System.out.println(1);}"), "cond", "1==1" ).ast();
+         st = $s.draft("label",$stmt.of("{assert($cond$); System.out.println(1);}"), "cond", "1==1" ).node();
          System.out.println( "STSTST"+ st  );
         //assertTrue( $stmt.of("if(a){ {assert(1==1); System.out.println(1); } }").matches(st));
         assertTrue( $stmt.of("if(a){ {assert(1==1); System.out.println(1);} }").matches(st));
@@ -406,7 +406,7 @@ public class SstmtTest extends TestCase {
             }
         });
         //the easy things should be easy
-        assertTrue( $stmt.of("assertTrue(true);").firstIn(_c).ast().getComment().isPresent());
+        assertTrue( $stmt.of("assertTrue(true);").firstIn(_c).node().getComment().isPresent());
         assertTrue( $stmt.of("assertTrue(true);").listIn(_c).size() ==1);
         
         $stmt.of("assertTrue(true);").replaceIn(_c, "Assert.assertTrue(true);");
@@ -455,7 +455,7 @@ public class SstmtTest extends TestCase {
         // we match: assertTrue( true ); & assertTrue(1==1)
         assertTrue( $assertAny.listIn(_c).size() == 2 );
         
-        assertTrue( $assertAny.firstIn(_c).ast().getComment().isPresent());
+        assertTrue( $assertAny.firstIn(_c).node().getComment().isPresent());
         
         
         //using "select" will parse . match and return the variables          
@@ -539,7 +539,7 @@ public class SstmtTest extends TestCase {
     public void testLabelStmt(){
         Stmt.of( (Object $any$)-> {label: System.out.println($any$);} );
         $stmt $s = $stmt.of((Object $any$)-> {label: System.out.println($any$);});
-        Statement s = $s.draft( "$any$" , 100).ast();
+        Statement s = $s.draft( "$any$" , 100).node();
 
         assertEquals( Stmt.of( "label: System.out.println(100);"), s );
     }
@@ -664,8 +664,8 @@ public class SstmtTest extends TestCase {
         $stmt $s = $stmt.of("System.out.println($any$);");
 
         //specialize a prototype via fill or compose
-        Statement st = $s.fill(1).ast();
-        Statement st2 = $s.draft("any", 1).ast();
+        Statement st = $s.fill(1).node();
+        Statement st2 = $s.draft("any", 1).node();
         assertEquals(st, st2);
 
         //verify we get what we expect

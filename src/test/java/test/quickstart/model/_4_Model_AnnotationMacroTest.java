@@ -47,8 +47,8 @@ public class _4_Model_AnnotationMacroTest extends TestCase {
             }
         } );
 
-        assertTrue( _c.fieldNamed("ID").is("public static final int ID=1003;"));
-        assertTrue( _c.fieldNamed("x").is("int x = 100;"));
+        assertTrue( _c.getField("ID").is("public static final int ID=1003;"));
+        assertTrue( _c.getField("x").is("int x = 100;"));
         assertTrue( _c.getConstructor(0).is("public M(){ System.out.println(\"In constructor\"); }"));
         assertTrue( _c.firstMethodNamed("method").is("public static final int method(){ return ID; }"));
 

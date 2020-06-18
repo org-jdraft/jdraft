@@ -1,12 +1,10 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.StringLiteralExpr;
 import org.jdraft.text.Stencil;
-import org.jdraft.text.Tokens;
 
-import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public final class _stringExpr
         implements _expr._literal<StringLiteralExpr, _stringExpr>, _java._withText<_stringExpr> {
@@ -27,18 +25,18 @@ public final class _stringExpr
     public static _feature._one<_stringExpr, String> LITERAL_VALUE = new _feature._one<>(_stringExpr.class, String.class,
             _feature._id.LITERAL_VALUE,
             a -> a.valueAsString(),
-            (_stringExpr a, String value) -> a.ast().setValue(value), PARSER);
+            (_stringExpr a, String value) -> a.node().setValue(value), PARSER);
 
     public static _feature._features<_stringExpr> FEATURES = _feature._features.of(_stringExpr.class,  PARSER, LITERAL_VALUE);
 
-    public StringLiteralExpr se;
+    public StringLiteralExpr node;
 
     public _stringExpr(String str){
         this( new StringLiteralExpr(str));
     }
 
-    public _stringExpr(StringLiteralExpr se){
-        this.se = se;
+    public _stringExpr(StringLiteralExpr node){
+        this.node = node;
     }
 
     public _feature._features<_stringExpr> features(){
@@ -47,39 +45,27 @@ public final class _stringExpr
 
     @Override
     public _stringExpr copy() {
-        return new _stringExpr(this.se.clone());
+        return new _stringExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.stringLiteralExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
-
-    /*
-    @Override
-    public boolean is(StringLiteralExpr astNode) {
-        return this.ast( ).equals(astNode);
+    public _stringExpr replace(StringLiteralExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
-     */
-
-    /*
-    @Override
-    public boolean isText(Predicate<String> textMatchFn ){
-        return textMatchFn.test(this.se.asString());
-    }
-     */
 
     /**
      * Gets the text of the String
      * @return the text of the String
      */
     public String getText(){
-        return this.se.getValue();
+        return this.node.getValue();
     }
 
     /**
@@ -88,7 +74,7 @@ public final class _stringExpr
      * @return
      */
     public _stringExpr setText(String text ){
-        this.se.setValue(text);
+        this.node.setValue(text);
         return this;
     }
 
@@ -132,25 +118,25 @@ public final class _stringExpr
     }
 
     public String valueAsString(){
-        return this.se.asString();
+        return this.node.asString();
     }
 
-    public StringLiteralExpr ast(){
-        return se;
+    public StringLiteralExpr node(){
+        return node;
     }
 
     public boolean equals(Object other){
         if( other instanceof _stringExpr){
-            return ((_stringExpr)other).se.equals( this.se);
+            return ((_stringExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.se.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.se.toString();
+        return this.node.toString();
     }
 }

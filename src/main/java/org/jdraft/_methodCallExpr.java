@@ -1,5 +1,6 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.expr.SimpleName;
@@ -94,10 +95,10 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
 
     public static _feature._features<_methodCallExpr> FEATURES = _feature._features.of(_methodCallExpr.class, PARSER, SCOPE, TYPE_ARGS, NAME, ARGS );
 
-    public MethodCallExpr mce;
+    public MethodCallExpr node;
 
-    public _methodCallExpr(MethodCallExpr mce){
-        this.mce = mce;
+    public _methodCallExpr(MethodCallExpr node){
+        this.node = node;
     }
 
     public _feature._features<_methodCallExpr> features(){
@@ -106,12 +107,23 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
 
     @Override
     public _methodCallExpr copy() {
-        return new _methodCallExpr(this.mce.clone());
+        return new _methodCallExpr(this.node.clone());
     }
 
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _methodCallExpr replace(MethodCallExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public _methodCallExpr setName(String methodName){
-        this.mce.setName(methodName);
+        this.node.setName(methodName);
         return this;
     }
 
@@ -137,28 +149,28 @@ public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallE
         }
     }
 
-    public MethodCallExpr ast(){
-        return mce;
+    public MethodCallExpr node(){
+        return node;
     }
 
-    public SimpleName getNameNode() { return this.mce.getName(); }
+    public SimpleName getNameNode() { return this.node.getName(); }
 
     public String getName(){
-        return this.mce.getNameAsString();
+        return this.node.getNameAsString();
     }
 
     public boolean equals(Object other){
         if( other instanceof _methodCallExpr){
-            return ((_methodCallExpr)other).mce.equals( this.mce);
+            return ((_methodCallExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.mce.hashCode();
+        return 31 * this.node.hashCode();
     }
     
     public String toString(){
-        return this.mce.toString();
+        return this.node.toString();
     }
 }

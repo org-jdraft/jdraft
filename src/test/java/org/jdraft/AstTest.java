@@ -225,7 +225,7 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(FF.class);
         //replace the comment with multiple statements
-        Comments.replace(_c.ast(), $comment.of().firstIn(_c),
+        Comments.replace(_c.node(), $comment.of().firstIn(_c),
                 Stmt.of("System.out.println(1);"),
                 Stmt.of("System.out.println(2);"));
 
@@ -251,19 +251,19 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of(HH.class);
-        MethodDeclaration md =  _c.firstMethodNamed("commentInNestedBlock").ast();
+        MethodDeclaration md =  _c.firstMethodNamed("commentInNestedBlock").node();
         List<com.github.javaparser.ast.comments.Comment> cs = md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(3);") );
         System.out.println( md );
-        assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).ast().getThenStmt().asBlockStmt().getStatement(1));
+        assertEquals(Stmt.of("System.out.println(3);"), $stmt.ifStmt().firstIn(md).node().getThenStmt().asBlockStmt().getStatement(1));
 
-        md =  _c.firstMethodNamed("lastComment").ast();
+        md =  _c.firstMethodNamed("lastComment").node();
         cs  =md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(2);") );
         System.out.println( md );
         assertEquals(Stmt.of("System.out.println(2);"), _method.of(md).getAstStatement(1));
 
-        md =  _c.firstMethodNamed("onlyComment").ast();
+        md =  _c.firstMethodNamed("onlyComment").node();
         cs  =md.getAllContainedComments();
         Comments.replace( md, cs.get(0), Stmt.of("System.out.println(1);") );
         assertEquals(Stmt.of("System.out.println(1);"), _method.of(md).getAstStatement(0));
@@ -280,7 +280,7 @@ public class AstTest extends TestCase {
             }
         }
         _class _c = _class.of(T.class);
-        MethodDeclaration md = _c.firstMethodNamed("t").ast();
+        MethodDeclaration md = _c.firstMethodNamed("t").node();
         com.github.javaparser.ast.comments.Comment c = md.getAllContainedComments().get(0);
         Comments.replace(c, Stmt.of( ()->System.out.println(1)));
 
@@ -288,7 +288,7 @@ public class AstTest extends TestCase {
         //insertStatement(_c.astCompilationUnit(), Stmt.of("System.out.println(1);"), c.getRange().get().begin);
 
         _c = _class.of(T.class);
-        md = _c.firstMethodNamed("t").ast();
+        md = _c.firstMethodNamed("t").node();
         c = md.getAllContainedComments().get(0);
         Comments.replace(c, Stmt.of( ()->System.out.println(1)),
                 Stmt.of( ()->System.out.println(2)) );
@@ -362,7 +362,7 @@ public class AstTest extends TestCase {
         System.out.println( _c.toString(Print.EMPTY_STATEMENT_COMMENT_PRINTER));
 
         _c = _class.of(C.class);
-        MethodDeclaration b = _c.firstMethodNamed("b").ast();
+        MethodDeclaration b = _c.firstMethodNamed("b").node();
         System.out.println( b.getRange().get() );
         System.out.println( b.getOrphanComments() );
 
@@ -371,7 +371,7 @@ public class AstTest extends TestCase {
         System.out.println( b.getRange().get() );
         System.out.println( b.getOrphanComments() );
 
-        MethodDeclaration md =_c.firstMethodNamed("m").ast();
+        MethodDeclaration md =_c.firstMethodNamed("m").node();
         Statement st1 = md.getBody().get().getStatement(0);
         LineComment lc = new LineComment("//ORPHAN LINE");
 
@@ -400,7 +400,7 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         _method _m = _c.firstMethodNamed("m");
-        List<com.github.javaparser.ast.comments.Comment> cs = _m.ast().getAllContainedComments();
+        List<com.github.javaparser.ast.comments.Comment> cs = _m.node().getAllContainedComments();
         //System.out.println( cs );
         com.github.javaparser.ast.comments.Comment c = cs.get(0);
         Range range = c.getRange().get();
@@ -468,7 +468,7 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(C.class);
         _method _m = _c.firstMethodNamed("m");
-        List<com.github.javaparser.ast.comments.Comment> cs = _m.ast().getAllContainedComments();
+        List<com.github.javaparser.ast.comments.Comment> cs = _m.node().getAllContainedComments();
         //System.out.println( cs );
         com.github.javaparser.ast.comments.Comment c = cs.get(0);
         Range range = c.getRange().get();
@@ -538,8 +538,8 @@ public class AstTest extends TestCase {
         }
         _class _c = _class.of(FG.class);
 
-        Statement s5 = $stmt.of( ()->System.out.println(5)).firstIn(_c).ast();
-        Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c).ast();
+        Statement s5 = $stmt.of( ()->System.out.println(5)).firstIn(_c).node();
+        Statement s1 = $stmt.of( ()->System.out.println(1)).firstIn(_c).node();
 
         Node commonAncestor = Walk.commonAncestor(s5, s1);
         assertTrue( Walk.isParent( commonAncestor, Ast.Classes.METHOD_DECLARATION));
@@ -555,7 +555,7 @@ public class AstTest extends TestCase {
             }
         });
         assertTrue(
-                Walk.isParent( _c.fieldNamed("x").getFieldDeclaration(),
+                Walk.isParent( _c.getField("x").getFieldDeclaration(),
                         ClassOrInterfaceDeclaration.class, c-> c.getNameAsString().equals("V")) );
     }
 
@@ -596,19 +596,19 @@ public class AstTest extends TestCase {
         }
 
         _class _c = _class.of(ROOT.class);
-        Node n = Ast.root( _c.fieldNamed("a").getInitNode() );
+        Node n = Ast.root( _c.getField("a").getInitNode() );
 
         assertTrue( n instanceof CompilationUnit );
 
         _method _m = _method.of("public void m(){}").setBody(()-> {System.out.println( 1); System.out.println(2);});
-        assertTrue( Ast.root(_m.ast()) instanceof MethodDeclaration );
+        assertTrue( Ast.root(_m.node()) instanceof MethodDeclaration );
         _m = _method.of(new Object(){
             public void m(){
                 int a = 100;
             }
         });
 
-        assertTrue( Ast.root(_m.ast()) instanceof MethodDeclaration );
+        assertTrue( Ast.root(_m.node()) instanceof MethodDeclaration );
 
         _constructor _ct = _constructor.of(new Object(){
             String name;
@@ -618,15 +618,15 @@ public class AstTest extends TestCase {
             }
         });
 
-        assertTrue( Ast.root(_ct.ast()) instanceof ConstructorDeclaration );
+        assertTrue( Ast.root(_ct.node()) instanceof ConstructorDeclaration );
 
         _field _f = _field.of("int i=0;");
 
-        assertTrue( Ast.root(_f.ast()) instanceof FieldDeclaration );
+        assertTrue( Ast.root(_f.node()) instanceof FieldDeclaration );
 
         _anno _a = _anno.of("@R");
 
-        assertTrue( Ast.root(_a.ast()) instanceof AnnotationExpr );
+        assertTrue( Ast.root(_a.node()) instanceof AnnotationExpr );
 
     }
     public void testFlattenLabel(){
@@ -721,12 +721,12 @@ public class AstTest extends TestCase {
         assertEquals( _a, _b);
         assertEquals(_a.hashCode(), _b.hashCode());
         
-        assertNotSame(_a.ast(), _b.ast() );
+        assertNotSame(_a.node(), _b.node() );
         
         //make sure I can equate them to be equal
-        assertTrue( Expr.equal(_a.ast(), _b.ast()) );
+        assertTrue( Expr.equal(_a.node(), _b.node()) );
         //assertTrue( Ast.annotationEqual(_a.ast(), _b.ast()) );
-        assertEquals( Expr.hash(_a.ast() ), Expr.hash( _b.ast() ) );
+        assertEquals( Expr.hash(_a.node() ), Expr.hash( _b.node() ) );
         //assertEquals( Ast.annotationHash(_a.ast() ), Ast.annotationHash( _b.ast() ) );
         
     }

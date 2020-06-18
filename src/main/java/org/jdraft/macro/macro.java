@@ -71,7 +71,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
     }
 
     public static <_T extends _type> _T to(Class clazz, _T _t){
-        TypeDeclaration td = (TypeDeclaration)_t.ast();
+        TypeDeclaration td = (TypeDeclaration)_t.node();
         //if( n instanceof  TypeDeclaration ) {
         //System.out.println( "CLAZZ "+ clazz+" to "+_t );
         //TypeDeclaration td = (TypeDeclaration)n;
@@ -130,7 +130,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
                         //    startIndex = 1;
                         //}
                         for(int i = 0; i<_m.getParams().size(); i++){
-                            to( _m.getParam(i).ast(), mm.getParameters()[i]);
+                            to( _m.getParam(i).node(), mm.getParameters()[i]);
                         }
                         to( (MethodDeclaration)m, om.get());
                     }
@@ -156,7 +156,7 @@ public abstract class macro<A extends Annotation,N extends Node> implements Cons
 
                         for(int i = 0; i<_ct.getParams().size(); i++){
                             //System.out.println( "ON "+ ct.getParameters()[i] );
-                            to( _ct.getParam(i).ast(), ct.getParameters()[i]);
+                            to( _ct.getParam(i).node(), ct.getParameters()[i]);
                             //to( _ct.getParameter(i).ast(), ct.getAnnotatedParameterTypes()[i+startIndex]);
                         }
                         to((ConstructorDeclaration)c, ct);

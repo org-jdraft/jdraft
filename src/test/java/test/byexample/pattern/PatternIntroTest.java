@@ -68,7 +68,7 @@ public class PatternIntroTest extends TestCase {
         //the are (2) main purposes for prototypes:
 
         //1) drafting (building a new instance represented by the prototype)
-        Statement printOne = $printOne.draft().ast(); //System.out.println(1);
+        Statement printOne = $printOne.draft().node(); //System.out.println(1);
 
         //2) matching (checking if a given Statement instances is compatible with the proto)
         assertTrue( $printOne.matches(printOne) ); //match
@@ -135,7 +135,7 @@ public class PatternIntroTest extends TestCase {
 
         //we can also collect and list the statements within some code:
         List<_stmt> sts = $anyStmt.listIn(With4Statements.class);
-        assertTrue( sts.get(0).ast() instanceof BlockStmt);
+        assertTrue( sts.get(0).node() instanceof BlockStmt);
 
         //If we want to match/extract/count
         $stmt<BlockStmt, _blockStmt> $anyBlockStmt = $stmt.blockStmt();
@@ -154,11 +154,11 @@ public class PatternIntroTest extends TestCase {
         //we can build new statements using $anyPrint and passing in
         // param/values that are required by the prototype (below the param "a" is required)
         // here we can draft new Statements by keyValuePairs
-        Statement print1 =          $anyPrint.draft("a", 1).ast();   //System.out.print(1);
-        Statement printc =          $anyPrint.draft("a", 'c').ast(); //System.out.print('c');
-        Statement printMethodCall = $anyPrint.draft("a", "aMethodCall()").ast(); //System.out.print(aMethodCall());
-        Statement printString =     $anyPrint.draft("a", "\"String\"").ast(); //System.out.print("String");
-        Statement printComposite =  $anyPrint.draft("a", "\"String\" + a + \" \" + b").ast(); //System.out.print("String" + a + " " + b );
+        Statement print1 =          $anyPrint.draft("a", 1).node();   //System.out.print(1);
+        Statement printc =          $anyPrint.draft("a", 'c').node(); //System.out.print('c');
+        Statement printMethodCall = $anyPrint.draft("a", "aMethodCall()").node(); //System.out.print(aMethodCall());
+        Statement printString =     $anyPrint.draft("a", "\"String\"").node(); //System.out.print("String");
+        Statement printComposite =  $anyPrint.draft("a", "\"String\" + a + \" \" + b").node(); //System.out.print("String" + a + " " + b );
 
         //now that we've drafted $a$ will match anything
         assertTrue($anyPrint.matches(print1));

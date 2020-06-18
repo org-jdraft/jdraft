@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.comments.LineComment;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -40,54 +41,54 @@ public final class _lineComment implements _comment<LineComment, _lineComment>, 
         return FEATURES;
     }
 
-    public LineComment astComment;
+    public LineComment node;
 
     public _lineComment(LineComment lc ){
-        this.astComment = lc;
+        this.node = lc;
     }
 
     public _tree._node getAttributedNode(){
-        if( astComment.getCommentedNode().isPresent()){
-            return (_tree._node)_java.of( astComment.getCommentedNode().get());
+        if( node.getCommentedNode().isPresent()){
+            return (_tree._node)_java.of( node.getCommentedNode().get());
         }
         return null;
     }
 
     @Override
     public _lineComment copy() {
-        return new _lineComment( this.astComment.clone());
+        return new _lineComment( this.node.clone());
     }
 
     @Override
-    public LineComment ast() {
-        return astComment;
+    public LineComment node() {
+        return node;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return Objects.equals( of( Text.combine(stringRep) ), this);
-        }
-        catch(Exception e){
-            return false;
-        }
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _lineComment replace(LineComment replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     public boolean equals(Object o){
         if( o instanceof _lineComment){
             _lineComment _bc = (_lineComment)o;
-            return Objects.equals( _bc.astComment, this.astComment );
+            return Objects.equals( _bc.node, this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return this.astComment.hashCode() * 31;
+        return this.node.hashCode() * 31;
     }
 
     public String toString(){
-        return this.astComment.toString();
+        return this.node.toString();
     }
 }

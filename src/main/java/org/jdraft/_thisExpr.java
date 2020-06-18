@@ -1,6 +1,5 @@
 package org.jdraft;
 
-
 import com.github.javaparser.ast.expr.ThisExpr;
 
 import java.util.function.Function;
@@ -32,10 +31,10 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _tree._node<
 
     public static _feature._features<_thisExpr> FEATURES = _feature._features.of(_thisExpr.class,  PARSER, TYPE_NAME);
 
-    public ThisExpr ile;
+    public ThisExpr node;
 
-    public _thisExpr(ThisExpr ile){
-        this.ile = ile;
+    public _thisExpr(ThisExpr node){
+        this.node = node;
     }
 
     public _feature._features<_thisExpr> features(){
@@ -44,58 +43,59 @@ public final class _thisExpr implements _expr<ThisExpr, _thisExpr>, _tree._node<
 
     @Override
     public _thisExpr copy() {
-        return new _thisExpr(this.ile.clone());
+        return new _thisExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Expr.thisExpr(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _thisExpr replace(ThisExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(ThisExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public ThisExpr ast(){
-        return ile;
+    public ThisExpr node(){
+        return node;
     }
-
 
     public _thisExpr removeTypeName(){
-        this.ile.removeTypeName();
+        this.node.removeTypeName();
         return this;
     }
 
     public _thisExpr setTypeName(String name){
-        this.ile.setTypeName(Ast.name(name) );
+        this.node.setTypeName(Ast.name(name) );
         return this;
     }
 
     public String getTypeName(){
-        if(this.ile.getTypeName().isPresent()){
-            return ile.getTypeName().get().asString();
+        if(this.node.getTypeName().isPresent()){
+            return node.getTypeName().get().asString();
         }
         return "";
     }
 
     public boolean equals(Object other){
         if( other instanceof _thisExpr){
-            return ((_thisExpr)other).ile.equals( this.ile );
+            return ((_thisExpr)other).node.equals( this.node);
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ile.hashCode();
+        return 31 * this.node.hashCode();
     }
 
     public String toString(){
-        return this.ile.toString();
+        return this.node.toString();
     }
 }

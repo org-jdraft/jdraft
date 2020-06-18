@@ -52,7 +52,7 @@ public @interface _dto {
             StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
             ObjectCreationExpr oce = Expr.newExpr(ste);
             _class _c = _class.of(signature);
-            oce.getAnonymousClassBody().get().forEach(b -> _c.ast().addMember(b));
+            oce.getAnonymousClassBody().get().forEach(b -> _c.node().addMember(b));
             Arrays.stream(body.getClass().getInterfaces()).forEach(e -> {
                 _c.addImplement(e);
                 _c.addImports(e);
@@ -71,7 +71,7 @@ public @interface _dto {
         }
 
         public static <_T extends _type> _T to( _T _t){
-            to((TypeDeclaration)_t.ast());
+            to((TypeDeclaration)_t.node());
             return _t;
         }
 

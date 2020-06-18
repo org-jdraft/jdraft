@@ -505,8 +505,8 @@ public class $ref implements $bot<_tree._node, $ref>,
      */
     protected boolean useCheck( _tree._node candidate ){
         //we only match "top level" parents names *NOT* name nodes nested within name nodes
-        if( candidate.ast().getParentNode().isPresent() ){
-            Node parent = candidate.ast().getParentNode().get();
+        if( candidate.node().getParentNode().isPresent() ){
+            Node parent = candidate.node().getParentNode().get();
             if( parent.getClass() == Name.class){
                 //System.out.println( "EXCLUDED BY PARENT IS NAME");
                 return false;
@@ -531,7 +531,7 @@ public class $ref implements $bot<_tree._node, $ref>,
             //    └─"Y" SimpleName
             // here we only want to "count" the "Y" as a single $ref,
             // therefore we only use the TypeParameter (top-level) and exclude the nested "Y" SimpleName
-            if( parent instanceof TypeParameter && candidate.ast() instanceof SimpleName){
+            if( parent instanceof TypeParameter && candidate.node() instanceof SimpleName){
                 if( parent.toString().equals( candidate.toString() ) ){
                     return false;
                 }
@@ -545,7 +545,7 @@ public class $ref implements $bot<_tree._node, $ref>,
         //System.out.println( "NOT EXCLUDED BY DEFAULT");
         return !this.excludedUses.stream().anyMatch(e-> {
             //System.out.println("Checking "+ e+" with "+candidate.ast()+System.lineSeparator()+ new ASCIITreePrinter().output(candidate.ast().getParentNode().get()) );
-            boolean match = e.is(candidate.ast());
+            boolean match = e.is(candidate.node());
             //System.out.println( "MATCHED "+ match);
             return match;
         });
@@ -575,9 +575,9 @@ public class $ref implements $bot<_tree._node, $ref>,
             if( ts != null ) {
                 return new Select<>(candidate, ts);
             }
-            if( candidate.ast() instanceof Name){
+            if( candidate.node() instanceof Name){
                 //System.out.println( " "+ candidate.name);
-                Name nm = (Name) candidate.ast();
+                Name nm = (Name) candidate.node();
                 ts = this.stencil.parse(nm.getIdentifier());
                 if( ts != null ){ //DONT match is the parent matches
                     if( nm.getParentNode().isPresent() && matches(nm.getParentNode().get()) ){
@@ -601,8 +601,8 @@ public class $ref implements $bot<_tree._node, $ref>,
                // MethodReferenceExpr mre = (MethodReferenceExpr) candidate.ast();
                 //ts = this.stencil.parse( mre.getIdentifier());
             //}
-            else if( candidate.ast() instanceof ClassOrInterfaceType){
-                ClassOrInterfaceType mre = (ClassOrInterfaceType) candidate.ast();
+            else if( candidate.node() instanceof ClassOrInterfaceType){
+                ClassOrInterfaceType mre = (ClassOrInterfaceType) candidate.node();
                 ts = this.stencil.parse( mre.toString());
             }
             else if( candidate instanceof _import){

@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 
 import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.expr.CharLiteralExpr;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 
@@ -41,10 +42,10 @@ public final class _packageInfo
 
     public static _feature._features<_packageInfo> FEATURES = _feature._features.of(_packageInfo.class, PARSER, PACKAGE, ANNOS, IMPORTS );
 
-    public CompilationUnit astCompUnit;
+    public CompilationUnit node;
 
     public _packageInfo(CompilationUnit astCu) {
-        this.astCompUnit = astCu;
+        this.node = astCu;
     }
 
     public _feature._features<_packageInfo> features(){
@@ -53,12 +54,12 @@ public final class _packageInfo
 
     @Override
     public CompilationUnit astCompilationUnit() {
-        return astCompUnit;
+        return node;
     }
 
     @Override
     public _packageInfo copy(){
-        return of( this.astCompUnit.toString() );
+        return of( this.node.toString() );
     }
     
     @Override
@@ -81,8 +82,8 @@ public final class _packageInfo
     }
     
     @Override
-    public CompilationUnit ast() {
-        return astCompUnit;
+    public CompilationUnit node() {
+        return node;
     }
 
     @Override
@@ -97,7 +98,7 @@ public final class _packageInfo
             return false;
         }
         final _packageInfo other = (_packageInfo) obj;
-        if (!Objects.equals(this.astCompUnit, other.astCompUnit)) {
+        if (!Objects.equals(this.node, other.node)) {
             return false;
         }
         return true;
@@ -105,20 +106,20 @@ public final class _packageInfo
 
     @Override
     public int hashCode() {
-        return this.astCompUnit.hashCode();
+        return this.node.hashCode();
     }
 
     /**
-     *
-     * @return
-
-    public String getPackage() {
-        if (astCompilationUnit().getPackageDeclaration().isPresent()) {
-            return astCompilationUnit().getPackageDeclaration().get().getNameAsString();
-        }
-        return "";
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _packageInfo replace(CompilationUnit replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
     }
-    */
 
     /**
      * Sets the package this TYPE is in
@@ -200,22 +201,7 @@ public final class _packageInfo
 
     @Override
     public String toString() {
-        return this.astCompUnit.toString();
+        return this.node.toString();
     }
 
-    /**
-     * Decompose the entity into key-VALUE pairs
-     *
-     * @return a map of key values
-
-    public Map<_java.Feature, Object> features() {
-        Map m = new HashMap();
-        m.put(_java.Feature.HEADER_COMMENT, this.getHeaderComment());
-        //m.put(_java.Component.JAVADOC, this.javadocHolder.getJavadoc());
-        m.put(_java.Feature.PACKAGE, getPackage());
-        m.put(_java.Feature.ANNO_EXPRS, getAnnoExprs());
-        m.put(_java.Feature.IMPORTS, _imports.of(astCompUnit));
-        return m;
-    }
-    */
 }

@@ -26,10 +26,10 @@ public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExp
 
     public static _feature._features<_nullExpr> FEATURES = _feature._features.of(_nullExpr.class, PARSER);
 
-    public NullLiteralExpr nle;
+    public NullLiteralExpr node;
 
-    public _nullExpr(NullLiteralExpr nle){
-        this.nle = nle;
+    public _nullExpr(NullLiteralExpr node){
+        this.node = node;
     }
 
     public _feature._features<_nullExpr> features(){
@@ -38,27 +38,32 @@ public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExp
 
     @Override
     public _nullExpr copy() {
-        return new _nullExpr(this.nle.clone());
+        return new _nullExpr(this.node.clone());
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        return Text.combine(stringRep).equals("null");
-    }
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
      */
+    public _nullExpr replace(NullLiteralExpr replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
 
     @Override
     public boolean is(NullLiteralExpr astNode) {
-        return this.ast( ).equals(astNode);
+        return this.node( ).equals(astNode);
     }
 
-    public NullLiteralExpr ast(){
-        return nle;
+    public NullLiteralExpr node(){
+        return node;
     }
 
     public String toString(){
-        return this.nle.toString();
+        return this.node.toString();
     }
 
     public String getValue(){
@@ -71,12 +76,12 @@ public final class _nullExpr implements _expr._literal<NullLiteralExpr, _nullExp
 
     public boolean equals(Object other){
         if( other instanceof _nullExpr){
-            return Objects.equals( ((_nullExpr)other).ast(), this.ast() );
+            return Objects.equals( ((_nullExpr)other).node(), this.node() );
         }
         return false;
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

@@ -88,7 +88,7 @@ public final class $or<$p extends $pattern>
 
     public boolean match(_java._domain _j){
         if( _j instanceof _tree._node){
-            return match( ((_tree._node)_j).ast());
+            return match( ((_tree._node)_j).node());
         }
         return false;
     }
@@ -133,7 +133,7 @@ public final class $or<$p extends $pattern>
     }
 
     public Select select(_tree._node _n ){
-        return select( _n.ast());
+        return select( _n.node());
     }
 
     /**
@@ -211,9 +211,9 @@ public final class $or<$p extends $pattern>
                 return listSelectedIn(_c.astCompilationUnit());
             }
             _type _t = (_type) _j; //only possible
-            return listSelectedIn(_t.ast()); //return the TypeDeclaration, not the CompilationUnit
+            return listSelectedIn(_t.node()); //return the TypeDeclaration, not the CompilationUnit
         }
-        return listSelectedIn( ((_tree._node) _j).ast());
+        return listSelectedIn( ((_tree._node) _j).node());
     }
 
     /**
@@ -244,9 +244,9 @@ public final class $or<$p extends $pattern>
             if( ((_codeUnit) _j).isTopLevel()){
                 return listSelectedIn( ((_codeUnit) _j).astCompilationUnit(), selectConstraint);
             }
-            return listSelectedIn( ((_type)_j).ast(), selectConstraint);
+            return listSelectedIn( ((_type)_j).node(), selectConstraint);
         }
-        return listSelectedIn( ((_tree._node)_j).ast(), selectConstraint);
+        return listSelectedIn( ((_tree._node)_j).node(), selectConstraint);
     }
 
     private static boolean replaceNode( Node target, Node replacement ){
@@ -340,10 +340,10 @@ public final class $or<$p extends $pattern>
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), replacement);
+            replaceIn( ((_type) _j).node(), replacement);
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).node(), replacement);
         return _j;
     }
 
@@ -402,10 +402,10 @@ public final class $or<$p extends $pattern>
                 replaceIn( ((_codeUnit) _j).astCompilationUnit(), replacement);
                 return _j;
             }
-            replaceIn( ((_type) _j).ast(), replacement);
+            replaceIn( ((_type) _j).node(), replacement);
             return _j;
         }
-        replaceIn( ((_tree._node) _j).ast(), replacement);
+        replaceIn( ((_tree._node) _j).node(), replacement);
         return _j;
     }
 
@@ -439,10 +439,10 @@ public final class $or<$p extends $pattern>
                 forSelectedIn( ((_codeUnit) _j).astCompilationUnit(), nodeActionFn);
                 return _j;
             }
-            forSelectedIn( ((_type) _j).ast(), nodeActionFn);
+            forSelectedIn( ((_type) _j).node(), nodeActionFn);
             return _j;
         }
-        forSelectedIn( ((_tree._node) _j).ast(), nodeActionFn);
+        forSelectedIn( ((_tree._node) _j).node(), nodeActionFn);
         return _j;
     }
 
@@ -478,10 +478,10 @@ public final class $or<$p extends $pattern>
                 forSelectedIn( ((_codeUnit) _j).astCompilationUnit(), nodeActionFn);
                 return _j;
             }
-            forSelectedIn( ((_type) _j).ast(), nodeActionFn);
+            forSelectedIn( ((_type) _j).node(), nodeActionFn);
             return _j;
         }
-        forSelectedIn( ((_tree._node) _j).ast(), nodeActionFn);
+        forSelectedIn( ((_tree._node) _j).node(), nodeActionFn);
         return _j;
     }
 

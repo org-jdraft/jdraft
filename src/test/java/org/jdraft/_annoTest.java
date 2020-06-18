@@ -28,6 +28,32 @@ import org.jdraft.text.Tokens;
  */
 public class _annoTest extends TestCase {
 
+    @interface AAA{}
+    @interface BBB{}
+
+    public void testReplace(){
+        //make sure replace in isolation works
+        _anno _a = _anno.of("@A");
+        _anno _b = _anno.of("@B");
+        assertTrue( _a.isNamed("A"));
+        _a.replace(_b.node());
+        assertTrue( _a.isNamed("B"));
+        _a.replace( _anno.of("C") );
+        assertTrue( _a.isNamed("C"));
+
+        //make sure replace works in composite
+        @AAA
+        class F{
+
+        }
+        _class _c = _class.of(F.class);
+
+        _c.getAnno(AAA.class).replace(_anno.of(BBB.class).node());
+
+        assertNotNull(_c.getAnno(BBB.class));
+
+    }
+
     public void testFeatures() {
         _anno _a = _anno.of("@A");
 
@@ -560,17 +586,17 @@ public class _annoTest extends TestCase {
             //    && a.ast().getParentNode().get().findFirst(Statement.class).isPresent());
         
         $stmt $s = $stmt.of().$and(
-            (s)-> ((Statement)s.ast()).findFirst(
+            (s)-> ((Statement)s.node()).findFirst(
                 AnnotationExpr.class, (AnnotationExpr a)-> $aa.matches(a) ).isPresent() 
                 && !(s instanceof BlockStmt) );
         System.out.println( $s.listIn(C.class) );
         
-        $ex $ex = org.jdraft.pattern.$ex.any().$and(o-> !(o.ast() instanceof AnnotationExpr)
-            && o.ast().findFirst(AnnotationExpr.class).isPresent());
+        $ex $ex = org.jdraft.pattern.$ex.any().$and(o-> !(o.node() instanceof AnnotationExpr)
+            && o.node().findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $ex.listIn(C.class) );
         
-        org.jdraft.pattern.$ex $e = org.jdraft.pattern.$ex.newEx().$and(o-> o.ast().findFirst(AnnotationExpr.class).isPresent());
+        org.jdraft.pattern.$ex $e = org.jdraft.pattern.$ex.newEx().$and(o-> o.node().findFirst(AnnotationExpr.class).isPresent());
         
         System.out.println( $e.listIn(C.class) );
         

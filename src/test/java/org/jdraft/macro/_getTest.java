@@ -8,6 +8,15 @@ public class _getTest extends TestCase {
 
     }
 
+    public void testLocalField(){
+        class Local{
+            @_get int i;
+        }
+        _class _c = _class.of(Local.class);
+        //System.out.println( _c );
+        assertTrue(_c.getMethod("getI").isPublic());
+    }
+
     public void testGetNothing(){
         @_get
         class D{

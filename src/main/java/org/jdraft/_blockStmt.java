@@ -1,6 +1,7 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
@@ -74,31 +75,43 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
 
     public static _feature._features<_blockStmt> FEATURES = _feature._features.of(_blockStmt.class,  PARSER, STATEMENTS);
 
-    private BlockStmt bs;
+    private BlockStmt node;
 
     public _blockStmt(BlockStmt rs){
-        this.bs = rs;
+        this.node = rs;
     }
 
     public _feature._features<_blockStmt> features(){
         return FEATURES;
     }
 
+    /**
+     * Replace the underlying node within the AST (if this node has a parent)
+     * and return this (now pointing to the new node)
+     * @param replaceNode the node instance to swap in for the old node that this facade was pointing to
+     * @return the modified this (now pointing to the replaceNode which was swapped into the AST)
+     */
+    public _blockStmt replace(BlockStmt replaceNode){
+        this.node.replace(replaceNode);
+        this.node = replaceNode;
+        return this;
+    }
+
     @Override
     public _blockStmt copy() {
-        return new _blockStmt( this.bs.clone());
+        return new _blockStmt( this.node.clone());
     }
 
     @Override
     public List<_stmt> list() {
         List<_stmt> _sts  = new ArrayList<>();
-        this.bs.getStatements().forEach(s -> _sts.add( _stmt.of(s)));
+        this.node.getStatements().forEach(s -> _sts.add( _stmt.of(s)));
         return _sts;
     }
 
     @Override
     public NodeList<Statement> astList() {
-        return this.bs.getStatements();
+        return this.node.getStatements();
     }
 
     /**
@@ -284,22 +297,12 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
         return this;
     }
 
-    /*
-    @Override
-    public boolean is(String... stringRep) {
-        try{
-            return is( Stmt.blockStmt(stringRep));
-        } catch(Exception e){ }
-        return false;
-    }
-     */
-
-    public BlockStmt ast(){
-        return bs;
+    public BlockStmt node(){
+        return node;
     }
 
     public String toString(){
-        return this.bs.toString();
+        return this.node.toString();
     }
 
     public boolean is(String code){
@@ -307,7 +310,7 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
     }
 
     public String toString(PrettyPrinterConfiguration ppc){
-        return this.bs.toString(ppc);
+        return this.node.toString(ppc);
     }
 
     public boolean equals(Object other){
@@ -329,6 +332,6 @@ public final class _blockStmt implements _stmt<BlockStmt, _blockStmt>,
     }
 
     public int hashCode(){
-        return 31 * this.ast().hashCode();
+        return 31 * this.node().hashCode();
     }
 }

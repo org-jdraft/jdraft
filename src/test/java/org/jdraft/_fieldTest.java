@@ -53,8 +53,8 @@ public class _fieldTest extends TestCase {
     }
 
     public void testFieldImpliedModifiers(){
-        _field _f1 = _interface.of(I.class).fieldNamed("x");
-        _field _f2 = _interface.of(I2.class).fieldNamed("x");
+        _field _f1 = _interface.of(I.class).getField("x");
+        _field _f2 = _interface.of(I2.class).getField("x");
 
         /**
          * these fields _f3 and _f4 are "disconnected", because they don't have
@@ -97,7 +97,7 @@ public class _fieldTest extends TestCase {
 
     public void testAst(){
         _field _f = _field.of("int x;");
-        VariableDeclarator vd = _f.ast();
+        VariableDeclarator vd = _f.node();
         assertEquals("x", vd.getNameAsString());
         assertTrue( vd.getType().isPrimitiveType() );
 

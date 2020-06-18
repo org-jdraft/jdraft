@@ -68,10 +68,10 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
 
     public static _feature._features<_imports> FEATURES = _feature._features.of(_imports.class, PARSER, IMPORTS);
 
-    public CompilationUnit astCompilationUnit;
+    public CompilationUnit parentNode;
 
     public _imports( CompilationUnit astCu ){
-        this.astCompilationUnit = astCu;
+        this.parentNode = astCu;
     }
 
     public _feature._features<_imports> features(){
@@ -80,13 +80,12 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
 
     @Override
     public _imports copy() {
-        return _imports.of(astCompilationUnit);
+        return _imports.of(parentNode);
     }
 
-    public <N extends Node> N astAnchorNode(){
-        return (N)astCompilationUnit;
+    public <N extends Node> N anchorNode(){
+        return (N) parentNode;
     }
-
 
     public boolean is(String code){
         return is(new String[]{code});
@@ -110,7 +109,7 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
 
     @Override
     public NodeList<ImportDeclaration> astList() {
-        return this.astCompilationUnit.getImports();
+        return this.parentNode.getImports();
     }
 
     /**
@@ -137,14 +136,14 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
      * @return
      */
     public boolean isImpliedImport(String className){
-        if (this.astCompilationUnit == null) {
+        if (this.parentNode == null) {
             return false;
         }
         Stencil stencil = Stencil.of(className);
         if( stencil.isFixedText() ) {
-            if (astCompilationUnit.getPackageDeclaration().isPresent()) {
+            if (parentNode.getPackageDeclaration().isPresent()) {
 
-                String pkgName = astCompilationUnit.getPackageDeclaration().get().getNameAsString();
+                String pkgName = parentNode.getPackageDeclaration().get().getNameAsString();
                 if (className.startsWith(pkgName)) {
                     String left = className.substring(pkgName.length() + 1);
                     return !left.contains(".");
@@ -157,9 +156,9 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
         if( stencil.isMatchAny()){
             return true;
         }
-        if (astCompilationUnit.getPackageDeclaration().isPresent()) {
+        if (parentNode.getPackageDeclaration().isPresent()) {
             //System.out.println( "Not a fixed text stencil");
-            String pkgName = astCompilationUnit.getPackageDeclaration().get().getNameAsString();
+            String pkgName = parentNode.getPackageDeclaration().get().getNameAsString();
 
             Tokens ts = stencil.parseFirst(pkgName);
             if( ts != null){
@@ -181,16 +180,16 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
 
     public boolean hasImport(Class clazz) {
         return isImpliedImport(clazz) ||
-                (astCompilationUnit != null &&
-                        astCompilationUnit.getImports().stream().anyMatch(i -> {
+                (parentNode != null &&
+                        parentNode.getImports().stream().anyMatch(i -> {
                             return _import.hasImport(i, clazz);
                         }));
     }
 
     public boolean hasImport(String className) {
         return isImpliedImport(className) ||
-                (astCompilationUnit != null &&
-                        astCompilationUnit.getImports().stream().anyMatch(i -> {
+                (parentNode != null &&
+                        parentNode.getImports().stream().anyMatch(i -> {
                             return _import.matchImport(i, className);
                         }));
     }
@@ -208,10 +207,10 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
     }
 
     public boolean hasImport(Method m){
-        if( this.astCompilationUnit == null ){
+        if( this.parentNode == null ){
             return false;
         }
-        return astCompilationUnit.getImports().stream().anyMatch(i -> {
+        return parentNode.getImports().stream().anyMatch(i -> {
             return _import.hasImport(i, m);
         });
     }
@@ -222,10 +221,10 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
 
     public List<_import> list(){
         List<_import> l = new ArrayList<>();
-        if( this.astCompilationUnit == null ){
+        if( this.parentNode == null ){
             return l;
         }
-        astCompilationUnit.getImports().forEach(i -> l.add( _import.of(i)));
+        parentNode.getImports().forEach(i -> l.add( _import.of(i)));
         return l;
     }
 
@@ -234,7 +233,7 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
     }
 
     public _imports clear(){
-        this.astCompilationUnit.getImports().clear();
+        this.parentNode.getImports().clear();
         return this;
     }
 
@@ -248,20 +247,20 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
     }
 
     public _imports remove(_import toRemove){
-        return remove( toRemove.astId );
+        return remove( toRemove.node);
     }
 
     public _imports remove( Class clazz ){
-        if( this.astCompilationUnit == null ){
+        if( this.parentNode == null ){
             return this;
         }
         List<ImportDeclaration> toRemove = new ArrayList<>();
-        this.astCompilationUnit.getImports().forEach(i -> {
+        this.parentNode.getImports().forEach(i -> {
             if( _import.is(i, clazz) ) {
                 toRemove.add( i );
             }
         });
-        toRemove.forEach(i -> this.astCompilationUnit.getImports().remove(i));
+        toRemove.forEach(i -> this.parentNode.getImports().remove(i));
         return this;
     }
 
@@ -291,16 +290,16 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
     @Override
     public int hashCode(){
         Set<Integer> is = new HashSet<>();
-        if( this.astCompilationUnit == null ){
+        if( this.parentNode == null ){
             return 0;
         }
-        this.astCompilationUnit.getImports().forEach( i -> is.add( i.hashCode()));
+        this.parentNode.getImports().forEach(i -> is.add( i.hashCode()));
         return is.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if( this.astCompilationUnit == null ){
+        if( this.parentNode == null ){
             return false;
         }
         if (this == obj) {
@@ -316,8 +315,8 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
         Set<ImportDeclaration> t = new HashSet<>();
         Set<ImportDeclaration> o = new HashSet<>();
 
-        this.astCompilationUnit.getImports().forEach( i -> t.add( i ));
-        other.astCompilationUnit.getImports().forEach( i -> o.add( i ));
+        this.parentNode.getImports().forEach(i -> t.add( i ));
+        other.parentNode.getImports().forEach(i -> o.add( i ));
 
         return Objects.equals(t, o);
     }
@@ -329,7 +328,7 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
 
     public String toString(PrettyPrinterConfiguration ppc){
         StringBuilder sb = new StringBuilder();
-        this.astCompilationUnit.getImports().forEach(i -> sb.append( i.toString() ) );
+        this.parentNode.getImports().forEach(i -> sb.append( i.toString() ) );
         return sb.toString();
     }
 

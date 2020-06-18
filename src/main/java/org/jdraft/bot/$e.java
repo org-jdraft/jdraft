@@ -193,7 +193,7 @@ public class $e
 			}
 			return null;
 		}
-		return select(candidate.ast());
+		return select(candidate.node());
 	}
 
 	public boolean isMatchAny() {

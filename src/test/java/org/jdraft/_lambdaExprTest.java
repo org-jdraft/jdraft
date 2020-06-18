@@ -15,9 +15,9 @@ public class _lambdaExprTest extends TestCase {
     public void testExpressionBody(){
         _lambdaExpr _le = _lambdaExpr.of( (String s)-> "String");
         //System.out.println( _le.getBody() );
-        System.out.println( _le.ast().getBody() );
-        System.out.println( _le.ast().isEnclosingParameters() );
-        System.out.println( _le.ast().getExpressionBody().get() );
+        System.out.println( _le.node().getBody() );
+        System.out.println( _le.node().isEnclosingParameters() );
+        System.out.println( _le.node().getExpressionBody().get() );
     }
 
     /**

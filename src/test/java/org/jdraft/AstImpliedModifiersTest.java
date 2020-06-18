@@ -77,7 +77,7 @@ public class AstImpliedModifiersTest extends TestCase {
     interface I{ int f = 2; }
     interface I2{ public static final int f = 2; }
     public void testEffectiveModifiersInterfaceField() throws NoSuchFieldException{        
-        _field _f = _interface.of( I.class ).fieldNamed("f");
+        _field _f = _interface.of( I.class ).getField("f");
         assertEquals( I.class.getDeclaredField("f").getModifiers(),  
             I2.class.getDeclaredField("f").getModifiers() );   
         assertEquals( I.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
@@ -109,7 +109,7 @@ public class AstImpliedModifiersTest extends TestCase {
     @interface G{ int f=1; }
     @interface H{ public static final int f=1; }
     public void testEffectiveModifiersAnnotationField() throws NoSuchFieldException{                
-        _field _f = _annotation.of(G.class).fieldNamed("f");
+        _field _f = _annotation.of(G.class).getField("f");
         
         assertTrue( _f.isPublic() );
         assertTrue( _f.isStatic() );
@@ -123,18 +123,18 @@ public class AstImpliedModifiersTest extends TestCase {
     
     enum E{ ; int f; final int g = 12;}    
     public void testEffectiveModifiersEnumField() throws NoSuchFieldException{                
-        _field _f = _enum.of(E.class).fieldNamed("f");
+        _field _f = _enum.of(E.class).getField("f");
         assertEquals( E.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
         System.out.println( _f.getModifiersAsBitMask() );
         
-        _field _g = _enum.of(E.class).fieldNamed("g");
+        _field _g = _enum.of(E.class).getField("g");
         assertEquals( E.class.getDeclaredField("g").getModifiers(), _g.getModifiersAsBitMask() );
         System.out.println( _g.getModifiersAsBitMask() );
     }
     
     enum E2{ ; static int f; }    
     public void testEffectiveModifiersEnumField2() throws NoSuchFieldException{                
-        _field _f = _enum.of(E2.class).fieldNamed("f");
+        _field _f = _enum.of(E2.class).getField("f");
         assertEquals( E2.class.getDeclaredField("f").getModifiers(), _f.getModifiersAsBitMask() );
     }
     
