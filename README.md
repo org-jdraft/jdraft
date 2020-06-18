@@ -3,8 +3,7 @@
 [![Apache License 2](https://img.shields.io/badge/license-APL2-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
 ### *What* is it?
-jdraft represents Java code as model objects & has tools for 
-*inspecting*, *modifying*, *querying*, *diffing*, *running* and *testing* Java source code.
+a tool to compose, inspect, query & mutate Java source code.
 
 ```java
 _null.of();              // a null literal
