@@ -25,7 +25,7 @@ public class JavaParseTest extends TestCase {
 
     }
 
-    /*
+
     public void  testParseClass(){
         //parse class
 
@@ -39,7 +39,7 @@ public class JavaParseTest extends TestCase {
         st = JavaParse.parse("static { System.out.println(1); }"); //static Block
     }
 
-     */
+
 
     //qualifiedNameGrouper alphabetic,".",alphabetic
     //symbolGrouper        Symbol + Symbol

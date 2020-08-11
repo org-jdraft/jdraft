@@ -61,7 +61,11 @@ public class JavaParse implements Run {
             if( len > 0 ){
                 return len;
             }
-            return OperatorRun.INSTANCE.len(state);
+            len = OperatorRun.INSTANCE.len(state);
+            if( len > 0 ){
+                return len;
+            }
+            return SeparatorRun.INSTANCE.len(state);
         }
         return state.cursor;
     }
@@ -102,7 +106,11 @@ public class JavaParse implements Run {
             if( s.cursor > pos ){
                 return s;
             }
-            return OperatorRun.INSTANCE.next(s);
+            OperatorRun.INSTANCE.next(s);
+            if( s.cursor  > pos ){
+                return s;
+            }
+            return SeparatorRun.INSTANCE.next(s);
         }
         return s;
     }
