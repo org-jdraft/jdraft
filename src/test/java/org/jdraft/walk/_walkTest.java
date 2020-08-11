@@ -2,11 +2,43 @@ package org.jdraft.walk;
 
 import junit.framework.TestCase;
 import org.jdraft.*;
+import org.jdraft.text.Stencil;
 
 
 import java.util.function.Predicate;
 
 public class _walkTest extends TestCase {
+
+    public void testWalkNode(){
+        _class _c = _class.of("aaaa.bbbb.C", new Object(){
+            int i=0;
+            @Deprecated String name = "eric";
+        });
+        //count the nodes
+        assertTrue( _c.walk().count() > 5);
+
+        assertTrue( _c.walk().count(n-> n instanceof _package) == 1);
+
+        //first
+        assertNotNull(_c.walk().first(n-> n instanceof _package) );
+
+        //todo java of
+        assertEquals(1, _c.walk().count(Stencil.of("aaaa.bbbb")));
+
+        _c.walk().forEach(n-> System.out.println(n));
+    }
+
+    public void testWalkClass(){
+        _class _c = _class.of("aaaa.bbbb.C");
+        //
+        //simple forEach
+        _c.walk(_package.class).forEach(p-> assertTrue(p.is("aaaa.bbbb")));
+
+        //statement next and previous (in scope)
+        //_stmt.next()
+
+        //Stmt.next()
+    }
 
     public void testInterface(){
         _class _c = _class.of(_walkTest.class);
