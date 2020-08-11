@@ -25,7 +25,7 @@ public final class _typeParams
     public static final Function<String, _typeParams> PARSER = s-> _typeParams.of(s);
 
     public static _typeParams of(){
-        return of( (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Unknown{}" ));
+        return of( (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class $name${}" ));
     }
 
     public static _typeParams of(String...tps){
@@ -36,12 +36,12 @@ public final class _typeParams
         if( !typeParams.startsWith("<") ){
             typeParams = "<"+ typeParams +">";
         }
-        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Unknown"+ typeParams +"{}");
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class $name$"+ typeParams +"{}");
         return of( coid );
     }
 
     public static _typeParams of( _typeParam... _tps){
-        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class Unknown{}");
+        ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)Ast.typeDeclaration("class $name${}");
         NodeList<TypeParameter> ntp = new NodeList<>();
         Stream.of(_tps).forEach(_tp -> ntp.add( _tp.node()));
         coid.setTypeParameters(ntp);

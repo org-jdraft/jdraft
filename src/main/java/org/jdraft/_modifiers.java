@@ -725,6 +725,9 @@ public final class _modifiers implements _tree._view<_modifiers>, _tree._group<M
     /**
      * Entity with possible static modifier
      * @param <_WS>
+     * @see _class
+     * @see _field
+     * @see _method
      */
     public interface _withStatic<_WS extends _withStatic>  extends _withModifiers<_WS> {
 

@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.github.javaparser.ast.*;
 import com.github.javaparser.ast.body.*;
@@ -76,6 +77,339 @@ import org.jdraft.walk.Walk;
  * @author Eric
  */
 public interface _java {
+
+    static char[] controlChars = new char[]{
+            '\"', '\\', '.','<','>',',','.','*', '&', '@','!','~','%','^','(',')','-', '.', '=','+',':',';','?','/', '\t', ' ','|', '[', '{', '}', ']'};
+
+
+    /**
+     * Characters that are used in lexing the input
+
+    enum ControlCharacter{
+
+        LESS_THAN('<'),
+
+        DOT('.');
+
+
+        private final char c;
+
+        ControlCharacter(char c){
+            this.c = c;
+        }
+    }
+     */
+    /*
+    enum Symbol{
+        LESS_THAN("<", BinaryExpr.Operator.LESS),
+        PLUS_EQUALS("+=", AssignExpr.Operator.PLUS),
+        PLUS("+", BinaryExpr.Operator.PLUS, UnaryExpr.Operator.PLUS),
+        IF_TERNARY( "?", "?");
+        String representation;
+        Object[] implementations;
+
+        private Symbol(String representation, Object...implementations){
+            this.representation = representation;
+            this.implementations = implementations;
+        }
+    }
+     */
+
+    /**
+     *
+
+    enum _reservedWord{
+
+    }
+    */
+
+    /**
+     * Builds an appropriate
+     * @param code
+     * @return
+     */
+    public static _java._domain of(String...code){
+        String all = Text.combine(code);
+
+        if( all.trim().length() ==0){
+            return _emptyStmt.of();
+        }
+        if( all.equals("true") || all.equals("false") ){
+            return _booleanExpr.of(all);
+        }
+        if( all.equals("null") ){
+            return _nullExpr.of(all);
+        }
+        if( all.startsWith("'") && all.endsWith("'") ){
+            return _charExpr.of(all);
+        }
+        if( all.startsWith("@") ){
+            if( all.startsWith("@interface ") ){
+                return _annotation.of(all);
+            }
+
+            try {
+                _annos _as = _annos.of(all);
+                if (_as.size() == 1) {
+                    return _as.getAt(0);
+                }
+                return _as;
+            }catch(Exception e){ }
+            //could be a field constructor or method with an annotation!!!
+            try{ return _field.of(all); }catch(Exception e){}
+            try{ return _method.of(all); }catch(Exception e){}
+            try{ return _constructor.of(all); }catch(Exception e){}
+            try{ return _constant.of(all); }catch(Exception e){}
+            try{ return _receiverParam.of(all); }catch(Exception e){}
+            try{ return _typeRef.of(all); }catch(Exception e){}
+        }
+        if( all.startsWith("(") ){
+            if( all.endsWith(")")){//args or params or parethesizedExpr
+                //try params... if not working try args
+                try { return _params.of(all); }catch(Exception e){}
+                try { return _parenthesizedExpr.of(all); }catch (Exception e){ }
+                try { return _args.of(all); }catch (Exception e){ }
+            } else{
+                try { return _castExpr.of(all); }catch(Exception e){}
+            }
+            if( all.contains("->")){
+                //lambda
+                try{  return _lambdaExpr.of(all); }catch(Exception e){}
+            }
+        }
+        if( all.endsWith(")") && all.contains("(")){
+            if( all.contains("->") ){
+                try { return _lambdaExpr.of(all);}catch(Exception e){} //lambda calling a method??
+            }
+            try { return _methodCallExpr.of(all);}catch(Exception e){}
+            try { return _constant.of(all);}catch(Exception e){} //enum constant SPADES("spade")
+        }
+
+        if( all.startsWith("[") && all.endsWith("]")){
+            try{ return _arrayDimension.of(all); }catch(Exception e){}
+        }
+        if( all.startsWith("{") && all.endsWith("}")) {//code block or arrayInit
+            try { return _arrayInitExpr.of(all); } catch (Exception e) { }
+            try { return _blockStmt.of(all); } catch (Exception e) { }
+            //initBlock?
+        }
+
+        if( all.startsWith("/*") && all.endsWith("*/")){
+            if( all.startsWith("/**") ){
+                return _javadocComment.of(all);
+            }
+            return _blockComment.of(all);
+        }
+        if( all.startsWith("module ") && all.endsWith("}") ){
+            return _moduleInfo.of(all);
+        }
+        if( all.startsWith("exports ") ){
+            return _moduleExports.of(all);
+        }
+        if( all.startsWith("opens ") ){
+            return _moduleOpens.of(all);
+        }
+        if( all.startsWith("uses ") ){
+            return _moduleUses.of(all);
+        }
+        if( all.startsWith("requires ") ){
+            return _moduleRequires.of(all);
+        }
+        if( all.startsWith("provides ") ){
+            return _moduleProvides.of(all);
+        }
+        if( all.startsWith("if") ){
+            try{ return _ifStmt.of(all);}catch(Exception e){}
+        }
+        if( all.startsWith("class ") ){
+            try{ return _class.of(all);}catch(Exception e){}
+        }
+        if( all.startsWith("for") ){
+            if( all.contains(":") ){
+                try{ return _forEachStmt.of(all);}catch(Exception e){}
+            }
+            try{ return _forStmt.of(all);}catch(Exception e){}
+        }
+
+        if( all.startsWith("package ") && all.endsWith(";")){
+            return _package.of(all);
+        }
+        if( all.startsWith("try") && all.endsWith("}")){
+            return _tryStmt.of(all);
+        }
+        if( all.startsWith("static") ){
+            if( all.endsWith("}") ){
+                return _initBlock.of(all);
+            }
+            try{ return _field.of(all);}catch(Exception e){}
+            try{ return _method.of(all);}catch(Exception e){}
+            try{ return _class.of(all);}catch(Exception e){}
+        }
+        if( all.startsWith("throws ") ){
+            return _throws.of(all);
+        }
+        if( all.startsWith("throw ") && all.endsWith(";") ){
+            return _throwStmt.of(all);
+        }
+        if( all.startsWith("yield ") && all.endsWith(";") ){
+            return _yieldStmt.of(all);
+        }
+        if( all.startsWith("while") && all.endsWith("}")){
+            return _whileStmt.of(all);
+        }
+        if( all.startsWith("<") && all.endsWith(">")){
+            return _typeParams.of(all);
+            //return _typeArgs.of(all);
+        }
+
+        if( all.startsWith("import ") ){
+            //might be a class, interface, enum with first thing being import
+            _imports _is = _imports.of(all);
+            if( _is.size() == 1 ){
+                return _is.getAt(0);
+            }
+            return _is;
+        }
+        if( all.startsWith("assert ") ){
+            //might be the first statment of many
+            try { return _assertStmt.of(all); }catch(Exception e){}
+        }
+        if( all.startsWith("new ") ){
+            if( all.contains("[") && all.contains("]")){
+                return _newArrayExpr.of( all);
+            }
+            return _newExpr.of(all);
+        }
+        if( all.startsWith("break") ){
+            try{ return _breakStmt.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("continue")){
+            try{ return _continueStmt.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("super") && !all.contains("(") ){
+            try{ return _superExpr.of(all); } catch(Exception e){}
+        }
+        if( (all.startsWith("this") || all.startsWith("super")) && all.contains("(") && all.endsWith(";") ){
+            try{ return _constructorCallStmt.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("case") || all.startsWith("default")){
+            try{
+                _switchCases _sc = _switchCases.of(all);
+                if( _sc.size() == 1 ){
+                    return _sc.getAt(0);
+                }
+                return _sc;
+            } catch(Exception e){
+
+            }
+            try{ return _switchCase.of(all);}catch (Exception e){}
+        }
+        if( all.startsWith("catch") ){
+            try{ return _catch.of(all); } catch(Exception e){}
+        }
+        if( (all.startsWith("do") || all.endsWith(";")) && all.contains("while") ){
+            try{ return _doStmt.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("enum") ){
+            try{ return _enum.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("interface") ){
+            try{ return _interface.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("//") ){
+            try{ return _lineComment.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("return")){
+            try{ return _returnStmt.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("\"") ){
+            if( all.startsWith("\"\"\"")) {
+                try { return _textBlockExpr.of(all); } catch (Exception e) { }
+            } else{
+                return _stringExpr.of(all);
+            }
+        }
+        if( all.startsWith("synchronized") ){
+            try{ return _synchronizedStmt.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("switch") ){
+            if( all.contains("yield") ){
+                try{ return _switchExpr.of(all); } catch(Exception e){}
+            }
+            try{ return _switchStmt.of(all); } catch(Exception e){}
+        }
+        if( all.startsWith("while") ){
+            try{ return _whileStmt.of(all); } catch(Exception e){}
+        }
+        //ends with
+        if( all.endsWith(".this") ){
+            try{ return _thisExpr.of(all); } catch(Exception e){}
+        }
+        if( _modifier.of(all) != null){
+            return _modifier.of(all);
+        }
+        if( Arrays.stream(_unaryExpr.PREFIX_OPERATORS).anyMatch(o -> all.startsWith(o.asString())) ){
+            try{ return _unaryExpr.of(all); }catch(Exception e){}
+        }
+
+        //numbers
+        if( Character.isDigit( all.charAt(0) ) || all.charAt(0) =='-' || all.charAt(0)=='+' ){
+            if( all.contains(".") || all.endsWith("D") || all.endsWith("d") || all.endsWith("F") || all.endsWith("f") || all.contains("E") || all.contains("e")){
+                try{ return _doubleExpr.of(all); }catch(Exception e){ }
+            }
+            if( ! (all.endsWith("l")|| all.endsWith("L") )){
+                try{ return _intExpr.of(all); }catch(Exception e){ }
+            }
+            try{ return _longExpr.of(all); }catch(Exception e){ }
+        }
+        if( all.startsWith("0x") || all.startsWith("0X") || all.startsWith("0b") || all.startsWith("0B")){
+            if( ! (all.endsWith("l")|| all.endsWith("L") )){
+                try{ return _intExpr.of(all); }catch(Exception e){ }
+            }
+            try{ return _longExpr.of(all); }catch(Exception e){ }
+        }
+        if( all.startsWith(".")){
+            try{ return _doubleExpr.of(all); }catch(Exception e){ }
+        }
+
+        //ends with
+        if( Arrays.stream(_unaryExpr.POSTFIX_OPERATORS).anyMatch(o -> all.endsWith(o.asString())) ){
+            return _unaryExpr.of(all);
+        }
+        if( all.endsWith(".class") ){
+            try{ return _classExpr.of(all); }catch(Exception e){ }
+        }
+        if( all.endsWith("]")){
+            try{ return _arrayAccessExpr.of(all); }catch(Exception e){ }
+        }
+
+        //statements
+        if( all.endsWith(";")){
+            try{ return _stmt.of(all); }catch(Exception e){ }
+        }
+        //methods/constructors
+        if( all.endsWith("}") ){
+            try{ return _method.of(all); }catch(Exception e){ }
+            try{ return _constructor.of(all); }catch(Exception e){ }
+        }
+
+
+        //If we get here, just hail mary pass to expression
+        //expression?
+        _expr _e = _expr.of(all);
+        return _e;
+        /*
+        if( all.contains("=") || all.contains("+")){
+
+        }
+         */
+        //starts with any unaryExpr prefix operators
+        //UnaryExpr.Operator.values()
+        //ends with any unaryExpr postfix operators
+        //UnaryExpr.Operator.values()
+
+        //throw new _jdraftException("could not build a _node from code :"+System.lineSeparator()+all);
+    }
 
     /**
      * Marker interface for ALL models and interfaces related to Java Language Constructs
@@ -1289,6 +1623,357 @@ public interface _java {
                 return -1;
             }
             return 1;
+        }
+    }
+
+    interface _char extends _codeToken {
+        char character();
+    }
+
+    enum _digit implements _char{
+        ZERO(0),
+        ONE(1),
+        TWO(2),
+        THREE(3),
+        FOUR(4),
+        FIVE(5),
+        SIX(6),
+        SEVEN(7),
+        EIGHT(8),
+        NINE(9);
+
+        private int val;
+
+        _digit(int val){
+            this.val = val;
+        }
+
+        public int value(){
+            return val;
+        }
+
+        public char character(){
+            return (char)(val+'0');
+        }
+    }
+
+    enum _lowerAlpha implements _char{
+        a('a'), b('b'), c('c'), d('d'), e('e'), f('f'), g('g'), h('h'), i('i'),
+        j('j'), k('k'), l('l'), m('m'), n('n'), o('o'), p('p'), q('q'), r('r'),
+        s('s'), t('t'), u('u'), v('v'), w('w'), x('x'), y('y'), z('z');
+
+        private final char ch;
+
+        _lowerAlpha(char ch){
+            this.ch = ch;
+        }
+
+        public char character(){
+            return ch;
+        }
+
+        public static _lowerAlpha get(char ch){
+            Optional<_lowerAlpha> os = Stream.of(values()).filter(sc -> sc.ch == ch).findFirst();
+            if( os.isPresent() ){
+                return os.get();
+            }
+            return null;
+        }
+    }
+
+    /*
+    enum _upperAlpha implements _char{
+        A('A'), B('B'), C('C'), D('D'), E('E'), F('F'), G('G'), H('H'), I('I'),
+        J('J'), K('K'), L('L'), M('M'), N('N'), O('O'), P('P'), Q('Q'), R('R'),
+        S('S'), T('T'), U('U'), V('V'), W('W'), X('X'), Y('Y'), Z('Z');
+
+        private final char ch;
+
+        _upperAlpha(char ch){
+            this.ch = ch;
+        }
+
+        public char character(){
+            return ch;
+        }
+
+        public static _upperAlpha get(char ch){
+            Optional<_upperAlpha> os = Stream.of(values()).filter(sc -> sc.ch == ch).findFirst();
+            if( os.isPresent() ){
+                return os.get();
+            }
+            return null;
+        }
+    }
+     */
+
+
+    /**
+     * When we read in the code String for tokenization/lexing,
+     * we need an interface that roundly explains what KIND on code token we have
+     *
+     *
+     * // a StringLiteralBuffer when encounter an open "
+     * (I peek ahead to make sure its not a textBlockBuffer, also check last token to make sure
+     * // it's not a \, it will know to end, when it encounters a ENDING " NOT preceded by a \)
+     * // a TextBlockBuffer when I encounter the ends when I encounter """
+     * // a Whitespace buffer contains contiguous whitespace
+     * // a keywordBuffer : it will collect lowercase, it will
+     * // a textBuffer :
+     * specifically:
+     * <UL>
+     *     <LI>whitespace</LI>
+     *     <LI></LI>
+     * </UL>
+     * <LI>
+     *
+     * </LI>
+     */
+    interface _codeToken {
+
+    }
+
+
+    /**
+     * "Special" characters that can be used by the tokenizer in breaking up Strings / categorizing things
+     */
+    enum _specialChar implements _char, _codeToken {
+        //the characters # _ $
+
+        TILDE('~'), BANG('!'), AT('@'), PERCENT('%'), CARET('^'), AND('&'), STAR('*'),
+        LPAREN('('), RPAREN(')'), DASH('-'), EQUAL('='), PLUS('+'), SLASH('\\'), PIPE('|'),
+        QUOTE('\''), OBRACKET('{'), CBRACKET('}'), OBRACE('['), CBRACE(']'), SEMI(';'),COLON(':'),
+        DBL_QUOTE('\"'), COMMA(','), LT('<'), GT('>'), BACKSLASH('/'), QUESTIONMARK('?');
+
+        private final char c;
+
+        _specialChar(char c){
+            this.c = c;
+        }
+
+        public static _specialChar get(char c){
+            Optional<_specialChar> os = Stream.of(values()).filter(sc -> sc.c == c).findFirst();
+            if( os.isPresent() ){
+                return os.get();
+            }
+            return null;
+        }
+
+        public char character(){
+            return c;
+        }
+    }
+
+    class _whitespace implements _codeToken {
+
+        private final StringBuilder str = new StringBuilder();
+
+        public _whitespace(){
+        }
+
+        private _whitespace(String s ){
+            str.append(s);
+        }
+
+        public void add( char c){
+            str.append(c);
+        }
+
+        public _whitespace drain(){
+            if( str.length() == 0 ){
+                return null;
+            }
+            String st = str.toString();
+            str.delete(0, str.length());
+            return new _whitespace(st);
+        }
+        public String toString(){
+            return " ";
+        }
+    }
+
+    //TriBuffer idea
+    //
+    //so we have:
+    // (1) Tokens that contains codeTokens (this is where we write to when we switch between the (3) buffers)
+    //
+    // (3) buffers
+    class _tokenizer{
+
+        /**
+         * TODO maintain a buffer of lowercase chars, & when you hit a whitespace or special character
+         * interpret the buffer to see if the buffer represents a keyword, if so, add the keyword to the buffer
+         * (rather than adding a separate pass)
+         * @param str
+         * @return
+         */
+        public static List<Object> tokenize(String str){
+            List<Object>toks = new ArrayList<>();
+            _whitespace whiteSpace = new _whitespace();
+            String text = "";
+            for(int i=0;i<str.length();i++){
+                char c = str.charAt(i);
+                switch(c){
+                    case '~': case '!': case '@': case '%': case '^': case '&': case '*': case '(': case ')':
+                    case '-': case '=': case '+': case '\\': case '|': case '\'': case '{': case '}': case '[':
+                    case ']': case ';': case ':': case '\"': case ',': case '<': case '>': case '/': case '?':
+                    {
+                        _whitespace _ws  = whiteSpace.drain();
+                        if(_ws != null ){
+                            toks.add(_ws);
+                        }
+                        if(text.length() > 0){
+                            toks.add(text);
+                            text = "";
+                        }
+                        toks.add(_specialChar.get(c));
+                        break;
+                    }
+                    case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h': case 'i':
+                    case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
+                    case 's': case 't': case 'u': case 'v': case 'w': case 'x': case 'y': case 'z':{
+                        _whitespace _ws  = whiteSpace.drain();
+                        if(_ws != null ){
+                            toks.add(_ws);
+                        }
+                        if( text.length() > 0){
+                            toks.add(text);
+                            text = "";
+                        }
+                        toks.add(_lowerAlpha.get(c));
+                        break;
+                    }
+                    default: {
+                        if( Character.isWhitespace(c)){
+                            whiteSpace.add(c);
+                        } else {
+                            _whitespace _ws = whiteSpace.drain();
+                            if (_ws != null) {
+                                toks.add(_ws);
+                            }
+                            text = text + c;
+                        }
+                    }
+                }
+            }
+            _whitespace _ws  = whiteSpace.drain();
+            if(_ws != null ){
+                toks.add(_ws);
+            }
+            if(text.length() > 0){
+                toks.add(text);
+            }
+            return toks;
+        }
+    }
+
+    /**
+     * Reserved words in the Java language
+     * these words have specific meaning and when parsed
+     * @see _hintWord
+     */
+    enum _keyWord implements _codeToken {
+        IF("if"), CLASS("class"), FOR("for"), PUBLIC("public"), PRIVATE("private"), PROTECTED("protected"),
+        PACKAGE("package"), TRY("try"), STATIC("static"), THROWS("throws"), THROW("throw"), YIELD("yield"),
+        WHILE("while"), IMPORT("import"), ASSERT("assert"), NEW("new"), BREAK("break"), THIS("this"),
+        SUPER("super"), CASE("case"), CATCH("catch"), ABSTRACT("abstract"), BOOLEAN("boolean"),
+        BYTE("byte"), CHAR("char"), CONST("const"), CONTINUE("continue"), DEFAULT("default"),
+        DOUBLE("double"), DO("do"),ELSE("else"), ENUM("enum"),EXTENDS("extends"),FALSE("false"),
+        FINAL("final"),FINALLY("finally"),FLOAT("float"),GOTO("goto"),IMPLEMENTS("implements"),
+        INSTANCEOF("instanceof"),INT("int"),INTERFACE("interface"),LONG("long"), NATIVE("native"),
+        NULL("null"), RETURN("return"),SHORT("short"),STRICTFP("strictfp"), SWITCH("switch"),
+        SYNCHRONIZED("synchronized"), TRANSIENT("transient"),TRUE("true"),VOID("void"),VOLATILE("volatile");
+
+        private final String text;
+
+        //the sequence of loweralpha characters to match
+        private final List<_lowerAlpha> sequence = new ArrayList<>();
+
+        _keyWord(String s){
+            this.text = s;
+            for(int i=0;i<s.length();i++){
+                sequence.add(_lowerAlpha.get(s.charAt(i)));
+            }
+        }
+
+        public List<_lowerAlpha> getSequence(){
+            return sequence;
+        }
+
+
+        public static List<Object> replace( List<Object> codeObjects){
+            Stream.of( values() ).forEach( v -> v.replaceIn(codeObjects));
+            return codeObjects;
+        }
+
+        /**
+         *
+         * @param str
+         * @return
+         */
+        public static _keyWord get(String str){
+            Optional<_keyWord> orw =
+                    Stream.of(_keyWord.values()).filter(rw -> rw.text.equals(str)).findFirst();
+            if( orw.isPresent() ){
+                return orw.get();
+            }
+            return null;
+        }
+
+        public List<Object> replaceIn(List<Object> unbound){
+            int idx = Collections.indexOfSubList(unbound, this.sequence);
+            while( idx >= 0 ){
+                for(int i=0; i< this.sequence.size(); i++){
+                    unbound.remove(idx);
+                }
+                unbound.add(idx, this);
+                idx = Collections.indexOfSubList(unbound, this.sequence);
+            }
+            return unbound;
+        }
+    }
+
+    /**
+     * NOT GLOBALLY enforced words like {@link _keyWord}
+     * these words (when encountered) can give hints to the parser/lexer on what to do
+     *
+     * i.e.
+     * i.e. you can do this (create a valid variable with the HintWord):
+     * String String = "free";
+     * String module = "blah";
+     *
+     * While with a keyword this wont work
+     * String new = "blah";//wont compile
+     * String int = "burger"; //wont compile
+     *
+     * @see _keyWord
+     */
+    enum _hintWord {
+        MODULE("module"),
+        EXPORTS("exports"),
+        OPENS("opens"),
+        USES("uses"),
+        REQUIRES("requires"),
+        PROVIDES("provides");
+
+        private final String text;
+
+        _hintWord(String s){
+            this.text = s;
+        }
+
+        /**
+         *
+         * @param str
+         * @return
+         */
+        public static _keyWord get(String str){
+            Optional<_keyWord> orw =
+                    Stream.of(_keyWord.values()).filter(rw -> rw.text.equals(str)).findFirst();
+            if( orw.isPresent() ){
+                return orw.get();
+            }
+            return null;
         }
     }
 }

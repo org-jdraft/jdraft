@@ -38,7 +38,18 @@ public final class _imports implements _tree._view<_imports>, _tree._group<Impor
     }
 
     public static _imports of(String... imports) {
+        String all = Text.combine(imports);
+        //System.out.println( "ALL "+all);
+        try {
+            CompilationUnit cu = Ast.of(all + System.lineSeparator() + "class $name${}");
+            //System.out.println("CU "+ cu );
+            return of(cu);
+        } catch(Exception e){
+
+        }
+        //System.out.println( "GOT HERE $$$$$$$$$$$$$$$$$$$$$$$$");
         CompilationUnit cu = new CompilationUnit();
+
         Arrays.stream(imports).forEach(i -> {
             if( i.endsWith(";") ){
                 i = i.substring(0,i.length()-1);

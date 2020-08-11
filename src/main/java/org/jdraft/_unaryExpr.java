@@ -30,6 +30,11 @@ public final class _unaryExpr implements _expr<UnaryExpr, _unaryExpr>, _tree._no
     public static final UnaryExpr.Operator PRE_DECREMENT = UnaryExpr.Operator.PREFIX_DECREMENT;
     public static final UnaryExpr.Operator PRE_INCREMENT = UnaryExpr.Operator.PREFIX_INCREMENT;
 
+    public static final UnaryExpr.Operator[] PREFIX_OPERATORS ={
+        BITWISE_COMPLEMENT /* ~a */, LOGICAL_COMPLEMENT /* !a */, MINUS /* -a */, PLUS /* +a */, PRE_INCREMENT /* ++a */, PRE_DECREMENT /* --a */ };
+
+    public static final UnaryExpr.Operator[] POSTFIX_OPERATORS ={ POST_INCREMENT /* n++ */, POST_DECREMENT/* n-- */ };
+
     public static _unaryExpr of(){
         return new _unaryExpr(new UnaryExpr());
     }

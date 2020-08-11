@@ -6,6 +6,7 @@ import org.jdraft._java;
 import org.jdraft._tree;
 import org.jdraft.bot.Select;
 import org.jdraft.text.Stencil;
+import org.jdraft.text.Text;
 import org.jdraft.text.Tokens;
 
 import java.util.List;
@@ -81,7 +82,6 @@ public class _walk<_T extends _java._domain> {
         return list(_matchFn).size();
     }
 
-
     /*
     public <_N extends _node> int count(String... stencil){
 
@@ -89,11 +89,17 @@ public class _walk<_T extends _java._domain> {
         //but it serves a valuable purpose... first it validates that the string IS a valid entity of _nodeClass,
         //secondly it NORMALIZES the form so that (if we encounter a like entity), we don't exclude a match
         //purely because it has "STYLISTIC" differences (i.e. spaces within parameters, "( 1 )" -vs- "(1)" etc.)
+
+    }
+    */
+
+    /*
+    public int count(String...stencil){
+        _java._member.(Text.combine(stencil));
         Stencil st = Stencil.of(_java.node(_nodeClass, stencil).toString(Print.PRINT_NO_COMMENTS));
         return list(_nodeClass, _n -> st.matches( _n.toString(Print.PRINT_NO_COMMENTS))).size();
     }
      */
-
     public int count(Stencil stencil){
         return list(_n -> stencil.matches( ((_tree._node)_n).toString(Print.PRINT_NO_COMMENTS))).size();
     }

@@ -66,9 +66,13 @@ public interface _tree<_T> extends _java._domain {
          * </PRE>
          *
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
-         */
+        */
         default _walk<_node> walk(){
             return new _walk(Walk.PRE_ORDER, this, _node.class);
+        }
+
+        default _walk<_node> walk(Node.TreeTraversal tt){
+            return new _walk(tt, this, _node.class);
         }
 
         /**
@@ -83,10 +87,11 @@ public interface _tree<_T> extends _java._domain {
          * PostOrder ("leaves first", "bottom-up") from (A) : D,E,B,C,A
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
-         */
+
         default _walk<_node> walkPostOrder(){
             return new _walk(Walk.POST_ORDER, this, _node.class);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
@@ -100,10 +105,11 @@ public interface _tree<_T> extends _java._domain {
          * Breadth-First (or Level Order) from (A): A,B,C,D,E
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
-         */
+
         default _walk<_node> walkBreadthFirst(){
             return new _walk(Walk.BREADTH_FIRST, this, _node.class);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default PARENTS fashion)
@@ -123,10 +129,11 @@ public interface _tree<_T> extends _java._domain {
          * </PRE>
          *
          * @return
-         */
+
         default _walk<_node> walkParents(){
             return new _walk<_node>(Walk.PARENTS, this, _node.class);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in DIRECT_CHILDREN fashion)
@@ -143,10 +150,11 @@ public interface _tree<_T> extends _java._domain {
          * </PRE>
          *
          * @return
-         */
+
         default _walk<_node> walkDirectChildren(){
             return new _walk<_node>(Walk.DIRECT_CHILDREN, this, _node.class);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default PRE_ORDER fashion)
@@ -166,6 +174,10 @@ public interface _tree<_T> extends _java._domain {
             return new _walkFeatures(Walk.PRE_ORDER, this, features);
         }
 
+        default <_F> _walkFeatures<_F> walk(Node.TreeTraversal tt, _feature<?, _F>...features){
+            return new _walkFeatures(tt, this, features);
+        }
+
         /**
          * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
          *
@@ -178,10 +190,11 @@ public interface _tree<_T> extends _java._domain {
          * PostOrder ("leaves first", "bottom-up") from (A) : D,E,B,C,A
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
-         */
+
         default <_F> _walkFeatures<_F> walkPostOrder(_feature<?, _F>...features){
             return new _walkFeatures(Walk.POST_ORDER, this, features);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
@@ -195,10 +208,11 @@ public interface _tree<_T> extends _java._domain {
          * Breadth-First (or Level Order) from (A): A,B,C,D,E
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
-         */
+
         default <_F> _walkFeatures<_F> walkBreadthFirst(_feature<?, _F>...features){
             return new _walkFeatures(Walk.BREADTH_FIRST, this, features);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default PARENTS fashion)
@@ -218,10 +232,11 @@ public interface _tree<_T> extends _java._domain {
          * </PRE>
          *
          * @return
-         */
+
         default <_F> _walkFeatures<_F> walkParents(_feature<?, _F>...features){
             return new _walkFeatures(Walk.PARENTS, this);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in DIRECT_CHILDREN fashion)
@@ -238,10 +253,11 @@ public interface _tree<_T> extends _java._domain {
          * </PRE>
          *
          * @return
-         */
+
         default <_F> _walkFeatures<_F> walkDirectChildren(_feature<?, _F>...features){
             return new _walkFeatures<_F>(Walk.DIRECT_CHILDREN, this, features);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default PRE_ORDER fashion)
@@ -261,8 +277,16 @@ public interface _tree<_T> extends _java._domain {
             return new _walk(Walk.PRE_ORDER, this, targetClass);
         }
 
+        default <_D extends _java._domain> _walk<_D> walk(Node.TreeTraversal tt, Class<_D> targetClass){
+            return new _walk(tt, this, targetClass);
+        }
+
         default <_N extends _tree._node> _walk<_N> walk(_N target){
             return new _walk(Walk.PRE_ORDER, this, target);
+        }
+
+        default <_N extends _tree._node> _walk<_N> walk(Node.TreeTraversal tt, _N target){
+            return new _walk(tt, this, target);
         }
 
         /**
@@ -277,10 +301,11 @@ public interface _tree<_T> extends _java._domain {
          * PostOrder ("leaves first", "bottom-up") from (A) : D,E,B,C,A
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
-         */
+
         default <_D extends _java._domain> _walk<_D> walkPostOrder(Class<_D> targetClass){
             return new _walk(Walk.POST_ORDER, this, targetClass);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default POST_ORDER fashion)
@@ -294,10 +319,11 @@ public interface _tree<_T> extends _java._domain {
          * Breadth-First (or Level Order) from (A): A,B,C,D,E
          * </PRE>
          * @return a _walk that will allow the traversal of the AST starting at the current {@link _node}
-         */
+
         default <_D extends _java._domain> _walk<_D> walkBreadthFirst(Class<_D> targetClass){
             return new _walk(Walk.BREADTH_FIRST, this, targetClass);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in default PARENTS fashion)
@@ -317,10 +343,11 @@ public interface _tree<_T> extends _java._domain {
          * </PRE>
          *
          * @return
-         */
+
         default <_D extends _tree> _walk<_D> walkParents(Class<_D> targetClass){
             return new _walk(Walk.PARENTS, this, targetClass);
         }
+        */
 
         /**
          * Build and return a _walk object that will prepare walking the AST (in DIRECT_CHILDREN fashion)
@@ -337,10 +364,11 @@ public interface _tree<_T> extends _java._domain {
          * </PRE>
          *
          * @return
-         */
+
         default <_D extends _java._domain> _walk<_D> walkDirectChildren(Class<_D> targetClass){
             return new _walk(Walk.DIRECT_CHILDREN, this, targetClass);
         }
+        */
 
         /**
          * @return the underlying AST Node instance being manipulated
@@ -349,19 +377,13 @@ public interface _tree<_T> extends _java._domain {
          */
         N node();
 
-        _N replace(N n);
-
         /**
-         * Replace this ast node (wherever it resides in the Ast TREE) with the ASt node
-         * and return the replacement Ast node instance
-         * @param n the ast nod to replace this node in the tree
-         * @param <N> the type of Ast node to replace with
-         * @return the replacement node
-
-        default <N extends Node> N replace(N n){
-
-        }
-        */
+         * Replace this ast node (wherever it resides in the Ast TREE) with another Ast node
+         * (update the internal reference to this node n) and return the modified _N
+         * @param n the ast nod to replace this node in the tree and the internal reference
+         * @return the _N now referencing to a new node n in the Ast
+         */
+        _N replace(N n);
 
         /**
          * Replace this {@link _tree._node} (wherever it resides in the Ast TREE) with {@code _n} provided

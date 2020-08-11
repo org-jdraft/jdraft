@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.expr.SimpleName;

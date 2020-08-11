@@ -14,6 +14,9 @@ import java.util.stream.Stream;
  * <PRE>
  * a = b
  * </PRE>
+ *
+ * Left hand side (Target)
+ * Right hand side (Value)
  */
 public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree._node<AssignExpr, _assignExpr> {
 
@@ -129,97 +132,62 @@ public final class _assignExpr implements _expr<AssignExpr, _assignExpr>, _tree.
         return Objects.equals(this.node().getOperator(), ao);
     }
 
-    /**
-     * "="
-     */
+    /** "="*/
     public boolean isAssign() {
         return isOperator(AssignExpr.Operator.ASSIGN);
     }
 
-    /**
-     * "+="
-     *
-     * @return
-     */
+    /** "+=" */
     public boolean isIncrementAssign() {
         return isOperator(AssignExpr.Operator.PLUS);
     }
 
-    /**
-     * "-="
-     * @return
-     */
+    /** "-=" */
     public boolean isDecrementAssign() {
         return isOperator(AssignExpr.Operator.MINUS);
     }
-    /**
-     *  "*="
-     */
+
+    /** "*="*/
     public boolean isMultiplyAssign() {
         return isOperator(AssignExpr.Operator.MULTIPLY);
     }
 
-    /**
-     * /=
-     * @return
-     */
+    /** /= */
     public boolean isDivideAssign() {
         return isOperator(AssignExpr.Operator.DIVIDE);
     }
 
-    /**
-     * &=
-     *
-     * @return
-     */
+    /** &= */
     public boolean isBinaryAndAssign() {
         return isOperator(AssignExpr.Operator.BINARY_AND);
     }
 
-    /**
-     * "|="
-     * @return
-     */
+    /** "|="*/
     public boolean isBinaryOrAssign() {
         return isOperator(AssignExpr.Operator.BINARY_OR);
     }
 
-    /**
-     * "^="
-     * @return
-     */
+    /** "^=" */
     public boolean isBinaryXorAssign() {
         return isOperator(AssignExpr.Operator.XOR);
     }
 
-    /**
-     * "%="
-     * @return
-     */
+    /** "%="*/
     public boolean isRemainderAssign() {
         return isOperator(AssignExpr.Operator.REMAINDER);
     }
 
-    /**
-     * "<<="
-     * @return
-     */
+    /** "<<="*/
     public boolean isBinaryLeftShiftAssign() {
         return isOperator(AssignExpr.Operator.LEFT_SHIFT);
     }
 
-    /**
-     * ">>="
-     * @return
-     */
+    /** ">>=" */
     public boolean isBinarySignedRightShiftAssign() {
         return isOperator(AssignExpr.Operator.SIGNED_RIGHT_SHIFT);
     }
 
-    /**
-     * ">>>="
-     * @return
-     */
+    /** ">>>="*/
     public boolean isBinaryUnsignedRightShiftAssign() {
         return isOperator(AssignExpr.Operator.UNSIGNED_RIGHT_SHIFT);
     }
