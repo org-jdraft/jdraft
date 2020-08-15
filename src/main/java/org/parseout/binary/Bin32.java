@@ -1,5 +1,10 @@
 package org.parseout.binary;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+
 /**
  * bit-wise address for a series of bits within a 32-bit word (int)
  *
@@ -30,8 +35,8 @@ package org.parseout.binary;
 public interface Bin32 {
 
     /** Returns a BitAddress32 implementation of the Bin32 based on the mask and shift*/
-    static BitAddress32 of( int mask, int shift ){
-        return new BitAddress32(mask, shift);
+    static BinAddress32 of(int mask, int shift ){
+        return new BinAddress32(mask, shift);
     }
 
     /** Mask for the sequence of bits from within the word */
@@ -113,13 +118,32 @@ public interface Bin32 {
         return s + "  ["+getShift()+"..."+(getShift()+getBitCount()-1)+"] "+getBitCount()+"-bits";
     }
 
-    /** Simple Bin32 implementation of an address of consecutive bits within a 32-bit word*/
-    class BitAddress32 implements Bin32 {
+    /** Simple Bin32 implementation of an address of consecutive bits within a 32-bit word */
+    class BinAddress32 implements Bin32 {
+
+        public static BinAddress32 of(int shiftedMask){
+            return new BinAddress32(shiftedMask);
+        }
 
         public final int mask;
         public final int shift;
 
-        public BitAddress32(int mask, int shift){
+        /**
+         * Simplified constructor, generally good if we use 0b (binary notation) to show the bits of a BitAddress32
+         * especially for explaining the
+         * <PRE>
+         * BinAddress32 firstByte  = new BinAddress32(0b11111111000000000000000000000000);
+         * BinAddress32 secondByte = new BinAddress32(0b00000000111111110000000000000000);
+         * BinAddress32 thirdByte  = new BinAddress32(0b00000000000000001111111100000000);
+         * BinAddress32 fourthByte = new BinAddress32(0b00000000000000000000000011111111);
+         * </PRE>
+         * @param shiftedMask
+         */
+        public BinAddress32(int shiftedMask){
+            this ( shiftedMask >> Integer.numberOfTrailingZeros(shiftedMask), Integer.numberOfTrailingZeros(shiftedMask));
+        }
+
+        public BinAddress32(int mask, int shift){
             this.mask = mask;
             this.shift = shift;
 
@@ -170,6 +194,128 @@ public interface Bin32 {
                 count++;
             }
             return count;
+        }
+    }
+
+    /**
+     * Converts from an int to a value or a value form an int
+     * for example here is a simple Bijection
+     * 1  <-> "A"
+     * 2  <-> "B"
+     * 3  <-> "C"
+     * 4  <-> "D"
+     * @param <T>
+     */
+    interface Bijection<T> extends IntFunction<T>, Function<T, Integer> {
+    }
+
+    Bijection<Boolean> BOOL = new Bijection<Boolean>(){
+
+        @Override
+        public Boolean apply(int value) {
+            return value == 1;
+        }
+
+        @Override
+        public Integer apply(Boolean aBoolean) {
+            return aBoolean ? 1 : 0;
+        }
+    };
+
+    /**
+     * Bijection of a code table
+     */
+    static class CodeTable implements Bijection<String>{
+
+        public static CodeTable of( String...codes ){
+            return new CodeTable(codes);
+        }
+
+        Map<String, Integer> codeToBin = new HashMap<>();
+        String[] codes;
+
+        public CodeTable(String...codes){
+            this.codes = codes;
+            for(int i=0;i<codes.length;i++){
+                codeToBin.put(codes[i], i );
+            }
+        }
+
+        @Override
+        public Integer apply(String s) {
+            return codeToBin.get(s);
+        }
+
+        @Override
+        public String apply(int value) {
+            return codes[value];
+        }
+    }
+
+    class BinStore32<T> {
+        public final String name;
+        public final BinAddress32 address;
+        public final Bijection<T> bijection;
+
+        public BinStore32(int mask, String name, Bijection<T> bijection){
+            this.address = BinAddress32.of(mask);
+            this.name = name;
+            this.bijection = bijection;
+        }
+
+        public T load(int word){
+            return bijection.apply(address.read(word));
+        }
+
+        public int update( T value, int word){
+            return address.update(word, bijection.apply(value) );
+        }
+    }
+
+    /**
+     * Packs / stores (2 distinct values within a 32-bit word)
+     * @param <A> the type of the first value being stored
+     * @param <B> the type of the second value being stored
+     */
+    class Field2<A,B> {
+
+        public static <A, B> Field2<A,B> of(int addressA, String nameA, Bijection<A>bijectionA,
+                                            int addressB, String nameB, Bijection<B>bijectionB){
+            return new Field2<>(
+                    new BinStore32<>(addressA, nameA, bijectionA),
+                    new BinStore32<>(addressB, nameB, bijectionB));
+        }
+
+        public BinStore32<A> binStoreA;
+        public BinStore32<B> binStoreB;
+
+        public Field2(BinStore32<A>binStoreA, BinStore32<B> binStoreB){
+            this.binStoreA = binStoreA;
+            this.binStoreB = binStoreB;
+        }
+
+        public int store(A aValue, B bValue){
+            return binStoreA.update(aValue, 0) | binStoreB.update(bValue, 0);
+        }
+
+        public Object[] load(int word){
+            return new Object[]{ binStoreA.load(word), binStoreB.load(word)};
+        }
+
+        public A loadA(int word){
+            return binStoreA.load(word);
+        }
+
+        public B loadB(int word){
+            return binStoreB.load(word);
+        }
+
+        public int updateA(int word, A aValue){
+            return binStoreA.update(aValue, word);
+        }
+
+        public int updateB(int word, B bValue){
+            return binStoreB.update(bValue, word);
         }
     }
 
