@@ -110,72 +110,72 @@ public interface _feature<_T, _F>{
         /**{@link _annos._withAnnos} {@link _annos#ANNOS} {@link _annotation#ANNOS}
          * {@link _class#ANNOS} {@link _constructor#ANNOS}, {@link _field#ANNOS} {@link _interface#ANNOS}
          * {@link _method#ANNOS} {@link _param#ANNOS} {@link _receiverParam#ANNOS} {@link _variablesExpr#ANNOS}... */
-        ANNOS("annos", _annos._withAnnos.class), /** i.e. @Deprecated @NotNull */
+        ANNOS("annos", _annos._withAnnos.class, 0b00000000000000000000000000000001), /** i.e. @Deprecated @NotNull */
         /**{@link _annos#ANNOS} */
-        ANNO_EXPR("annoExpr"), /** i.e. @Deprecated */
+        ANNO_EXPR("annoExpr",0b00000000000000000000000000000010), /** i.e. @Deprecated */
 
         /** {@link _newExpr#ANONYMOUS_BODY_MEMBERS} */
-        ANONYMOUS_BODY_MEMBERS("anonymousBodyMembers"),
+        ANONYMOUS_BODY_MEMBERS("anonymousBodyMembers",0b00000000000000000000000000000011),
 
         /** {@link _args#ARGS}, {@link _constant#ARGS},  {@link _methodCallExpr#ARGS}
          *  {@link _constructorCallStmt#ARGS}, {@link _newExpr#ARGS}*/
-        ARGS("args", _args._withArgs.class),
+        ARGS("args", _args._withArgs.class, 0b00000000000000000000000000000100),
         /** {@link _args#ARGS} */
-        ARG("arg"),
+        ARG("arg", 0b00000000000000000000000000000101),
 
         /** {@link _newArrayExpr#DIMENSIONS} */
-        ARRAY_DIMENSIONS("arrayDimensions"),
+        ARRAY_DIMENSIONS("arrayDimensions", 0b00000000000000000000000000000110),
         /** {@link _newArrayExpr#DIMENSIONS} */
-        ARRAY_DIMENSION("arrayDimension"),
+        ARRAY_DIMENSION("arrayDimension", 0b00000000000000000000000000000111),
 
         /**
          * {@link _catch#BODY} {@link _constructor#BODY} {@link _doStmt#BODY}, {@link _forEachStmt#BODY},
          * {@link _forStmt#BODY}, {@link _initBlock#BODY}, {@link _lambdaExpr#BODY}, {@link _method#BODY},
          * {@link _synchronizedStmt#BODY}, {@link _whileStmt#BODY}
          */
-        BODY("body", _body._withBody.class),
+        BODY("body", _body._withBody.class, 0b00000000000000000000000000001000),
 
         /**{@link _switchCase#BODY_TYPE}*/
-        BODY_TYPE("bodyType"),
+        BODY_TYPE("bodyType", 0b00000000000000000000000000001001),
 
         /**{@link _switchCase#CASE_EXPRESSIONS}*/
-        CASE_EXPRESSIONS("caseExpressions"),
+        CASE_EXPRESSIONS("caseExpressions", 0b00000000000000000000000000001010),
         /**{@link _switchCase#CASE_EXPRESSIONS}*/
-        CASE_EXPRESSION("caseExpression"),
+        CASE_EXPRESSION("caseExpression", 0b00000000000000000000000000001011),
 
         /** {@link _tryStmt#CATCH_CLAUSES}*/
-        CATCH_CLAUSES( "catchClauses"),
+        CATCH_CLAUSES( "catchClauses",0b00000000000000000000000000001100),
         /** {@link _tryStmt#CATCH_CLAUSES}*/
-        CATCH_CLAUSE("catchClause"),
+        CATCH_CLAUSE("catchClause",0b00000000000000000000000000001101),
 
         /**{@link _assertStmt#CHECK}*/
-        CHECK("check"),
+        CHECK("check",0b00000000000000000000000000001110),
 
         /**{@link _localClassStmt#CLASS} */
-        CLASS("class"),
+        CLASS("class",0b00000000000000000000000000001111),
 
         /** {@link _project#CODE_UNITS}*/
-        CODE_UNITS("codeUnits"), //project
+        CODE_UNITS("codeUnits", 0b00000000000000000000000000010000), //project
         /** {@link _project#CODE_UNITS}*/
-        CODE_UNIT("codeUnit"),
+        CODE_UNIT("codeUnit",0b00000000000000000000000000010001),
 
         /**{@link _forStmt#COMPARE}*/
-        COMPARE("compare"),
+        COMPARE("compare",0b00000000000000000000000000010010),
 
         /** {@link org.jdraft._java._withCondition}, {@link _doStmt#CONDITION}, {@link _ifStmt#CONDITION},
          * {@link _ternaryExpr#CONDITION}, {@link _whileStmt#CONDITION} */
-        CONDITION("condition", _java._withCondition.class),
+        CONDITION("condition", _java._withCondition.class, 0b00000000000000000000000000010011),
 
         /** {@link _annoMember#DEFAULT} */
-        DEFAULT("default"),
+        DEFAULT("default",0b00000000000000000000000000010100),
 
         /**{@link _ifStmt#ELSE}, {@link _ternaryExpr#ELSE}*/
-        ELSE("else"),
+        ELSE("else",0b00000000000000000000000000010101),
 
         /** {@link _anno#ENTRY_PAIRS} */
-        ENTRY_PAIRS("entryPairs"),
+        ENTRY_PAIRS("entryPairs",0b00000000000000000000000000010110),
         /** {@link _anno#ENTRY_PAIRS} */
-        ENTRY_PAIR("entryPair"),
+        ENTRY_PAIR("entryPair",0b00000000000000000000000000010111),
 
         /**
          * {@link org.jdraft._java._withExpression} {@link _arrayDimension#EXPRESSION}, {@link _castExpr#EXPRESSION},
@@ -183,44 +183,44 @@ public interface _feature<_T, _F>{
          * {@link _returnStmt#EXPRESSION}, {@link _synchronizedStmt#EXPRESSION}, {@link _throwStmt#EXPRESSION},
          * {@link _unaryExpr#EXPRESSION}, {@link _yieldStmt#EXPRESSION}
          */
-        EXPRESSION("expression", _java._withExpression.class),
+        EXPRESSION("expression", _java._withExpression.class,0b00000000000000000000000000011000),
 
         /** {@link _typeParam#EXTENDS_TYPE_BOUND} */
-        EXTENDS_TYPE_BOUNDS("extendsTypeBounds"),
-        EXTENDS_TYPE_BOUND("extendsTypeBound"),
+        EXTENDS_TYPE_BOUNDS("extendsTypeBounds",0b00000000000000000000000000011001),
+        EXTENDS_TYPE_BOUND("extendsTypeBound",0b00000000000000000000000000011010),
 
         /**{@link _class#EXTENDS} {@link _interface#EXTENDS}*/
-        EXTENDS("extends", _type._withExtends.class),
+        EXTENDS("extends", _type._withExtends.class,0b00000000000000000000000000011011),
         /**{@link _class#EXTENDS} {@link _interface#EXTENDS}*/
-        EXTEND("extend"),
+        EXTEND("extend",0b00000000000000000000000000011100),
 
         /**{@link _tryStmt#FINALLY_BODY}*/
-        FINALLY_BODY( "finallyBody"),
+        FINALLY_BODY( "finallyBody",0b00000000000000000000000000011101),
 
         /**{@link _methodRefExpr#IDENTIFIER}*/
-        IDENTIFIER("identifier"),
+        IDENTIFIER("identifier",0b00000000000000000000000000011110),
 
         /**{@link _arrayAccessExpr#INDEX}*/
-        INDEX("index"),
+        INDEX("index",0b00000000000000000000000000011111),
 
         /**{@link org.jdraft._type._withImplements}, {@link _class#IMPLEMENTS}, {@link _enum#IMPLEMENTS}*/
-        IMPLEMENTS("implements", _type._withImplements.class),
-        IMPLEMENT("implement"),
+        IMPLEMENTS("implements", _type._withImplements.class, 0b00000000000000000000000000100000),
+        IMPLEMENT("implement", 0b00000000000000000000000000100001),
 
         /**{@link _annotation#IMPORTS}, {@link _class#IMPORTS}, {@link _enum#IMPORTS},{@link _interface#IMPORTS},
          * {@link _packageInfo#IMPORTS},{@link _moduleInfo#IMPORTS} {@link _imports#IMPORTS}*/
-        IMPORTS("imports"),
+        IMPORTS("imports",0b00000000000000000000000000100010),
         /**{@link _imports#IMPORTS} */
-        IMPORT("import"),
+        IMPORT("import",0b00000000000000000000000000100011),
 
         /**{@link _arrayInitExpr#INITS}*/
-        INITS("inits"),
+        INITS("inits",0b00000000000000000000000000100100),
         /** {@link _variable#INIT} {@link _newArrayExpr#INIT}, {@link _arrayInitExpr#INITS},
          * {@link _field#INIT}, {@link _forStmt#INIT}*/
-        INIT("init"),
+        INIT("init", 0b00000000000000000000000000100101),
 
         /** {@link _param#IS_FINAL} */
-        IS_FINAL("isFinal"),
+        IS_FINAL("isFinal",0b00000000000000000000000000100110),
 
         /**
          * is the body implemented, or (abstract/NOT implemented)
@@ -228,82 +228,82 @@ public interface _feature<_T, _F>{
          * -vs-
          * <CODE>void m();</CODE> has a NOT IMPLEMENTED BODY because ";" )
          * {@link _body#IS_IMPLEMENTED} */
-        IS_IMPLEMENTED( "isImplemented"),
+        IS_IMPLEMENTED( "isImplemented",0b00000000000000000000000000100111),
 
         /** {@link _moduleInfo#IS_OPEN} */
-        IS_OPEN("isOpen"),
+        IS_OPEN("isOpen", 0b00000000000000000000000000101000),
 
         /**{@link _lambdaExpr#IS_PARAM_PARENTHESIZED}*/
-        IS_PARAM_PARENTHESIZED("isParamParenthesized"),
+        IS_PARAM_PARENTHESIZED("isParamParenthesized",0b00000000000000000000000000101001),
 
         /** {@link _import#IS_STATIC} {@link _initBlock#IS_STATIC} */
-        IS_STATIC("isStatic"),
+        IS_STATIC("isStatic",0b00000000000000000000000000101010),
 
         /**{@link _constructorCallStmt#IS_SUPER} */
-        IS_SUPER("isSuper"),
+        IS_SUPER("isSuper",0b00000000000000000000000000101011),
 
         /**{@link _constructorCallStmt#IS_THIS} */
-        IS_THIS("isThis"),
+        IS_THIS("isThis",0b00000000000000000000000000101100),
 
         /** {@link _moduleRequires#IS_TRANSITIVE} */
-        IS_TRANSITIVE("isTransitive"),
+        IS_TRANSITIVE("isTransitive", 0b00000000000000000000000000101101),
 
         /**{@link _import#IS_WILDCARD}*/
-        IS_WILDCARD("isWildcard"),
+        IS_WILDCARD("isWildcard", 0b00000000000000000000000000101110),
 
         /** {@link _param#IS_VAR_ARG}*/
-        IS_VAR_ARG("isVarArg"),
+        IS_VAR_ARG("isVarArg",0b00000000000000000000000000101111),
 
         /**{@link _forEachStmt#ITERABLE}*/
-        ITERABLE("iterable"),
+        ITERABLE("iterable", 0b00000000000000000000000000110000),
 
         /**
          * {@link org.jdraft._javadocComment._withJavadoc}
          * {@link _annotation#JAVADOC}, {@link _class#JAVADOC}, {@link _enum#JAVADOC}, {@link _interface#JAVADOC},
          * {@link _constructor#JAVADOC} {@link _method#JAVADOC}
          */
-        JAVADOC("javadoc", _javadocComment._withJavadoc.class),
+        JAVADOC("javadoc", _javadocComment._withJavadoc.class, 0b00000000000000000000000000110000),
 
         /**{@link _breakStmt#LABEL}, {@link _labeledStmt#LABEL}, {@link _continueStmt#LABEL} */
-        LABEL("label"),
+        LABEL("label",0b00000000000000000000000000110001),
 
         /**{@link _binaryExpr}*/
-        LEFT( "left"),
+        LEFT( "left",0b00000000000000000000000000110010),
 
         //values like int, float, etc. are stored as string b/c "0b1" & "1" & "0x1"
         //are mean the same value but represented differently
         /**{@link _expr._literal} {@link _intExpr#LITERAL_VALUE}, {@link _doubleExpr#LITERAL_VALUE},
          * {@link _booleanExpr#LITERAL_VALUE}, {@link _stringExpr#LITERAL_VALUE},{@link _charExpr#LITERAL_VALUE},
          * {@link _textBlockExpr#LITERAL_VALUE) */
-        LITERAL_VALUE("literalValue"),
+        LITERAL_VALUE("literalValue", 0b00000000000000000000000000110011),
 
         /** {@link _class#MEMBERS}, {@link _enum#MEMBERS}, {@link _annotation#MEMBERS}, {@link _interface#MEMBERS}, {@link _constant#MEMBERS} */
-        MEMBERS("members"),
+        MEMBERS("members", 0b00000000000000000000000000110100),
         /** {@link _class#MEMBERS}, {@link _enum#MEMBERS}, {@link _annotation#MEMBERS}, {@link _interface#MEMBERS}, {@link _constant#MEMBERS} */
-        MEMBER("member"),
+        MEMBER("member",0b00000000000000000000000000110101),
 
         /**{@link _assertStmt#MESSAGE}*/
-        MESSAGE("message"),
+        MESSAGE("message",0b00000000000000000000000000110110),
 
         /**
          * {@link _annotation#MODIFIERS}, {@link _class#MODIFIERS},{@link _constructor#MODIFIERS},
          * {@link _annoMember#MODIFIERS}, {@link _enum#MODIFIERS}, {@link _field#MODIFIERS},{@link _interface#MODIFIERS},
          * {@link _method#MODIFIERS}, {@link _modifiers#MODIFIERS}, {@link _variablesExpr#MODIFIERS}
          */
-        MODIFIERS("modifiers", _modifiers._withModifiers.class),
+        MODIFIERS("modifiers", _modifiers._withModifiers.class, 0b00000000000000000000000000110111),
         /** {@link _modifiers#MODIFIERS}*/
-        MODIFIER("modifier"),
+        MODIFIER("modifier", 0b00000000000000000000000000111000),
 
         /** {@link _moduleInfo#MODULE_DIRECTIVES} */
-        MODULE_DIRECTIVES("moduleDirectives"),
+        MODULE_DIRECTIVES("moduleDirectives", 0b00000000000000000000000000111001),
         /** {@link _moduleInfo#MODULE_DIRECTIVES} */
-        MODULE_DIRECTIVE("moduleDirective"),
+        MODULE_DIRECTIVE("moduleDirective", 0b00000000000000000000000000111010),
 
         /** {@link _moduleProvides#MODULE_NAMES}, {@link _moduleOpens#MODULE_NAMES}, {@link _moduleExports#MODULE_NAMES} */
-        MODULE_NAMES("moduleNames"),
+        MODULE_NAMES("moduleNames", 0b00000000000000000000000000111011),
         /**{@link _moduleExports#MODULE_NAME}, {@link _moduleInfo#MODULE_NAME}, {@link _moduleOpens#MODULE_NAME}, {@link _moduleProvides#MODULE_NAME},
          * {@link _moduleRequires#MODULE_NAME}*/
-        MODULE_NAME("moduleName"),
+        MODULE_NAME("moduleName", 0b00000000000000000000000000111100),
 
         /**{@link _anno#NAME}, {@link _arrayAccessExpr#EXPRESSION}, {@link _class#NAME}, {@link _constant#NAME},
          * {@link _constructor#NAME}, {@link _annoMember#NAME}, {@link _annoEntryPair#NAME}, {@link _enum#NAME},
@@ -311,98 +311,98 @@ public interface _feature<_T, _F>{
          * {@link _method#NAME}, {@link _methodCallExpr#NAME}, {@link _name#NAME}, {@link _nameExpr#NAME},
          * {@link _package#NAME}, {@link _param#NAME}, {@link _receiverParam#NAME}, {@link _variable#NAME}
          */
-        NAME("name", _java._withName.class),
+        NAME("name", _java._withName.class, 0b00000000000000000000000000111101),
 
         /**{@link _assignExpr#OPERATOR}, {@link _binaryExpr#OPERATOR}, {@link _unaryExpr#OPERATOR}*/
-        OPERATOR("operator"),
+        OPERATOR("operator",0b00000000000000000000000000111110),
 
         /** {@link _annotation#PACKAGE}, {@link _class#PACKAGE}, {@link _enum#PACKAGE}, {@link _interface#PACKAGE},
          * {@link _packageInfo#PACKAGE}*/
-        PACKAGE("package"),
+        PACKAGE("package",0b00000000000000000000000000111111),
 
         /** {@link _params#PARAMS}, {@link _constructor#PARAMS},{@link _lambdaExpr#PARAMS}, {@link _method#PARAMS} */
-        PARAMS("params", _params._withParams.class),
+        PARAMS("params", _params._withParams.class, 0b00000000000000000000000001000000),
         /**{@link _catch#PARAM} {@link _params#PARAMS} */
-        PARAM("param"),
+        PARAM("param", 0b00000000000000000000000001000001),
 
         /** {@link _method#RECEIVER_PARAM} {@link _constructor#RECEIVER_PARAM} */
-        RECEIVER_PARAM("receiverParam", _receiverParam._withReceiverParam.class),
+        RECEIVER_PARAM("receiverParam", _receiverParam._withReceiverParam.class, 0b00000000000000000000000001000010),
 
         /**{@link _binaryExpr#RIGHT}*/
-        RIGHT("right"),
+        RIGHT("right", 0b00000000000000000000000001000011),
 
         /**{@link _fieldAccessExpr#SCOPE}, {@link _methodCallExpr#SCOPE}, {@link _methodRefExpr#SCOPE}, {@link _newExpr#SCOPE} */
-        SCOPE("scope", _java._withScope.class),
+        SCOPE("scope", _java._withScope.class, 0b00000000000000000000000001000100),
 
         /**{@link _blockStmt#STATEMENTS} {@link _body#STATEMENTS} {@link _switchCase#STATEMENTS} */
-        STATEMENTS("statements"),
+        STATEMENTS("statements", 0b00000000000000000000000001000101),
         /**{@link _blockStmt#STATEMENTS}, {@link _body#STATEMENTS}, {@link _labeledStmt#STATEMENT}, {@link _switchCase#STATEMENTS} */
-        STATEMENT("statement"),
+        STATEMENT("statement", 0b00000000000000000000000001000110),
 
         /**{@link _switchExpr#SWITCH_ENTRIES}, {@link _switchStmt#SWITCH_ENTRIES}*/
-        SWITCH_ENTRIES("switchEntries"),
+        SWITCH_ENTRIES("switchEntries", 0b00000000000000000000000001000111),
         /**{@link _switchExpr#SWITCH_ENTRIES}, {@link _switchStmt#SWITCH_ENTRIES}*/
-        SWITCH_ENTRY("switchEntry"),
+        SWITCH_ENTRY("switchEntry",0b00000000000000000000000001001000),
 
         /**{@link _switchExpr#SELECTOR}, {@link _switchStmt#SELECTOR}*/
-        SELECTOR("selector"),
+        SELECTOR("selector", 0b00000000000000000000000001001001),
 
         /**{@link _assignExpr#TARGET}*/
-        TARGET("target"),
+        TARGET("target",0b00000000000000000000000001001010),
 
         /**{@link _lineComment#TEXT}, {@link _blockComment#TEXT}, {@link _javadocComment#TEXT} */
-        TEXT("text", _comment.class),
+        TEXT("text", _comment.class, 0b00000000000000000000000001001011),
 
         /**{@link _ifStmt#THEN}, {@link _ternaryExpr#THEN}*/
-        THEN("then"),
+        THEN("then", 0b00000000000000000000000001001100),
 
         /**{@link _constructor#THROWS}, {@link _method#THROWS} */
-        THROWS("throws", _throws._withThrows.class),
+        THROWS("throws", _throws._withThrows.class, 0b00000000000000000000000001001101),
         /**{@link _throws#THROWS} */
-        THROW("throw"),
+        THROW("throw",0b00000000000000000000000001001110),
 
         /**{@link _tryStmt#TRY_BODY}*/
-        TRY_BODY("tryBody"),
+        TRY_BODY("tryBody", 0b00000000000000000000000001001111),
 
         /**{@link _newArrayExpr#TYPE}, {@link _castExpr#TYPE} {@link _classExpr#TYPE}, {@link _annoMember#TYPE},
          * {@link _field#TYPE}, {@link _instanceOfExpr#TYPE},{@link _method#TYPE}, {@link _newExpr#TYPE},
          * {@link _param#TYPE}, {@link _receiverParam#TYPE},{@link _typeExpr#TYPE}, {@link _typeRef#TYPE},
          * {@link _variable#TYPE}...*/
-        TYPE("typeRef", _typeRef._withType.class),
+        TYPE("typeRef", _typeRef._withType.class, 0b00000000000000000000000001010000),
 
         /** {@link _class}, {@link _constructor}, {@link _interface}, {@link _method}, {@link _typeParams} */
-        TYPE_PARAMS("typeParams", _typeParams._withTypeParams.class),
+        TYPE_PARAMS("typeParams", _typeParams._withTypeParams.class, 0b00000000000000000000000001010001),
         /** {@link _typeParams#TYPE_PARAMS} */
-        TYPE_PARAM("typeParam"),
+        TYPE_PARAM("typeParam", 0b00000000000000000000000001010010),
 
         /**{@link _constructorCallStmt#TYPE_ARGS}, {@link _fieldAccessExpr#TYPE_ARGS}, {@link _methodCallExpr#TYPE_ARGS},
          * {@link _methodRefExpr#TYPE_ARGS}, {@link _newExpr#TYPE_ARGS}, {@link _typeArgs#TYPE_ARGS} */
-        TYPE_ARGS("typeArgs", _typeArgs._withTypeArgs.class),
-        TYPE_ARG("typeArg"),
+        TYPE_ARGS("typeArgs", _typeArgs._withTypeArgs.class, 0b00000000000000000000000001010011),
+        TYPE_ARG("typeArg", 0b00000000000000000000000001010100),
 
         /**{@link _superExpr#TYPE_NAME} {@link _thisExpr#TYPE_NAME}*/
-        TYPE_NAME("typeName"),
+        TYPE_NAME("typeName", 0b00000000000000000000000001010101),
 
         /**{@link _forStmt#UPDATES}*/
-        UPDATES("updates"),
+        UPDATES("updates", 0b00000000000000000000000001010110),
         /**{@link _forStmt#UPDATES}*/
-        UPDATE("update"),
+        UPDATE("update", 0b00000000000000000000000001010111),
 
         /**{@link _assignExpr#VALUE}, {@link _annoEntryPair#VALUE}*/
-        VALUE("value"),
+        VALUE("value", 0b00000000000000000000000001011000),
 
         /**{@link _forEachStmt#VARIABLES} {@link _variablesExpr#VARIABLES} */
-        VARIABLES("variables"),
+        VARIABLES("variables",0b00000000000000000000000001011001),
         /**{@link _variablesExpr#VARIABLES}*/
-        VARIABLE("variable"),
+        VARIABLE("variable",0b00000000000000000000000001011010),
 
         /**{@link _param#VAR_ARG_ANNO_EXPRS} */
-        VAR_ARG_ANNO_EXPRS("varArgAnnoExprs"),
+        VAR_ARG_ANNO_EXPRS("varArgAnnoExprs",0b00000000000000000000000001011011),
 
         /**{@link _tryStmt#WITH_RESOURCES}*/
-        WITH_RESOURCES("withResources"),
+        WITH_RESOURCES("withResources", 0b00000000000000000000000001011100),
         /**{@link _tryStmt#WITH_RESOURCES}*/
-        WITH_RESOURCE("withResource");
+        WITH_RESOURCE("withResource",0b00000000000000000000000001011101);
 
         /** name used to identify this feature */
         public final String name;
@@ -410,12 +410,16 @@ public interface _feature<_T, _F>{
         /** Nullable type that is associated with this feature */
         public final Class categoryType;
 
-        _id(String name){
+        public final int id;
+
+        _id(String name, int id){
             this.name = name;
+            this.id = id;
             this.categoryType = null;
         }
-        _id(String name, Class categoryType){
+        _id(String name, Class categoryType, int id){
             this.name = name;
+            this.id = id;
             this.categoryType = categoryType;
         }
 

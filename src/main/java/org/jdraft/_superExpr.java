@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Name;
 import com.github.javaparser.ast.expr.SuperExpr;
 import org.jdraft.text.Text;

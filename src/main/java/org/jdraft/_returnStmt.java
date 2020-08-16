@@ -7,6 +7,10 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+/**
+ *
+ * return new Component();
+ */
 public final class _returnStmt implements
         _stmt._returns<ReturnStmt, _returnStmt>,
         _java._withExpression<ReturnStmt, _returnStmt>{
