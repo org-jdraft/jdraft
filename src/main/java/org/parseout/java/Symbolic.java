@@ -251,7 +251,7 @@ public enum Symbolic implements Bin32.BitPattern<String> {
         UnaryOperator(   0b111,   1,  "UnaryOperator"),
         EscapeCharacter( 0b1,     0,  "EscapeCharacter");
 
-        public final BitAddress32 bin;
+        public final BinAddress32 bin;
         public final String name;
 
         Category(int mask, int shift, String name){
