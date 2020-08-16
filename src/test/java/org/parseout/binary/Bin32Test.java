@@ -4,11 +4,90 @@ import junit.framework.TestCase;
 
 public class Bin32Test extends TestCase {
 
-    public void testBiWordStore(){
+    public void testCount(){
+        Bin32.Count bc = Bin32.Count.of(100);
+        assertEquals(new Integer(0), bc.apply(0));
+        assertEquals(new Integer(0), bc.apply(new Integer(0)));
+
+        assertEquals(new Integer(100), bc.apply(100));
+        assertEquals(new Integer(100), bc.apply(new Integer(100)));
+
+        Bin32.Field2<Integer, Integer> ranges = Bin32.Field2.of(
+                "0-100", Bin32.Count.of(100),
+                "0-20", Bin32.Count.of(20));
+        int word = ranges.store(0,0);
+        assertEquals(0, word);
+        word = ranges.store(1,1);
+        assertEquals(1, (int)ranges.loadA(word));
+        assertEquals(1, (int)ranges.loadB(word));
+
+        //lets test permutations using Counts
+        for(int i=0;i<100;i++){
+            for(int j=0;j<20;j++){
+                //store and load round trip
+                int packedWord = ranges.store(i,j);
+                assertEquals( i, (int)ranges.loadA(packedWord) );
+                assertEquals( j, (int)ranges.loadB(packedWord) );
+            }
+        }
+
+        ranges = Bin32.Field2.of(
+                "nullable 0-100", Bin32.Nullable.of(Bin32.Count.of(100)),
+                "nullable 0-20 ",  Bin32.Nullable.of( Bin32.Count.of(20)));
+        assertEquals(0, ranges.store(null, null));
+        assertEquals(1, ranges.store(0, null));
+        System.out.println( ranges.binStoreA.address );
+        System.out.println( ranges.binStoreB.address );
+
+        System.out.println( ranges.binStoreA );
+        System.out.println( ranges.binStoreB );
+
+        System.out.println( ranges );
+    }
+
+    enum Suit{
+        SPADES,
+        HEARTS,
+        DIAMONDS,
+        CLUBS
+    }
+
+    public void testFields(){
+        //I need a version that can calculate the bin addresses positions / shift
+        Bin32.Field3<Suit,Boolean,String> triStore = Bin32.Field3.of(
+                0b00000111, "suit", Bin32.Nullable.of( Bin32.EnumCodeTable.of(Suit.class, false)),
+                0b00001000, "facecard", Bin32.BOOL,
+                0b11110000, "seatAlpha", Bin32.CodeTable.of("A","B", "C","D","E","F","G","H") );
+        Object[] vals = triStore.load(0);
+        System.out.println( triStore );
+        assertEquals( null, vals[0]);
+        assertFalse( (Boolean)vals[1]);
+        assertEquals("A", vals[2]);
+        assertNull(triStore.loadA(0));
+
+        triStore = Bin32.Field3.of(
+                "suit", Bin32.Nullable.of( Bin32.EnumCodeTable.of(Suit.class, false)),
+                "facecard", Bin32.BOOL,
+                "seatAlpha", Bin32.CodeTable.of("A","B", "C","D","E","F","G","H") );
+
+        System.out.println( triStore );
+        vals = triStore.load(0);
+        assertEquals( null, vals[0]);
+        assertFalse( (Boolean)vals[1]);
+        assertEquals("A", vals[2]);
+        assertNull(triStore.loadA(0));
+
+        assertEquals( Suit.SPADES, triStore.loadA(1));
+        assertEquals( Suit.HEARTS, triStore.loadA(2));
+        assertEquals( Suit.DIAMONDS, triStore.loadA(3));
+        assertEquals( Suit.CLUBS, triStore.loadA(4));
+    }
+
+    public void testField2(){
 
         Bin32.Field2<Boolean,Boolean> bistore = new Bin32.Field2<>(
-                new Bin32.BinStore32<>(0b01, "single", Bin32.BOOL),
-                new Bin32.BinStore32<>(0b10, "dependants", Bin32.BOOL) );
+                new Bin32.BinStore<>(0b01, "single", Bin32.BOOL),
+                new Bin32.BinStore<>(0b10, "dependants", Bin32.BOOL) );
 
         assertTrue(bistore.loadA(0b11));
         assertTrue(bistore.loadB(0b11));
@@ -17,8 +96,8 @@ public class Bin32Test extends TestCase {
         assertFalse(bistore.loadB(0b0));
 
         Bin32.Field2<Boolean,String> hybridStore = new Bin32.Field2<>(
-                new Bin32.BinStore32<>(0b0001, "online", Bin32.BOOL),
-                new Bin32.BinStore32<>(0b1110, "grade", Bin32.CodeTable.of(null, "A","B","C","D","F")) );
+                new Bin32.BinStore<>(0b0001, "online", Bin32.BOOL),
+                new Bin32.BinStore<>(0b1110, "grade", Bin32.CodeTable.of(null, "A","B","C","D","F")) );
 
         assertEquals(0b0011, hybridStore.store(true, "A"));
         assertEquals(0b0101, hybridStore.store(true, "B"));
@@ -78,6 +157,11 @@ public class Bin32Test extends TestCase {
         Bin32.Bijection<String> Bistring = new Bin32.Bijection<String>(){
 
             @Override
+            public int maxBin() {
+                return Integer.MAX_VALUE;
+            }
+
+            @Override
             public String apply(int value) {
                 return ""+value;
             }
@@ -94,6 +178,11 @@ public class Bin32Test extends TestCase {
         Bin32.Bijection<Integer> Bi = new Bin32.Bijection<Integer>(){
 
             @Override
+            public int maxBin() {
+                return -1;
+            }
+
+            @Override
             public Integer apply(int value) {
                 return value;
             }
@@ -108,7 +197,7 @@ public class Bin32Test extends TestCase {
     }
 
     public void testBitAddressConstructor(){
-        Bin32.BinAddress32 b = new Bin32.BinAddress32(0b000010000);
+        Bin32.Address b = new Bin32.Address(0b000010000);
         assertEquals(4, b.getShift());
 
         assertEquals(0b000010000, b.getShiftedMask());
