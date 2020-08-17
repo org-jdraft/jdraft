@@ -35,8 +35,8 @@ import java.util.function.IntFunction;
 public interface Bin32 {
 
     /** Returns a BitAddress32 implementation of the Bin32 based on the mask and shift*/
-    static BinAddress32 of(int mask, int shift ){
-        return new BinAddress32(mask, shift);
+    static Address of(int mask, int shift ){
+        return new Address(mask, shift);
     }
 
     /** Mask for the sequence of bits from within the word */
@@ -119,10 +119,10 @@ public interface Bin32 {
     }
 
     /** Simple Bin32 implementation of an address of consecutive bits within a 32-bit word */
-    class BinAddress32 implements Bin32 {
+    class Address implements Bin32 {
 
-        public static BinAddress32 of(int shiftedMask){
-            return new BinAddress32(shiftedMask);
+        public static Address of(int shiftedMask){
+            return new Address(shiftedMask);
         }
 
         public final int mask;
@@ -139,11 +139,11 @@ public interface Bin32 {
          * </PRE>
          * @param shiftedMask
          */
-        public BinAddress32(int shiftedMask){
+        public Address(int shiftedMask){
             this ( shiftedMask >> Integer.numberOfTrailingZeros(shiftedMask), Integer.numberOfTrailingZeros(shiftedMask));
         }
 
-        public BinAddress32(int mask, int shift){
+        public Address(int mask, int shift){
             this.mask = mask;
             this.shift = shift;
 
@@ -366,13 +366,13 @@ public interface Bin32 {
         }
     }
 
-    class BinStore32<T> {
+    class BinStore<T> {
         public final String name;
-        public final BinAddress32 address;
+        public final Address address;
         public final Bijection<T> bijection;
 
-        public BinStore32(int mask, String name, Bijection<T> bijection){
-            this.address = BinAddress32.of(mask);
+        public BinStore(int mask, String name, Bijection<T> bijection){
+            this.address = Address.of(mask);
             this.name = name;
             this.bijection = bijection;
         }
@@ -414,14 +414,14 @@ public interface Bin32 {
         public static <A, B> Field2<A,B> of(int addressA, String nameA, Bijection<A>bijectionA,
                                             int addressB, String nameB, Bijection<B>bijectionB){
             return new Field2<>(
-                    new BinStore32<>(addressA, nameA, bijectionA),
-                    new BinStore32<>(addressB, nameB, bijectionB));
+                    new BinStore<>(addressA, nameA, bijectionA),
+                    new BinStore<>(addressB, nameB, bijectionB));
         }
 
-        public BinStore32<A> binStoreA;
-        public BinStore32<B> binStoreB;
+        public BinStore<A> binStoreA;
+        public BinStore<B> binStoreB;
 
-        public Field2(BinStore32<A>binStoreA, BinStore32<B> binStoreB){
+        public Field2(BinStore<A> binStoreA, BinStore<B> binStoreB){
             this.binStoreA = binStoreA;
             this.binStoreB = binStoreB;
         }
@@ -489,17 +489,17 @@ public interface Bin32 {
                                                 int addressB, String nameB, Bijection<B>bijectionB,
                                                 int addressC, String nameC, Bijection<C>bijectionC){
             return new Field3<>(
-                    new BinStore32<>(addressA, nameA, bijectionA),
-                    new BinStore32<>(addressB, nameB, bijectionB),
-                    new BinStore32<>(addressC, nameC, bijectionC)
+                    new BinStore<>(addressA, nameA, bijectionA),
+                    new BinStore<>(addressB, nameB, bijectionB),
+                    new BinStore<>(addressC, nameC, bijectionC)
                     );
         }
 
-        public final BinStore32<A> binStoreA;
-        public final BinStore32<B> binStoreB;
-        public final BinStore32<C> binStoreC;
+        public final BinStore<A> binStoreA;
+        public final BinStore<B> binStoreB;
+        public final BinStore<C> binStoreC;
 
-        public Field3(BinStore32<A>binStoreA, BinStore32<B> binStoreB, BinStore32<C> binStoreC){
+        public Field3(BinStore<A> binStoreA, BinStore<B> binStoreB, BinStore<C> binStoreC){
             //I need to verify that the binAddresses do NOT OVERLAP
             this.binStoreA = binStoreA;
             this.binStoreB = binStoreB;
@@ -595,19 +595,19 @@ public interface Bin32 {
                                                 int addressC, String nameC, Bijection<C>bijectionC,
                                                 int addressD, String nameD, Bijection<D>bijectionD){
             return new Field4<>(
-                    new BinStore32<>(addressA, nameA, bijectionA),
-                    new BinStore32<>(addressB, nameB, bijectionB),
-                    new BinStore32<>(addressC, nameC, bijectionC),
-                    new BinStore32<>(addressD, nameD, bijectionD)
+                    new BinStore<>(addressA, nameA, bijectionA),
+                    new BinStore<>(addressB, nameB, bijectionB),
+                    new BinStore<>(addressC, nameC, bijectionC),
+                    new BinStore<>(addressD, nameD, bijectionD)
             );
         }
 
-        public final BinStore32<A> binStoreA;
-        public final BinStore32<B> binStoreB;
-        public final BinStore32<C> binStoreC;
-        public final BinStore32<D> binStoreD;
+        public final BinStore<A> binStoreA;
+        public final BinStore<B> binStoreB;
+        public final BinStore<C> binStoreC;
+        public final BinStore<D> binStoreD;
 
-        public Field4(BinStore32<A>binStoreA, BinStore32<B> binStoreB, BinStore32<C> binStoreC, BinStore32<D> binStoreD){
+        public Field4(BinStore<A> binStoreA, BinStore<B> binStoreB, BinStore<C> binStoreC, BinStore<D> binStoreD){
             this.binStoreA = binStoreA;
             this.binStoreB = binStoreB;
             this.binStoreC = binStoreC;
@@ -712,21 +712,21 @@ public interface Bin32 {
                                                            int addressD, String nameD, Bijection<D>bijectionD,
                                                            int addressE, String nameE, Bijection<E>bijectionE){
             return new Field5<>(
-                    new BinStore32<>(addressA, nameA, bijectionA),
-                    new BinStore32<>(addressB, nameB, bijectionB),
-                    new BinStore32<>(addressC, nameC, bijectionC),
-                    new BinStore32<>(addressD, nameD, bijectionD),
-                    new BinStore32<>(addressE, nameE, bijectionE)
+                    new BinStore<>(addressA, nameA, bijectionA),
+                    new BinStore<>(addressB, nameB, bijectionB),
+                    new BinStore<>(addressC, nameC, bijectionC),
+                    new BinStore<>(addressD, nameD, bijectionD),
+                    new BinStore<>(addressE, nameE, bijectionE)
             );
         }
 
-        public final BinStore32<A> binStoreA;
-        public final BinStore32<B> binStoreB;
-        public final BinStore32<C> binStoreC;
-        public final BinStore32<D> binStoreD;
-        public final BinStore32<E> binStoreE;
+        public final BinStore<A> binStoreA;
+        public final BinStore<B> binStoreB;
+        public final BinStore<C> binStoreC;
+        public final BinStore<D> binStoreD;
+        public final BinStore<E> binStoreE;
 
-        public Field5(BinStore32<A>binStoreA, BinStore32<B> binStoreB, BinStore32<C> binStoreC, BinStore32<D> binStoreD, BinStore32<E> binStoreE){
+        public Field5(BinStore<A> binStoreA, BinStore<B> binStoreB, BinStore<C> binStoreC, BinStore<D> binStoreD, BinStore<E> binStoreE){
             this.binStoreA = binStoreA;
             this.binStoreB = binStoreB;
             this.binStoreC = binStoreC;
@@ -854,23 +854,23 @@ public interface Bin32 {
                                                    int addressE, String nameE, Bijection<E>bijectionE,
                                                    int addressF, String nameF, Bijection<F>bijectionF){
             return new Field6<>(
-                    new BinStore32<>(addressA, nameA, bijectionA),
-                    new BinStore32<>(addressB, nameB, bijectionB),
-                    new BinStore32<>(addressC, nameC, bijectionC),
-                    new BinStore32<>(addressD, nameD, bijectionD),
-                    new BinStore32<>(addressE, nameE, bijectionE),
-                    new BinStore32<>(addressF, nameF, bijectionF)
+                    new BinStore<>(addressA, nameA, bijectionA),
+                    new BinStore<>(addressB, nameB, bijectionB),
+                    new BinStore<>(addressC, nameC, bijectionC),
+                    new BinStore<>(addressD, nameD, bijectionD),
+                    new BinStore<>(addressE, nameE, bijectionE),
+                    new BinStore<>(addressF, nameF, bijectionF)
             );
         }
 
-        public final BinStore32<A> binStoreA;
-        public final BinStore32<B> binStoreB;
-        public final BinStore32<C> binStoreC;
-        public final BinStore32<D> binStoreD;
-        public final BinStore32<E> binStoreE;
-        public final BinStore32<F> binStoreF;
+        public final BinStore<A> binStoreA;
+        public final BinStore<B> binStoreB;
+        public final BinStore<C> binStoreC;
+        public final BinStore<D> binStoreD;
+        public final BinStore<E> binStoreE;
+        public final BinStore<F> binStoreF;
 
-        public Field6(BinStore32<A>binStoreA, BinStore32<B> binStoreB, BinStore32<C> binStoreC, BinStore32<D> binStoreD, BinStore32<E> binStoreE, BinStore32<F> binStoreF){
+        public Field6(BinStore<A> binStoreA, BinStore<B> binStoreB, BinStore<C> binStoreC, BinStore<D> binStoreD, BinStore<E> binStoreE, BinStore<F> binStoreF){
             this.binStoreA = binStoreA;
             this.binStoreB = binStoreB;
             this.binStoreC = binStoreC;
