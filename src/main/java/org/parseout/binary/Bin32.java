@@ -6,6 +6,8 @@ import java.util.function.Function;
 import java.util.function.IntFunction;
 
 /**
+ * (sub word addressing) i.e. storing and retrieving values from within a 32-bit word
+ *
  * bit-wise address for a series of bits within a 32-bit word (int)
  *
  * <PRE>
@@ -132,10 +134,10 @@ public interface Bin32 {
          * Simplified constructor, generally good if we use 0b (binary notation) to show the bits of a BitAddress32
          * especially for explaining the
          * <PRE>
-         * BinAddress32 firstByte  = new BinAddress32(0b11111111000000000000000000000000);
-         * BinAddress32 secondByte = new BinAddress32(0b00000000111111110000000000000000);
-         * BinAddress32 thirdByte  = new BinAddress32(0b00000000000000001111111100000000);
-         * BinAddress32 fourthByte = new BinAddress32(0b00000000000000000000000011111111);
+         * Bin32.Address firstByte  = new Bin32.Address(0b11111111000000000000000000000000);
+         * Bin32.Address secondByte = new Bin32.Address(0b00000000111111110000000000000000);
+         * Bin32.Address thirdByte  = new Bin32.Address(0b00000000000000001111111100000000);
+         * Bin32.Address fourthByte = new Bin32.Address(0b00000000000000000000000011111111);
          * </PRE>
          * @param shiftedMask
          */
@@ -202,18 +204,29 @@ public interface Bin32 {
     }
 
     /**
+     * A bi directional function used for translating from some finite set of
+     * target data types to a binary number that can be packed with other values
+     * within a 32-bit word
+     *
      * Converts from an int to a value or a value form an int
      * for example here is a simple Bijection
-     * 1  <-> "A"
-     * 2  <-> "B"
-     * 3  <-> "C"
-     * 4  <-> "D"
-     * @param <T>
+     * 0001  <-> "A" (value "A" maps to the 4-bit pattern 0001)
+     * 0010  <-> "B"
+     * 0011  <-> "C"
+     * 0100  <-> "D"
+     * 0101  <-> "E"
+     * 0110  <-> "F"
+     * 0111  <-> "G"
+     * 1000  <-> "H"
+     * @param <T> the Type of the data to be stored
      */
     interface Bijection<T> extends IntFunction<T>, Function<T, Integer> {
         int maxBin();
     }
 
+    /**
+     * Simple Boolean 1-bit bijection (1 = true, 0 = false)
+     */
     Bijection<Boolean> BOOL = new Bijection<Boolean>(){
 
         public int maxBin(){ return 1;}
@@ -229,6 +242,34 @@ public interface Bin32 {
         }
     };
 
+    /**
+     * Takes a given bijection and introduces "nullability", in this case
+     * will always make the 0 bit pattern equal null" (and will modify the
+     * other entries in the bijection by 1)
+     *
+     * for example, given the BOOL
+     *
+     * //here are the (2) values that are stored in the single BOOL bijection
+     *
+     * //from bin to value
+     * assertFalse(Bin32.BOOL.apply(0b0));
+     * assertTrue(Bin32.BOOL.apply(0b1));
+     * //from value to bin
+     * assertEquals( 0, Bin32.BOOL.apply(false));
+     * assertEquals( 1, Bin32.BOOL.apply(true));
+     *
+     * //here we can have the values {null, false, true} we added the mapping
+     * //null <-> 0
+     * //from bin to value
+     * assertNull(Nullable.of(Bin32.BOOL).apply(0b00));
+     * assertFalse(Nullable.of(Bin32.BOOL).apply(0b01));
+     * assertNull(Nullable.of(Bin32.BOOL).apply(0b10));
+     *
+     * assertEquals( 0, Nullable.of(Bin32.BOOL).apply(null) );
+     * assertEquals( 1, Nullable.of(Bin32.BOOL).apply(false) );
+     * assertEquals( 2, Nullable.of(Bin32.BOOL).apply(true) );
+     * @param <T>
+     */
     class Nullable<T> implements Bijection<T>{
 
         public static <T> Nullable<T> of( Bijection<T> bijection ){
@@ -305,6 +346,10 @@ public interface Bin32 {
         }
     }
 
+    /**
+     * a 0...n integer number count
+     * NOTE: (no real range checking)
+     */
     class Count implements Bijection<Integer>{
 
         public static Count of(int maxBin){
@@ -366,6 +411,11 @@ public interface Bin32 {
         }
     }
 
+    /**
+     * Stores a fixed width binary value into a Bin32.Address (consecutive bits within a 32-bit word)
+     * that represents a value of type <T>
+     * @param <T> the type of the value that is being stored
+     */
     class BinStore<T> {
         public final String name;
         public final Address address;
