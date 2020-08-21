@@ -4,6 +4,26 @@ import junit.framework.TestCase;
 
 public class Bin32Test extends TestCase {
 
+    public void testFieldsB(){
+        assertEquals(1, Bin32.BOOL.maxBin());
+        Bin32.BinStore<Boolean> bs = new Bin32.BinStore<>(1 << 31, "b", Bin32.BOOL);
+
+        Bin32.Field4<Integer,Integer,Integer, Boolean> PARTS =
+                Bin32.Field4.of(
+                        "Length",  Bin32.Count.ofBits( 16 ), //16 bits
+                        "Kind",    Bin32.Count.ofBits(  8 ), //8 bits
+                        "Use",     Bin32.Count.ofBits(  7 ), //7 bits
+                        "Context", Bin32.BOOL                //1 bit
+                );
+
+        //min
+        assertEquals(0, (int)PARTS.loadA(0));
+        //max
+        assertEquals(0b1111111111111111, (int)PARTS.loadA(0b1111111111111111));
+        assertEquals( 0b11111111, (int)PARTS.loadB( ( 0b11111111<<16) ));
+        assertEquals( 0b1111111, (int)PARTS.loadC( ( 0b1111111<<(16+8))));
+    }
+
     public void testCount(){
         Bin32.Count bc = Bin32.Count.of(100);
         assertEquals(new Integer(0), bc.apply(0));
