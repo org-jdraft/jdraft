@@ -142,7 +142,7 @@ public interface Bin32 {
          * @param shiftedMask
          */
         public Address(int shiftedMask){
-            this ( shiftedMask >> Integer.numberOfTrailingZeros(shiftedMask), Integer.numberOfTrailingZeros(shiftedMask));
+            this ( shiftedMask >>> Integer.numberOfTrailingZeros(shiftedMask), Integer.numberOfTrailingZeros(shiftedMask));
         }
 
         public Address(int mask, int shift){
@@ -351,6 +351,11 @@ public interface Bin32 {
      * NOTE: (no real range checking)
      */
     class Count implements Bijection<Integer>{
+
+        public static Count ofBits(int bitCount){
+            int num = (1 << bitCount) -1;
+            return of(num);
+        }
 
         public static Count of(int maxBin){
             return new Count(maxBin);
