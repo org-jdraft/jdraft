@@ -41,6 +41,7 @@ public class CommentRun implements Run {
         if (s.cursor < s.content.length() + 1 && s.content.charAt(s.cursor) == '/') {
             switch (s.content.charAt(s.cursor + 1)) {
                 case '/':
+                    System.out.println("LINE COMMENT");
                     return LineCommentRun.INSTANCE.next(s);
                 case '*':
                     int cur = s.cursor;

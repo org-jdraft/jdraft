@@ -16,7 +16,12 @@ public final class _charExpr implements _expr._literal<CharLiteralExpr, _charExp
     public static _charExpr of(CharLiteralExpr cle){
         return new _charExpr(cle);
     }
+
     public static _charExpr of(char c){
+        //lets create the token
+        //System.out.println( c );
+        //System.out.println( Character.getType( c) );
+        //return new _charExpr(Expr.charLiteralExpr( "'"+c+"'"));
         return new _charExpr(new CharLiteralExpr(c));
     }
     public static _charExpr of(String...code){

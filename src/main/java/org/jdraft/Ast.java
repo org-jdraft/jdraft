@@ -929,13 +929,17 @@ public enum Ast {
         if (str == null || str.trim().length() == 0) {
             return null;
         }
-        if (str.startsWith("package")) {
-            str = str.substring("package".length());
+        if(!str.startsWith("package")) {
+            str = "package " + str;
         }
-        if (str.endsWith(";")) {
-            str = str.substring(0, str.length() - 1);
+        if(!str.endsWith(";")){
+            str = str + ";";
         }
-        return new PackageDeclaration().setName(str);
+        CompilationUnit cu = of(str); //+" \n class Nothing{}");
+
+        PackageDeclaration pd = cu.getPackageDeclaration().get();
+        cu.removePackageDeclaration();
+        return pd;
     }
 
     /**

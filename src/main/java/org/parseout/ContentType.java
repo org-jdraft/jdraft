@@ -22,7 +22,7 @@ public class ContentType {
     public static final int WHITESPACE           = 0b00000000000000000000000000000001; //
     public static final int ALPHABET_LOWERCASE   = 0b00000000000000000000000000000010; // a-z
     public static final int ALPHABET_UPPERCASE   = 0b00000000000000000000000000000100; // A-Z
-    public static final int DIGITS               = 0b00000000000000000000000000001000; // 0-9
+    public static final int DIGITS               = 0b00000000000000000000000000001000; // 0-9 can combine with . _ x X ABCDEF abcdef l L e E
     public static final int OPERATOR             = 0b00000000000000000000000000010000; // +-*/=?&^%!~|            (Run Combinable !=, ++)
     public static final int SEPARATOR            = 0b00000000000000000000000000100000; // : . ,                   (Run Repeatable :: ...)
     public static final int PUNCTUATION_OPEN     = 0b00000000000000000000000001000000; // ( { < [                 (Ind, Not Combinable)
@@ -31,6 +31,8 @@ public class ContentType {
     public static final int CONTEXTUAL           = 0b00000000000000000000001000000000; // _ $ used in Identifiers (value_begin) and numbers (i.e. 1_000)
     public static final int SUBSET_1             = 0b00000000000000000000010000000000; // i.e. a
     public static final int SUBSET_2             = 0b00000000000000000000100000000000; //
+
+
 
     public static final int[] ALPHABET = {
             ALPHABET_LOWERCASE,
@@ -61,6 +63,8 @@ public class ContentType {
     public static final int HEX_ALPHANUMERIC_LOWERCASE = (ALPHABET_LOWERCASE | SUBSET_1);    // abcdefx
     public static final int HEX_ALPHANUMERIC_UPPERCASE = (ALPHABET_UPPERCASE | SUBSET_1);    // ABCDEFX
 
+    public static final int ANY_NUMERIC = SIGN | WHITESPACE | DOT | DIGITS |UNDERSCORE | HEX_ALPHANUMERIC_LOWERCASE | HEX_ALPHANUMERIC_UPPERCASE | NUMERIC_TYPE_POSTFIX_LOWERCASE |NUMERIC_TYPE_POSTFIX_UPPERCASE;
+
     public static final int[] NUMERIC = {
             SIGN,                          // + -
             WHITESPACE,
@@ -75,6 +79,15 @@ public class ContentType {
 
 
 
+    public static final int combined( int[] bits){
+        int comb = 0;
+        for(int i=0;i<bits.length;i++){
+            comb = comb | bits[i];
+        }
+        return comb;
+    }
+
+    public static final int ANY_IDENTIFIER = ALPHABET_LOWERCASE | ALPHABET_UPPERCASE | CONTEXTUAL | DIGITS;
 
     public static final int[] IDENTIFIER ={
             ALPHABET_LOWERCASE, //a-z
@@ -82,6 +95,7 @@ public class ContentType {
             CONTEXTUAL,         //_ $
             DIGITS,             //0-9
     };
+
 
     public static final int[] QUALIFIED_NAME = {
             ALPHABET_LOWERCASE,    //a-z
@@ -95,7 +109,9 @@ public class ContentType {
     public static final int SIMPLE               = 0b00000000000000001111000000000000; // IMMUTABLE / UNCOMBINABLE
     public static final int QUOTED               = 0b00000000000000000001000000000000; // IMMUTABLE / UNCOMBINABLE
     public static final int DOUBLE_QUOTED        = 0b00000000000000000010000000000000; // IMMUTABLE / UNCOMBINABLE
-    public static final int COMMENT              = 0b00000000000000000100000000000000; // IMMUTABLE / UNCOMBINABLE
+    public static final int TEXT_BLOCK           = 0b00000000000000000100000000000000; // IMMUTABLE / UNCOMBINABLE
+    public static final int COMMENT              = 0b00000000000000001000000000000000; // IMMUTABLE / UNCOMBINABLE
+
 
 
     public final String name;

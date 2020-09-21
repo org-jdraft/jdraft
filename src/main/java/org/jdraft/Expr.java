@@ -760,7 +760,8 @@ public enum Expr {
     }
 
     public static CharLiteralExpr charLiteralExpr(String s) {
-        return new CharLiteralExpr(s);
+        return (CharLiteralExpr) StaticJavaParser.parseExpression( s );
+
     }
 
     public static ClassExpr classExpr(Class clazz){

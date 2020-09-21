@@ -5,6 +5,7 @@ import org.parseout.run.*;
 import org.parseout.ContentType;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
 
 public class JavaParse implements Run {
@@ -26,6 +27,7 @@ public class JavaParse implements Run {
             case ContentType.WHITESPACE: { }
         }
     }
+
     @Override
     public ContentType getRunContentType() {
         return CONTENT_TYPE;
@@ -33,6 +35,11 @@ public class JavaParse implements Run {
 
     @Override
     public int len(State state) {
+        int cursor = state.cursor;
+        next(state);
+
+        return state.cursor - cursor;
+        /*
         if( state.cursor < state.content.length()){
             char c = state.content.charAt(state.cursor);
             if( Character.isWhitespace(c)){
@@ -68,18 +75,67 @@ public class JavaParse implements Run {
             return SeparatorRun.INSTANCE.len(state);
         }
         return state.cursor;
+         */
     }
 
     public State next(String str){
         return next(new State(str));
     }
 
+    //public static final BitSet DIGITS = new BitSet().set
+    public State n(State s){
+        int i = 1___000;
+        if( s.cursor < s.content.length()){
+            char c = s.content.charAt(s.cursor);
+            switch(c){ //basically we want to "call out" where certain characters are used ambiguously
+                case '"'  : {
+                    if( s.isAt("\"\"\"")){ //check if its a textblock
+                        return TextBlockRun.INSTANCE.next(s);
+                    }
+                    //need to check if this is a textblock """ textBlock """ or just a quote "s" or ""
+                    return DoubleQuotedRun.INSTANCE.next(s); //quoted string "MyString"
+                }
+                case '\'' : {
+                    //quoted char 'c'
+                    return QuotedRun.INSTANCE.next(s);
+                }
+                case '_':{
+                    if( s.isNext("0") ){
+
+                    }
+                    //we treat these special, because they COULD be a digit separator "1_000" or identifier
+                    //check if the strictly next adjacent characters are digits (its a separator) or alpha (
+                }
+                case '.':{
+                    //could be used within digits "3.14f" or it could be qualified name "Math.min(a,b)" or vararg (...)
+                }
+                case '/': {
+                    //could be divide, line comment, block comment
+                    int len = s.cursor;
+                    CommentRun.INSTANCE.next(s);
+                    if (s.cursor > len) {
+                        return s;
+                    }
+                }
+                case '(': case '[': case '{': case '<': { //punctuation open
+
+                }
+                case ')': case ']': case '}': case '>': case ';' :{ //punctuation closed
+
+                }
+            }
+        }
+        return s;
+    }
     @Override
     public State next(State s) {
         if( s.cursor < s.content.length()){
             char c = s.content.charAt(s.cursor);
             if( Character.isWhitespace(c)){
                 return WhitespaceRun.INSTANCE.next(s);
+            }
+            if( AlphabetLowercaseRun.INSTANCE.isIn(c)){ //this MAY be converted into a Keyword
+                return AlphabetLowercaseRun .INSTANCE.next(s);
             }
             if( IdentifierRun.INSTANCE.isIn(c)){
                 return IdentifierRun.INSTANCE.next(s);
@@ -88,9 +144,13 @@ public class JavaParse implements Run {
                 return DigitsRun.INSTANCE.next(s);
             }
             if( c == '/' ){
-                //could be divide, line comment, block comment
+                //could be line comment, block comment, javadoc comment or DIVIDE operator
                 int len = s.cursor;
                 CommentRun.INSTANCE.next(s);
+                if( s.cursor > len ){
+                    return s;
+                }
+                OperatorRun.INSTANCE.next(s);
                 if( s.cursor > len ){
                     return s;
                 }
@@ -135,18 +195,22 @@ public class JavaParse implements Run {
         }
     }
 
-    public static State parse(String content){
+    public static State parse(String content) {
+        return parse(content, new MergeOnEventResolveOnPunctuationListener() );
+    }
+
+    public static State parse(String content, Run.Listener rl){
         State st = new State(content);
 
-        List<RunToken> freeTokens = new ArrayList<>();
-        st.listener = new MergeOnEventResolveOnPunctuationListener();
+        //List<RunToken> freeTokens = new ArrayList<>();
+        st.listener = rl; //new MergeOnEventResolveOnPunctuationListener();
 
 
         while( !st.isParsed() ){
             INSTANCE.next(st);
             //System.out.println( st.getLine()+" "+st.getColumn()+" "+ st.context.get());
         }
-        System.out.println( freeTokens );
+        //System.out.println( freeTokens );
         return st;
     }
 

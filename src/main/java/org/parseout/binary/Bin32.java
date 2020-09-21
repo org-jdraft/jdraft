@@ -436,6 +436,10 @@ public interface Bin32 {
             return bijection.apply(address.read(word));
         }
 
+        public int set( T value){
+            return update( value, 0);
+        }
+
         public int update( T value, int word){
             return address.update(word, bijection.apply(value) );
         }
@@ -692,6 +696,12 @@ public interface Bin32 {
         public D loadD(int word){
             return binStoreD.load(word);
         }
+
+        public int setA(A aValue){ return binStoreA.set(aValue); }
+        public int setB(B bValue){ return binStoreB.set(bValue); }
+        public int setC(C cValue){ return binStoreC.set(cValue); }
+        public int setD(D dValue){ return binStoreD.set(dValue); }
+
         public int updateA(int word, A aValue){
             return binStoreA.update(aValue, word);
         }
@@ -717,7 +727,7 @@ public interface Bin32 {
     }
 
     /**
-     * Packs / stores (4 distinct values within a 32-bit word)
+     * Packs / stores (5 distinct values within a 32-bit word)
      * @param <A> the type of the first value being stored
      * @param <B> the type of the second value being stored
      * @param <C> the type of the 3rd value being stored
@@ -819,6 +829,13 @@ public interface Bin32 {
         public E loadE(int word){
             return binStoreE.load(word);
         }
+
+
+        public int setA(A aValue){ return binStoreA.set(aValue); }
+        public int setB(B bValue){ return binStoreB.set(bValue); }
+        public int setC(C cValue){ return binStoreC.set(cValue); }
+        public int setD(D dValue){ return binStoreD.set(dValue); }
+        public int setE(E eValue){ return binStoreE.set(eValue); }
 
         public int updateA(int word, A aValue){
             return binStoreA.update(aValue, word);
@@ -968,6 +985,14 @@ public interface Bin32 {
         public F loadF(int word){
             return binStoreF.load(word);
         }
+
+
+        public int setA(A aValue){ return binStoreA.set(aValue); }
+        public int setB(B bValue){ return binStoreB.set(bValue); }
+        public int setC(C cValue){ return binStoreC.set(cValue); }
+        public int setD(D dValue){ return binStoreD.set(dValue); }
+        public int setE(E eValue){ return binStoreE.set(eValue); }
+        public int setF(F fValue){ return binStoreF.set(fValue); }
 
         public int updateA(int word, A aValue){
             return binStoreA.update(aValue, word);

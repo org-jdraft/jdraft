@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.Function;
 
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.expr.CharLiteralExpr;
 import org.jdraft.text.Stencil;
 import org.jdraft.text.Text;
 

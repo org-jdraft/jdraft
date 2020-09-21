@@ -64,7 +64,7 @@ public enum Symbolic implements Bin32.BitPattern<String> {
     Intersect("&",      Category.Separator,0b1000,0b000000010000000000000000000000000000000000000000000000000000001L), //8
     Union(    "|",      Category.Separator,0b1001,0b000000001000000000000000000000000000000000000000000000000000001L), //9
     Type_Wildcard("?",  Category.Separator,0b1010,0b000000000100000000000000000000000000000000000000000000000000001L), //10
-    Import_Wildcard("*", Category.Separator,0b1011,0b000000000010000000000000000000000000000000000000000000000000001L), //11
+    Import_Wildcard("*",Category.Separator,0b1011,0b000000000010000000000000000000000000000000000000000000000000001L), //11
 
     /**
      * Binary (36) (5-bits)
@@ -100,13 +100,13 @@ public enum Symbolic implements Bin32.BitPattern<String> {
     ModEq("%=",     Category.BinaryOperator, SubCategory.Assignment, 0b01011,0b000000000000000000000100000000000000000000000000000000000000001L),    //11
     ShftLEq("<<=",  Category.BinaryOperator, SubCategory.Assignment, 0b01100,0b000000000000000000000010000000000000000000000000000000000000001L), //12
     ShftREq(">>=",  Category.BinaryOperator, SubCategory.Assignment, 0b01101,0b000000000000000000000001000000000000000000000000000000000000001L), //13
-    ShftRUEq(">>>=", Category.BinaryOperator, SubCategory.Assignment, 0b01110,0b000000000000000000000000100000000000000000000000000000000000001L),//14
+    ShftRUEq(">>>=",Category.BinaryOperator, SubCategory.Assignment, 0b01110,0b000000000000000000000000100000000000000000000000000000000000001L),//14
 
     /** Operator Relational (4)
      * == != >= <= < >
      */
      IsEq("==",   Category.BinaryOperator, SubCategory.Relational,   0b01111,0b000000000000000000000000010000000000000000000000000000000000001L), //15
-     IsNotEq("!=", Category.BinaryOperator, SubCategory.Relational,   0b10000,0b000000000000000000000000001000000000000000000000000000000000001L), //16
+     IsNotEq("!=",Category.BinaryOperator, SubCategory.Relational,   0b10000,0b000000000000000000000000001000000000000000000000000000000000001L), //16
      IsGtEq(">=", Category.BinaryOperator, SubCategory.Relational,   0b10001,0b000000000000000000000000000100000000000000000000000000000000001L), //17
      IsLtEq(">=", Category.BinaryOperator, SubCategory.Relational,   0b10010,0b000000000000000000000000000010000000000000000000000000000000001L), //18
      IsLt( "<",   Category.BinaryOperator, SubCategory.Relational,   0b10011,0b000000000000000000000000000001000000000000000000000000000000001L), //19
@@ -127,7 +127,7 @@ public enum Symbolic implements Bin32.BitPattern<String> {
       */
      BShftR(">>",  Category.BinaryOperator, SubCategory.BinaryBitwise,0b11010,0b000000000000000000000000000000000000100000000000000000000000001L),//  0b11000), //26
      BShftL("<<",  Category.BinaryOperator, SubCategory.BinaryBitwise,0b11011,0b000000000000000000000000000000000000010000000000000000000000001L), //0b11001), //27
-     BShftRU(">>>", Category.BinaryOperator, SubCategory.BinaryBitwise,0b11100,0b000000000000000000000000000000000000001000000000000000000000001L), //0b11010), //28
+     BShftRU(">>>",Category.BinaryOperator, SubCategory.BinaryBitwise,0b11100,0b000000000000000000000000000000000000001000000000000000000000001L), //0b11010), //28
      BAnd("&",     Category.BinaryOperator, SubCategory.BinaryBitwise,0b11101,0b000000000000000000000000000000000000000100000000000000000000001L), //0b11011), //29
      BXor("^",     Category.BinaryOperator, SubCategory.BinaryBitwise,0b11110,0b000000000000000000000000000000000000000010000000000000000000001L), //0b11100), //30
      BOr("|",      Category.BinaryOperator, SubCategory.BinaryBitwise,0b11111,0b000000000000000000000000000000000000000001000000000000000000001L), //0b11101), //31
@@ -141,7 +141,7 @@ public enum Symbolic implements Bin32.BitPattern<String> {
      Pos("+",        Category.UnaryOperator, SubCategory.UnaryPrefix,       0b011,0b000000000000000000000000000000000000000000001000000000000000001L), //3
      Neg("-",        Category.UnaryOperator, SubCategory.UnaryPrefix,       0b100,0b000000000000000000000000000000000000000000000100000000000000001L), //4
      PlusPlus("++",  Category.UnaryOperator, SubCategory.UnaryPrefixPostfix,0b101,0b000000000000000000000000000000000000000000000010000000000000001L), //5
-     MinusMinus("--", Category.UnaryOperator, SubCategory.UnaryPrefixPostfix,0b110,0b000000000000000000000000000000000000000000000001000000000000001L), //6
+     MinusMinus("--",Category.UnaryOperator, SubCategory.UnaryPrefixPostfix,0b110,0b000000000000000000000000000000000000000000000001000000000000001L), //6
 
      /** Punctuation Escape Character (1-bit) *    "\\" */
      Escape("\\",    Category.EscapeCharacter,                             0b1,  0b000000000000000000000000000000000000000000000000100000000000001L) //1
@@ -251,7 +251,7 @@ public enum Symbolic implements Bin32.BitPattern<String> {
         UnaryOperator(   0b111,   1,  "UnaryOperator"),
         EscapeCharacter( 0b1,     0,  "EscapeCharacter");
 
-        public final BinAddress32 bin;
+        public final Address bin;
         public final String name;
 
         Category(int mask, int shift, String name){

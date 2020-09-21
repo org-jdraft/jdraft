@@ -2,6 +2,8 @@ package org.parseout;
 
 import org.parseout.run.Run;
 
+import java.util.BitSet;
+
 /**
  * I CAN
  * rewind(n) looks at the current "free tokens" in the listener,
@@ -29,7 +31,7 @@ public class State {
     public String content;
 
     /** will respond to "runs" of chars as the document is being parsed*/
-    public Run.Listener listener = new LineColumnTrackListener();
+    public Run.Listener listener = new LineColumnTrackListener(){};
 
     /**
      * As we walk the document, we encounter new contexts of terms (i.e. method declarations, parameter lists, etc.)
@@ -70,6 +72,44 @@ public class State {
     }
 
     /**
+     * check if the cursor is pointing to a place in the document where the target string is
+     * @param target exact string I am looking for in the content
+     * @return true if the content is at a place where the target exists
+     */
+    public boolean isAt(String target){
+        if( content.length() >= (cursor + target.length()) ){ //range check
+            return target.equals( content.substring(cursor, cursor+target.length() ));
+        }
+        return false;
+    }
+
+    public boolean isAt(BitSet expectedCharacter){
+        if( this.content.length() > cursor){
+            return expectedCharacter.get( this.content.charAt(cursor) );
+        }
+        return false;
+    }
+
+    public boolean isNext(BitSet expectedCharacter){
+        if( this.content.length() > cursor + 1){
+            return expectedCharacter.get( this.content.charAt(cursor +1) );
+        }
+        return false;
+    }
+
+    /**
+     * is the String content AFTER the character at the current cursor within the
+     * @param nextContent
+     * @return
+     */
+    public boolean isNext(String nextContent){
+        if( content.length() > cursor + nextContent.length() + 1 ){ //range check
+            return nextContent.equals( content.substring(cursor+1, cursor+1+nextContent.length() ));
+        }
+        return false;
+    }
+
+    /**
      * Gets the line location within the {@link #content}
      * @return the line number within the content 0 = before reading any content, 1= first line, ...
      */
@@ -91,29 +131,32 @@ public class State {
      * @param runLength
      * @param trailingSpace
      */
-    public void onRun(ContentType runContentType, int runLength, boolean trailingSpace){
+    public void  onRun(ContentType runContentType, int runLength, boolean trailingSpace){
         listener.onRun(this, runContentType, runLength, trailingSpace);
     }
 
     /**
      * Maintains the line and column of within {@link State#content} based on the {@link State#cursor}
      */
-    public static class LineColumnTrackListener implements Run.Listener {
-
+    public abstract  static class LineColumnTrackListener implements Run.Listener {
         public int line = 0; //0 means we havent started parsing the content yet, the first line in content is 1
         public int column = 0;
 
+        public void updateLineAndColumn( State state, int runLength) {
+            for (int i = 0; i < runLength; i++) {
+                if (state.content.charAt(i) == '\n') {
+                    ++line;
+                    column = 1;
+                } else {
+                    line = Math.max(1, line);//we set the line to (1) because when we start reading it's 0
+                    ++column;
+                }
+            }
+        }
+
         @Override
         public void onRun(State state, ContentType runContentType, int runLength, boolean trailingSpace) {
-              for(int i = 0; i< runLength; i++){
-                  if (state.content.charAt(i) == '\n') {
-                      ++line;
-                      column = 1;
-                  } else {
-                      line = Math.max(1, line);//we set the line to (1) because when we start reading it's 0
-                      ++column;
-                  }
-              }
+            updateLineAndColumn(state, runLength);
         }
 
         public int getLine(){

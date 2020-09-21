@@ -160,7 +160,6 @@ public interface Run {
             return false;
         }
 
-
         @Override
         public ContentType getRunContentType() {
             return contentType;
@@ -212,7 +211,7 @@ public interface Run {
             }
             int endIndex = scanToCloseDelimiter(st);
 
-            //System.out.println("END INDEX "+ endIndex);
+            //System.out.println("** END INDEX "+ endIndex);
             if (st.content.length() > st.cursor + endIndex && st.content.charAt(endIndex) == ' ') {
                 ++endIndex;
                 st.onRun(getRunContentType(),endIndex, true);

@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.Function;
 
 import com.github.javaparser.ast.body.Parameter;
-import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.SimpleName;
 import com.github.javaparser.ast.type.Type;
 

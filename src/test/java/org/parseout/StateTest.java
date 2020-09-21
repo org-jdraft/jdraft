@@ -10,6 +10,14 @@ public class StateTest extends TestCase {
         assertEquals(0, s.getLine());
         assertEquals(0, s.getColumn());
 
+        assertTrue( s.isAt("a"));
+        assertTrue( s.isAt("ab"));
+        assertTrue( s.isAt("abc"));
+        assertTrue( s.isAt("abcdefghij"));
+
+        assertFalse(s.isAt("b")); //not match
+        assertFalse(s.isAt("abcdefghijk")); //overflow
+
         JavaParse.INSTANCE.next(s);
         assertEquals(1, s.getLine());
         assertEquals(10, s.getColumn());
@@ -17,5 +25,9 @@ public class StateTest extends TestCase {
         s = JavaParse.INSTANCE.next("\n\n\n\n\n\n");
         assertEquals( 6, s.getLine());
         assertEquals( 1, s.getColumn());
+    }
+
+    public void testIsAt(){
+
     }
 }
