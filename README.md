@@ -95,7 +95,7 @@ jdraft requires (2) things to compile/build/run:
 <dependency>
   <groupId>com.github.javaparser</groupId>
   <artifactId>javaparser-core</artifactId>
-  <version>3.15.21</version>
+  <version>3.18.0</version>
 </dependency>
 ```   
  
