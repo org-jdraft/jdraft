@@ -305,10 +305,10 @@ public interface Print {
             super(prettyPrinterConfiguration);
         }
 
-        private void printMemberAnnotations(NodeList<AnnotationExpr> annotations, Void arg) {
+        public void printMemberAnnotations(NodeList<AnnotationExpr> annotations, Void arg) {
         }
 
-        private void printAnnotations(NodeList<AnnotationExpr> annotations, boolean prefixWithASpace, Void arg) {
+        public void printAnnotations(NodeList<AnnotationExpr> annotations, boolean prefixWithASpace, Void arg) {
         }
 
         @Override

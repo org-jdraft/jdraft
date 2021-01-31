@@ -195,11 +195,11 @@ public final class _doStmt implements
         if( other instanceof _doStmt ){
             _doStmt _o = (_doStmt)other;
             if( ! Objects.equals( getCondition(), _o.getCondition())){
-                System.out.println("condition failed");
+                //System.out.println("condition failed");
                 return false;
             }
             if( ! Objects.equals( getBody(), _o.getBody())){
-                System.out.println("body failed" +getBody()+" "+ _o.getBody());
+                //System.out.println("body failed" +getBody()+" "+ _o.getBody());
                 return false;
             }
             return true;
