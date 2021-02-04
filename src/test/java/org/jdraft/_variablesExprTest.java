@@ -33,6 +33,23 @@ public class _variablesExprTest extends TestCase {
         assertEquals(1, _vs.list(_v-> _v.isInit(100)).size());
     }
 
+    public void testFull(){
+        _variablesExpr _vs = _variablesExpr.of("@A @B(1) @C(k='a', v=2) final aaaa.bbbb.D<T, A> g = aa(0), h");
+        assertTrue( _vs.getAnno(0).is("@A"));
+        assertTrue( _vs.getAnno(1).is("@B(1)"));
+        assertTrue( _vs.getAnno(2).is("@C(k='a', v=2)"));
+        assertTrue( _vs.isAt(0, "@A @B(1) @C(k='a', v=2) final aaaa.bbbb.D<T, A> g=aa(0)"));
+        assertEquals( _modifiers.of("final" ), _vs.getModifiers() );
+        //System.out.println(_vs);
+        assertTrue( _vs.getType().is("aaaa.bbbb.D<T, A>") );
+        assertTrue( _vs.getElementType().is("aaaa.bbbb.D<T, A>") );
+        _variable _vv = _vs.getAt(0);
+        assertTrue( _vv.is("@A @B(1) @C(k='a', v=2) final aaaa.bbbb.D<T, A> g=aa(0)"));
+
+        //assertTrue( _vv.is("g = aa(0)"));
+        //System.out.println(_vv);
+    }
+
     public void testVariablesAPI(){
         _variablesExpr _vs = _variablesExpr.of("int i");
         assertEquals(1, _vs.size());

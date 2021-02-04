@@ -4,6 +4,20 @@ import junit.framework.TestCase;
 
 public class _arrayInitExprTest extends TestCase {
 
+    public void testAI(){
+        class C{
+            int i = 1;
+            int[] j = {1}; //1
+            int[][] k = { {1,2}, {3,4}}; //2,3,4
+
+            C(){
+                m(new int[] {1,2}); //instance (5)
+            }
+            void m( int[] values){ }
+        }
+        _class _c = _class.of(C.class);
+        assertEquals( 5, _c.walk(_arrayInitExpr.class).count());
+    }
     public void testA(){
         _arrayInitExpr _ai = _arrayInitExpr.of("{}");
         assertEquals(0, _ai.getSize());

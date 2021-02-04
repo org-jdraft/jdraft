@@ -1,6 +1,13 @@
 package org.jdraft;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.MethodReferenceExpr;
+import com.github.javaparser.ast.expr.TypeExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithOptionalScope;
+import com.github.javaparser.ast.nodeTypes.NodeWithScope;
+import com.github.javaparser.ast.nodeTypes.NodeWithTypeArguments;
+import com.github.javaparser.ast.type.Type;
 
 import java.util.*;
 import java.util.function.Function;
@@ -101,6 +108,39 @@ public final class _methodRefExpr implements _expr<MethodReferenceExpr, _methodR
             return ((_methodRefExpr)other).node.equals( this.node);
         }
         return false;
+    }
+
+    public _expr getScope() {
+        //override the default
+        return _expr.of(node().getScope());
+    }
+
+    public _typeRef getTypeArg(int index){
+        NodeWithTypeArguments nwta = getTypeArgsNode();
+        if( nwta != null && nwta.getTypeArguments().isPresent()){
+            NodeList<Type> nlt = (NodeList<Type>)nwta.getTypeArguments().get();
+            return _typeRef.of(nlt.get(index));
+        }
+        return null;
+    }
+
+    private NodeWithTypeArguments getTypeArgsNode(){
+        Expression ee = node().getScope();
+        if( ee instanceof TypeExpr ){
+            Type tt = ee.asTypeExpr().getType();
+            if( tt instanceof NodeWithTypeArguments ){
+                return (NodeWithTypeArguments)tt;
+            }
+        }
+        return null;
+    }
+    /** Gets the type Arguments from the Scope */
+    public _typeArgs getTypeArgs(){
+        NodeWithTypeArguments nwta = getTypeArgsNode();
+        if( nwta != null ){
+            return _typeArgs.of(nwta);
+        }
+        return _typeArgs.of();
     }
 
     public int hashCode(){

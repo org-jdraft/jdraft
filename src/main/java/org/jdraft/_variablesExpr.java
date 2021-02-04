@@ -93,6 +93,14 @@ public final class _variablesExpr implements _expr<VariableDeclarationExpr, _var
         return this;
     }
 
+    public _typeRef getType(){
+        return _typeRef.of(this.node.getCommonType());
+    }
+
+    public _typeRef getElementType(){
+        return _typeRef.of(this.node.getElementType());
+    }
+
     /**
      * Replace the underlying node within the AST (if this node has a parent)
      * and return this (now pointing to the new node)

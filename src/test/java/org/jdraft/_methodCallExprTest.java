@@ -6,6 +6,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class _methodCallExprTest extends TestCase {
 
+    public void testTypeArgs(){
+        _methodCallExpr _mce = _methodCallExpr.of("SomeClass.<ArgType>genericMethod()");
+        System.out.println( _mce );
+        assertEquals("ArgType", _mce.getTypeArgs().toString());
+    }
+    //
+
+
     public void testAPI() {
         _methodCallExpr _mc = _methodCallExpr.of();
         _mc = _methodCallExpr.of( ()-> { System.out.println(1); });

@@ -1083,7 +1083,6 @@ public interface _tree<_T> extends _java._domain {
         }
 
         /**
-         *
          * @param index
          * @param _element
          * @return

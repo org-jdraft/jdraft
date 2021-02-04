@@ -12,13 +12,17 @@ import java.util.function.Function;
 
 /**
  * Model of a field access expr
- *
+ * i.e. System.LINE_SEPARATOR
+ *      SCOPE: System
+ *      SEPARATOR: .
+ *      NAME: LINE_SEPARATOR
  */
 public final class _fieldAccessExpr implements _expr<FieldAccessExpr, _fieldAccessExpr>,
         _tree._node<FieldAccessExpr, _fieldAccessExpr>,
         _java._withName<_fieldAccessExpr>,
         _typeArgs._withTypeArgs<FieldAccessExpr, _fieldAccessExpr>,
         _java._withScope<FieldAccessExpr, _fieldAccessExpr> {
+
 
     public static final Function<String, _fieldAccessExpr> PARSER = s-> _fieldAccessExpr.of(s);
 

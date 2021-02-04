@@ -4,7 +4,9 @@ import com.github.javaparser.ast.ArrayCreationLevel;
 import com.github.javaparser.ast.NodeList;
 import com.github.javaparser.ast.expr.ArrayCreationExpr;
 import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.LambdaExpr;
+import com.github.javaparser.ast.nodeTypes.NodeWithType;
 import com.github.javaparser.ast.type.Type;
 import com.github.javaparser.printer.PrettyPrinterConfiguration;
 import org.jdraft.text.Text;
@@ -41,6 +43,64 @@ public final class _newArrayExpr implements _expr<ArrayCreationExpr, _newArrayEx
         }
         return new _newArrayExpr(Expr.arrayCreationExpr( str));
     }
+
+    public _typeRef getType(){
+        return _typeRef.of(this.node.getElementType());
+    }
+
+    /**
+     * is the expression for this array dimension equal to this expression
+     * @param index
+     * @param e
+     * @return
+     */
+    public boolean isAt( int index, Expression e){
+        if( index >= this.size()){
+            return false;
+        }
+        return getAt(index).isExpression(e);
+    }
+
+    /**
+     * is the expression for this array dimension equal to this expression
+     *
+     * _newArrayExpr _ne = _newArrayExpr.of("new int[2][3]");
+     *
+     * assertTrue( _ne.isAt(0, _expr.of(2)));
+     * assertTrue( _ne.isAt(1, _expr.of(3)));
+     * @param index
+     * @param _e
+     * @return
+     */
+    public boolean isAt( int index, _expr _e){
+        if( index >= this.size()){
+            return false;
+        }
+        return getAt(index).isExpression(_e);
+    }
+
+    public boolean isAt( int index, String expression){
+        if( index >= this.size()){
+            return false;
+        }
+        return getAt(index).isExpression(expression);
+    }
+
+    /**
+     * is the expression for this array dimension equal to this expression
+     *
+     * _newArrayExpr _ne = _newArrayExpr.of("new int[2][3]");
+     *
+     * assertTrue( _ne.isAt(0, 2));
+     * assertTrue( _ne.isAt(1, 3));
+     * @param index
+     * @param value
+     * @return
+     */
+    public boolean isAt( int index, int value){
+        return isAt(index, _expr.of(value));
+    }
+
 
     public static <A extends Object> _newArrayExpr of(Expr.Command c){
         LambdaExpr le = Expr.lambdaExpr( Thread.currentThread().getStackTrace()[2]);

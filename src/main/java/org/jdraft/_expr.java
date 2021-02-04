@@ -67,6 +67,7 @@ public interface _expr<E extends Expression, _E extends _expr>
         public static Class<_methodRefExpr> METHOD_REF_EXPR = _methodRefExpr.class;
         public static Class<_nameExpr> NAME_EXPR = _nameExpr.class;
         public static Class<_newExpr> NEW_EXPR = _newExpr.class;
+        public static Class<_newArrayExpr> NEW_ARRAY_EXPR = _newArrayExpr.class;
         public static Class<_nullExpr> NULL_EXPR = _nullExpr.class;
         public static Class<_superExpr> SUPER_EXPR = _superExpr.class;
         public static Class<_stringExpr> STRING_EXPR = _stringExpr.class;
@@ -78,7 +79,9 @@ public interface _expr<E extends Expression, _E extends _expr>
 
         public static Class<? extends _expr>[] ALL = new Class[]{ANNO_EXPR, ARRAY_ACCESS_EXPR, ASSIGN_EXPR, ARRAY_INIT_EXPR,
                 BINARY_EXPR, BOOLEAN_EXPR, CAST_EXPR, CHAR_EXPR, CLASS_EXPR, CONDITIONAL_EXPR, DOUBLE_EXPR, PARENTHESIZED_EXPR,
-                FIELD_ACCESS_EXPR, INT_EXPR, LONG_EXPR, LAMBDA_EXPR, METHOD_CALL_EXPR, METHOD_REF_EXPR, NAME_EXPR, NEW_EXPR, NULL_EXPR, SUPER_EXPR, STRING_EXPR,
+                FIELD_ACCESS_EXPR, INT_EXPR, LONG_EXPR, LAMBDA_EXPR, METHOD_CALL_EXPR, METHOD_REF_EXPR, NAME_EXPR, NEW_EXPR,
+                NEW_ARRAY_EXPR,
+                NULL_EXPR, SUPER_EXPR, STRING_EXPR,
                 SWITCH_EXPR, TEXT_BLOCK_EXPR, TYPE_EXPR, UNARY_EXPR, VARIABLES_EXPR};
     }
 

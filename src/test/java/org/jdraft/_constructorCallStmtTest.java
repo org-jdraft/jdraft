@@ -1,13 +1,22 @@
 package org.jdraft;
 
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.expr.SuperExpr;
 import com.github.javaparser.ast.stmt.ExplicitConstructorInvocationStmt;
 import junit.framework.TestCase;
 
-import static org.junit.Assert.*;
-
 public class _constructorCallStmtTest extends TestCase {
+
+    public void testFullApi(){
+        _constructorCallStmt _ccs = _constructorCallStmt.of("<T,A>this(1,2);");
+        _ccs.setExpression(_expr.of("(BB)") );
+        System.out.println( _ccs);
+    }
+
+    public void testSuperFull(){
+        _constructorCallStmt _ccs = _constructorCallStmt.of("<T,A>super(1,2);");
+        _ccs.setExpression(_expr.of("(BB)") );
+        System.out.println( _ccs);
+    }
 
     public void testSwapThisSuper(){
         _constructorCallStmt _ccs = _constructorCallStmt.of("this(1,2);");
@@ -98,6 +107,7 @@ public class _constructorCallStmtTest extends TestCase {
     public void testC(){
         _constructorCallStmt _ccs = _constructorCallStmt.of("this(1,2,3);");
         _ccs.setTypeArgs(_typeArgs.of("<A,B>"));
+        _ccs.setExpression(_expr.of("(think)o"));
         System.out.println( _ccs.FEATURES.featureList );
         //_ccs//.setExpression(_classExpr.of("AClass.class"));
         //_ccs.ast().setExpression(_classExpr.of("AClass.class").ast());

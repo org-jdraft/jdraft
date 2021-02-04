@@ -1395,6 +1395,9 @@ public interface _java {
         }
 
         default _expr getScope(){
+            if( NodeWithScope.class.isAssignableFrom(node().getClass())){
+                return _expr.of( ((NodeWithScope) node()).getScope());
+            }
             if( ((NodeWithOptionalScope) node()).getScope().isPresent()){
                 return _expr.of( (Expression)
                         ((NodeWithOptionalScope) node()).getScope().get());
