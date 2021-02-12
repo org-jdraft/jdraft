@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.stmt.EmptyStmt;
 import junit.framework.TestCase;
 
 
@@ -16,6 +15,18 @@ public class _doStmtTest extends TestCase {
            do ; while(false);
         });
         assertEquals( _ds, _expect);
+    }
+
+    public void testDoStmt(){
+        int i=0,x = 0;
+        do{} while ( i < 1 && x>0 );
+
+        _doStmt _ds = _doStmt.of("do{ i++; }while(i<1);");
+        _ds = _doStmt.of("do{ }while(i<1);");
+        assertNotNull(_ds.getBody());
+        assertTrue( _ds.getBody().isEmpty());
+        System.out.println( _ds );
+        assertTrue(_ds.getCondition().is("i<1"));
     }
 
     public void testRemoveSingleStmt(){

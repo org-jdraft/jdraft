@@ -1,5 +1,10 @@
-package org.jdraft;
+package org./*comment*/jdraft;
 
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseResult;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.PackageDeclaration;
+import com.github.javaparser.ast.expr.Name;
 import junit.framework.TestCase;
 import org.jdraft.walk.Walk;
 
@@ -14,6 +19,51 @@ public class _nameTest extends TestCase {
     }
      */
 
+    /**
+     * This illustrates the issue where comments are mangled due to how they are stored (separately, outside the nodelist)
+     * when you get them from the parent structures (i.e. here we get a Name from a PackageDeclaration)... INSIDE
+     * the name, we have a comment, and this comment location is lost relative to the other Name nodes that are in
+     * the
+     */
+    public void testBrokenOrder(){
+        PackageDeclaration pd = StaticJavaParser.parsePackageDeclaration("package aaaa./*comment*/bbbb.cccc;");
+        Name nm = pd.getName();
+        Name quali = nm.getQualifier().get();
+        //THIS SHOULD BE TRUE, but it's NOT, because (internally the order of the nodes*/
+        //assertEquals( "aaaa./*comment*/bbb", quali.toString().trim() );
+        assertEquals("aaaa.bbbb/*comment*/", quali.toString().trim());
+
+        // instead, the interior comment is moved, because, when traversing the list of nodes in a NodeList, it doesnt
+        // check at each node, whether a comment node is between "node" A and "node" B (comments are not stored in the
+        // NodeList when you get the child nodes
+
+    }
+
+    public void testWhenThingsGetHard(){
+        _name _nm = _name.of("System.  out  .  println");
+        System.out.println( _nm );
+        //System.out.println(  _nm.getUse() );
+        System.  out  .  println();
+        System./*comment*/  out  /*comment*/ . /*comment*/  println();
+        _nm = _name.of("System. /*comment*/  out  /*comment*/.  /*comment*/ println");
+        System.out.println( _nm.node.getClass());
+
+        System.out.println( _nm );
+        System.out.println( _nm.node );
+        System.out.println( _nm.node.getChildNodes() );
+        Name nm = (Name)_nm.node;
+        System.out.println( nm.getIdentifier() );
+        System.out.println( nm.getId() );
+        //NoSuchElement System.out.println( nm.getQualifier().get() );
+
+        _nm.node.getChildNodes().stream().forEach( n -> System.out.println( n.getClass()));
+
+        assertTrue( Ast.JAVAPARSER.parsePackageDeclaration("package aaaa  . bbb;").isSuccessful() );
+        ParseResult<PackageDeclaration> ppd = Ast.JAVAPARSER.parsePackageDeclaration("package aaaa /*comment*/ . bbb;");
+        assertTrue(ppd.isSuccessful());
+
+
+    }
     public void testPackageName(){
         _package _p = _package.of("ffff.lang.dddd;");
         assertTrue(_name.of( _p.node().getName()).isPackageName());

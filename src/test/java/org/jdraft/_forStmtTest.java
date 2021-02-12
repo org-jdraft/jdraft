@@ -82,7 +82,8 @@ public class _forStmtTest extends TestCase {
 
     public void testWalk(){
         _forStmt _fs = _forStmt.of( ()->{
-            for(int i=0;i<100;i++){
+            int j = 100;
+            for(int i=0;i<100;i++, j--){
                 System.out.println(i);
                 assert 1==1 : "message";
             }

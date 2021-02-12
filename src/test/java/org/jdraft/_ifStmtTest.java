@@ -5,6 +5,25 @@ import org.jdraft.text.Stencil;
 
 public class _ifStmtTest extends TestCase {
 
+
+    public void testBare(){
+        //these are all forms
+        if(true); //no body
+        if(true) {} //empty body
+        if(true) System.out.println(1); //braceless body
+
+
+        if(System.currentTimeMillis() % 2 == 0 ) //ifCondition
+            System.out.println(1);
+
+
+        _ifStmt _is = _ifStmt.of( "if(true);" );
+        _is = _ifStmt.of( "if(true){}" );
+        _is = _ifStmt.of( "if(System.currentTimeMillis() % 2 == 0 ) //ifCondition\n" +
+                          "    System.out.println(1);");
+        assertFalse(_is.hasElse());
+    }
+
     public void testIfFromScratch(){
         _ifStmt _is = _ifStmt.of();
 

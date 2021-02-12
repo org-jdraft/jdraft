@@ -4,6 +4,17 @@ import junit.framework.TestCase;
 
 public class _labeledStmtTest extends TestCase {
 
+    public void testMultiLabel(){
+
+        @Deprecated final class I{
+            void m() {
+                l1: l2: l3: System.out.println(1);
+            }
+        }
+        //a statement with 3 labels is considered (3) labeled statements
+        assertEquals( 3, _class.of(I.class).walk(_labeledStmt.class).count());
+    }
+
     public void testEqualsHashcode(){
         label: { int i,j = 0; }
 
@@ -19,7 +30,5 @@ public class _labeledStmtTest extends TestCase {
         System.out.println( _ls );
 
         _ls.setLabel("Heyo");
-
     }
-
 }

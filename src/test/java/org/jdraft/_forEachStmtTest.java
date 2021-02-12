@@ -4,6 +4,13 @@ import junit.framework.TestCase;
 
 public class _forEachStmtTest extends TestCase {
 
+    public void testNoBlock(){
+        //Object[] objects = {};
+
+        //for(Object o : objects) System.out.println(o);
+
+        _forEachStmt _a = _forEachStmt.of("for(Object o : objects) System.out.println(o); ");
+    }
     public void testEqualsHashcode(){
         _forEachStmt _a = _forEachStmt.of("for(Object o : objects){ System.out.println(o); }");
         _forEachStmt _b = _forEachStmt.of("for(Object o : objects){ System.out.println(o); }");
