@@ -28,6 +28,7 @@ public class _interfaceTest extends TestCase {
         interface MemberMember{}
     }
 
+
     /**
      * Found this bug... (specifying a private class to parse)
      * it's barf on parsing
@@ -37,6 +38,15 @@ public class _interfaceTest extends TestCase {
         _interface _i = _interface.of("private interface PRIVATE{}");
     }
 
+    public interface A<T>{}
+
+    public interface TypeParams<T extends java.io.Serializable & org.jdraft._interfaceTest.A<Serializable>>{ }
+
+    public void testTypeParams(){
+        _interface _i = _interface.of(TypeParams.class);
+        System.out.println( _i.getTypeParams() );
+        System.out.println( _i );
+    }
     public void testExtendsMemberWith$(){
         _interface _i = _interface.of("I")
                 .addExtend(MemberI.class, $Member.class, $Member.MemberMember.class);

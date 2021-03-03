@@ -1,6 +1,5 @@
 package org.jdraft;
 
-import com.github.javaparser.ast.expr.CharLiteralExpr;
 import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.InstanceOfExpr;
 import com.github.javaparser.ast.expr.LambdaExpr;

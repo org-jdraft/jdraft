@@ -171,10 +171,8 @@ public final class _body implements _tree._view<_body>, _tree._mixedOrderedGroup
 
         if( statement instanceof BlockStmt ){
             return of( _constructor.of("UNKNOWN(){}").setBody((BlockStmt)statement).node());
-            //return of( _method.of("void __BODYHOLDER();").setBody((BlockStmt)statement).ast());
         }
         return of( _constructor.of("UNKNOWN(){}").add(statement).node());
-        //return of( _method.of("void __BODYHOLDER();").add(statement).ast());
     }
 
     /**

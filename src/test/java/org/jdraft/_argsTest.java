@@ -104,4 +104,14 @@ public class _argsTest extends TestCase {
 
         _c.forArgs(a-> System.out.println( a) );
     }
+
+    enum E{
+        A(1),
+        @Deprecated B(2);
+
+        int i;
+        E(int i){
+            this.i = i;
+        }
+    }
 }

@@ -14,7 +14,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
+ * do{
  *
+ * } while(n==true);
  */
 public final class _doStmt implements
         _stmt._conditional<DoStmt, _doStmt>,

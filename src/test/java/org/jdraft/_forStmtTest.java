@@ -7,6 +7,20 @@ import java.util.stream.Collectors;
 
 public class _forStmtTest extends TestCase {
 
+    _forStmtTest(){
+    };
+
+    public void testFor(){
+        for(int i=0;i<100;i++);
+        Integer a = 0;
+        switch(a){ };
+        synchronized (a){};
+        try{
+
+        }catch(Exception e){};
+
+    }
+
     public void testFromScratch(){
         _forStmt _fs = _forStmt.of();
         System.out.println( _fs );

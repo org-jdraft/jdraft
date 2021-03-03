@@ -7,6 +7,11 @@ import com.github.javaparser.ast.expr.SimpleName;
 import java.util.*;
 import java.util.function.*;
 
+/**
+ * method call
+ * System.out.println(1);
+ *
+ */
 public final class _methodCallExpr implements _expr<MethodCallExpr, _methodCallExpr>,
         _tree._node<MethodCallExpr, _methodCallExpr>,
         _java._withName<_methodCallExpr>,

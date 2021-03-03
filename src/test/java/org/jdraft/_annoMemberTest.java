@@ -13,6 +13,19 @@ public class _annoMemberTest extends TestCase {
         assertTrue(_am.isNamed("val$any$"));
     }
 
+    @interface A{
+        int value();
+    }
+
+    @interface B{
+        char c();
+        int i();
+    }
+
+    @interface C{
+        @A(1) @B(c='a', i=1) String[] values() default {"S"};
+    }
+
     public void testFull(){
         _annoMember _am = _annoMember.of("@Ayy @Bee(1) @Cee(k=1) @Dee(a=1,b='c') String[] values() default {};");
         assertTrue(_am.hasAnnoNamed("Ayy"));

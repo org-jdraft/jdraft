@@ -1,7 +1,6 @@
 package org.jdraft;
 
 import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.comments.BlockComment;
 import com.github.javaparser.ast.expr.LambdaExpr;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.stmt.Statement;
